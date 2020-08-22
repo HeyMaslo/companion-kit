@@ -1,6 +1,6 @@
 # Maslo Companion Kit  
 
-![GitHub stars](https://img.shields.io/github/stars/heymaslo/companionserver?style=social)
+![GitHub stars](https://img.shields.io/github/stars/heymaslo/companion-kit?style=social)
 [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://github.com/Naereen/badges/)
 
   
@@ -12,6 +12,7 @@ The Companion Kit also includes an optional web dashboard for care providers to 
 Out of the box features include:
 * Email\SMS\SSO Authentication Methods
 * Text and voice check-ins
+* Mood and location logging and
 * Editable/customizable prompts
 * Ability to schedule prompts
 * Customizable notifications/reminders to check in
@@ -64,7 +65,6 @@ This repo organized as monorepo with simplified structure/flow. Roots are:
 * `dashboard` – React-based web app for managing clients (care provider role)
 * `mobile` – Expo/React Native-based mobile for clients
 * `server` – Firebase-based project for API and database
-* `emails` – email markup
 * `config` – build time front-end project configuration and helpers for compiling them.
 
 ### Configuration files references
@@ -105,7 +105,7 @@ yarn build:(ios|android):(stage|prod)
 
 and manage all keystores/credentials via Expo.
 
-It's important to use that commands because there's a wrapper that ensures correct environment caught up.
+It's important to use that command because there's a wrapper that ensures correct environment is caught up.
 
 ### Upload `ipa` to testflight via Fastlane
 
@@ -146,9 +146,21 @@ fastlane pilot upload --skip_waiting_for_build_processing --skip_submission --ip
 
 3. Run `yarn dev:functions`
 
-### TODO how to deploy
+### How To Deploy
 
-TODO
+## Back-end/dashboard to staging/production
+Deployment to Firebase services is managed by Firebase CLI and wrapped in convenience NPM commands in root package.json: 
+* `deploy:dashboard:(stage|prod)` – builds Dashboard app with Webpack and deploys it to configured Hosting in current Firebase project.
+* `deploy:server:(stage|prod)` – Server (Functions, Firestore Rules and Indexes)
+For more details examine those commands, they are basically combined from other more specific ones.
+
+## Deploy mobile apps to Play Market and App Store
+
+Expo covers all the deployment process in [their documentation](https://docs.expo.io/distribution/introduction/) (and [here](https://docs.expo.io/distribution/uploading-apps/) specifically), but the highlights are:
+* Making Standalone builds is required only when some native features have changed, including bundled assets, app permissions or dynamic links configuration. Also, it is required when the Expo SDK or application version changes and when there’s a need to use another Expo account.
+* Since currently the mobile project uses [Expo Managed Workflow](https://docs.expo.io/introduction/managed-vs-bare/#managed-workflow), for all other cases like updated JS code or most types of assets – OTA (over-the-air) flow will work via [Publishing](https://docs.expo.io/workflow/publishing/).
+* Expo account is required for deploying/publishing via Expo. Standalone builds queue, apps published JS and assets are associated with this account. It is totally not a problem to deploy a new standalone build using another Expo account, but is required to make Publishing work later.
+
 
 ### Structure
 
