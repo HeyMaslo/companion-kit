@@ -1,0 +1,453 @@
+.profile-page
+    &.editing
+        .bio textarea
+            opacity: 0.7
+            color: $color-input-placeholder-blue-bg
+        .name input
+                color: $color-input-placeholder-blue-bg
+                padding: gem(10) gem(20) gem(10)
+        .edit-title
+            margin-bottom: gem(47)
+            margin-top: gem(31)
+    .container
+        display: flex
+        align-items: flex-start
+        margin: gem(34) auto gem(86)
+        margin-bottom: 0
+        padding-bottom: gem(86)
+        flex: 1 0 auto
+    .content
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        flex-grow: 1
+        height: 100%
+        flex-shrink: 0
+        .edit-title
+            width: fit-content
+    .top-content
+        display: flex
+        justify-content: space-between
+        width: 100%
+        flex-shrink: 0
+        .left-block
+            .btn-wrap
+                display: flex
+                align-items: center
+                .divider
+                    display: inline-block
+                    width: 1px
+                    height: gem(24)
+                    margin: gem(-18) gem(11) 0
+                    background-color: $color-profile-separator
+    .desc-1:not(.type1)
+        display: block
+        margin: gem(12) 0 gem(0)
+        max-width: gem(560)
+        line-height: gem(24)
+    .label-btn4
+        margin-bottom: gem(40)
+    .separator
+        width: 100%
+        height: 1px
+        background-color: $color-profile-separator
+    .email,
+    .organization,
+    .phones-row
+        margin: gem(34) 0 gem(31)
+        width: gem(320)
+        input
+            width: 100%
+            border: 1px solid $color-input-border-blue-bg
+            color: $color-profile-email-input
+            pointer-events: none
+    .sign-out
+        align-self: flex-start
+        width: auto
+        .label-btn4
+            margin-bottom: 0
+            color: $color-profile-sign-out-label-btn4
+            transition: color 375ms ease
+            &:hover
+                color: $color-profile-sign-out-label-btn4--hover
+    .cancel-subscription
+        margin-bottom: gem(80)
+    .name input
+        transition: color 0.2s ease-in
+        @include title-h1
+    .bio,
+    .bio textarea,
+    .bio textarea::placeholder
+        @include desc-1
+    .bio textarea
+        line-height: unset
+        width: 100%
+    .bio p
+        min-height: gem(50)
+        margin-bottom: gem(25)
+        overflow-wrap: break-word
+    .label-btn4
+        width: 100%
+    .card-number
+        color: $color-input-placeholder-card-blue-bg
+        display: flex
+    .input-wrap--card-number
+        width: gem(320)
+    .inputs-wrap
+        border: none
+        padding: 0
+        margin-bottom: 0
+    .edit-card-button
+        display: flex
+        position: absolute
+        right: 0
+        top: 50%
+        transform: translateY(-50%)
+        display: flex
+        img
+            margin-right: gem(25)
+    .subscription-tooltip
+        position: absolute
+        top: gem(-7)
+        left: 100%
+        max-width: gem(310)
+        display: flex
+        align-items: center
+        justify-content: flex-start
+        flex-wrap: wrap
+        border-radius: gem(5)
+        background: $color-profile-subscription-tooltip-bg
+        transition: opacity 200ms ease
+        margin-left: gem(24)
+        opacity: 0
+        .hint, .hint.white
+            font-weight: 300
+            font-size: gem(14)
+            line-height: gem(20)
+        > div:first-child
+            &:before
+                position: absolute
+                top: gem(13)
+                left: gem(-7)
+                width: gem(20)
+                height: gem(20)
+                content: ''
+                border-radius: gem(2)
+                background: $color-profile-subscription-tooltip-bg
+                transform: rotate(45deg)
+                transform-origin: 50% 50%
+                pointer-events: none
+        .trial,
+        .cancel-at
+            position: relative
+            display: flex
+            align-items: flex-start
+            z-index: 1
+            > span
+                width: gem(265)
+                padding: gem(16) gem(16) gem(13) gem(21)
+                span
+                    white-space: nowrap
+    .name-row
+        position: relative
+        display: flex
+        align-items: center
+        justify-content: flex-start
+        .name
+            display: flex
+        .title
+            flex-shrink: 0
+            &.windowsOS
+                position: relative
+                top: gem(-4)
+    .subscription-label
+        display: flex
+        align-items: center
+        flex-shrink: 0
+        margin-top: gem(-7)
+        &:hover
+            ~ .subscription-tooltip
+                opacity: 1
+        &-icon
+            margin-right: gem(12)
+            width: auto
+            height: gem(30)
+        &-text
+            margin-top: gem(3)
+            &.label-btn2
+                cursor: default
+        &:before
+            content: ''
+            height: gem(41)
+            width: 1px
+            background-color: $color-vertical-divider
+            opacity: .4
+            margin: 0 gem(23) 0 gem(24)
+    .upload-avatar
+        margin-top: gem(10)
+        margin-right: gem(24)
+        .avatar
+            width: gem(80)
+            height: gem(80)
+        .input-block
+            margin-right: 0
+    .subscription-card
+        width: gem(300)
+        border: 1px solid $color-plan-radio-button-border
+        border-radius: gem(5)
+        .main-content
+            position: relative
+            display: flex
+            align-items: center
+            padding: gem(26) gem(24)
+            .icon
+                width: gem(34)
+                margin-right: gem(16)
+            .text-block
+                display: flex
+                flex-direction: column
+            .title
+                margin-top: 0
+                margin-bottom: gem(8)
+                color: $color-profile-subscription-card-title
+            .subtitle
+                color: $color-profile-subscription-card-subtitle
+            .action-block
+                position: absolute
+                right: gem(15)
+                top: gem(16)
+                .icon
+                    width: gem(14)
+                    margin-right: 0
+                .action-button-renew
+                    position: relative
+                    right: gem(9)
+                    margin-top: gem(28)
+                    .label-btn4
+                        display: flex
+                        font-size: gem(10)
+                        line-height: gem(12)
+                        letter-spacing: var(--letter-spacing-btn-type2)
+        .bottom-content
+            display: flex
+            justify-content: space-between
+            padding: gem(12) gem(25) gem(11)
+            border-top: 1px solid $color-plan-radio-button-border
+            .title-date
+                color: $color-profile-subscription-card-subtitle
+            .date
+                color: $color-profile-subscription-card-title
+    .phones-row
+        display: flex
+        align-items: center
+        position: relative
+        width: 100%
+        .input-wrap
+            &:not(:last-child)
+                margin-right: gem(20)
+        input
+            width: gem(320)
+            pointer-events: auto
+        .phones-row-buttons
+            display: flex
+            align-items: center
+            justify-content: space-between
+            align-self: flex-end
+            margin: auto 0 gem(10) auto
+            .phones-btn
+                margin-bottom: gem(6)
+            .divider
+                display: inline-block
+                width: 1px
+                height: gem(24)
+                margin: gem(-9) gem(11) 0
+                background-color: $color-profile-separator
+
+.profile-page-footer
+    display: flex
+    align-items: center
+    justify-content: space-between
+    flex-wrap: wrap
+    width: 100%
+    padding-top: gem(43)
+    margin-top: auto
+    flex: 0 0 auto
+    .links-list
+        display: flex
+        align-items: center
+        // justify-content: space-between
+        // width: gem(625)
+        .label-btn3
+            &:not(:last-child)
+                margin-right: gem(40)
+    .links-list-item
+        line-height: gem(20)
+        transition: color 375ms ease
+        &:hover
+            color: $color-profile-footer-link--hover !important
+    .app-version
+        cursor: default
+
+.credit-card-row
+    margin: gem(32) 0 gem(28)
+    width: 100%
+    position: relative
+    display: flex
+    align-items: center
+    justify-content: space-between
+    .edit-card-button
+        display: flex
+        align-items: center
+        cursor: pointer
+        &.input-label
+            color: $color-edit-card-button-input-label
+    .input-label
+        color: $color-input-placeholder-blue-bg
+        display: flex
+        padding-left: 0
+        &.up-text
+            color: $color-input-placeholder-blue-bg
+    .input
+        border-radius: gem(5)
+        padding: gem(16) gem(20) gem(15)
+        color: $color-input-placeholder-card-blue-bg
+        border: 1px solid $color-input-border-blue-bg
+        pointer-events: none
+    .label-btn4
+        margin-bottom: 0
+    .inputs-wrap
+        display: flex
+    .input-wrap
+        &:not(:last-child)
+            margin-right: gem(100)
+    .btn
+        width: auto
+        margin-right: gem(12)
+        .label-btn4
+            color: $color-edit-card-button-input-label
+        .icon
+            display: inline-flex
+            align-items: center
+            margin-right: gem(24)
+            width: gem(27)
+
+.password-row
+    position: relative
+    width: 100%
+    .passwords-error
+        position: absolute
+        display: flex
+        left: 0
+        top: gem(124)
+
+.password-row-create
+    display: flex
+    align-items: center
+    justify-content: space-between
+    padding: gem(44) 0 gem(50)
+    .text-block
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        flex-shrink: 0
+    .password-row-create-btn
+        width: auto
+        margin-bottom: 0
+
+.password-row-create-title
+    margin-bottom: gem(7)
+
+.password-row-inputs
+    position: relative
+    display: flex
+    align-items: center
+    justify-content: flex-start
+    width: 100%
+    padding: gem(32) 0 gem(50)
+    .password-row-inputs-btn
+        width: auto
+        margin-bottom: 0
+    .pass-input-wrap
+        position: static
+        margin-right: gem(20)
+        input
+            width: gem(320)
+        .input-error
+            left: 0
+            top: gem(124)
+
+.password-row-buttons
+    display: flex
+    align-items: center
+    justify-content: space-between
+    align-self: flex-end
+    margin: auto 0 gem(10) auto
+    width: gem(224)
+    .divider
+        display: inline-block
+        width: 1px
+        height: gem(24)
+        background-color: $color-profile-separator
+
+@media all and (max-width: 768px)
+    .profile-page
+        height: auto
+        min-height: calc(100vh - #{gem(55)})
+        .container
+            flex-direction: column
+            justify-content: flex-start
+            margin: gem(34) auto 0
+            padding-bottom: gem(32)
+            .left-block
+                width: 100%
+                display: flex
+                flex-direction: column
+                align-items: flex-start
+                justify-content: flex-start
+            .right-block
+                position: absolute
+                top: 0
+                right: 0
+        .upload-avatar
+            margin: 0 0 gem(24) 0
+        .name-row
+            width: 100%
+            .name
+                width: 100%
+        .bio
+            max-width: unset !important
+        .email
+            width: 100%
+        &.editing
+            .name
+                input
+                    width: 100%
+                    padding: gem(12) 0
+                    text-indent: gem(20)
+        .subscription-card
+            width: gem(220)
+            .main-content
+                padding: gem(16) gem(24)
+                .action-block
+                    .icon
+                        width: gem(20)
+
+    .password-row-inputs
+        flex-wrap: wrap
+        padding: gem(32) 0
+        .pass-input-wrap
+            margin-right: 0
+            width: 100%
+            input
+                width: 100%
+                margin-bottom: gem(24)
+            .input-error
+                top: gem(214)
+    .password-row-buttons
+        margin: gem(64) 0 0 0
+
+    .profile-page-footer
+        padding-top: gem(32)
+        .links-list
+            width: 100%
+            margin: gem(64) 0 0

@@ -1,0 +1,652 @@
+.client-overview-page
+    min-height: calc(100vh - #{gem(76)})
+    height: max-content
+    overflow-y: unset
+    padding-top: gem(76)
+    outline: none
+    .text-content
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        justify-content: flex-start
+        padding-left: gem(32)
+    .btn-wrap
+        margin-top: gem(16)
+    .no-client
+        overflow: visible
+        padding-top: gem(85)
+        padding-bottom: gem(113)
+        &.session-empty
+            padding-top: gem(50)
+            padding-bottom: gem(63)
+        .title-h1
+            font-size: gem(36)
+            line-height: gem(40)
+        .desc-1
+            font-size: gem(16)
+            line-height: gem(20)
+        &.docs-empty
+            padding-top: gem(57)
+    .overview-placeholder
+        background: $color-overview-placeholder-bg
+        padding: 0
+        height: gem(176)
+        align-items: center
+        justify-content: center
+        flex-direction: column
+        border-radius: gem(5)
+        .img-wrapper
+            width: gem(24)
+            height: gem(24)
+            margin: 0 auto gem(16)
+        .wrapper
+            width: 100%
+            justify-content: center
+            align-items: center
+            margin: 0 auto
+        .desc-2
+            font-size: gem(16)
+            line-height: gem(20)
+            margin: 0 auto gem(4)
+        .desc-3
+            font-size: gem(12)
+            line-height: gem(20)
+            margin: 0 auto
+    .image-placeholder
+        width: 100%
+        margin-top: gem(40)
+    .heading-container
+        padding: 0 0 gem(66)
+        // z-index: calc(var(--z-index-gradchart) + 1)
+        display: flex
+        align-items: flex-start
+        justify-content: space-between
+    .right-block
+        .phg9-card
+            display: flex
+            flex-direction: column
+            width: gem(280)
+            padding: gem(17) gem(43) gem(12) gem(31)
+            border: 1px solid $color-card-mood-border
+            border-radius: gem(5)
+            background-color: $color-card-mood-bg
+            box-sizing: border-box
+            cursor: pointer
+            .depres-severity
+                position: relative
+                margin-bottom: gem(6)
+                color: $color-overview-page-phq9-card-depres-severity
+                &:before
+                    content: ''
+                    position: absolute
+                    height: gem(4)
+                    width: gem(4)
+                    left: gem(-16)
+                    top: gem(5)
+                    border-radius: 50%
+                    background: $color-phq9-card-severity--default
+                &.none-minimal
+                    &:before
+                        background: $color-phq9-card-severity--none-minimal
+                &.mild
+                    &:before
+                        background: $color-phq9-card-severity--mild
+                &.moderate
+                    &:before
+                        background: $color-phq9-card-severity--moderate
+                &.moderately-severe
+                    &:before
+                        background: $color-phq9-card-severity--moderately-severe
+                &.severe
+                    &:before
+                        background: $color-phq9-card-severity--severe
+            &.PTSD
+                .minimal-ptsd-symptoms
+                    &:before
+                        background: $color-phq9-card-severity--none-minimal
+                .mild-ptsd-symptoms
+                    &:before
+                        background: $color-phq9-card-severity--mild
+                .moderate-ptsd-symptoms
+                    &:before
+                        background: $color-phq9-card-severity--moderate
+                .potential-ptsd
+                    &:before
+                        background: $color-phq9-card-severity--severe
+            &.GAD
+                .minimal-anxiety
+                    &:before
+                        background: $color-phq9-card-severity--none-minimal
+                .mild-anxiety
+                    &:before
+                        background: $color-phq9-card-severity--mild
+                .moderate-anxiety
+                    &:before
+                        background: $color-phq9-card-severity--moderate
+                .severe-anxiety  
+                    &:before
+                        background: $color-phq9-card-severity--severe
+            &.Isolated,
+            &.Homeless
+                .no-need-identified
+                    &:before
+                        background: $color-phq9-card-severity--none-minimal
+                .need-identified
+                    &:before
+                        background: $color-phq9-card-severity--severe
+            .date
+                text-transform: uppercase
+                color: $color-overview-page-phq9-card-date
+            .tooltip
+                position: absolute
+                top: gem(16)
+                right: gem(17)
+    .scrollable
+        position: relative
+        overflow: hidden
+        .content
+            padding: gem(42) 0 gem(48)
+            position: static
+        .page
+            outline: none
+    .bottom
+        width: 100%
+        display: flex
+        align-items: center
+        .type1
+            white-space: pre-wrap
+            display: inline-block
+            margin-left: gem(11)
+        .tooltip
+            z-index: var(--z-index-tooltip)
+            transform: translateY(gem(-2))
+            .tooltip-bubble
+                max-width: gem(332)
+        .select .button
+            text-transform: lowercase
+        .select
+            display: inline-block
+            z-index: var(--z-index-tooltip)
+            left: gem(-13)
+            &.chart-select
+                padding-right: gem(2)
+                li
+                    min-width: gem(224)
+                .button
+                    text-transform: none
+    .description
+        display: block
+        max-width: gem(886)
+        line-height: gem(39)
+        margin: gem(10) 0 gem(66)
+        margin-top: 0
+        margin-bottom: gem(33)
+    .arrow-link
+        position: absolute
+        top: gem(11)
+        width: gem(20)
+        left: 0
+        display: inline-block
+        cursor: pointer
+        img
+            width: 100%
+    .overview-tab
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: flex-start
+    .infographics-wrap
+        width: 100%
+        margin-bottom: gem(54)
+        .title-wrap
+            display: flex
+            justify-content: space-between
+            margin-bottom: gem(20)
+        .date-status
+            padding-top: gem(4)
+            padding-right: 0
+        .select.date-status
+            .list
+                li
+                    text-transform: capitalize
+    .infographics-list
+        display: flex
+        justify-content: space-between
+        align-items: center
+    .percent-chart
+        width: gem(369)
+        height: gem(200)
+    .infographic-card
+        display: flex
+        flex-direction: column
+        width: gem(360)
+        // height: gem(162)
+        padding: gem(20) gem(24)
+        background: $color-overview-page-infographic-card-bg
+        border-radius: gem(5)
+        box-sizing: border-box
+        .title
+            margin-bottom: gem(25)
+            text-transform: uppercase
+        .mood-wrap
+            display: flex
+            justify-content: space-between
+            margin-bottom: gem(29)
+        .color
+            width: gem(20)
+            height: gem(20)
+            margin-top: gem(2)
+            border-radius: 50%
+        .dynamics-wrap
+            display: flex
+            align-items: center
+        .icon
+            width: gem(25)
+            margin-right: gem(7)
+    .label-tag
+        letter-spacing: var(--letter-spacing-15)
+        margin-left: 0
+    .bubble-chart-wrap
+        margin-top: gem(54)
+        margin-bottom: gem(45)
+        & > .btn-wrap
+            width: gem(345)
+            margin: 0 auto
+    .bubble-chart
+        width: 100%
+        height: gem(625)
+    .notice-list
+        width: 100%
+        margin: 0 0 gem(48)
+        .notice-list-title
+            display: block
+            margin-bottom: gem(26)
+        em
+            font-style: unset
+            color: $color-desc-3-type1
+        ul
+            display: flex
+            align-items: flex-start
+            justify-content: space-between
+            flex-wrap: wrap
+            li
+                width: 100%
+                color: $color-overview-page-notice-item
+                margin-bottom: gem(16)
+                line-height: gem(20)
+                background-color: $color-overview-page-notice-item-bg
+                display: flex
+                align-items: center
+                padding: gem(32) gem(40)
+                border: 1px solid $color-overview-page-notice-item-border
+                &:last-child
+                    margin-bottom: 0
+            li:before
+                content: ""
+                height: gem(6)
+                width: gem(6)
+                border: 2px solid $color-overview-page-notice-item
+                border-radius: 50%
+                display: inline-block
+                margin-right: gem(8)
+                background: $color-overview-page-notice-item-before
+    .empty-data-message
+        // position: absolute
+        // top: gem(96)
+        // left: gem(32)
+        // width: gem(1054)
+        width: 100%
+        height: gem(62)
+        display: flex
+        align-items: center
+        justify-content: center
+        background: $color-empty-data-message-bg
+        // border: 1px solid $color-empty-data-message-border
+        // border-radius: gem(5)
+        // &:before,
+        // &:after
+        //     content: ''
+        //     display: block
+        //     position: absolute
+        //     width: gem(10)
+        //     height: gem(10)
+        //     background: $color-empty-data-message-bg
+        //     bottom: 0
+        //     pointer-events: none
+        // &:before
+        //     border: 1px solid $color-empty-data-message-border
+        //     border-radius: gem(2)
+        //     transform: rotate(45deg)
+        //     transform-origin: 50% 50%
+        //     bottom: gem(-5)
+        // &:after
+        //     width: gem(20)
+        //     height: gem(20)
+    .empty-data-icon
+        display: flex
+        align-items: center
+        justify-content: center
+        width: gem(16)
+        height: auto
+        margin-right: gem(8)
+    .empty-data-text,
+    .empty-data-text .label-btn4
+        font-size: gem(10)
+        line-height: gem(12)
+        cursor: default
+    .welcome-wrap
+        width: 100%
+        display: flex
+        align-items: center
+        justify-content: space-between
+        margin-top: gem(54)
+        margin-bottom: gem(55)
+        padding: gem(40) gem(64)
+        background: $color-overview-page-welcome-bg
+        border-radius: gem(5)
+        box-sizing: border-box
+        .left-block
+            display: flex
+        .maslo-wrap
+            width: gem(180)
+            height: gem(180)
+            margin-right: gem(18)
+            margin-left: gem(-30)
+            margin-top: gem(-30)
+            margin-bottom: gem(-30)
+            img
+                width: 100%
+        .text-block
+            display: flex
+            flex-direction: column
+            justify-content: center
+        .title-h2
+            margin-top: gem(1)
+            margin-bottom: gem(14)
+        .right-block
+            margin-top: gem(4)
+            margin-right: gem(15)
+    .report-btn
+        position: absolute
+        right: gem(160)
+        top: gem(44)
+        display: flex
+        cursor: pointer
+        z-index: 3
+        .icon
+            width: gem(14)
+            margin-right: gem(9)
+            margin-top: gem(-4)
+
+.bubble-chart-heading
+    margin-bottom: gem(40)
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+.bubble-chart-title-wrap
+    display: inline-flex
+    align-items: flex-start
+    flex-shrink: 0
+    .desc-1
+        width: auto !important
+
+.client-title-wrap
+    display: flex
+    align-items: center
+    .title
+        text-transform: capitalize
+        &.windowsOS
+            position: relative
+            top: gem(-3)
+
+
+.text-block
+    .divider
+        width: 1px
+        height: gem(24)
+        display: block
+        background-color: $color-vertical-divider
+        opacity: .4
+        margin: 0 gem(24)
+    .edit-btn
+        display: flex
+        align-items: center
+        cursor: pointer
+        &:hover
+            .edit-icon
+                animation: bounce 0.6s alternate infinite ease-in
+    .edit-btn-text
+        position: relative
+        &:hover
+            &:after
+                opacity: 1
+        &:after
+            content: ''
+            position: absolute
+            bottom: gem(-3)
+            left: 0
+            width: 100%
+            height: 2px
+            background-color: $color-link-underline
+            transition: opacity 500ms ease
+            opacity: 0
+    .edit-icon
+        width: gem(12)
+        height: gem(12)
+        margin-right: gem(6)
+
+
+.insights-card
+    display: flex
+    width: 100%
+    justify-content: space-between
+    align-items: center
+    >span
+        padding-top: gem(3)
+    .feedback-block
+        display: flex
+        flex-wrap: nowrap
+        >span:not(:last-child)
+            margin-right: gem(40)
+        svg,
+        img
+            display: inline-block
+            height: gem(12)
+            width: gem(12)
+            margin-right: gem(4)
+        .like
+            cursor: pointer
+            &:not(:last-child)
+                margin-right: gem(16)
+            &.revert
+                svg,
+                img
+                    transform: rotateX(180deg)
+                    transform-origin: center
+                    margin-bottom: gem(-1)
+
+
+.highlights-title
+    display: flex
+    align-items: center
+    align-self: flex-start
+    width: 100%
+
+.tooltip
+    &.highlights
+        display: inline-flex
+        margin-left: gem(12)
+
+.highlights-list
+    width: 100%
+    display: flex
+    flex-direction: row
+    flex-wrap: nowrap
+    margin-top: gem(24)
+
+    .highlight-card
+        position: relative
+        width: gem(268)
+        min-width: gem(268)
+        height: gem(236)
+        padding: 0
+        flex-direction: column-reverse
+        align-items: flex-start
+        justify-content: flex-end
+        background-color: $color-highlight-card-bg
+        border: 1px solid $color-highlight-card-border
+        border-radius: gem(5)
+        transition: border 300ms ease
+
+        &:not(:last-child)
+            margin-right: gem(16)
+
+        .redirect-layer
+            cursor: pointer
+            position: absolute
+            z-index: 0
+            height: 100%
+            width: 100%
+
+        .top-block
+            padding: gem(24)
+            display: flex
+            flex-direction: column
+
+        .mood
+            height: gem(32)
+            width: gem(32)
+
+        .date
+            color: $color-highlight-card-date
+            margin: gem(48) 0 gem(10)
+
+        .transcription
+            white-space: normal
+            overflow: hidden
+            text-overflow: ellipsis
+            display: -webkit-box
+            -webkit-box-orient: vertical
+            -webkit-line-clamp: 4
+            color: $color-highlight-card-transc
+            max-height: gem(70)
+            line-height: gem(24)
+
+        .audio-player
+            width: auto
+            min-width: auto
+            border-top: 1px solid $color-highlight-card-border
+            padding: gem(21) gem(26)
+            .title-block
+                margin-top: gem(-2)
+
+            .text-block,
+            .progress-bar
+                display: none
+
+            .play,
+            .pause
+                margin-top: 0
+                margin-right: gem(8)
+
+        &.text
+            .date
+                margin-top: gem(32)
+        &.audio
+            &.isPlaying
+                border: 1px solid $color-highlight-card-isPlaying
+
+.dropdown-filter
+    left: auto
+    top: auto
+    right: gem(-29)
+    bottom: auto
+    padding: gem(15) gem(29) gem(15) gem(41)
+    width: gem(140)
+    margin: auto 0 auto auto
+    z-index: 10
+    &.active
+        // .button
+        //     color: var(--color-white)
+    .button
+        color: var(--color-haiti)
+        &:first-letter
+            text-transform: capitalize
+    .list
+        top: gem(48)
+        li
+            padding: gem(15) gem(53) gem(15) gem(15)
+            &:first-letter
+                text-transform: capitalize
+
+@media all and (max-width: 768px)
+    .client-overview-page
+        .welcome-wrap
+            padding: gem(30) gem(54)
+        .infographic-card
+            width: gem(190)
+            .mood-wrap
+                .mood
+                    font-size: gem(21)
+                    line-height: gem(26)
+                .color
+                    flex-shrink: 0
+        .notice-list
+            ul
+                li
+                    align-items: flex-start
+                    &:before
+                        position: relative
+                        top: gem(7)
+        .tab-controls
+            display: flex
+            align-items: center
+            justify-content: space-between
+            width: 100%
+            .label-tabs
+                display: inline-flex
+                align-items: center
+                &:not(:last-child)
+                    margin-right: 0
+        .heading-container
+            padding: 0 0 gem(110)
+        .right-block
+            .phg9-card
+                width: gem(200)
+        .empty-data-message
+            width: 100%
+            left: 0
+        .text-content
+            .text-block
+                max-width: gem(370)
+                .title
+                    font-size: gem(25)
+                .divider
+                    margin: 0 gem(16)
+
+    .gradient-chart
+        height: gem(49)
+
+    .insights-card
+        flex-wrap: wrap
+        .feedback-block
+            margin-top: gem(16)
+
+    .highlights-list
+        flex-wrap: wrap
+        justify-content: space-between
+        align-content: space-between
+        margin-bottom: gem(-16)
+        .highlight-card
+            width: gem(294)
+            min-width: gem(294)
+            margin-bottom: gem(16)
+            &:not(:last-child)
+                margin-right: 0
+
+    .bubble-chart-heading
+        flex-wrap: wrap
+
+    .bubble-chart-title-wrap
+        margin-bottom: gem(12)

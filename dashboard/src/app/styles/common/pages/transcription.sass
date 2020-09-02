@@ -1,0 +1,78 @@
+.transcr-page
+    overflow: hidden
+    .container
+        display: flex
+        align-items: flex-start
+        .arrow-link
+            margin-top: gem(25)
+            margin-right: gem(5)
+            display: inline-block
+            cursor: pointer
+        .text-block
+            font-size: initial
+        .text-content
+            margin-top: gem(16)
+            margin-left: gem(8)
+            width: 100%
+            .description
+                display: inline-block
+                letter-spacing: gem(0.02)
+                line-height: gem(32)
+                font-size: gem(24)
+                max-width: gem(873)
+                &.windowsOS
+                    position: relative
+                    top: gem(-3)
+            .duration
+                display: inline-block
+                line-height: gem(32)
+                font-size: gem(24)
+        .time-wrap
+            display: flex
+            align-items: center
+            margin-top: gem(13)
+            .clock-icon
+                width: gem(15)
+                height: gem(15)
+            .date-details
+                margin-left: gem(10)
+                letter-spacing: gem(2.4)
+                line-height: gem(16)
+        .scrollbarContainer
+            background-color: transparent
+            width: gem(1105)
+            max-height: gem(500)
+            margin-top: gem(42)
+            .transcription-text
+                display: inline-block
+                line-height: gem(30)
+                max-width: gem(873)
+                padding-bottom: gem(210)
+    .player-wrap
+        position: fixed
+        left: 0
+        bottom: 0
+        width: 100%
+        height: gem(62)
+        background: $color-transcr-player-bg
+        display: flex
+        align-items: center
+        .player-container
+            max-width: gem(1053)
+            .audio-player
+                max-width: gem(530)
+                min-width: gem(530)
+                .play
+                    opacity: 1
+                    margin-right: gem(28)
+                .pause
+                    margin-right: gem(28)
+                    &:before
+                        background-color: white
+                    &:after
+                        background-color: white
+                .elapsed
+                    &:nth-of-type(1)
+                        color: $color-transcr-page-player-time-progress
+                    &:last-of-type
+                        color: $color-transcr-page-player-time-end

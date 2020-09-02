@@ -1,0 +1,379 @@
+
+@mixin typography($color, $font-family, $font-size, $font-weight, $letter-spacing:0, $line-height: normal)
+	color: $color
+	font-family: $font-family
+	font-size: $font-size
+	font-weight: $font-weight
+	letter-spacing: $letter-spacing
+	line-height: $line-height
+@mixin typography($color, $font-family, $font-size, $font-weight, $letter-spacing:0, $line-height: normal)
+	color: $color
+	font-family: $font-family
+	font-size: $font-size
+	font-weight: $font-weight
+	letter-spacing: $letter-spacing
+	line-height: $line-height
+@mixin mixed-lbl($args...)
+	@include typography($args...)
+
+// HEADINGS
+@mixin title-h1
+    @include mixed-lbl($color-title-h1-default, var(--main-font), var(--font-size-h1), var(--font-weight-3), var(--letter-spacing), var(--line-height-title-h1))
+
+@mixin title-h2
+    @include mixed-lbl($color-title-h2-default, var(--main-font), var(--font-size-h2), var(--font-weight-3), var(--letter-spacing), var(--line-height-title-h2))
+
+@mixin title-h3
+	@include mixed-lbl($color-title-h3-default, var(--main-font), var(--font-size-h3), var(--font-weight-3), var(--letter-spacing), var(--line-height-h3))
+
+@mixin title-h4
+	@include mixed-lbl($color-title-h4-default, var(--main-font), var(--font-size-h4), var(--font-weight-3), var(--letter-spacing), var(--line-height-h4))
+
+@mixin title-h5
+	@include mixed-lbl($color-title-h5-default, var(--main-font), var(--font-size-h5), var(--font-weight-3), var(--letter-spacing), var(--line-height-h5))
+
+@mixin title-h6
+	@include mixed-lbl($color-title-h6-default, var(--main-font), var(--font-size-h6), var(--font-weight-3), var(--letter-spacing), var(--line-height-h6))
+
+// DESCRIPTIONS
+@mixin desc-1
+    @include mixed-lbl($color-desc-1-default, var(--main-font), var(--font-size-desc1), var(--font-weight-3), var(--letter-spacing), var(--line-height-desc-1))
+
+@mixin desc-2
+    @include mixed-lbl($color-desc-2-default, var(--main-font), var(--font-size-desc2), var(--font-weight-3), var(--letter-spacing-desc2), var(--line-height-desc-2))
+
+@mixin desc-3
+    @include mixed-lbl($color-desc-3-default, var(--main-font), var(--font-size-desc3), var(--font-weight-3), var(--letter-spacing), var(--line-height-desc-3))
+
+@mixin desc-4
+    @include mixed-lbl($color-desc-4-default, var(--main-font), var(--font-size-desc4), var(--font-weight-3), var(--letter-spacing), var(--line-height-desc-4))
+
+@mixin desc-5
+    @include mixed-lbl($color-desc-5-default, var(--main-font), var(--font-size-label-tag), var(--font-weight-3), var(--letter-spacing), var(--line-height-label-tabs))
+
+@mixin desc-6
+    @include mixed-lbl($color-desc-6-default, var(--main-font), var(--font-size-label-tabs), var(--font-weight-3), var(--letter-spacing), var(--line-height-label-tabs))
+
+// LABELS
+@mixin label-list
+    @include mixed-lbl($color-label-list-default, var(--main-font), var(--font-size-label-list), var(--font-weight-3), var(--letter-spacing), var(--line-height-label-list))
+
+@mixin label-tag
+    @include mixed-lbl($color-label-tag-default, var(--main-font), var(--font-size-label-tag), var(--font-weight-5), var(--letter-spacing), var(--line-height-label-tag))
+
+@mixin label-dropdown1
+    @include mixed-lbl($color-label-dropdown1-default, var(--main-font), var(--font-size-dropdown-type1), var(--font-weight-3), var(--letter-spacing), var(--line-height-label-dropdown1))
+
+@mixin label-dropdown2
+    @include mixed-lbl($color-label-dropdown2-default, var(--main-font), var(--font-size-dropdown-type2), var(--font-weight-3), var(--letter-spacing), var(--line-height-label-dropdown2))
+
+@mixin label-dropdown3
+    @include mixed-lbl($color-label-dropdown3-default, var(--main-font), var(--font-size-dropdown-type3), var(--font-weight-3), var(--letter-spacing), var(--line-height-label-dropdown3))
+
+@mixin label-tabs
+    @include mixed-lbl($color-label-tabs-default, var(--main-font), var(--font-size-label-tabs), var(--font-weight-5), var(--letter-spacing-15), var(--line-height-label-tabs))
+
+@mixin label-radio
+    @include mixed-lbl($color-label-radio-default, var(--main-font), var(--font-size-label-radio), var(--font-weight-3), var(--letter-spacing), var(--line-height-label-radio))
+
+@mixin label-client-item
+    @include mixed-lbl($color-label-client-item-default, var(--main-font), var(--font-size-client-item), var(--font-weight-3), var(--letter-spacing), var(--line-height-label-client-item))
+
+@mixin label-audio-name
+    @include mixed-lbl($color-label-audio-name, var(--main-font), var(--font-size-label-audio-name), var(--font-weight-3), var(--letter-spacing), var(--line-height-label-audio-name))
+
+@mixin label-draganddrop
+    @include mixed-lbl($color-label-draganddrop-default, var(--main-font), var(--font-size-draganddrop), var(--font-weight-5), var(--letter-spacing-015), var(--line-height-label-draganddrop))
+
+@mixin label-btn1
+    @include mixed-lbl($color-label-btn1-default, var(--main-font), var(--font-size-btn-type1), var(--font-weight-5), var(--letter-spacing), var(--line-height-label-btn1))
+
+@mixin label-btn2
+    @include mixed-lbl($color-label-btn2-default, var(--main-font), var(--font-size-btn-type2), var(--font-weight-5), var(--letter-spacing-btn-type2), var(--line-height-btn-type2))
+
+@mixin label-btn3
+    @include mixed-lbl($color-label-btn3-default, var(--main-font), var(--font-size-btn-type3), var(--font-weight-5), var(--letter-spacing-15), var(--line-height-label-btn3))
+
+@mixin label-btn4
+    @include mixed-lbl($color-label-btn4-default, var(--main-font), var(--font-size-btn-type4), var(--font-weight-5), var(--letter-spacing-15), var(--line-height-label-btn4))
+
+@mixin label-btn5
+    @include mixed-lbl($color-label-btn5-default, var(--main-font), var(--font-size-btn-type5), var(--font-weight-5), var(--letter-spacing-15), var(--line-height-btn-type1))
+
+@mixin label-input-label
+    @include mixed-lbl($color-label-input-label, var(--main-font), var(--font-size-input-label), var(--font-weight-5), var(--letter-spacing-15), var(--line-height-input-label))
+
+@mixin label-input-placeholder
+    @include mixed-lbl($color-label-input-placeholder-default, var(--main-font), var(--font-size-input-placeholder), var(--font-weight-3), var(--letter-spacing-label-placeholder), var(--line-height-input-placeholder))
+
+@mixin input-error-message
+    @include mixed-lbl($color-input-error-message-default, var(--main-font), var(--font-size-input-error-message), var(--font-weight-5), var(--letter-spacing-15), var(--line-height-draganddrop))
+
+@mixin hint
+    @include mixed-lbl($color-label-hint-default, var(--main-font), var(--font-size-hint), var(--font-weight-3), var(--letter-spacing), var(--line-height-hint))
+
+@mixin price-title
+    @include mixed-lbl($color-price-title-default, var(--main-font), var(--font-size-price), var(--font-weight-3), var(--letter-spacing), var(--line-height-price))
+
+@mixin tooltip-title
+    @include mixed-lbl($color-tooltip-title-default, var(--main-font), var(--font-size-tooltip-title), var(--font-weight-5), var(--letter-spacing-btn-type2), var(--line-height-tooltip-title))
+
+@mixin tooltip-message
+    @include mixed-lbl($color-tooltip-message-default, var(--main-font), var(--font-size-tooltip--message), var(--font-weight-3), var(--letter-spacing), var(--line-height-tooltip-message))
+
+@mixin sub-label
+    @include mixed-lbl($color-sub-label-default, var(--main-font), var(--font-size-sub-label), var(--font-weight-5), var(--letter-spacing-05), var(--line-height-sub-label))
+
+@mixin sub-label2
+    @include mixed-lbl($color-sub-label2-default, var(--main-font), var(--font-size-sub-label2), var(--font-weight-3), var(--letter-spacing), var(--line-height-sub-label2))
+@mixin phq9-inner-recommend-label
+    @include mixed-lbl($color-phq9-inner-recom-label, var(--main-font), var(--font-size-phq9-inner-recom-label), var(--font-weight-5), var(--letter-spacing-phq9-inner-recom-label), var(--line-height-phq9-inner-recom-label))
+@mixin assessment-type-copyright
+    @include mixed-lbl($color-assessment-type-copyright-default, var(--main-font), var(--font-size-assessment-type-copyright), var(--font-weight-3), var(--letter-spacing), var(--line-height-assessment-type-copyright))
+
+html, body, div, span,
+h1, h2, h3, h4, h5, h6, p, blockquote,
+a, small, strong, ul, li, form, label,
+article, footer, header, nav, section, input, textarea, strong, em, select
+    &.center-text
+        text-align: center
+
+    &.left-text
+        text-align: left
+
+    &.right-text
+        text-align: right
+
+    &.cap-text
+        text-transform: capitalize
+
+    &.up-text
+        text-transform: uppercase
+
+    &.low-text
+        text-transform: lowercase
+
+    &.title-h1
+        @include title-h1
+        &.type2
+            color: $color-title-h1-type2
+    &.title-h2
+        @include title-h2
+        &.type1
+            color: $color-title-h2-type1
+        &.type2
+            color: $color-title-h2-type2
+        &.type5
+            color: $color-title-h2-type5
+        &.type6
+            color: $color-title-h2-type6
+    &.title-h3
+        @include title-h3
+        &.type1
+            color: $color-title-h3-type1
+    &.title-h4
+        @include title-h4
+
+    &.title-h5
+        @include title-h5
+
+    &.title-h6
+        @include title-h6
+    &.desc-1
+        @include desc-1
+        &.type1
+            color: $color-desc-1-type1
+        &.type2
+            color: $color-desc-1-type2
+        &.type3
+            color: $color-desc-1-type3
+    &.desc-2
+        @include desc-2
+        &.type1
+            color: $color-desc-2-type1
+        &.type2
+            color: $color-desc-2-type2
+        &.type3
+            color: $color-desc-2-type3
+    &.desc-3
+        @include desc-3
+        &.type1
+            color: $color-desc-3-type1
+        &.type2
+            color: $color-desc-3-type2
+        &.type3
+            color: $color-desc-3-type3
+        &.type4
+            color: $color-desc-3-type4
+        &.type5
+            color: $color-desc-3-type5
+    &.desc-4
+        @include desc-4
+    &.desc-5
+        @include desc-5
+        &.type1
+            color: $color-desc-5-type1
+        &.type3
+            color: $color-desc-5-type3
+        &.type4
+            color: $color-desc-5-type4
+    &.desc-6
+        @include desc-6
+        &.type1
+            color: $color-desc-6-type1
+        &.type2
+            color: $color-desc-6-type2
+        &.type3
+            color: $color-desc-6-type3
+    &.label-tag
+        @include label-tag
+        &.type1
+            color: $color-label-tag-type1
+    &.label-dropdown1
+        @include label-dropdown1
+        position: relative
+        &:after
+            transition: all 0.5s
+            content: ''
+            width: 100%
+            height: 2px
+            left: 0
+            bottom: 0
+            opacity: 0
+            position: absolute
+            background: $color-label-dropdown1-after
+        &:hover:after
+            opacity: 1
+        &.type1
+            color: $color-label-dropdown1-type1
+    &.label-dropdown2
+        @include label-dropdown2
+        position: relative
+        &:not(.no-hover):after
+            transition: all 0.5s
+            content: ''
+            width: 100%
+            height: 2px
+            left: 0
+            bottom: 0
+            opacity: 0
+            position: absolute
+            background: $color-label-dropdown2-after
+        &:hover:after
+            opacity: 1
+        &.type1
+            color: $color-label-dropdown2-type1
+    &.label-dropdown3
+        @include label-dropdown3
+        position: relative
+        &:not(.no-hover):after
+            transition: all 0.5s
+            content: ''
+            width: 100%
+            height: 2px
+            left: 0
+            bottom: 0
+            opacity: 0
+            position: absolute
+            background: $color-label-dropdown3-after
+        &:hover:after
+            opacity: 1
+        &.type1
+            color: $color-label-dropdown3-type1
+        &.type2
+            color: $color-label-dropdown3-type2
+    &.label-tabs
+        @include label-tabs
+        &.type1
+            color: $color-label-tabs-type1
+    &.label-radio
+        @include label-radio
+    &.label-client-item
+        @include label-client-item
+        &.type1
+            color: $color-label-client-item-type1
+    &.label-draganddrop
+        @include label-draganddrop
+        text-transform: uppercase
+        &.type1
+            color: $color-label-draganddrop-type1
+    &.label-btn1
+        text-transform: uppercase
+        @include label-btn1
+    &.label-btn2
+        text-transform: uppercase
+        @include label-btn2
+        &.type1
+            color: $color-label-btn2-type1
+        &.type2
+            color: $color-label-btn2-type2
+        &.type3
+            color: $color-label-btn2-type3
+        &.type4
+            color: $color-label-btn2-type4
+    &.label-btn3
+        text-transform: uppercase
+        @include label-btn3
+        &.type1
+            color: $color-label-btn3-type1
+        &.type3
+            color: $color-label-btn3-type3
+    &.label-btn4
+        text-transform: uppercase
+        position: relative
+        @include label-btn4
+        &:after
+            transition: all 0.5s
+            content: ''
+            width: 100%
+            height: 2px
+            left: 0
+            bottom: 0
+            opacity: 0
+            position: absolute
+        &:hover:after
+            opacity: 1
+        &.type1
+            color: $color-label-btn4-type1
+        &.type2
+            color: $color-label-btn4-type2
+            &:after
+                background: $color-label-btn4-type2
+        &.type3
+            color: $color-label-btn4-type3
+            &:after
+                background: $color-label-btn4-type3
+        &.type4
+            color: $color-label-btn4-type4
+            &:after
+                background: $color-label-btn4-type4
+        &.type5
+            color: $color-label-btn4-type5
+        &.type6
+            color: $color-label-btn4-type6
+        &.type8
+            color: $color-label-btn4-type8
+
+    &.input-label
+        @include label-input-label
+        text-transform: uppercase
+    &.input-error-message
+        @include input-error-message
+        &--info
+            color: $color-input-error-message--info
+    &.price-title
+        @include price-title
+    &.tooltip-title
+        @include tooltip-title
+    &.tooltip-message
+        @include tooltip-message
+        &.type1
+            color: $color-label-btn3-type3
+    &.sub-label
+        @include sub-label
+    &.sub-label2
+        @include sub-label2
+    &.phq9-inner-recommend-label
+        @include phq9-inner-recommend-label
+    &.assessment-type-copyright
+        @include assessment-type-copyright

@@ -57,7 +57,7 @@ Install all dependencies and validate Node.js version:
 yarn all
 ```
 
-### Structure
+### Structure (basics)
 
 This repo organized as monorepo with simplified structure/flow. Roots are:
 
@@ -69,29 +69,48 @@ This repo organized as monorepo with simplified structure/flow. Roots are:
 
 ### Configuration files references
 
-1. Frontend (mobile, dashboard and web) core configuration resides in files `./config/[appName].js`. It includes:
+1. Frontend (mobile, dashboard and web) core configuration resides in files `./config/app.js`. It includes:
     * Firebase config (inclduing dashboard and mobile)
     * Integrations (Google, Sentry) settings
     * Features settings (on/off)
     * And build configs like Hostname, mobile app config (Expo) name, Expo release channel.
 
+2. Common configuration file `./common/constants/features.ts`.
+    * Enable/disable dashboard features
+    * Enable/disable mobile features
+        * Allow check-ins delete
+        * Allow check-ins privateness
+        * Ask for location 
+
 This configuration structure implies difference between `development`, `staging` and `production` environments per each project which may not be always necessary.
 
-2. Mobile app Expo configuration: `./mobile/app.json` according to [Expo docs](https://docs.expo.io/workflow/configuration/)
+3. Mobile app Expo configuration: `./mobile/app.json` according to [Expo docs](https://docs.expo.io/workflow/configuration/)
 
-3. Backend config file `server/functions/src/services/config/[appName].ts`
+5. Firebase config `./server/.firebaserc`
+
+6. Environment config file `./server/functions/.env` (should be created if not exists).
+    * .env file content `GOOGLE_APPLICATION_CREDENTIALS=/path/to/json/credentials`
+
+7. Backend config file `server/functions/src/services/config/app.ts`
 
 ### Features used in Google Cloud Console and Firebase
 
  * Enable Sign In methods in Firebase Authentication tab: `Email/Password` + `Email link`, `Google` and `Apple`.
-  * IAM: https://console.developers.google.com/apis/api/iam.googleapis.com/overview.
+ * IAM: https://console.developers.google.com/apis/api/iam.googleapis.com/overview.
  * Cloud Speech-to-Text API: https://console.developers.google.com/apis/api/speech.googleapis.com/overview
  * Natural Language API: https://console.developers.google.com/apis/api/language.googleapis.com/overview
  * Cloud Vision AI API: https://console.developers.google.com/apis/api/vision.googleapis.com/overview
  * Blaze Plan
 
 
-## Mobile Configuration
+### State Management
+
+Application state is stored and managed by the Controllers layer.
+Controllers expose getters for the state and methods to mutate it. 
+Entry point for controllers is AppController (mobile: `mobile/src/controllers/index.ts`, dashboard: `dashboard/src/app/controllers/index.ts`).
+Observing is organized via MobX. It allows with a minimum amount of user code to catch events when some data changes.
+
+## Mobile
 
 ### Run & build app
 
@@ -149,6 +168,7 @@ fastlane pilot upload --skip_waiting_for_build_processing --skip_submission --ip
 ## How To Deploy
 
 ### Back-end/dashboard to staging/production
+
 Deployment to Firebase services is managed by Firebase CLI and wrapped in convenience NPM commands in root package.json: 
 * `deploy:dashboard:(stage|prod)` – builds Dashboard app with Webpack and deploys it to configured Hosting in current Firebase project.
 * `deploy:server:(stage|prod)` – Server (Functions, Firestore Rules and Indexes)
@@ -161,16 +181,106 @@ Expo covers all the deployment process in [their documentation](https://docs.exp
 * Since currently the mobile project uses [Expo Managed Workflow](https://docs.expo.io/introduction/managed-vs-bare/#managed-workflow), for all other cases like updated JS code or most types of assets – OTA (over-the-air) flow will work via [Publishing](https://docs.expo.io/workflow/publishing/).
 * Expo account is required for deploying/publishing via Expo. Standalone builds queue, apps published JS and assets are associated with this account. It is totally not a problem to deploy a new standalone build using another Expo account, but is required to make Publishing work later.
 
+## External dependencies 
+
+The following dependencies are organized as Git submodules:
+* Maslo Persona – logic and animations for Maslo Persona orb.
+* React Native Switch Pro – a package for rendering Switch in RN apps; in this fork the component was refactored to TypeScript with adaptations to the new React lifecycle.
+
+## Analytics
+
+1. The mobile apps use Firebase Analytics at a basic level (without logging events).
+2. Dashboard uses Google Analytics with a custom library (`common/services/analytics`).
+
+## Notifications
+
+Mobile app uses Local and Push notifications. Most related types are defined in `common/models/Notifications.ts`. NotificationTypes enum defines the following types:
+
+1. Retention – local notifications for reminding a user to make a check-in. A user can adjust them in Settings.
+2. CustomPrompt – push sent to a client for a scheduled prompt. Latters are set in the Dashboard.
+3. Assessment – push sent to a client when an assessment has been activated by a Coach in their Dashboard.
+4. NewGoals – push sent to a client when a new goal has been added by a Coach.
+5. TriggerPhrase – push sent to a client when Records analyzer has found ‘trigger phrase’ in their check-in.
+6. NewDocumentLinkShared – push sent to a client when a document link has been shared with them by a Coach.
+
+## Persona
+
+[Maslo Persona Orb](https://github.com/HeyMaslo/maslo-persona) is responsible for rendering Persona animations in WebGL context using shaders geometry and GSAP library. 
+It also exposes 2 platform-dependant wrappers: 
+
+1. for DOM – used in Dashboard, in Client’s Overview just as an interface element.
+2. for Expo – used in Mobile; basically almost on every screen it takes a significant part of the user interface.
 
 ## Structure
 
-There're 2 main parts of the backend: API and database.
+### Common
 
-For API Firebase Functions are used. The approach is to have all write operations to be wrapped in functions, to make sure all validations are passed and data has been written properly.
+Commons contain platform-independent code to be re-used in dashboard, mobile and server apps. It describes business logic models, DTOs, utils, helpers and even some Controllers and ViewModels.
 
-For database Firebase Firestore is used. It has a lot of useful features, and allows not only fetch and cache data, but also to observe on frontends.
+#### services, helpers, utils
 
-### Database
+Services contain cross-platform wrappers for client-side Firebase, localization and analytics. Helpers was designed to contain re-usable business logic code, while utils should contain general utilities like math, strings, validation etc.
+
+#### Models
+
+Models are database entities or just data structures with some additional helper logic for manipulating objects. Also they define DTOs and Enums.
+
+#### Repository Layer
+
+Database repositories wrap all access to Firestore. It allows to specify an API for working with the DB, add some additional validations and make compound queries and transactions.
+
+#### IntakeForms `common/models/intakeForms`
+
+IntakeForms (aka Assessments) – feature for allowing Coach to collect some data from their Clients in form of questionnaires. Index.ts and types.ts define data structure types, types of assessments and types enabled by default. All other files are definitions for specific assessment types.
+
+#### Prompts `common/models/prompts`
+
+This folder contains models definitions for few connected features: 
+  * Custom Prompts 
+  * Intervention Tips
+  * Goals
+They are connected by sharing the same data structure their data stored in (PromptsLibrary and ClientLibraryState in `common/models/prompts/Prompt.ts`) and endpoint (IntakeFormsEndpoint in `common/abstractions/functions.ts`).
+
+
+## Dashboard and Mobile
+
+Dashboard and Mobile apps use the customized MVVM pattern with an additional layer of controllers. 
+
+* Models. Describe data structures stored in DB and mediator entities; may contain some additional helper code.
+* Controllers. Stateful components usually organized in hierarchy. Contain client side business logic (but disregard which frontend engine is used), synchronize with DB, make API calls and expose observable data to be read by ViewModels. This layer depends only on Models and API.
+* ViewModels. Implements all logic for Views, but with no dependency on the View layer. Transforms data from Controllers, wraps actions and makes sure View knows what to show and what to do when a user interacts.
+* Views. Responsible only for visualization of certain ViewModels, should present data as is, rarely do any kind of logic. Shouldn’t access Controllers or DB/APIs directly. 
+
+### Routing and StateMachine
+
+State Machine is a system that switches UI and Persona states according to a scenario.
+
+Each state is a screen with some UI and interactive elements. Since the app has only one instance of Persona on the screen, its state is managed as well by each State. Persona should react to global operations (like ‘in progress’ state presented by ‘listen’ animation) as well as to actions within a state, being at the same time on the top of all UI. So every state can manage this via special context (IPersonaViewContext).
+
+Scenario is a declarative data structure that defines transitions between States. There are ‘enter’ and ‘exit’ conditions for each State which are tied to the application state or user produced triggers. Conditions and triggers can be combined with logical ‘and’ or ‘or’ operations. Triggers are defined globally but can be processed locally on transition level. Conditions are based on observable getters so whenever the value of the getter changes the condition raises re-computing of transition so Scenario can decide to switch a State.
+
+Main benefit of such an approach is flexibility. Each State can be transitioned to any other based on defined conditions for the application state. Application state mutates according to user flow, so the Scenario stays declarative, clean and basically defines the user flow. Also, Scenario can be easily tweaked according to app configuration like enabling/disabling some features.
+
+1. Scenario is splitted to 3 parts:
+  * Scenario Runner (`mobile/src/stateMachine/scenario.runner.tsx`) – runs a given scenario, takes care of mounting correct State, observing and computing conditions and triggers, making transitions.
+  * Scenario itself (`mobile/src/stateMachine/scenario.ts`) – app specific, declares transitions for each State.
+  * Scenario ViewModel (`mobile/src/stateMachine/scenario.viewModel.ts`) – app specific, declares all necessary conditions for building transitions.
+And director of this party is StateMachine (`mobile/src/stateMachine/machine.tsx`) which renders Scenario Runner configured with a particular scenario, Persona and connects them via an instance of IStateViewContext.
+
+
+### Backend
+
+Backend uses Firebase Functions, so it consists of a set of endpoints grouped together by logical APIs. All endpoints reference can be found in `common/abstractions/functions.ts.`
+
+Every physical and logical endpoint is described via FunctionDefinition class (`common/abstractions/functions.definition.ts`) with all required meta including In/Out data structures definition. On the server side, it allows Firebase to make it up and running using FunctionFactory (`server/functions/src/utils/createFunction.ts`). On the client side, the another FunctionFactory (`common/services/firebase/FunctionFactory.ts`) allows clients to make typed promise-based requests to the endpoint using common function definition.
+
+#### Cron jobs
+
+There are 3 types of cron jobs (`server/functions/src/cron.ts`)
+  * Scheduled Events – triggered every 5 minutes to process project events (like sending push notifications for specific events).
+  * Export and Import DB – triggered every 24hrs for making a backup of the Firestore database and importing it into the BigQuery project.
+
+#### Database
 
 According to Firestore, data is organized in documents, collections and sub-collections of documents. Each document has data, that should always be described it Typescript types/interfaces.
 
@@ -262,3 +372,4 @@ API is exposed via Firebase Cloud Functions. Function can be an API endpoint, Sc
 Each endpoint might handle few types of requests to make amount of Functions deployed as less as possible. These requests types are group into endpoints by features, logic and services.
 
 Every request type for every endpoint in the system has clear and [straightforward declaration](../common/abstractions/functions.ts), grouped by namespaces. A declaration allows all calls to be consistent across platforms.
+

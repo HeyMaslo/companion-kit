@@ -1,0 +1,533 @@
+.auth-page
+    display: flex
+    flex-direction: row
+    align-items: flex-start
+    justify-content: flex-start
+    min-height: 100%
+    height: auto
+    padding-top: 0
+    overflow: hidden
+    outline: none
+    background: none
+    .error-block
+        span
+            white-space: pre-wrap
+    .input-wrap
+        .input-error
+            white-space: pre-wrap
+    // .header
+    //     position: absolute
+    //     &:after
+    //         position: absolute
+    //         content: ''
+    //         top: 0
+    //         left: 0
+    //         width: gem(680)
+    //         height: 100%
+    //         background: $color-bg-main
+    //         z-index: -1
+    .left-block
+        position: fixed
+        display: flex
+        flex-direction: column
+        justify-content: flex-start
+        width: gem(520)
+        height: 100vh
+        background-color: $color-bg-main
+        padding: 0 gem(80) 0 gem(120)
+        overflow: hidden
+        .text-block
+            display: flex
+            align-items: flex-start
+            justify-content: flex-start
+            flex-direction: column
+            padding: gem(85) 0 gem(80)
+            width: gem(400)
+            margin-left: gem(38)
+            .title
+                margin-bottom: gem(4)
+                line-height: gem(32)
+                letter-spacing: normal
+            .desc
+                margin-bottom: gem(40)
+                font-size: gem(16)
+                line-height: gem(24)
+        .features-list
+            display: flex
+            flex-direction: column
+            align-items: flex-start
+            justify-content: flex-start
+            flex-shrink: 0
+            width: 100%
+            margin: 0 0 gem(64)
+        .feature-item
+            display: flex
+            align-items: center
+            width: 100%
+            padding-left: gem(9)
+            .desc-6
+                font-size: gem(16)
+                line-height: gem(24)
+            &:not(:last-child)
+                margin-bottom: gem(12)
+        .feature-icon
+            width: gem(8)
+            height: auto
+            margin-right: gem(8)
+        .sign-in-visual
+            display: block
+            position: absolute
+            bottom: gem(64)
+            width: gem(400)
+            left: gem(160)
+            height: auto
+        .sign-up-help
+            position: fixed
+            width: gem(500)
+            bottom: 0
+            left: 0
+            padding: gem(40) gem(80) gem(40) gem(160)
+            background: $color-bg-main
+            font-size: gem(16)
+            line-height: gem(24)
+            a.type3
+                position: relative
+                &:hover
+                    &:after
+                        opacity: 1
+                &:after
+                    position: absolute
+                    content: ''
+                    left: 0
+                    bottom: 0
+                    width: 100%
+                    height: 2px
+                    background: $color-link-underline
+                    opacity: 0
+                    transition: opacity 200ms ease
+    .right-block
+        position: relative
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        justify-content: flex-start
+        width: gem(400)
+        height: 100%
+        min-height: 100vh
+        left: 50vw
+        background-color: $color-bg-sec
+        padding: 0 gem(160)
+        overflow-y: auto
+        .footer-text
+            display: inline-flex
+            align-items: center
+            margin: auto 0 gem(40)
+            .title-h2
+                font-size: gem(16)
+                line-height: gem(20)
+            .btn
+                display: inline
+                margin: 0
+                width: auto
+        .text-block
+            display: flex
+            flex-direction: column
+            align-items: flex-start
+            justify-content: flex-start
+            margin-bottom: gem(62)
+            padding-top: gem(88)
+            .title-h2
+                font-size: gem(20)
+                line-height: gem(24)
+            .title
+                margin-bottom: gem(10)
+            .desc
+                display: flex
+                align-items: flex-start
+                justify-content: flex-start
+                flex-wrap: wrap
+            .btn
+                position: relative
+                width: auto
+                display: inline
+                margin: 0
+                &:hover
+                    &:after
+                        opacity: 1
+                &:after
+                    position: absolute
+                    content: ''
+                    left: 0
+                    bottom: 0
+                    width: 100%
+                    height: 2px
+                    background: $color-link-underline
+                    opacity: 0
+                    transition: opacity 200ms ease
+        &.signin
+            .text-block
+                padding-top: gem(116)
+        .inputs-block
+            display: flex
+            flex-direction: column
+            justify-content: flex-start
+            align-items: flex-start
+            width: 100%
+            .input-wrap
+                width: 100%
+                margin-bottom: gem(23)
+                &:last-child
+                    margin-bottom: gem(35)
+                .input-label
+                    font-size: gem(12)
+                    line-height: gem(16)
+            .input
+                width: 100%
+                text-indent: gem(20)
+                padding: gem(12) 0 gem(12)
+                font-size: gem(16)
+                line-height: gem(24)
+            .select-wrap
+                width: 100%
+                margin-top: gem(10)
+                margin-bottom: gem(23)
+                .button
+                    font-size: gem(16)
+                    line-height: gem(24)
+                .list
+                    width: calc(100% + #{gem(2)})
+                    right: gem(-1)
+        .btn-wrap
+            position: relative
+            display: flex
+            align-items: center
+            justify-content: flex-start
+            flex-direction: column
+            width: 100%
+            .btn.green-bg
+                margin-bottom: gem(40)
+                height: gem(50)
+                span
+                    margin-top: gem(3)
+            .btn.google-btn
+                height: gem(50)
+            .divider
+                position: relative
+                display: flex
+                align-items: center
+                justify-content: center
+                pointer-events: none
+                width: 100%
+                text-align: center
+                z-index: 1
+                margin-bottom: gem(30)
+                span
+                    margin-top: gem(3)
+                &:before,
+                &:after
+                    position: absolute
+                    content: ''
+                    width: gem(160)
+                    height: 1px
+                    background: $color-auth-right-block-divider
+                    z-index: -1
+                &:before
+                    left: 0
+                &:after
+                    right: 0
+
+    &.check-email
+        .left-block
+            width: 100%
+            max-width: 100%
+            height: auto
+            min-height: 100vh
+            flex-direction: row
+            justify-content: flex-start
+            align-items: center
+            .text-block
+                margin: 0
+                padding: 0
+                margin-left: gem(40)
+                width: gem(560)
+                .title
+                    margin: 0 0 gem(10)
+                    line-height: gem(69)
+                    span
+                        margin-right: gem(20)
+                        color: $color-auth-check-email-title-span
+                .desc
+                    line-height: gem(30)
+                    margin-bottom: gem(40)
+                    font-size: gem(20)
+                    .user-email
+                        color: $color-auth-check-email-user-email
+                .btn
+                    margin: 0
+            .btn-wrap
+                display: inline-flex
+                .btn
+                    display: inline-flex
+                    width: auto
+                    justify-content: flex-start
+                    align-content: center
+                    &:hover
+                        .icon
+                            transform: rotate(-180deg) translateX(gem(5))
+                    .icon
+                        margin: gem(1) gem(12) auto 0
+                        transform: rotate(-180deg)
+
+.error-block
+    position: absolute
+    top: gem(60)
+    left: 0
+    max-width: 100%
+    span
+        display: block
+        color: $color-error-block-span
+        line-height: unset
+
+@media only screen and (min-width: 1024px) and (max-height: 600px)
+    .auth-page
+        .left-block
+            .sign-in-visual
+                bottom: gem(40)
+                width: gem(420)
+
+// @media only screen and (max-width: 1024px)
+
+    // .auth-page
+    //     // .header
+    //     //     &:after
+    //     //         display: none
+    //     .error-block
+    //         span
+    //             white-space: normal
+    //     .input-wrap
+    //         .input-error
+    //             white-space: normal
+    //     &.check-email
+    //         .left-block
+    //             display: flex
+    //             height: 100%
+    //             padding: 0
+    //             flex-grow: 1
+    //             .btn.arrow-btn
+    //                 img
+    //                     display: block
+    //                     width: gem(20)
+    //                     min-width: unset
+    //                     min-height: unset
+    //             .text-block
+    //                 margin: 0 auto
+    //                 justify-content: center
+    //                 width: gem(608)
+    //                 min-width: gem(608)
+    //                 .title
+    //                     padding: 0
+    //                     margin-bottom: gem(10)
+    //     .left-block
+    //         display: none
+    //     .right-block
+    //         left: 0
+    //         width: 100%
+    //         height: auto
+    //         min-height: 100vh
+    //         padding: 0
+    //         .text-block
+    //             width: calc(100% - #{gem(320)})
+    //             background: $color-bg-main
+    //             padding: gem(165) gem(160) gem(65)
+    //             margin-bottom: gem(64)
+    //             .title
+    //                 color: $color-auth-right-block-title
+    //                 margin: 0 0 gem(10)
+    //             .desc
+    //                 margin: 0
+    //                 .title-h2
+    //                     color: $color-auth-right-block-desc-title-h2
+    //                     &.btn.text-type1
+    //                         color: $color-label-btn1-default
+    //         .footer-text
+    //             margin: gem(24) auto auto gem(80)
+    //         .inputs-block
+    //             padding: 0
+    //             margin: 0 auto
+    //             width: gem(608)
+    //             min-width: gem(608)
+    //             max-width: unset
+    //             justify-content: flex-start
+    //         .btn-wrap
+    //             padding: 0
+    //             margin: 0 auto
+    //             width: gem(608)
+    //             min-width: gem(608)
+    //             .divider
+    //                 width: gem(586)
+    //                 &:before,
+    //                 &:after
+    //                     width: gem(240)
+
+@media only screen and (max-width: 768px)
+    .auth-page
+        // .header
+        //     &:after
+        //         display: none
+        .error-block
+            span
+                white-space: normal
+        .input-wrap
+            .input-error
+                white-space: normal
+        &.check-email
+            .left-block
+                display: flex
+                height: 100%
+                padding: 0
+                flex-grow: 1
+                .btn.arrow-btn
+                    img
+                        display: block
+                        width: gem(20)
+                        min-width: unset
+                        min-height: unset
+                .text-block
+                    margin: 0 auto
+                    justify-content: center
+                    padding: 0 gem(80)
+                    width: calc(100% - #{gem(160)})
+                    min-width: calc(100% - #{gem(160)})
+                    .title
+                        padding: 0
+                        margin-bottom: gem(10)
+        .left-block
+            display: none
+        .right-block
+            left: 0
+            width: 100%
+            height: auto
+            min-height: 100vh
+            padding: 0
+            .text-block
+                width: calc(100% - #{gem(160)})
+                background: $color-bg-main
+                padding: gem(165) gem(80) gem(65)
+                margin-bottom: gem(64)
+                .title
+                    color: $color-auth-right-block-title
+                    margin: 0 0 gem(10)
+                .desc
+                    margin: 0
+                    .title-h2
+                        color: $color-auth-right-block-desc-title-h2
+                        &.btn.text-type1
+                            color: $color-label-btn1-default
+            .footer-text
+                margin: gem(24) auto auto gem(80)
+            .inputs-block
+                margin: 0 auto
+                padding: 0 gem(80)
+                width: calc(100% - #{gem(160)})
+                min-width: calc(100% - #{gem(160)})
+                max-width: unset
+                justify-content: flex-start
+            .btn-wrap
+                margin: 0 auto
+                // padding: 0 gem(80)
+                width: calc(100% - #{gem(160)})
+                min-width: calc(100% - #{gem(160)})
+                .divider
+                    width: gem(586)
+                    &:before,
+                    &:after
+                        width: gem(240)
+
+
+// only all tablets
+// @media only screen and (any-pointer: coarse) and (min-width: 768px) and (hover: none) and (max-width: 1367px)
+
+
+@media only screen and (max-width: 480px)
+
+    .auth-page
+        .header
+            padding: gem(7) 0
+        &.check-email
+            .left-block
+                .btn.arrow-btn
+                    img
+                        margin-left: gem(21)
+                .text-block
+                    width: gem(280)
+                    min-width: gem(280)
+                    padding: 0
+                    .title
+                        margin-bottom: gem(16)
+                    .desc
+                        max-width: 100%
+                        margin-bottom: gem(40)
+                        line-height: gem(25)
+        .right-block
+            .text-block
+                width: 100%
+                padding: gem(80) 0 gem(24)
+                margin-bottom: gem(40)
+                .title
+                    width: gem(280)
+                    min-width: gem(280)
+                    color: $color-auth-right-block-title
+                    margin: 0 auto gem(8)
+                .desc
+                    width: gem(280)
+                    min-width: gem(280)
+                    margin: 0 auto
+                    .title-h2
+                        font-size: gem(18)
+                        line-height: gem(25)
+            .footer-text
+                width: gem(280)
+                min-width: gem(280)
+                margin: 0 auto
+            .inputs-block
+                width: gem(280)
+                min-width: gem(280)
+                padding: 0
+                .input-wrap
+                    margin-bottom: gem(24)
+                    &:last-child
+                        margin-bottom: gem(0)
+                        .input
+                            margin-bottom: gem(24)
+                        .input.error-state
+                            margin-bottom: gem(3)
+                            ~ .input-error-message
+                                position: relative
+                                top: 0
+                                left: 0
+                                margin-bottom: gem(10)
+                    .input-error
+                        left: 0
+                        top: gem(76)
+                .input
+                    text-indent: gem(16)
+                    padding: gem(12) 0
+            .btn-wrap
+                width: gem(280)
+                min-width: gem(280)
+                padding: 0
+                .btn.green-bg
+                    margin-bottom: gem(33)
+                .divider
+                    width: gem(228)
+                    margin-bottom: gem(24)
+                    &:before,
+                    &:after
+                        width: gem(80)
+
+    .error-block
+        top: gem(58)
+        left: 0
+
+// only mobile landscape
+// @media only screen and (max-width: 999px) and (max-height: 567px) and (hover: none) and (any-pointer: coarse) and (orientation: landscape)

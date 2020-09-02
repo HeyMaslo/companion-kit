@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+      "noEmit": true,
+      "outDir": "./dist",
+      "noImplicitAny": true,
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "strictBindCallApply": true,
+      "sourceMap": true,
+      "allowSyntheticDefaultImports": true,
+      "allowJs": true,
+      "checkJs": true,
+      "esModuleInterop": true,
+      "module": "esnext",
+      "moduleResolution": "node",
+      "target": "es2017",
+      "jsx": "react",
+      "plugins": [{ "transform": "ts-nameof", "type": "raw" }]
+    },
+    "exclude": [
+      "./dist",
+      "node_modules",
+      "mobile/node_modules"
+    ]
+  }

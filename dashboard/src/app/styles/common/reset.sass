@@ -1,0 +1,103 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video, button
+    margin: 0
+    padding: 0
+    border: 0
+    // font-size: 100%
+    // font: inherit
+    vertical-align: baseline
+
+#root
+    height: 100%
+
+body
+    line-height: 1
+
+ol, ul
+    list-style: none
+
+html, body
+    width: 100%
+    height: 100%
+
+body
+    position: relative
+    background-repeat: no-repeat
+    background-size: cover
+    overflow-x: hidden
+    background: $color-bg-main
+    font-family: var(--main-font)
+    text-rendering: optimizeLegibility
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+    .modal-active
+        overflow: hidden
+    
+main
+    width: 100%
+    overflow-x: hidden
+    height: 100%
+
+a
+    display: inline-block
+    text-decoration: none
+    border: none
+    outline: none
+    transition: all 200ms ease
+
+section
+    position: relative
+    background-repeat: no-repeat
+    background-position: center
+    background-size: cover
+
+.fluid-container
+    width: 100%
+    position: relative
+
+.container
+    position: relative
+    width: var(--container-width)
+    margin: 0 auto
+
+img
+    display: block
+    &.round
+        border-radius: 50%
+
+.scrollable
+    overflow-y: scroll
+    background-color: $color-bg-scrollable
+
+.flex-between
+    display: flex
+    width: 100%
+    justify-content: space-between
+
+.upper
+    text-transform: uppercase
+
+@media only screen and (max-width: 480px)
+    .hidden-mobile
+        display: none
+
+// only mobile portrait
+@media only screen and (max-width: 480px) and (max-height: 999px) and (hover: none) and (any-pointer: coarse) and (orientation: portrait)
+    .hidden-mobile
+        display: none
+
+// only mobile landscape
+@media only screen and (max-width: 999px) and (max-height: 567px) and (hover: none) and (any-pointer: coarse) and (orientation: landscape)
+    .hidden-mobile
+        display: none

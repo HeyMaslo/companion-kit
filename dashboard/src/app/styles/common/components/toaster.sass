@@ -1,0 +1,20 @@
+.toaster
+    position: fixed
+    bottom: gem(-64)
+    left: 0
+    width: 100%
+    background: $color-white
+    z-index: 121
+    opacity: 0
+    visibility: hidden
+    &-container
+        display: flex
+        align-items: center
+        justify-content: flex-start
+        height: gem(64)
+    &-checked
+        display: inline-flex
+        width: gem(32)
+        margin-right: gem(16)
+    &-text
+        margin-top: gem(3)

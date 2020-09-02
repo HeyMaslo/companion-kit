@@ -1,0 +1,171 @@
+.docs-tab
+    .actions-block
+        display: flex
+        justify-content: space-between
+    .upload
+        width: gem(944)
+        img
+            margin-left: gem(-1)
+            margin-right: gem(16)
+    .add-link-button
+        width: gem(160)
+        img
+            margin-right: gem(8)
+            margin-left: gem(4)
+    .docs-list
+        display: flex
+        flex-wrap: wrap
+    .docs-card
+        position: relative
+        display: flex
+        flex-direction: column
+        align-items: center
+        width: gem(268)
+        height: gem(240)
+        margin-right: gem(16)
+        margin-bottom: gem(16)
+        padding: gem(24)
+        border-radius: gem(5)
+        border: 1px solid $color-docs-card-border
+        background: $color-docs-card-bg
+        box-sizing: border-box
+        &:nth-child(4n)
+            margin-right: 0
+        .icon-wrap
+            width: gem(80)
+            height: gem(80)
+            margin-top: gem(23)
+            margin-bottom: gem(51)
+            img
+                width: 100%
+        .doc-name
+            width: gem(218)
+            padding-bottom: gem(4)
+            overflow: hidden
+            text-overflow: ellipsis
+            text-align: center
+            line-height: normal
+            display: -webkit-box
+            -webkit-line-clamp: 1
+            -webkit-box-orient: vertical
+        .dropdown  
+            position: absolute
+            top: gem(3)
+            right: gem(21)
+            z-index: 1
+            .button
+                font-size: gem(18)
+                line-height: normal
+                color: $color-dropdown-dots
+        .link-status-wrap
+            position: absolute
+            top: gem(14)
+            left: gem(14)
+            display: flex
+            align-items: center
+            img
+                width: auto
+                height: gem(8)
+                margin-right: gem(6)
+                margin-top: gem(-3)
+    .images-wrap
+        display: flex
+        flex-direction: column
+        margin-top: gem(27)
+        margin-bottom: gem(43)
+        .label-draganddrop 
+            display: flex
+            margin-bottom: gem(15)
+        & + .label-draganddrop
+            display: block
+            margin-bottom: gem(15)
+    .images-list-wrap
+        position: relative
+        .inner-pictures-link
+            z-index: 1
+            position: absolute
+            top: 0
+            right: 0
+            display: flex
+            justify-content: center
+            align-items: center
+            width: gem(126)
+            height: gem(222)
+            box-sizing: border-box
+            border-radius: gem(5)
+            border: 1px solid $color-docs-card-border
+            background: $color-docs-card-bg
+            cursor: pointer
+            img
+                width: gem(20)
+                height: gem(8)
+                margin: 0
+                border-radius: unset
+                transform: rotate(180deg)
+                cursor: pointer
+    .images-list
+        display: flex
+        .placeholder,
+        img
+            z-index: 1
+            width: gem(126)
+            height: gem(222)
+            margin-right: gem(16)
+            object-fit: cover
+            border-radius: gem(5)
+            cursor: zoom-in
+            font-family: var(--main-font)
+            font-size: var(--font-size-desc3)
+            font-weight: var(--font-weight-3)
+            letter-spacing: var(--letter-spacing)
+            line-height: var(--line-height-desc-3)
+            color: $color-desc-5-default
+            background: $color-empty-data-message-bg
+.no-client
+    &.docs-empty 
+        .img-wrapper
+            width: gem(280)
+            margin-left: gem(64)
+        .wrapper
+            margin-top: gem(28)
+
+.docs-images-inner-page
+    .images-list
+        display: flex
+        flex-wrap: wrap
+        .placeholder,
+        img
+            z-index: 1
+            width: gem(126)
+            height: gem(222)
+            margin-right: gem(16)
+            margin-bottom: gem(16)
+            object-fit: cover
+            border-radius: gem(5)
+            cursor: zoom-in
+            font-family: var(--main-font)
+            font-size: var(--font-size-desc3)
+            font-weight: var(--font-weight-3)
+            letter-spacing: var(--letter-spacing)
+            line-height: var(--line-height-desc-3)
+            color: $color-desc-5-default
+            background: $color-empty-data-message-bg
+            &:nth-child(8n)
+                margin-right: 0
+
+
+@media all and (max-width: 768px)
+    .docs-tab
+        .audio-player
+            .progress-wrapper
+                    margin-left: gem(40)
+        .audio-card
+            .info-block
+                margin-left: 0
+        .upload
+            width: gem(420)
+        .docs-card
+            margin-right: 0
+            width: gem(295)
+        .docs-list
+            justify-content: space-between

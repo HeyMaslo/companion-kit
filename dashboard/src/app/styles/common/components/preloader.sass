@@ -1,0 +1,52 @@
+.preloader-wrap
+    width: 100%
+    height: 100%
+    position: fixed
+    left: 0
+    top: 0
+    z-index: var(--z-index-preloader)
+    background-color: $color-bg-main
+    opacity: 0.7
+    display: flex
+    justify-content: center
+    align-items: center
+    &.overlay
+        opacity: 0.7
+
+.preloader 
+	width: gem(80)
+	height: gem(80)
+
+.spinner 
+    animation: 2s linear infinite svg-animation
+    max-width: gem(80)
+    circle 
+        animation: 1.6s ease infinite both circle-animation
+        display: block
+        fill: transparent
+        stroke: $color-preloader-spinner-bg
+        stroke-linecap: round
+        stroke-dasharray: 283
+        stroke-dashoffset: 280
+        stroke-width: 5px
+        transform-origin: 50% 50%
+
+@keyframes svg-animation
+	0% 
+		transform: rotateZ(0deg)
+	100% 
+		transform: rotateZ(360deg)
+
+@keyframes circle-animation 
+	0%,
+	25% 
+		stroke-dashoffset: 280
+		transform: rotate(0)
+	50%,
+	75% 
+		stroke-dashoffset: 75
+		transform: rotate(45deg)
+	100% 
+		stroke-dashoffset: 280
+		transform: rotate(360deg)
+	

@@ -1,0 +1,126 @@
+.pricing-item-tooltip
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: gem(60)
+    display: flex
+    align-items: center
+    justify-content: center
+    text-align: center
+    text-transform: uppercase
+    pointer-events: none
+    background: $color-input-border-blue-bg
+    z-index: 1
+    &.current-plan
+        background: $color-pricing-tooltip--current-plan
+    &.clients-limit
+        background: $color-input-border-blue-bg
+        .checked-icon
+            display: none
+    .input-label
+        margin-top: gem(3)
+    .checked-icon
+        width: gem(12)
+        height: auto
+        margin: 0 gem(16) 0 0
+
+.pricing-item
+    position: relative
+    display: inline-flex
+    width: gem(298)
+    height: gem(324)
+    border-radius: gem(4)
+    border: 1px solid $color-plan-card-border
+    transition: all 300ms ease
+    flex-shrink: 1
+    cursor: pointer
+    overflow: hidden
+    &.disabled
+        pointer-events: none
+    &:hover
+        background-color: $color-plan-card-bg--hover
+        .radio-button-circle
+            opacity: 1 !important
+        .pricing-item-title,
+        .pricing-item-price,
+            color: $color-pricing-item-title !important
+        .pricing-item-subtitle,
+        .pricing-item-client-limit
+            color: $color-pricing-item-subtitle !important
+    &.checked
+        background-color: $color-plan-card-bg--hover
+        border: 1px solid $color-plan-card-border--checked
+        .radio-button-circle
+            background: $color-radio-button-circle--checked
+            border: 1px solid $color-radio-button-circle-border--checked
+            &:after
+                background: $color-radio-button-circle-border--checked
+                opacity: 1
+    &.not-checked
+        .radio-button-circle
+            opacity: 0.5
+        .pricing-item-title,
+        .pricing-item-price,
+            color: $color-plan-card-title--notchecked
+        .pricing-item-subtitle,
+        .pricing-item-client-limit
+            color: $color-plan-card-subtitle--notchecked
+    .radio-button-circle
+        position: absolute
+        top: gem(37)
+        left: gem(31)
+        display: inline-flex
+        align-items: center
+        justify-content: center
+        width: gem(18)
+        height: gem(18)
+        margin-right: 0
+        border-radius: 50%
+        background: $color-plan-radio-button-bg
+        border: 1px solid $color-plan-radio-button-border
+        transition: all 200ms ease
+        &:after
+            position: absolute
+            content: ''
+            width: gem(8)
+            height: gem(8)
+            border-radius: 50%
+            background: $color-plan-radio-button-border
+            transition: opacity 200ms ease
+            opacity: 0
+
+.pricing-items-wrap
+    .radio-buttons-group.not-selected
+        .pricing-item.not-checked
+            .pricing-item-title,
+            .pricing-item-price
+                color: $color-pricing-item-title
+            .pricing-item-client-limit,
+            .pricing-item-subtitle,
+                color: $color-pricing-item-subtitle
+
+.pricing-item-content
+    display: inline-flex
+    flex-direction: column
+    align-items: flex-start
+    justify-content: flex-start
+    width: 100%
+    padding: gem(104) gem(32) gem(40) gem(32)
+
+.pricing-item-title
+    margin-bottom: gem(8)
+    text-transform: capitalize
+    transition: all 200ms ease
+.pricing-item-subtitle
+    margin-bottom: gem(72)
+    transition: all 200ms ease
+
+.pricing-item-price
+    margin-bottom: gem(-3)
+    transition: all 200ms ease
+    .period
+        font-size: 50%
+
+.pricing-item-client-limit
+    transition: all 200ms ease

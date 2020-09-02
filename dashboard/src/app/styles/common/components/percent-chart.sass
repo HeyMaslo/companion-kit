@@ -1,0 +1,21 @@
+.percent-chart
+    background: $color-percent-chart-bg
+    border: 1px solid $color-chart-border
+    border-radius: gem(5)
+    display: inline-flex
+    position: relative
+    .tooltip
+        display: none
+        padding: gem(10)
+        border-radius: gem(5)
+        background: $color-percent-chart-bg
+        border: 1px solid $color-chart-border
+        position: absolute
+        top: 0
+        right: 0
+    &:hover
+        .tooltip
+            display: inline-block
+    svg
+        width: 100%
+        height: auto

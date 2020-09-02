@@ -1,0 +1,99 @@
+
+.text-page
+    overflow-y: initial
+    padding: gem(100) 0
+    height: auto
+    &.privacy-page
+        .container
+            h6
+                margin-bottom: gem(25)
+    .container
+        overflow-x: hidden
+        padding-top: gem(17)
+        > div
+            width: gem(960)
+            min-width: gem(960)
+        p
+            @extend .desc-1
+            line-height: gem(30)
+            padding-bottom: gem(15)
+        li, a, span
+            @extend .desc-1
+            line-height: gem(30)
+        h1, h2, h3, h4, 
+            color: $color-text-page-h1
+        h1
+            @extend .title-h1
+        h2
+            @extend .title-h6
+            font-size: gem(30)
+            padding-top: gem(48)
+            margin-bottom: gem(20)
+        h3
+            @extend .desc-2
+            padding-top: gem(53)
+            margin-bottom: gem(24)
+        h4
+            @extend .desc-3
+            padding-top: gem(45)
+            padding-bottom: gem(5)
+            font-weight: 400
+        h5
+            @extend .title-h5
+            margin-top: gem(37)
+            text-transform: capitalize
+            margin-bottom: gem(20)
+            &:first-of-type
+                margin-top: 0
+        h6
+            @extend .title-h6
+            margin: gem(5) 0 gem(74)
+        br
+            display: none
+        ul
+            padding-bottom: gem(42)
+            &:last-child
+                list-style: none
+                li
+                    padding: 0
+                    &:before
+                        display: none
+            li
+                position: relative
+                padding-left: gem(40)
+                &:before
+                    display: flex
+                    align-items: center
+                    content: '-'
+                    position: absolute
+                    left: gem(25)
+                    top: gem(13)
+                    height: 1px
+        strong
+            color: $color-text-page-h1
+            font-weight: 300
+        em
+            font-style: normal
+            color: $color-text-page-em
+        a
+            color: $color-text-page-link
+        hr
+            border: none
+            margin-block-start: gem(32)
+            margin-block-end: gem(32)
+
+@media only screen and (max-width: 768px)
+
+    .text-page
+        .container
+            > div
+                width: 100%
+                min-width: 100%
+            ul
+                padding-left: gem(20)
+                li
+                    padding-left: 0
+                    &:not(:last-child)
+                        margin-bottom: gem(10)
+                    &:before
+                        left: gem(-15)

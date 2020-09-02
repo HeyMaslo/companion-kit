@@ -1,0 +1,129 @@
+.modal-base
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    height: 100%
+    width: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    z-index: var(--z-index-modal)
+    .layer
+        position: absolute
+        height: 100%
+        width: 100%
+        top: 0
+        left: 0
+        background-color: $color-modal-bg
+        z-index: -1
+        cursor: pointer
+    .content
+        width: gem(720)
+        border-radius: gem(8)
+        background-color: $color-modal-content
+    .head-content
+        display: flex
+        align-items: center
+        justify-content: space-between
+        padding: gem(24) gem(40) gem(17)
+        border-bottom: 1px solid $color-modal-divider
+        box-sizing: border-box
+    .close-cross
+        width: gem(20)
+        height: gem(20)
+        span
+            display: flex
+            width: 100%
+        img
+            width: 100%
+    .inner-content
+        display: flex
+        flex-direction: column
+        padding: gem(32) gem(40) gem(40)
+        box-sizing: border-box
+        .input-wrap
+            width: 100%
+            .input
+                width: 100%
+                box-sizing: border-box
+            &:not(:last-child)
+                margin-bottom: gem(27)
+    .buttons
+        display: flex
+        justify-content: space-between
+        padding: gem(24) gem(40)
+        // what is border?
+        border-top: 1px solid $color-modal-divider
+        .btn
+            width: auto
+    .row
+        display: flex
+        margin-bottom: gem(25)
+        &:last-child
+            margin-bottom: 0
+    &.prompts-modal
+        .input-placeholder
+            padding-right: gem(140)
+        .select
+            .list
+                max-height: gem(167)
+                overflow-y: scroll
+        &.schedule-prompt
+            .inner-content
+                flex-direction: row
+            .input-wrap:not(:last-child)
+                margin-bottom: 0
+                margin-right: gem(24)
+    &.tips-modal
+        .inner-content
+            padding-bottom: gem(16)
+        .select-wrap
+            margin-bottom: gem(32)
+    &.timetracking-modal
+        .select-wrap
+            margin-right: gem(20)
+        .select-wrap-activity
+            width: gem(280)
+        .select-wrap-diagnosis
+            width: gem(200)
+        .minutes-input
+            width: gem(120)
+            .input-placeholder
+                padding-right: gem(14)
+        .checkbox-wrap
+            margin-top: gem(12)
+    &.report-modal
+        .inner-content
+            padding-bottom: gem(32)
+        .row
+            &:first-child
+                margin-bottom: gem(36)
+        .datepicker-wrap
+            width: gem(308)
+            &:not(:last-child)
+                margin-right: gem(23)
+                margin-bottom: 0
+        .btn-type2
+            &:not(:last-child)
+                margin-right: gem(8)
+        &-result
+            .content
+                margin-top: gem(50)
+            .inner-content
+                padding-bottom: gem(40)
+            .report-data-wrap
+                display: flex
+                height: gem(360)
+                textarea
+                    height: 100%
+                    padding: gem(12) gem(20)
+                    line-height: gem(24)
+                    color: $color-label-client-item-type1
+                    &:focus
+                        border-color: $color-input-border
+    &.goal-modal
+        .inner-content
+            padding-bottom: gem(32)
+

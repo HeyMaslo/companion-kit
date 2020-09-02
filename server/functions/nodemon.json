@@ -1,0 +1,12 @@
+{
+    "watch": [
+        "src",
+        "../firestore.rules",
+        "./.env",
+        "../../common"
+    ],
+    "ext": "ts",
+    "ignore": ["src/**/*.spec.ts"],
+    "delay": "500",
+    "signal": "SIGINT"
+}

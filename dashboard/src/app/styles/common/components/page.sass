@@ -1,0 +1,20 @@
+$header-height: gem(55)
+
+.page
+    height: calc(100vh - #{$header-height})
+    width: 100vw
+    background-color: $color-bg-main
+    padding-top: $header-height
+    overflow-y: auto
+    display: flex
+    flex-direction: column
+    .desc-1:not(.type1)
+        display: block
+        width: 100%
+    .scrollable
+        flex: 1
+        .page
+            background: unset
+            width: unset
+            height: unset
+            padding: 0

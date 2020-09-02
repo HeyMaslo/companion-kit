@@ -1,0 +1,111 @@
+.btn
+    width: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    outline: none
+    background-color: transparent
+    border: none
+    cursor: pointer
+    white-space: nowrap
+    user-select: none
+    &.text-type1
+        color: $color-btn-text-type1
+    &.green-bg
+        text-align: center
+        background-color: $color-btn-bg-type2
+        height: gem(60)
+        border-radius: gem(5)
+        transition: background-color 200ms ease
+        overflow: hidden
+        &:hover
+            background-color: $color-btn-bg-type2--hover
+        &:active
+            background-color: $color-btn-bg-type2--active
+    &.arrow-btn
+        .type4
+            &:after
+                opacity: 0
+        img
+            width: gem(21)
+            height: auto
+            margin: 0 0 gem(2) gem(8)
+            transition: transform 0.3s ease
+    &:hover
+        &.arrow-btn
+            img
+                transform: translate(gem(10),0)
+    &.google-btn
+        width: 100%
+        height: gem(60)
+        justify-content: center
+        align-items: center
+        text-align: center
+        border: 1px solid $color-google-btn-border
+        transition: background-color 200ms ease
+        background-color: $color-google-btn-bg
+        border-radius: gem(5)
+        overflow: hidden
+        &:hover
+            background-color: $color-google-btn-bg--hover
+        &:active
+            background-color: $color-google-btn-bg--active
+        img
+            width: gem(18)
+            height: auto
+        span
+            margin: gem(4) 0 0 gem(16)
+    &.hasicon-btn
+        display: inline-flex
+        justify-content: flex-start
+        align-items: center
+        width: auto
+        img
+            width: gem(14)
+            height: auto
+        .label-btn3
+            margin: gem(3) 0 0 gem(23)
+    &.btn-type2
+        width: auto
+        padding: gem(9) gem(12) gem(10)
+        border-radius: gem(4)
+        background: $color-btn-type2-bg
+        color: $color-btn-type2-text
+        transition: background 200ms ease
+        &:hover
+            background: $color-btn-type2-bg--hover
+        &:active
+            background: $color-btn-type2-bg--active
+    &.btn-type3
+        display: flex
+        justify-content: center
+        align-items: center
+        height: gem(40)
+        border-radius: gem(5)
+        background-color: $color-sessions-tab-upload-bg
+        border: 1px dashed $color-sessions-tab-upload-border
+        margin-bottom: gem(15)
+        overflow: hidden
+        cursor: pointer
+        z-index: 10
+        position: relative
+        img
+            width: gem(16)
+            margin-right: gem(8)
+            margin-left: gem(4)
+
+.label-btn
+    &1, &2, &3, &4
+        cursor: pointer
+
+@media only screen and (max-width: 480px)
+
+    .btn
+        &.green-bg
+            height: gem(44)
+        &.google-btn
+            height: gem(44)
+            img
+                width: gem(16)
+            span
+                margin-left: gem(12)

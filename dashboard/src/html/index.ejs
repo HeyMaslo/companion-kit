@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%
+	const { URL } = require('url');
+
+	const page = htmlWebpackPlugin.options && htmlWebpackPlugin.options.page;
+	const Hostname = htmlWebpackPlugin.options && htmlWebpackPlugin.options.Hostname;
+
+	const title = page.title;
+	const description = page.description;
+	const og_image_url = require('assets/img/og-image/' + page.ogImage)
+	const og_image = new URL(og_image_url, Hostname).href;
+	const site_name = title;
+	const fbAppId = page.fbAppId;
+	const twitter_name = page.twitterName;
+	const favicons = page.favicons;
+	const inludeStripe = page.inludeStripe;
+	const includeMailchimpSignupForm = page.includeMailchimpSignupForm;
+%>
+
+<head>
+	<meta charset="utf-8">
+
+	<title><%= title %></title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no">
+
+	<meta property="fb:app_id" content="<%= fbAppId %>" />
+	<meta property="og:url" content="<%= Hostname %>">
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="<%= title %>">
+	<meta property="og:description" content="<%= description %>">
+	<meta property="og:image" content="<%= og_image %>">
+	<meta property="og:image:width" content="1200">
+	<meta property="og:image:height" content="630">
+	<meta property="og:image:alt" content="<%= description %>">
+	<meta property="og:site_name" content="<%= site_name %>">
+
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="<%= twitter_name %>">
+	<meta name="twitter:title" content="<%= site_name %>">
+	<meta name="twitter:description" content="<%= description %>">
+	<meta name="twitter:image" content="<%= og_image %>">
+	<meta name="twitter:creator" content="<%= twitter_name %>">
+
+<% favicons.forEach(icon => {
+	const href = require(`assets/img/favicon/${icon.path}`);
+	const sizes = icon.sizes ? icon.sizes : '';
+	const rel = icon.rel;
+	const type = icon.type ? icon.type : '';
+	const color = icon.color ? icon.color : '';
+%>
+	<link rel="<%= rel %>" href="<%= href %>" type="<%= type %>" sizes="<%= sizes %>"  color="<%= color %>">
+<% }) %>
+
+		<!-- <link href="https://fonts.googleapis.com/css?family=Cutive+Mono|Open+Sans:400,700" rel="stylesheet"> -->
+	</head>
+	<body>
+		<div id="root"></div>
+		<% if(includeMailchimpSignupForm){ %>
+			<div class="hidden">
+				<!-- Begin Mailchimp Signup Form -->
+				<form action="https://maslo.us15.list-manage.com/subscribe/post?u=f0240fe9ce9d96c3853c2e892&amp;id=d5acc975a1" style="display: none" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+					<div id="mc_embed_signup_scroll">
+						<!-- <div class="desc-3 indicates-required"><span class="asterisk">*</span> indicates required</div> -->
+						<div class="mc-field-group">
+							<label for="mce-FNAME" class="label-btn4 white">
+								First Name&nbsp;
+								<!-- <span class="asterisk">*</span> -->
+							</label>
+							<input type="text" value="" name="FNAME" class="desc-3 white required" id="mce-FNAME" placeholder="Your First Name"></input>
+						</div>
+						<div class="mc-field-group">
+							<label for="mce-LNAME" class="label-btn4 white">
+								Last Name&nbsp;
+								<!-- <span class="asterisk">*</span> -->
+							</label>
+							<input type="text" value="" name="LNAME" class="desc-3 white required" id="mce-LNAME" placeholder="Your Last Name"></input>
+						</div>
+						<div class="mc-field-group">
+							<label for="mce-COMPANY"class="label-btn4 white">
+								Company Name&nbsp;
+								<!-- <span class="asterisk">*</span> -->
+							</label>
+							<input type="text" name="COMPANY" class="desc-3 white required" id="mce-COMPANY" placeholder="Your Company Name"></input>
+						</div>
+						<div class="mc-field-group">
+							<label for="mce-EMAIL" class="label-btn4 white">
+								Work E-mail&nbsp;
+								<!-- <span class="asterisk">*</span> -->
+							</label>
+							<input type="email" value="" name="EMAIL" class="desc-3 white required email" id="mce-EMAIL" placeholder="Your Work E-mail"></input>
+						</div>
+						<div class="mc-field-group size1of2">
+							<label for="mce-PHONE" class="label-btn4 white">Phone</label>
+							<span class="label-draganddrop moody-blue optional">Optional</span>
+							<div class="desc-3 gigas phonefield phonefield-us">
+								(<span class="phonearea">
+									<input class="desc-3 white phonepart" pattern="[0-9]*" id="mce-PHONE-area" name="PHONE[area]" maxlength="3" size="3" value="" type="text" placeholder="###"></input>
+									<div class="phonefield-border"></div>
+								</span>)&nbsp;-&nbsp;
+								<span class="phonedetail1">
+									<input class="desc-3 white phonepart" pattern="[0-9]*" id="mce-PHONE-detail1" name="PHONE[detail1]" maxlength="3" size="3" value="" type="text" placeholder="###"></input>
+									<div class="phonefield-border"></div>
+								</span>&nbsp;-&nbsp;
+								<span class="phonedetail2">
+									<input class="desc-3 white phonepart" pattern="[0-9]*" id="mce-PHONE-detail2" name="PHONE[detail2]" maxlength="4" size="4" value="" type="text" placeholder="####"></input>
+									<div class="phonefield-border"></div>
+								</span>
+							</div>
+						</div>
+						<div class="mc-field-group">
+							<label for="mce-CCOUNT" class="label-btn4 white">
+								Number of seats&nbsp;
+								<!-- <span class="asterisk">*</span> -->
+							</label>
+							<select name="CCOUNT" class="desc-3 white required" id="mce-CCOUNT">
+								<option value="" hidden>Select Number of Clients</option>
+								<option value="25-50 Clients">25-50 clients</option>
+								<option value="51-100">51-100 clients</option>
+								<option value="Over 100">100+ clients</option>
+							</select>
+							<img class="dropdown-arrow" src="../assets/img/dropdown-arrow.svg" alt="arrow">
+						</div>
+						<div id="mce-responses" class="clear">
+							<div class="input-error-message response" id="mce-error-response" style="display:none">.</div>
+							<div class="input-error-message response" id="mce-success-response" style="display:none">.</div>
+						</div>
+						<div style="position: absolute; left: -5000px;" aria-hidden="true">
+							<input type="text" name="b_f0240fe9ce9d96c3853c2e892_d5acc975a1" tabindex="-1" value=""></input>
+						</div>
+						<div class="modal-enterprise-footer">
+							<div class="clear btn arrow-btn">
+								<input type="submit" value="Send a request" name="subscribe" id="mc-embedded-subscribe" class="label-btn4 button"></input>
+								<img src="../assets/img/cyan-arrow.svg" alt="arrow">
+							</div>
+						</div>
+					</div>
+				</form>
+				<!--End mc_embed_signup-->
+			</div>
+		<% } %>
+	</body>
+	<% if(inludeStripe){ %>
+		<script src="https://js.stripe.com/v3/"></script>
+	<% } %>
+	<% if(includeMailchimpSignupForm){ %>
+		<script src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script>
+		<script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[6]='COMPANY';ftypes[6]='text';fnames[4]='PHONE';ftypes[4]='phone';fnames[3]='CCOUNT';ftypes[3]='dropdown';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+	<% } %>
+</html>

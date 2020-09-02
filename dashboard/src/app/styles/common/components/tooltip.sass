@@ -1,0 +1,112 @@
+.tooltip
+    position: relative
+    display: inline-flex
+    align-items: center
+    &.large
+        .tooltip-circle
+            width: gem(20)
+            height: gem(20)
+
+.tooltip-trigger 
+    display: inline-block
+    &.white
+        .tooltip-circle
+            background-color: transparent
+            border: 1px solid $color-plan-card-border
+
+.tooltip-bubble
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    width: max-content
+    // max-width: gem(535)
+    // min-width: gem(120)
+    width: gem(324)
+    position: absolute
+    z-index: 5
+    background-color: $color-tooltip-bg
+    border-radius: 5px
+    padding: gem(24) gem(32) gem(24) gem(32)
+    box-sizing: border-box
+    &::after 
+        content: ''
+        position: absolute
+
+.tooltip-bottom
+    top: calc(100% + #{gem(17)})
+    left: 0
+    transform: translateX(gem(-33))
+    &::after
+        border-left: gem(9) solid transparent
+        border-right: gem(9) solid transparent
+        border-bottom: gem(9) solid $color-tooltip-bg
+        top: gem(-6)
+        left: gem(32)
+
+.tooltip-top
+    bottom: 100%
+    left: 50%
+    transform: translateX(-50%)
+    &::after
+        border-left: gem(9) solid transparent
+        border-right: gem(9) solid transparent
+        border-top: gem(9) solid $color-tooltip-bg
+        bottom: gem(1)
+        left: 50%
+        transform: translateX(-50%) translateY(100%)
+
+.tooltip-left
+    top: calc(100% + #{gem(9)})
+    right: 0
+    transform: translateX(gem(13))
+    &::after
+        border-left: gem(9) solid transparent
+        border-right: gem(9) solid transparent
+        border-bottom: gem(9) solid $color-tooltip-bg
+        top: gem(-6)
+        right: gem(12)
+
+.tooltip-right
+    top: 50%
+    left: 100%
+    padding-left: gem(9)
+    transform: translateY(-50%)
+    &::after
+        border-right: gem(9) solid $color-tooltip-bg
+        border-top: gem(9) solid transparent
+        border-bottom: gem(9) solid transparent
+        top: 50%
+        left: 0
+        transform: translateY(-50%)
+
+.tooltip-bottom-center
+    top: calc(100% + #{gem(17)})
+    left: 50%
+    transform: translateX(-50%)
+    &::after
+        border-left: gem(9) solid transparent
+        border-right: gem(9) solid transparent
+        border-bottom: gem(9) solid $color-tooltip-bg
+        top: gem(-6)
+        left: 50%
+        transform: translateX(-50%)
+
+.tooltip-circle
+    width: gem(14)
+    height: gem(14)
+    display: flex
+    align-items: center
+    justify-content: center
+    background-color: $color-tooltip-circle-bg
+    border: 1px solid $color-tooltip-circle-border
+    border-radius: 50%
+    img
+        width: gem(5)
+        height: auto
+
+.tooltip-title
+    text-transform: uppercase
+    margin-bottom: gem(10)
+
+.tooltip-message
+    max-width: gem(464)

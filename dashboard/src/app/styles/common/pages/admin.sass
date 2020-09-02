@@ -1,0 +1,107 @@
+
+.admin-page
+    .container
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        margin: gem(45) auto gem(86)
+    .input-wrap
+        width: 100%
+        .input
+            width: 100%
+            // font-family: monospace, monospace
+            box-sizing: border-box
+        input:focus
+            color: $color-admin-page-input-label
+        .input-label
+            color: $color-admin-page-input-label
+    .submit
+        .label-btn4
+            color: $color-admin-page-submit-label-btn4
+    .tab-controls
+        margin-bottom: gem(50)
+    .label-tabs
+        cursor: pointer
+        margin-right: gem(100)
+        color: $color-label-btn4-default
+        &.black
+            color: $color-admin-page-input-label
+        &:hover
+            color: $color-label-btn3-default
+        &.active
+            color: $color-label-btn3-default
+    .raw-query
+        margin-top: 0
+        .title-h6
+            margin-bottom: gem(20)
+        .input-block
+            width: 100%
+            display: flex
+            .btn
+                width: auto
+                margin-top: gem(20)
+        .input-wrap
+            width: gem(320)
+            margin: 0
+            margin-right: gem(20)
+        .output
+            overflow-x: auto
+            width: 100%
+            font-family: monospace, monospace
+            font-size: gem(16)
+            color: $color-admin-page-input-label
+            white-space: pre
+            table
+                border-collapse: collapse
+                margin-right: gem(20)
+                thead
+                    th
+                        font-weight: bold
+                        padding: gem(10)
+                td, th
+                    border: 1px solid white
+                td
+                    padding: gem(10)
+                    max-width: gem(230)
+                    white-space: pre
+                    overflow: scroll
+        .output-label
+            .input-label
+                color: $color-admin-page-input-label
+    .analytics
+        color: $color-admin-page-analytics
+        font-size: gem(16)
+        table
+            border-collapse: collapse
+            thead
+                td
+                    font-weight: bold
+            td, th
+                border: 1px solid white
+            td
+                padding: gem(10)
+        .range-selector
+            display: flex
+            flex-direction: row
+            margin: gem(10) 0 gem(10) 0
+            .datepicker-wrap
+                width: gem(250)
+                margin-right: gem(20)
+            .btn
+                margin: gem(20) gem(15) 0
+                width: auto
+    .admin-search
+        .input-wrap
+            margin-bottom: gem(30)
+        .btn
+            width: auto
+        .result
+            margin-top: gem(50)
+
+
+
+
+
+
+
+

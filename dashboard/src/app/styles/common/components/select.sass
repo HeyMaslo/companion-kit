@@ -1,0 +1,218 @@
+.select-wrap
+    position: relative
+    display: flex
+    flex-direction: column
+    .input-label
+        padding-left: gem(2)
+        padding-bottom: gem(7)
+    .input-error
+        display: block
+        position: absolute
+        // bottom: gem(-20)
+        top: gem(81)
+        left: gem(5)
+.select
+    position: relative
+    padding: gem(13) gem(24) gem(13) gem(20)
+    border-top-left-radius: gem(5)
+    border-top-right-radius: gem(5)
+    transition: border .3s ease-in
+    .button
+        text-transform: capitalize
+        cursor: pointer
+        transition: color .3s ease-in
+        &.placeholder
+            color: $color-input-placeholder
+    .list
+        width: 100%
+        opacity: 0
+        transition: opacity .3s ease-in
+        position: absolute
+        top: gem(45)
+        right: gem(5)
+        display: flex
+        flex-direction: column
+        text-align: left
+        pointer-events: none
+    li
+        cursor: pointer
+        width: -webkit-fill-available
+        padding: gem(17) gem(13) gem(19) gem(23)
+        &:nth-child(odd)
+            background: $color-select-item-odd
+        &:nth-child(even)
+            background: $color-select-item-even
+        &:first-child
+            border-top-left-radius: gem(5)
+            border-top-right-radius: gem(5)
+        &:last-child
+            border-bottom-left-radius: gem(5)
+            border-bottom-right-radius: gem(5)
+    .button-wrap
+        display: flex
+        align-items: center
+        justify-content: flex-end
+    .triangle
+        width: 0
+        height: 0
+        border: gem(2.7) solid $color-select-triangle
+        border-right-color: transparent
+        border-top-color: transparent
+        transform-origin: 25% 75%
+        transform: rotate(-45deg)
+        transition: transform .25s ease-in, background .25s ease-in
+        margin-left: gem(11)
+        margin-top: gem(-3)
+        cursor: pointer
+    &.select-type2
+        padding: gem(14) gem(20) gem(14)
+        color: $color-input-placeholder
+        background-color: transparent
+        border: 1px solid $color-input-border
+        border-radius: gem(5)
+        .button
+            width: 100%
+            color: $color-select-type2-button
+            &.placeholder
+                color: $color-input-placeholder
+            &:after
+                display: none
+        .list
+            top: gem(50)
+            right: 0
+            z-index: 1
+        .triangle
+            border-color: $color-select-triangle--type2
+            border-right-color: transparent
+            border-top-color: transparent
+    &.white-bg
+        .button-wrap
+            .label-dropdown3
+                color: $color-label-dropdown3-type1
+        .list
+            top: gem(25)
+            right: gem(6)
+        li
+            min-width: gem(125)
+            padding: gem(14) gem(18) gem(12)
+    &.active
+        border-color: $color-input-border--focus
+        .list
+            opacity: 1
+            pointer-events: all
+        .triangle
+            transform: rotate(135deg)
+    &.disabled
+        background: $color-select--disabled-bg
+        cursor: default
+        pointer-events: none
+    .input-label
+        position: absolute
+        top: 0
+        display: block
+        padding-left: gem(25)
+        padding-bottom: gem(12)
+        color: $color-select-input-placeholder
+    &.date-status
+        li
+            min-width: gem(164)
+    &.error
+        border-color: $color-input-border--error
+        &:hover,
+        &:focus:hover
+            border-color: $color-input-border--error
+    &.multiselect
+        padding: 0
+        .css-yk16xz-control,
+        .css-1pahdxg-control
+            height: 100%
+            min-height: unset
+            border: none
+            background: none
+            box-shadow: none
+            padding: gem(6) gem(20) gem(6) gem(10)
+        &.error
+            .css-yk16xz-control,
+            .css-1pahdxg-control
+                border-color: $color-input-border--error
+                &:hover,
+                &:focus:hover
+                    border-color: $color-input-border--error
+                .css-1hwfws3
+                    font-size: initial
+        .css-g1d714-ValueContainer,
+        .multiselect__value-container
+            height: 100%
+            padding: 0
+            font-size: initial
+        .css-1wa3eu0-placeholder,
+        .css-12jo7m5
+            margin-left: gem(11)
+            font-family: var(--main-font)
+            font-size: var(--font-size-client-item)
+            font-weight: var(--font-weight-3)
+            letter-spacing: var(--letter-spacing)
+            line-height: gem(32)
+            color: $color-input-placeholder
+        .css-b8ldur-Input
+            // position: absolute
+            // visibility: hidden
+            margin: 0
+            margin-left: gem(11)
+            font-family: var(--main-font)
+            font-size: var(--font-size-client-item)
+            font-weight: var(--font-weight-3)
+            letter-spacing: var(--letter-spacing)
+            line-height: gem(32)
+        .css-1okebmr-indicatorSeparator
+            width: gem(1)
+            margin-right: gem(11)
+            margin-left: gem(11)
+            margin-top: gem(12)
+            margin-bottom: gem(12)
+            background: $color-multiselect-type2-separator
+        .css-tlfecz-indicatorContainer,
+        .css-1gtu0rj-indicatorContainer
+            width: gem(15)
+            margin-top: gem(-1)
+            margin-right: gem(-3)
+            padding: 0
+            svg
+                display: block
+                width: 100%
+                cursor: pointer
+        .css-26l3qy-menu>div
+            div
+                padding: gem(11) gem(19)
+                font-family: var(--main-font)
+                font-size: var(--font-size-desc3)
+                font-weight: var(--font-weight-3)
+                letter-spacing: var(--letter-spacing)
+                line-height: normal
+                color: $color-select-type2-button
+                cursor: pointer
+        .css-1n7v3ny-option
+            background: $color-multiselect-list--selected
+        .css-1rhbuit-multiValue
+            margin: 0
+            margin-right: gem(4)
+            border-radius: gem(4) 
+            background: $color-multiselect--selected-bg
+            div:first-child
+                margin: 0
+                padding: gem(8) gem(7) gem(8) gem(12)
+                padding-left: gem(12)
+                font-family: var(--main-font)
+                font-size: var(--font-size-label-tag)
+                font-weight: var(--font-weight-3)
+                letter-spacing: var(--letter-spacing)
+                line-height: var(--line-height-label-tabs)
+                color: $color-multiselect--selected
+            div:last-child
+                padding-left: 0
+                padding-right: gem(8)
+                border-radius: 0
+                cursor: pointer
+                &:hover
+                    color: $color-multiselect--selected
+                    background: $color-multiselect--selected-bg

@@ -1,0 +1,107 @@
+.gradient-chart
+    z-index: var(--z-index-gradchart)
+    // position: sticky
+    // top: gem(12)
+    height: gem(64)
+    position: relative
+    // pointer-events: none
+    &.no-data
+        .content
+            display: none
+        .mood-point
+            fill: $color-gradient-chart-no-data-mood-point
+        .bg-path
+            // fill: $color-gradient-chart-no-data-bg
+    svg
+        height: auto
+        overflow: visible
+        pointer-events: none
+    .content
+        position: absolute
+        // min-height: gem(62)
+        // min-height: gem(44)
+        height: gem(64)
+        width: 100%
+        z-index: 1
+        // transform: translateY(-102%)
+    .text-item
+        display: flex
+        flex-direction: column
+        align-items: center
+        position: absolute
+        transform: translateX(-50%) translateY(-50%)
+        cursor: pointer
+        span
+            text-transform: uppercase
+            white-space: nowrap
+            &:first-child
+                color: $color-gradient-chart-text
+                font-weight: 500
+                font-size: gem(12)
+                line-height: gem(16)
+                letter-spacing: 0.1em
+                margin-bottom: gem(5)
+            &:last-child
+                font-weight: 500
+                font-size: gem(10)
+                line-height: gem(12)
+                letter-spacing: 0.05em
+                color: $color-gradient-chart-text-last-child
+    .tooltip
+        .tooltip-circle
+            width: gem(16)
+            height: gem(16)
+            background: transparent
+            border: none
+            img
+                display: none
+        .tooltip-bubble
+            width: auto
+            bottom: gem(24)
+            align-items: center
+            padding: gem(12) gem(20) gem(12)
+
+
+.stick-chart
+    .content
+        position: relative
+        min-height: gem(80)
+        width: 100%
+    .chart-element 
+        display: flex
+        flex-direction: column
+        text-align: center
+        position: absolute
+        align-items: center
+        bottom: gem(-22)
+        .line
+            height: gem(80)
+            width: gem(1)
+            border-right: gem(1) dashed white
+            margin-bottom: gem(12)
+            transition: height 0.25s ease-in
+        .dot
+            min-height: gem(8)
+            min-width: gem(8)
+            max-height: gem(8)
+            max-width: gem(8)
+            border: 2px solid $color-stick-chart-dot-border
+            border-radius: 50%
+            transform: translateY(50%)
+            background-color: $color-stick-chart-dot-bg
+            position: sticky
+            top: gem(65)
+        &.extra
+            .line
+                height: gem(136)
+        // until styleguide
+        span
+            color: $color-gradient-chart-text
+            font-weight: 500
+            font-size: gem(10)
+            line-height: gem(12)
+            letter-spacing: 0.15em
+            text-transform: uppercase
+            white-space: nowrap
+        .label-2
+            color: $color-gradient-chart-label-2

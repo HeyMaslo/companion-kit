@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictBindCallApply": true,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "lib",
+    "target": "es2017",
+    "baseUrl": ".",
+    "paths": {
+      "common/*": ["../../common/*"],
+      "server/*": ["src/*"],
+      "*": [
+        "*",
+        "node_modules/*"
+      ]
+    },
+    "plugins": [{ "transform": "ts-nameof", "type": "raw" }]
+  },
+  "compileOnSave": true,
+  "include": [
+    "src/**/*"
+  ]
+}

@@ -1,0 +1,20 @@
+.scrollbarContainer
+    height: 100%
+    .scrollbar-track
+        width: 3px
+        // height: gem(366)
+        height: 60vh
+        position: absolute
+        right: 0
+        top: 0
+        &:before
+            content: ''
+            display: block
+            position: absolute
+            left: 1px
+            top: 0
+            width: 1px
+            height: 100%
+            background-color: $color-scrollbarContainer-track
+        .scrollbar-thumb
+            background-color: $color-scrollbarContainer-thumb

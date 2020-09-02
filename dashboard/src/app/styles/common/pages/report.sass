@@ -1,0 +1,85 @@
+.report-page
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    margin-top: gem(47)
+    overflow: visible
+    .filters-block
+        display: flex
+        flex-direction: column
+        width: gem(336)
+        padding: gem(32)
+        border-radius: gem(8)
+        background: $color-modal-content
+        box-sizing: border-box
+    .row
+        display: flex
+        flex-wrap: wrap
+    .datepicker-wrap
+        position: relative
+        width: 100%
+        margin-bottom: gem(22)
+        .input
+            width: 100%
+            box-sizing: border-box
+    .label-btn2
+        text-transform: none
+        font-weight: normal
+        letter-spacing: normal
+    .buttons-row
+        margin-bottom: gem(16)
+    .btn
+        padding: gem(9) gem(11) gem(8)
+        margin-bottom: gem(8)
+        &:not(:nth-child(3))
+            margin-right: gem(8)
+    .report-block
+        width: gem(760)
+        height: gem(364)
+        overflow: hidden
+        padding: gem(32)
+        border-radius: gem(8)
+        background: $color-modal-content
+        box-sizing: border-box
+    .report-wrap
+        position: relative
+        display: flex
+        // overflow-y: scroll
+        height: 100%
+        .input-wrap
+            width: 100%
+        .report-text,
+        .input
+            display: flex
+            white-space: pre-wrap
+            width: 100%
+            box-sizing: border-box
+            height: 100%
+            border: none
+            line-height: normal
+            padding: 0
+            color: $color-label-client-item-type1
+        .btn-wrap
+            position: absolute
+            top: gem(-14)
+            right: gem(21)
+            display: flex
+            margin: 0
+        .btn
+            width: gem(140)
+            padding: 0
+    .empty-data-message
+        display: flex
+        flex-direction: column
+        width: 100%
+        height: 100%
+        background: none
+        .empty-data-icon
+            width: gem(24)
+            display: block
+            margin-bottom: gem(14)
+        .desc-3 
+            margin-bottom: gem(4)
+        .label-btn2
+            cursor: default
+            font-weight: 300

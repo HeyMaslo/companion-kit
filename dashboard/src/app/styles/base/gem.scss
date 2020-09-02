@@ -1,0 +1,11 @@
+// regex to find rems: (-?(\d+\.)?\d+)rem
+// regex to find gem usages with css vars: (--.+: *)(gem\((-?(\d+\.)?\d+)\))
+
+$gem: --🚲;
+$var-gem: #{var(#{$gem})};
+$gem-coeff: 100;
+
+@function gem($size) {
+    // @return #{calc(#{$var-gem} * #{$size})};
+    @return #{#{$size / $gem-coeff}rem};
+}

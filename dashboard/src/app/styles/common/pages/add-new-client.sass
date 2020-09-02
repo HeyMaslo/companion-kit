@@ -1,0 +1,172 @@
+.page.add-new-client-page
+    overflow-y: initial
+    padding-top: gem(63)
+    height: calc(100vh - #{gem(63)})
+    .heading-container
+        display: flex
+        align-items: flex-start
+        padding-top: gem(12)
+        padding-bottom: gem(40)
+        .arrow-link
+            width: gem(20)
+            margin-right: gem(34)
+            margin-top: gem(12)
+            cursor: pointer
+            // transform: rotate(-180deg)
+            img
+                width: 100%
+                height: 100%
+        .text-block
+            margin-left: gem(-22)
+            .title
+                display: block
+                padding-bottom: gem(15)
+                &.windowsOS
+                    position: relative
+                    top: gem(-3)
+                span
+                    color: $color-add-client-title-span
+            .desc-1
+                width: auto
+                margin-left: gem(-2)
+    .form-container
+        background-color: $color-bg-scrollable
+        width: 100%
+        flex-grow: 1
+        .text-block
+            display: flex
+            margin-top: gem(55)
+            .desc-2
+                font-size: gem(24)
+                width: auto
+                .type3
+                    color: $color-gray
+            &+.inputs-wrap
+                margin-top: gem(33)
+        .inputs-wrap
+            position: relative
+            width: gem(1120)
+            min-width: gem(1120)
+            margin: gem(40) 0 0 auto
+            display: flex
+            flex-direction: row
+            flex-wrap: wrap
+            justify-content: space-between
+            align-items: flex-start
+            align-content: space-between
+        .row
+            display: flex
+            justify-content: space-between
+            width: 100%
+            &:not(:last-child)
+                margin-bottom: gem(32)
+        .input-wrap
+            width: auto
+            min-width: gem(360)
+            display: inline-flex
+            flex-direction: column
+            align-items: flex-start
+            justify-content: flex-start
+            &:not(:last-child)
+                margin-right: gem(20)
+            .react-datepicker-wrapper
+                width: 100%
+            input
+                width: 100%
+                font-size: gem(16)
+                line-height: gem(24)
+                padding: gem(12) gem(20) gem(12)
+                box-sizing: border-box
+            .input-label
+                font-size: gem(12)
+                line-height: gem(16)
+                padding-bottom: gem(5)
+        .label-desc
+            display: inline-flex
+            align-items: center
+            margin-left: gem(17)
+        textarea
+            font-size: gem(16)
+            width: 100%
+            max-width: gem(1085)
+            padding: gem(12) gem(20)
+            line-height: gem(24)
+            height: gem(24)
+        .btn-wrap
+            width: 100%
+            display: flex
+            align-items: center
+            justify-content: space-between
+            margin-top: gem(45)
+            .btn
+                width: auto
+                justify-content: flex-start
+        .error-wrap
+            display: flex
+            align-items: center
+            margin: gem(12) 0 0
+            order: 2
+    .bottom-wrap
+        display: flex
+        align-content: center
+        align-items: center
+        justify-content: flex-start
+        flex-wrap: wrap
+        margin-bottom: gem(48)
+    &.maslo
+        .form-container
+            .input-wrap
+                &.occupation
+                    width: gem(740)
+                &.notes
+                    width: 100%
+    &:not(.maslo)
+        .heading-container
+            flex: none
+        .form-container
+            .input-wrap
+                &.notes,
+                &.relationship
+                    width: gem(740)
+            textarea
+                max-width: none
+                box-sizing: border-box
+                height: gem(50)
+
+@media all and (max-width: 768px)
+    .page.add-new-client-page
+        .datepicker-wrap
+            .react-datepicker-wrapper
+                width: 100%
+        .form-container
+            .inputs-wrap
+                min-width: 100%
+                width: 100%
+            .row
+                flex-direction: column
+            .input-wrap
+                width: 100%
+                &:not(:last-child)
+                    margin-bottom: gem(36)
+                input
+                    width: 100%
+                    text-indent: gem(20)
+                    padding: gem(12) 0
+                    // &[name='email'],
+                    // &[placeholder='Position'],
+                    // &[placeholder='Father, Mother, Sister, Brother etc.']
+                    //     width: 100%
+            textarea
+                padding: gem(12) 0
+                text-indent: gem(20)
+        &:not(.maslo)
+            .form-container
+                .input-wrap
+                    &.notes,
+                    &.relationship
+                        width: 100%
+        &.maslo
+            .form-container
+                .input-wrap
+                    &.occupation
+                        width: 100%

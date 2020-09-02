@@ -1,0 +1,125 @@
+$progress-line-height: gem(3)
+
+.audio-player
+    display: flex
+    align-items: center
+    min-width: gem(567)
+    width: 100%
+    min-height: gem(20)
+    .duration,
+    .elapsed
+        display: flex
+        align-items: center
+    .play,
+    .pause
+        margin-right: gem(28)
+    .pause
+        rect
+            fill: $color-audio-player-pause
+    .title-block
+        display: flex
+        .play,
+        .pause
+            margin-right: gem(28)
+            margin-top: gem(5)
+        .pause
+            rect
+                fill: $color-audio-player-pause
+        .text-block
+            width: gem(364)
+            margin-right: gem(27)
+            pointer-events: none
+            .desc-3
+                display: block
+                line-height: gem(20)
+    .progress-wrapper
+        flex: 1
+        align-items: center
+        display: flex
+    .progress-bar
+        width: 100%
+        margin: 0 gem(10)
+        position: relative
+    .pseudo-line
+        position: absolute
+        top: 1px
+        z-index: 0
+        height: 1px
+        width: 100%
+        background-color: $color-audio-player-pseudo-line-bg
+    .progress-line
+        background-color: $color-audio-player-progress-line-bg
+        height: $progress-line-height
+        border-radius: gem(5)
+        position: relative
+    &.active
+        .progress-line:after
+            content: ''
+            height: gem(12)
+            width: gem(12)
+            border-radius: 50%
+            background-color: $color-audio-player-progress-line-bg
+            transform: translate(50%, -50%)
+            display: block
+            position: absolute
+            right: 0
+            top: calc(#{$progress-line-height} / 2)
+    .play
+        cursor: pointer
+        display: flex
+        width: gem(16)
+        height: gem(16)
+        svg
+            width: 100%
+            height: 100%
+    .pause
+        cursor: pointer
+        display: flex
+        width: gem(16)
+        height: gem(16)
+        svg
+            width: 100%
+            height: 100%
+    .event-handler
+        height: 100%
+        width: 100%
+        position: absolute
+        z-index: 10
+        left: 0
+        cursor: pointer
+        padding: gem(5) 0
+        transform: translateY(-50%)
+    .tooltip
+        position: absolute
+        bottom: gem(10)
+        display: none
+        transform: translateX(-50%)
+        pointer-events: none
+        padding: gem(6)
+        border-radius: gem(4)
+        background-color: $color-audio-player-tooltip-border
+        border: 1px solid black
+        font-size: gem(12)
+        line-height: gem(12)
+        &.active
+            display: block
+        &:after
+            content: ''
+            border: 1px solid black
+            border-top: none
+            border-right: none
+            height: gem(8)
+            width: gem(8)
+            position: absolute
+            transform: rotate(-45deg) translateX(-50%)
+            top: 73%
+            left: 50%
+            background: $color-audio-player-tooltip-border
+    .title-block .play,
+    .title-block .pause,
+    .title-block .desc-3,
+    .play,
+    .pause,
+    .progress-bar
+        z-index: 10
+        position: relative

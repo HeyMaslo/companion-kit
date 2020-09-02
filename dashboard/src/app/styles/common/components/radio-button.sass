@@ -1,0 +1,40 @@
+.radio-button
+    position: relative
+    display: inline-flex
+    align-items: center
+    cursor: pointer
+    user-select: none
+    &.checked
+        .radio-button-circle
+            background: $color-radio-button-circle--checked
+            border: 1px solid $color-radio-button-circle-border--checked
+            &:after
+                opacity: 1
+.radio-button-circle
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    width: gem(10)
+    height: gem(10)
+    margin-right: gem(8)
+    border-radius: 50%
+    background: $color-radio-button-circle-bg
+    border: 1px solid $color-radio-button-circle-border
+    transition: all 200ms ease
+    &:after
+        position: absolute
+        content: ''
+        width: gem(4)
+        height: gem(4)
+        border-radius: 50%
+        background: $color-radio-button-circle-border--checked
+        transition: opacity 200ms ease
+        opacity: 0
+.radio-button-text
+    font-family: Helvetica Neue, sans-serif
+    font-style: normal
+    font-weight: 300
+    font-size: gem(16)
+    line-height: gem(19)
+    color: $color-radio-button-text
+    text-transform: capitalize

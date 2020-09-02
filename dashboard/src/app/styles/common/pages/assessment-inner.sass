@@ -1,0 +1,169 @@
+.assessment-inner-page
+    min-height: calc(100vh - #{gem(103)})
+    height: max-content
+    overflow-y: unset
+    padding-top: gem(103)
+    outline: none
+    background: $color-bg-scrollable
+    & >.container
+        display: flex
+        flex-direction: column
+        height: 100%
+        height: -moz-available
+        height: -webkit-fill-available
+        height: fill-available
+    .heading-wrap
+        display: flex
+        justify-content: space-between
+        align-items: center
+        margin-bottom: gem(25)
+        .left-block
+            display: flex
+        .right-block
+            display: flex
+            flex-direction: column
+            align-items: flex-end
+        .arrow-link
+            margin-top: gem(4)
+            margin-right: gem(10)
+            cursor: pointer
+            img
+                width: gem(22)
+        .name-type-wrap
+            display: flex
+            align-items: center
+            margin-bottom: gem(10)
+        .assessment-type-copyright 
+            margin-left: gem(8)
+        .nav-wrap
+            display: flex
+            flex-direction: column
+        .breadcrumbs
+            letter-spacing: 0.05em
+        .last-breadcrumb
+            color: $color-phq9-last-breadcrumb
+        .deactivate-btn,
+        .send-now-btn
+            display: flex
+            cursor: pointer
+            .label-btn2
+                letter-spacing: 0.15em
+        .send-now-btn
+            margin-right: gem(25)
+        .date-sent-block
+            display: flex
+            justify-content: flex-end
+            margin-top: 0
+            margin-bottom: gem(14)
+            .desc-5
+                letter-spacing: 0
+        .action-block
+            display: flex
+    .assessment-inner-empty
+        margin-top: gem(-12)
+        flex: 1
+        .img-wrapper
+            width: gem(276)
+            margin-left: gem(30)
+            margin-top: gem(-30)
+        .wrapper
+            margin-right: gem(35)
+    .intake-form-list
+        display: flex
+        flex-wrap: wrap
+    .intake-form-card
+        position: relative
+        display: flex
+        flex-direction: column
+        width: gem(552)
+        height: gem(163)
+        margin-bottom: gem(16)
+        padding: gem(35) gem(24) gem(30)
+        border: 1px solid $color-docs-card-border
+        background: $color-phq9-card-bg
+        border-radius: gem(5)
+        box-sizing: border-box
+        cursor: pointer
+        &:nth-child(odd)
+            margin-right: gem(16)
+        .title-wrap
+            display: flex
+            justify-content: space-between
+        .result-wrap
+            display: flex
+        .score
+            margin-bottom: gem(12)
+        .depres-severity
+            position: relative
+            margin-right: gem(12)
+            color: $color-phq9-card-depres-severity
+            &:before
+                content: ''
+                display: inline-block
+                height: gem(6)
+                width: gem(6)
+                margin-right: gem(8)
+                margin-bottom: gem(1)
+                vertical-align: middle
+                border-radius: 50%
+                background: $color-phq9-card-severity--default
+            &.none-minimal
+                &:before
+                    background: $color-phq9-card-severity--none-minimal
+            &.mild
+                &:before
+                    background: $color-phq9-card-severity--mild
+            &.moderate
+                &:before
+                    background: $color-phq9-card-severity--moderate
+            &.moderately-severe
+                &:before
+                    background: $color-phq9-card-severity--moderately-severe
+            &.severe
+                &:before
+                    background: $color-phq9-card-severity--severe
+        &.PTSD
+            .minimal-ptsd-symptoms
+                &:before
+                    background: $color-phq9-card-severity--none-minimal
+            .mild-ptsd-symptoms
+                &:before
+                    background: $color-phq9-card-severity--mild
+            .moderate-ptsd-symptoms
+                &:before
+                    background: $color-phq9-card-severity--moderate
+            .potential-ptsd
+                &:before
+                    background: $color-phq9-card-severity--severe
+        &.GAD
+            .minimal-anxiety
+                &:before
+                    background: $color-phq9-card-severity--none-minimal
+            .mild-anxiety
+                &:before
+                    background: $color-phq9-card-severity--mild
+            .moderate-anxiety
+                &:before
+                    background: $color-phq9-card-severity--moderate
+            .severe-anxiety
+                &:before
+                    background: $color-phq9-card-severity--severe
+        &.Isolated,
+        &.Homeless
+            .no-need-identified
+                &:before
+                    background: $color-phq9-card-severity--none-minimal
+            .need-identified
+                &:before
+                    background: $color-phq9-card-severity--severe
+        .recommend
+            width: gem(483)
+            color: $color-phq9-card-recommend
+            line-height: gem(24)
+            overflow: hidden
+            text-overflow: ellipsis
+            display: -webkit-box
+            -webkit-line-clamp: 3
+            -webkit-box-orient: vertical
+        .date
+            color: $color-phq9-card-date

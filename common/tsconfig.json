@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+       "common/*": ["../common/*"],
+       "*": [
+         "*",
+         "../dashboard/node_modules/*",
+         "../mobile/node_modules/*",
+         "../server/functions/node_modules/*"
+       ]
+    }
+  }
+}

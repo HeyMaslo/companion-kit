@@ -1,0 +1,103 @@
+.timetracking-wrap
+    overflow: unset
+    margin-bottom: gem(60)
+.timetracking-tab
+    margin-top: gem(33)
+    .actions-block
+        display: flex
+        justify-content: space-between
+        margin-bottom: gem(19)
+    .add-button
+        display: flex
+        justify-content: center
+        align-items: center
+        width: 100%
+        height: gem(48)
+        border-radius: gem(5)
+        background-color: $color-sessions-tab-upload-bg
+        border: 1px dashed $color-sessions-tab-upload-border
+        overflow: hidden
+        cursor: pointer
+        z-index: 10
+        position: relative
+        svg,
+        img
+            width: gem(16)
+            margin-right: gem(16)
+            margin-left: gem(7)
+        .label-draganddrop
+            margin-top: gem(3)
+    .timetracking-list
+        display: flex
+        flex-direction: column
+        background: $color-timetracking-table-bg
+        border-radius: gem(5)
+        border: 1px solid $color-timetracking-table-border
+    .row
+        display: flex
+        transition: background 0.3s ease
+        &:not(:last-child)
+            .column
+                border-bottom: 1px solid $color-timetracking-table-border
+        &.timetracking-list-header
+            .column
+                padding-top: gem(18)
+                padding-bottom: gem(14)
+        &.timetracking-item
+            &:hover
+                background: $color-timetracking-table-bg--hover
+            .dropdown-wrap
+                display: flex
+                align-items: center
+                margin-left: gem(45)
+            .dotters
+                margin-right: gem(-17)
+                margin-top: gem(-12)
+                letter-spacing: gem(-0.7)
+            .dropdown
+                z-index: 1
+                .button
+                    &.desc-1
+                        opacity: 0
+                .list
+                    left: gem(-14)
+                    top: 100%
+            .column-5
+                line-height: gem(20)
+            .column-6
+                display: flex
+                justify-content: space-between
+    .column
+        display: flex
+        align-items: center
+        padding: gem(23) 0 gem(18)
+        padding-right: gem(52)
+        &:not(:last-child)
+            border-right: 1px dashed var(--color-tolopea-opacity-20)
+        &-1
+            width: gem(80)
+            padding-left: gem(32)
+        &-2
+            width: gem(144)
+        &-3
+            width: gem(96)
+        &-4
+            width: gem(40)
+        &-5
+            width: gem(320)
+        &-6
+            width: gem(118)
+            padding-right: gem(28)
+    .timetracking-empty
+        padding-top: gem(62)
+        padding-bottom: gem(77)
+        .img-wrapper
+            width: gem(280)
+            height: gem(240)
+            margin-top: 0
+            margin-left: gem(100)
+        .wrapper
+            margin-top: 0
+            margin-right: gem(-39)
+        .desc-3
+            margin-bottom: 0

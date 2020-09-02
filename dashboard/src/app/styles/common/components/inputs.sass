@@ -1,0 +1,170 @@
+.input-wrap
+    position: relative
+    .counter
+        position: absolute
+        top: gem(39)
+        right: gem(22)
+        color: $color-input-placeholder
+    textarea
+        padding: 0
+        resize: none
+        line-height: gem(45)
+    .input-error
+        display: block
+        position: absolute
+        // bottom: gem(-20)
+        top: gem(81)
+        left: gem(5)
+        &.input-error-message--info
+            left: gem(27)
+            .info-icon
+                display: block
+                position: absolute
+                left: gem(-24)
+                top: 33%
+                width: gem(16)
+                height: gem(16)
+                object-fit: contain
+                transform: translateY(-50%)
+    .input
+        display: block
+        outline: none
+        border: none
+        color: $color-input-placeholder
+        background-color: transparent
+        border: 1px solid $color-input-border
+        border-radius: gem(5)
+        transition: all 200ms ease
+        padding: gem(14) gem(20) gem(14)
+        &:focus,
+        &:active
+            border-color: $color-input-border--focus
+            color: $color-input-placeholder--focus
+        &.error-state
+            border-color: $color-input-border--error
+            &:hover,
+            &:focus:hover
+                border-color: $color-input-border--error
+        &:hover
+            border-color: $color-input-border--hover
+        &:focus:hover
+            border-color: $color-input-border--focus
+    ::placeholder
+        color: $color-input-placeholder
+        opacity: 1
+    :-ms-input-placeholder
+        color: $color-input-placeholder
+    ::-ms-input-placeholder
+        color: $color-input-placeholder
+    .input-label
+        display: block
+        padding-left: gem(2)
+        padding-bottom: gem(7)
+        .sub-label
+            letter-spacing: var(--letter-spacing-15)
+    &.filled
+        .input-label
+            color: $color-input-placeholder--focus
+    &.empty
+        .input-label
+            color: $color-input-placeholder--focus
+    &.light
+        .input
+            color: $color-input-light
+            border-color: $color-input-border-blue-bg
+            &.error-state
+                border-color: $color-input-border--error
+                &:hover,
+                &:focus:hover
+                    border-color: $color-input-border--error
+            &:hover
+                border-color: $color-input-border--hover
+            &:focus:hover
+                border-color: $color-input-border--focus
+        .input-label
+            color: $color-label-input-light
+        ::placeholder
+            color: $color-input-placeholder-light
+        :-ms-input-placeholder
+            color: $color-input-placeholder-light
+        ::-ms-input-placeholder
+            color: $color-input-placeholder-light
+        &.disabled
+            .input
+                background: $color-input-light-disabled-bg
+    &--card-number,
+    &--expiry-date,
+    &--cvv
+        .input-error
+            width: max-content
+    &--card-number
+        width: gem(292)
+        .input
+            width: 100%
+    &--expiry-date
+        width: gem(130)
+        .input
+            width: 100%
+    &--cvv
+        width: gem(67)
+        .input
+            width: 100%
+    // &.datepicker
+    //     .input
+    //         background-repeat: no-repeat
+    //         background-position: 92.7% center
+    //         background-image: url('../../../../assets/img/date-icon2.svg')
+    //         &::-webkit-inner-spin-button
+    //             display: none
+    //         &::-webkit-calendar-picker-indicator
+    //             position: absolute
+    //             top: 0
+    //             right: 0
+    //             opacity: 0
+    //             width: gem(64)
+    //             height: 100%
+
+.inputs-wrap
+    &--blue-bg
+        .input-wrap
+            .input-label
+                padding-left: 0
+                color: $color-input-label-blue-bg
+            .input
+                color: $color-input-placeholder-blue-bg
+            ::placeholder
+                color: $color-input-placeholder-blue-bg
+                opacity: 1
+            :-ms-input-placeholder
+                color: $color-input-placeholder-blue-bg
+            ::-ms-input-placeholder
+                color: $color-input-placeholder-blue-bg
+            &--card-number,
+            &--expiry-date,
+            &--cvv
+                &.filled
+                    .input-label
+                        color: $color-label-input-light
+                    .input
+                        color:  $color-input-placeholder-card-blue-bg
+
+@media only screen and (max-width: 768px)
+
+    .input-wrap
+        .input,
+        textarea
+            -webkit-appearance: none
+            text-indent: gem(20)
+            padding: gem(12) 0
+        .input-error
+            top: gem(78)
+
+@media only screen and (max-width: 480px)
+
+    .input-wrap
+        .input-error
+            bottom: auto
+            top: gem(74)
+            &.input-error-message--info
+                left: gem(27) !important
+                top: gem(80) !important

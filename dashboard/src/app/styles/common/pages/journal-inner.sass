@@ -1,0 +1,160 @@
+.inner-page
+    // padding-top: gem(70)
+    .heading-container
+        padding-bottom: 0
+    .arrow-link
+        top: gem(8)
+        left: gem(-1)
+        width: gem(23)
+    .text-content
+        margin: gem(1) 0 gem(31) gem(31)
+        padding-left: 0
+        margin-bottom: 0
+    .text-block
+        display: flex
+        flex-direction: column
+        max-width: gem(623)
+        .title
+            font-size: gem(24)
+            line-height: gem(32)
+            &.windowsOS
+                position: relative
+                top: gem(-2)
+    .entries
+        // display: inline-flex
+        display: flex
+        margin: 0
+        align-items: center
+        .label-tag
+            margin: 0
+            line-height: normal
+        img
+            margin-right: gem(8)
+            // height: fit-content
+            height: gem(15)
+            transform: translateY(-0.02rem)
+        &:first-child
+            margin-right: gem(24)
+            // img
+            //     transform: translateY(-0.04rem)
+    .icons
+        display: flex
+        // margin-top: gem(18)
+        // margin-bottom: gem(23)
+        margin-bottom: gem(26)
+        margin-top: gem(15)
+    .mood-cards-wrap
+        display: flex
+        margin-bottom: gem(45)
+    .card
+        border: 1px solid $color-card-mood-border
+        border-radius: gem(5)
+        display: flex
+        padding: gem(16) gem(43) gem(12) gem(22)
+        // align-items: center
+        background-color: $color-card-mood-bg
+        width: fit-content
+        margin-right: gem(8)
+        .label-btn2
+            color: $color-inner-page-card-label-btn2
+            margin-top: gem(1)
+            cursor: default
+            font-size: gem(10)
+            line-height: gem(12)
+            letter-spacing: var(--letter-spacing-15)
+        img
+            margin-right: gem(14)
+            height: gem(26)
+            width: auto
+        .card-text
+            display: flex
+            flex-direction: column
+            .desc-3
+                text-transform: capitalize
+        &.maslo
+            background:  $color-card-mood-bg--maslo
+            border-size: gem(5)
+    .audio-player
+        min-width: unset
+        width: gem(532)
+        margin-bottom: gem(28)
+        .play,
+        .pause
+            margin-right: gem(34)
+            border-left-color: $color-audio-player-play-border
+            opacity: 1
+        .pause
+            rect
+                fill: $color-audio-player-pause
+    .view-transcription,
+    .hidden-transcription,
+        display: flex
+        align-items: center
+        position: absolute
+        right: gem(-1)
+        top: gem(12)
+        cursor: pointer
+        user-select: none
+        &:before
+            content: ''
+            display: block
+            height: gem(64)
+            width: 1px
+            opacity: 0.4
+            background-color: $color-vertical-divider
+            cursor: default
+        img
+            margin: 0 gem(16) 0 gem(32)
+    .view-transcription
+        img
+            width: gem(32)
+            height: gem(30)
+    .hidden-transcription
+        cursor: default
+        pointer-events: none
+        img
+            width: gem(25)
+    .image-wrap
+        display: flex
+        .placeholder,
+        img
+            z-index: 1
+            width: gem(86)
+            height: gem(152)
+            object-fit: cover
+            border-radius: gem(5)
+            cursor: zoom-in
+            font-family: var(--main-font)
+            font-size: var(--font-size-desc3)
+            font-weight: var(--font-weight-3)
+            letter-spacing: var(--letter-spacing)
+            line-height: var(--line-height-desc-3)
+            color: $color-desc-5-default
+            background-color: $color-card-mood-bg--maslo
+    .stick-chart
+        margin: gem(89) 0 gem(71)
+        .content
+            padding-bottom: 0
+            min-height: gem(64)
+    .white-part
+        background-color: $color-bg-scrollable
+        padding: gem(47) 0 gem(70)
+        flex: 1
+        .gradient-chart-container
+            display: flex
+            span
+                white-space: pre-wrap
+
+@media all and (max-width: 768px)
+    .inner-page
+        .icons
+            margin-top: gem(32)
+            margin-bottom: gem(44)
+        .view-transcription,
+        .hidden-transcription
+            top: gem(52)
+            &:before
+                height: gem(44)
+        .hidden-transcription
+            img
+                width: gem(20)

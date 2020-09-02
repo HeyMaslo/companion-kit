@@ -1,0 +1,106 @@
+.datepicker-wrap
+    .input-icon
+        position: absolute
+        right: gem(22)
+        width: gem(12)
+        top: gem(41)
+        pointer-events: none
+    .react-datepicker
+        font-size: gem(12)
+        border-radius: gem(4)
+        border: none
+        background-color: $color-datepicker-primary-bg
+        &-wrapper
+            display: flex
+        &-popper[data-placement^="bottom"]
+            // top: gem(45) !important
+            margin-top: gem(16)
+            .react-datepicker__triangle
+                border-bottom-color: $color-datepicker-heading-bg
+                margin-top: gem(-5)
+                &:before
+                    border-bottom-color: $color-datepicker-heading-bg
+        &__header
+            background-color: $color-datepicker-heading-bg
+            padding-top: gem(11)
+            border-bottom: none
+            border-top-left-radius: gem(4)
+            border-top-right-radius: gem(4)
+        &__navigation
+            line-height: gem(30)
+            border-width: gem(10)
+            top: gem(11)
+            border-width: gem(6)
+            &--previous
+                left: gem(18)
+                border-right-color: $color-datepicker-primary-text
+            &--next
+                right: gem(18)
+                border-left-color: $color-datepicker-primary-text
+        &__day
+            display: inline-flex
+            align-items: center
+            justify-content: center
+            width: gem(24)
+            height: gem(24)
+            font-family: var(--main-font)
+            font-size: gem(11)
+            line-height: gem(24)
+            margin: gem(5)
+            color: $color-datepicker-primary-text
+            background-color: transparent
+            &--today
+                color: $color-datepicker-accent-text
+                font-weight: 500
+            &-names
+                margin-top: gem(7)
+            &-name
+                font-family: var(--main-font)
+                font-size: gem(11)
+                line-height: gem(24)
+                width: gem(24)
+                color: $color-datepicker-accent-text
+                margin: gem(5)
+            &--selected,
+            &--in-selecting-range,
+            &--in-range,
+            &--keyboard-selected,
+            &:hover
+                color: $color-datepicker-accent-text
+                font-weight: 500
+                border-radius: gem(4)
+                background-color: $color-datepicker-accent-bg
+        &__month
+            margin: gem(3) 0
+            &-text
+                &:hover
+                    border-radius: gem(4)
+                    background-color: $color-datepicker-accent-bg
+                    color: $color-datepicker-accent-text
+                &--selected
+                &--in-selecting-range
+                &--in-range
+                    color: $color-datepicker-accent-text
+                    border-radius: gem(4)
+                    background-color: $color-datepicker-accent-bg
+        &__current
+            &-month
+                font-family: var(--main-font)
+                font-weight: 500
+                font-size: gem(10)
+                line-height: gem(12)
+                letter-spacing: var(--letter-spacing-015)
+                text-transform: uppercase
+                color: $color-datepicker-accent-text
+        &__quarter
+            &-text
+                &:hover
+                    border-radius: gem(4)
+                    background-color: $color-datepicker-accent-bg
+                    color: $color-datepicker-accent-text
+                &--selected
+                &--in-selecting-range
+                &--in-range
+                    color: $color-datepicker-accent-text
+                    border-radius: gem(4)
+                    background-color: $color-datepicker-accent-bg

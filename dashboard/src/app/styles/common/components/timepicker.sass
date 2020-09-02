@@ -1,0 +1,231 @@
+.timepicker-wrap
+    position: relative
+    display: flex
+    flex-direction: column
+    .input-label
+        padding-left: gem(2)
+        padding-bottom: gem(7)
+    .triangle
+        position: absolute
+        top: gem(20)
+        right: gem(20)
+        width: 0
+        height: 0
+        border: gem(2.7) solid $color-select-triangle--type2
+        border-right-color: transparent
+        border-top-color: transparent
+        transform-origin: 25% 75%
+        transform: rotate(-45deg)
+        transition: transform .25s ease-in, background .25s ease-in
+        cursor: pointer
+    &.open
+        .triangle
+            transform: rotate(135deg)
+    &.error
+        .rc-time-picker-input
+            border-color: $color-input-border--error
+            &:hover,
+            &:focus:hover
+                border-color: $color-input-border--error
+
+.rc-time-picker
+    display: flex
+    position: relative
+    box-sizing: border-box
+
+.rc-time-picker *
+    box-sizing: border-box
+
+.rc-time-picker-input
+    width: 100%
+    display: block
+    outline: none
+    color: $color-input-placeholder
+    background-color: transparent
+    border: 1px solid $color-input-border
+    border-radius: gem(5)
+    transition: all 200ms ease
+    padding: gem(14) gem(20) gem(14)
+    font-family: var(--main-font)
+    font-size: var(--font-size-client-item)
+    font-weight: var(--font-weight-3)
+    letter-spacing: var(--letter-spacing)
+    line-height: var(--line-height-label-client-item)
+    &:focus,
+    &:active
+        border-color: $color-input-border--focus
+        color: $color-input-placeholder--focus
+    &:hover
+        border-color: $color-input-border--hover
+    &:focus:hover
+        border-color: $color-input-border--focus
+    ::placeholder
+        color: $color-input-placeholder
+        opacity: 1
+    :-ms-input-placeholder
+        color: $color-input-placeholder
+    ::-ms-input-placeholder
+        color: $color-input-placeholder
+
+.rc-time-picker-input[disabled]
+    color: #ccc
+    background: #f7f7f7
+    cursor: not-allowed
+
+.rc-time-picker-panel
+    z-index: 1070
+    width: gem(170)
+    position: absolute
+    box-sizing: border-box
+    // top: gem(239) !important
+
+.rc-time-picker-panel *
+    box-sizing: border-box
+
+.rc-time-picker-panel-inner
+    margin-top: gem(65)
+    display: inline-block
+    position: relative
+    outline: none
+    list-style: none
+    text-align: left
+    background-color: $color-timepicker-primary-bg
+    border-radius: gem(4)
+    background-clip: padding-box
+    font-family: var(--main-font)
+    font-weight: var(--font-weight-5)
+    font-size: gem(10)
+    line-height: gem(12)
+    letter-spacing: 0.15em
+    text-transform: uppercase
+    color: $color-timepicker-primary-text
+    &::after
+        content: ''
+        position: absolute
+        border-left: gem(8) solid transparent
+        border-right: gem(8) solid transparent
+        border-bottom: gem(8) solid $color-timepicker-heading-bg
+        top: gem(-6)
+        left: gem(20)
+
+.rc-time-picker-panel-narrow
+    max-width: gem(113)
+
+.rc-time-picker-panel-input
+    margin: 0
+    padding: 0
+    width: 100%
+    cursor: auto
+    outline: 0
+    background: $color-timepicker-heading-bg
+    border: none
+    font-family: var(--main-font)
+    font-weight: var(--font-weight-5)
+    font-size: gem(10)
+    line-height: gem(12)
+    letter-spacing: 0.15em
+    text-transform: uppercase
+    color: $color-timepicker-accent-text
+    ::placeholder
+        color: $color-timepicker-accent-text
+        opacity: 1
+    :-ms-input-placeholder
+        color: $color-timepicker-accent-text
+    ::-ms-input-placeholder
+        color: $color-timepicker-accent-text
+
+.rc-time-picker-panel-input-wrap
+    box-sizing: border-box
+    position: relative
+    padding: gem(11)
+    border-top-left-radius: gem(4)
+    border-top-right-radius: gem(4)
+    background: $color-timepicker-heading-bg
+    pointer-events: none
+    ::placeholder
+        color: $color-timepicker-accent-text
+        opacity: 1
+    :-ms-input-placeholder
+        color: $color-timepicker-accent-text
+    ::-ms-input-placeholder
+        color: $color-timepicker-accent-text
+
+.rc-time-picker-panel-combobox
+    display: flex
+
+.rc-time-picker-panel-input-invalid
+    border-color: red
+
+.rc-time-picker-panel-select
+    float: left
+    border: 1px solid $color-timepicker-primary-text
+    border-bottom: none
+    margin-left: -1px
+    box-sizing: border-box
+    width: gem(56)
+    max-height: gem(144)
+    overflow-y: auto
+    position: relative
+    font-family: var(--main-font)
+    font-weight: var(--font-weight-5)
+    font-size: gem(10)
+    line-height: gem(12)
+    letter-spacing: 0.15em
+    text-transform: uppercase
+    &:first-child
+        border-bottom-left-radius: gem(4)
+    &:last-child
+        border-bottom-right-radius: gem(4)
+
+.rc-time-picker-panel-select-active
+    overflow-y: auto
+
+.rc-time-picker-panel-select:first-child
+    border-left: 0
+    margin-left: 0
+
+.rc-time-picker-panel-select:last-child
+    border-right: 0
+
+.rc-time-picker-panel-select ul
+    list-style: none
+    box-sizing: border-box
+    margin: 0
+    padding: 0
+    width: 100%
+
+.rc-time-picker-panel-select li
+    display: flex
+    align-items: center
+    justify-content: center
+    list-style: none
+    width: 100%
+    height: gem(24)
+    line-height: gem(24)
+    text-align: left
+    cursor: pointer
+    -webkit-user-select: none
+    -moz-user-select: none
+    -ms-user-select: none
+    user-select: none
+    font-family: var(--main-font)
+    font-weight: var(--font-weight-5)
+    font-size: gem(10)
+    line-height: gem(12)
+    letter-spacing: 0.15em
+    text-transform: uppercase
+    &:focus
+        outline: none
+
+.rc-time-picker-panel-select li:hover,
+li.rc-time-picker-panel-select-option-selected
+    background: $color-timepicker-accent-bg
+    color: $color-timepicker-accent-text
+    font-weight: bold
+
+li.rc-time-picker-panel-select-option-disabled
+    color: #ccc
+
+li.rc-time-picker-panel-select-option-disabled:hover
+    background: transparent
+    cursor: not-allowed

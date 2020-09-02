@@ -1,0 +1,60 @@
+{
+    "name": "maslo-coaching",
+    "version": "1.0.0",
+    "description": "",
+    "engines": {
+        "yarn": "^1.15",
+        "node": "^10.19 || ^12.16"
+    },
+    "scripts": {
+        "all": "yarn && cd dashboard && yarn && cd ../mobile && yarn && cd ../server/functions && yarn && cd ../..",
+
+        "dev:dashboard": "cd dashboard && yarn dev",
+        "dev:server": "cd server/functions && yarn dev:functions",
+        "dev": "concurrently -k \"yarn dev:server\" \"yarn dev:dashboard\"",
+
+        "build:emails": "cd emails && npm i && npm run build && cd ..",
+
+        "build:dashboard": "cd dashboard && yarn && yarn build:prod:env:toserver && cd ..",
+        "build:dashboard:stage": "cross-env APP_ENV=staging yarn build:dashboard",
+        "build:dashboard:prod": "cross-env APP_ENV=production yarn build:dashboard",
+
+        "deploy:server:stage": "cd server/functions && yarn && yarn deploy:stage && cd ../..",
+        "deploy:server:prod": "cd server/functions && yarn && yarn deploy:prod && cd ../..",
+
+        "deploy:dashboard": "yarn build:dashboard && cd server/functions && yarn deploy:hosting:dashboard",
+        "deploy:dashboard:stage": "yarn build:dashboard:stage && cd server/functions && yarn deploy:hosting:dashboard:stage",
+        "deploy:dashboard:prod": "yarn build:dashboard:prod && cd server/functions && yarn deploy:hosting:dashboard:prod"
+    },
+    "author": "zajno",
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/core": "^7.9.0",
+        "@babel/plugin-proposal-class-properties": "^7.8.3",
+        "@babel/plugin-proposal-decorators": "^7.8.3",
+        "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+        "@babel/preset-env": "^7.9.0",
+        "@google-cloud/vision": "^2.1.1",
+        "@types/chroma-js": "^2.0.0",
+        "@types/d3": "^5.7.2",
+        "@types/git-rev-sync": "^1.12.0",
+        "@types/long": "^4.0.1",
+        "@types/node-fetch": "^2.5.5",
+        "@types/qs": "^6.9.1",
+        "@types/react": "^16.9.32",
+        "@types/ts-nameof": "^4.2.1",
+        "@types/uuid": "^7.0.2",
+        "concurrently": "^5.1.0",
+        "cross-env": "^7.0.2",
+        "dotenv": "^8.2.0",
+        "eslint": "^6.8.0",
+        "firebase-admin": "^8.11.0",
+        "git-rev-sync": "^2.0.0",
+        "ts-nameof": "^4.2.2",
+        "ts-node": "^8.8.2",
+        "tslint": "^6.1.1",
+        "ttypescript": "^1.5.10",
+        "typescript": "^3.8.3"
+    },
+    "dependencies": {}
+}

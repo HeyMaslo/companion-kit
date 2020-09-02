@@ -1,0 +1,124 @@
+.goals-page
+    overflow: unset
+    margin-bottom: gem(60)
+.goals-tab
+    margin-top: gem(47)
+    .actions-block
+        display: flex
+        justify-content: space-between
+        margin-bottom: gem(23)
+    .search-wrap
+        width: gem(862)
+    .add-goal-button
+        width: gem(239)
+        display: flex
+        justify-content: center
+        align-items: center
+        height: gem(46)
+        border-radius: gem(5)
+        background-color: $color-sessions-tab-upload-bg
+        border: 1px dashed $color-sessions-tab-upload-border
+        overflow: hidden
+        cursor: pointer
+        // z-index: 10
+        position: relative
+        img
+            width: gem(16)
+            margin-right: gem(16)
+    .goals-empty
+        padding-top: gem(57)
+        .img-wrapper
+            width: gem(280)
+            height: gem(240)
+            margin-left: gem(96)
+            margin-top: 0
+        .wrapper
+            width: gem(623)
+            margin-top: gem(52)
+    .goal-item
+        background-color: $color-audio-card-bg
+        padding: gem(14) gem(29) gem(13) gem(32)
+        border-radius: gem(5)
+        border: 1px solid $color-chart-border
+        display: flex
+        justify-content: space-between
+        align-items: center
+        margin-bottom: gem(16)
+        position: relative
+        z-index: inherit
+        &:last-of-type
+            margin-bottom: 0
+        .left-block,
+        .right-block
+            display: flex
+            align-items: center
+        .checkbox-wrap 
+            margin-right: gem(16)
+        .goal-text
+            width: gem(772)
+            overflow: hidden
+            text-overflow: ellipsis
+            line-height: normal
+            display: -webkit-box
+            -webkit-box-orient: vertical
+            -webkit-line-clamp: 2
+        .status-wrap
+            position: relative
+            display: flex
+            align-items: center
+            .tooltip
+                position: absolute
+                width: 100%
+                height: 100%
+            .tooltip-trigger
+                width: 100%
+                height: 100%
+                cursor: pointer
+            .tooltip-circle
+                display: none
+            .tooltip-bubble
+                width: gem(320)
+                width: max-content
+                max-width: gem(320)
+                bottom: gem(30)
+                padding: 0
+                box-sizing: border-box
+            .tooltip-title
+                margin: gem(15) gem(16)
+                text-transform: none
+                font-family: var(--main-font)
+                font-size: var(--font-size-dropdown-type3)
+                font-weight: var(--font-weight-3)
+                letter-spacing: var(--letter-spacing)
+                line-height: var(--line-height-label-dropdown3)
+            &.completed
+                .desc-3
+                    color: $color-goal-done
+                &:after
+                    content: ''
+                    position: absolute
+                    width: gem(6)
+                    height: gem(3)
+                    top: gem(4)
+                    left: gem(-15)
+                    border-left: gem(1) solid $color-goal-done
+                    border-bottom: gem(1) solid $color-goal-done
+                    transform: rotate(-43deg)
+
+        .dropdown-wrap
+            display: flex
+            align-items: center
+            margin-left: gem(45)
+        .dotters
+            margin-right: gem(-17)
+            margin-top: gem(-8)
+            letter-spacing: gem(-0.7)
+        .dropdown
+            z-index: 1
+            .button
+                &.desc-1
+                    opacity: 0
+            .list
+                left: gem(-14)
+                top: 100%
+

@@ -1,0 +1,125 @@
+.upload-avatar
+    position: relative
+    .input-block
+        position: relative
+        left: 0
+        overflow: hidden
+        margin-right: gem(53)
+        border-radius: 50%
+        z-index: 1
+        &:hover
+            .label-btn2
+                transform: translateY(-100%)
+    .avatar
+        height: gem(121)
+        width: gem(121)
+        object-fit: cover
+    .input
+        position: absolute
+        opacity: 0
+        height: 100%
+        width: 100%
+        z-index: 1
+        top: 0
+        cursor: pointer
+    .crop-modal
+        position: fixed
+        top: 0
+        left: 0
+        height: 100vh
+        width: 100vw
+        display: flex
+        justify-content: center
+        align-items: center
+        z-index: 100
+    .layer
+        height: 100vh
+        width: 100vw
+        position: fixed
+        left: 0
+        top: 0
+        background-color: $color-upload-avatar-layer
+        opacity: 0.8
+        z-index: -1
+    .ReactCrop
+        height: auto
+        max-height: gem(550)
+        max-width: gem(550)
+    .result
+        object-fit: cover
+        border-radius: 50%
+        height: gem(100)
+        width: gem(100)
+    .buttons
+        display: flex
+        margin-top: gem(30)
+        .label-btn4
+            margin-bottom: 0
+        .label-btn4:first-child
+            margin-right: gem(30)
+        .label-btn4:last-child
+            text-align: right
+    .label-btn2
+        transition: transform 0.25s ease-in
+        transform: translateY(gem(0))
+        width: 100%
+        background-color: $color-upload-avatar-bg
+        color: $color-upload-avatar-label-btn2
+        opacity: 0.8
+        position: absolute
+        top: 100%
+        display: flex
+        justify-content: center
+        align-items: center
+        padding: gem(35) 0 gem(30)
+    .file-error
+        position: absolute
+        left: gem(23)
+        top: gem(94)
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        justify-content: space-between
+        width: gem(244)
+        padding: gem(12) gem(16)
+        background: $color-upload-error-bg
+        border-radius: gem(5)
+        z-index: 10
+        transition: opacity 200ms ease
+        visibility: hidden
+        opacity: 0
+        &.active
+            visibility: visible
+            opacity: 1
+        &:before
+            position: absolute
+            top: gem(-2)
+            left: gem(7)
+            width: gem(20)
+            height: gem(20)
+            content: ''
+            border-radius: gem(2)
+            background: $color-upload-error-bg
+            transform: rotate(45deg)
+            transform-origin: 50% 50%
+            pointer-events: none
+        &-text
+            position: relative
+            max-width: gem(335)
+            z-index: 1
+            font-size: gem(14)
+            line-height: gem(20)
+            color: $color-upload-error-text
+            margin: 0 !important
+            cursor: default
+            &:last-of-type
+                color: $color-upload-error-text-last
+        &-icon
+            position: absolute
+            top: gem(12)
+            right: gem(13)
+            cursor: pointer
+            width: gem(8)
+            height: auto
+            user-select: none
+

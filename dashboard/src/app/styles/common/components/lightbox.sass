@@ -1,0 +1,114 @@
+.react-images__positioner
+    .react-images__view-image
+        // max-width: gem(1120)
+        max-height: gem(640)
+        border-radius: gem(5)
+    .react-images__header
+        height: gem(75)
+        padding: 0 gem(38)
+    .react-images__header_button--fullscreen,
+    .react-images__footer__count
+        display: none    
+    .react-images__header_button--close
+        width: gem(20)
+        height: gem(20)
+    .react-images__navigation
+        button
+            width: gem(40)
+            height: gem(40)
+            background: $color-audio-player-play-border
+            svg
+                fill: $color-audio-player-title
+        .css-1h82jk3,
+            left: gem(80)
+        .css-xfk84m
+            right: gem(80)
+    .react-images__footer
+        bottom: gem(10)
+        padding: 0
+        justify-content: center
+        align-items: center
+        color: $color-label-draganddrop-default
+        font-family: var(--main-font)
+        font-size: var(--font-size-draganddrop)
+        font-weight: var(--font-weight-5)
+        letter-spacing: var(--letter-spacing-015)
+        line-height: var(--line-height-label-draganddrop)
+        text-transform: uppercase
+        background: none !important
+    button
+        &:focus
+            outline: none
+
+.fullscreen
+    .react-images__blanket
+        background-color: $color-modal-bg
+
+
+#SRLLightbox
+    background-color: $color-modal-bg
+    .SRLContainer
+        display: flex
+        flex-direction: column
+        flex-grow: 1
+    .SRLControls
+        top: gem(33)
+        right: gem(38)
+    .SRLCloseButton
+        width: gem(20)
+        height: gem(20)
+        background: transparent
+    .SRLNextButton,
+    .SRLPrevButton
+        top: 47.5%
+        width: gem(40)
+        height: gem(40)
+        padding: 0
+        border-radius: 50%
+        background: $color-audio-player-play-border
+        svg
+            position: relative
+            top: auto
+            left: auto
+            right: auto
+            path
+                fill: transparent
+    button
+        &.SRLNextButton,
+        &.SRLPrevButton
+            &:after
+                content: ''
+                position: absolute
+                width: gem(6)
+                height: gem(6)
+                border-right: gem(1) solid  $color-audio-player-title
+                border-bottom: gem(1) solid  $color-audio-player-title
+        &.SRLNextButton
+            &:after
+                transform: rotate(-45deg) translate(-1px, -1px)
+        &.SRLPrevButton
+            &:after
+                transform: rotate(135deg) translate(-1px, -1px)
+    .SRLPrevButton
+        left: gem(80)
+    .SRLNextButton
+        right: gem(80)
+    .SRLElementContainer
+        height: 100%
+    .SRLElementWrapper
+        max-width: gem(1120)
+        max-height: gem(640)
+        // margin-top: gem(21)
+    .SRLImage
+        border-radius: gem(5)
+    .SRLCaptionContainer
+        height: auto
+        margin-bottom: gem(10)
+    .SRLCaptionText
+        color: $color-label-draganddrop-default
+        font-family: var(--main-font)
+        font-size: var(--font-size-draganddrop)
+        font-weight: var(--font-weight-5)
+        letter-spacing: var(--letter-spacing-015)
+        line-height: var(--line-height-label-draganddrop)
+        text-transform: uppercase

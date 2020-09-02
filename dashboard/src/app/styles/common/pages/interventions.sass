@@ -1,0 +1,92 @@
+.interventions-page
+    .search-wrap
+        width: gem(864)
+    .add-tip-button
+        width: gem(240)
+    .actions-block
+        margin-bottom: gem(23)
+    .right-block
+        width: gem(170)
+        justify-content: space-between
+    .feedback-wrap
+        display: flex
+        align-items: center
+        margin-right: gem(12)
+        cursor: pointer
+        .tooltip-circle
+            width: gem(9)
+            height: gem(9)
+            border-radius: 50%
+            background: $color-tip-feedback-bg--default
+            border: none
+            img
+                display: none
+        &.wont_do
+            .tooltip-circle
+                background: $color-tip-feedback-bg--wont-do
+        &.will_do
+            .tooltip-circle
+                background: $color-tip-feedback-bg--will-do
+        &.didnt_do
+            .tooltip-circle
+                background: $color-tip-feedback-bg--didnt-do
+        &.done
+            .tooltip-circle
+                background: $color-tip-feedback-bg--done
+        .tooltip-bubble
+            width: auto
+            bottom: gem(24)
+            align-items: center
+            padding: gem(12) gem(16) gem(12)
+            span
+                text-transform: uppercase
+                white-space: nowrap
+                font-family: var(--main-font)
+                font-size: var(--font-size-draganddrop)
+                font-weight: var(--font-weight-5)
+                letter-spacing: var(--letter-spacing-015)
+                line-height: var(--line-height-label-draganddrop)
+                text-transform: uppercase
+                &.tooltip-title
+                    color: $color-gradient-chart-text
+                    margin-bottom: gem(4)
+                &:last-child
+                    margin-bottom: 0
+        .tooltip-title
+            white-space: nowrap
+            margin-bottom: gem(5)
+    .tip-item
+        padding-left: gem(30)
+        .prompt-text
+            width: gem(788)
+            -webkit-line-clamp: 2
+        .counter
+            display: flex
+            position: relative
+            cursor: pointer
+            .tooltip
+                position: absolute
+                width: 100%
+                height: 100%
+            .tooltip-trigger
+                width: 100%
+                height: 100%
+            .tooltip-circle
+                display: none
+            .tooltip-bubble
+                width: gem(320)
+                width: max-content
+                max-width: gem(320)
+                padding: 0
+                box-sizing: border-box
+            .tooltip-title
+                display: flex
+                margin-bottom: 0
+                padding: gem(12) gem(16)
+                font-weight: 300
+                font-size: gem(14)
+                line-height: gem(20)
+                letter-spacing: normal
+                text-transform: none
+        .dropdown-wrap
+            margin-left: 0

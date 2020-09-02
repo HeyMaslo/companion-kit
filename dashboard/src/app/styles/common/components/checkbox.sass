@@ -1,0 +1,39 @@
+.checkbox-wrap
+    display: flex
+    width: fit-content
+    align-items: center
+    cursor: pointer
+    .label-client-item
+        margin-left: gem(8)
+    .checkbox
+        position: relative
+        display: flex
+        align-items: center
+        justify-content: center
+        user-select: none
+        width: gem(20)
+        height: gem(20)
+        margin-top: gem(-3)
+        border-radius: gem(5)
+        background: $color-checkbox-bg
+        border: 1px solid $color-checkbox-border
+        transition: all 0.3s ease
+        box-sizing: border-box
+        img
+            width: gem(8)
+            height: gem(6)
+            transition: opacity 0.3s ease
+            opacity: 0
+    &:hover
+        .checkbox
+            border-color: $color-checkbox-border--hover
+    &.checked
+        .checkbox
+            background: $color-checkbox-bg--checked
+            border-color: $color-checkbox-border--checked
+            img
+                opacity: 1
+        &:hover
+            .checkbox
+                background: $color-checkbox-bg--checked--hover
+                border-color: $color-checkbox-border--checked--hover

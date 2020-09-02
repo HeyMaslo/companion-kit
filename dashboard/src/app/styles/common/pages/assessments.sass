@@ -1,0 +1,165 @@
+.assessments-tab
+    margin-top: gem(33)
+    .actions-block
+        display: flex
+        justify-content: flex-end
+    .add-link-button
+        width: gem(215)
+        display: flex
+        justify-content: center
+        align-items: center
+        height: gem(40)
+        border-radius: gem(5)
+        background-color: $color-sessions-tab-upload-bg
+        border: 1px dashed $color-sessions-tab-upload-border
+        margin-bottom: gem(15)
+        overflow: hidden
+        cursor: pointer
+        z-index: 10
+        position: relative
+        img
+            width: gem(16)
+            margin-right: gem(8)
+            margin-left: gem(4)
+    .assessments-list
+        display: flex
+        flex-wrap: wrap
+    .assessment-card
+        position: relative
+        display: flex
+        flex-direction: column
+        align-items: center
+        width: gem(552)
+        height: gem(224)
+        margin-right: gem(16)
+        margin-bottom: gem(16)
+        padding: gem(24)
+        border-radius: gem(5)
+        border: 1px solid $color-docs-card-border
+        background: $color-docs-card-bg
+        box-sizing: border-box
+        cursor: pointer
+        &:nth-child(2n)
+            margin-right: 0
+        &.no-click
+            cursor: default
+        .header-wrap
+            width: 100%
+            .title-wrap
+                position: relative
+                display: flex
+                align-items: center
+                justify-content: flex-start
+                width: 100%
+                padding-bottom: gem(16)
+                border-bottom: 1px solid $color-docs-card-border
+        .name
+            margin-right: gem(12)
+            overflow: hidden
+            text-overflow: ellipsis
+            text-align: center
+            line-height: normal
+            display: -webkit-box
+            -webkit-line-clamp: 1
+            -webkit-box-orient: vertical
+        .arrow
+            position: absolute
+            top: gem(5)
+            right: gem(-2)
+        .inner-wrap
+            display: flex
+            flex-direction: column
+            width: 100%
+            padding-top: gem(25)
+            .title-wrap
+                display: flex
+                justify-content: space-between
+                margin-bottom: gem(10)
+        .severity
+            position: relative
+            margin-right: gem(12)
+            color: $color-phq9-card-depres-severity
+            &:before
+                content: ''
+                display: inline-block
+                height: gem(6)
+                width: gem(6)
+                margin-right: gem(8)
+                margin-bottom: gem(1)
+                vertical-align: middle
+                border-radius: 50%
+                background: $color-phq9-card-severity--default
+            &.none-minimal
+                &:before
+                    background: $color-phq9-card-severity--none-minimal
+            &.mild
+                &:before
+                    background: $color-phq9-card-severity--mild
+            &.moderate
+                &:before
+                    background: $color-phq9-card-severity--moderate
+            &.moderately-severe
+                &:before
+                    background: $color-phq9-card-severity--moderately-severe
+            &.severe
+                &:before
+                    background: $color-phq9-card-severity--severe
+        .PTSD
+            .minimal-ptsd-symptoms
+                &:before
+                    background: $color-phq9-card-severity--none-minimal
+            .mild-ptsd-symptoms
+                &:before
+                    background: $color-phq9-card-severity--mild
+            .moderate-ptsd-symptoms
+                &:before
+                    background: $color-phq9-card-severity--moderate
+            .potential-ptsd
+                &:before
+                    background: $color-phq9-card-severity--severe
+        .GAD
+            .minimal-anxiety
+                &:before
+                    background: $color-phq9-card-severity--none-minimal
+            .mild-anxiety
+                &:before
+                    background: $color-phq9-card-severity--mild
+            .moderate-anxiety
+                &:before
+                    background: $color-phq9-card-severity--moderate
+            .severe-anxiety  
+                &:before
+                    background: $color-phq9-card-severity--severe
+        .Isolated,
+        .Homeless
+            .no-need-identified
+                &:before
+                    background: $color-phq9-card-severity--none-minimal
+            .need-identified
+                &:before
+                    background: $color-phq9-card-severity--severe
+        .recom-block
+            display: flex
+        .desc-wrap,
+        .desc
+            overflow: hidden
+            text-overflow: ellipsis
+            line-height: gem(24)
+            display: -webkit-box
+            -webkit-line-clamp: 3
+            -webkit-box-orient: vertical
+
+.assessments-empty
+    .wrapper
+        margin-right: 0
+
+@media all and (max-width: 768px)
+    .assessments-tab
+        .add-link-button
+            width: 100%
+        .assessments-list
+            justify-content: space-between
+        .assessment-card
+            width: 48%
+            height: gem(164)
+            margin-right: 0

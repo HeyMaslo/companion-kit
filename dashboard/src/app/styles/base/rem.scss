@@ -1,0 +1,53 @@
+@import './gem.scss';
+
+// The main idea here is to make 1rem = 1px in design,
+// so when resizing browser window, content should be just scaled via rems
+
+// What rems are supposed to be used for:
+//  – Font sizes
+//  - Sizes of containers/controls/components
+//  - Margins/Paddings
+// Do not use rems for borders!
+
+@mixin remBase($widthDesign, $heightDesign) {
+    html {
+        font-size: calc(#{$gem-coeff * 100}vw / #{$widthDesign});
+    }
+
+    // html {
+    //     #{$gem}: calc(100vw / #{$widthDesign});
+    // }
+
+    @if $heightDesign != 0 {
+        @media all and (min-aspect-ratio: #{$widthDesign} / #{$heightDesign}) {
+            html {
+                font-size: calc(100vh / #{$heightDesign});
+            }
+        }
+    }
+}
+
+@mixin remBreakpoint($widthDesign, $heightDesign, $query: 'max-width') {
+    @media all and (#{$query}: #{$widthDesign}px) {
+        @include remBase($widthDesign, $heightDesign);
+    }
+}
+
+// This defines base breakpoint, that will be used by default.
+// The second parameter allows to take into account height of viewport by design.
+// Visually, specifying height means fitting a container to a screen.
+// '0' specified for height means that this breakpoint doesn't care about screen height in design
+@include remBase(1440, 0);
+// @media all and (max-width: 1024px) {
+//     @include remBase(768, 0);
+// }
+
+@include remBreakpoint(768, 0);
+
+@media all and (max-width: 480px) {
+    @include remBase(320, 0);
+}
+
+// @include remBreakpoint(1920, 1080); // hd
+// @include remBreakpoint(2560, 1200, 'min-width'); // 4k displays
+

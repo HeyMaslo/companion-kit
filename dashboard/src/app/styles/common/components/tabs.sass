@@ -1,0 +1,28 @@
+.tab-controls
+    display: block
+    font-size: initial
+    z-index: 2
+    position: relative
+    .label-tabs.active
+        color: $color-label-tabs-type1
+    .label-tabs
+        display: inline-block
+        position: relative
+        cursor: pointer
+        overflow: visible
+        &:after
+            content: ''
+            position: absolute
+            left: 0
+            bottom: gem(-7)
+            width: 100%
+            height: 2px
+            background-color: $color-link-underline
+            display: block
+            opacity: 0
+            transition: opacity 0.5s ease
+        &.active
+            &:after
+                opacity: 1
+        &:not(:last-child)
+            margin-right: gem(46)

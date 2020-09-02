@@ -1,0 +1,58 @@
+.intake-form-inner-page
+    min-height: calc(100vh - #{gem(103)})
+    height: max-content
+    overflow-y: unset
+    padding-top: gem(103)
+    outline: none
+    background: $color-bg-scrollable
+    .heading-container
+        display: flex
+        margin-bottom: gem(42)
+    .arrow-link
+        margin-top: gem(4)
+        margin-right: gem(10)
+        cursor: pointer
+        img
+            width: gem(22)
+    .text-content
+        display: flex
+        flex-direction: column
+        .text-block
+            display: flex
+            margin-bottom: gem(10)
+        .name-type
+            margin-right: gem(7)
+    .nav-wrap
+        display: flex
+    .breadcrumbs
+            letter-spacing: 0.05em
+    .last-breadcrumb
+        color: $color-phq9-last-breadcrumb
+    .recommend-block
+        display: flex
+        flex-direction: column
+        .label
+            display: inline-block
+            margin-bottom: gem(12)
+            text-transform: uppercase
+        .recommend
+            margin-bottom: gem(46)
+            line-height: gem(24)
+            color: $color-phq9-inner-recom-label
+    .answers-list
+        display: flex
+        flex-wrap: wrap
+        margin-left: gem(32)
+    .answer-item
+        width: gem(440)
+        display: flex
+        flex-direction: column
+        margin-bottom: gem(44)
+        &:not(:nth-child(2n))
+            margin-right: gem(55)
+        .question
+            margin-bottom: gem(14)
+            line-height: gem(30)
+            color: $color-phq9-inner-question
+        .answer
+            color: $color-phq9-inner-answer

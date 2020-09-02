@@ -1,0 +1,69 @@
+.onboarding-page
+    .onboarding-container
+        display: flex
+        justify-content: space-between
+        align-items: center
+        flex-grow: 1
+        .image-block
+            width: gem(400)
+            height: gem(400)
+            margin-top: gem(-55)
+            margin-left: gem(20)
+            img
+                width: 100%
+                height: 100%
+                object-fit: cover
+        .text-block
+            display: flex
+            flex-direction: column
+            width: 100%
+            max-width: gem(560)
+            margin-top: gem(-45)
+            margin-right: gem(20)
+            .title
+                display: block
+                padding-bottom: gem(26)
+                color: $color-onboarding-page-title
+                .name
+                    color: $color-onboarding-page-title-name
+            .description
+                display: block
+                line-height: gem(36)
+                margin-bottom: gem(40)
+                font-size: gem(20)
+                line-height: gem(30)
+                .link
+                    color: $color-desc-3-type3
+            .btn-wrap
+                .btn
+                    width: gem(232)
+                    justify-content: flex-start
+
+.modal
+    position: absolute
+    width: 100%
+    height: 80%
+    left: 0
+    top: gem(106)
+    z-index: 0
+    visibility: hidden
+    opacity: 0
+    transition: opacity 0.4s ease
+    background-color: $color-bg-main
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    &.open
+        visibility: visible
+        z-index: 10
+        opacity: 1
+    .player-wrap
+        margin-top: gem(-40)
+        width: gem(732)
+        height: gem(412)
+        background-color: $color-bg-main
+        border-radius: 4px
+        overflow: hidden
+    .btn-wrap
+        margin-top: gem(41)

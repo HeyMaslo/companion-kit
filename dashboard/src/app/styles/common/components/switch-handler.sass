@@ -1,0 +1,37 @@
+.button-switch-wrap
+    position: relative
+    display: inline-flex
+    align-items: center
+    cursor: pointer
+    user-select: none
+    .switch-label
+        display: flex
+        align-items: center
+        margin-left: gem(15)
+        &:after
+            display: none
+
+.button-switch
+    position: relative
+    display: flex
+    align-items: center
+    width: gem(32)
+    height: gem(16)
+    background: $color-switch-bg
+    border-radius: gem(8)
+    box-sizing: border-box
+    transition: background .4s ease-in-out
+    .switch-handle
+        position: absolute
+        width: gem(12)
+        height: gem(12)
+        border-radius: 100%
+        background: $color-switch-handle
+        transform: translateX(gem(3))
+        transition: transform .4s ease-in-out
+    &.switched
+        background: $color-switch-bg-switched
+        .switch-handle
+            transform: translateX(gem(17))
+    &.disabled
+        opacity: 0.6

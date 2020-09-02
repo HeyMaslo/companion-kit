@@ -1,0 +1,176 @@
+.journal-tab
+    margin-top: gem(33)
+    .actions-block
+        display: flex
+        justify-content: space-between
+        margin-bottom: gem(7)
+    .action-btn
+        display: flex
+        justify-content: center
+        align-items: center
+        width: 100%
+        height: gem(40)
+        border-radius: gem(5)
+        background-color: $color-sessions-tab-upload-bg
+        border: 1px dashed $color-sessions-tab-upload-border
+        margin-bottom: gem(15)
+        overflow: hidden
+        cursor: pointer
+        z-index: 10
+        position: relative
+        svg,
+        img
+            width: gem(16)
+            margin-right: gem(16)
+            margin-left: gem(7)
+        .label-draganddrop
+            margin-top: gem(3)
+    .interventions-btn
+        width: gem(240)
+        margin-left: gem(12)
+        flex: none
+
+.audio-card
+    background-color: $color-audio-card-bg
+    padding: gem(20) gem(32)
+    border-radius: gem(5)
+    border: 1px solid $color-chart-border
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin-bottom: gem(16)
+    position: relative
+    z-index: var(--z-index-audiocard)
+    &:last-child
+        margin-bottom: 0
+    &.active
+        border: 1px solid $color-audio-card-border--active
+    .journal-card-mood-image
+        width: gem(29)
+        height: auto
+        margin: auto 0 auto auto
+    .redirect-layer
+        height: 100%
+        width: 100%
+        position: absolute
+        z-index: 0
+        cursor: pointer
+        left: 0
+        top: 0
+    .transcription-card-content
+        display: flex
+        align-items: center
+        .text-block
+            margin: 0 gem(24)
+            width: gem(384)
+            position: relative
+            z-index: 10
+            pointer-events: none
+            display: inline-flex
+            flex-direction: column
+            align-items: flex-start
+            justify-content: center
+            .desc-3
+                line-height: gem(20)
+        img
+            pointer-events: none
+            width: gem(16)
+            height: auto
+        .marquee
+            width: gem(462)
+            padding: gem(12) gem(16) gem(10)
+            border: 1px solid $color-audio-card-transc-marquee-border
+            border-radius: gem(3)
+            overflow: hidden
+            height: fit-content
+            position: relative
+            z-index: 10
+            display: flex
+            cursor: pointer
+            &.windowsOS
+                padding: gem(12) gem(16)
+            .transcription-card-text
+                display: flex
+                align-items: center
+                // font-size: gem(12)
+                // line-height: gem(16)
+                white-space: nowrap
+                &:first-letter
+                    text-transform: capitalize
+                &.expanded
+                    white-space: unset
+
+    .audio-player
+        .progress-wrapper
+            margin-left: gem(24)
+            max-width: gem(490)
+        .play,
+        .pause
+            cursor: pointer
+            width: gem(16)
+            height: auto
+            margin: auto gem(24) auto 0
+
+    .private-entry
+        display: flex
+        align-items: center
+        justify-content: flex-start
+        &-icon
+            display: inline-flex
+            width: gem(18) !important
+            height: gem(18) !important
+            margin: auto gem(10) auto 0 !important
+        &-text
+            display: flex
+            align-items: center
+            // font-size: gem(12)
+            // line-height: gem(16)
+            margin-top: gem(4)
+            &:first-letter
+                text-transform: capitalize
+            &.windowsOS
+                margin-top: auto
+
+.private-audio-heading
+    display: flex
+    align-items: center
+    img
+        cursor: pointer
+        width: gem(16)
+        height: auto
+        margin: 0 !important
+    .title-block
+        display: flex
+        align-items: center
+        justify-content: flex-start
+    .text-block
+        display: inline-flex
+        flex-direction: column
+        align-items: flex-start
+        justify-content: center
+        width: gem(384)
+        margin: 0 gem(24)
+        .desc-3
+            line-height: gem(20)
+
+@media all and (max-width: 768px)
+    .audio-card
+        .transcription-card-content
+            flex-wrap: wrap
+            .marquee
+                margin-top: gem(20)
+        .private-entry
+            margin-top: gem(20)
+        .audio-player
+            .progress-wrapper
+                margin-top: gem(20)
+                max-width: 100%
+                width: gem(460)
+                flex: unset
+
+    .private-audio-heading
+        flex-wrap: wrap
+
+    .audio-player
+        flex-wrap: wrap
+        min-width: unset

@@ -1,0 +1,30 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "noEmit": false,
+    "checkJs": false,
+    "importHelpers": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+       "common/*": ["../common/*"],
+       "app/*": ["src/app/*"],
+       "assets/*": ["src/assets/*"],
+       "dependencies/*": ["../mobile/dependencies/*"],
+       "@persona-core": ["../mobile/dependencies/persona/lib/index.ts"],
+       "*": [
+          "*",
+          "node_modules/*"
+        ],
+    },
+    "skipLibCheck": true
+  },
+  "include": [
+    "src/**/*"
+],
+  "exclude": [
+    "./node_modules",
+    "./dist"
+  ]
+}

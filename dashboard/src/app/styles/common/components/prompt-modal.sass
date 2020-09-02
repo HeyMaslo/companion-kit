@@ -1,0 +1,70 @@
+.prompt-modal-wrapper
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    height: 100%
+    width: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    z-index: var(--z-index-modal)
+    background-color: $color-modal-bg
+    .wrapper
+        width: gem(720)
+        padding: gem(84) gem(80) gem(78)
+        background: $color-prompt-modal-bg
+        border-radius: gem(8)
+        box-sizing: border-box
+    p
+        display: block
+        margin-bottom: gem(6)
+        line-height: gem(69)
+        color: $color-prompt-modal-text
+        font-family: var(--main-font)
+        font-size: var(--font-size-h1)
+        font-weight: var(--font-weight-3)
+        letter-spacing: var(--letter-spacing)
+        line-height: var(--line-height-h1)
+        >em
+            display: block
+            color: $color-prompt-modal-text
+            font-family: var(--main-font)
+            font-size: var(--font-size-h1)
+            font-weight: var(--font-weight-3)
+            letter-spacing: var(--letter-spacing)
+            font-style: normal
+    .desc-1
+        display: block
+        margin-bottom: gem(30)
+        line-height: gem(30)
+    .action-buttons-wrap
+        display: flex
+    .btn
+        width: auto
+    .separator
+        min-width: 1px
+        height: gem(24)
+        width: gem(1)
+        display: block
+        background-color: $color-vertical-divider
+        opacity: 0.2
+        margin: 0 gem(23)
+    &.delete-client
+        p
+            max-width: gem(560)
+    &.positive
+        .confirm-btn
+            .label-btn4
+                color: $color-positive-confirm-btn
+        .reject-btn
+            .label-btn4
+                color: $color-positive-reject-btn
+    &.negative
+        .confirm-btn
+            .label-btn4
+                color: $color-negative-confirm-btn
+        .reject-btn
+            .label-btn4
+                color: $color-negative-reject-btn

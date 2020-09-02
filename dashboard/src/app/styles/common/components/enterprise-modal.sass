@@ -1,0 +1,248 @@
+
+.modal-enterprise
+    &.modal
+        display: none
+        align-items: flex-start
+        justify-content: flex-start
+        height: auto
+        top: 0
+        // overflow-y: scroll
+        padding-top: gem(93)
+        &.open
+            display: flex
+    .wrap-input,
+    #mc_embed_signup .mc-field-group
+        position: relative
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        justify-content: flex-start
+        width: gem(558)
+        padding: 0
+        margin-bottom: gem(36)
+        &:nth-of-type(6)
+            margin-bottom: gem(44)
+    .wrap-name
+        display: flex
+        align-items: flex-start
+        justify-content: space-between
+        width: gem(558)
+        .wrap-input,
+        .mc-field-group
+            width: gem(348) !important
+    label,
+    #mc_embed_signup .mc-field-group label
+        display: inline-block
+        margin-bottom: gem(8)
+    #mc_embed_signup .mc-field-group select
+        -moz-text-indent: gem(10) !important
+        text-indent: gem(20) !important
+        -webkit-appearance: none
+        appearance: none
+        &:active,
+        &:focus
+            ~ .dropdown-arrow
+                transform: rotate(180deg)
+            &.mce_inline_error
+                border: 1px solid $color-input-border--error
+        ~ .dropdown-arrow
+            position: absolute
+            width: gem(10)
+            height: auto
+            right: gem(17)
+            bottom: gem(19)
+        &.mce_inline_error
+            border: 1px solid $color-input-border--error
+        &.valid
+            border: 1px solid $color-input-border-blue-bg
+    input,
+    #mc_embed_signup .mc-field-group input,
+    #mc_embed_signup .mc-field-group select
+        display: flex
+        align-items: center
+        outline: none
+        width: 100%
+        height: gem(46)
+        text-indent: gem(20)
+        background: $color-input-bg-blue-bg
+        border-radius: gem(4)
+        padding: 0
+        border: 1px solid $color-input-border-blue-bg
+        &:active,
+        &:focus
+            border: 1px solid $color-input-border--focus
+        &::placeholder
+            color: $color-input-placeholder-enterprise-form
+            opacity: 1
+        &:-ms-input-placeholder
+            color: $color-input-placeholder-enterprise-form
+        &::-ms-input-placeholder
+            color: $color-input-placeholder-enterprise-form
+    .btn
+        position: relative
+        width: gem(160)
+        justify-content: flex-start
+        .button
+            width: 100%
+            color: $color-enterprise-form-btn-color
+            height: auto !important
+            text-indent: 0
+            padding: 0
+            margin: 0
+            box-shadow: none
+            text-align: left
+        &.arrow-btn
+            img
+                position: absolute
+                right: 0
+                margin: 0
+    .optional
+        position: absolute
+        top: gem(1)
+        left: gem(62)
+
+#mc_embed_signup .button
+    background: none !important
+    margin: 0 !important
+    padding: 0 !important
+    border: none !important
+
+.modal-enterprise-container
+    position: relative
+    display: flex
+    align-items: flex-start
+    justify-content: flex-start
+    flex-direction: column
+    .back-arrow
+        position: absolute
+        top: gem(10)
+        left: 0
+        width: gem(20)
+        height: auto
+        cursor: pointer
+
+.modal-enterprise-header
+    display: flex
+    align-items: flex-start
+    justify-content: flex-start
+    flex-direction: column
+    width: 100%
+    margin-bottom: gem(67)
+    padding-left: gem(32)
+    .modal-enterprise-title
+        &.windowsOS
+            position: relative
+            top: gem(-5)
+
+.modal-enterprise-footer
+    display: flex
+    align-items: flex-start
+    justify-content: flex-start
+    width: 100%
+    padding: gem(50) 0 gem(150)
+    margin-top: gem(16)
+    border-top: 1px solid $color-profile-separator
+
+.modal-enterprise-title
+    margin-bottom: gem(12)
+
+.modal-enterprise
+    #mc_embed_signup
+        .asterisk
+            color: $color-input-border--error
+        form
+            padding: 0 !important
+            display: flex !important
+            align-items: flex-start
+        .indicates-required
+            text-align: left !important
+            margin-bottom: gem(40)
+            font-size: gem(20) !important
+        .datefield,
+        .phonefield-us
+            display: flex
+            align-items: center
+            height: gem(48)
+            padding: 0 gem(20)
+            border-radius: gem(4)
+            width: gem(520)
+        .phonefield
+            position: relative
+        .phonefield-border
+            position: absolute
+            top: 0
+            left: 0
+            width: 100%
+            height: 100%
+            border: 1px solid $color-input-border-blue-bg
+            border-radius: gem(4)
+            pointer-events: none
+        .mc-field-group .phonefield
+            .phonearea
+                width: gem(35) !important
+            .phonedetail1
+                width: gem(27) !important
+            .phonedetail2
+                width: gem(36) !important
+            input
+                box-shadow: none
+                border: none !important
+                height: gem(24)
+                // width: auto
+                margin: 0
+                padding: 0
+                text-indent: 0
+                width: 100% !important
+                text-align: center
+                &:active,
+                &:focus
+                    ~ .phonefield-border
+                        z-index: 1
+                        border: 1px solid $color-input-border--focus
+        #mce-responses
+            position: relative
+            display: flex
+            align-items: flex-start
+            justify-content: flex-start
+            width: gem(560)
+            min-height: gem(24)
+            float: none
+            top: 0
+            left: 0
+            padding: 0
+            margin: 0
+            .response
+                padding: 0
+                margin: 0
+                text-transform: uppercase
+                right: auto
+                top: 0
+                left: 0
+                width: 100%
+                float: none
+                max-width: 100%
+                line-height: gem(12)
+                a
+                    color: $color-input-border--focus
+            #mce-success-response
+                color: $color-input-border--focus
+        #mc-embedded-subscribe-form
+            div.mce_inline_error
+                @extend .input-error-message
+                position: absolute
+                text-transform: uppercase
+                top: auto !important
+                right: auto !important
+                bottom: gem(-20) !important
+                left: 0
+                width: auto
+                background: none
+                padding: 0
+                margin: 0
+                max-width: 100% !important
+        #mc-embedded-subscribe-form
+            input.mce_inline_error
+                border: 1px solid $color-input-border--error
+                ~ .phonefield-border
+                    z-index: 1
+                    border: 1px solid $color-input-border--error

@@ -1,0 +1,202 @@
+
+.clients-page
+    padding-top: gem(77)
+    height: calc(100vh - #{gem(77)})
+    .top
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        justify-content: flex-start
+        .desc-1
+            letter-spacing: -0.02em
+            margin-bottom: gem(28)
+        .filter-wrap
+            width: 100%
+            display: flex
+            align-items: center
+            justify-content: space-between
+        .sort-clients
+            padding-right: 0
+            .list
+                min-width: gem(160)
+                top: gem(35)
+                right: gem(-53)
+                z-index: 1
+            li
+                padding: gem(14) gem(13) gem(12) gem(19)
+    .title
+        margin-bottom: gem(12)
+        display: inline-block
+    .scrollable
+        position: absolute
+        bottom: 0
+        left: 0
+        height: calc(100vh - #{gem(219)})
+        width: 100%
+        overflow-y: auto
+
+.client-item
+    transition: background-color 0.25s ease-in
+    width: 100%
+    cursor: pointer
+    color: $color-client-item
+    .client-item-container
+        border-bottom: 1px solid $color-input-border
+    &-image
+        width: gem(32)
+        height: gem(32)
+        margin-right: gem(16)
+    &-container
+        display: flex
+        align-items: center
+        justify-content: space-between
+        padding: gem(16) 0
+    .text-block
+        display: flex
+        align-items: center
+        justify-content: space-between
+        // flex-basis: 50%
+        flex-grow: 1
+        .desc-1
+            display: inline
+    .checkin-wrap
+        display: flex
+        align-items: center
+        width: gem(640)
+    .chekin-color
+        width: gem(5)
+        height: gem(5)
+        border-radius: 50%
+        margin-top: gem(-3)
+        margin-right: gem(6)
+    svg
+        margin-left: gem(35)
+    .action-block
+        position: absolute
+        right: 0
+        opacity: 0
+        transition: opacity 0.2s ease-in
+        color: $color-label-btn4-type4
+        text-transform: uppercase
+        display: flex
+        flex-wrap: nowrap
+        display: flex
+        align-items: center
+        height: gem(20)
+    .status-block
+        position: absolute
+        right: 0
+        display: flex
+        align-items: center
+        transition: opacity 0.2s 0.2s ease-in
+        height: gem(20)
+        pointer-events: none
+        .status-block-text
+            position: relative
+            padding-right: gem(22)
+            &:after
+                position: absolute
+                content: ''
+                top: 40%
+                right: 0
+                width: gem(10)
+                height: gem(10)
+                transform: translateY(-50%)
+                border-radius: 50%
+            &.active
+                &:after
+                    background: $color-client-item-active
+            &.inactive
+                &:after
+                    background: $color-client-item-inactive
+            &.invited
+                &:after
+                    background: $color-client-item-invited
+    .container
+        display: flex
+        flex-wrap: nowrap
+        justify-content: space-between
+        align-items: center
+    .name
+        transition: color 0.2s ease-in
+        color: $color-desc-1-type2
+    &.inactive
+        .name
+            color: inherit
+        .separator
+            min-width: 1px
+            height: gem(24)
+            width: gem(1)
+            display: block
+            background-color: $color-vertical-divider
+            opacity: 0.2
+            margin: 0 gem(29)
+    &.invited
+        .separator
+            min-width: 1px
+            height: gem(24)
+            width: gem(1)
+            display: block
+            background-color: $color-vertical-divider
+            opacity: 0.2
+            margin: 0 gem(16)
+        .green
+            display: flex
+            align-items: center
+    &:hover
+        background-color: $color-client-item-bg--hover
+        .action-block
+            opacity: 1
+        .status-block
+            transition: none
+            opacity: 0
+        &.inactive
+            .name
+                color: $color-client-item-name--inactive
+
+.no-client
+    display: flex
+    height: 100%
+    justify-content: space-between
+    align-items: center
+    .wrapper
+        position: relative
+        width: gem(660)
+        display: flex
+        flex-direction: column
+        justify-content: center
+        margin-top: gem(18)
+        // margin-right: gem(-5)
+        .desc-2
+            margin-bottom: gem(12)
+            letter-spacing: var(--letter-spacing-0)
+        .desc-3
+            margin-bottom: gem(45)
+            color: $color-no-client-desc-3
+        .btn
+            width: gem(176)
+            justify-content: space-between
+            .label-btn3
+                color: $color-no-client-btn3
+    .img-wrapper
+        position: relative
+        width: gem(300)
+        height: gem(300)
+        margin-left: gem(52)
+        margin-top: gem(-23)
+        img
+            width: 100%
+            height: 100%
+            // object-fit: cover
+    &.session-empty
+        .img-wrapper
+            width: gem(265)
+            height: auto
+            margin-left: gem(73)
+            margin-top: gem(2)
+    &.clients
+        .img-wrapper
+            width: gem(278)
+            height: auto
+            margin-left: gem(67)
+            margin-top: gem(13)

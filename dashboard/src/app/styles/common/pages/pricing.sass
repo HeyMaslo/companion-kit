@@ -1,0 +1,265 @@
+.pricing-page
+    padding-top: gem(69)
+    height: calc(100vh - #{gem(69)})
+    .row-wrap
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        justify-content: flex-start
+        padding: gem(48) 0
+        border-bottom: 1px solid $color-profile-separator
+    .pricing-title
+        display: flex
+        width: 100%
+        text-transform: capitalize
+        letter-spacing: normal
+        &:first-letter
+            text-transform: capitalize
+    .pricing-subtitle
+        margin-top: gem(13)
+    .pricing-billing-wrap
+        .radio-buttons-group
+            margin-top: gem(32)
+        .radio-button
+            &.checked
+                .radio-button-circle
+                    background: $color-radio-button-circle--checked
+                    border: 1px solid $color-radio-button-circle-border--checked
+                .radio-button-text
+                    color: $color-radio-button-text--checked
+        .radio-button-text
+            text-transform: uppercase
+            color: $color-plan-card-title--notchecked
+            font-size: var(--font-size-label-tag)
+            line-height: var(--line-height-label-tag)
+            font-weight: var(--font-weight-5)
+            letter-spacing: var(--letter-spacing-15)
+        .radio-button-circle
+            width: gem(19)
+            height: gem(19)
+            background: $color-plan-radio-button-bg
+            border: 1px solid $color-plan-radio-button-border
+            margin-right: gem(12)
+            &:after
+                width: gem(8)
+                height: gem(8)
+    .pricing-plans-wrap
+        padding: gem(53) 0 gem(45)
+        .pricing-subtitle
+            display: flex
+            align-items: center
+            width: 100%
+            .btn
+                display: inline
+                width: auto
+        .input-error-message
+            position: static
+            max-width: unset
+            margin-top: gem(15)
+    .pricing-items-wrap
+        margin: gem(25) 0 0
+        .radio-buttons-group
+            width: gem(932)
+            align-items: center
+            justify-content: space-between
+            flex-wrap: wrap
+    .enterprise-plan
+        display: flex
+        align-items: center
+        justify-content: space-between
+        flex-basis: 100%
+        height: gem(114)
+        padding: 0 gem(32)
+        border-radius: gem(4)
+        border: 1px solid $color-plan-card-border
+        margin-top: gem(16)
+        &-heading
+            width: gem(170)
+            display: flex
+            align-items: flex-start
+            justify-content: flex-start
+            flex-direction: column
+        .enterprise-plan-title
+            margin-bottom: gem(10)
+        .enterprise-plan-client-limit
+            cursor: text
+            margin-right: gem(45)
+        .btn
+            width: auto
+            &:hover
+                img
+                    transform: translateX(gem(10))
+    .pricing-features-wrap
+        padding: gem(55) 0 gem(50)
+    .features-list
+        display: flex
+        flex-direction: column
+        flex-wrap: wrap
+        align-items: flex-start
+        justify-content: flex-start
+        align-content: space-between
+        height: gem(144)
+        margin: gem(36) 0 gem(38)
+    .feature-item
+        display: flex
+        align-items: center
+        width: gem(460)
+        flex-basis: 25%
+        // margin-bottom: gem(24)
+    .feature-icon
+        width: gem(12)
+        height: auto
+        margin-right: gem(16)
+    // TODO refactor styles for reusage in the profile
+    .payment-info-wrap
+        .inputs-wrap
+            margin-bottom: gem(55)
+            padding-top: gem(62)
+            padding-bottom: gem(55)
+            border-bottom: 1px solid $color-profile-separator
+            display: flex
+        .input-wrap
+            &:not(:last-child)
+                margin-right: gem(100)
+        .btn
+            width: gem(240)
+    .card-row-wrap
+        position: relative
+        padding: gem(54) 0 gem(26)
+        .edit-title
+            width: fit-content
+            margin-top: gem(53)
+            position: absolute
+            bottom: 0
+            left: 0
+        .cancel
+            position: absolute
+            bottom: 0
+            right: 0
+            display: flex
+            width: fit-content
+        .input-error-message
+            top: gem(193)
+            right: auto
+            left: 0
+            // bottom: gem(40)
+    .pricing-total-wrap
+        border-bottom: none
+        padding: gem(54) 0 gem(50)
+    .pricing-total
+        display: flex
+        align-items: flex-start
+        justify-content: flex-start
+        margin-top: gem(32)
+    .pricing-total-column
+        position: relative
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        justify-content: space-between
+        text-align: left
+        height: gem(48)
+        &:not(:last-of-type)
+            margin-right: gem(40)
+            padding-right: gem(40)
+            &:after
+                position: absolute
+                content: ''
+                width: 1px
+                height: gem(24)
+                background: $color-vertical-divider
+                right: 0
+        span
+            white-space: nowrap
+            &:after
+                display: none
+        .period
+            font-size: 70%
+            text-transform: none
+    .pricing-total-no-plan
+        display: flex
+        align-items: center
+        width: 100%
+        margin-top: gem(12)
+    .submit-wrap
+        display: flex
+        align-items: center
+        justify-content: space-between
+        flex-direction: row
+        padding: gem(48) 0 gem(80)
+        border-bottom: none
+        border-top: 1px solid $color-profile-separator
+    .submit-button
+        width: auto
+    .cancel-subscription
+        width: auto
+        .label-btn4
+            color: $color-pricing-cancel-subscr-label-btn4
+    .contorls
+        display: flex
+        justify-content: space-between
+        button
+            width: auto
+    .input-error-message
+        position: absolute
+        top: gem(5)
+        right: 0
+        // max-width: gem(500)
+    .card-number-wrap
+        width: gem(360)
+    .card-expiry-wrap
+        width: gem(160)
+    .card-cvc-wrap
+        width: gem(160)
+    .card-item
+        margin-right: gem(24)
+        .focus-item
+            position: relative
+            border-radius: gem(4)
+            padding: gem(12) gem(20) gem(11)
+            margin-top: gem(8)
+            .input-border
+                position: absolute
+                top: 0
+                left: 0
+                width: 100%
+                height: 100%
+                border: 1px solid $color-input-border-blue-bg
+                border-radius: gem(5)
+                pointer-events: none
+            .StripeElement
+                &--empty
+                    ~ .input-border
+                        border: 1px solid $color-input-border-blue-bg
+                &--focus
+                    ~ .input-border
+                        border: 1px solid $color-input-border--focus
+                &--invalid
+                    ~ .input-border
+                        border: 1px solid $color-input-border--error
+    .credit-card-row
+        justify-content: flex-start
+        margin: gem(37) 0 gem(23)
+
+@media all and (max-width: 768px)
+    .pricing-page
+        .pricing-items-wrap
+            .radio-buttons-group
+                width: 100%
+        .enterprise-plan
+            .enterprise-plan-client-limit
+                width: gem(220)
+                margin: 0 auto 0 gem(32)
+        .features-list
+            width: 100%
+            // flex-wrap: nowrap
+            // justify-content: space-between
+        .feature-item
+            width: 50%
+
+
+    .pricing-item
+        width: gem(188)
+        height: gem(368)
+        &-content
+            padding: gem(100) gem(20) gem(32)

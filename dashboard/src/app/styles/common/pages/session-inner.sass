@@ -1,0 +1,57 @@
+.session-inner
+    .icons
+        margin-bottom: gem(23)
+        margin-top: gem(18)
+    .cards-wrap
+        display: flex
+        justify-content: flex-start
+        align-items: center
+        margin-bottom: gem(37)
+    .session-card
+        position: relative
+        display: flex
+        justify-content: space-between
+        width: gem(207)
+        height: gem(62)
+        background: $color-card-mood-bg
+        border: 1px solid $color-input-border-blue-bg
+        border-radius: 5px
+        margin-right: gem(10)
+        &:after
+            content: ''
+            display: block
+            width: 1px
+            height: 100%
+            position: absolute
+            background-color: $color-input-border-blue-bg
+            left: 50%
+            top: 0
+            transform: translateX(-50%)
+        .card-data
+            position: relative
+            width: 50%
+            height: 100%
+            display: flex
+            flex-direction: column
+            align-items: center
+            justify-content: center
+            &.green
+                .percent-data, .percent-description
+                    color: $color-session-card-percent--contrast
+            .percent-data
+                color: $color-session-card-percent--default
+                .percent
+                    font-size: gem(14)
+            .percent-description
+                color: $color-session-card-percent--default
+                font-size: var(--font-size-small)
+                line-height: gem(10)
+                text-transform: uppercase
+                margin-left: gem(-2)
+                margin-top: gem(3)
+        .stick-chart
+            margin: gem(89) 0 gem(71)
+            .content
+                min-height: gem(64)
+
+

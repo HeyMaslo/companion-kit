@@ -1,0 +1,225 @@
+.sessions-tab
+    margin-bottom: gem(40)
+
+.sessions-tab,
+.docs-tab
+    margin-top: gem(33)
+    .no-client
+        &:before
+            display: none
+    .flex-column
+        display: flex
+        flex-direction: column
+    .audio-card
+        padding: gem(19) gem(29) gem(19) gem(32)
+        z-index: inherit
+        &:last-of-type
+            margin-bottom: 0
+        .info-block
+            margin-left: gem(63)
+            display: flex
+            align-items: center
+        .separator
+            height: gem(48)
+            width: 1px
+            background-color: $color-chart-border
+            margin: 0 gem(16) 0
+        .percents
+            font-family: Helvetica Neue
+            font-weight: 300
+            font-size: gem(24)
+            line-height: gem(32)
+            text-align: center
+            color: $color-journal-card-text
+            position: relative
+            z-index: 10
+            &.gray
+                color: $color-audio-card-percents-label
+        .percents-label
+            font-family: Helvetica Neue
+            font-style: normal
+            font-weight: 500
+            font-size: 8px
+            line-height: 10px
+            text-align: center
+            text-transform: uppercase
+            color: $color-audio-card-percents-label
+            position: relative
+            z-index: 10
+            white-space: nowrap
+        .dotters
+            margin-right: gem(-17)
+            margin-top: gem(-8)
+            letter-spacing: gem(-0.7)
+        .dropdown
+            z-index: 1
+            .button
+                &.desc-1
+                    opacity: 0
+            .list
+                left: gem(-14)
+                top: 100%
+    .audio-player
+        .title-block
+            align-items: center
+            .play,
+            .pause
+                margin: auto gem(24) auto 0
+            .text-block
+                width: gem(285)
+                .desc-3
+                    line-height: gem(20)
+        .progress-wrapper
+            margin-left: gem(119)
+    .upload,
+    .add-link-button
+        display: flex
+        justify-content: center
+        align-items: center
+        width: 100%
+        height: gem(40)
+        border-radius: gem(5)
+        background-color: $color-sessions-tab-upload-bg
+        border: 1px dashed $color-sessions-tab-upload-border
+        margin-bottom: gem(15)
+        overflow: hidden
+        cursor: pointer
+        z-index: 10
+        position: relative
+        svg,
+        img
+            width: gem(16)
+            margin-right: gem(16)
+            margin-left: gem(7)
+        .label-draganddrop
+            margin-top: gem(3)
+
+.sessions-list
+    display: flex
+    flex-direction: column
+    justify-content: flex-start
+    align-items: stretch
+
+.drag-zone
+    position: absolute
+    // transition: opacity 0.3s linear
+    top: 0
+    left: 0
+    width: 100vw
+    height: 100%
+    background-color: $color-drag-bg
+    opacity: 0
+    z-index: 1
+    display: flex
+    justify-content: center
+    align-items: center
+    flex-direction: column
+    &.active
+        // z-index: 11
+        // opacity: 1
+        animation: appear-anim 0.3s linear forwards
+    input
+        opacity: 0
+        height: 100%
+        width: 100%
+        position: absolute
+    svg,
+    img
+        width: gem(80)
+        margin-bottom: gem(25)
+    span
+        font-family: Helvetica Neue
+        font-weight: 500
+        font-size: gem(16)
+        line-height: gem(20)
+        letter-spacing: 0.15em
+        text-transform: uppercase
+        color: $color-sessions-drag-zone-span
+    .percents
+        font-size: gem(30)
+    .progress
+        margin-bottom: gem(10)
+        font-weight: 200
+        font-size: gem(120)
+        line-height: gem(145)
+        text-transform: uppercase
+        color: $color-sessions-drag-zone-span
+    .drag-help
+        position: fixed
+        top: gem(396)
+        width: 100%
+        // bottom: gem(89)
+        display: flex
+        justify-content: center
+        align-items: center
+        flex-direction: column
+
+@keyframes appear-anim
+    0%
+        opacity: 0
+        z-index: 1
+    0.001%
+        z-index: 11
+    100%
+        opacity: 1
+        z-index: 11
+
+.sessions-wrap,
+.docs-wrap
+    overflow: unset
+    .modal-invalid-extention
+        position: fixed
+        background-color: $color-modal-invalid-extention-bg
+        left: 0
+        top: 0
+        bottom: 0
+        right: 0
+        z-index: 100
+        display: flex
+        justify-content: center
+        align-items: center
+        .modal-body
+            display: flex
+            flex-direction: column
+            width: gem(720)
+            // margin-top: gem(67)
+            // margin-bottom: gem(12)
+            padding: gem(64) gem(80)
+            box-sizing: border-box
+            background: $color-sessions-modal-bg
+            border-radius: gem(8)
+        .icon-wrap
+            width: gem(94)
+            margin-bottom: gem(74)
+            img
+                width: 100%
+        .title-h1
+            margin-bottom: gem(11)
+        .desc-1
+            margin-bottom: gem(42)
+            color: $color-modal-invalid-extention-desc-1
+        .btn
+            width: gem(46)
+            .label-btn2
+                color: $color-modal-invalid-extention-btn
+
+#edit-session-form
+    display: flex
+    .input-wrap
+        margin-bottom: 0
+        &:first-child
+            margin-right: gem(20)
+            .input
+                width: gem(420)
+        .input
+            max-height: gem(48)
+            width: unset
+
+@media all and (max-width: 768px)
+    .sessions-tab,
+        .audio-player
+            .progress-wrapper
+                    margin-left: gem(40)
+        .audio-card
+            .info-block
+                margin-left: 0

@@ -1,0 +1,81 @@
+.dropdown
+    position: relative
+    // z-index: var(--z-index-dropdowns)
+    .button-wrap
+        display: flex
+        align-items: center
+        justify-content: space-between
+        padding: gem(4) 0
+        cursor: pointer
+        transition: all .3s ease
+    .list
+        position: absolute
+        width: gem(140)
+        display: flex
+        flex-direction: column
+        text-align: left
+        top: calc(100% + #{gem(3)})
+        left: gem(-17)
+        padding: gem(16) gem(20) gem(13)
+        transition: opacity .3s ease-in
+        pointer-events: none
+        background: $color-dropdown-list-bg
+        border-radius: gem(4)
+        opacity: 0
+        box-sizing: border-box
+        &::after
+            content: ''
+            position: absolute
+            border-left: gem(4) solid transparent
+            border-right: gem(4) solid transparent
+            border-bottom: gem(4) solid $color-dropdown-list-bg
+            top: gem(-4)
+            left: gem(20)
+    .dropdown-item
+        display: flex
+        &:not(:last-child)
+            margin-bottom: gem(16)
+    .btn-action
+        justify-content: flex-start
+        align-items: flex-start
+        .label-dropdown3  
+            &:after
+                display: none
+    &.active
+        .list
+            opacity: 1
+            pointer-events: all
+        .triangle
+            transform: rotate(135deg)
+    &-multi-select
+        .button-wrap
+            min-width: gem(211)
+            padding: gem(12) gem(9) gem(11) gem(20)
+            border: 1px dashed var(--color-tolopea-opacity-30)
+            border-radius: gem(4)
+            box-sizing: border-box
+            &:hover
+                box-shadow: gem(6) gem(6) gem(14) var(--shadow-main-button)
+                .button
+                    color: var(--color-spun-pearl)
+        .button
+            font-size: gem(13)
+            line-height: gem(21)
+            color: var(--color-spun-pearl)
+        .triangle
+            width: gem(5)
+            margin-left: 0
+            margin-right: gem(4)
+        .list
+            right: inherit
+            left: 0
+            top: gem(53)
+            padding: gem(15) 0 gem(21)
+            box-sizing: border-box
+        .dropdown-item
+            padding: 0 gem(24)
+            .title-h4
+                padding: 0
+        &.active
+            .button-wrap
+                box-shadow: gem(6) gem(6) gem(14) var(--shadow-main-button)

@@ -1,0 +1,121 @@
+.todesktop-page
+    padding: 0
+    display: flex
+    flex-direction: column
+    height: 100%
+    .text-block
+        display: flex
+        align-items: flex-start
+        justify-content: flex-start
+        flex-direction: column
+        .title
+            margin-bottom: gem(24)
+        .desc
+            line-height: gem(28)
+            margin-bottom: gem(18)
+        .btn
+            margin-top: gem(38)
+        .input-error-message
+            text-transform: uppercase
+            display: inline-block
+            margin-top: gem(24)
+
+.todesktop-container
+    flex-grow: 1
+    height: 100%
+    display: flex
+    align-items: flex-start
+    justify-content: flex-start
+    flex-direction: column
+    padding: gem(166) 0 gem(120)
+
+.todesktop-header
+    display: flex
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    background: $color-bg-main
+    z-index: 10
+    &-container
+        display: flex
+        align-items: center
+        justify-content: space-between
+        height: gem(70)
+    .btn
+        width: auto
+        position: relative
+        top: gem(5)
+
+.todesktop-image
+    display: flex
+    align-items: flex-start
+    width: gem(320)
+    margin-bottom: gem(80)
+
+.link-sent-container
+    flex-grow: 1
+    height: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-direction: column
+    padding: gem(120) 0
+    .text-block
+        text-align: center
+        align-items: center
+        justify-content: center
+        margin: 0 auto
+        max-width: gem(607)
+
+.link-sent-image
+    display: block
+    width: gem(285)
+    margin: 0 auto gem(40)
+
+// @media only screen and (max-width: 1024px)
+    //
+
+// only all tablets
+// @media only screen and (any-pointer: coarse) and (min-width: 768px) and (hover: none) and (max-width: 1367px)
+
+
+@media only screen and (max-width: 480px)
+
+    .todesktop-page
+        height: auto
+        min-height: 100%
+        .text-block
+            .title
+                margin-bottom: gem(20)
+            .desc
+                font-size: gem(18)
+                line-height: gem(28)
+                margin-bottom: gem(14)
+            .btn
+                margin-top: gem(26)
+            .input-error-message
+                margin-top: gem(18)
+
+    .todesktop-container
+        padding: gem(110) 0 gem(64)
+
+    .todesktop-image
+        width: gem(200)
+        margin-bottom: gem(64)
+
+    .link-sent-container
+        .text-block
+            max-width: 100%
+
+    .link-sent-image
+        width: gem(188)
+        margin: 0 auto gem(22)
+
+// only mobile portrait
+// @media only screen and (max-width: 480px) and (max-height: 999px) and (hover: none) and (any-pointer: coarse) and (orientation: portrait)
+    //
+
+// only mobile landscape
+// @media only screen and (max-width: 999px) and (max-height: 567px) and (hover: none) and (any-pointer: coarse) and (orientation: landscape)
+    //

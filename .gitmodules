@@ -1,0 +1,7 @@
+[submodule "mobile/dependencies/persona"]
+	path = mobile/dependencies/persona
+	url = git@github.com:HeyMaslo/maslo-persona.git
+	branch = dev-ts
+[submodule "mobile/dependencies/react-native-switch-pro"]
+	path = mobile/dependencies/react-native-switch-pro
+	url = git@github.com:HeyMaslo/react-native-switch-pro.git

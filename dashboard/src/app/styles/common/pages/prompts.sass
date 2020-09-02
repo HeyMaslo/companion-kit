@@ -1,0 +1,191 @@
+.prompts-page
+    min-height: calc(100vh - #{gem(103)})
+    height: max-content
+    overflow-y: unset
+    padding-top: gem(103)
+    outline: none
+    background: $color-bg-scrollable
+    .heading-wrap
+        display: flex
+        margin-bottom: gem(40)
+        .left-block
+            display: flex
+        .arrow-link
+            margin-top: gem(4)
+            margin-right: gem(10)
+            cursor: pointer
+            img
+                width: gem(22)
+        .title-h2
+            margin-bottom: gem(10)
+        .nav-wrap
+            display: flex
+            flex-direction: column
+        .breadcrumbs
+            letter-spacing: 0.05em
+        .last-breadcrumb
+            color: $color-phq9-last-breadcrumb
+        .deactivate-btn
+            display: flex
+            cursor: pointer
+            .label-btn2 
+                margin-right: gem(8)
+                letter-spacing: 0.15em
+    .prompt-wrap,
+    .schedule-wrap
+        margin-top: gem(38)
+        margin-bottom: gem(139)
+    .prompt-item,
+    .schedule-item
+        background-color: $color-audio-card-bg
+        padding: gem(14) gem(29) gem(13) gem(32)
+        border-radius: gem(5)
+        border: 1px solid $color-chart-border
+        display: flex
+        justify-content: space-between
+        align-items: center
+        margin-bottom: gem(16)
+        position: relative
+        z-index: inherit
+        &:last-of-type
+            margin-bottom: 0
+        .left-block,
+        .right-block
+            display: flex
+            align-items: center
+        .button-switch
+            margin-right: gem(24)
+        .prompt-text,
+        .schedule-text
+            margin-top: gem(3)
+            // width: gem(450)
+            width: gem(730)
+            overflow: hidden
+            text-overflow: ellipsis
+            line-height: normal
+            display: -webkit-box
+            -webkit-line-clamp: 1
+            -webkit-box-orient: vertical
+        .category-wrap
+            display: flex
+            align-items: center
+            padding: gem(8) gem(12)
+            border-radius: gem(4)
+            background: $color-prompt-category-bg--default
+            .desc-5
+                color: $color-prompt-category-text--default
+            &.anger
+                background: $color-prompt-category-bg--anger
+                .desc-5
+                    color: $color-prompt-category-text--anger
+            &.depression
+                background: $color-prompt-category-bg--depression
+                .desc-5
+                    color: $color-prompt-category-text--depression
+            &.anxiety
+                background: $color-prompt-category-bg--anxiety
+                .desc-5
+                    color: $color-prompt-category-text--anxiety
+            &.neutral
+                background: $color-prompt-category-bg--neutral
+                .desc-5
+                    color: $color-prompt-category-text--neutral
+        .dropdown-wrap
+            display: flex
+            align-items: center
+            margin-left: gem(45)
+        .dotters
+            margin-right: gem(-17)
+            margin-top: gem(-8)
+            letter-spacing: gem(-0.7)
+        .dropdown
+            z-index: 1
+            .button
+                &.desc-1
+                    opacity: 0
+            .list
+                left: gem(-14)
+                top: 100%
+    .actions-block
+        display: flex
+        align-items: center
+        justify-content: space-between
+        width: 100%
+        margin-bottom: gem(28)
+    .add-prompt-button
+        width: gem(209)
+        display: flex
+        justify-content: center
+        align-items: center
+        height: gem(46)
+        border-radius: gem(5)
+        background-color: $color-sessions-tab-upload-bg
+        border: 1px dashed $color-sessions-tab-upload-border
+        overflow: hidden
+        cursor: pointer
+        z-index: 10
+        position: relative
+        img
+            width: gem(16)
+            margin-right: gem(16)
+            margin-left: gem(-8)
+
+    .filters-block
+        display: flex
+        align-items: center
+        justify-content: space-between
+        height: gem(54)
+        padding: 0 gem(32)
+        background-color: $color-prompt-filters-block-bg
+        border: 1px solid $color-chart-border
+        border-radius: gem(5)
+        margin-bottom: gem(16)
+        .divider
+            display: inline-flex
+            margin: 0 gem(31)
+            width: 1px
+            height: gem(25)
+            background: $color-prompt-filters-divider-bg
+        .left-block
+            display: flex
+            align-items: center
+        .right-block
+            display: flex
+            align-items: center
+            .divider
+                margin-left: gem(3)
+            .filters-category
+                z-index: 1
+                &.white-bg
+                    .list
+                        top: gem(35)
+                        right: gem(16)
+                    li
+                        min-width: gem(135)
+    
+    .schedule-wrap
+        margin-top: gem(57)
+    .schedule-item-wrap 
+        display: flex
+        flex-direction: column
+        margin-bottom: gem(24)
+        .schedule-date
+            display: block
+            margin-bottom: gem(16)
+            letter-spacing: var(--letter-spacing-05)
+        .schedule-text
+            margin-right: gem(41)
+        .time-wrap
+            display: flex
+            align-items: center
+            img
+                width: gem(16)
+                margin-right: gem(8)
+                margin-top: gem(-3)
+        .schedule-item
+            &:not(:last-child)
+                margin-bottom: gem(16)
+
+    .no-client
+        &.schedule-empty
+            margin-top: gem(120)

@@ -1,0 +1,105 @@
+import { EnumStringHelper } from 'common/utils/enumHelper';
+import Identify from './Identify';
+import { EntityWithStatus } from './EntityWithStatus';
+
+export enum ClientStatus {
+    Active = 'active',
+    Invited = 'invited',
+    Inactive = 'inactive',
+    Archived = 'archived',
+}
+
+export namespace ClientStatus {
+    export const Helper = new EnumStringHelper<ClientStatus>(ClientStatus);
+}
+
+export enum ClientGoal {
+    PersonalDevelopment = 'Personal Development',
+    ImprovedHealth = 'Improved Health and Fitness',
+    Mindfulness = 'Mindfulness / Wellbeing',
+    ProfessionalDevelopment = 'Professional Development',
+    EmotionalIntelligence = 'Emotional Intelligence Training',
+    LeadershipDevelopment = 'Leadership Development',
+    CareerCoaching = 'Career Coaching',
+    SpecificSkills = 'Specific Skills training',
+    EmotionalSupport = 'Emotional Support',
+    RelationshipConflictSupport = 'Relationship / Conflict Support',
+}
+
+export namespace ClientGoal {
+    export const Helper = new EnumStringHelper<ClientGoal>(ClientGoal);
+}
+
+export enum CoachClientActions {
+    Add = 'add',
+    Edit = 'edit',
+    ResendInvite = 'resendInvite',
+    Disable = 'disable',
+    Renew = 'renew',
+    Archive = 'archive',
+    EditAssessments = 'assessments',
+}
+
+export namespace CoachClientActions {
+    export const Helper = new EnumStringHelper<CoachClientActions>(CoachClientActions);
+}
+
+export const ClientInviteMinPeriod = 1000 * 3600 * 24; // 1 day
+
+/**
+ * Client's data, stored inside coach.
+ */
+
+export type Caretaker = {
+    firstName: string;
+    lastName: string;
+    phone: string;
+    email: string;
+    relationship: string;
+};
+
+export type ClientCard = EntityWithStatus<ClientStatus> & {
+    // name will be used until client user will update them
+    firstName: string;
+    lastName: string;
+    phone: string;
+
+    // used for linking to User
+    email: string;
+
+    // the following info might be unique for each coach+client pair
+    goal: string;
+    description: string;
+    occupation?: string;
+
+    birthday?: number;
+    externalPatientId?: string;
+    nickname?: string;
+
+    // now is 'status' in EntityWithStatus
+    // status: ClientStatus;
+
+    inviteSentTime: number;
+
+    /** Reference to client real ID. Is null until user registered and approved participation */
+    clientId?: string;
+
+    // clients caretakers
+    caretaker?: Caretaker;
+    extraCaretaker?: Caretaker;
+
+    // or rework it to record?
+    diagnosis?: string[];
+};
+
+export namespace ClientCard {
+    export function changeStatus(item: Partial<ClientCard>, status: ClientStatus, date: number = null) {
+        return EntityWithStatus.changeStatus(item, status, date);
+    }
+
+    export function getLastStatusDate(entity: ClientCard, ...statuses: ClientStatus[]) {
+        return EntityWithStatus.getLastStatusDate(entity, ...statuses);
+    }
+}
+
+export type ClientCardIded = Identify<ClientCard>;
