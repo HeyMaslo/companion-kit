@@ -24,7 +24,33 @@ import AppQueryService from 'src/services/AppQueryService';
 import AnalyticsExpo from 'src/services/AnalyticsService';
 import { InitAnalytics } from 'common/services/analytics/analytics';
 
+import {
+    SiriShortcutsEvent,
+    donateShortcut,
+    suggestShortcuts,
+    clearShortcutsWithIdentifiers,
+    getShortcuts,
+    ShortcutOptions,
+} from 'react-native-siri-shortcut';
+
 const logger = createLogger('[APP]');
+
+const opts1: ShortcutOptions = {
+    activityType: 'com.maslo.evolution.SiriShortcutsModule.sayHello',
+    title: 'Say Hi',
+    userInfo: {
+        foo: 1,
+        bar: 'baz',
+        baz: 34.5,
+    },
+    keywords: ['kek', 'foo', 'bar'],
+    persistentIdentifier:
+    'com.maslo.evolution.SiriShortcutsModule.sayHello',
+    isEligibleForSearch: true,
+    isEligibleForPrediction: true,
+    suggestedInvocationPhrase: 'Say something',
+    needsSave: true,
+};
 
 interface IAppProps {
     skipLoadingScreen?: boolean;
@@ -44,6 +70,14 @@ export default class App extends React.Component<IAppProps> {
         AppQueryService.prewarm();
 
         AudioManager.initialize();
+
+        SiriShortcutsEvent.addListener(
+            'SiriShortcutListener',
+            this.handleSiriShortcut.bind(this),
+        );
+
+        suggestShortcuts([opts1]);
+        this.updateShortcutList();
     }
 
     componentWillUnmount() {
@@ -54,6 +88,40 @@ export default class App extends React.Component<IAppProps> {
     componentDidCatch(error: Error, errorInfo: ErrorInfo) {
         console.error(error);
         this.processUnhandledError(error);
+    }
+
+    handleSiriShortcut({userInfo, activityType}: any) {
+        this.setState({
+            shortcutInfo: userInfo,
+            shortcutActivityType: activityType,
+        });
+    }
+
+    setupShortcut1() {
+        donateShortcut(opts1);
+    }
+
+    async clearShortcut1() {
+        try {
+          await clearShortcutsWithIdentifiers([
+            'com.maslo.evolution.SiriShortcutsModule.sayHello',
+          ]);
+          alert('Cleared Shortcut 1');
+        } catch (e) {
+          alert("You're not running iOS 12!");
+        }
+    }
+
+    async updateShortcutList() {
+        try {
+          const shortcuts = await getShortcuts();
+    
+          this.setState({
+            shortcuts,
+          });
+        } catch (e) {
+          alert("You're not running iOS 12!");
+        }
     }
 
     private processUnhandledError(e: Error) {
