@@ -19,16 +19,16 @@ function fc(str: string, skipEmpty = false) {
 const LAST_BUILD_VESION_KEY = 'LAST_BUILD_VERSION';
 
 export class AppVersion {
-    public static readonly Name = ExpoConstants.manifest.name;
+    public static readonly Name = ExpoConstants?.manifest?.name;
 
     public static readonly Version = Env.App.Version;
-    public static readonly Build = `${fc(Env.Current)}${fc(ExpoConstants.manifest.releaseChannel)}${process.developVersion || ''} ${Env.App.Hash || '?'}`;
+    public static readonly Build = `${fc(Env.Current)}${fc(ExpoConstants?.manifest?.releaseChannel)}${process.developVersion || ''} ${Env.App.Hash || '?'}`;
     public static readonly FullVersion = `${AppVersion.Name} v${AppVersion.Version}${AppVersion.Build}`;
 
     @observable
     private _next: boolean = null;
 
-    get name() { return ExpoConstants.manifest.name; }
+    get name() { return ExpoConstants?.manifest?.name; }
     get current() { return AppVersion.Version; }
     get hasNext() { return this._next; }
 
@@ -36,10 +36,10 @@ export class AppVersion {
 
     get fullVersion() { return AppVersion.FullVersion; }
 
-    get isDevelopment() { return Env.Current !== 'production' || ExpoConstants.manifest.releaseChannel === 'default'; }
+    get isDevelopment() { return Env.Current !== 'production' || ExpoConstants?.manifest?.releaseChannel === 'default'; }
 
     public checkForUpdates = async () => {
-        if (ExpoConstants.appOwnership !== AppOwnership.Standalone) {
+        if (ExpoConstants?.appOwnership !== AppOwnership.Standalone) {
             return;
         }
 
@@ -68,8 +68,8 @@ export class AppVersion {
 
     private async tryForceUpdateApp(nextSoftUpdate: number = null) {
         const lastVersion = await Storage.getValue(LAST_BUILD_VESION_KEY);
-        const currentVersion = `${ExpoConstants.nativeAppVersion} (${ExpoConstants.nativeBuildVersion})`;
-        const currentSoftVersion = +(ExpoConstants.manifest?.extra?.softVersion) || 0;
+        const currentVersion = `${ExpoConstants?.nativeAppVersion} (${ExpoConstants?.nativeBuildVersion})`;
+        const currentSoftVersion = +(ExpoConstants?.manifest?.extra?.softVersion) || 0;
         if (currentVersion !== lastVersion || (nextSoftUpdate != null && nextSoftUpdate > currentSoftVersion)) {
             await Storage.setValue(LAST_BUILD_VESION_KEY, currentVersion);
             await this.update();
