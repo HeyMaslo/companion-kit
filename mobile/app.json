@@ -1,105 +1,104 @@
 {
-  "expo": {
-    "name": "Companion Kit",
-    "slug": "companionkit",
-    "privacy": "unlisted",
-    "platforms": [
-      "ios",
-      "android"
-    ],
-    "version": "1.0.1",
-    "orientation": "portrait",
+  "name": "CompanionKit",
+  "displayName": "CompanionKit",
+  "slug": "companionkit",
+  "privacy": "unlisted",
+  "platforms": [
+    "ios",
+    "android"
+  ],
+  "version": "1.0.1",
+  "orientation": "portrait",
+  "icon": "./src/assets/appicons/appicon.png",
+  "splash": {
+  "resizeMode": "contain",
+    "backgroundColor": "#FCFCFC"
+  },
+  "updates": {
+    "fallbackToCacheTimeout": 0
+  },
+  "assetBundlePatterns": [
+    "src/assets/fonts/app/*",
+    "src/assets/images/*",
+    "src/assets/images/locations/*",
+    "src/assets/images/app/**"
+  ],
+  "isDetached": false,
+  "extra": {
+    "softVersion": "1"
+  },
+  "ios": {
+    "supportsTablet": false,
+    "usesAppleSignIn": true,
     "icon": "./src/assets/appicons/appicon.png",
-    "splash": {
-    "resizeMode": "contain",
-      "backgroundColor": "#FCFCFC"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "src/assets/fonts/app/*",
-      "src/assets/images/*",
-      "src/assets/images/locations/*",
-      "src/assets/images/app/**"
-    ],
-    "isDetached": false,
-    "extra": {
-      "softVersion": "1"
-    },
-    "ios": {
-      "supportsTablet": false,
-      "usesAppleSignIn": true,
-      "icon": "./src/assets/appicons/appicon.png",
-      "buildNumber": "1",
-      "bundleIdentifier": "...",
-      "config": {
-        "usesNonExemptEncryption": false,
-        "googleSignIn": {
-          "reservedClientId": "..."
-        }
-      },
-      "associatedDomains": [
-        "..."
-      ],
-      "googleServicesFile": "./configs/app/GoogleService-Info.plist",
-      "infoPlist": {
-        "NSMicrophoneUsageDescription": "...",
-        "NSPhotoLibraryUsageDescription": "..."
+    "buildNumber": "1",
+    "bundleIdentifier": "...",
+    "config": {
+      "usesNonExemptEncryption": false,
+      "googleSignIn": {
+        "reservedClientId": "..."
       }
     },
-    "android": {
-      "config": {
-        "googleSignIn": {
-          "apiKey": "...",
-          "certificateHash": "..."
-        }
-      },
-      "package": "...",
-      "googleServicesFile": "./configs/app/google-services.json",
-      "versionCode": 1,
-      "intentFilters": [
-        {
-          "action": "VIEW",
-          "autoVerify": true,
-          "data": [
-            {
-              "scheme": "https",
-              "host": "..."
-            }
-          ],
-          "category": [
-            "BROWSABLE",
-            "DEFAULT"
-          ]
-        }
-      ]
-    },
-    "hooks": {
-      "postPublish": [
-        {
-          "file": "sentry-expo/upload-sourcemaps",
-          "config": {
-            "organization": "...",
-            "project": "...",
-            "authToken": "..."
-          }
-        }
-      ]
-    },
-    "packagerOpts": {
-      "config": "...",
-      "sourceExts": [
-        "js",
-        "jsx",
-        "ts",
-        "tsx",
-        "svg"
-      ],
-      "assetExts": [
-        "md",
-        "glsl"
-      ]
+    "associatedDomains": [
+      "..."
+    ],
+    "googleServicesFile": "./configs/app/GoogleService-Info.plist",
+    "infoPlist": {
+      "NSMicrophoneUsageDescription": "...",
+      "NSPhotoLibraryUsageDescription": "..."
     }
+  },
+  "android": {
+    "config": {
+      "googleSignIn": {
+        "apiKey": "...",
+        "certificateHash": "..."
+      }
+    },
+    "package": "...",
+    "googleServicesFile": "./configs/app/google-services.json",
+    "versionCode": 1,
+    "intentFilters": [
+      {
+        "action": "VIEW",
+        "autoVerify": true,
+        "data": [
+          {
+            "scheme": "https",
+            "host": "..."
+          }
+        ],
+        "category": [
+          "BROWSABLE",
+          "DEFAULT"
+        ]
+      }
+    ]
+  },
+  "hooks": {
+    "postPublish": [
+      {
+        "file": "sentry-expo/upload-sourcemaps",
+        "config": {
+          "organization": "...",
+          "project": "...",
+          "authToken": "..."
+        }
+      }
+    ]
+  },
+  "packagerOpts": {
+    "config": "...",
+    "sourceExts": [
+      "js",
+      "jsx",
+      "ts",
+      "tsx",
+      "svg"
+    ],
+    "assetExts": [
+      "md",
+      "glsl"
+    ]
   }
 }

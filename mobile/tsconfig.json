@@ -1,43 +1,43 @@
 {
-    "compilerOptions": {
-        "module": "esnext",
-        "moduleResolution": "node",
-        "target": "esnext",
-        "experimentalDecorators": true,
-        "allowSyntheticDefaultImports": true,
-        "importHelpers": true,
-        "noEmit": true,
-        "allowJs": true,
-        "resolveJsonModule": true,
-        "sourceMap": true,
-        "jsx": "react-native",
-        "baseUrl": ".",
-        "paths": {
-            "src/*": ["src/*"],
-            "common/*": ["../common/*"],
-            "assets/*": ["src/assets/*"],
-            "dependencies/*": ["./dependencies/*"],
-            "@persona-core": ["./dependencies/persona"],
-            "*": [
-                "*",
-                "node_modules/*"
-            ],
-        },
-        "lib": [
-            "es2015",
-            "es5",
-            "es2016",
-            "es6",
-            "es2017",
-            "es7",
-            "DOM"
-        ],
-        "skipLibCheck": true,
-    },
-    "include": [
-        "src/**/*"
-    ],
-    "exclude": [
-        "src/screens"
-    ]
+  "compilerOptions": {
+      "module": "esnext",
+      "moduleResolution": "node",
+      "target": "esnext",
+      "experimentalDecorators": true,
+      "allowSyntheticDefaultImports": true,
+      "importHelpers": true,
+      "noEmit": true,
+      "allowJs": true,
+      "resolveJsonModule": true,
+      "sourceMap": true,
+      "jsx": "react-native",
+      "baseUrl": ".",
+      "paths": {
+          "src/*": ["src/*"],
+          "common/*": ["../common/*"],
+          "assets/*": ["src/assets/*"],
+          "dependencies/*": ["./dependencies/*"],
+          "@persona-core": ["./dependencies/persona"],
+          "*": [
+              "*",
+              "node_modules/*"
+          ],
+      },
+      "lib": [
+          "es2015",
+          "es5",
+          "es2016",
+          "es6",
+          "es2017",
+          "es7",
+          "DOM"
+      ],
+      "skipLibCheck": true,
+  },
+  "include": [
+      "src/**/*"
+  ],
+  "exclude": [
+      "src/screens"
+  ]
 }

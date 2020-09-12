@@ -1,3 +1,5 @@
+![A Companion For Every Person](https://github.com/HeyMaslo/companion-kit/blob/master/.github/maslo_companion_kit.001.jpeg)
+
 # Maslo Companion Kit  
 
 ![GitHub stars](https://img.shields.io/github/stars/heymaslo/companion-kit?style=social)
