@@ -398,6 +398,8 @@ PODS:
     - React-jsi (= 0.63.2)
   - RNDateTimePicker (3.0.2):
     - React
+  - RNSiriShortcuts (1.9.2):
+    - React
   - RNSVG (12.1.0):
     - React
   - UMAppLoader (1.2.0)
@@ -495,6 +497,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
+  - RNSiriShortcuts (from `../node_modules/react-native-siri-shortcut`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - UMAppLoader (from `../node_modules/unimodules-app-loader/ios`)
   - UMBarCodeScannerInterface (from `../node_modules/unimodules-barcode-scanner-interface/ios`)
@@ -635,6 +638,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
+  RNSiriShortcuts:
+    :path: "../node_modules/react-native-siri-shortcut"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   UMAppLoader:
@@ -734,6 +739,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 4d2e726957f4087449739b595f107c0d4b6c2d2d
   ReactCommon: a0a1edbebcac5e91338371b72ffc66aa822792ce
   RNDateTimePicker: a84d2b439666c9243d42a8396c588d4d1d36e3f3
+  RNSiriShortcuts: 74f828938f424d5a276c647114c25b18bf0e79a9
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   UMAppLoader: 61049c8d55590b74e9ae1d5429bf68d96b4a2528
   UMBarCodeScannerInterface: e5e4c87797d3d01214e25cd1618866caf5d4f17f

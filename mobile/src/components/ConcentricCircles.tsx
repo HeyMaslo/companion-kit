@@ -107,6 +107,7 @@ export function ConcentricCircle(props: ConcentricCircleProps) {
                 toValue: getOffset(diameter, progress),
                 duration: 1500,
                 easing: Easing.inOut(Easing.ease),
+                useNativeDriver: true
             }).start();
         }
     }, [progress]);

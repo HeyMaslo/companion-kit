@@ -39,11 +39,13 @@ export function ToasterView() {
                 Animated.timing(position, {
                     toValue: 0,
                     duration: 300,
+                    useNativeDriver: true
                 }),
                 Animated.timing(position, {
                     toValue: 40,
                     duration: 300,
                     delay: 2000,
+                    useNativeDriver: true
                 }),
             ]).start((res) =>  {
                 Queue.shift();
