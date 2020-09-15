@@ -18,8 +18,8 @@
 1. Create app bundle ID (like `com.maslo.everee`) in Apple Dev Center with enabled 'Associated Domains', 'Push Notifications', 'Sign In with Apple'.
 All profiles and certificates for iOS deployment can be managed via Expo.
 
-2. Create iOS and Android apps in Firebase using app bundle id and package name (like `com.maslo.everee`). Download `GoogleService-Info.plist` and `google-services.json` and place them in `mobile/configs/<projectName>` folder. Use paths to them later during `app.json` setup.
-Update `config/projects/<projectName>.js` from just downloaded `plist` and `json`:
+2. Create iOS and Android apps in Firebase using app bundle id and package name (like `com.maslo.everee`). Download `GoogleService-Info.plist` and `google-services.json` and place them in `mobile/configs/app/` folder. Use paths to them later during `app.json` setup.
+Update `config/app/` from just downloaded `plist` and `json`:
  * `FirebasePlatformOverrides` with corresponding `appId` and `apiKey` fields
  * `GoogleConfigs` – `ExpoClientIdAndroid` and `ExpoClientIdIOS` (google client ids).
 
@@ -28,7 +28,9 @@ Update `config/projects/<projectName>.js` from just downloaded `plist` and `json
 4. Update iOS Firebase app with App Store ID and Team ID taken from AppStore Connect.
 5. Update Android Firebase app with SHA certificate fingerprints after first build uploading.
 
-6. Validate fields in `app.<project_id>.json`:
+6. Rename `example_app.json` to `app.json`
+
+7. Validate fields in `app.json`:
 
 * `name` – app name in Expo
 * `slug` – app unique id in Expo
@@ -51,7 +53,7 @@ Update `config/projects/<projectName>.js` from just downloaded `plist` and `json
     * `versionCode`
     * `intentFilters` – magic link domains
 
-7. Enabled or disabled feature client-specific features in [`common/constants/features.ts`](../common/constants/features.ts)
+8. Enabled or disabled feature client-specific features in [`common/constants/features.ts`](../common/constants/features.ts)
 
 ## Run & build app
 

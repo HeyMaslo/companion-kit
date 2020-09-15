@@ -8,3 +8,5 @@ temp/
 
 .env
 yarn-error.log
+
+config/app.js
