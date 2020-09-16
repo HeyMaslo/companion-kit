@@ -1,6 +1,15 @@
-  
 {
   "projects": {
-    "production": "..."
+    "production": "companionkit",
+    "default": "companionkit"
   },
-  "targets": {...}
+  "targets": {
+    "companionkit": {
+      "hosting": {
+        "dashboard-prod": [
+          "companionkit"
+        ]
+      }
+    }
+  }
+}

@@ -17,3 +17,8 @@ xcuserdata/
 build/
 DerivedData/
 
+configs/app/google-services.json
+config/app/GoogleService-Info.plist
+
+app.json
+

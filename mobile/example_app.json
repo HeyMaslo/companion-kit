@@ -32,7 +32,7 @@
       "usesAppleSignIn": true,
       "icon": "./src/assets/appicons/appicon.png",
       "buildNumber": "1",
-      "bundleIdentifier": "...",
+      "bundleIdentifier": "com.maslo.companionkit",
       "config": {
         "usesNonExemptEncryption": false,
         "googleSignIn": {
@@ -40,12 +40,12 @@
         }
       },
       "associatedDomains": [
-        "..."
+        "applinks:maslocompanionkit.page.link"
       ],
       "googleServicesFile": "./configs/app/GoogleService-Info.plist",
       "infoPlist": {
-        "NSMicrophoneUsageDescription": "...",
-        "NSPhotoLibraryUsageDescription": "..."
+        "NSMicrophoneUsageDescription": "This allows us to store and process your daily audio journal recordings. You will be able to listen to them and delete them.",
+        "NSPhotoLibraryUsageDescription": "We will use a selected photo or image from your library as an avatar for your profile."
       }
     },
     "android": {
@@ -55,7 +55,7 @@
           "certificateHash": "..."
         }
       },
-      "package": "...",
+      "package": "com.maslo.companionkit",
       "googleServicesFile": "./configs/app/google-services.json",
       "versionCode": 1,
       "intentFilters": [
@@ -65,7 +65,7 @@
           "data": [
             {
               "scheme": "https",
-              "host": "..."
+              "host": "maslocompanionkit.page.link"
             }
           ],
           "category": [

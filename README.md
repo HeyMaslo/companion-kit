@@ -69,7 +69,7 @@ This repo organized as monorepo with simplified structure/flow. Roots are:
 
 ### Configuration files references
 
-1. Frontend (mobile, dashboard and web) core configuration resides in files `./config/app.js`. It includes:
+1. Frontend (mobile, dashboard and web) core configuration resides in files `./config/example_app.js` (rename to `app.js` and fill the config fields). It includes:
     * Firebase config (inclduing dashboard and mobile)
     * Integrations (Google, Sentry) settings
     * Features settings (on/off)
