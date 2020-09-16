@@ -7,7 +7,7 @@
 
   
 ## Overview
-Maslo Companion Kit is a fully functional and customizable mobile application project for iOS and Android to capture grow your own companion. The Companion Kit also includes an optional web dashboard for care providers to get deeper insights into the signals users are expressing. 
+Maslo Companion Kit is a fully functional and customizable mobile application project for iOS and Android to grow your own companion. The Companion Kit also includes an optional web dashboard for care providers to get deeper insights into the signals users are expressing. 
 
 Out of the box features include:
 * Email\SMS\SSO Authentication Methods
