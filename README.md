@@ -203,7 +203,9 @@ Mobile app uses Local and Push notifications. Most related types are defined in 
 5. TriggerPhrase – push sent to a client when Records analyzer has found ‘trigger phrase’ in their check-in.
 6. NewDocumentLinkShared – push sent to a client when a document link has been shared with them by a Coach.
 
+
 ## Persona
+![](https://cdn-images-1.medium.com/max/1600/1*Gm7A7w4vJZeNXKHJQxhq7Q.gif)
 
 [Maslo Persona Orb](https://github.com/HeyMaslo/maslo-persona) is responsible for rendering Persona animations in WebGL context using shaders geometry and GSAP library. 
 It also exposes 2 platform-dependant wrappers: 
