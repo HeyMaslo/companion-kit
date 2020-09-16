@@ -33,10 +33,6 @@ Clone the respository and ensure you have the requirements below.
 
 ### Install dependencies and validate Node.js version
 
-1. Navigate to ```mobile/package.json```. Under dependencies, add the following:
-    * ```"chroma-js": "2.0.3"```
-    * ```"simplex-noise": "2.4.0"```
-2. 
 Navigate back to the root directory and run:
 
 ```
@@ -46,17 +42,10 @@ yarn all
 
 Navigate to the ```mobile/ios``` folder and run ```pod install```
 
-   
-### Validate fields in app.json
-
-1. ios.bundleIdentifier should be ```"com.maslo.evolution"```
-3. android.package should be ```"com.maslo.evolution"```
-
-
 ## Mobile
 
 ### Run & build app
 
-To run project locally via Expo run `react-native run:ios` from the `mobile/` folder
+To run project locally via Expo run `react-native run-ios` from the `mobile/` folder
 
 
