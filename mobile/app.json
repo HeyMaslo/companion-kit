@@ -32,7 +32,7 @@
     "usesAppleSignIn": true,
     "icon": "./src/assets/appicons/appicon.png",
     "buildNumber": "1",
-    "bundleIdentifier": "...",
+    "bundleIdentifier": "com.maslo.evolution",
     "config": {
       "usesNonExemptEncryption": false,
       "googleSignIn": {
@@ -55,7 +55,7 @@
         "certificateHash": "..."
       }
     },
-    "package": "...",
+    "package": "com.maslo.evolution",
     "googleServicesFile": "./configs/app/google-services.json",
     "versionCode": 1,
     "intentFilters": [
