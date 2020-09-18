@@ -40,7 +40,7 @@ yarn all
 ```
 ### Install cocoapods
 
-Navigate to the ```mobile/ios``` folder and run ```pod install```
+Navigate to the ```mobile/ios``` folder and run ```pod install``` or ```sudo gem install cocoapods```if no pods are installed
 
 ## Mobile
 
