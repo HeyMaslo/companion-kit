@@ -27,7 +27,7 @@ Out of the box features include:
 Maslo has packaged components that allow customers & developers to easily customize and deploy the entire suite of Maslo capabilities in ways that meet their business needs.
 
 ## Use Cases
-* Check-in companion for theripists and their clients
+* Check-in companion for therapists and their clients
 * Resilience building companion for coaches and their clients
 * Clinical trials companion for researchers and their participants 
 * Education companion for self guided and directed personalized learning
