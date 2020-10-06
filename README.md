@@ -5,6 +5,8 @@ Clone the respository and ensure you have the requirements below.
 
 ### Requirements
 
+ * React Native CLI development environment for both iOS and Android (instructions [`here`](https://reactnative.dev/docs/environment-setup)) 
+ 
  * Node.js 10 ([`nvm`](https://github.com/nvm-sh/nvm) is preferable)
 
  To install:
@@ -46,6 +48,6 @@ Navigate to the ```mobile/ios``` folder and run ```pod install``` or ```sudo gem
 
 ### Run & build app
 
-To run project locally via Expo run `react-native run-ios` from the `mobile/` folder
+* iOS: To run project locally run `yarn ios` from the `mobile/` folder
 
 
