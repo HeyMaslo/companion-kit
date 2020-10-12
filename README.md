@@ -14,6 +14,7 @@ Clone the respository and ensure you have the requirements below.
  
  To switch to version 10:
  ```nvm use 10```
+ 
  * Expo CLI
  ```
  npm i -g expo-cli
@@ -26,6 +27,7 @@ Clone the respository and ensure you have the requirements below.
  ```
  npm i -g firebase-tools
  ```
+ 
 ### Clone external dependencies
 
 1. Create a folder inside of the ```mobile``` folder called ```dependencies``` and navigate inside it.
@@ -40,14 +42,16 @@ Navigate back to the root directory and run:
 ```
 yarn all
 ```
+## IOS Setup
 ### Install cocoapods
 
 Navigate to the ```mobile/ios``` folder and run ```pod install``` or ```sudo gem install cocoapods```if no pods are installed
 
-## Mobile
+## Running the App
 
 ### Run & build app
 
 * iOS: To run project locally run `yarn ios` from the `mobile/` folder
+* Android: To run project locally run `yarn android` from the `mobile/` folder
 
 
