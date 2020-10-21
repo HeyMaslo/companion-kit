@@ -8,6 +8,8 @@
 
   
 ## Overview
+A Companion’s existence gives us a reason to express ourselves, go on adventures, and learn who we are. Companions are similar to Assistants like Siri and Alexa, but with more emphasis on personal growth and development.
+
 Maslo Companion Kit is a fully functional and customizable mobile application project for iOS and Android to grow your own companion. The Companion Kit also includes an optional web dashboard for care providers to get deeper insights into the signals users are expressing. 
 
 Out of the box features include:
