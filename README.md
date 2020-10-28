@@ -378,3 +378,21 @@ Each endpoint might handle few types of requests to make amount of Functions dep
 
 Every request type for every endpoint in the system has clear and [straightforward declaration](../common/abstractions/functions.ts), grouped by namespaces. A declaration allows all calls to be consistent across platforms.
 
+## Data Policy Regarding Mobile Companion Applications
+Maslo's companion kit is an open source software stack that relies on differing technologies to supply user experiences, signal processing and data movement for users and administrators.
+
+Maslo's approach to security and privacy is based on the idea that security and privacy is an ongoing process and not a state of technology.  We have implemented a variety of best practices and best technologies to provide ongoing improvements to secure and private services.
+
+It may be of specific interest to know the following:
+* Some data persists on the phone/device in the form of caches.  This cached data uses the default encryption of the host OS and device.
+* All data in motion (going to and from APIs) is encrypted via the latest SSL technologies
+* All data stored in the cloud (Google or Amazon, depending on partner) is encrypted in motion and at rest.
+* All data access is logged on device and in cloud.  Only device users with specific accounts can access data on their device.  Only Maslo users with specifically approved credentials may access user or PII data.  Again, all access is logged and separation of concern is managed (data scientists do not get access to PII, developer do not use production data etc).  All access must be approved by legal or CEO.
+
+Maslo users the following technologies which may be referenced for their own security and privacy details:
+* Expo and React Native for Mobile Application source code - https://docs.expo.io/regulatory-compliance/data-and-privacy-protection/ and https://reactnative.dev/docs/security
+* Google Cloud and Amazon AWS https://cloud.google.com/security and https://aws.amazon.com/compliance/data-privacy-faq/
+
+Interested parties may want more info on Maslo Privacy and Security:
+https://docs.google.com/document/d/1W6DQOg-QFav4Xi3eSOKneMlWGB6ElMd5qTKgsNsJ7R0/edit?ts=5ef231b5
+https://maslo.kb.help/5-data-privacy/
