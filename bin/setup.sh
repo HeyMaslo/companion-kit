@@ -8,5 +8,4 @@ yarn all
 cd mobile/ios
 pod install --repo-update
 cd ..
-mkdir -p configs/app
 yarn run ios
