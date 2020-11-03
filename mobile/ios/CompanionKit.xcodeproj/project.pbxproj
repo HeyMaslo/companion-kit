@@ -19,6 +19,7 @@
 		7B49BA08B6F73CEEFA40F72D /* libPods-CompanionKit-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DC42D379A652B539A90E8DB /* libPods-CompanionKit-tvOSTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		B65F77648105A2DFAD36D43D /* libPods-CompanionKit-CompanionKitTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E125CF86F0909A230893354E /* libPods-CompanionKit-CompanionKitTests.a */; };
+		C78722A52550E8020035B4B8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C78722A42550E8020035B4B8 /* GoogleService-Info.plist */; };
 		F46D3DC2B932A5175FC9A87B /* libPods-CompanionKit-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A0C6B8AEBF8F1EC52BDD112 /* libPods-CompanionKit-tvOS.a */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,7 @@
 		7FD7D50EB5D980E320F0615F /* Pods-CompanionKit-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CompanionKit-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-CompanionKit-tvOSTests/Pods-CompanionKit-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = CompanionKit/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8686B6347B78D99470B731C1 /* Pods-CompanionKit-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CompanionKit-tvOS.release.xcconfig"; path = "Target Support Files/Pods-CompanionKit-tvOS/Pods-CompanionKit-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		C78722A42550E8020035B4B8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../configs/app/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E125CF86F0909A230893354E /* libPods-CompanionKit-CompanionKitTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CompanionKit-CompanionKitTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC7EB33C1F1A4E5E351EE2EB /* libPods-CompanionKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CompanionKit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -159,6 +161,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				C78722A42550E8020035B4B8 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* CompanionKit */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* CompanionKitTests */,
@@ -342,6 +345,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				C78722A52550E8020035B4B8 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -669,7 +673,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.maslo.companionkit;
 				PRODUCT_NAME = CompanionKit;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -692,7 +696,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.maslo.companionkit;
 				PRODUCT_NAME = CompanionKit;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
