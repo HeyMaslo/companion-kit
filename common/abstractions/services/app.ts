@@ -13,7 +13,7 @@ export const FeatureSettings: Record<Environments, FeaturesSettingsType> = {
             EditablePrompts: true,
             Interventions: false,
             ScheduleEvents: true,
-            MobileStandalone: false,
+            MobileStandalone: true,
             ExportToBQ: true,
             TimeTrackingEnabled: true,
             Goals: true,
