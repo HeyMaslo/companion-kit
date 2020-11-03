@@ -1,6 +1,6 @@
-  
 {
   "projects": {
-    "production": "..."
-  },
-  "targets": {...}
+    "staging": "bipolarbridges",
+    "default": "bipolarbridges"
+  }
+}

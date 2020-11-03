@@ -5,30 +5,22 @@
     "lint": "tslint --project tsconfig.json",
     "build": "rm -rf ./lib && ttsc",
     "watch": "concurrently \"nodemon --exec \\\"yarn lint\\\" \" \"tsc --watch --noEmit\" ",
-
     "serve": "env-cmd firebase emulators:start --only functions,firestore -P staging",
     "serve:functions": "env-cmd firebase emulators:start --only functions -P staging",
     "serve:functions:prod": "env-cmd firebase emulators:start --only functions -P production",
-
     "dev": "yarn build && concurrently \"nodemon --exec \\\"yarn lint && ttsc\\\" \" \"yarn serve\" ",
     "dev:functions": "yarn build && concurrently \"nodemon --exec \\\"yarn lint && ttsc\\\" \" \"yarn serve:functions\" ",
     "dev:functions:prod": "yarn build && concurrently \"nodemon --exec \\\"yarn lint && ttsc\\\" \" \"yarn serve:functions:prod\" ",
-
     "shell": "yarn build && firebase functions:shell",
     "start": "yarn shell",
-
     "deploy:stage": "firebase deploy -P staging --only functions,firestore",
     "deploy:prod": "firebase deploy -P production --only functions,firestore",
-
     "deploy:functions:stage": "firebase deploy -P staging --only functions",
     "deploy:functions:prod": "firebase deploy -P production --only functions",
-
     "deploy:hosting:dashboard:stage": "firebase deploy -P staging --only hosting:dashboard-staging",
     "deploy:hosting:dashboard:prod": "firebase deploy -P production --only hosting:dashboard-prod",
-
     "deploy:hosting:web:stage": "firebase deploy -P staging --only hosting:web-staging",
     "deploy:hosting:web:prod": "firebase deploy -P production --only hosting:web-prod",
-
     "logs": "firebase functions:log"
   },
   "main": "lib/server/functions/src/index.js",

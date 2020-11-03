@@ -4,10 +4,7 @@
     "indexes": "firestore.indexes.json"
   },
   "functions": {
-    "predeploy": [
-      "cd \"$RESOURCE_DIR\" && yarn lint",
-      "cd \"$RESOURCE_DIR\" && yarn build"
-    ],
+    "predeploy": "npm --prefix \"$RESOURCE_DIR\" run build",
     "source": "functions"
   },
   "hosting": [
