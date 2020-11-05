@@ -5,6 +5,7 @@ export type UserLocalSettings = {
     deviceId: string,
     appVersion: string,
     deviceInfo?: DeviceInfo;
+    soundEffect?: boolean;
 
     notifications?: NotificationsSettings;
 };

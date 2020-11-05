@@ -13,6 +13,7 @@ import { IPersonaViewContext } from './abstractions';
 import Colors from 'src/constants/colors';
 import Layout from 'src/constants/Layout';
 import * as Haptics from 'src/services/haptics';
+import { PersonaViewModel } from 'src/viewModels/PersonaViewModel';
 
 // FIREBASE & EXPO-THREE COMPATIBILITY HOTFIX
 (global as any).Image = undefined;
@@ -56,7 +57,11 @@ type Props = {
     disabled?: boolean,
 };
 
+const model = new PersonaViewModel();
+
 export function PersonaView(this: void, props: Props) {
+
+    const [shouldPlaySound, setShouldPlaySound] = React.useState(true);
 
     React.useEffect(() => reaction(() => props.context.state, s => {
         switch (s) {
@@ -76,6 +81,14 @@ export function PersonaView(this: void, props: Props) {
             }
         }
     }, { fireImmediately: true }));
+
+    React.useEffect(() => {
+        async function soundEffect() {
+           const state = await model.getSoundState();
+           setShouldPlaySound(state);
+        }
+        soundEffect();
+    }, [shouldPlaySound]);
 
     return (
         <View style={styles.personaWrapper} pointerEvents="none">
