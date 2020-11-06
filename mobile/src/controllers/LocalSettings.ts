@@ -83,6 +83,7 @@ export class LocalSettingsController implements ILocalSettingsController {
     private submitChanges = async () => {
         const diff: Partial<UserLocalSettings> = {
             notifications: toJS(this._current.notifications),
+            soundEffect: this._current?.soundEffect || true,
         };
 
         if (this._sameDevice && this._sameDevice.notifications) {
