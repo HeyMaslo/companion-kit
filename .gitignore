@@ -8,3 +8,6 @@ temp/
 
 .env
 yarn-error.log
+
+# firebase local staging files
+*/.firebaserc
