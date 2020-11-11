@@ -1,5 +1,12 @@
-# TODO check tools
-# TODO check npm version
+#!/bin/bash
+which nvm
+if [[ $? != 0 ]]; then
+    #echo "No nvm installed" FIXME
+    echo "node: $(node --version)"
+    sleep 5
+else
+    nvm use
+fi
 mkdir mobile/dependencies
 cd mobile/dependencies
 git clone -b dev-ts https://github.com/HeyMaslo/maslo-persona.git persona
