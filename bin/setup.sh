@@ -1,4 +1,5 @@
 # TODO check tools
+# TODO check npm version
 mkdir mobile/dependencies
 cd mobile/dependencies
 git clone -b dev-ts https://github.com/HeyMaslo/maslo-persona.git persona
