@@ -51,5 +51,7 @@
         "ttypescript": "^1.5.10",
         "typescript": "^3.8.3"
     },
-    "dependencies": {}
+    "dependencies": {
+        "@react-native-firebase/dynamic-links": "^10.0.0"
+    }
 }
