@@ -2,5 +2,14 @@
   "projects": {
     "default": "bipolarbridges",
     "staging": "bipolarbridges"
+  },
+  "targets": {
+    "bipolarbridges": {
+      "hosting": {
+        "dashboard-staging": [
+          "bipolarbridges"
+        ]
+      }
+    }
   }
 }
