@@ -1,4 +1,4 @@
-# Maslo Companion App
+# Maslo Companion Kit
 
 
 Clone the respository and ensure you have the requirements below.
@@ -28,24 +28,40 @@ Clone the respository and ensure you have the requirements below.
  npm i -g firebase-tools
  ```
  
-### Clone external dependencies
-
-1. Create a folder inside of the ```mobile``` folder called ```dependencies``` and navigate inside it.
-2. Clone both [Maslo Persona](https://github.com/HeyMaslo/maslo-persona/tree/dev-ts) from the dev-ts branch and [React Native Switch Pro](https://github.com/HeyMaslo/react-native-switch-pro) from the master branch inside the ```mobile/dependencies``` folder. To clone from a specific branch, use the command ```git clone -b <branch-name> <url>```.
-3. Now rename the ```maslo-persona``` folder that you cloned in the previous step to ```persona```.
 
 
-### Install dependencies and validate Node.js version
+## Configuration Setup
+
+1. Copy the values from the `firebaseConfig` variable in the web app in the firebase console to the `FirebaseConfigs` variable in `./config/app.js`
+2. Download the `GoogleService-Info.plist` file from the ios app on firebase. Place this file in `./mobile/configs/app`
+3. Copy the `GOOGLE_APP_ID` and `API_KEY` from the plist file into the `FirebasePlatformOverrides` variable in `./config/app.js`. Then copy the `CLIENT_ID` to line 48 in the `GoogleConfigs` variable in the same file.
+4. Copy the `REVERSED_CLIENT_ID` from the same plist file into line 39 in `./mobile/app.json`
+5. In `./config/app.js` copy the url the staging dashboard has been deployed to on lines 117 and 118. (this url is linked below under "Maslo Dashboard"). Also copy this url to line 57 in `./common/abstractions/services/app.ts`
+6. Create `.runtimeconfig.json` in `./server/functions` with the following:
+
+```
+{
+  "envs": {
+    "project_name": "[appName]",
+    "sendgrid_api_key": "...",
+    "sendgrid_emails_validation_api_key": "...",
+    "is_prod": "false", // set false for staging,
+    "devlogin": true,
+    "twilio_phone_number_from": "...",
+    "twilio_auth_token": "...",
+    "twilio_account_sid": "..."
+  }
+}
+```
+
+
+## Run Setup Script
 
 Navigate back to the root directory and run:
 
 ```
-yarn all
+./bin/setup.bash
 ```
-## IOS Setup
-### Install cocoapods
-
-Navigate to the ```mobile/ios``` folder and run ```pod install``` or ```sudo gem install cocoapods```if no pods are installed
 
 ## Running the App
 
@@ -53,5 +69,11 @@ Navigate to the ```mobile/ios``` folder and run ```pod install``` or ```sudo gem
 
 * iOS: To run project locally run `yarn ios` from the `mobile/` folder
 * Android: To run project locally run `yarn android` from the `mobile/` folder
+
+## Maslo Dashboard
+
+The staging dashboard is currently hosted [here](https://bipolarbridges.web.app/)
+
+
 
 
