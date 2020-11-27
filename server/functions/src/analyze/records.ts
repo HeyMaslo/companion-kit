@@ -155,6 +155,11 @@ abstract class EntryProcessor<TEntry extends ClientEntryIded, TRecord extends Re
                     break;
                 }
 
+                case RecordAnalyzeState.TriggersChecked: {
+                    await this.updateJournalTranscription();
+                    break;
+                }
+
                 case RecordAnalyzeState.Finished:
                 case RecordAnalyzeState.Error: {
                     logger.log('Finishing processing due to record state:', currentState);
@@ -392,6 +397,8 @@ abstract class EntryProcessor<TEntry extends ClientEntryIded, TRecord extends Re
 
     protected abstract checkTriggers(): Promise<void>;
 
+    protected abstract updateJournalTranscription(): Promise<void>;
+
     protected async saveRecord() {
         this.record = await Repo.Records.create(this.record, true) as TRecord;
     }
@@ -404,6 +411,14 @@ export class JournalEntryProcessor extends EntryProcessor<ClientJournalEntryIded
 
     protected get type(): 'journal' { return 'journal'; }
     protected get speakersCount(): 'one' { return 'one'; }
+
+    protected async updateJournalTranscription() {
+        const t = this.getFullTranscription();
+        logger.log(`updating journal transcription. uid => ${this.entry.id} accId => ${this.entry.clientCardId} entryId => ${this.entry.id}`);
+        await Repo.Clients.updateJournal(this.entry.clientUid, this.entry.clientCardId, this.record.entryId, { transcription: t });
+
+        this.record.state = RecordAnalyzeState.UpdateJournalTrigger;
+    }
 
     protected async checkTriggers() {
         const t = this.getFullTranscription();
@@ -480,6 +495,10 @@ export class SessionEntryProcessor extends EntryProcessor<ClientSessionEntryIded
 
     protected async checkTriggers() {
         this.record.state = RecordAnalyzeState.TriggersChecked;
+    }
+
+    protected async updateJournalTranscription() {
+        this.record.state = RecordAnalyzeState.UpdateJournalTrigger;
     }
 }
 
