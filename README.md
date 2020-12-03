@@ -39,20 +39,25 @@ Clone the respository and ensure you have the requirements below.
 5. In `./config/app.js` copy the url the staging dashboard has been deployed to on lines 117 and 118. (this url is linked below under "Maslo Dashboard"). Also copy this url to lines 49 and 57 in `./common/abstractions/services/app.ts` and in `./server/functions/src/services/config/app.ts`
 6. Create `.runtimeconfig.json` in `./server/functions` with the following:
 
-```
-{
-  "envs": {
-    "project_name": "[appName]",
-    "sendgrid_api_key": "...",
-    "sendgrid_emails_validation_api_key": "...",
-    "is_prod": "false", // set false for staging,
-    "devlogin": true,
-    "twilio_phone_number_from": "...",
-    "twilio_auth_token": "...",
-    "twilio_account_sid": "..."
-  }
-}
-```
+	```
+	{
+	  "envs": {
+	    "project_name": "[appName]",
+	    "sendgrid_api_key": "...",
+	    "sendgrid_emails_validation_api_key": "...",
+	    "is_prod": "false", // set false for staging,
+	    "devlogin": true,
+	    "twilio_phone_number_from": "...",
+	    "twilio_auth_token": "...",
+	    "twilio_account_sid": "..."
+	  }
+	}
+	```
+7. Add the Sendgrid API key to `./server/functions/.runtimeconfig.json` (get this key from a dev on the team)
+8. Add the Sengrid template ID to `./common/abstractions/services/app.ts` on lines 31 and 40. (This ID is in the sendgrid account under Email API > Dynamic Templates)
+9. In the same file add the single sender email to lines 32 and 33. Also add this email to `./server/functions/src/services/config/app.ts`. (Single sender email is in the sendgrid account under Settings > Sender Authentication)
+
+
 
 
 ## Run Setup Script
