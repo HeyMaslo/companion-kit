@@ -34,6 +34,7 @@ Clone the respository and ensure you have the requirements below.
 
 1. Copy the values from the `firebaseConfig` variable in the web app in the firebase console to the `FirebaseConfigs` variable in `./config/app.js`
 2. Download the `GoogleService-Info.plist` file from the ios app on firebase. Place this file in `./mobile/configs/app`
+3. Open `./mobile/ios.CompanionKit.xcworkspace` in Xcode. Right click on the project name and choose 'Add files to "Companion Kit"' and add the downloaded plist file. Ensure "Copy items if needed" is checked.
 3. Copy the `GOOGLE_APP_ID` and `API_KEY` from the plist file into the `FirebasePlatformOverrides` variable in `./config/app.js`. Then copy the `CLIENT_ID` to line 48 in the `GoogleConfigs` variable in the same file.
 4. Copy the `REVERSED_CLIENT_ID` from the same plist file into line 39 in `./mobile/app.json`
 5. In `./config/app.js` copy the url the staging dashboard has been deployed to on lines 117 and 118. (this url is linked below under "Maslo Dashboard"). Also copy this url to lines 49 and 57 in `./common/abstractions/services/app.ts` and in `./server/functions/src/services/config/app.ts`
@@ -54,9 +55,8 @@ Clone the respository and ensure you have the requirements below.
 	}
 	```
 7. Add the Sendgrid API key to `./server/functions/.runtimeconfig.json` (get this key from a dev on the team)
-8. Add the Sengrid template ID to `./common/abstractions/services/app.ts` on lines 31 and 40. (This ID is in the sendgrid account under Email API > Dynamic Templates)
-9. In the same file add the single sender email to lines 32 and 33. Also add this email to `./server/functions/src/services/config/app.ts`. (Single sender email is in the sendgrid account under Settings > Sender Authentication)
-
+8. Add the Sengrid template ID to `./common/abstractions/services/app.ts` on lines 31 and 40. (This ID is in the sendgrid account under Email API > Dynamic Templates) In the same file add the single sender email to lines 32 and 33. (Single sender email is in the sendgrid account under Settings > Sender Authentication)
+9. Do the same as the above step for `./server/functions/src/services/config/app.ts`.
 
 
 
