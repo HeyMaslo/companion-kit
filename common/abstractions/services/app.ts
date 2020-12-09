@@ -28,16 +28,16 @@ export const EmailSettings: Record<Environments, EmailSettingsType> = {
     get production() {
         return {
             projectName: 'Companion kit',
-            sendgridTemplateId: 'd-047698cabf8846c985bda62b50850f2d',
-            fromAddress: 'Companion kit Team <your email>',
-            adminEmail: '<your email>',
+            sendgridTemplateId: 'd-5554ed3a2e7940c39daf251b4625895c',
+            fromAddress: 'rowdl22@students.cs.ubc.ca',
+            adminEmail: 'rowdl22@students.cs.ubc.ca',
         };
     },
     get staging() {
         return {
             ...EmailSettings.production,
             projectName: 'Companion kit [Staging]',
-            sendgridTemplateId: 'd-7c4aec9db7714096b15340b90675883d',
+            sendgridTemplateId: 'd-5554ed3a2e7940c39daf251b4625895c',
         };
     },
 };
@@ -45,16 +45,16 @@ export const EmailSettings: Record<Environments, EmailSettingsType> = {
 export const LinksSettings: Record<Environments, LinksSettingsType> = {
     get production() {
         return {
-            ClientInvitationLink: '<your email invite>',
-            DashboardUrl: '<your dashboard url>',
+            ClientInvitationLink: 'https://bipolarbridges.page.link/magic',
+            DashboardUrl: 'https://bipolarbridges.web.app',
             FirestoreUrl: '<your firebase url>',
         };
     },
 
     get staging() {
         return {
-            ClientInvitationLink: '<your email invite>',
-            DashboardUrl: '<your dashboard url>',
+            ClientInvitationLink: 'https://bipolarbridges.page.link/magic',
+            DashboardUrl: 'https://bipolarbridges.web.app',
             FirestoreUrl: '<your firebase url>',
         };
     },

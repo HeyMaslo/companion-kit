@@ -40,7 +40,7 @@
       }
     },
     "associatedDomains": [
-      "..."
+      "applinks:https://bipolarbridges.page.link/magic"
     ],
     "googleServicesFile": "./configs/app/GoogleService-Info.plist",
     "infoPlist": {
