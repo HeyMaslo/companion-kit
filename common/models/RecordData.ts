@@ -19,7 +19,8 @@ export enum RecordAnalyzeState {
     Transcribed = 'transcribed',
     Analyzed = 'analyzed',
     TriggersChecked = 'triggersChecked',
-    Finished = TriggersChecked,
+    UpdateJournalTrigger = 'updateJournalTrigger',
+    Finished = UpdateJournalTrigger,
     Error = 'error',
 }
 
