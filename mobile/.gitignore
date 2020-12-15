@@ -65,3 +65,4 @@ buck-out/
 # Other
 dependencies
 configs
+android/app/google-services.json
