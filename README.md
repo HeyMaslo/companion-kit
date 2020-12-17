@@ -33,11 +33,14 @@ Clone the respository and ensure you have the requirements below.
 ## Configuration Setup
 
 1. Copy the values from the `firebaseConfig` variable in the web app in the firebase console to the `FirebaseConfigs` variable in `./config/app.js`
-2. Download the `GoogleService-Info.plist` file from the ios app on firebase. Place this file in `./mobile/configs/app`
-3. Copy the `GOOGLE_APP_ID` and `API_KEY` from the plist file into the ios object in the `FirebasePlatformOverrides` variable in `./config/app.js`. Then copy the `CLIENT_ID` to line 48 in the `GoogleConfigs` variable in the same file.
+2. Download the `GoogleService-Info.plist` file from the ios app on firebase. Place this file in `./mobile/configs/app`.
+3. Copy the `GOOGLE_APP_ID` and `API_KEY` from the plist file you just downloaded into the ios object in the `FirebasePlatformOverrides` variable in `./config/app.js`. Then copy the `CLIENT_ID` to line 48 in the `GoogleConfigs` variable in the same file.
 4. Copy the `REVERSED_CLIENT_ID` from the same plist file into line 39 in `./mobile/app.json`
-5. In `./config/app.js` copy the url the staging dashboard has been deployed to on lines 117 and 118. (this url is linked below under "Maslo Dashboard").
-6. Create `.runtimeconfig.json` in `./server/functions` with the following:
+5. Download the `google-services.json` file from the android app on firebase. Place this file in `./mobile/configs/app` and in `./mobile/android/app`.
+6. Copy the `current_key` and `mobilesdk_app_id` from the json file you just downloaded into the android object in the `FirebasePlatformOverrides` variable in `./config/app.js`. Then copy the `client_id` on line 18 to line 47 of the same app.js file.
+7. Again from the downloaded json file, copy the `current_key` and the `certificate_hash` to lines 54 and 55 of `./mobile/app.json`.
+8. In `./config/app.js` copy the url the staging dashboard has been deployed to on lines 117 and 118. (this url is linked below under "Maslo Dashboard").
+9. Create `.runtimeconfig.json` in `./server/functions` with the following:
 
 	```
 	{
@@ -53,8 +56,8 @@ Clone the respository and ensure you have the requirements below.
 	  }
 	}
 	```
-7. Add the Sendgrid API key to `./server/functions/.runtimeconfig.json` (get this key from a dev on the team)
-8. Open the `./mobile/ios` dir in Xcode. Go to the "Info" tab and scroll down to "URL Types". Add a new URL type with a "Role" of "Editor" and in "URL Schemes" paste in the `REVERSED_CLIENT_ID` from the plist file you downloaded earlier.
+10. Add the Sendgrid API key to `./server/functions/.runtimeconfig.json` (get this key from a dev on the team)
+11. Open the `./mobile/ios` dir in Xcode. Go to the "Info" tab and scroll down to "URL Types". Add a new URL type with a "Role" of "Editor" and in "URL Schemes" paste in the `REVERSED_CLIENT_ID` from the plist file you downloaded earlier.
 
 
 ## Run Setup Script
