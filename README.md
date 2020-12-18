@@ -39,8 +39,7 @@ Clone the respository and ensure you have the requirements below.
 5. Download the `google-services.json` file from the android app on firebase. Place this file in `./mobile/configs/app` and in `./mobile/android/app`.
 6. Copy the `current_key` and `mobilesdk_app_id` from the json file you just downloaded into the android object in the `FirebasePlatformOverrides` variable in `./config/app.js`. Then copy the `client_id` on line 18 to line 47 of the same app.js file.
 7. Again from the downloaded json file, copy the `current_key` and the `certificate_hash` to lines 54 and 55 of `./mobile/app.json`.
-8. In `./config/app.js` copy the url the staging dashboard has been deployed to on lines 117 and 118. (this url is linked below under "Maslo Dashboard").
-9. Create `.runtimeconfig.json` in `./server/functions` with the following:
+8. Create `.runtimeconfig.json` in `./server/functions` with the following:
 
 	```
 	{
@@ -56,8 +55,8 @@ Clone the respository and ensure you have the requirements below.
 	  }
 	}
 	```
-10. Add the Sendgrid API key to `./server/functions/.runtimeconfig.json` (get this key from a dev on the team)
-11. Open the `./mobile/ios` dir in Xcode. Go to the "Info" tab and scroll down to "URL Types". Add a new URL type with a "Role" of "Editor" and in "URL Schemes" paste in the `REVERSED_CLIENT_ID` from the plist file you downloaded earlier.
+9. Add the Sendgrid API key to `./server/functions/.runtimeconfig.json` (get this key from a dev on the team)
+10. Open the `./mobile/ios` dir in Xcode. Go to the "Info" tab and scroll down to "URL Types". Add a new URL type with a "Role" of "Editor" and in "URL Schemes" paste in the `REVERSED_CLIENT_ID` from the plist file you downloaded earlier.
 
 
 ## Run Setup Script
