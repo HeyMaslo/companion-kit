@@ -42,16 +42,6 @@ class Header extends React.Component<HeaderProps> {
     }
 
     _getNavigationLinks() {
-        let { profileOnly} = this.props;
-
-        if (!this.profile.isFreeAccess) {
-            profileOnly = true;
-        }
-
-        if (profileOnly) {
-            return null;
-        }
-
         const helpLink = Localization.Current.DashboardProject.helpLink;
         return (
             <>
