@@ -82,8 +82,6 @@ The staging dashboard is currently hosted [here](https://bipolarbridges.web.app/
 
 After making any changes to the functions, firestore or the dashboard, you must redeploy to see the changes.
 
-[insert steps for firebase init] - Rowan currently working on workaround for needing to do this
-
 ### Deploy Functions and Firestore
 
 - Deploy only functions: Run `yarn deploy:functions:stage` from within the `./server/functions` dir
