@@ -151,6 +151,7 @@ export async function AddClient(data: Partial<ClientCard>, coachId: string, skip
         date: data.inviteSentTime,
         status: 'created',
         signInKey: signInKey,
+        verificationCode: '',
     });
 
     if (!skipEmail) {

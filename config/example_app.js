@@ -80,6 +80,7 @@ const FeaturesConfig = {
             GOALS_ENABLED: false,
             CLIENT_REWARDS_ENABLED: false,
             PICTURE_CHECKINS_ENABLED: false,
+            USE_MAGIC_LINK: false
         };
     },
     get staging() { return FeaturesConfig.production; },
