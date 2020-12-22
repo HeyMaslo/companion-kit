@@ -306,9 +306,9 @@ export const ClientAction = new FunctionFactory(CoachesFunctions.ClientAction)
             case CoachClientActions.ResendInvite: {
                 checkCardStatus(ClientStatus.Invited);
 
-                // if (now - card.inviteSentTime < ClientInviteMinPeriod) {
-                //     throw AppHttpError.PreconditionFailed('Client invite is on cooldown');
-                // }
+                if (now - card.inviteSentTime < ClientInviteMinPeriod) {
+                    throw AppHttpError.PreconditionFailed('Client invite is on cooldown');
+                }
 
                 needSendInvite = true;
 
