@@ -110,14 +110,12 @@ export const MasloScenario: GlobalScenario<States> = {
         view: SetPasswordView,
         enter: { condition: VM.shouldCreatePassword },
         exit: [
-            { target: States.HomeRouter, trigger: Triggers.Secondary },
             { target: States.SignInWithEmail, trigger: Triggers.Cancel },
         ],
     },
     [States.ResetPassword]: {
         view: ResetPasswordView,        
         exit: [
-            { target: States.HomeRouter, trigger: Triggers.Secondary },
             { target: States.SignInWithEmail, trigger: Triggers.Cancel },
         ],
     },

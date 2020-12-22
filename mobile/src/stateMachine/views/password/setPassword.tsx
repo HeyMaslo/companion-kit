@@ -40,7 +40,6 @@ export class SetPasswordView extends PasswordBase {
 
         if (res && res.result) {
             PushToast({ text: 'Your Password has been set.' });
-            this.trigger(ScenarioTriggers.Secondary)
         }
     })
 }
