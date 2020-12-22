@@ -22,5 +22,4 @@ yarn all
 cd mobile/ios
 pod install --repo-update
 cd ..
-echo "Running the app on iOS"
-yarn run ios
+echo "Done."
