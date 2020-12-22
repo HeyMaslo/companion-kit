@@ -40,7 +40,7 @@
       }
     },
     "associatedDomains": [
-      "applinks:https://bipolarbridges.page.link/magic"
+      "applinks:bipolarbridges.page.link"
     ],
     "googleServicesFile": "./configs/app/GoogleService-Info.plist",
     "infoPlist": {
@@ -65,7 +65,7 @@
         "data": [
           {
             "scheme": "https",
-            "host": "https://bipolarbridges.page.link/magic"
+            "host": "bipolarbridges.page.link"
           }
         ],
         "category": [
