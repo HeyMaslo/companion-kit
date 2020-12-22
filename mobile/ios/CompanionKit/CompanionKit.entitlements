@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:https://bipolarbridges.page.link/magic</string>
+		<string>applinks:bipolarbridges.page.link</string>
 	</array>
 </dict>
 </plist>
