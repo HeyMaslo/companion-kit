@@ -71,8 +71,8 @@ Navigate back to the root directory and run:
 
 ### Run & build app
 
-* iOS: To run project locally run `yarn ios` from the `mobile/` folder
-* Android: To run project locally run `yarn android` from the `mobile/` folder
+* IOS: To run project locally run `yarn ios` from the `mobile/` folder
+* Android: To run project locally the first time, open the android folder in android studio, sync with gradle and run the app. In subsequent runs, run `yarn android` from the `mobile/` folder
 
 ## Maslo Dashboard
 
