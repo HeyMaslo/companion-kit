@@ -114,8 +114,8 @@ const includeConfigs = [
 const BuildConfigs = {
     production: {
         hostname: {
-            dashboard: '...', // url for dashboard
-            web: '...', // url for website
+            dashboard: 'https://bipolarbridges.web.app', // url for dashboard
+            web: 'https://bipolarbridges.web.app', // url for website
         },
         mobile: {
             releaseChannel: '...', // expo release channel
