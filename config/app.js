@@ -8,54 +8,32 @@
 /** @typedef {import('./declarations').IncludeConfig} IncludeConfig */
 /** @typedef {import('./declarations').BuildConfig} BuildConfig */
 
+import { env } from '../env';
+
 /** @type {Record<Environments, FirebaseConfig>} */
 const FirebaseConfigs = {
-    production: {
-        apiKey: "...",
-        authDomain: "...",
-        databaseURL: "...",
-        projectId: "...",
-        storageBucket: "...",
-        messagingSenderId: "...",
-        appId: "...",
-        measurementId: "..."
-    },
+    production: env.production.firebase.config,
     get staging() { return FirebaseConfigs.production },
     get development() { return FirebaseConfigs.staging; },
 };
 
 /** @type {Record<Environments, FirebasePlatformConfig>} */
 const FirebasePlatformOverrides = {
-    production: {
-        ios: {
-            appId: '...',
-            apiKey: '...',
-        },
-        android: {
-            appId: '...',
-            apiKey: '...',
-        },
-    },
+    production: env.production.firebase.mobileConfig,
     get staging() { return FirebasePlatformOverrides.production; },
     get development() { return FirebasePlatformOverrides.staging; },
 };
 
 /** @type {Record<Environments, GoogleConfig>} */
 const GoogleConfigs = {
-    production: {
-        ClientIdNative: '',
-        ExpoClientIdAndroid: '...', // android app id
-        ExpoClientIdIOS: '...' // ios app id,
-    },
+    production: env.production.googleConfig,
     get staging() { return GoogleConfigs.production; },
     get development() { return GoogleConfigs.staging; },
 };
 
 /** @type {Record<Environments, IntegrationConfigs>} */
 const Integrations = {
-    production: {
-        SentryDsn: '...' // sentry url,
-    },
+    production: env.production.integrationConfig,
     get staging() { return Integrations.production; },
     get development() { return Integrations.staging; },
 };
@@ -113,10 +91,7 @@ const includeConfigs = [
 /** @type {Record<Environments, BuildConfig>} */
 const BuildConfigs = {
     production: {
-        hostname: {
-            dashboard: 'https://bipolarbridges.web.app', // url for dashboard
-            web: 'https://bipolarbridges.web.app', // url for website
-        },
+        hostname: env.production.firebase.hostingConfig,
         mobile: {
             releaseChannel: '...', // expo release channel
             configName: '...', // bundle id
