@@ -32,12 +32,12 @@ Clone the respository and ensure you have the requirements below.
 
 ## Configuration Setup
 
-1. Copy the values from the `firebaseConfig` variable in the web app in the firebase console to the `FirebaseConfigs` variable in `./config/app.js`
+1. Copy the values from the `firebaseConfig` variable in the web app in the firebase console to the `FirebaseConfigs` variable in `./config/app.js`.
 2. Download the `GoogleService-Info.plist` file from the ios app on firebase. Place this file in `./mobile/configs/app`.
 3. Copy the `GOOGLE_APP_ID` and `API_KEY` from the plist file you just downloaded into the ios object in the `FirebasePlatformOverrides` variable in `./config/app.js`. Then copy the `CLIENT_ID` to line 48 in the `GoogleConfigs` variable in the same file.
-4. Copy the `REVERSED_CLIENT_ID` from the same plist file into line 39 in `./mobile/app.json`
+4. Copy the `REVERSED_CLIENT_ID` from the same plist file into line 39 in `./mobile/app.json`.
 5. Download the `google-services.json` file from the android app on firebase. Place this file in `./mobile/configs/app` and in `./mobile/android/app`.
-6. Copy the `current_key` and `mobilesdk_app_id` from the json file you just downloaded into the android object in the `FirebasePlatformOverrides` variable in `./config/app.js`. Then copy the `client_id` on line 18 to line 47 of the same app.js file.
+6. Copy the `current_key` and `mobilesdk_app_id` from the json file you just downloaded into the android object in the `FirebasePlatformOverrides` variable in `./config/app.js`. Then copy the `client_id` on line 18 to line 47 of the same `app.js` file.
 7. Again from the downloaded json file, copy the `current_key` and the `certificate_hash` to lines 54 and 55 of `./mobile/app.json`.
 8. Create `.runtimeconfig.json` in `./server/functions` with the following:
 
@@ -55,8 +55,8 @@ Clone the respository and ensure you have the requirements below.
 	  }
 	}
 	```
-9. Add the Sendgrid API key to `./server/functions/.runtimeconfig.json` (get this key from a dev on the team)
-10. Open the `./mobile/ios` dir in Xcode. Go to the "Info" tab and scroll down to "URL Types". Add a new URL type with a "Role" of "Editor" and in "URL Schemes" paste in the `REVERSED_CLIENT_ID` from the plist file you downloaded earlier.
+9. Add the Sendgrid API key to the `.runtimeconfig.json` file you just created (get this key from a dev on the team).
+10. Open the `./mobile/ios` folder in Xcode. Go to the "Info" tab and scroll down to "URL Types". Add a new URL type with a "Role" of "Editor" and in "URL Schemes" paste in the `REVERSED_CLIENT_ID` from the plist file you downloaded earlier.
 
 
 ## Run Setup Script
@@ -71,8 +71,8 @@ Navigate back to the root directory and run:
 
 ### Run & build app
 
-* IOS: To run project locally run `yarn ios` from the `mobile/` folder
-* Android: To run project locally the first time, open the android folder in android studio, sync with gradle and run the app. In subsequent runs, run `yarn android` from the `mobile/` folder
+* **IOS**: To run project locally run `yarn ios` from the `./mobile` directory
+* **Android**: To run project locally the first time, open the android directory in android studio, sync with gradle and run the app. In subsequent runs, run `yarn android` from the `./mobile` directory
 
 ## Maslo Dashboard
 
@@ -80,18 +80,18 @@ The staging dashboard is currently hosted [here](https://bipolarbridges.web.app/
 
 ## Redeploy Cloud Functionality and Dashboard
 
-After making any changes to the functions, firestore or the dashboard, you must redeploy to see the changes.
+After making any changes to the functions, firestore or the dashboard, you must redeploy the changes to see them on the firebase project and the staging dashboard.
 
 ### Deploy Functions and Firestore
 
-- Deploy only functions: Run `yarn deploy:functions:stage` from within the `./server/functions` dir
-- Deploy functions and firestore: Run `yarn deploy:server:stage` from within the root dir
+- **Deploy only functions**: Run `yarn deploy:functions:stage` from within the `./server/functions` directory
+- **Deploy functions and firestore**: Run `yarn deploy:server:stage` from within the root directory
 
 
 ### Deploy Dashboard
 
-1. Run `firebase target:apply hosting dashboard-staging <project-id>` from the `./server/functions` dir
-2. Run `yarn deploy:dashboard:stage` from within the root dir
+1. Run `firebase target:apply hosting dashboard-staging <project-id>` from the `./server/functions` directory
+2. Run `yarn deploy:dashboard:stage` from within the root directory
 
 
 
