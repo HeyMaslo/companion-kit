@@ -43,21 +43,39 @@ On with it. Get to Growing Your Maslo!
 
  * Node.js 10 ([`nvm`](https://github.com/nvm-sh/nvm) is preferable)
  * Expo CLI
-
+ 
+ NPM
  ```
  npm i -g expo-cli
+ ```
+ Yarn
+ ```
+ yarn global add expo-cli
  ```
 
  * Firebase Tools:
 
+NPM
  ```
  npm i -g firebase-tools
  ```
+Yarn
 
+```
+yarn global add firebase-tools
+```
 Install all dependencies and validate Node.js version:
 
+### Do this in root, mobile and dashboard directories to install all the needed packages.
+
+Yarn
 ```bash
 yarn all
+```
+
+NPM
+```
+npm install
 ```
 
 ### Structure (basics)
