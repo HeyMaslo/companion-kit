@@ -428,7 +428,6 @@ export default abstract class AuthControllerBase implements IAuthController {
             this._authUser.providers = await this.getEmailAuthMethod(authUser.email);
             this._setPasswordMode = false;
             await this.Storage.remove(PasswordResetRequestedKey);
-
             return { result: true };
         } catch (err) {
             logger.log('failed to update password:', err.code);
