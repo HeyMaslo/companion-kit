@@ -47,6 +47,10 @@ export class SignInViewModel extends SignInViewModelBase {
         }
     }
 
+    init = () => {
+        this._verificationCodeValue = new Array(6).fill(null);
+    }
+
     public register = async () => {
         this._error = null;
         this._inProgress = true;
@@ -80,7 +84,7 @@ export class SignInViewModel extends SignInViewModelBase {
     }
 
     private cleanUpVerificationCodeForm = () => {
-        this._verificationCodeValue = [];
+        this._verificationCodeValue = new Array(6).fill(null);
         this._errorMsg = null;
         this._inputRefArray = new Array(5).fill(null);
     }

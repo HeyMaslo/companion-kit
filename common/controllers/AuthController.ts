@@ -146,7 +146,7 @@ export default abstract class AuthControllerBase implements IAuthController {
         }
     }
 
-    protected async hasAccount(email: string): Promise<boolean> {
+    public async hasAccount(email: string): Promise<boolean> {
         try {
             const data = await Firebase.Instance.getFunction(UsersFunctions.HasAccount)
                 .execute({ email: prepareEmail(email) });
@@ -207,9 +207,9 @@ export default abstract class AuthControllerBase implements IAuthController {
         if (data.result) {
             const signInResult = await Firebase.Instance.auth.signInWithEmailAndPassword(email, newPassword);
             if (signInResult) {
+                this._setPasswordMode = false;
                 return { result: true };
             }
-            return { result: false };
         }
 
         return { result: false };
@@ -365,7 +365,54 @@ export default abstract class AuthControllerBase implements IAuthController {
         return { result: true };
     }
 
-    async updatePassword(email: string, password: string, oldPassword?: string): Promise<AuthResult> {
+    async updatePassword(password: string, oldPassword?: string): Promise<AuthResult> {
+        const authUser = Firebase.Instance.auth.currentUser;
+        if (!authUser) {
+            return { result: false, error: AuthErrors.InvalidAuthState, original: null };
+        }
+
+        try {
+            await authUser.updatePassword(password);
+            logger.log('password updated successfuly!!');
+            this._authUser.providers = await this.getEmailAuthMethod(authUser.email);
+            this._setPasswordMode = false;
+            await this.Storage.remove(PasswordResetRequestedKey);
+
+            return { result: true };
+        } catch (err) {
+            logger.log('failed to update password:', err.code);
+            if (err.code === 'auth/requires-recent-login') {
+                if (oldPassword) {
+                    const cred = Firebase.Instance.FirebaseAuth.EmailAuthProvider.credential(this.authUser.email, oldPassword);
+                    try {
+                        logger.log('re-authenticating with email/password for', this.authUser.email);
+                        await authUser.reauthenticateWithCredential(cred);
+                    } catch (err2) {
+                        logger.log('failed to re-authenticate, ERROR:', err2);
+                        return {
+                            result: false,
+                            error: err2.code === 'auth/wrong-password'
+                                ? AuthErrors.WrongPassword
+                                : AuthErrors.InvalidAuthState,
+                            original: err2,
+                        };
+                    }
+
+                    return await this.updatePassword(password);
+                }
+
+                return {
+                    result: false,
+                    error: AuthErrors.NeedsReauthentication,
+                    original: err,
+                };
+            } else {
+                throw err;
+            }
+        }
+    }
+
+    async updatePasswordWithEmail(email: string, password: string, oldPassword?: string): Promise<AuthResult> {
         const authUser = Firebase.Instance.auth.currentUser;
         if (!authUser) {
             // This code should only be reached when using verification code to login

@@ -64,7 +64,7 @@ export class AuthController extends AuthControllerBase implements IAuthControlle
         if (result && password) {
             logger.log('Updating password for new coach user...');
             try {
-                await this.updatePassword(signupData.email, password);
+                await this.updatePassword(password);
             } catch (err) {
                 logger.error('Failed to update password. ERROR:', err);
             }

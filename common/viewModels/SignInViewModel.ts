@@ -102,6 +102,25 @@ export abstract class SignInViewModelBase {
         return authProviders;
     }
 
+    public forgotPasswordWeb = async () => {
+        if (this._inProgress) {
+            return false;
+        }
+
+        // WARNING this assumed to be called only when email address is validated already
+        this._error = null;
+        this._inProgress = true;
+        try {
+            await this.Auth.signInWithEmailLink(this.email.value, MagicLinkRequestReasons.PasswordReset);
+            return true;
+        } catch (err) {
+            this._error = err.message;
+            return false;
+        } finally {
+            this._inProgress = false;
+        }
+    }
+
     public forgotPassword = async () => {
         if (this._inProgress) {
             return false;
@@ -261,7 +280,7 @@ export abstract class SignInViewModelBase {
                 ? this.password.value
                 : null;
 
-            const resp = await this.Auth.updatePassword(this.email.value, newPassword, oldPassword);
+            const resp = await this.Auth.updatePasswordWithEmail(this.email.value, newPassword, oldPassword);
 
             if (resp.result === false) {
                 if (resp.error === AuthErrors.NeedsReauthentication) {

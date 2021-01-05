@@ -19,6 +19,7 @@ export class VerificationCodeView extends ViewState {
         super(props, ctx);
         this._contentHeight = this.persona.setupContainerHeightForceScroll({ rotation: 45 });
         this.fadeInContent(500, 420);
+        this.viewModel.init();
     }
 
     get enableGlobalProgressTracking() { return true; }

@@ -54,7 +54,8 @@ export interface IAuthController {
 
     signOut(): Promise<void>;
 
-    updatePassword(email: string, password: string, oldPassword?: string): Promise<AuthResult>;
+    updatePassword(password: string, oldPassword?: string): Promise<AuthResult>;
+    updatePasswordWithEmail(email: string, password: string, oldPassword?: string): Promise<AuthResult>;
 
     devLogin(email: string): Promise<void>;
 
