@@ -83,9 +83,10 @@ export class SignInViewModel extends SignInViewModelBase {
         return { result: validCode.result, hasAccount: !!hasAcc };
     }
 
-    private cleanUpVerificationCodeForm = () => {
+    public cleanUpVerificationCodeForm = () => {
         this._verificationCodeValue = new Array(6).fill(null);
         this._errorMsg = null;
+        this._error = null;
         this._inputRefArray = new Array(5).fill(null);
     }
 
