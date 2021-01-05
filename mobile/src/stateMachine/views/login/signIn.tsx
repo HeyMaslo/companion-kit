@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, KeyboardAvoidingView, View, Platform } from 'react-native';
 import { observer } from 'mobx-react';
-import Colors from 'src/constants/colors';
 import { Container, TextInput, MasloPage, ButtonContext } from 'src/components';
 import * as Links from 'src/constants/links';
 import SignInViewModel from 'src/viewModels/SignInViewModel';
@@ -72,8 +71,34 @@ export class SignInView extends ViewState {
             return;
         }
 
-        await this.requestMagicLink();
+        if (process.appFeatures.USE_MAGIC_LINK) {
+            await this.requestMagicLink();
+            return;
+        }
+
+        await this.sendVerificationCodeByEmail();
     })
+
+    private async sendVerificationCodeByEmail() {
+        const data = await this.viewModel.sendVerificationCodeByEmail();
+
+        if (data === 'noInvitation') {
+            this.trigger(ScenarioTriggers.Cancel);
+            return;
+        }
+
+        if (data === 'usePassword') {
+            // go to password enter state
+            this.trigger(ScenarioTriggers.Submit);
+            return;
+        }
+
+        if (data === 'invalidEmail') {
+            return;
+        }
+
+        this.trigger(ScenarioTriggers.Primary);
+    }
 
     private async requestMagicLink() {
         // try to send magic link
