@@ -22,6 +22,7 @@ export class SignInView extends ViewState {
         this._contentHeight = this.persona.setupContainerHeightForceScroll({ rotation: 45 });
 
         this.fadeInContent(500, 420);
+        this.viewModel.cleanUpVerificationCodeForm();
     }
 
     get enableGlobalProgressTracking() { return true; }
