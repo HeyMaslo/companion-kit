@@ -19,7 +19,8 @@
         "deploy:server:prod": "cd server/functions && yarn && yarn deploy:prod && cd ../..",
         "deploy:dashboard": "yarn build:dashboard && cd server/functions && yarn deploy:hosting:dashboard",
         "deploy:dashboard:stage": "yarn build:dashboard:stage && cd server/functions && yarn deploy:hosting:dashboard:stage",
-        "deploy:dashboard:prod": "yarn build:dashboard:prod && cd server/functions && yarn deploy:hosting:dashboard:prod"
+        "deploy:dashboard:prod": "yarn build:dashboard:prod && cd server/functions && yarn deploy:hosting:dashboard:prod",
+        "env:set": "bash bin/env_set.bash"
     },
     "author": "zajno",
     "license": "ISC",
@@ -42,6 +43,7 @@
         "concurrently": "^5.1.0",
         "cross-env": "^7.0.2",
         "dotenv": "^8.2.0",
+        "envsub": "^4.0.7",
         "eslint": "^6.8.0",
         "firebase-admin": "^8.11.0",
         "git-rev-sync": "^2.0.0",
