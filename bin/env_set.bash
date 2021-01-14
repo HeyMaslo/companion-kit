@@ -8,3 +8,4 @@ _set_ () {
 }
 
 _set_ env/config-sample.js env/config.js
+_set_ mobile/app-template.json mobile/app.json
