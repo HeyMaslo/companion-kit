@@ -9,7 +9,7 @@ _set_ () {
 
 echo "Setting values"
 
-_set_ env/config-sample.js      env/config.js
+_set_ env/config-template.js    env/config.js
 _set_ mobile/app-template.json  mobile/app.json
 
 echo "Done."
