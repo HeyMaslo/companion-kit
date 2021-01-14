@@ -51,8 +51,8 @@
   "android": {
     "config": {
       "googleSignIn": {
-        "apiKey": "...",
-        "certificateHash": "..."
+        "apiKey": "${FB_ANDROID_API_KEY}",
+        "certificateHash": "${FB_ANDROID_CERT_HASH}"
       }
     },
     "package": "com.maslo.companionkit",
