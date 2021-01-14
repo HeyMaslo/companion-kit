@@ -7,5 +7,9 @@ _set_ () {
     envsub --env-file .env --all "$input" "$output"
 }
 
-_set_ env/config-sample.js env/config.js
-_set_ mobile/app-template.json mobile/app.json
+echo "Setting values"
+
+_set_ env/config-sample.js      env/config.js
+_set_ mobile/app-template.json  mobile/app.json
+
+echo "Done."
