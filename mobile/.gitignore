@@ -67,3 +67,4 @@ dependencies
 configs
 android/app/google-services.json
 app.json
+ios/CompanionKit/Info.plist
