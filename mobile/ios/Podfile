@@ -33,3 +33,6 @@ target 'CompanionKit-tvOS' do
     # Pods for testing
   end
 end
+
+pod 'Firebase/Auth'
+
