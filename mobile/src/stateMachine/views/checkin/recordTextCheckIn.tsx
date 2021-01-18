@@ -185,7 +185,7 @@ export class TextRecordView extends CheckInViewBase {
                                         model={textRecord}
                                         multiline
                                         styleError={styles.error}
-                                        returnKeyType="none"
+                                        returnKeyType="default"
                                         skipBlurOnSubmit
                                     />
                                     <Button
