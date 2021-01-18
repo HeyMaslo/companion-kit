@@ -268,7 +268,7 @@ export const ClientAction = new FunctionFactory(CoachesFunctions.ClientAction)
 
         switch (data.action) {
             case CoachClientActions.Add: {
-                const newClient = await AddClient(data.data, coachId, true);
+                const newClient = await AddClient(data.data, coachId, false);
                 return newClient;
             }
 
