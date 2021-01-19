@@ -94,7 +94,10 @@ export class VerificationCodeView extends ViewState {
         if (!value || isNaN(value) || this.viewModel.isPasting) return;
 
         if (!!this.viewModel.verificationCodeValue[index]) {
-            this.onChangeVerificationCodeText(value, index + 1);
+            if (index < this.viewModel.verificationCodeValue.length - 1) {
+                this.viewModel.inputRefArray[index + 1].focus();
+                this.onChangeVerificationCodeText(value, index + 1);
+            }
             return;
         }
 

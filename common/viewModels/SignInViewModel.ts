@@ -191,7 +191,7 @@ export abstract class SignInViewModelBase {
 
         const accountStatus = await this.getHasAccount();
 
-        if (Array.isArray(accountStatus) && accountStatus.includes(AuthProviders.EmailAndPassword)) {
+        if (Array.isArray(accountStatus) && accountStatus.length > 0) {
             return 'usePassword';
         }
 
