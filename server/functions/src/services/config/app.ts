@@ -9,16 +9,16 @@ export const FeatureSettings: Record<Environments, FeaturesSettingsType> = {
             SessionsDisabled: true,
             DocumentsEnabled: true,
             CaretakersEnabled: true,
-            FreeAccessForNewUsers: false,
+            FreeAccessForNewUsers: true,
             EditablePrompts: true,
-            Interventions: true,
+            Interventions: false,
             ScheduleEvents: true,
             MobileStandalone: false,
             ExportToBQ: true,
             TimeTrackingEnabled: true,
             Goals: true,
             SendSmsOnTriggerPhrases: true,
-            PicturesCheckInsEnabled: true,
+            PicturesCheckInsEnabled: false,
             UseMagicLink: false,
         };
     },
@@ -29,8 +29,8 @@ export const EmailSettings: Record<Environments, EmailSettingsType> = {
     get production() {
         return {
             projectName: 'Companion kit',
-            sendgridTemplateId: 'd-047698cabf8846c985bda62b50850f2d',
-            sendgridVerificationCodeTemplateId: 'd-563f0dc484224cec84034e1bbbf4367e',
+            sendgridTemplateId: '',
+            sendgridVerificationCodeTemplateId: '',
             fromAddress: 'Companion kit Team <your email>',
             adminEmail: '<your email>',
         };
@@ -39,8 +39,8 @@ export const EmailSettings: Record<Environments, EmailSettingsType> = {
         return {
             ...EmailSettings.production,
             projectName: 'Companion kit [Staging]',
-            sendgridTemplateId: 'd-7c4aec9db7714096b15340b90675883d',
-            sendgridVerificationCodeTemplateId: 'd-563f0dc484224cec84034e1bbbf4367e',
+            sendgridTemplateId: '',
+            sendgridVerificationCodeTemplateId: '',
         };
     },
 };
