@@ -12,7 +12,6 @@
   "dependencies": {
     "@react-native-community/datetimepicker": "^3.0.2",
     "base-64": "^0.1.0",
-    "chroma-js": "2.0.3",
     "computed-async-mobx": "^4.2.1",
     "d3": "^6.1.1",
     "expo": "^38.0.10",
@@ -47,7 +46,6 @@
     "react-native-svg": "^12.1.0",
     "react-native-unimodules": "^0.10.1",
     "sentry-expo": "^2.1.2",
-    "simplex-noise": "2.4.0",
     "three": "^0.120.1"
   },
   "devDependencies": {
