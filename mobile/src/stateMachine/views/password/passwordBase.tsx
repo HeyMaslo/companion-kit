@@ -13,6 +13,7 @@ import { MagicLinkRequestReasons } from 'common/models/dtos/auth';
 import { createLogger } from 'common/logger';
 import { safeCall } from 'common/utils/functions';
 import Layout from 'src/constants/Layout';
+import { ScenarioTriggers } from 'src/stateMachine/abstractions';
 
 const isAndroid = Platform.OS === 'android';
 
@@ -67,13 +68,19 @@ export abstract class PasswordBase extends ViewState {
     protected forgotPassword = () => this.runLongOperation(async () => {
         Keyboard.dismiss();
 
-        const result = await this.viewModel.forgotPassword();
+        const result: boolean | { result: boolean } | "noInvitation" = await this.viewModel.forgotPassword();
+
         if (!result) {
             return;
         }
 
-        // show modal with magic link stuff
-        await this.showModal(magicLinkModal(this, this.onGoBack, { title: 'Check your email for a password reset link' }));
+        if (process.appFeatures.USE_MAGIC_LINK) {
+            // show modal with magic link stuff
+            await this.showModal(magicLinkModal(this, this.onGoBack, { title: 'Check your email for a password reset link' }));
+            return;
+        }
+
+        this.trigger(ScenarioTriggers.Secondary);
     })
 
     protected onAppQueryChanged = () => {
@@ -129,7 +136,7 @@ export abstract class PasswordBase extends ViewState {
                         { height: containerHeight, paddingTop: containerPadding },
                     ]}>
                         <View style={[this.baseStyles.textBlock, styles.textBlock, keyboard?.isOpened ? { position: 'absolute', top: containerPadding } : null]}>
-                <Text style={[scaleDownTitle ? this.textStyles.h3 : this.textStyles.h1, styles.title]}>{this.title}</Text>
+                            <Text style={[scaleDownTitle ? this.textStyles.h3 : this.textStyles.h1, styles.title]}>{this.title}</Text>
                         </View>
                         <TextInput
                             onSubmit={this.submit}
@@ -142,22 +149,25 @@ export abstract class PasswordBase extends ViewState {
                             placeholder="Password"
                             autoCapitalize="none"
                             secureTextEntry
-                            styleWrap={{ marginBottom: inputMargin()}}
+                            styleWrap={{ marginBottom: inputMargin() }}
                         />
                         {this.useOptions && (
                             <View style={[styles.buttons, { marginBottom: isAndroid ? 76 : 16 }]}>
-                                <TouchableOpacity style={styles.linkWrap} onPress={this.useMagicLink}>
-                                    <Text style={[TextStyles.p4, styles.link]}>Use Magic Link</Text>
-                                </TouchableOpacity>
+                                {
+                                    process.appFeatures.USE_MAGIC_LINK && (
+                                        <>
+                                            <TouchableOpacity style={styles.linkWrap} onPress={this.useMagicLink}>
+                                                <Text style={[TextStyles.p4, styles.link]}>Use Magic Link</Text>
+                                            </TouchableOpacity>
+                                            <View style={styles.separator} />
+                                        </>
+                                    )
+                                }
 
                                 { this.useOptions !== 'magicLink' ? (
-                                    <>
-                                        <View style={styles.separator} />
-
-                                        <TouchableOpacity style={styles.linkWrap} onPress={this.forgotPassword}>
-                                            <Text style={[TextStyles.p4, styles.link]}>Forgot Password?</Text>
-                                        </TouchableOpacity>
-                                    </>
+                                    <TouchableOpacity style={styles.linkWrap} onPress={this.forgotPassword}>
+                                        <Text style={[TextStyles.p4, styles.link]}>Forgot Password?</Text>
+                                    </TouchableOpacity>
                                 ) : null}
                             </View>
                         )}
