@@ -61,7 +61,7 @@ Clone the respository and ensure you have the requirements below.
 	```
 	GOOGLE_APPLICATION_CREDENTIALS=/path/to/json/credentials
 	```
-(we will fill in the path in the next step)
+	(we will fill in the path in the next step)
 11. Go to the Google Cloud Platform [here](https://console.cloud.google.com/iam-admin/serviceaccounts?project=bipolarbridges). On the "App Engine default service account", click the three dots, select "Create key", and download the json file. Fill in the path to this downloaded file in the `.env` from the previous step.
 12. Open the `./mobile/ios` folder in Xcode. Go to the "Info" tab and scroll down to "URL Types". Add a new URL type with a "Role" of "Editor" and in "URL Schemes" paste in the `REVERSED_CLIENT_ID` from the plist file you downloaded earlier.
 
