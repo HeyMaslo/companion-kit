@@ -5,16 +5,16 @@ Clone the respository and ensure you have the requirements below.
 
 ### Requirements
 
- * React Native CLI development environment for both iOS and Android (instructions [`here`](https://reactnative.dev/docs/environment-setup)) 
- 
+ * React Native CLI development environment for both iOS and Android (instructions [`here`](https://reactnative.dev/docs/environment-setup))
+
  * Node.js 10 ([`nvm`](https://github.com/nvm-sh/nvm) is preferable)
 
  To install:
  ```nvm install 10```
- 
+
  To switch to version 10:
  ```nvm use 10```
- 
+
  * Expo CLI
  ```
  npm i -g expo-cli
@@ -27,7 +27,7 @@ Clone the respository and ensure you have the requirements below.
  ```
  npm i -g firebase-tools
  ```
- 
+
 
 
 ## Configuration Setup
@@ -56,7 +56,14 @@ Clone the respository and ensure you have the requirements below.
 	}
 	```
 9. Add the Sendgrid API key to the `.runtimeconfig.json` file you just created (get this key from a dev on the team).
-10. Open the `./mobile/ios` folder in Xcode. Go to the "Info" tab and scroll down to "URL Types". Add a new URL type with a "Role" of "Editor" and in "URL Schemes" paste in the `REVERSED_CLIENT_ID` from the plist file you downloaded earlier.
+10. Now create `.env` in `./server/functions` with the following:
+
+	```
+	GOOGLE_APPLICATION_CREDENTIALS=/path/to/json/credentials
+	```
+	(we will fill in the path in the next step)
+11. Go to the Google Cloud Platform [here](https://console.cloud.google.com/iam-admin/serviceaccounts?project=bipolarbridges). On the "App Engine default service account", click the three dots, select "Create key", and download the json file. Fill in the path to this downloaded file in the `.env` from the previous step.
+12. Open the `./mobile/ios` folder in Xcode. Go to the "Info" tab and scroll down to "URL Types". Add a new URL type with a "Role" of "Editor" and in "URL Schemes" paste in the `REVERSED_CLIENT_ID` from the plist file you downloaded earlier.
 
 
 ## Run Setup Script
@@ -92,7 +99,3 @@ After making any changes to the functions, firestore or the dashboard, you must 
 
 1. Run `firebase target:apply hosting dashboard-staging <project-id>` from the `./server/functions` directory
 2. Run `yarn deploy:dashboard:stage` from within the root directory
-
-
-
-

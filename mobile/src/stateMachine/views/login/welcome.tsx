@@ -85,15 +85,13 @@ export class WelcomeView extends ViewState {
                         <Text style={[this.textStyles.h1, styles.title]}>Hi there! I’m {texts.personaName}.{'\n'}And you are?</Text>
                     </View>
                     <View style={{ width: '100%' }}>
-                        {Platform.OS === 'android' || Features.Mobile.SignIn.Google ? (
-                            <Button
-                                style={styles.button}
-                                onPress={this.googleSignIn}
-                            >
-                                <Image style={styles.gIcon} source={googleIcon} />
-                                <Text style={this.textStyles.btnTitle}>sign in with google</Text>
-                            </Button>
-                        ) : null}
+                        <Button
+                            style={styles.button}
+                            onPress={this.googleSignIn}
+                        >
+                            <Image style={styles.gIcon} source={googleIcon} />
+                            <Text style={this.textStyles.btnTitle}>sign in with google</Text>
+                        </Button>
                         { Platform.OS === 'ios' && Features.Mobile.SignIn.Apple && this.enableAppleButton ? (
                             <AppleAuthentication.AppleAuthenticationButton
                                 buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
