@@ -24,7 +24,7 @@ PODS:
     - UMFileSystemInterface
     - UMImageLoaderInterface
     - UMPermissionsInterface
-  - EXConstants (9.1.1):
+  - EXConstants (9.2.0):
     - UMConstantsInterface
     - UMCore
   - EXCrypto (8.2.1):
@@ -66,7 +66,7 @@ PODS:
     - UMPermissionsInterface
   - EXKeepAwake (8.2.1):
     - UMCore
-  - EXLinearGradient (8.2.1):
+  - EXLinearGradient (8.2.2):
     - UMCore
   - EXLocation (8.2.1):
     - UMCore
@@ -97,6 +97,17 @@ PODS:
     - React-Core (= 0.63.2)
     - React-jsi (= 0.63.2)
     - ReactCommon/turbomodule/core (= 0.63.2)
+  - Firebase/CoreOnly (6.30.0):
+    - FirebaseCore (= 6.10.0)
+  - FirebaseCore (6.10.0):
+    - FirebaseCoreDiagnostics (~> 1.3)
+    - GoogleUtilities/Environment (~> 6.7)
+    - GoogleUtilities/Logger (~> 6.7)
+  - FirebaseCoreDiagnostics (1.7.0):
+    - GoogleDataTransport (~> 7.4)
+    - GoogleUtilities/Environment (~> 6.7)
+    - GoogleUtilities/Logger (~> 6.7)
+    - nanopb (~> 1.30906.0)
   - Flipper (0.41.5):
     - Flipper-Folly (~> 2.2)
     - Flipper-RSocket (~> 1.1)
@@ -153,10 +164,16 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
+  - GoogleDataTransport (7.4.0):
+    - nanopb (~> 1.30906.0)
   - GoogleSignIn (5.0.2):
     - AppAuth (~> 1.2)
     - GTMAppAuth (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
+  - GoogleUtilities/Environment (6.7.2):
+    - PromisesObjC (~> 1.2)
+  - GoogleUtilities/Logger (6.7.2):
+    - GoogleUtilities/Environment
   - GTMAppAuth (1.0.0):
     - AppAuth/Core (~> 1.0)
     - GTMSessionFetcher (~> 1.1)
@@ -165,9 +182,17 @@ PODS:
   - GTMSessionFetcher/Core (1.4.0)
   - GTMSessionFetcher/Full (1.4.0):
     - GTMSessionFetcher/Core (= 1.4.0)
+  - nanopb (1.30906.0):
+    - nanopb/decode (= 1.30906.0)
+    - nanopb/encode (= 1.30906.0)
+  - nanopb/decode (1.30906.0)
+  - nanopb/encode (1.30906.0)
   - OpenSSL-Universal (1.0.2.19):
     - OpenSSL-Universal/Static (= 1.0.2.19)
   - OpenSSL-Universal/Static (1.0.2.19)
+  - PromisesObjC (1.2.10)
+  - RCTAppleHealthKit (0.8.0):
+    - React
   - RCTRequired (0.63.2)
   - RCTTypeSafety (0.63.2):
     - FBLazyVector (= 0.63.2)
@@ -398,6 +423,9 @@ PODS:
     - React-jsi (= 0.63.2)
   - RNDateTimePicker (3.0.2):
     - React
+  - RNFBApp (8.4.5):
+    - Firebase/CoreOnly (~> 6.30.0)
+    - React-Core
   - RNSVG (12.1.0):
     - React
   - UMAppLoader (1.2.0)
@@ -471,6 +499,8 @@ DEPENDENCIES:
   - FlipperKit/SKIOSNetworkPlugin (~> 0.41.1)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - GoogleSignIn
+  - RCTAppleHealthKit (from `../node_modules/rn-apple-healthkit`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
@@ -495,6 +525,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
+  - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - RNSVG (from `../node_modules/react-native-svg`)
   - UMAppLoader (from `../node_modules/unimodules-app-loader/ios`)
   - UMBarCodeScannerInterface (from `../node_modules/unimodules-barcode-scanner-interface/ios`)
@@ -517,6 +548,9 @@ SPEC REPOS:
     - boost-for-react-native
     - CocoaAsyncSocket
     - CocoaLibEvent
+    - Firebase
+    - FirebaseCore
+    - FirebaseCoreDiagnostics
     - Flipper
     - Flipper-DoubleConversion
     - Flipper-Folly
@@ -524,10 +558,14 @@ SPEC REPOS:
     - Flipper-PeerTalk
     - Flipper-RSocket
     - FlipperKit
+    - GoogleDataTransport
     - GoogleSignIn
+    - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
+    - nanopb
     - OpenSSL-Universal
+    - PromisesObjC
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -591,6 +629,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  RCTAppleHealthKit:
+    :path: "../node_modules/rn-apple-healthkit"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
   RCTTypeSafety:
@@ -635,6 +675,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
+  RNFBApp:
+    :path: "../node_modules/@react-native-firebase/app"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   UMAppLoader:
@@ -676,7 +718,7 @@ SPEC CHECKSUMS:
   EXAppleAuthentication: 5b3da71bada29e2423d8ea27e5538ef0d75aba62
   EXAV: e9c3a5e6fc4137ddb65a7d5810efc95261365ee2
   EXCamera: efef30c8f5016b46fa3119a0c685cf75b841f453
-  EXConstants: f907b3b6ce16e20d1750f22af1e095e924574bcb
+  EXConstants: f486f6b4a36b86e47ab258d4d2b7b2699786fdce
   EXCrypto: 867e1d45d513e39ab9d7706232435edb1cf756cd
   EXDevice: befd3b2619915e615c3753c9f83309808aa0cdf5
   EXErrorRecovery: ff58873bf2714fcd5290935d49b74d9fc589d575
@@ -690,7 +732,7 @@ SPEC CHECKSUMS:
   EXImageManipulator: fbc0fff59cd398ebec3f3e9bedd4451375de2d5f
   EXImagePicker: 36f2bba7d6367ecb2b1340c5db5a676b3b19a26a
   EXKeepAwake: 8b0f68242f036b971f9f8976341823cbe6f50812
-  EXLinearGradient: 663bf3b9009a96567e98498016e40422631be81d
+  EXLinearGradient: fd56f6e9fca133329f190d75bfa28dc57ed7a1dc
   EXLocation: e93020e255f52a1cc031e0f45b0a24eb20fc4b55
   EXMediaLibrary: 73b7e171c26e828dfadf1fd270a4498cc1902a72
   EXPermissions: 9daf039546113d8f2f0a62db1c75d2d9206e5e4e
@@ -699,6 +741,9 @@ SPEC CHECKSUMS:
   EXUpdates: f3c4943abb6ab28cc55cbeac4ff4612701f82725
   FBLazyVector: 3ef4a7f62e7db01092f9d517d2ebc0d0677c4a37
   FBReactNativeSpec: dc7fa9088f0f2a998503a352b0554d69a4391c5a
+  Firebase: 210f41ca352067d83b1ba4fd2e7fb49a0c017397
+  FirebaseCore: 9a41e2de78fef10f63cee30ab10e2945266bc1fc
+  FirebaseCoreDiagnostics: 770ac5958e1372ce67959ae4b4f31d8e127c3ac1
   Flipper: 33585e2d9810fe5528346be33bcf71b37bb7ae13
   Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
   Flipper-Folly: c12092ea368353b58e992843a990a3225d4533c3
@@ -708,10 +753,15 @@ SPEC CHECKSUMS:
   FlipperKit: bc68102cd4952a258a23c9c1b316c7bec1fecf83
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
+  GoogleDataTransport: b7f406340a291370045a270c599e53c6fa6ec20f
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
+  GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
+  nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
+  PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
+  RCTAppleHealthKit: bbb19a33c922d0c36631cd571680eed68e78c63a
   RCTRequired: f13f25e7b12f925f1f6a6a8c69d929a03c0129fe
   RCTTypeSafety: 44982c5c8e43ff4141eb519a8ddc88059acd1f3a
   React: e1c65dd41cb9db13b99f24608e47dd595f28ca9a
@@ -734,6 +784,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 4d2e726957f4087449739b595f107c0d4b6c2d2d
   ReactCommon: a0a1edbebcac5e91338371b72ffc66aa822792ce
   RNDateTimePicker: a84d2b439666c9243d42a8396c588d4d1d36e3f3
+  RNFBApp: 570b136767f588b7eef0ab918284e9fe364d0c3e
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   UMAppLoader: 61049c8d55590b74e9ae1d5429bf68d96b4a2528
   UMBarCodeScannerInterface: e5e4c87797d3d01214e25cd1618866caf5d4f17f
@@ -751,6 +802,6 @@ SPEC CHECKSUMS:
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: ceb2b1951ef17b56fdb8c94c219623674c127719
+PODFILE CHECKSUM: 247d16b05fd933f8d8c90d5ef40dd83b4c7d2623
 
 COCOAPODS: 1.9.3

@@ -32,7 +32,7 @@
     "usesAppleSignIn": true,
     "icon": "./src/assets/appicons/appicon.png",
     "buildNumber": "1",
-    "bundleIdentifier": "...",
+    "bundleIdentifier": "com.maslo.companionkit",
     "config": {
       "usesNonExemptEncryption": false,
       "googleSignIn": {
@@ -44,7 +44,7 @@
     ],
     "googleServicesFile": "./configs/app/GoogleService-Info.plist",
     "infoPlist": {
-      "NSMicrophoneUsageDescription": "...",
+      "NSMicrophoneUsageDescription": "Enable this app to record your response to this check-in prompt.",
       "NSPhotoLibraryUsageDescription": "..."
     }
   },
@@ -55,7 +55,7 @@
         "certificateHash": "..."
       }
     },
-    "package": "...",
+    "package": "com.maslo.companionkit",
     "googleServicesFile": "./configs/app/google-services.json",
     "versionCode": 1,
     "intentFilters": [
