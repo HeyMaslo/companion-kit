@@ -68,3 +68,4 @@ configs
 android/app/google-services.json
 app.json
 ios/CompanionKit/Info.plist
+ios/CompanionKit.xcodeproj/project.pbxproj
