@@ -94,7 +94,7 @@ service cloud.firestore {
     }
 
     match /prompts/{coachId}/{document=**} {
-    	allow read: if request.auth.uid == coachId
+    	allow read: if request.auth.uid != null
       	|| exists(/databases/$(database)/documents/prompts/$(coachId)/clientPrompts/$(request.auth.uid));
 
       match /clientPrompts/{clientId} {

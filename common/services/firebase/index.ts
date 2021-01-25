@@ -1,4 +1,5 @@
 import { createLazy } from 'common/utils/lazy.light';
+import firebase from 'firebase/app';
 
 import { FirebaseApp } from './firebase.lib';
 import { createLogger } from 'common/logger';
@@ -98,6 +99,9 @@ export async function initializeAsync(settings: FirebaseSettings) {
 
     // Initialize Firebase
     instance = library.initializeApp(firebaseConfig);
+    if (firebaseConfig.apiKey === process.firebaseForPlatform.android.apiKey) {
+        firebase.firestore().settings({ experimentalForceLongPolling: true });
+    }
 
     logger.log('Initialized successfully');
 

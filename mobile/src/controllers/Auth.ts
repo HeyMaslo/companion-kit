@@ -26,7 +26,7 @@ export interface IAuthController extends IAuthControllerBase {
     signInWithApple(): Promise<boolean>;
 }
 
-const UseNativeGoogle = ExpoConstants.appOwnership === AppOwnership.Standalone;
+const UseNativeGoogle = AppOwnership.Standalone;
 
 export class AuthController extends AuthControllerBase implements IAuthController {
 
@@ -138,9 +138,8 @@ export class AuthController extends AuthControllerBase implements IAuthControlle
     }
 
     protected async doGoogleSignIn() {
-
         let result: { idToken: string, accessToken: string };
-        if (UseNativeGoogle) {
+        if (UseNativeGoogle) { 
             await GoogleSignInNative.askForPlayServicesAsync();
             const res = await GoogleSignInNative.signInAsync();
             if (res.type === 'success') {
@@ -150,7 +149,6 @@ export class AuthController extends AuthControllerBase implements IAuthControlle
                 };
             }
         } else {
-
             logger.log('Sign in with Google, client id = ', Env.Google.ExpoClientIdIOS, Env.Google.ExpoClientIdAndroid);
             const res = await GoogleExpo.logInAsync({
                 iosClientId: Env.Google.ExpoClientIdIOS,
