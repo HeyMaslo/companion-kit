@@ -14,5 +14,6 @@ _set_ mobile/app-template.json                                      mobile/app.j
 _set_ mobile/ios/CompanionKit/Info-template.plist                   mobile/ios/CompanionKit/Info.plist
 _set_ common/abstractions/services/app-template.ts                  common/abstractions/services/app.ts
 _set_ mobile/ios/CompanionKit.xcodeproj/project-template.pbxproj    mobile/ios/CompanionKit.xcodeproj/project.pbxproj
+_set_ mobile/ios/CompanionKit/CompanionKit-template.entitlements    mobile/ios/CompanionKit/CompanionKit.entitlements
 
 echo "Done."

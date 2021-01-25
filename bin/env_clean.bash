@@ -7,5 +7,6 @@ rm -f mobile/app.json
 rm -f mobile/ios/CompanionKit/Info.plist
 rm -f common/abstractions/services/app.ts
 rm -f mobile/ios/CompanionKit.xcodeproj/project.pbxproj
+rm -f smobile/ios/CompanionKit/CompanionKit.entitlements
 
 echo "Done."
