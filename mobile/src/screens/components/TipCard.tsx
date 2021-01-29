@@ -7,6 +7,7 @@ import { ITipItem, TipTypes } from 'src/viewModels/components/TipItemViewModel';
 import InfoIcon from 'src/assets/images/info-icon.svg';
 import PlusIcon from 'src/assets/images/plus-icon.svg';
 import ShareIcon from 'src/assets/images/share-icon.svg';
+import googleFit from 'src/hooks/useGoogleFit'
 
 function getTipIcon(type: TipTypes) {
     switch (type) {
@@ -44,6 +45,7 @@ function getIconTitle(item: ITipItem) {
 export default function TipItemCard(props: { item: ITipItem, onPress: () => void }) {
     const { onPress, item } = props;
     const { type, title } = item;
+    const data = googleFit();
 
     const isExternal = (item.type === 'staticTip' || item.type === 'docLinkTip') && !!item.url;
 
