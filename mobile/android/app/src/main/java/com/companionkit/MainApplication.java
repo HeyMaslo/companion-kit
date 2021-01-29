@@ -12,7 +12,6 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
-import com.reactnative.googlefit.GoogleFitPackage;
 import java.util.List;
 import java.util.Arrays;
  
