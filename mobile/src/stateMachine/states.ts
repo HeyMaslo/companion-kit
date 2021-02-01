@@ -14,9 +14,12 @@ export enum States {
     Welcome,
     SignInWithEmail,
     SignInPassword,
+    NoInvitationEmail,
+    EnterVerificationCode,
 
     // Main Block
     SetPassword,
+    ResetPassword,
     ConfirmAccount,
     NoAccount,
 

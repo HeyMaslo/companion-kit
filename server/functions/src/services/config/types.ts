@@ -16,11 +16,13 @@ export type FeaturesSettingsType = {
     Goals?: boolean,
     SendSmsOnTriggerPhrases?: boolean;
     PicturesCheckInsEnabled?: boolean;
+    UseMagicLink?: boolean;
 };
 
 export type EmailSettingsType = {
     projectName: string,
     sendgridTemplateId: string,
+    sendgridVerificationCodeTemplateId: string,
     fromAddress: string,
     adminEmail: string,
 };

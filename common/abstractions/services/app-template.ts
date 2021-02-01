@@ -19,6 +19,7 @@ export const FeatureSettings: Record<Environments, FeaturesSettingsType> = {
             Goals: true,
             SendSmsOnTriggerPhrases: true,
             PicturesCheckInsEnabled: false,
+            UseMagicLink: false,
         };
     },
     get staging() { return FeatureSettings.production; },
@@ -28,7 +29,8 @@ export const EmailSettings: Record<Environments, EmailSettingsType> = {
     get production() {
         return {
             projectName: '${EMAIL_PROJECT_NAME}',
-            sendgridTemplateId: '${EMAIL_SENDGRID_TEMPLATE_ID}',
+            sendgridTemplateId: '',
+            sendgridVerificationCodeTemplateId: '${EMAIL_SENDGRID_TEMPLATE_ID}',
             fromAddress: '${EMAIL_FROM_ADDRESS}',
             adminEmail: '${EMAIL_ADMIN_EMAIL}',
         };
@@ -37,7 +39,8 @@ export const EmailSettings: Record<Environments, EmailSettingsType> = {
         return {
             ...EmailSettings.production,
             projectName: '${EMAIL_PROJECT_NAME_PRODUCTION}',
-            sendgridTemplateId: '${EMAIL_SENDGRID_TEMPLATE_ID}',
+            sendgridTemplateId: '',
+            sendgridVerificationCodeTemplateId: '${EMAIL_SENDGRID_TEMPLATE_ID}',
         };
     },
 };
