@@ -16,6 +16,7 @@ _set_ common/abstractions/services/app-template.ts                  common/abstr
 _set_ mobile/ios/CompanionKit.xcodeproj/project-template.pbxproj    mobile/ios/CompanionKit.xcodeproj/project.pbxproj
 _set_ mobile/ios/CompanionKit/CompanionKit-template.entitlements    mobile/ios/CompanionKit/CompanionKit.entitlements
 _set_ server/functions/src/services/config/app-template.ts          server/functions/src/services/config/app.ts
+_set_ server/functions/.runtimeconfig-template.json                 server/functions/.runtimeconfig.json
 _set_ server/.firebaserc-template                                   server/.firebaserc
 
 echo "Done."
