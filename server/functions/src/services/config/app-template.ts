@@ -29,8 +29,8 @@ export const EmailSettings: Record<Environments, EmailSettingsType> = {
     get production() {
         return {
             projectName: '${EMAIL_PROJECT_NAME}',
-            sendgridTemplateId: '',
-            sendgridVerificationCodeTemplateId: '${EMAIL_SENDGRID_TEMPLATE_ID}',
+            sendgridTemplateId: '${EMAIL_SENDGRID_TEMPLATE_ID}',
+            sendgridVerificationCodeTemplateId: '${EMAIL_SENDGRID_VERIFICATION_TEMPLATE_ID}',
             fromAddress: '${EMAIL_FROM_ADDRESS}',
             adminEmail: '${EMAIL_ADMIN_EMAIL}',
         };
@@ -39,8 +39,8 @@ export const EmailSettings: Record<Environments, EmailSettingsType> = {
         return {
             ...EmailSettings.production,
             projectName: '${EMAIL_PROJECT_NAME_PRODUCTION}',
-            sendgridTemplateId: '',
-            sendgridVerificationCodeTemplateId: '${EMAIL_SENDGRID_TEMPLATE_ID}',
+            sendgridTemplateId: '${EMAIL_SENDGRID_TEMPLATE_ID}',
+            sendgridVerificationCodeTemplateId: '${EMAIL_SENDGRID_VERIFICATION_TEMPLATE_ID}',
         };
     },
 };
