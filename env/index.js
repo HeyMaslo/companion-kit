@@ -1,6 +1,7 @@
 /** @typedef {(import ('./types').Env)} Env */
 
-import * as config from './config';
+const config = require('./config');
 
 /** @type Env */
-export const env = config.env
+const env = config.env
+module.exports = { env }

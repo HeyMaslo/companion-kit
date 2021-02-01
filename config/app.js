@@ -8,7 +8,7 @@
 /** @typedef {import('./declarations').IncludeConfig} IncludeConfig */
 /** @typedef {import('./declarations').BuildConfig} BuildConfig */
 
-import { env } from '../env';
+const { env } = require('../env');
 
 /** @type {Record<Environments, FirebaseConfig>} */
 const FirebaseConfigs = {

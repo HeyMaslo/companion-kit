@@ -1,7 +1,7 @@
 /** @typedef {(import ('./types').Env)} Env */
 
 /** @type Env */
-export const env = {
+const env = {
     production: {
         firebase: {
             config: {
@@ -39,3 +39,5 @@ export const env = {
         },
     }
 }
+
+module.exports = { env }
