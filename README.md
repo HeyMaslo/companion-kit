@@ -32,38 +32,18 @@ Clone the respository and ensure you have the requirements below.
 
 ## Configuration Setup
 
-1. Copy the values from the `firebaseConfig` variable in the web app in the firebase console to the `FirebaseConfigs` variable in `./config/app.js`.
-2. Download the `GoogleService-Info.plist` file from the ios app on firebase. Place this file in `./mobile/configs/app`.
-3. Copy the `GOOGLE_APP_ID` and `API_KEY` from the plist file you just downloaded into the ios object in the `FirebasePlatformOverrides` variable in `./config/app.js`. Then copy the `CLIENT_ID` from the same plist file to line 48 in the `GoogleConfigs` variable in `./config/app.js`.
-4. Copy the `REVERSED_CLIENT_ID` from the same plist file into line 39 in `./mobile/app.json`.
-5. Download the `google-services.json` file from the android app on firebase. Place this file in `./mobile/configs/app` and in `./mobile/android/app`.
-6. Copy the `current_key` and `mobilesdk_app_id` from the json file you just downloaded into the android object in the `FirebasePlatformOverrides` variable in `./config/app.js`. Then copy the `client_id` on line 18 to line 47 of the same `app.js` file.
-7. Again from the downloaded json file, copy the `current_key` and the `certificate_hash` to lines 54 and 55 of `./mobile/app.json`.
-8. Create `.runtimeconfig.json` in `./server/functions` with the following:
-
-	```
-	{
-	  "envs": {
-	    "project_name": "[appName]",
-	    "sendgrid_api_key": "...",
-	    "sendgrid_emails_validation_api_key": "...",
-	    "is_prod": "false", // set false for staging,
-	    "devlogin": true,
-	    "twilio_phone_number_from": "...",
-	    "twilio_auth_token": "...",
-	    "twilio_account_sid": "..."
-	  }
-	}
-	```
-9. Add the Sendgrid API key to the `.runtimeconfig.json` file you just created (get this key from a dev on the team).
-10. Now create `.env` in `./server/functions` with the following:
+1. Download the `GoogleService-Info.plist` file from the ios app on firebase. Place this file in `./mobile/configs/app`.
+2. Download the `google-services.json` file from the android app on firebase. Place this file in `./mobile/configs/app` and in `./mobile/android/app`.
+3. Copy the `.env-starter` file to `.env` in the root directory, and fill
+in each variable with the correct values.
+Alternatively, obtain an environment file from another developer on the team.
+4.  Now create `.env` in `./server/functions` with the following:
 
 	```
 	GOOGLE_APPLICATION_CREDENTIALS=/path/to/json/credentials
 	```
 	(we will fill in the path in the next step)
-11. Go to the Google Cloud Platform [here](https://console.cloud.google.com/iam-admin/serviceaccounts?project=bipolarbridges). On the "App Engine default service account", click the three dots, select "Create key", and download the json file. Fill in the path to this downloaded file in the `.env` from the previous step.
-12. Open the `./mobile/ios` folder in Xcode. Go to the "Info" tab and scroll down to "URL Types". Add a new URL type with a "Role" of "Editor" and in "URL Schemes" paste in the `REVERSED_CLIENT_ID` from the plist file you downloaded earlier.
+5. Go to the Google Cloud Platform [here](https://console.cloud.google.com/iam-admin/serviceaccounts?project=bipolarbridges). On the "App Engine default service account", click the three dots, select "Create key", and download the json file. Fill in the path to this downloaded file in the `.env` from the previous step.
 
 
 ## Run Setup Script
