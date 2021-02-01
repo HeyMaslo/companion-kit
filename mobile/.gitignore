@@ -70,3 +70,5 @@ app.json
 ios/CompanionKit/Info.plist
 ios/CompanionKit.xcodeproj/project.pbxproj
 ios/CompanionKit/CompanionKit.entitlements
+ios/sentry.properties
+android/sentry.properties

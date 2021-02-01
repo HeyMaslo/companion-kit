@@ -11,5 +11,7 @@ rm -f smobile/ios/CompanionKit/CompanionKit.entitlements
 rm -f server/functions/src/services/config/app.ts
 rm -f server/.firebaserc
 rm -f server/functions/.runtimeconfig.json
+rm -f mobile/android/sentry.properties
+rm -f mobile/ios/sentry.properties
 
 echo "Done."
