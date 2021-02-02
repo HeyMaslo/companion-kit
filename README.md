@@ -35,7 +35,9 @@ Clone the respository and ensure you have the requirements below.
 1. Download the `GoogleService-Info.plist` file from the ios app on firebase. Place this file in `./mobile/configs/app`.
 2. Download the `google-services.json` file from the android app on firebase. Place this file in `./mobile/configs/app` and in `./mobile/android/app`.
 3. Copy the `.env-starter` file to `.env` in the root directory, and fill in each variable with the correct values. Alternatively, obtain an environment file from another developer on the team.
-4.  Now create `.env` in `./server/functions` with the following:
+4. From the root directory, run `yarn env:set`. This will generate all of the configuration files
+based on the values in the environment file.
+5.  Now create `.env` in `./server/functions` with the following:
 
 	```
 	GOOGLE_APPLICATION_CREDENTIALS=/path/to/json/credentials
