@@ -12,6 +12,7 @@ import Modal, { ModalAgent } from 'app/components/Modal';
 import { DatePickerObservable } from 'app/components/DatePicker.Loader';
 import TimePickerLoader from 'app/components/TimePicker.Loader';
 import logger from 'common/logger';
+import { Dashboard as DashboardFeatures } from 'common/constants/features';
 
 interface PromptItemProps {
     item: PromptItemViewModel,
@@ -20,6 +21,7 @@ interface PromptItemProps {
     addForm: AddPromptFormVM,
     scheduleForm: ScheduleFormViewModel,
     model: PromptsViewModel,
+    isRecommended: boolean
 }
 
 type State = {
@@ -83,7 +85,7 @@ export default class PromptItem extends React.Component<PromptItemProps, State> 
                             className="prompts-modal schedule-prompt"
                         >
                             <DatePickerObservable model={scheduleForm.date} />
-                            <TimePickerLoader model={scheduleForm.time} minuteStep={5}/>
+                            <TimePickerLoader model={scheduleForm.time} minuteStep={5} />
                         </Modal>
                 }
             </>
@@ -136,8 +138,10 @@ export default class PromptItem extends React.Component<PromptItemProps, State> 
     }
 
     render() {
-        const { item, className } = this.props;
+        const { item, className, isRecommended } = this.props;
         const { modalActive } = this.state;
+
+        const promptClasses = `${isRecommended ? `recommended-line` : `prompt-text`} desc-3 type1`;
 
         return (
             <View className={`prompt-item ${className || ''}`}>
@@ -146,8 +150,16 @@ export default class PromptItem extends React.Component<PromptItemProps, State> 
                         model={item.switchModel}
                         toggleAction={item.toggleActive}
                     />
-                    <Text className="prompt-text desc-3 type1"> {item.text} </Text>
+                    <Text className={promptClasses}> {item.text} </Text>
                 </View>
+                {
+                    isRecommended && DashboardFeatures.UseGPT3Suggestions && 
+                        <View className="center-block">
+                                <View className={`category-wrap recommendation-bg`}>
+                                    <Text className="desc-6">Companion Kit recommends you ask your client this prompt</Text>
+                                </View>
+                        </View>
+                }
                 <View className="right-block">
                     {
                         item.category.name &&

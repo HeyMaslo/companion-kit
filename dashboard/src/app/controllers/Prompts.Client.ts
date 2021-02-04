@@ -8,6 +8,15 @@ import { IAsyncController } from 'common/abstractions/controlllers/IAsyncControl
 import { PromiseWrapper } from 'common/utils/promiseWrapper';
 import { IActivityController, ActivityController } from 'common/controllers/ActivityController';
 import { GoalStatusController, IGoalsController } from 'common/controllers/GoalStatusController';
+import { Dashboard as DashboardFeatures } from 'common/constants/features';
+import Env from 'app/constants/env';
+
+export enum PromptsActions {
+    FetchSuggestedPrompt = 'fetchSuggestedPrompt'
+}
+
+type FetchSuggestedPromptType = { prompts: string[], journal: string };
+export type FetchSuggestedPromptResponse = { result: string };
 
 export interface IClientPromptsController extends IAsyncController {
     readonly loading: boolean;
@@ -16,6 +25,7 @@ export interface IClientPromptsController extends IAsyncController {
 
     readonly prompts: IActivityController;
     readonly goals: IGoalsController;
+    action(action: PromptsActions, data: FetchSuggestedPromptType): Promise<FetchSuggestedPromptResponse>;
 }
 
 export interface IParentPromptsController {
@@ -72,6 +82,21 @@ export class ClientPromptsController implements IClientPromptsController, IDispo
 
     public ensureData() {
         return this._loadWrapper.promise;
+    }
+
+    async action(action: PromptsActions, data: FetchSuggestedPromptType): Promise<FetchSuggestedPromptResponse> {
+        if (action === PromptsActions.FetchSuggestedPrompt && DashboardFeatures.UseGPT3Suggestions) {            
+            if (!data.journal || !data.prompts || !data.prompts.length) {
+                throw new Error('Invalid required input for fetching suggested prompt.');
+            }
+            const promptResults = await fetch(Env.OpenAIUrl, {
+                method: "POST",
+                headers: new Headers({'content-type': 'application/json'}),
+                body: JSON.stringify(data)
+            });
+            return promptResults.json();
+        }
+        throw new Error('Action type not implemented.');
     }
 
     private async loadClientState() {
