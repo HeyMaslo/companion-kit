@@ -50,6 +50,7 @@
         &:last-of-type
             margin-bottom: 0
         .left-block,
+        .center-block,
         .right-block
             display: flex
             align-items: center
@@ -66,6 +67,10 @@
             display: -webkit-box
             -webkit-line-clamp: 1
             -webkit-box-orient: vertical
+        .recommended-line
+            margin-top: gem(3)
+        .recommendation-bg
+            background: rgba(94.5, 71.4, 75.7, 0.1)
         .category-wrap
             display: flex
             align-items: center
@@ -74,6 +79,8 @@
             background: $color-prompt-category-bg--default
             .desc-5
                 color: $color-prompt-category-text--default
+            .desc-6
+                color: $color-prompt-recommended-text--default
             &.anger
                 background: $color-prompt-category-bg--anger
                 .desc-5

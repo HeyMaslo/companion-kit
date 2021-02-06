@@ -14,4 +14,5 @@ export default {
     GaTrackingId: process.env.GA_TRACKING_ID, // 'UA-106568684-4',
     PaymentDisabled: process.env.PAYMENT_DISABLED === 'true',
     StripeProviderKey: process.appIntegrations.StripeProviderKey,
+    OpenAIUrl: 'https://empatheticcomputingengine.uc.r.appspot.com/promptSuggestion',
 };

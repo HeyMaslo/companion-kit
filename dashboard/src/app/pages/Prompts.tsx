@@ -13,7 +13,7 @@ import { InputObservable } from 'app/common/components/Input';
 import Modal, { ModalAgent } from 'app/components/Modal';
 import Placeholder from 'app/components/PlaceHolder';
 import { ManagePromptsViewModel } from 'app/viewModels/Prompts/ManagePromptsViewModel';
-
+import { Dashboard as DashboardFeatures } from 'common/constants/features';
 import Localization from 'app/services/localization';
 import { createLazy } from 'common/utils/lazy.light';
 
@@ -92,6 +92,7 @@ export default class Prompts extends React.Component<RouteComponentProps<{ clien
                                     addForm={this.model.prompts.addForm}
                                     scheduleForm={this.model.prompts.scheduleForm}
                                     model={this.model.prompts}
+                                    isRecommended={DashboardFeatures.UseGPT3Suggestions ? promptItemViewModel.text === this.model.suggestedPrompt : false}
                                 />
                             );
                         })
