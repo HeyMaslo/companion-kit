@@ -9,3 +9,6 @@ temp/
 .env
 yarn-error.log
 **/.DS_Store
+
+## Configs
+common/models/ClientCard.ts

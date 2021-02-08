@@ -20,5 +20,6 @@ _set_ mobile/ios/sentry-template.properties                         mobile/ios/s
 _set_ server/functions/src/services/config/app-template.ts          server/functions/src/services/config/app.ts
 _set_ server/functions/.runtimeconfig-template.json                 server/functions/.runtimeconfig.json
 _set_ server/.firebaserc-template                                   server/.firebaserc
+_set_ common/models/ClientCard.ts.template                          common/models/ClientCard.ts
 
 echo "Done."

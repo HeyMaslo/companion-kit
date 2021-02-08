@@ -44,8 +44,10 @@ export namespace CoachClientActions {
     export const Helper = new EnumStringHelper<CoachClientActions>(CoachClientActions);
 }
 
-// TODO: allow toggle to a shorter period for testing/development
-export const ClientInviteMinPeriod = 1000 * 3600 * 24; // 1 day
+const defaultClientInviteMinPeriod = 1000 * 3600 * 24; // 1 day
+let useTestPeriod = "${USE_TEST_INVITE_PERIOD}";
+export const ClientInviteMinPeriod
+    = useTestPeriod == "true" ? 1000 : defaultClientInviteMinPeriod;
 
 /**
  * Client's data, stored inside coach.
