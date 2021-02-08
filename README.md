@@ -29,30 +29,25 @@ Clone the respository and ensure you have the requirements below.
  ```
 
 
-
 ## Configuration Setup
 
 1. Download the `GoogleService-Info.plist` file from the ios app on firebase. Place this file in `./mobile/configs/app`.
 2. Download the `google-services.json` file from the android app on firebase. Place this file in `./mobile/configs/app` and in `./mobile/android/app`.
 3. Copy the `.env-starter` file to `.env` in the root directory, and fill in each variable with the correct values. Alternatively, obtain an environment file from another developer on the team.
-4. From the root directory, run `yarn env:set`. This will generate all of the configuration files
+4. From the root directory, run `yarn all` and wait for node modules to install.
+5. From the root directory, run `yarn env:set`. This will generate all of the configuration files
 based on the values in the environment file.
-5.  Now create `.env` in `./server/functions` with the following:
+6. From the root directory, run (examine the script first!)
+    ```
+    ./bin/setup.bash
+    ```
+7.  Now create `.env` in `./server/functions` with the following:
 
 	```
 	GOOGLE_APPLICATION_CREDENTIALS=/path/to/json/credentials
 	```
 	(we will fill in the path in the next step)
-5. Go to the Google Cloud Platform [here](https://console.cloud.google.com/iam-admin/serviceaccounts?project=bipolarbridges). On the "App Engine default service account", click the three dots, select "Create key", and download the json file. Fill in the path to this downloaded file in the `.env` from the previous step.
-
-
-## Run Setup Script
-
-Navigate back to the root directory and run:
-
-```
-./bin/setup.bash
-```
+8. Go to the Google Cloud Platform [here](https://console.cloud.google.com/iam-admin/serviceaccounts?project=bipolarbridges). On the "App Engine default service account", click the three dots, select "Create key", and download the json file. Fill in the path to this downloaded file in the `.env` from the previous step.
 
 ## Running the App
 

@@ -17,8 +17,6 @@ cd mobile/dependencies
 git clone -b dev-ts https://github.com/HeyMaslo/maslo-persona.git persona
 git clone https://github.com/HeyMaslo/react-native-switch-pro.git
 cd ../..
-echo "Installing npm modules..."
-yarn all
 cd mobile/ios
 pod install --repo-update
 cd ..
