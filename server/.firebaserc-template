@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "${FB_WEB_PROJECT_ID}",
+    "staging": "${FB_WEB_PROJECT_ID}"
+  },
+  "targets": {
+    "${FB_WEB_PROJECT_ID}": {
+      "hosting": {
+        "dashboard-staging": [
+          "${FB_WEB_PROJECT_ID}"
+        ]
+      }
+    }
+  }
+}

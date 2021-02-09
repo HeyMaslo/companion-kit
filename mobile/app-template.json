@@ -32,30 +32,30 @@
     "usesAppleSignIn": true,
     "icon": "./src/assets/appicons/appicon.png",
     "buildNumber": "1",
-    "bundleIdentifier": "com.maslo.companionkit",
+    "bundleIdentifier": "${APP_BUNDLE_ID}",
     "config": {
       "usesNonExemptEncryption": false,
       "googleSignIn": {
-        "reservedClientId": "..."
+        "reservedClientId": "${IOS_REVERSED_CLIENT_ID}"
       }
     },
     "associatedDomains": [
-      "..."
+      "${MAGIC_LINK_ASSOCIATED_DOMAIN}"
     ],
     "googleServicesFile": "./configs/app/GoogleService-Info.plist",
     "infoPlist": {
-      "NSMicrophoneUsageDescription": "...",
+      "NSMicrophoneUsageDescription": "Enable this app to record your response to this check-in prompt.",
       "NSPhotoLibraryUsageDescription": "..."
     }
   },
   "android": {
     "config": {
       "googleSignIn": {
-        "apiKey": "...",
-        "certificateHash": "..."
+        "apiKey": "${FB_ANDROID_API_KEY}",
+        "certificateHash": "${FB_ANDROID_CERT_HASH}"
       }
     },
-    "package": "com.maslo.companionkit",
+    "package": "${APP_BUNDLE_ID}",
     "googleServicesFile": "./configs/app/google-services.json",
     "versionCode": 1,
     "intentFilters": [
@@ -65,7 +65,7 @@
         "data": [
           {
             "scheme": "https",
-            "host": "..."
+            "host": "${MAGIC_LINK_HOSTNAME}"
           }
         ],
         "category": [

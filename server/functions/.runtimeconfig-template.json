@@ -1,0 +1,12 @@
+{
+    "envs": {
+        "project_name": "${FB_WEB_PROJECT_ID}",
+        "sendgrid_api_key": "${EMAIL_SENDGRID_API_KEY}",
+        "sendgrid_emails_validation_api_key": "...",
+        "is_prod": "false",
+        "devlogin": true,
+        "twilio_phone_number_from": "...",
+        "twilio_auth_token": "...",
+        "twilio_account_sid": "..."
+    }
+}
