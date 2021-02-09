@@ -8,4 +8,3 @@ typings/
 node_modules/
 
 .runtimeconfig.json
-src/services/config/app.ts

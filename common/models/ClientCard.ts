@@ -44,12 +44,7 @@ export namespace CoachClientActions {
     export const Helper = new EnumStringHelper<CoachClientActions>(CoachClientActions);
 }
 
-const clientInvitePeriods = {
-    DEFAULT: 1000 * 3600 * 24,
-    TEST: 1000,
-};
-
-export const ClientInviteMinPeriod = clientInvitePeriods.${CLIENT_INVITE_PERIOD};
+export const ClientInviteMinPeriod = 1000 * 3600 * 24; // 1 day
 
 /**
  * Client's data, stored inside coach.
