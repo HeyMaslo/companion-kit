@@ -9,24 +9,18 @@ Clone the respository and ensure you have the requirements below:
  * React Native CLI development environment for both iOS and Android (instructions [`here`](https://reactnative.dev/docs/environment-setup))
 
  * Node.js 10 ([`nvm`](https://github.com/nvm-sh/nvm) is preferable)  
- To install:  ```nvm install 10```  
-
- To switch to version 10:
- ```nvm use 10```
-
- * Expo CLI
+ To install:  ```nvm install 10```	
+ To switch to version 10:  ```nvm use 10```
+ 
+ * Expo CLI  
+ To install: ```npm i -g expo-cli```
+ 
+ * React-native CLI  
+ To install: ```npm i -g react-native-cli```
+ 
+ * Firebase Tools:  
+ To install: ```npm i -g firebase-tools```
  ```
- npm i -g expo-cli
- ```
- * React-native CLI
- ```
- npm i -g react-native-cli
- ```
- * Firebase Tools:
- ```
- npm i -g firebase-tools
- ```
-
 
 
 ### 2. Configure the Development Environment
