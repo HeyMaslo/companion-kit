@@ -3,7 +3,7 @@
 
 Clone the respository and ensure you have the requirements below.
 
-### Requirements
+## Requirements
 
  * React Native CLI development environment for both iOS and Android (instructions [`here`](https://reactnative.dev/docs/environment-setup))
 
