@@ -73,28 +73,23 @@ Navigate back to the root directory and run:
 ./bin/setup.bash
 ```
 
-## Running the App
+## Running and Deploying the App
 
-### Run & build app
+### Run Mobile Apps Locally
 
 * **IOS**: To run project locally run `yarn ios` from the `./mobile` directory
 * **Android**: To run project locally the first time, open the android directory in android studio, sync with gradle and run the app. In subsequent runs, run `yarn android` from the `./mobile` directory
 
-## Maslo Dashboard
-
-The staging dashboard is currently hosted [here](https://bipolarbridges.web.app/)
-
-## Redeploy Cloud Functionality and Dashboard
+### Deploy Cloud Functionality
 
 After making any changes to the functions, firestore or the dashboard, you must redeploy the changes to see them on the firebase project and the staging dashboard.
 
-### Deploy Functions and Firestore
-
 - **Deploy only functions**: Run `yarn deploy:functions:stage` from within the `./server/functions` directory
 - **Deploy functions and firestore**: Run `yarn deploy:server:stage` from within the root directory
-
 
 ### Deploy Dashboard
 
 1. Run `firebase target:apply hosting dashboard-staging <project-id>` from the `./server/functions` directory
 2. Run `yarn deploy:dashboard:stage` from within the root directory
+
+The staging dashboard is currently hosted [here](https://bipolarbridges.web.app/)
