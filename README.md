@@ -1,9 +1,10 @@
 # Maslo Companion Kit
 
+## Setup
 
-Clone the respository and ensure you have the requirements below.
+### 1. Install Requirements
 
-## Requirements
+Clone the respository and ensure you have the requirements below:
 
  * React Native CLI development environment for both iOS and Android (instructions [`here`](https://reactnative.dev/docs/environment-setup))
 
@@ -28,7 +29,7 @@ Clone the respository and ensure you have the requirements below.
 
 
 
-## Configuration Setup
+### 2. Configure the Development Environment
 
 1. Copy the values from the `firebaseConfig` variable in the web app in the firebase console to the `FirebaseConfigs` variable in `./config/app.js`.
 2. Download the `GoogleService-Info.plist` file from the ios app on firebase. Place this file in `./mobile/configs/app`.
@@ -64,7 +65,7 @@ Clone the respository and ensure you have the requirements below.
 12. Open the `./mobile/ios` folder in Xcode. Go to the "Info" tab and scroll down to "URL Types". Add a new URL type with a "Role" of "Editor" and in "URL Schemes" paste in the `REVERSED_CLIENT_ID` from the plist file you downloaded earlier.
 
 
-## Run Setup Script
+### 3. Run the Setup Script
 
 Navigate back to the root directory and run:
 
