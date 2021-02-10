@@ -1,5 +1,7 @@
 # Maslo Companion Kit
 
+The setup section below is the required steps to set up a local instance of this project. The subsequent section outlines how to run the applications and deploy new functionality to the firebase server after the project has been set up.
+
 ## Setup
 
 ### 1. Install Requirements
