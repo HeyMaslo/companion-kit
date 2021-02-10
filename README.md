@@ -22,7 +22,6 @@ Clone the respository and ensure you have the requirements below:
  
  * Firebase Tools:  
  To install: ```npm i -g firebase-tools```
- ```
 
 
 ### 2. Configure the Development Environment
