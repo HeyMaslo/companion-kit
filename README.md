@@ -1,5 +1,7 @@
 # Maslo Companion Kit
 
+The setup section below is the required steps to set up a local instance of this project. The subsequent section outlines how to run the applications and deploy new functionality to the firebase server after the project has been set up.
+
 ## Setup
 
 ### 1. Install Requirements
@@ -9,23 +11,18 @@ Clone the respository and ensure you have the requirements below:
  * React Native CLI development environment for both iOS and Android (instructions [`here`](https://reactnative.dev/docs/environment-setup))
 
  * Node.js 10 ([`nvm`](https://github.com/nvm-sh/nvm) is preferable)  
- To install:  ```nvm install 10```  
+ To install:  ```nvm install 10```	
+ To switch to version 10:  ```nvm use 10```
+ 
+ * Expo CLI  
+ To install: ```npm i -g expo-cli```
+ 
+ * React-native CLI  
+ To install: ```npm i -g react-native-cli```
+ 
+ * Firebase Tools:  
+ To install: ```npm i -g firebase-tools```
 
- To switch to version 10:
- ```nvm use 10```
-
- * Expo CLI
- ```
- npm i -g expo-cli
- ```
- * React-native CLI
- ```
- npm i -g react-native-cli
- ```
- * Firebase Tools:
- ```
- npm i -g firebase-tools
- ```
 
 ### 2. Configure the Development Environment
 
