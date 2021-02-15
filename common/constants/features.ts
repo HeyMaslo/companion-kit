@@ -19,7 +19,7 @@ export namespace Dashboard {
     export const UseGPT3Suggestions: any = true;
 
     export const UseMobileNumber: any = false;
-    
+
     // if you want to enable mobile phone validatio just uncomment
     // export const UseMobileNumber = {
     //     countries: ['US', 'CA', 'MX', 'UA'] as CountryCode[],

@@ -2,7 +2,7 @@ import React, { ErrorInfo } from 'react';
 import {
     StatusBar, StyleSheet, View, AppState, AppStateStatus, Alert,
 } from 'react-native';
-import { AppLoading } from 'expo';
+import AppLoading from "expo-app-loading";
 import { observer, Provider as MobxProvider } from 'mobx-react';
 import * as Font from 'expo-font';
 import 'mobx-react/batchingForReactNative';
