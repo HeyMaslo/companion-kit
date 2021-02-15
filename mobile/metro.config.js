@@ -1,12 +1,12 @@
 const { resolve } = require('path');
-const { getDefaultConfig } = require('metro-config');
+const { getDefaultConfig } = require("@expo/metro-config");
 
 const pr = p => resolve(__dirname, p);
 
 module.exports = (async () => {
     const {
         resolver: { sourceExts, assetExts }
-    } = await getDefaultConfig();
+    } = await getDefaultConfig(__dirname);
 
     return {
         projectRoot: resolve(__dirname),

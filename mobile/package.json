@@ -20,6 +20,7 @@
     "start:check-ts": "concurrently --handle-input \"yarn start\" \"yarn check-ts\""
   },
   "dependencies": {
+    "@expo/metro-config": "^0.1.54",
     "@heymaslo/persona": "./dependencies/persona",
     "@heymaslo/persona-expo": "./dependencies/persona/expo",
     "@react-native-community/datetimepicker": "3.0.4",
@@ -29,6 +30,7 @@
     "computed-async-mobx": "^4.2.1",
     "d3": "^5.15.1",
     "expo": "^40.0.0",
+    "expo-app-loading": "^1.0.1",
     "expo-apple-authentication": "~2.2.2",
     "expo-asset": "~8.2.1",
     "expo-av": "~8.7.0",
