@@ -64,6 +64,37 @@ Yarn
 ```
 yarn global add firebase-tools
 ```
+
+### Mobile dependecies
+
+To get better user experience on mobile app, there will be needed to clone two dependecies that are for mobile: [maslo-persona](https://github.com/HeyMaslo/maslo-persona) and [react-native-switch-pro](https://github.com/HeyMaslo/react-native-switch-pro).
+
+Firstly, from the root folder, navigate to the mobile/dependencies folder.
+
+```bash
+cd mobile/dependencies
+```
+
+And then, clone the maslo-persona into the persona folder.
+
+```bash
+git clone https://github.com/HeyMaslo/maslo-persona.git persona
+```
+
+Make sure the cloned project folder is **persona**, not **maslo-persona**.
+
+Change to the dev-tool branch.
+
+```bash
+git checkout "dev-ts"
+```
+
+And lastly, clone react-native-switch-pro.
+
+```bash
+git clone https://github.com/HeyMaslo/react-native-switch-pro.git
+```
+
 Install all dependencies and validate Node.js version:
 
 ### Do this in root, mobile and dashboard directories to install all the needed packages.
@@ -111,6 +142,8 @@ This configuration structure implies difference between `development`, `staging`
 
 6. Environment config file `./server/functions/.env` (should be created if not exists).
     * .env file content `GOOGLE_APPLICATION_CREDENTIALS=/path/to/json/credentials`
+
+The creditial file is created on Firebase Console under the Project Settings. Generate the credential clicking on ***Generate new private key*** button and save this to a folder. Don't forget to add this json file to the git ignore.
 
 7. Backend config file `server/functions/src/services/config/app.ts`
 
