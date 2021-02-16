@@ -10,7 +10,7 @@ export namespace ClientCardFeatures {
 export namespace Dashboard {
     export const CoachVerificationRequired = false;
 
-    export const UseWorkEmail = true;
+    export const UseWorkEmail = false;
 
     export const UseSignUpFeaturesList = false;
 
