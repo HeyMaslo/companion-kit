@@ -16,7 +16,7 @@ ls .env || exit 1
 yarn env:set
 mkdir mobile/dependencies
 cd mobile/dependencies || exit 1
-git clone -b dev-ts https://github.com/HeyMaslo/maslo-persona.git persona
+git clone -b bipolarbridges-persona https://github.com/bipolarbridges/maslo-persona.git persona
 git clone https://github.com/HeyMaslo/react-native-switch-pro.git
 cd ../..
 yarn all
