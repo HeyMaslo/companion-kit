@@ -49,7 +49,7 @@ export const PersonaViewPresets: { [name: string]: PersonaViewState } = {
     },
 };
 
-const PersonaScale = 0.6 * 2 / 3;
+const PersonaScale = 0.5 * 2 / 3;
 
 type Props = {
     context: IPersonaViewContext,
