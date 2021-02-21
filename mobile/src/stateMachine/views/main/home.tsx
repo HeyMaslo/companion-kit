@@ -40,6 +40,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
         this._contentHeight = smallHeight
             ? this.persona.setupContainerHeightForceScroll({ rotation: 360 })
             : this.persona.setupContainerHeight(minContentHeight, { rotation: 360 });
+        this.persona.view = {...this.persona.view, armsEnabled: true};
     }
 
     get viewModel() { return HomeViewModel.Instance; }

@@ -34,6 +34,7 @@ class PersonaViewContext implements IPersonaViewContext {
             ...baseView,
             position: { x: 0, y: 0 },
             anchorPoint: { x: 0, y: 0 },
+            armsEnabled: false,
         };
         let availableHeight: number;
 
@@ -83,6 +84,7 @@ class PersonaViewContext implements IPersonaViewContext {
             },
             anchorPoint: { x: 0, y: 0 },
             debugName: 'SETUP_SCROLL',
+            armsEnabled: false,
         };
 
         const availableHeight = dh - personaRadius / pixelRatio;
