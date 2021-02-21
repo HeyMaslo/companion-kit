@@ -26,7 +26,6 @@ export const PersonaViewPresets: { [name: string]: PersonaViewState } = {
         position: { x: 0, y: 0 },
         anchorPoint: { x: 0, y: 0 },
         debugName: 'Default',
-        armsEnabled: false,
     },
     TopHalfOut: {
         scale: 1,
@@ -34,7 +33,6 @@ export const PersonaViewPresets: { [name: string]: PersonaViewState } = {
         position: { x: 0, y: '50%' },
         anchorPoint: { x: 0, y: 0 },
         debugName: 'TopHalfOut',
-        armsEnabled: false,
     },
     QuaterSmall: {
         scale: 1,
@@ -42,14 +40,12 @@ export const PersonaViewPresets: { [name: string]: PersonaViewState } = {
         position: { x: 0, y: '25%' },
         anchorPoint: { x: 0, y: 0.5 },
         debugName: 'QuaterSmall',
-        armsEnabled: false,
     },
     Third: {
         scale: 1, rotation: 405,
         position: { x: 0, y: '18%' },
         anchorPoint: { x: 0, y: 0.5 },
         debugName: 'Third',
-        armsEnabled: false,
     },
 };
 
