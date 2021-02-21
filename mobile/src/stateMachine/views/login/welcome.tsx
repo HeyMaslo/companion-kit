@@ -60,7 +60,12 @@ export class WelcomeView extends ViewState {
             this.trigger(ScenarioTriggers.Secondary);
         }
     }
-
+    goTodata = () => {
+        if (!this.globalLoading) {
+            this.trigger(ScenarioTriggers.Primary);
+        }
+    }
+    
     googleSignIn = () => {
         if (!this.globalLoading) {
             SignInViewModel.Instance.googleSignIn();
@@ -107,6 +112,13 @@ export class WelcomeView extends ViewState {
                             style={styles.mailButton}
                             titleStyles={styles.mailButtonTitle}
                             onPress={this.goToEmailSignin}
+                            isTransparent
+                        />
+                        <Button
+                            title="Health data"
+                            style={styles.mailButton}
+                            titleStyles={styles.mailButtonTitle}
+                            onPress={this.goTodata}
                             isTransparent
                         />
                         <View style={styles.footer}>

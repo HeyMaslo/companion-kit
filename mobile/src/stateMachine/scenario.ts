@@ -33,6 +33,8 @@ import { FeelingsView } from './views/checkin/feelings';
 import { GoalsView } from './views/main/goals';
 import { RewardsView } from './views/rewardsView';
 import { RecordPitureCheckinView } from './views/checkin/recordPictureCheckIn';
+import { GoogleFitConsentView } from './views/healthData/googleFitConsent';
+import { GoogleFitScopesView } from './views/healthData/googleFitScopes'
 
 import Triggers = ScenarioTriggers;
 
@@ -68,6 +70,20 @@ export const MasloScenario: GlobalScenario<States> = {
         view: WelcomeView,
         exit: [
             { target: States.SignInWithEmail, trigger: Triggers.Secondary },
+            { target: States.GoogleFitConsent, trigger: Triggers.Primary },
+        ],
+    },
+    [States.GoogleFitConsent]: {
+        view: GoogleFitConsentView,
+        exit: [
+            { target: States.Welcome, trigger: Triggers.Secondary },
+            { target: States.GoogleFitScopes, trigger: Triggers.Primary },
+        ],
+    },
+    [States.GoogleFitScopes]: {
+        view: GoogleFitScopesView,
+        exit: [
+            { target: States.Settings, trigger: Triggers.Back },
         ],
     },
     [States.SignInWithEmail]: {
@@ -306,7 +322,8 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Profile, trigger: Triggers.Back },
             { target: States.NotificationsSettings, trigger: Triggers.Primary },
             { target: States.ChangePassword, trigger: Triggers.Submit },
-            { target: States.ConfirmAccount, trigger: Triggers.Secondary },
+            // { target: States.ConfirmAccount, trigger: Triggers.Secondary },
+            { target: States.GoogleFitScopes, trigger: Triggers.Secondary },
         ],
     },
 

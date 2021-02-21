@@ -131,7 +131,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.maslo.companionkit"
+        applicationId "com.companionkit"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -192,6 +192,7 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+    implementation project(':react-native-google-fit')
 
     addUnimodulesDependencies()
     

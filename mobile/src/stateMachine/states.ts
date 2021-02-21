@@ -55,4 +55,8 @@ export enum States {
     EmailSettings,
     ChangePassword,
     NotificationsSettings,
+
+    // Health Block
+    GoogleFitConsent,
+    GoogleFitScopes,
 }
