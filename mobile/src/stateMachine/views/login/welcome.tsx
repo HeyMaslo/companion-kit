@@ -21,6 +21,7 @@ export class WelcomeView extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: 405 });
+        this.persona.view = { ...this.persona.view, armsEnabled: true};
     }
 
     state = {
