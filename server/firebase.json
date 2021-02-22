@@ -70,6 +70,11 @@
     "emulators": {
       "firestore": {
         "port": 5555
-      }
+      },
+	  "ui": {
+  		"enabled": true,
+  		"host": "0.0.0.0",
+  		"port": 4000
+	  }
     }
-  }  
+}
