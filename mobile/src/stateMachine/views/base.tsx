@@ -1,6 +1,6 @@
 import React from 'react';
 import Colors from 'src/constants/colors';
-import { View, StyleSheet, ViewStyle, StyleProp, Keyboard } from 'react-native';
+import { View, StyleSheet, ViewStyle, StyleProp, Keyboard, Text, Animated } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { ViewStateProps, ScenarioTriggers, IStateView, IPersonaViewContext } from '../abstractions';
 import ModalView, { ModalProps, isModalButton } from './modalView';
@@ -12,6 +12,7 @@ import { safeCall } from 'common/utils/functions';
 import { observable, transaction, reaction } from 'mobx';
 import AppController from 'src/controllers';
 import { Unsubscriber } from 'common/utils/unsubscriber';
+import Layout from 'src/constants/Layout';
 
 type PersonaStateOverriders = 'globalProgress' | 'modal' | 'longOperation';
 
@@ -32,6 +33,36 @@ export abstract class ViewState<CState = {}, CParams = any> extends React.Compon
     protected _progressCounter: number = 0;
 
     protected _contentHeight: number = 0;
+
+        /**
+     * Indicates wheather the balloon animation is on or not.
+     */
+    @observable
+    private _withBalloonAnimation: boolean = false;
+
+    /**
+     * Indicates wheather the balloon animation is on or not.
+     */
+    @observable
+    private _balloonText: string = "";
+
+    /**
+     * Represents the first dot opacity animation view.
+     */
+    @observable
+    private _firstDotOpacity: any = new Animated.Value(0);
+
+    /**
+     * Represents the second dot opacity animation view.
+     */
+    @observable
+    private _secondDotOpacity: any = new Animated.Value(0);
+
+    /**
+     * Represents the third dot opacity animation view.
+     */
+    @observable
+    private _thirdDotOpacity: any = new Animated.Value(0);
 
     // To keep last persona state
     private readonly _personaStates: Partial<Record<PersonaStateOverriders, Partial<IPersonaViewContext>>> = { };
@@ -220,15 +251,46 @@ export abstract class ViewState<CState = {}, CParams = any> extends React.Compon
 
     protected get contentContainerStyles() { return styles.background; }
 
-    protected fadeOuContent = (duration = 500, delay = 0) => {
+    protected fadeOuContent = (duration = 800, delay = 0) => {
         this.contentAnimation = { animation: 'fadeOut', duration, delay };
     }
 
-    protected fadeInContent = (duration = 500, delay = 0) => {
+    protected fadeInContent = (duration = 800, delay = 0) => {
         this.contentAnimation = { animation: 'fadeIn', duration, delay };
     }
 
-    protected runLongOperation = async <T extends any>(worker: () => Promise<T>) => {
+    /**
+     * Returns the balloon animation composite.
+     */
+    private balloonAnimation = () : Animated.CompositeAnimation => {
+        const config = {
+            delay: 300,
+            duration: 800,
+            useNativeDriver: false
+        };
+        const animation = Animated.loop(Animated.stagger(500,
+            [
+                Animated.timing(this._firstDotOpacity, {...config, toValue: 1}),
+                Animated.timing(this._secondDotOpacity, {...config, toValue: 1}),
+                Animated.timing(this._thirdDotOpacity, {...config, toValue: 1}),
+                Animated.timing(this._firstDotOpacity, {...config, toValue: 0}),
+                Animated.timing(this._secondDotOpacity, {...config, toValue: 0}),
+                Animated.timing(this._thirdDotOpacity, {...config, toValue: 0}),
+            ]
+        ));
+        return animation;
+    }
+
+    /**
+     * Runs long operation with ballon animation.
+     * @param worker 
+     * @param withBalloonAnimation Enable balloon animation. Default is off.
+     * @param andTextBallon Ballon text.
+     */
+    protected runLongOperation = async <T extends any>(
+        worker: () => Promise<T>,
+        withBalloonAnimation: boolean = false,
+        andTextBallon: string = "Hold tight! This may take a little while.") => {
         if (this._personaStates.longOperation) {
             this.logger.log('WARNING: Runnig another long operation while previous hasn\'t been finished yet!');
         }
@@ -236,6 +298,11 @@ export abstract class ViewState<CState = {}, CParams = any> extends React.Compon
         this.allowInputAutoFocus = false;
         this.savePersonaState('longOperation', PersonaStates.Listen, PersonaViewPresets.Default);
         this._progressCounter++;
+        this._withBalloonAnimation = withBalloonAnimation;
+        if (this._withBalloonAnimation) {
+            this._balloonText = andTextBallon;
+            this.balloonAnimation().start();
+        }
         try {
             const result = await worker();
             return result;
@@ -244,6 +311,8 @@ export abstract class ViewState<CState = {}, CParams = any> extends React.Compon
                 this._progressCounter--;
                 this.restorePersonaState('longOperation');
             }
+            this._withBalloonAnimation = false;
+            this.balloonAnimation().stop();
         }
     }
 
@@ -254,6 +323,7 @@ export abstract class ViewState<CState = {}, CParams = any> extends React.Compon
 
         const hasProgress = this._progressCounter > 0 || (this.enableGlobalProgressTracking && this.globalLoading);
         const contentContainerAnimation: Animatable.Animation = hasProgress ? 'fadeOut' : 'fadeIn';
+        const progressAnimation: Animatable.Animation = hasProgress ? 'fadeIn' : 'fadeOut';
 
         this.logger.log(
             'rendering with animation =', animation,
@@ -263,8 +333,23 @@ export abstract class ViewState<CState = {}, CParams = any> extends React.Compon
 
         return (
             <>
+                {hasProgress && this._withBalloonAnimation && (
+                    <Animatable.View animation={progressAnimation} duration={800} delay={400} style={[styles.longOperationView]}>
+                        <View style={[styles.topViewBalloon, styles.shadowBalloon]}>
+                            <Animated.View
+                                style={[styles.dotView, { backgroundColor: Colors.personaColors[Colors.personaColors.length-3], opacity: this._firstDotOpacity }]}/>
+                            <Animated.View
+                                style={[styles.dotView, { backgroundColor: Colors.personaColors[Colors.personaColors.length-2], opacity: this._secondDotOpacity }]}/>
+                            <Animated.View
+                                style={[styles.dotView, { backgroundColor: Colors.personaColors[Colors.personaColors.length-1], opacity: this._thirdDotOpacity }]}/>
+                        </View>
+                        <View style={[styles.bottomViewBalloon, styles.shadowBalloon]}>
+                            <Text style={[this.textStyles.p1]}>{this._balloonText}</Text>
+                        </View>
+                    </Animatable.View>
+                )}
                 {!this.modalSettings && (
-                    <Animatable.View animation={contentContainerAnimation} duration={400} style={this.contentContainerStyles}>
+                    <Animatable.View animation={contentContainerAnimation} duration={800} style={this.contentContainerStyles}>
                         <Animatable.View animation={animation} duration={duration} delay={delay}>
                             {this.renderContent()}
                         </Animatable.View>
@@ -285,5 +370,39 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         backgroundColor: Colors.pageBg,
+    },
+    longOperationView: {
+        position: 'absolute',
+        bottom: Layout.halfHeight / 3,
+        left: 20,
+        right: 20,
+    },
+    shadowBalloon: {
+        shadowColor: '#000',
+        shadowOffset: { width: 1, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3,
+        elevation: 1,
+    },
+    topViewBalloon: {
+        flexDirection: 'row',
+        justifyContent: "space-around",
+        alignItems: "center",
+        backgroundColor: Colors.pageBg,
+        padding: 6,
+        borderRadius: 20,
+        width: 60,
+        height: 24,
+        marginBottom: 12,
+    },
+    dotView: {
+        width: 8,
+        height: 8,
+        borderRadius: 12
+    },
+    bottomViewBalloon: {
+        backgroundColor: Colors.pageBg,
+        padding: 12,
+        borderRadius: 20,
     },
 });
