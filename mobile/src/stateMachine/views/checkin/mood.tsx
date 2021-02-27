@@ -17,7 +17,7 @@ export type MoodViewParams = {
 export class MoodView extends CheckInViewBase<{}, MoodViewParams> {
     constructor(props) {
         super(props);
-        this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: 405 });
+        this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: 0, transition: { duration: 1.5 } });
 
         if (this.params?.openedByNotification) {
             this.viewModel.tryUseQuestionFromNotification();
