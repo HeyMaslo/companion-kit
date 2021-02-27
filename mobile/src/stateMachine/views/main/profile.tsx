@@ -49,7 +49,7 @@ export class ProfileView extends ViewState {
     constructor(props) {
         super(props);
 
-        this._contentHeight = this.persona.setupContainerHeightForceScroll({ rotation: 405 });
+        this._contentHeight = this.persona.setupContainerHeightForceScroll({ rotation: 180 });
     }
 
     // state = {
