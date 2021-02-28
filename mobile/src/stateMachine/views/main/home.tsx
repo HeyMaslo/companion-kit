@@ -38,8 +38,8 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
         const smallHeight = this.layout.window.height < 800;
         this.persona.state = PersonaStates.Idle;
         this._contentHeight = smallHeight
-            ? this.persona.setupContainerHeightForceScroll({ rotation: 140 , transition: {duration: 1.5}})
-            : this.persona.setupContainerHeight(minContentHeight, { rotation: 140 , transition: {duration: 1.5}});
+            ? this.persona.setupContainerHeightForceScroll({ rotation: 120 , transition: {duration: 1.5}})
+            : this.persona.setupContainerHeight(minContentHeight, { rotation: 120 , transition: {duration: 1.5}});
         this.persona.view = {...this.persona.view, login: true, logout: false};
     }
 
