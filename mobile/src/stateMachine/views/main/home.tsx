@@ -48,7 +48,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
     async start() {
         Animated.timing(this.state.opacity, {
             toValue: 1,
-            delay: isFirstLaunch ? 600 : 300,
+            delay: isFirstLaunch ? 800 : 300,
             duration: 500,
         }).start(this.checkNewLinkDoc);
 
@@ -284,6 +284,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
+                    <Text style={styles.orbLabel}>PHYSICAL</Text>
                     { this.getTitle() }
                     { loading
                         ? <ActivityIndicator size="large" />
@@ -339,4 +340,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         textAlign: 'center',
     },
+    orbLabel: {
+        position: 'absolute',
+        fontFamily: TextStyles.labelMedium.fontFamily,
+        top: 80,
+        left: 260
+    }
 });
