@@ -48,7 +48,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
     async start() {
         Animated.timing(this.state.opacity, {
             toValue: 1,
-            delay: isFirstLaunch ? 800 : 300,
+            delay: isFirstLaunch ? 1000 : 400,
             duration: 500,
         }).start(this.checkNewLinkDoc);
 
