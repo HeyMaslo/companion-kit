@@ -2,6 +2,7 @@ import { ViewState } from '../base';
 import AppController from 'src/controllers';
 import { observer } from 'mobx-react';
 import { ScenarioTriggers } from '../../abstractions';
+import GoogleFit, { Scopes } from 'react-native-google-fit';
 
 @observer
 export class NotificationsPermissionView extends ViewState {
@@ -34,6 +35,9 @@ export class NotificationsPermissionView extends ViewState {
 
     onSkip = (): void | Promise<void> => this.runLongOperation(async () => {
         await AppController.Instance.User.notifications.disableNotifications();
+        GoogleFit.checkIsAuthorized().then(() => {
+            this.logger.log("IS GOOGLE FIT AUTHORIZED FROM JUMP - ", GoogleFit.isAuthorized);
+        })
         this.trigger(ScenarioTriggers.Submit);
     })
 

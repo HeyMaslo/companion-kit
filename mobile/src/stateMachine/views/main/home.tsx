@@ -51,6 +51,19 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
             duration: 500,
         }).start(this.checkNewLinkDoc);
 
+        // this.showModal({
+        //     title: 'We need your health data to build a better personalized experience for you.',
+        //     message: 'Would you like to grant permission?',
+        //     primaryButton: {
+        //         text: 'Continue',
+        //         action: this.giveAccess,
+        //     },
+        //     secondaryButton: {
+        //         text: 'Skip',
+        //         action: this.skipAccess,
+        //     },
+        // });
+        
         isFirstLaunch = false;
     }
 

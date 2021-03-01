@@ -59,4 +59,8 @@ export enum States {
     // Health Block
     GoogleFitConsent,
     GoogleFitScopes,
+    GrantPerm1,
+    GrantPerm2,
+    GrantPerm3,
+
 }

@@ -1,8 +1,10 @@
 import AppController from 'src/controllers';
 import AppViewModel from 'src/viewModels';
 import * as Features from 'common/constants/features';
+import GoogleFit, { Scopes } from 'react-native-google-fit';
 
 import { NotificationTypes } from 'common/models/Notifications';
+import { Platform } from 'react-native';
 
 export class ScenarioViewModel {
 
@@ -53,4 +55,6 @@ export class ScenarioViewModel {
 
     public readonly showConsent = () => process.appFeatures.MOBILE_SHOW_CONSENT === true && this.userConfirmed() && !AppController.Instance.User.user?.client?.consentAccepted;
     public readonly showAssessment = () => process.appFeatures.ASSESSMENTS_ENABLED === true && this.userWithAccount() && !!AppController.Instance.User.assessments.nextFormTypeAvailable;
+    // Health data
+    public readonly hasHeathPermissions = () => Platform.OS == 'android' && !!GoogleFit.isAuthorized
 }

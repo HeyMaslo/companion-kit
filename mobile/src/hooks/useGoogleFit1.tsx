@@ -9,7 +9,10 @@ import Env from 'src/constants/env';
 const runOptions = {
   scopes: [
     Scopes.FITNESS_ACTIVITY_READ,
+    Scopes.FITNESS_ACTIVITY_WRITE,
+    Scopes.FITNESS_BODY_READ,
     // Scopes.FITNESS_BODY_READ,
+    Scopes.FITNESS_BODY_WRITE,
     // Scopes.FITNESS_LOCATION_READ,
     // Scopes.FITNESS_LOCATION_READ,
     // Scopes.FITNESS_AUTH,
@@ -27,9 +30,7 @@ export const auth = async() => {
 
   return await GoogleFit.checkIsAuthorized().then (() => {
     isAuth = GoogleFit.isAuthorized;
-    logger.log("GOOGLE_FIT_IS_AUTHORIZED", GoogleFit.isAuthorized)
-
-    logger.log("IS_AUTHORIZED ===> ", isAuth);
+    logger.log("GOOGLE_FIT_IS_AUTHORIZED", isAuth)
 
   // toggle authentication
     if (!isAuth) {
@@ -69,7 +70,6 @@ export const auth = async() => {
 
 export const startRecording = async() => {
   const isAuth = await auth();
-  logger.log("ANDROID_CLIENT_ID = ", Env.Google.ExpoClientIdAndroid)
   if(isAuth) {
     GoogleFit.startRecording( callback => {
       const data = loadDaily();
@@ -80,24 +80,39 @@ export const startRecording = async() => {
 }
 
 export const loadDaily = () => {
+  logger.log("IN LOAD_DAILY")
   return async () => {
+    logger.log("IN LOAD_DAILY1")
     const isAuth = await auth();
+    
 
     if(isAuth){
-      logger.log("IN LOAD_DAILY")
-      const today = moment()
       const opt = {
-        startDate: moment(today).startOf('day').toISOString(), // required ISO8601Timestamp
-        endDate: moment(today).endOf('day').toISOString(), // required ISO8601Timestamp
+        startDate: "2017-01-01T00:00:17.971Z", // required ISO8601Timestamp
+        endDate: new Date().toISOString(), // required ISO8601Timestamp
         // bucketUnit: "DAY", // optional - default "DAY". Valid values: "NANOSECOND" | "MICROSECOND" | "MILLISECOND" | "SECOND" | "MINUTE" | "HOUR" | "DAY"
         bucketInterval: 1, // optional - default 1. 
       };
-
+       
       GoogleFit.getDailyStepCountSamples(opt)
-      .then((res) => {
-          logger.log('Daily steps >>> ', res)
-      })
-      .catch((err) => {logger.warn(err)});
+       .then((res) => {
+           logger.log('Daily steps >>> ', res)
+       })
+       .catch((err) => {logger.warn(err)});
+      // logger.log("IN LOAD_DAILY")
+      // const today = moment()
+      // const opt = {
+      //   startDate: moment(today).startOf('day').toISOString(), // required ISO8601Timestamp
+      //   endDate: moment(today).endOf('day').toISOString(), // required ISO8601Timestamp
+      //   // bucketUnit: "DAY", // optional - default "DAY". Valid values: "NANOSECOND" | "MICROSECOND" | "MILLISECOND" | "SECOND" | "MINUTE" | "HOUR" | "DAY"
+      //   bucketInterval: 1, // optional - default 1. 
+      // };
+
+      // GoogleFit.getDailyStepCountSamples(opt)
+      // .then((res) => {
+      //     logger.log('Daily steps >>> ', res)
+      // })
+      // .catch((err) => {logger.warn(err)});
     }
   }
 }

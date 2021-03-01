@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, View, Text, Animated, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, Animated, ScrollView, Alert, Platform} from 'react-native';
 import { ViewState } from '../base';
 import AppController from 'src/controllers';
 import Colors from 'src/constants/colors';
@@ -13,8 +13,23 @@ import * as Features from 'common/constants/features';
 import Layout from 'src/constants/Layout';
 import { PersonaScrollMask } from 'src/components/PersonaScollMask';
 import Switch from 'dependencies/react-native-switch-pro';
+import logger from 'common/logger';
+import GoogleFit, { Scopes } from 'react-native-google-fit';
+
 
 const minContentHeight = 344;
+// var isAuth = false;
+
+const options = {
+    scopes: [
+      Scopes.FITNESS_ACTIVITY_READ,
+    //   Scopes.FITNESS_ACTIVITY_WRITE,
+    //   Scopes.FITNESS_BODY_READ,
+    //   Scopes.FITNESS_BODY_WRITE,
+    //   Scopes.FITNESS_LOCATION_READ,
+      // Scopes.FITNESS_AUTH,
+    ]
+  }
 
 @observer
 export class GoogleFitScopesView extends ViewState {
@@ -28,23 +43,77 @@ export class GoogleFitScopesView extends ViewState {
         opacity: new Animated.Value(0),
     };
 
+    
+
     async start() {
-        //no op
-    }
+        // 
 
+        if (Platform.OS == "android") {
+            logger.log("GOOGLE CONSENT = ", GoogleFit.isAuthorized)
+            return await GoogleFit.checkIsAuthorized().then (() => {
+                logger.log("GOOGLE CONSENT2 = ", GoogleFit.isAuthorized)
+                if (!GoogleFit.isAuthorized) {
+                    Alert.alert(
+                        "AUTH_ERROR",
+                        "Click Reload button to re-authorize.",
+                        [
+                        //   {
+                        //     text: "Cancel",
+                        //     onPress: () => {},
+                        //     style: "cancel"
+                        //   },
+                        { text: "RELOAD", onPress: () => this.giveAccess() }
+                        ],
+                        { cancelable: false }
+                    );
+                    // Alert.alert(
+                    //     'Permission Error',
+                    //     'Looks like you have denied health data access.We need this data to ensure better experience, please update in OS settings, see CHANGE MY PERMISSIONS.',
+                    // );
+                }
+            })
+        }
+    }
     giveAccess = () => {
-        this.trigger(ScenarioTriggers.Secondary);
+        GoogleFit.authorize(options).then(authResult => {
+            logger.log("IN AUTHORIZE", GoogleFit.isAuthorized)
+            if (authResult.success) {
+               this.trigger(ScenarioTriggers.Submit)
+             } else {
+                Alert.alert(
+                    "Permissions Not Granted",
+                    "We need your health data to enhance your experience with app, change this in settings by clicking the profile icon below"
+                );
+                this.trigger(ScenarioTriggers.Primary)
+             }
+            }).catch(() => {
+                Alert.alert(
+                  "AUTH_ERROR",
+                  "Click Reload button to re-authorize.",
+                  [
+                    {
+                      text: "Cancel",
+                      onPress: () => {},
+                      style: "cancel"
+                    },
+                    { text: "OK", onPress: () => this.giveAccess() }
+                  ],
+                  { cancelable: false }
+                );
+                return false;
+            })
+
     }
 
-    goBack = () => {
-        this.trigger(ScenarioTriggers.Back);
+    onNext = () => {
+        this.trigger(ScenarioTriggers.Primary)
     }
-
     renderContent() {
         const texts = Localization.Current.MobileProject;
         const containerPadding = Layout.window.height - this._contentHeight;
         const titleText = "Health Data"
         const explaining = "We need the following scopes to enhance your experience"
+        const more = "check or uncheck and click save to update permission"
         return (
         <MasloPage style={this.baseStyles.page}>
             <Container style={styles.topBarWrapWrap}>
@@ -59,13 +128,14 @@ export class GoogleFitScopesView extends ViewState {
                 <Container style={[this.baseStyles.container, styles.container]}>
                     <Text style={[this.textStyles.h1, styles.title]}>{titleText}</Text>
                     <Text style={[this.textStyles.p2, styles.title]}>{explaining}</Text>
+                    <Text style={[this.textStyles.p3, styles.title]}>{more}</Text>
                     <Card
                         title="Grant Permission"
-                        description={'Off'}
+                        description={Platform.OS =='android'? GoogleFit.isAuthorized? 'ON': 'OFF' : "IOS"}
                         style={{ marginBottom: 20 }}
                     >
                         <Switch
-                            // value={this.model.isEnabled}
+                            value={Platform.OS == 'android'? GoogleFit.isAuthorized : false}
                             // disabled={this.model.isToggleInProgress}
                             // onSyncPress={this.model.toggleEnabledState}
                             width={50}
@@ -76,16 +146,16 @@ export class GoogleFitScopesView extends ViewState {
                             circleStyle={{ width: 18, height: 18 }}
                         />
                     </Card>
-                    {true && (
+                    {(Platform.OS == 'android' && GoogleFit.isAuthorized) && (
                         <>
                             <Card
                                 title="Activity Samples"
-                                description="Allows to show activity based on your movements"
+                                description={"Allows to show activity based on your movements"}
                                 Image={Images.difficultIcon}
                                 // onPress={() => this.model.toggleTime(NotificationTime.Morning)}
                             >
                                 <Checkbox
-                                    checked={false}
+                                    checked={Platform.OS == 'android'? GoogleFit.isAuthorized: false}
                                     onChange={() => null}
                                 />
                             </Card>
@@ -96,7 +166,7 @@ export class GoogleFitScopesView extends ViewState {
                                 // onPress={() => this.model.toggleTime(NotificationTime.Midday)}
                                 >
                                     <Checkbox
-                                    checked={true}
+                                    checked={Platform.OS == 'android'? GoogleFit.isAuthorized: false}
                                     onChange={() => null}
                                 />
                             </Card>
@@ -107,7 +177,7 @@ export class GoogleFitScopesView extends ViewState {
                                 // onPress={() => this.model.toggleTime(NotificationTime.Evening)}
                                 >
                                     <Checkbox
-                                    checked={false}
+                                    checked={Platform.OS == 'android'? GoogleFit.isAuthorized: false}
                                     onChange={() => null}
                                 />
                             </Card>
@@ -119,29 +189,32 @@ export class GoogleFitScopesView extends ViewState {
                                 // onPress={this.openDatePicker}
                                 >
                                     <Checkbox
-                                    checked={true}
+                                    checked={Platform.OS == 'android'? GoogleFit.isAuthorized: false}
                                     onChange={() => null}
                                 />
                             </Card>
-                            {true && (
-                                <View style={styles.exactTime}>
-                                    <Container style={[this.baseStyles.flexRowBetween, { paddingVertical: 12 }]}>
-                                        <Text style={this.baseStyles.cardTitle}>At</Text>
-                                        {/* <Text style={{...this.baseStyles.cardTitle, color: Colors.notificationsSettings.exact.desc}}>{this.formatDate(exactTime)}</Text> */}
-                                    </Container>
-                                </View>
-                            )}
-                            <View style={styles.buttonView}>
-                             <Button
-                            title="Save"
-                            style={styles.mailButton}
-                            titleStyles={styles.mailButtonTitle}
-                            // onPress={this.goToEmailSignin}
-                            isTransparent
-                             />
-                             </View>
+                            {false && (
+                                    <View style={styles.exactTime}>
+                                        <Container style={[this.baseStyles.flexRowBetween, { paddingVertical: 12 }]}>
+                                            <Text style={this.baseStyles.cardTitle}>At</Text>
+                                            {/* <Text style={{...this.baseStyles.cardTitle, color: Colors.notificationsSettings.exact.desc}}>{this.formatDate(exactTime)}</Text> */}
+                                        </Container>
+                                    </View>
+                                )}
                         </>
+                    )} 
+                    {!GoogleFit.isAuthorized && (
+                        <View style={styles.buttonView}>
+                        <Button
+                       title="Change my Permissions"
+                       style={styles.mailButton}
+                       titleStyles={styles.mailButtonTitle}
+                       onPress={this.onNext}
+                       isTransparent
+                        />
+                        </View>
                     )}
+                     
                 </Container>
                 {/* <DateTimePicker
                     isVisible={showDatePicker}
@@ -209,14 +282,14 @@ mailButtonTitle: {
     color: Colors.welcome.mailButton.title,
 },
 mailButton: {
-    width: '50%',
+    width: '80%',
     height: 55,
     borderColor: Colors.welcome.mailButton.border,
     borderWidth: 0.5,
 },
 buttonView : {
     paddingTop: 20,
-    paddingLeft: 150
+    paddingLeft: 50
     
 },
 });

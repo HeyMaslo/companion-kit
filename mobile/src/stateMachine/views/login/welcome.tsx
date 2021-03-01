@@ -114,13 +114,6 @@ export class WelcomeView extends ViewState {
                             onPress={this.goToEmailSignin}
                             isTransparent
                         />
-                        <Button
-                            title="Health data"
-                            style={styles.mailButton}
-                            titleStyles={styles.mailButtonTitle}
-                            onPress={this.goTodata}
-                            isTransparent
-                        />
                         <View style={styles.footer}>
                             {this.legalBlock}
                             <Text style={[this.textStyles.p4, styles.version]}>
