@@ -11,8 +11,10 @@ The steps below are required to set up a local instance of this project. The sub
 Clone the respository and ensure you have the requirements below:
 
  * React Native CLI development environment for both iOS and Android (instructions [`here`](https://reactnative.dev/docs/environment-setup))
+ Needed for running mobile apps. Xcode and Android studio must be installed in order to run iOS and android apps, respectively.
 
- * Node.js 10 ([`nvm`](https://github.com/nvm-sh/nvm) is preferable)  
+ * Node.js 10 ([`nvm`](https://github.com/nvm-sh/nvm) is preferable)
+
  To install:  ```nvm install 10```	
  To switch to version 10:  ```nvm use 10```
  
@@ -22,8 +24,8 @@ Clone the respository and ensure you have the requirements below:
  * React-native CLI  
  To install: ```npm i -g react-native-cli```
  
- * Firebase Tools:  
- To install: ```npm i -g firebase-tools```
+ * Firebase Tools (Needed to test and deploy firebase functions, dashboard etc.)  
+ To install: ```npm i -g react-native-cli```
 
 ### 2. Configure the Development Environment
 
