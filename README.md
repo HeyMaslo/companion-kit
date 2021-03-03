@@ -13,7 +13,7 @@ A Companion’s existence gives us a reason to express ourselves, go on adventur
 Maslo Companion Kit is a fully functional and customizable mobile application project for iOS and Android to grow your own companion. The Companion Kit also includes an optional web dashboard for care providers to get deeper insights into the signals users are expressing. 
 
 Out of the box features include:
-* Email\SMS\SSO Authentication Methods
+* Email/SMS/SO Authentication Methods
 * Text and voice check-ins
 * Mood and location logging and
 * Editable/customizable prompts
