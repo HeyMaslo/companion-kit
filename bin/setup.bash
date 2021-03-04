@@ -1,7 +1,7 @@
 #!/bin/bash
 pods=1
 yes=0
-while getopts ":p:" opt; do
+while getopts ":yp:" opt; do
   case ${opt} in
     p ) pods=$OPTARG
       ;;
