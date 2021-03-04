@@ -14,12 +14,6 @@ jobs:
           repository: bipolarbridges/data-services
           ref: 1b2726afd1fbea4e55e638d71744efffd024b9a3
           path: data-services
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '12'
-      - name: Start API service
-        working-directory: data-services
-        run: yarn start
       - name: Create environment file
         working-directory: companion-app
         run: cp test.env .env
@@ -29,6 +23,9 @@ jobs:
       - name: Set up project
         working-directory: companion-app
         run: ./bin/setup.bash -y -p 0
+      - name: Start API service
+        working-directory: data-services
+        run: yarn start
       - name: Test functions
         working-directory: companion-app/server/functions
         run: yarn test
