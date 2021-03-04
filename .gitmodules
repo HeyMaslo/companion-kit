@@ -5,7 +5,3 @@
 [submodule "mobile/dependencies/react-native-switch-pro"]
 	path = mobile/dependencies/react-native-switch-pro
 	url = git@github.com:HeyMaslo/react-native-switch-pro.git
-[submodule ".testing/data-services"]
-	path = .testing/data-services
-	url = https://github.com/bipolarbridges/data-services.git
-	branch = export-api-v0
