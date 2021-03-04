@@ -1,0 +1,33 @@
+name: tests
+on: push
+jobs:
+  server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v2
+        with:
+          - path: companion-app
+      - name: Check out external services
+        uses: actions/checkout@v2
+        with:
+          - repository: bipolarbridges/data-services
+          - path: data-services
+      - name: Create environment file
+        working-directory: companion-app
+        run: cp test.env .env
+      - name: Install top-level modules
+        uses: actions/setup-node@v2
+          node-version: '10'
+        working-directory: companion-app
+        run: yarn install
+      - name: Set environment
+        uses: actions/setup-node@v2
+          node-version: '10'
+        working-directory: companion-app
+        run: yarn env:set
+      - name: Install all modules
+        uses: actions/setup-node@v2
+          node-version: '10'
+        working-directory: companion-app
+        run: yarn all
