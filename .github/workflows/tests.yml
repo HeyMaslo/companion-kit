@@ -24,8 +24,6 @@ jobs:
         working-directory: companion-app
         run: yarn install
       - name: Set environment
-        working-directory: companion-app
         run: yarn env:set
       - name: Install all modules
-        working-directory: companion-app
         run: yarn all
