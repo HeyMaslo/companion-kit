@@ -20,12 +20,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '10'
-      - name: Install top-level modules
+      - name: Set up project
         working-directory: companion-app
-        run: yarn install
-      - name: Set environment
-        working-directory: companion-app
-        run: yarn env:set
-      - name: Install all modules
-        working-directory: companion-app
-        run: yarn all
+        run: ./bin/setup.bash -y -p 0
