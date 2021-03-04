@@ -21,7 +21,8 @@
     "deploy:hosting:dashboard:prod": "firebase deploy -P production --only hosting:dashboard-prod",
     "deploy:hosting:web:stage": "firebase deploy -P staging --only hosting:web-staging",
     "deploy:hosting:web:prod": "firebase deploy -P production --only hosting:web-prod",
-    "logs": "firebase functions:log"
+    "logs": "firebase functions:log",
+    "test": "echo 'Running tests!'"
   },
   "main": "lib/server/functions/src/index.js",
   "engines": {
