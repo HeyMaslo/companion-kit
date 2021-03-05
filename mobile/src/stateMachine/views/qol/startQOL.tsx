@@ -12,16 +12,19 @@ import { ScenarioTriggers } from '../../abstractions';
 // import Images from 'src/constants/images';
 
 import Layout from 'src/constants/Layout';
+import { styles } from 'react-native-markdown-renderer';
 // import { ProfileViewModel } from 'src/viewModels/ProfileViewModel';
 // import { PersonaScrollMask } from 'src/components/PersonaScollMask';
 // import BottomBar from 'src/screens/components/BottomBar';
 // import { TextStyles } from 'src/styles/BaseStyles';
 
+const minContentHeight = 460;
+
 @observer
 export class qolStartView extends ViewState {
     constructor(props) {
         super(props);
-        this._contentHeight = this.persona.setupContainerHeightForceScroll(); // change to bring persona down?
+        this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -15, transition: { duration: 1.5 } });
     }
 
     // protected get unbreakable() { return false; }
@@ -105,7 +108,11 @@ export class qolStartView extends ViewState {
 
         return (
             <MasloPage style={this.baseStyles.page} onClose={this.cancel}>
-                <Text>Nav good!!</Text>
+                <Container style={[{ height: this._contentHeight, paddingTop: 130, alignItems: 'center' }]}>
+                    <Text style={[this.textStyles.h1, styles.title]}>Welcome!</Text>
+                    <Text style={[this.textStyles.p1, styles.message]}>I’m happy you’re here! First, I’ll need to gather some information about your current Quality of Life. Ready to begin?</Text>
+                    <Button title="I'M READY" style={styles.readyButton}/>
+                </Container>
             </MasloPage>
         );
     }
@@ -124,71 +131,19 @@ export class qolStartView extends ViewState {
 //     );
 // }
 
-const styles = StyleSheet.create({
-    topBarWrapWrap: {
-        position: 'absolute',
-        top: 0,
-        width: '100%',
-        zIndex: 2,
-        elevation: 2,
-    },
-    topBarWrap: {
-        position: 'relative',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        height: 72,
-        zIndex: 2,
-        elevation: 2,
-    },
-    backBtn: {
-        width: 52,
-        height: 52,
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-        backgroundColor: 'transparent',
-    },
-    container: {
-        minHeight: Layout.window.height,
-        paddingTop: Layout.getViewHeight(21),
-    },
+const styles = StyleSheet.create({ 
     title: {
-        textAlign: 'center',
-        marginBottom: 40,
-    },
-    cardsWrap: {
-        width: '100%',
-        marginBottom: 40,
-    },
-    updateButton: {
-        width: '100%',
-        backgroundColor: Colors.settings.updateButtonBg,
-        height: 40,
-        borderRadius: 5,
-        flexDirection: 'row',
         justifyContent: 'center',
-        marginBottom: 16,
-    },
-    refreshIcon: {
-        height: 20,
-        width: 20,
-        marginRight: 8,
-    },
-    updateText: {
-        color: Colors.settings.updateText,
-        letterSpacing: 1.6,
-        // marginTop: 4,
-    },
-    version: {
-        marginTop: 20,
-        marginBottom: 4,
-    },
-    bottomBlock: {
+        textAlign: 'center',
         width: '100%',
-        marginTop: 'auto',
-        marginBottom: process.appFeatures.GOALS_ENABLED ? 90 : 0,
     },
-    switchStyles: {
-        paddingHorizontal: 3,
+    message: {
+        marginTop: 15,
+        textAlign: 'center',
+        width: '80%',
+        marginBottom: '20%',
     },
+    readyButton: {
+        width: '70%',
+    }
 });
