@@ -33,6 +33,7 @@ import { FeelingsView } from './views/checkin/feelings';
 import { GoalsView } from './views/main/goals';
 import { RewardsView } from './views/rewardsView';
 import { RecordPitureCheckinView } from './views/checkin/recordPictureCheckIn';
+import { qolStartView } from './views/qol/startQOL';
 
 import Triggers = ScenarioTriggers;
 
@@ -157,6 +158,7 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { target: States.JournalDetail, trigger: Triggers.Primary },
             { target: States.IntakeForm, trigger: Triggers.Secondary },
+            { target: States.Start_QoL, trigger: Triggers.Tertiary },
             { target: States.Journal_SelectMood, trigger: Triggers.Submit },
         ],
     },
@@ -333,4 +335,11 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Settings, trigger: [Triggers.Back] },
         ],
     },
+
+    [States.Start_QoL]: {
+        view: qolStartView,
+        exit: [
+            { target: States.Home, trigger: [Triggers.Cancel] },
+        ]
+    }
 };

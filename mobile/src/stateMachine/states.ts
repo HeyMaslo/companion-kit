@@ -55,4 +55,7 @@ export enum States {
     EmailSettings,
     ChangePassword,
     NotificationsSettings,
+
+    // QOL Block
+    Start_QoL,
 }

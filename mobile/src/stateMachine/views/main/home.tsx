@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { StyleSheet, Text, ScrollView, ActivityIndicator, View, Animated } from 'react-native';
 import TextStyles from 'src/styles/TextStyles';
 import Colors from 'src/constants/colors';
-import { Container, MasloPage, Placeholder } from 'src/components';
+import { Container, MasloPage, Placeholder, Button } from 'src/components';
 import HomeViewModel from 'src/viewModels/HomeViewModel';
 import BottomBar from 'src/screens/components/BottomBar';
 import CheckInCard from 'src/screens/components/CheckInCard';
@@ -114,6 +114,10 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
 
     private onAddCheckin = () => {
         this.trigger(ScenarioTriggers.Submit);
+    }
+
+    private onStartQOL = () => {
+        this.trigger(ScenarioTriggers.Tertiary);
     }
 
     private openStoryDetails = (jid: string) => {
@@ -284,6 +288,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
+                    <Button title="QoL Suvey" style={styles.qolButton} onPress={() => this.onStartQOL()}/>
                     <Text style={styles.orbLabel}>PHYSICAL</Text>
                     { this.getTitle() }
                     { loading
@@ -345,5 +350,11 @@ const styles = StyleSheet.create({
         fontFamily: TextStyles.labelMedium.fontFamily,
         top: 80,
         left: 260
+    },
+    qolButton: {
+        width: '30%',
+        height: 30,
+        marginLeft: 20,
+        marginBottom: 15
     }
 });
