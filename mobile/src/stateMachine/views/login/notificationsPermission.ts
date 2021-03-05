@@ -35,9 +35,9 @@ export class NotificationsPermissionView extends ViewState {
 
     onSkip = (): void | Promise<void> => this.runLongOperation(async () => {
         await AppController.Instance.User.notifications.disableNotifications();
-        GoogleFit.checkIsAuthorized().then(() => {
-            this.logger.log("IS GOOGLE FIT AUTHORIZED FROM JUMP - ", GoogleFit.isAuthorized);
-        })
+        // GoogleFit.checkIsAuthorized().then(() => {
+        //     this.logger.log("IS GOOGLE FIT AUTHORIZED FROM JUMP - ", GoogleFit.isAuthorized);
+        // })
         this.trigger(ScenarioTriggers.Submit);
     })
 

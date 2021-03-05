@@ -2,7 +2,7 @@ import { Platform } from 'react-native';
 import ExpoConstants, { AppOwnership } from 'expo-constants';
 import * as Device from 'expo-device';
 import { observable, toJS, transaction } from 'mobx';
-import { UserLocalSettings, NotificationsSettings, DeviceInfo, LocalNotificationsSchedule } from 'common/models';
+import { UserLocalSettings, NotificationsSettings, DeviceInfo, LocalNotificationsSchedule, HealthPermissionsSettings } from 'common/models';
 import RepoFactory from 'common/controllers/RepoFactory';
 import { transferChangedFields } from 'common/utils/fields';
 import { ThrottleAction } from 'common/utils/throttle';
@@ -26,6 +26,8 @@ export interface ILocalSettingsController {
     readonly synced: IEvent;
 
     updateNotifications(diff: Partial<NotificationsSettings>): void;
+
+    updateHealthPermissions(diff: HealthPermissionsSettings): void;
 
     flushChanges(): Promise<void>;
 }
@@ -83,8 +85,10 @@ export class LocalSettingsController implements ILocalSettingsController {
     private submitChanges = async () => {
         const diff: Partial<UserLocalSettings> = {
             notifications: toJS(this._current.notifications),
+            health: toJS(this._current.health),
         };
 
+        //  do i need to change this?
         if (this._sameDevice && this._sameDevice.notifications) {
             await RepoFactory.Instance.users.updateLocalSettings(
                 this._uid,
@@ -128,6 +132,23 @@ export class LocalSettingsController implements ILocalSettingsController {
             if (changed) {
                 // logger.log('UPDATE');
                 this.update({ notifications });
+            }
+        });
+    }
+
+    updateHealthPermissions(diff: Partial<HealthPermissionsSettings>) {
+        const health = this.current.health || { };
+        transaction(() => {
+            let changed = transferChangedFields(diff, health, 'enabled');
+
+            // if (diff.locals && getLocalsHash(diff.locals) !== getLocalsHash(notifications.locals)) {
+            //     notifications.locals = diff.locals;
+            //     changed = true;
+            // }
+
+            if (changed) {
+                // logger.log('UPDATE');
+                this.update({ health });
             }
         });
     }

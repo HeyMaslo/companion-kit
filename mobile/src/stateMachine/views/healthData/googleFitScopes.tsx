@@ -45,12 +45,11 @@ export class GoogleFitScopesView extends ViewState {
 
     
 
-    async start() {
-        // 
+    async start() {// 
 
         if (Platform.OS == "android") {
             logger.log("GOOGLE CONSENT = ", GoogleFit.isAuthorized)
-            return await GoogleFit.checkIsAuthorized().then (() => {
+            return GoogleFit.checkIsAuthorized().then (() => {
                 logger.log("GOOGLE CONSENT2 = ", GoogleFit.isAuthorized)
                 if (!GoogleFit.isAuthorized) {
                     Alert.alert(
@@ -203,7 +202,7 @@ export class GoogleFitScopesView extends ViewState {
                                 )}
                         </>
                     )} 
-                    {!GoogleFit.isAuthorized && (
+                    {GoogleFit.isAuthorized && (
                         <View style={styles.buttonView}>
                         <Button
                        title="Change my Permissions"

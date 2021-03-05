@@ -7,6 +7,7 @@ import { ILocalSettingsController } from './LocalSettings';
 import { ScheduleResult } from 'common/models/Notifications';
 import { ThrottleAction } from 'common/utils/throttle';
 import { IDisposable } from 'common/utils/unsubscriber';
+//
 
 const logger = createLogger('[NotificationsController]');
 
@@ -42,7 +43,7 @@ export class NotificationsController implements IDisposable {
 
     // Should be OK to call multiple times
     async initAsync() {
-
+        logger.log("IN NOTIFICATIONS INIT")
         await this._service.checkPermissions();
 
         // backward compatibility for 'enabled'

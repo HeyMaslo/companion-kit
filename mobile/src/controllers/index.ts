@@ -98,6 +98,7 @@ export default class AppController implements IAppController {
 
         if (this.User && this.User.user) {
             await this.User.notifications.initAsync();
+            await this.User.hasHealthDataPermissions.initAsync();
         }
 
         // force reconnect to the database

@@ -15,6 +15,7 @@ import MobileTracker from 'src/services/mobileTracker';
 import * as Events from 'src/services/mobileTracker.events';
 
 import { NotificationsController } from 'src/controllers/Notifications';
+import { HealthPermissionsController } from 'src/controllers/HealthPermissions';
 import { AssessmentsController, IAssessmentsController } from 'src/controllers/Assessments';
 import { RecordsController } from 'common/controllers/RecordsController';
 import { IPromptsController, PromptsController } from 'src/controllers/Prompts';
@@ -56,6 +57,8 @@ export interface IUserController extends IUserControllerBase {
     readonly rewards?: RewardsController;
 
     readonly hasSeenOnboarding: boolean;
+    readonly hasHealthDataPermissions: HealthPermissionsController;
+    
     onboardingSeen(): void;
 
     acceptConsent?(option: string): Promise<boolean>;
@@ -113,12 +116,19 @@ export class UserController extends UserControllerBase implements IUserControlle
     private _documents: DocumentsController;
 
     public readonly notifications: NotificationsController;
+    public readonly hasHealthDataPermissions: HealthPermissionsController;
 
     constructor(auth: IAuthController) {
         super(auth);
 
         const self = this;
         this.notifications = new NotificationsController(this._localSettings, {
+            get firstName() { return self.user?.firstName; },
+            get lastName() { return self.user?.lastName; },
+        });
+
+        //Added Logic for Health permissions
+        this.hasHealthDataPermissions = new HealthPermissionsController(this._localSettings, {
             get firstName() { return self.user?.firstName; },
             get lastName() { return self.user?.lastName; },
         });
@@ -245,6 +255,7 @@ export class UserController extends UserControllerBase implements IUserControlle
 
             await this._localSettings.load(user.id);
             await this.notifications.initAsync();
+            await this.hasHealthDataPermissions.initAsync();
         }
     }
 
@@ -321,5 +332,6 @@ export class UserController extends UserControllerBase implements IUserControlle
         this._prompts?.dispose();
         this._documents?.dispose();
         this.notifications.dispose();
+        this.hasHealthDataPermissions.dispose();
     }
 }
