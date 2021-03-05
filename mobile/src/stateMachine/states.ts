@@ -58,4 +58,5 @@ export enum States {
 
     // QOL Block
     Start_QoL,
+    qol_Physical,
 }

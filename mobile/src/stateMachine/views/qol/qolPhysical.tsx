@@ -10,7 +10,7 @@ import { styles } from 'react-native-markdown-renderer';
 const minContentHeight = 460;
 
 @observer
-export class qolStartView extends ViewState {
+export class qolPhysical extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -15, transition: { duration: 1.5 } });
@@ -22,18 +22,12 @@ export class qolStartView extends ViewState {
         this.trigger(ScenarioTriggers.Cancel);
     }
 
-    private onStartSurvey = () => {
-        this.trigger(ScenarioTriggers.Submit);
-    }
-
     renderContent() {
 
         return (
             <MasloPage style={this.baseStyles.page} onClose={this.cancel}>
                 <Container style={[{ height: this._contentHeight, paddingTop: 130, alignItems: 'center' }]}>
-                    <Text style={[this.textStyles.h1, styles.title]}>Welcome!</Text>
-                    <Text style={[this.textStyles.p1, styles.message]}>I’m happy you’re here! First, I’ll need to gather some information about your current Quality of Life. Ready to begin?</Text>
-                    <Button title="I'M READY" style={styles.readyButton} onPress={() => this.onStartSurvey()}/>
+                    <Text>Physical Questions</Text>
                 </Container>
             </MasloPage>
         );
