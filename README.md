@@ -15,7 +15,7 @@ Maslo Companion Kit is a fully functional and customizable mobile application pr
 Out of the box features include:
 * Email/SMS/SO Authentication Methods
 * Text and voice check-ins
-* Mood and location logging and
+* Mood and location logging 
 * Editable/customizable prompts
 * Ability to schedule prompts
 * Customizable notifications/reminders to check in
