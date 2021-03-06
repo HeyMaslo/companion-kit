@@ -22,10 +22,25 @@ export class qolPhysical extends ViewState {
         this.trigger(ScenarioTriggers.Cancel);
     }
 
+    onClose = (): void | Promise<void> => this.runLongOperation(async () => {
+        this.showModal({
+            title: `Do you really want to stop the survey? Your progress will not be saved.`,
+            primaryButton: {
+                text: 'yes, stop',
+                action: this.cancel,
+            },
+            secondaryButton: {
+                text: 'no, go back',
+                action: this.hideModal,
+            }
+        });
+    })
+
+
     renderContent() {
 
         return (
-            <MasloPage style={this.baseStyles.page} onClose={this.cancel}>
+            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
                 <Container style={[{ height: this._contentHeight, paddingTop: 130, alignItems: 'center' }]}>
                     <Text>Physical Questions</Text>
                 </Container>

@@ -29,7 +29,7 @@ export class qolStartView extends ViewState {
     renderContent() {
 
         return (
-            <MasloPage style={this.baseStyles.page} onClose={this.cancel}>
+            <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()}>
                 <Container style={[{ height: this._contentHeight, paddingTop: 130, alignItems: 'center' }]}>
                     <Text style={[this.textStyles.h1, styles.title]}>Welcome!</Text>
                     <Text style={[this.textStyles.p1, styles.message]}>I’m happy you’re here! First, I’ll need to gather some information about your current Quality of Life. Ready to begin?</Text>
