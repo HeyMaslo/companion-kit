@@ -26,6 +26,9 @@ jobs:
       - name: Start API service
         working-directory: data-services
         run: yarn start
+      - name: Build project
+        working-directory: companion-app/server/functions
+        run: docker-compose build server
       - name: Test functions
         working-directory: companion-app/server/functions
-        run: docker-compose run --rm server yarn test
+        run: docker-compose run --rm server yarn test:functions
