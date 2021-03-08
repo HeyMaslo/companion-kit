@@ -14,15 +14,11 @@ jobs:
           repository: bipolarbridges/data-services
           ref: 1b2726afd1fbea4e55e638d71744efffd024b9a3
           path: data-services
+      - name: Create shared network
+        run: docker network create bb_default
       - name: Create environment file
         working-directory: companion-app
         run: cp test.env .docker.env
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '10'
-      - name: Set up project
-        working-directory: companion-app
-        run: ./bin/setup.bash -y -p 0
       - name: Start API service
         working-directory: data-services
         run: yarn start
