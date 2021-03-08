@@ -16,7 +16,7 @@ jobs:
           path: data-services
       - name: Create environment file
         working-directory: companion-app
-        run: cp test.env .env
+        run: cp test.env .docker.env
       - uses: actions/setup-node@v2
         with:
           node-version: '10'
@@ -28,4 +28,4 @@ jobs:
         run: yarn start
       - name: Test functions
         working-directory: companion-app/server/functions
-        run: yarn test
+        run: docker-compose run --rm server yarn test
