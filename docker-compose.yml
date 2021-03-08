@@ -2,7 +2,7 @@ version: '3'
 services:
   server:
     build: .
-    command: sh -c "cd server/functions && yarn serve:functions:prod"
+    command: sh -c "cd server/functions && yarn serve"
     ports:
       - 4000:4000
       - 5000:5000
