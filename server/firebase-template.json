@@ -73,8 +73,8 @@
       },
 	  "ui": {
   		"enabled": true,
-  		"host": "0.0.0.0",
-  		"port": 4000
+  		"host": "${FB_EMULATOR_UI_ADDR}",
+  		"port": ${FB_EMULATOR_UI_PORT}
 	  }
     }
 }
