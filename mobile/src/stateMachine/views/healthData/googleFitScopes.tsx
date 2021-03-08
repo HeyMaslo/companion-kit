@@ -6,30 +6,17 @@ import AppController from 'src/controllers';
 import Colors from 'src/constants/colors';
 import Images from 'src/constants/images';
 import Localization from 'src/services/localization';
+import { PushToast } from '../../toaster';
 
 import { Link, Button, MasloPage, AnimatedContainer, Container, Card, Checkbox, ButtonBlock } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
-import * as Features from 'common/constants/features';
 import Layout from 'src/constants/Layout';
 import { PersonaScrollMask } from 'src/components/PersonaScollMask';
 import Switch from 'dependencies/react-native-switch-pro';
-import logger from 'common/logger';
-import GoogleFit, { Scopes } from 'react-native-google-fit';
+import { HealthPermissionsViewModel } from 'src/viewModels/HealthPermissionsViewModel';
 
 
 const minContentHeight = 344;
-// var isAuth = false;
-
-const options = {
-    scopes: [
-      Scopes.FITNESS_ACTIVITY_READ,
-    //   Scopes.FITNESS_ACTIVITY_WRITE,
-    //   Scopes.FITNESS_BODY_READ,
-    //   Scopes.FITNESS_BODY_WRITE,
-    //   Scopes.FITNESS_LOCATION_READ,
-      // Scopes.FITNESS_AUTH,
-    ]
-  }
 
 @observer
 export class GoogleFitScopesView extends ViewState {
@@ -43,76 +30,30 @@ export class GoogleFitScopesView extends ViewState {
         opacity: new Animated.Value(0),
     };
 
-    
+    private readonly model = new HealthPermissionsViewModel();
 
-    async start() {// 
 
-        if (Platform.OS == "android") {
-            logger.log("GOOGLE CONSENT = ", GoogleFit.isAuthorized)
-            return GoogleFit.checkIsAuthorized().then (() => {
-                logger.log("GOOGLE CONSENT2 = ", GoogleFit.isAuthorized)
-                if (!GoogleFit.isAuthorized) {
-                    Alert.alert(
-                        "AUTH_ERROR",
-                        "Click Reload button to re-authorize.",
-                        [
-                        //   {
-                        //     text: "Cancel",
-                        //     onPress: () => {},
-                        //     style: "cancel"
-                        //   },
-                        { text: "RELOAD", onPress: () => this.giveAccess() }
-                        ],
-                        { cancelable: false }
-                    );
-                    // Alert.alert(
-                    //     'Permission Error',
-                    //     'Looks like you have denied health data access.We need this data to ensure better experience, please update in OS settings, see CHANGE MY PERMISSIONS.',
-                    // );
-                }
-            })
-        }
+    async start() {
+        this.model.settingsSynced.on(this.onScheduleSynced);
     }
-    giveAccess = () => {
-        GoogleFit.authorize(options).then(authResult => {
-            logger.log("IN AUTHORIZE", GoogleFit.isAuthorized)
-            if (authResult.success) {
-               this.trigger(ScenarioTriggers.Submit)
-             } else {
-                Alert.alert(
-                    "Permissions Not Granted",
-                    "We need your health data to enhance your experience with app, change this in settings by clicking the profile icon below"
-                );
-                this.trigger(ScenarioTriggers.Primary)
-             }
-            }).catch(() => {
-                Alert.alert(
-                  "AUTH_ERROR",
-                  "Click Reload button to re-authorize.",
-                  [
-                    {
-                      text: "Cancel",
-                      onPress: () => {},
-                      style: "cancel"
-                    },
-                    { text: "OK", onPress: () => this.giveAccess() }
-                  ],
-                  { cancelable: false }
-                );
-                return false;
-            })
+    componentWillUnmount() {
+        this.model.settingsSynced.off(this.onScheduleSynced);
+    }
 
+    onScheduleSynced = () => {
+        PushToast({ text: 'Changes saved' });
     }
 
     onNext = () => {
         this.trigger(ScenarioTriggers.Primary)
     }
     renderContent() {
-        const texts = Localization.Current.MobileProject;
-        const containerPadding = Layout.window.height - this._contentHeight;
-        const titleText = "Health Data"
-        const explaining = "We need the following scopes to enhance your experience"
-        const more = "check or uncheck and click save to update permission"
+        // const texts = Localization.Current.MobileProject;
+        // const containerPadding = Layout.window.height - this._contentHeight;
+        const permissionsEnabled = this.model.isEnabled && !this.model.isToggleInProgress;
+        const titleText = permissionsEnabled?  "Health Data" : "Health Data Missing";
+        const explaining = permissionsEnabled? "": "We need the following scopes to enhance your experience";
+        // const more = "check or uncheck and click save to update permission"
         return (
         <MasloPage style={this.baseStyles.page}>
             <Container style={styles.topBarWrapWrap}>
@@ -127,25 +68,25 @@ export class GoogleFitScopesView extends ViewState {
                 <Container style={[this.baseStyles.container, styles.container]}>
                     <Text style={[this.textStyles.h1, styles.title]}>{titleText}</Text>
                     <Text style={[this.textStyles.p2, styles.title]}>{explaining}</Text>
-                    <Text style={[this.textStyles.p3, styles.title]}>{more}</Text>
+                    {/* <Text style={[this.textStyles.p3, styles.title]}>{more}</Text> */}
                     <Card
-                        title="Grant Permission"
-                        description={Platform.OS =='android'? GoogleFit.isAuthorized? 'ON': 'OFF' : "IOS"}
+                        title="Permissions"
+                        description={permissionsEnabled ? "ON" : 'Off'}
                         style={{ marginBottom: 20 }}
                     >
                         <Switch
-                            value={Platform.OS == 'android'? GoogleFit.isAuthorized : false}
-                            // disabled={this.model.isToggleInProgress}
-                            // onSyncPress={this.model.toggleEnabledState}
-                            width={50}
-                            height={24}
-                            backgroundActive={Colors.switch.activeBg}
-                            backgroundInactive={Colors.switch.inactiveBg}
-                            style={styles.switchStyles}
-                            circleStyle={{ width: 18, height: 18 }}
+                             value={this.model.isEnabled}
+                             disabled={this.model.isToggleInProgress}
+                             onSyncPress={this.model.toggleEnabledState}
+                             width={50}
+                             height={24}
+                             backgroundActive={Colors.switch.activeBg}
+                             backgroundInactive={Colors.switch.inactiveBg}
+                             style={styles.switchStyles}
+                             circleStyle={{ width: 18, height: 18 }}
                         />
                     </Card>
-                    {(Platform.OS == 'android' && GoogleFit.isAuthorized) && (
+                    {permissionsEnabled && (
                         <>
                             <Card
                                 title="Activity Samples"
@@ -154,7 +95,7 @@ export class GoogleFitScopesView extends ViewState {
                                 // onPress={() => this.model.toggleTime(NotificationTime.Morning)}
                             >
                                 <Checkbox
-                                    checked={Platform.OS == 'android'? GoogleFit.isAuthorized: false}
+                                    checked={Platform.OS == 'android'? permissionsEnabled: false}
                                     onChange={() => null}
                                 />
                             </Card>
@@ -165,7 +106,7 @@ export class GoogleFitScopesView extends ViewState {
                                 // onPress={() => this.model.toggleTime(NotificationTime.Midday)}
                                 >
                                     <Checkbox
-                                    checked={Platform.OS == 'android'? GoogleFit.isAuthorized: false}
+                                    checked={Platform.OS == 'android'? permissionsEnabled: false}
                                     onChange={() => null}
                                 />
                             </Card>
@@ -176,7 +117,7 @@ export class GoogleFitScopesView extends ViewState {
                                 // onPress={() => this.model.toggleTime(NotificationTime.Evening)}
                                 >
                                     <Checkbox
-                                    checked={Platform.OS == 'android'? GoogleFit.isAuthorized: false}
+                                    checked={Platform.OS == 'android'? permissionsEnabled: false}
                                     onChange={() => null}
                                 />
                             </Card>
@@ -188,7 +129,7 @@ export class GoogleFitScopesView extends ViewState {
                                 // onPress={this.openDatePicker}
                                 >
                                     <Checkbox
-                                    checked={Platform.OS == 'android'? GoogleFit.isAuthorized: false}
+                                    checked={Platform.OS == 'android'? permissionsEnabled: false}
                                     onChange={() => null}
                                 />
                             </Card>
@@ -202,7 +143,7 @@ export class GoogleFitScopesView extends ViewState {
                                 )}
                         </>
                     )} 
-                    {GoogleFit.isAuthorized && (
+                    {!permissionsEnabled && (
                         <View style={styles.buttonView}>
                         <Button
                        title="Change my Permissions"

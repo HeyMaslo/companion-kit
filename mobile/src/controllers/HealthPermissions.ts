@@ -1,4 +1,4 @@
-// import AsyncStorage from 'src/services/StorageAsync';
+import AsyncStorage from 'src/services/StorageAsync';
 import { observable } from 'mobx';
 import { IUserNameProvider } from 'src/services/Notifications';
 import { ILocalSettingsController } from './LocalSettings';
@@ -12,7 +12,7 @@ import { createLogger } from 'common/logger';
 const logger = createLogger('[HealthPermissionsController]');
 
 // const AllowanceStorageKey = 'notificationsAllowedByUser';
-// const TimeStorageKey = 'notificationsTime';
+const FIRST_TIME_USE = 'first_time_use';
 const options = {
     scopes: [
       Scopes.FITNESS_ACTIVITY_READ,
@@ -52,26 +52,37 @@ export class HealthPermissionsController implements IDisposable {
 
     // Should be OK to call multiple times
     async initAsync() {
-
-        // await this._service.checkPermissions();
-        await GoogleFit.checkIsAuthorized();
-        logger.log("in INIT iS ENABLED : ", this._enabledByUser);
-
-        // backward compatibility for 'enabled'
-        if (this.settings.current.notifications?.enabled == null) {
-            const allowedByUser = GoogleFit.isAuthorized;
-            logger.log("in INIT: ", GoogleFit.isAuthorized);
-            // call googleFit is is Authorized.
-            this.settings.updateHealthPermissions({
-                enabled: allowedByUser ? allowedByUser === true : null,
+       if (this.settings.current.health?.enabled === null){
+           // very first time using the app
+           this.settings.updateHealthPermissions({
+            enabled: false,
             });
-        }
+            this._enabledByUser = this.settings.current.notifications?.enabled;
+            return;
+       }
 
-        this._enabledByUser = this.settings.current.health?.enabled;
+       if (this.settings.current.health?.enabled === true){
+           //user denied permissions at some point
+           GoogleFit.authorize(options).then(authResult => {
+            if (authResult.success) {
+                this.settings.updateHealthPermissions({
+                    enabled: true,
+                    });
+                this._enabledByUser = true;
+                logger.log("ENABLED IS TRUE")
+         } else {
+             this._enabledByUser = false;
+             logger.log("ENABLED IS FALSE")
+        }
+        })
+        .catch((err) => { this._enabledByUser = false;})
+       }
+
+       this._enabledByUser = this.settings.current.notifications?.enabled;
     }
 
     public askPermission = async () => {
-        await GoogleFit.checkIsAuthorized();
+        // await GoogleFit.checkIsAuthorized();
         if (!GoogleFit.isAuthorized){
              GoogleFit.authorize(options).then(authResult => {
                 if (authResult.success) {
@@ -85,9 +96,9 @@ export class HealthPermissionsController implements IDisposable {
                 // setData(false);
             }
             })
-            .catch((err) => { this._enabledByUser = null;})
+            .catch((err) => { this._enabledByUser = false;})
         } else {
-            logger.log("SET ENABLED TO TRUE IS GFIT")
+            logger.log("SET ENABLED TO TRUE IN GFIT")
             this._enabledByUser = true;
         }
         await this.sync();
