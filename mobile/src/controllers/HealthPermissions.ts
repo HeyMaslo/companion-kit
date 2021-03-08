@@ -6,22 +6,10 @@ import { ThrottleAction } from 'common/utils/throttle';
 import { IDisposable } from 'common/utils/unsubscriber';
 import GoogleFit, { Scopes } from 'react-native-google-fit';
 import { createLogger } from 'common/logger';
-// import logger from 'common/logger';
-//
+import {auth} from 'src/helpers/health'
 
 const logger = createLogger('[HealthPermissionsController]');
 
-// const AllowanceStorageKey = 'notificationsAllowedByUser';
-const FIRST_TIME_USE = 'first_time_use';
-const options = {
-    scopes: [
-      Scopes.FITNESS_ACTIVITY_READ,
-      // Scopes.FITNESS_ACTIVITY_WRITE,
-      // Scopes.FITNESS_BODY_READ,
-      // Scopes.FITNESS_BODY_WRITE,
-      // Scopes.FITNESS_AUTH,
-    ]
-  }
 
 export class HealthPermissionsController implements IDisposable {
     // private readonly _service: NotificationsService;
@@ -58,59 +46,38 @@ export class HealthPermissionsController implements IDisposable {
             enabled: false,
             });
             this._enabledByUser = this.settings.current.notifications?.enabled;
+            logger.log("IN INIT", this.permissionsAsked);
             return;
        }
 
-       if (this.settings.current.health?.enabled === true){
+       if (this.settings.current.health?.enabled === false){
+        logger.log("enabled in init", this.settings.current.health?.enabled);
            //user denied permissions at some point
-           GoogleFit.authorize(options).then(authResult => {
-            if (authResult.success) {
-                this.settings.updateHealthPermissions({
-                    enabled: true,
-                    });
-                this._enabledByUser = true;
-                logger.log("ENABLED IS TRUE")
-         } else {
-             this._enabledByUser = false;
-             logger.log("ENABLED IS FALSE")
+           const enabledbyUser = await auth();
+           if (enabledbyUser){
+            this.settings.updateHealthPermissions({
+                enabled: true,
+            });
+            // this._enabledByUser = this.settings.current.notifications?.enabled;
+           }
         }
-        })
-        .catch((err) => { this._enabledByUser = false;})
-       }
 
        this._enabledByUser = this.settings.current.notifications?.enabled;
+       await this.sync();
     }
 
     public askPermission = async () => {
-        // await GoogleFit.checkIsAuthorized();
-        if (!GoogleFit.isAuthorized){
-             GoogleFit.authorize(options).then(authResult => {
-                if (authResult.success) {
-                    this._enabledByUser = true;
-                    logger.log("ENABLED IS TRUE")
-                // logger.log("AUTH_SUCCESS_IMPROVED", authResult);
-             } else {
-                 this._enabledByUser = false;
-                 logger.log("ENABLED IS FALSE")
-                // logger.log("AUTH_DENIED", authResult);
-                // setData(false);
-            }
-            })
-            .catch((err) => { this._enabledByUser = false;})
-        } else {
-            logger.log("SET ENABLED TO TRUE IN GFIT")
-            this._enabledByUser = true;
-        }
+        const authorized = await auth();
+        logger.log("AUTH_ASK_HELPER", authorized)
+        this._enabledByUser = authorized;
         await this.sync();
+        logger.log("PERMISSIONGRANTED", this.permissionsGranted);
         return this.permissionsGranted;
     }
 
-    // public resetOpenedNotification = () => {
-    //     this._service.resetOpenedNotification();
-    // }
-
     // enableHealthPermissions
     public enableHealthPermissions = async () => {
+        logger.log("ENABLE_PERMISSIONS", this.permissionsGranted);
         if (!this.permissionsGranted) {
             // try to request permission (don't know they were denied or just never asked)
             const enabled = await this.askPermission();
@@ -128,23 +95,6 @@ export class HealthPermissionsController implements IDisposable {
         this._enabledByUser = false;
         this._syncThrottle.tryRun(this.sync);
     }
-
-    // toggleTime(time: NotificationTime.Morning | NotificationTime.Midday | NotificationTime.Evening): Promise<void>;
-    // toggleTime(time: NotificationTime.ExactTime, value: number): Promise<void>;
-
-    // public async toggleTime(time: NotificationTime, value?: number) {
-    //     if (time === NotificationTime.ExactTime) {
-    //         const timeobj = this.schedule[time] || { active: false, value: null };
-
-    //         timeobj.active = !timeobj.active;
-    //         timeobj.value = value;
-    //         this._schedule[time] = timeobj;
-    //     } else {
-    //         this._schedule[time] = !this.schedule[time];
-    //     }
-
-    //     this._syncThrottle.tryRun(this.sync);
-    // }
 
     private sync = async () => {
         this.settings.updateHealthPermissions({

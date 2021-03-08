@@ -78,23 +78,23 @@ export class HealthPermissionsViewModel {
 
             // need to learn who you is!!
 
-            // if (!prevValue && prevValue === this._isEnabled) {
-            //     Alert.alert(
-            //         'Oops',
-            //         'Looks like notifications have been restricted. Please re-enable it anytime in Settings and try again.',
-            //         [
-            //             { text: 'Cancel' },
+            if (!prevValue && prevValue === this._isEnabled) {
+                Alert.alert(
+                    'Oops',
+                    'Looks like notifications have been restricted. Please re-enable it anytime in Settings and try again.',
+                    [
+                        { text: 'Cancel' },
 
-            //             {
-            //                 text: 'Settings',
-            //                 onPress: async () => {
-            //                     const url = 'app-settings:';
-            //                     await Links.tryOpenLink(url);
-            //                 },
-            //                 style: 'default',
-            //             },
-            //         ]);
-            // }
+                        {
+                            text: 'Settings',
+                            onPress: async () => {
+                                const url = 'app-settings:';
+                                await Links.tryOpenLink(url);
+                            },
+                            style: 'default',
+                        },
+                    ]);
+            }
 
             this._toggleInProgress = false;
         }

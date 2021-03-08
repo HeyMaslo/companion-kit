@@ -22,15 +22,6 @@ export class GoogleFitConsentView extends ViewState {
     askNtfPermissions = () => this.runLongOperation(async () => {
     const enabled = await AppController.Instance.User.hasHealthDataPermissions.askPermission();
       logger.log("in ASKNOTIFICATIONS : ", enabled);
-
-      if (enabled) {
-          await AppController.Instance.User.hasHealthDataPermissions.enableHealthPermissions();
-      } else {
-        Alert.alert(
-           "We need your health data",
-             "Change this in Settings",
-         );   
-      }
       this.trigger(ScenarioTriggers.Submit);
   })
 

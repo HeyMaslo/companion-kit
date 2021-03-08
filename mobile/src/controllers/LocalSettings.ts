@@ -93,7 +93,8 @@ export class LocalSettingsController implements ILocalSettingsController {
             await RepoFactory.Instance.users.updateLocalSettings(
                 this._uid,
                 this._sameDevice.deviceId,
-                { notifications: { ...this._sameDevice.notifications, token: null } },
+                { notifications: { ...this._sameDevice.notifications, token: null }, health: {...this._sameDevice.health, enabled: null} },
+                // { health: { ...this._sameDevice.h, token: null } },
             );
         }
 

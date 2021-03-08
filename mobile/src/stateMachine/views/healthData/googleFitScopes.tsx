@@ -71,7 +71,7 @@ export class GoogleFitScopesView extends ViewState {
                     {/* <Text style={[this.textStyles.p3, styles.title]}>{more}</Text> */}
                     <Card
                         title="Permissions"
-                        description={permissionsEnabled ? "ON" : 'Off'}
+                        description={permissionsEnabled ? "ON" : 'Off' }
                         style={{ marginBottom: 20 }}
                     >
                         <Switch
@@ -143,7 +143,7 @@ export class GoogleFitScopesView extends ViewState {
                                 )}
                         </>
                     )} 
-                    {!permissionsEnabled && (
+                    {false && (
                         <View style={styles.buttonView}>
                         <Button
                        title="Change my Permissions"
