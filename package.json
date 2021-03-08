@@ -23,7 +23,8 @@
         "deploy:dashboard:prod": "yarn build:dashboard:prod && cd server/functions && yarn deploy:hosting:dashboard:prod",
         "env:set": "bash bin/env_set.bash",
         "env:clean": "bash bin/env_clean.bash",
-        "env:show": "less .env"
+        "env:show": "less .env",
+		"test:functions": "cd server/functions && yarn test"
     },
     "author": "zajno",
     "license": "ISC",
