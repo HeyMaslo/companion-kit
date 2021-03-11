@@ -11,13 +11,11 @@ import { ScenarioTriggers } from 'src/stateMachine/abstractions';
 import Markdown from 'react-native-markdown-renderer';
 
 import Terms from 'src/assets/terms-of-service';
-import PrivacyPolicy from 'src/assets/privacy-policy';
 import { TextStyles } from 'src/styles/TextStyles';
 import Localization from 'src/services/localization';
 
 const ConsentOptions = [
-    'I am 13 years old or older and agree to the Privacy Policy and Terms of Use',
-    'I am the parent and/or guardian of the app user, and I agree to the Privacy Policy and Terms of Use',
+    'I agree with the Terms & Conditions',
 ];
 
 const rules = {
@@ -35,7 +33,7 @@ const rules = {
 export class ConsentView extends ViewState {
     constructor(props) {
         super(props);
-        this._contentHeight = this.persona.setupContainerHeightForceScroll({ rotation: 45 });
+        this._contentHeight = this.persona.setupContainerHeightForceScroll({ rotation: 45 }) - 40;
     }
 
     start() {
@@ -48,7 +46,7 @@ export class ConsentView extends ViewState {
         const { projectName } = Localization.Current.MobileProject;
         this.showModal({
             title: `User Agreement`,
-            message: `Before you use ${projectName} you must agree to the Privacy Policy and Terms of Use. If you are under 13 years old, your parent or guardian needs to read these and agree to let you use this app.`,
+            message: `Before you use ${projectName} you must agree to the Privacy Policy and Terms of Use.`,
             primaryButton: {
                 text: 'OK',
                 action: this.hideModal,
@@ -71,8 +69,6 @@ export class ConsentView extends ViewState {
                     <View style={styles.textBlockWrapper}>
                         <ScrollView style={styles.textBlock}>
                             <Markdown style={styles} rules={rules}>{Terms}</Markdown>
-                            <View style={styles.divider}></View>
-                            <Markdown style={styles} rules={rules}>{PrivacyPolicy}</Markdown>
                         </ScrollView>
                     </View>
                     <RadioButtonGroup model={this._userType} style={styles.radioButtonsWrap} />
@@ -81,7 +77,6 @@ export class ConsentView extends ViewState {
                         onPress={this.submit}
                         title="Continue"
                         loading="promise"
-                        style={this._userType.index == null ? { backgroundColor: Colors.consent.buttonDisabledBg } : null}
                         titleStyles={this._userType.index == null ? { color: Colors.consent.buttonDisabledText } : null}
                     />
                 </Container>
@@ -122,19 +117,16 @@ const styles = StyleSheet.create({
     heading2: {
         ...TextStyles.p1,
         fontWeight: '300',
-        marginTop: 50,
         marginBottom: 12,
     },
     heading3: {
         ...TextStyles.h2,
         color: Colors.consent.contentHeading,
-        marginTop: 50,
         marginBottom: 12,
     },
     heading4: {
         ...TextStyles.h3,
         color: Colors.consent.contentHeading,
-        marginTop: 35,
         marginBottom: 12,
     },
     heading5: {
