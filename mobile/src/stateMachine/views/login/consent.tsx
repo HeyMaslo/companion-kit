@@ -11,6 +11,7 @@ import { ScenarioTriggers } from 'src/stateMachine/abstractions';
 import Markdown from 'react-native-markdown-renderer';
 
 import Terms from 'src/assets/terms-of-service';
+import PrivacyPolicy from 'src/assets/privacy-policy';
 import { TextStyles } from 'src/styles/TextStyles';
 import Localization from 'src/services/localization';
 
@@ -33,7 +34,7 @@ const rules = {
 export class ConsentView extends ViewState {
     constructor(props) {
         super(props);
-        this._contentHeight = this.persona.setupContainerHeightForceScroll({ rotation: 45 }) - 40;
+        this._contentHeight = this.persona.setupContainerHeightForceScroll({ rotation: 45 });
     }
 
     start() {
@@ -69,6 +70,8 @@ export class ConsentView extends ViewState {
                     <View style={styles.textBlockWrapper}>
                         <ScrollView style={styles.textBlock}>
                             <Markdown style={styles} rules={rules}>{Terms}</Markdown>
+                            <View style={styles.divider}></View>
+                            <Markdown style={styles} rules={rules}>{PrivacyPolicy}</Markdown>
                         </ScrollView>
                     </View>
                     <RadioButtonGroup model={this._userType} style={styles.radioButtonsWrap} />
@@ -77,6 +80,7 @@ export class ConsentView extends ViewState {
                         onPress={this.submit}
                         title="Continue"
                         loading="promise"
+                        style={this._userType.index == null ? { backgroundColor: Colors.consent.buttonDisabledBg } : null}
                         titleStyles={this._userType.index == null ? { color: Colors.consent.buttonDisabledText } : null}
                     />
                 </Container>
@@ -117,16 +121,19 @@ const styles = StyleSheet.create({
     heading2: {
         ...TextStyles.p1,
         fontWeight: '300',
+        marginTop: 50,
         marginBottom: 12,
     },
     heading3: {
         ...TextStyles.h2,
         color: Colors.consent.contentHeading,
+        marginTop: 50,
         marginBottom: 12,
     },
     heading4: {
         ...TextStyles.h3,
         color: Colors.consent.contentHeading,
+        marginTop: 35,
         marginBottom: 12,
     },
     heading5: {
