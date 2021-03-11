@@ -18,4 +18,14 @@ export default {
     getViewWidth,
     getViewHeight,
     isSmallDevice: width < 340 || height < 650,
+
+    /**
+     * Gets two thirds screen height.
+     */
+    twoThirdsHeight: width / 1.5,
+
+    /**
+     * Gets half screen height.
+     */
+    halfHeight: width / 2,
 };
