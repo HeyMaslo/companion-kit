@@ -16,8 +16,7 @@ import { TextStyles } from 'src/styles/TextStyles';
 import Localization from 'src/services/localization';
 
 const ConsentOptions = [
-    'I am 13 years old or older and agree to the Privacy Policy and Terms of Use',
-    'I am the parent and/or guardian of the app user, and I agree to the Privacy Policy and Terms of Use',
+    'I agree with the Terms & Conditions',
 ];
 
 const rules = {
@@ -48,7 +47,7 @@ export class ConsentView extends ViewState {
         const { projectName } = Localization.Current.MobileProject;
         this.showModal({
             title: `User Agreement`,
-            message: `Before you use ${projectName} you must agree to the Privacy Policy and Terms of Use. If you are under 13 years old, your parent or guardian needs to read these and agree to let you use this app.`,
+            message: `Before you use ${projectName} you must agree to the Privacy Policy and Terms of Use.`,
             primaryButton: {
                 text: 'OK',
                 action: this.hideModal,
