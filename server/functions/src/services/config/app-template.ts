@@ -28,19 +28,19 @@ export const FeatureSettings: Record<Environments, FeaturesSettingsType> = {
 export const EmailSettings: Record<Environments, EmailSettingsType> = {
     get production() {
         return {
-            projectName: 'Companion kit',
-            sendgridTemplateId: 'd-5554ed3a2e7940c39daf251b4625895c',
-            sendgridVerificationCodeTemplateId: 'd-3a7712597bf0456f9c4ad9bed59e148d',
-            fromAddress: 'Companion kit Team <your email>',
-            adminEmail: '<your email>',
+            projectName: '${EMAIL_PROJECT_NAME}',
+            sendgridTemplateId: '${EMAIL_SENDGRID_TEMPLATE_ID}',
+            sendgridVerificationCodeTemplateId: '${EMAIL_SENDGRID_VERIFICATION_TEMPLATE_ID}',
+            fromAddress: '${EMAIL_FROM_ADDRESS}',
+            adminEmail: '${EMAIL_ADMIN_EMAIL}',
         };
     },
     get staging() {
         return {
             ...EmailSettings.production,
-            projectName: 'Companion kit [Staging]',
-            sendgridTemplateId: 'd-5554ed3a2e7940c39daf251b4625895c',
-            sendgridVerificationCodeTemplateId: 'd-3a7712597bf0456f9c4ad9bed59e148d',
+            projectName: '${EMAIL_PROJECT_NAME_PRODUCTION}',
+            sendgridTemplateId: '${EMAIL_SENDGRID_TEMPLATE_ID}',
+            sendgridVerificationCodeTemplateId: '${EMAIL_SENDGRID_VERIFICATION_TEMPLATE_ID}',
         };
     },
 };
@@ -48,16 +48,16 @@ export const EmailSettings: Record<Environments, EmailSettingsType> = {
 export const LinksSettings: Record<Environments, LinksSettingsType> = {
     get production() {
         return {
-            ClientInvitationLink: '<your email invite>',
-            DashboardUrl: '<your dashboard url>',
+            ClientInvitationLink: '${DASHBOARD_CLIENT_INVITATION_LINK}',
+            DashboardUrl: '${DASHBOARD_URL}',
             FirestoreUrl: '<your firebase url>',
         };
     },
 
     get staging() {
         return {
-            ClientInvitationLink: '<your email invite>',
-            DashboardUrl: '<your dashboard url>',
+            ClientInvitationLink: '${DASHBOARD_CLIENT_INVITATION_LINK}',
+            DashboardUrl: '${DASHBOARD_URL}',
             FirestoreUrl: '<your firebase url>',
         };
     },
@@ -65,8 +65,8 @@ export const LinksSettings: Record<Environments, LinksSettingsType> = {
 
 export const Client: ClientsSettingsType = {
     mobile: {
-        ios: 'com.companionkit.ios',
-        android: 'com.companionkit.android',
+        ios: '${CLIENT_SETTINGS_TYPE_IOS}',
+        android: '${CLIENT_SETTINGS_TYPE_ANDROID}',
     },
 };
 

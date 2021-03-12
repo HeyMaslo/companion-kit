@@ -61,3 +61,14 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+
+# Other
+dependencies
+configs
+android/app/google-services.json
+app.json
+ios/CompanionKit/Info.plist
+ios/CompanionKit.xcodeproj/project.pbxproj
+ios/CompanionKit/CompanionKit.entitlements
+ios/sentry.properties
+android/sentry.properties

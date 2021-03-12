@@ -1,75 +1,75 @@
 {
-  "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
-  },
-  "functions": {
-    "predeploy": [
-      "cd \"$RESOURCE_DIR\" && yarn lint",
-      "cd \"$RESOURCE_DIR\" && yarn build"
-    ],
-    "source": "functions"
-  },
-  "hosting": [
-    {
-      "target": "dashboard-staging",
-      "public": "public/dashboard",
-      "cleanUrls": true,
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "rewrites": [
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
-    },
-    {
-      "target": "dashboard-prod",
-      "public": "public/dashboard",
-      "cleanUrls": true,
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "rewrites": [
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
-    },
-    {
-      "target": "web-staging",
-      "public": "public/web",
-      "cleanUrls": true,
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ]
-    },
-    {
-      "target": "web-prod",
-      "public": "public/web",
-      "cleanUrls": true,
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ]
-    }
-  ],
-  "storage": {
-    "rules": "storage.rules"
-  },
-  "emulators": {
     "firestore": {
-      "port": 5555
+      "rules": "firestore.rules",
+      "indexes": "firestore.indexes.json"
+    },
+    "functions": {
+      "predeploy": [
+        "cd \"$RESOURCE_DIR\" && yarn lint",
+        "cd \"$RESOURCE_DIR\" && yarn build"
+      ],
+      "source": "functions"
+    },
+    "hosting": [
+      {
+        "target": "dashboard-staging",
+        "public": "public/dashboard",
+        "cleanUrls": true,
+        "ignore": [
+          "firebase.json",
+          "**/.*",
+          "**/node_modules/**"
+        ],
+        "rewrites": [
+          {
+            "source": "**",
+            "destination": "/index.html"
+          }
+        ]
+      },
+      {
+        "target": "dashboard-prod",
+        "public": "public/dashboard",
+        "cleanUrls": true,
+        "ignore": [
+          "firebase.json",
+          "**/.*",
+          "**/node_modules/**"
+        ],
+        "rewrites": [
+          {
+            "source": "**",
+            "destination": "/index.html"
+          }
+        ]
+      },
+      {
+        "target": "web-staging",
+        "public": "public/web",
+        "cleanUrls": true,
+        "ignore": [
+          "firebase.json",
+          "**/.*",
+          "**/node_modules/**"
+        ]
+      },
+      {
+        "target": "web-prod",
+        "public": "public/web",
+        "cleanUrls": true,
+        "ignore": [
+          "firebase.json",
+          "**/.*",
+          "**/node_modules/**"
+        ]
+      }
+    ],
+    "storage": {
+      "rules": "storage.rules"
+    },
+    "emulators": {
+      "firestore": {
+        "port": 5555
+      }
     }
-  }
-}
+  }  

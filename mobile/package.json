@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "^3.0.2",
+    "@react-native-firebase/app": "^10.5.0",
+    "@sentry/react-native": "^2.1.1",
     "base-64": "^0.1.0",
     "chroma-js": "2.0.3",
     "computed-async-mobx": "^4.2.1",
