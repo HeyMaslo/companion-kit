@@ -7,7 +7,7 @@ import { ScenarioTriggers } from '../../abstractions';
 
 import { styles } from 'react-native-markdown-renderer';
 
-const minContentHeight = 520;
+const minContentHeight = 560;
 
 @observer
 export class qolPhysical extends ViewState {
