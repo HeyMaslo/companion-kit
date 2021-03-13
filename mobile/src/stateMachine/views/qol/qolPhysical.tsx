@@ -52,11 +52,11 @@ export class qolPhysical extends ViewState {
                         <Text style={[this.textStyles.h1, {marginVertical: '6%'}]}>Had plenty of energy</Text>
                     </View>
                     <View style={styles.buttonContainer}>
-                            <Button title="STRONGLY AGREE" style={styles.buttons}></Button>
-                            <Button title="AGREE" style={styles.buttons}></Button>
-                            <Button title="NEUTRAL" style={styles.buttons}></Button>
-                            <Button title="DISAGREE" style={styles.buttons}></Button>
-                            <Button title="STRONGLY DISAGREE" style={styles.buttons}></Button>
+                            <Button title="STRONGLY AGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true}></Button>
+                            <Button title="AGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true}></Button>
+                                    <Button title="NEUTRAL" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true}></Button>
+                            <Button title="DISAGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true}></Button>
+                            <Button title="STRONGLY DISAGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true}></Button>
                     </View>
                 </Container>
             </MasloPage>
@@ -79,5 +79,6 @@ const styles = StyleSheet.create({
     buttons: {
         height: 60,
         width: '90%',
+        backgroundColor: Colors.survey.btnBackgroundColor,
     }
 });
