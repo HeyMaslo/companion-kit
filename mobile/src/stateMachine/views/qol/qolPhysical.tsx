@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
+import Colors from '../../../constants/colors';
 
 import { styles } from 'react-native-markdown-renderer';
 
@@ -42,21 +43,21 @@ export class qolPhysical extends ViewState {
         // TODO: see if there are styles in basestyles that work
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
-                <Container style={[{ height: this._contentHeight, paddingTop: 70, paddingBottom: 15 }]}>
+                <Container style={[{ height: this._contentHeight, paddingTop: 90, paddingBottom: 15 }]}>
                     <View style={{alignItems: 'center', width: '100%'}}>
-                        <Text>1 of 50</Text>
+                        <Text style={this.textStyles.p3}>1 of 50</Text>
                     </View>
-                    <Text style={{marginTop: '8%'}}>OVER THE LAST 7 DAYS I HAVE...</Text>
+                    <Text style={{...this.textStyles.p3, marginTop: '10%'}}>OVER THE LAST 7 DAYS I HAVE...</Text>
                     <View style={{alignItems: 'center', width: '100%'}}>
-                        <Text style={[this.textStyles.h1, {marginVertical: '10%'}]}>Had plenty of energy</Text>
+                        <Text style={[this.textStyles.h1, {marginVertical: '6%'}]}>Had plenty of energy</Text>
                     </View>
-                    <ScrollView contentContainerStyle={styles.buttonContainer}>
+                    <View style={styles.buttonContainer}>
                             <Button title="STRONGLY AGREE" style={styles.buttons}></Button>
                             <Button title="AGREE" style={styles.buttons}></Button>
                             <Button title="NEUTRAL" style={styles.buttons}></Button>
                             <Button title="DISAGREE" style={styles.buttons}></Button>
                             <Button title="STRONGLY DISAGREE" style={styles.buttons}></Button>
-                    </ScrollView>
+                    </View>
                 </Container>
             </MasloPage>
         );
@@ -70,9 +71,10 @@ const styles = StyleSheet.create({
     buttonContainer: {
         alignItems: 'center',
         width: '100%',
-        height: 370,
+        height: '72%',
         justifyContent: 'space-between',
-        paddingBottom: 50
+        paddingBottom: 40,
+        marginTop: 20
     },
     buttons: {
         height: 60,
