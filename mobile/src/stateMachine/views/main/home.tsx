@@ -50,6 +50,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
             toValue: 1,
             delay: isFirstLaunch ? 1000 : 400,
             duration: 500,
+            useNativeDriver: true,
         }).start(this.checkNewLinkDoc);
 
         isFirstLaunch = false;
@@ -118,6 +119,9 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
 
     private onStartQOL = () => {
         this.trigger(ScenarioTriggers.Tertiary);
+    }
+    private onStartDomains = () => {
+        this.trigger(ScenarioTriggers.Next);
     }
 
     private openStoryDetails = (jid: string) => {
@@ -288,7 +292,10 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
+                    <View style={styles.domainView}>
                     <Button title="QoL Suvey" style={styles.qolButton} onPress={() => this.onStartQOL()}/>
+                    <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains()}/>
+                    </View>
                     <Text style={styles.orbLabel}>PHYSICAL</Text>
                     { this.getTitle() }
                     { loading
@@ -356,5 +363,9 @@ const styles = StyleSheet.create({
         height: 30,
         marginLeft: 20,
         marginBottom: 15
+    },
+    domainView: {
+        flexDirection: 'row',
+        justifyContent: 'space-around'
     }
 });

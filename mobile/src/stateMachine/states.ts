@@ -59,4 +59,7 @@ export enum States {
     // QOL Block
     Start_QoL,
     qol_Physical,
+
+    // LIFE DOMAINS block
+    Choose_Domain,
 }
