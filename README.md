@@ -14,7 +14,6 @@ Clone the respository and ensure you have the requirements below:
  Instructions: [https://reactnative.dev/docs/environment-setup](https://reactnative.dev/docs/environment-setup)
 
  * Node.js 10 ([`nvm`](https://github.com/nvm-sh/nvm) is preferable)
-
  To install:  ```nvm install 10```	
  To switch to version 10:  ```nvm use 10```
  
