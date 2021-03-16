@@ -33,6 +33,7 @@ export class ChooseDomainView extends ViewState {
         translateXTabTwo: new Animated.Value(width),
         translateXTabOne: new Animated.Value(0),
         translateY: -1000,
+        xDomain: 0,
     }
 
     handleSlide = type => {
@@ -68,6 +69,14 @@ export class ChooseDomainView extends ViewState {
 
     }
 
+    handleDomainSwitch = type => {
+        let {xDomain, xTabTwo, active, translateX, translateXTabTwo, translateXTabOne } = this.state
+        Animated.spring(translateX, {
+            toValue: xDomain,
+            useNativeDriver: true,
+        }).start()
+    }
+
     async start() {}
 
     private cancel = () => {
@@ -89,8 +98,10 @@ export class ChooseDomainView extends ViewState {
     })
 
 
+
+
     renderContent() {
-        let {xTabOne, xTabTwo, active, translateX, translateXTabTwo, translateXTabOne, translateY } = this.state
+        let {xTabOne, xTabTwo, active, translateX, translateXTabTwo, translateXTabOne, translateY, xDomain } = this.state
         // TODO: put styles in style sheet and abstract common styles
         // TODO: see if there are styles in basestyles that work
         return (
@@ -110,20 +121,6 @@ export class ChooseDomainView extends ViewState {
                                 borderRadius: 4,
                                 borderColor: 'green'
                             }}>
-                                <Animated.View 
-                                style={{
-                                    position: 'absolute',
-                                    width: '50%', height: '100%',
-                                    top: 0, left: 0,
-                                    backgroundColor: '#007aff',
-                                    borderRadius: 4,
-                                    transform: [{
-                                        translateX
-                                    }]
-
-                                }}
-                                
-                                />
                                 <TouchableOpacity
                                 style={[styles.tabs,{
                                     borderRightWidth: 0,
@@ -210,11 +207,31 @@ export class ChooseDomainView extends ViewState {
                                     isTransparent
                                 />
                      </View>
-                     <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 50}}>
+                    <View 
+                     style={{
+                         flexDirection: 'row', 
+                         justifyContent: 'space-between', 
+                         marginBottom: 50,
+                         transform: [{
+                            translateX: 0
+                        },
+                        {
+                            translateY:0
+                        }]
+                         }}>
+                    
+                         <TouchableOpacity 
+                         onLayout = {event => this.setState({xDomain: event.nativeEvent.layout.x})}
+                         onPress = {() => this.handleDomainSwitch(xDomain)}
+                         
+                         >
                          <Images.backIcon width={20} height={20} />
+                         </TouchableOpacity>
                          <Text style={[TextStyles.p1, styles.domain, {fontSize: 30}]}>DOMAIN</Text>
+                         <TouchableOpacity onPress={() => null}>
                          <Images.backIcon width={20} height={20} />
-                     </View>
+                         </TouchableOpacity>
+                    </View>
                      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                          <Text style={[TextStyles.labelMedium, styles.domain, {fontSize: 17}]}>Prev-DOMAIN</Text>
                          <Text style={[TextStyles.labelMedium, styles.domain, {fontSize: 17}]}>Next-DOMAIN</Text>
