@@ -45,7 +45,7 @@
     "ffmpeg-static": "^4.2.6",
     "ffprobe-static": "^3.0.0",
     "firebase": "^7.17.1",
-    "firebase-admin": "~9.0.0",
+    "firebase-admin": "^9.5.0",
     "firebase-functions": "^3.8.0",
     "firesql": "^2.0.2",
     "fluent-ffmpeg": "^2.1.2",
