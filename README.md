@@ -36,10 +36,9 @@ Maslo has packaged components that allow customers & developers to easily custom
 * Career companion for finding jobs and building skills
 * And so much more... there are many possibilities!
 
-On with it. Get to Growing Your Maslo!
-
-## Examples
 <img src="/examples/SigBee/SigBee.png" width="25%"> <img src="/examples/Aibly/Aibly.png" width="25%"> <img src="/examples/Canbe/Canbe.png" width="25%"> <img src="/examples/Carree/Carree.png" width="25%"> <img src="/examples/Emily/Emily.png" width="25%"> <img src="/examples/eva/Eva.png" width="25%"> <img src="/examples/Opti/Opti.png" width="25%"> <img src="/examples/Stella/Stella.png" width="25%"> <img src="/examples/pAIper/Paiper.png" width="25%">
+
+On with it. Get to Growing Your Maslo!
 
 ## Getting Started
 ### Requirements
