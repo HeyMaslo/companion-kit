@@ -1,4 +1,17 @@
-// todo: domains array?
+export const Domains = [
+    "Physical",
+    "Sleep",
+    "Mood",
+    "Cognition",
+    "Leisure",
+    "Relationships",
+    "Spiritual",
+    "Money",
+    "Home",
+    "Self-esteem",
+    "Independence",
+    "Identity",
+]
 
 export const SurveyQuestions  = [
     "Had plenty of energy",
@@ -60,18 +73,6 @@ export const SurveyQuestions  = [
     "Had a stable sense of what I’m really like",
     "Had a clear idea of what I want and don’t want",
     "Had control over my life",
-
-    /* Work and study:
-    "Been confident in my abilities at work",
-    "Met demands at work",
-    "Been satisfied with the quality of my work",
-    "Been reliable at work",
-
-    "Enjoyed my educational activities",
-    "Felt confident about finishing my educational activities",
-    "Performed to my usual standards educationally",
-    "Organized my educational activities adequately",
-    */
 ];
 
 export const QUESTIONS_COUNT = SurveyQuestions.length; // 48
