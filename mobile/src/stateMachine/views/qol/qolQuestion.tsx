@@ -12,7 +12,7 @@ import { styles } from 'react-native-markdown-renderer';
 const minContentHeight = 560;
 
 @observer
-export class qolPhysical extends ViewState {
+export class qolQuestion extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -15, transition: { duration: 1 }, scale: 0.8 });

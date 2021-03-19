@@ -36,7 +36,7 @@ import { RecordPitureCheckinView } from './views/checkin/recordPictureCheckIn';
 import { qolStartView } from './views/qol/startQOL';
 
 import Triggers = ScenarioTriggers;
-import { qolPhysical } from './views/qol/qolPhysical';
+import { qolQuestion } from './views/qol/qolQuestion';
 
 const CreateJournalCancelTransition: StateTransition<States> = {
     target: States.Home,
@@ -346,7 +346,7 @@ export const MasloScenario: GlobalScenario<States> = {
     },
 
     [States.qol_Physical]: {
-        view: qolPhysical,
+        view: qolQuestion,
         exit: [
             { target: States.Home, trigger: [Triggers.Cancel] },
         ]
