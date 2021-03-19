@@ -342,11 +342,11 @@ export const MasloScenario: GlobalScenario<States> = {
         view: qolStartView,
         exit: [
             { target: States.Home, trigger: [Triggers.Cancel] },
-            { target: States.qol_Physical, trigger: [Triggers.Submit] },
+            { target: States.qol_Question, trigger: [Triggers.Submit] },
         ]
     },
 
-    [States.qol_Physical]: {
+    [States.qol_Question]: {
         view: qolQuestion,
         exit: [
             { target: States.Home, trigger: [Triggers.Cancel] },
