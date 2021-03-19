@@ -1,7 +1,5 @@
 // todo: domains array?
 
-export const QUESTIONS_COUNT = 50;
-
 export const SurveyQuestions  = [
     "Had plenty of energy",
     "Had the right amount of exercise for me",
@@ -63,7 +61,7 @@ export const SurveyQuestions  = [
     "Had a clear idea of what I want and don’t want",
     "Had control over my life",
 
-    /* Work and study questions:
+    /* Work and study:
     "Been confident in my abilities at work",
     "Met demands at work",
     "Been satisfied with the quality of my work",
@@ -75,3 +73,5 @@ export const SurveyQuestions  = [
     "Organized my educational activities adequately",
     */
 ];
+
+export const QUESTIONS_COUNT = SurveyQuestions.length; // 48
