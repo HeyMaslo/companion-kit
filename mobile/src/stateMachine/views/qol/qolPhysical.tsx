@@ -1,10 +1,11 @@
 import { ViewState } from '../base';
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native';
 import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import Colors from '../../../constants/colors';
+import QOLSurveyViewModel from "../../../viewModels/QoLViewModel";
 
 import { styles } from 'react-native-markdown-renderer';
 
@@ -17,13 +18,21 @@ export class qolPhysical extends ViewState {
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -15, transition: { duration: 1 }, scale: 0.8 });
     }
 
+    private readonly model = new QOLSurveyViewModel();
+
     async start() {}
 
     private cancel = () => {
         this.trigger(ScenarioTriggers.Cancel);
     }
 
-    onClose = (): void | Promise<void> => this.runLongOperation(async () => {
+    private nextQuestion = () => {
+        if (this.model.getQuestionNum != (this.model.numQuestions - 1)) {
+            this.model.nextQuestion();
+        }
+    }
+
+    private onClose = (): void | Promise<void> => this.runLongOperation(async () => {
         this.showModal({
             title: `Do you really want to stop the survey? Your progress will not be saved.`,
             primaryButton: {
@@ -45,18 +54,18 @@ export class qolPhysical extends ViewState {
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
                 <Container style={[{ height: this._contentHeight, paddingTop: 90, paddingBottom: 15 }]}>
                     <View style={{alignItems: 'center', width: '100%'}}>
-                        <Text style={this.textStyles.p3}>1 of 50</Text>
+                        <Text style={this.textStyles.p3}>{this.model.getQuestionNum+1} of {this.model.numQuestions}</Text>
                     </View>
-                    <Text style={{...this.textStyles.p3, marginTop: '10%'}}>OVER THE LAST 7 DAYS I HAVE...</Text>
-                    <View style={{alignItems: 'center', width: '100%'}}>
-                        <Text style={[this.textStyles.h1, {marginVertical: '6%'}]}>Had plenty of energy</Text>
+                    <Text style={{...this.textStyles.p3, marginTop: '8%'}}>OVER THE LAST 7 DAYS I HAVE...</Text>
+                    <View style={styles.question}>
+                        <Text style={[this.textStyles.h2, {marginVertical: '6%', textAlign: "center"}]}>{this.model.getQuestion}</Text>
                     </View>
                     <View style={styles.buttonContainer}>
-                            <Button title="STRONGLY AGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true}></Button>
-                            <Button title="AGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true}></Button>
-                                    <Button title="NEUTRAL" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true}></Button>
-                            <Button title="DISAGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true}></Button>
-                            <Button title="STRONGLY DISAGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true}></Button>
+                            <Button title="STRONGLY AGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion()}></Button>
+                            <Button title="AGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion()}></Button>
+                                    <Button title="NEUTRAL" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion()}></Button>
+                            <Button title="DISAGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion()}></Button>
+                            <Button title="STRONGLY DISAGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion()}></Button>
                     </View>
                 </Container>
             </MasloPage>
@@ -70,15 +79,19 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         alignItems: 'center',
-        width: '100%',
-        height: '72%',
+        width: Dimensions.get('window').width,
+        height: '60%',
         justifyContent: 'space-between',
-        paddingBottom: 40,
-        marginTop: 20
+        position: "absolute",
+        bottom: 30,
     },
     buttons: {
-        height: 60,
-        width: '90%',
+        height: 58,
+        width: '88%',
         backgroundColor: Colors.survey.btnBackgroundColor,
+    },
+    question: {
+        alignItems: 'center',
+        width: '100%',
     }
 });
