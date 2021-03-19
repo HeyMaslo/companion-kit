@@ -39,16 +39,23 @@ export interface IAuthController {
 
     getEmailAuthMethod(email: string): Promise<AuthProviders[]>;
     getHasAccount(email: string): Promise<boolean>;
+    hasAccount(email: string): Promise<boolean>;
 
+    validateCode(email: string, code: string): Promise<{ result: boolean }>;
     signInWithEmailLink(email: string, reason: MagicLinkRequestReasons): Promise<void>;
     signInWithEmailPassword(email: string, password: string): Promise<void>;
     createAccountForEmailAndPassword(email: string, password: string): Promise<void>;
+    resetPassword(email: string, newPassword: string): Promise<{ result: boolean }>;
+    createAccountForEmailAfterVerificationCode(email: string): Promise<{ result: boolean }>;
+    sendVerificationCodeByEmail(email: string): Promise<{ result: boolean } | 'noInvitation'>;
+    signInWithEmailOnly(email: string): Promise<{ result: boolean }>;
 
     signInWithGoogle(): Promise<boolean>;
 
     signOut(): Promise<void>;
 
     updatePassword(password: string, oldPassword?: string): Promise<AuthResult>;
+    updatePasswordWithEmail(email: string, password: string, oldPassword?: string): Promise<AuthResult>;
 
     devLogin(email: string): Promise<void>;
 
