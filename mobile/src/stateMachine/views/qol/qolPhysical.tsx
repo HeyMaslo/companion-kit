@@ -26,6 +26,7 @@ export class qolPhysical extends ViewState {
         this.trigger(ScenarioTriggers.Cancel);
     }
 
+    // todo: add UI to show when a response is pressed
     private nextQuestion = () => {
         if (this.model.getQuestionNum != (this.model.numQuestions - 1)) {
             this.model.nextQuestion();
