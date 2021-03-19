@@ -26,10 +26,17 @@ export class qolQuestion extends ViewState {
         this.trigger(ScenarioTriggers.Cancel);
     }
 
+    private finish = () => {
+        this.trigger(ScenarioTriggers.Submit);
+    }
+
     // todo: add UI to show when a response is pressed
+    // todo: add encouragement interlude
     private nextQuestion = () => {
         if (this.model.getQuestionNum != (this.model.numQuestions - 1)) {
             this.model.nextQuestion();
+        } else {
+            this.finish();
         }
     }
 

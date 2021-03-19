@@ -34,6 +34,7 @@ import { GoalsView } from './views/main/goals';
 import { RewardsView } from './views/rewardsView';
 import { RecordPitureCheckinView } from './views/checkin/recordPictureCheckIn';
 import { qolStartView } from './views/qol/startQOL';
+import { qolEndView } from './views/qol/endQOL';
 
 import Triggers = ScenarioTriggers;
 import { qolQuestion } from './views/qol/qolQuestion';
@@ -349,6 +350,14 @@ export const MasloScenario: GlobalScenario<States> = {
         view: qolQuestion,
         exit: [
             { target: States.Home, trigger: [Triggers.Cancel] },
+            { target: States.End_Qol, trigger: [Triggers.Submit] },
         ]
-    }
+    },
+
+    [States.End_Qol]: {
+        view: qolEndView,
+        exit: [
+            { target: States.Home, trigger: [Triggers.Cancel] },
+        ]
+    },
 };
