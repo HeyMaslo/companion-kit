@@ -60,13 +60,14 @@ export class qolQuestion extends ViewState {
         // TODO: see if there are styles in basestyles that work
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
-                <Container style={[{ height: this._contentHeight, paddingTop: 90, paddingBottom: 15 }]}>
-                    <View style={{alignItems: 'center', width: '100%'}}>
+                <Container style={[{ height: this._contentHeight, paddingTop: 40, paddingBottom: 15 }]}>
+                    <Text style={{marginLeft: '75%'}}>label</Text>
+                    <View style={{alignItems: 'center', width: '100%', marginTop: '4%'}}>
                         <Text style={this.textStyles.p3}>{this.model.getQuestionNum+1} of {this.model.numQuestions}</Text>
                     </View>
                     <Text style={{...this.textStyles.p3, marginTop: '8%'}}>OVER THE LAST 7 DAYS I HAVE...</Text>
                     <View style={styles.question}>
-                        <Text style={[this.textStyles.h2, {marginVertical: '6%', textAlign: "center"}]}>{this.model.getQuestion}</Text>
+                        <Text style={[this.textStyles.h2, {marginVertical: '5%', textAlign: "center"}]}>{this.model.getQuestion}</Text>
                     </View>
                     <View style={styles.buttonContainer}>
                             <Button title="STRONGLY AGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion()}></Button>
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
         bottom: 30,
     },
     buttons: {
-        height: 58,
+        height: 60,
         width: '88%',
         backgroundColor: Colors.survey.btnBackgroundColor,
     },
