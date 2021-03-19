@@ -40,8 +40,8 @@ Clone the respository and ensure you have the requirements below:
 	GOOGLE_APPLICATION_CREDENTIALS=/path/to/json/credentials
 	```
 	(we will fill in the path in the next step)
-6. Go to the Google Cloud Platform [here](https://console.cloud.google.com/iam-admin/serviceaccounts?project=bipolarbridges). On the "App Engine default service account", click the three dots, select "Create key", and download the json file. Fill in the path to this downloaded file in the `.env` from the previous step.
 
+6. Go to the Google Cloud Platform [here](https://console.cloud.google.com/iam-admin/serviceaccounts?project=bipolarbridges). On the "App Engine default service account", click the three dots, select "Create key", and download the json file. Fill in the path to this downloaded file in the `.env` from the previous step.
 ## Running and Deploying the App
 
 ### Run Mobile Apps Locally
