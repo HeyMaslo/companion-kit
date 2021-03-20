@@ -9,16 +9,17 @@ export const FeatureSettings: Record<Environments, FeaturesSettingsType> = {
             SessionsDisabled: true,
             DocumentsEnabled: true,
             CaretakersEnabled: true,
-            FreeAccessForNewUsers: false,
+            FreeAccessForNewUsers: true,
             EditablePrompts: true,
-            Interventions: true,
+            Interventions: false,
             ScheduleEvents: true,
             MobileStandalone: false,
             ExportToBQ: true,
             TimeTrackingEnabled: true,
             Goals: true,
             SendSmsOnTriggerPhrases: true,
-            PicturesCheckInsEnabled: true,
+            PicturesCheckInsEnabled: false,
+            UseMagicLink: false,
         };
     },
     get staging() { return FeatureSettings.production; },
@@ -29,6 +30,7 @@ export const EmailSettings: Record<Environments, EmailSettingsType> = {
         return {
             projectName: '${EMAIL_PROJECT_NAME}',
             sendgridTemplateId: '${EMAIL_SENDGRID_TEMPLATE_ID}',
+            sendgridVerificationCodeTemplateId: '${EMAIL_SENDGRID_VERIFICATION_TEMPLATE_ID}',
             fromAddress: '${EMAIL_FROM_ADDRESS}',
             adminEmail: '${EMAIL_ADMIN_EMAIL}',
         };
@@ -38,6 +40,7 @@ export const EmailSettings: Record<Environments, EmailSettingsType> = {
             ...EmailSettings.production,
             projectName: '${EMAIL_PROJECT_NAME_PRODUCTION}',
             sendgridTemplateId: '${EMAIL_SENDGRID_TEMPLATE_ID}',
+            sendgridVerificationCodeTemplateId: '${EMAIL_SENDGRID_VERIFICATION_TEMPLATE_ID}',
         };
     },
 };
