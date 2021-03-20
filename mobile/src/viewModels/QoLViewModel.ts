@@ -33,6 +33,8 @@ export default class QOLSurveyViewModel {
 
     public numQuestions: number = QUESTIONS_COUNT;
 
+    public domainQuestions: number = DOMAIN_QUESTION_COUNT;
+
     constructor() {
         this._questionNum = 0;
         this._domainNum = 0;
