@@ -6,6 +6,7 @@ import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import Colors from '../../../constants/colors';
 import QOLSurveyViewModel from "../../../viewModels/QoLViewModel";
+import TextStyles from '../../../../src/styles/TextStyles';
 
 import { styles } from 'react-native-markdown-renderer';
 
@@ -62,7 +63,7 @@ export class qolQuestion extends ViewState {
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
                 <Container style={[{ height: this._contentHeight, paddingTop: 40, paddingBottom: 15 }]}>
-                    <Text style={{marginLeft: '75%'}}>{this.model.getDomain}</Text>
+                    <Text style={{marginLeft: '70%', fontFamily: TextStyles.labelMedium.fontFamily}}>{this.model.getDomain}</Text>
                     <View style={{alignItems: 'center', width: '100%', marginTop: '4%'}}>
                         <Text style={this.textStyles.p3}>{this.model.getQuestionNum+1} of {this.model.numQuestions}</Text>
                     </View>
