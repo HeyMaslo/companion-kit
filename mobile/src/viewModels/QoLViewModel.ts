@@ -1,10 +1,3 @@
-// this model will hold the state of the screen
-// todo: create data structure to hold responses
-
-/* Notes:
-    - will add controller layer after (this will store things I believe - more backend, while model is more state)
-*/
-
 import { reaction, transaction, observable, computed, toJS } from 'mobx';
 // import { asyncComputed } from 'computed-async-mobx';
 // import { ClientJournalEntryIded } from 'common/models/ClientEntries';
@@ -13,7 +6,6 @@ import { reaction, transaction, observable, computed, toJS } from 'mobx';
 // import * as Functions from 'common/abstractions/functions';
 // import LocationsStrings from 'common/localization/LocationStrings';
 // import { safeCall } from 'common/utils/functions';
-// import AudioPlayerViewModel from 'src/viewModels/components/AudioPlayerViewModel';
 // import AppController from 'src/controllers';
 // import EnvConstants from 'src/constants/env';
 import { SurveyQuestions, Domains, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT } from "../constants/QoLSurvey";
