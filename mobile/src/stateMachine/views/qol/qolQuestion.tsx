@@ -1,7 +1,7 @@
 import { ViewState } from '../base';
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Animated } from 'react-native';
 import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import Colors from '../../../constants/colors';
@@ -14,6 +14,11 @@ const minContentHeight = 560;
 
 @observer
 export class qolQuestion extends ViewState {
+
+    labelState = {
+        opacity: new Animated.Value(0),
+    }
+
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -15, transition: { duration: 1 }, scale: 0.8 });
@@ -21,7 +26,13 @@ export class qolQuestion extends ViewState {
 
     private readonly model = new QOLSurveyViewModel();
 
-    async start() {}
+    async start() {
+        Animated.timing(this.labelState.opacity, {
+            toValue: 1,
+            delay: 450,
+            duration: 500,
+        }).start();
+    }
 
     private cancel = () => {
         this.trigger(ScenarioTriggers.Cancel);
@@ -31,13 +42,34 @@ export class qolQuestion extends ViewState {
         this.trigger(ScenarioTriggers.Submit);
     }
 
+    private isNextDomain = (currQuestion) => {
+        return (currQuestion + 1) % (this.model.domainQuestions) === 1 && (currQuestion !== 1);
+    }
+
+    private animateDomainChange = () => {
+        Animated.timing(this.labelState.opacity, {
+            toValue: 0,
+            delay: 0,
+            duration: 20,
+        }).start(() => {
+            this.model.nextQuestion();
+            this.persona.view = {...this.persona.view, rotation: (this.persona.view.rotation + 30), transition: {duration: 1}};
+            Animated.timing(this.labelState.opacity, {
+                toValue: 1,
+                delay: 200,
+                duration: 900,
+            }).start();
+        });        
+    }
+
     // todo: add UI to show when a response is pressed
     // todo: add encouragement interlude
     private nextQuestion = () => {
         if (this.model.getQuestionNum != (this.model.numQuestions - 1)) {
-            this.model.nextQuestion();
-            if ((this.model.getQuestionNum + 1) % (this.model.domainQuestions) === 1 && (this.model.getQuestionNum !== 1)) {
-                this.persona.view = {...this.persona.view, rotation: (this.persona.view.rotation + 30)};
+            if (this.isNextDomain(this.model.getQuestionNum + 1)) { 
+                this.animateDomainChange();
+            } else {
+                this.model.nextQuestion();
             }
         } else {
             this.finish();
@@ -65,8 +97,9 @@ export class qolQuestion extends ViewState {
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
                 <Container style={[{ height: this._contentHeight, paddingTop: 40, paddingBottom: 15 }]}>
-                    {/* todo: animate lable so it appears in*/}
-                    <Text style={{marginLeft: '70%', fontFamily: TextStyles.labelMedium.fontFamily}}>{this.model.getDomain}</Text>
+                    <Animated.View style={{opacity: this.labelState.opacity}}>
+                        <Text style={{marginLeft: '70%', fontFamily: TextStyles.labelMedium.fontFamily}}>{this.model.getDomain}</Text>
+                    </Animated.View>
                     <View style={{alignItems: 'center', width: '100%', marginTop: '4%'}}>
                         <Text style={this.textStyles.p3}>{this.model.getQuestionNum+1} of {this.model.numQuestions}</Text>
                     </View>
