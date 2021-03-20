@@ -68,6 +68,13 @@ export default class QOLSurveyViewModel {
         }
     }
 
+    public savePrevResponse(prevResponse: number): void {
+        const currDomain: string = this.getDomain;
+        const domainResponseIndex: number = this.getQuestionNum % DOMAIN_QUESTION_COUNT;
+        const domainResponseArray: number[] = this._surveyResponses[currDomain];
+        domainResponseArray[domainResponseIndex] = prevResponse;
+    }
+
 
 //     @computed
 //     get checkIn(): ClientJournalEntryIded {
