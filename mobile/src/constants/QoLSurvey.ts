@@ -10,7 +10,7 @@ export const Domains = [
     "HOME",
     "SELF-ESTEEM",
     "INDEPENDENCE",
-    "IDENITY",
+    "IDENTITY",
 ]
 
 export const DOMAIN_QUESTION_COUNT = 4;
