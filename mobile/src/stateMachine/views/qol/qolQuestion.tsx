@@ -62,7 +62,6 @@ export class qolQuestion extends ViewState {
         });        
     }
 
-    // todo: add UI to show when a response is pressed
     // todo: add encouragement interlude
     private nextQuestion = (prevResponse: number) => {
         this.model.savePrevResponse(prevResponse);
@@ -79,7 +78,7 @@ export class qolQuestion extends ViewState {
 
     private onClose = (): void | Promise<void> => this.runLongOperation(async () => {
         this.showModal({
-            title: `Do you really want to stop the survey? Your progress will not be saved.`,
+            title: `Do you really want to stop the survey? Your progress will be saved.`,
             primaryButton: {
                 text: 'yes, stop',
                 action: this.cancel,
