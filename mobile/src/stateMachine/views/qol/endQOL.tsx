@@ -14,8 +14,8 @@ const minContentHeight = 1000;
 export class qolEndView extends ViewState {
     constructor(props) {
         super(props);
-        this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { transition: { duration: 2.2 },
-            position: { x: this.persona.view.position.x, y: Layout.window.height*0.18} });
+        this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { transition: { duration: 2.2 }});
+        this.persona.view = {...this.persona.view, position: { x: this.persona.view.position.x, y: Layout.window.height*0.18} };
     }
 
     async start() {}

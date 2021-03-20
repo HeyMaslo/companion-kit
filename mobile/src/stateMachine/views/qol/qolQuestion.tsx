@@ -51,6 +51,7 @@ export class qolQuestion extends ViewState {
             toValue: 0,
             delay: 0,
             duration: 20,
+            useNativeDriver: true
         }).start(() => {
             this.model.nextQuestion();
             this.persona.view = {...this.persona.view, rotation: (this.persona.view.rotation + 30), transition: {duration: 1}};
@@ -58,6 +59,7 @@ export class qolQuestion extends ViewState {
                 toValue: 1,
                 delay: 200,
                 duration: 900,
+                useNativeDriver: true
             }).start();
         });        
     }
