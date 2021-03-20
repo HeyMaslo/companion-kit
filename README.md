@@ -1,14 +1,17 @@
-# Maslo Companion Kit
+# Bipolar Bridges Companion Kit
 
-The setup section below is the required steps to set up a local instance of this project. The subsequent section outlines how to run the applications and deploy new functionality to the firebase server after the project has been set up.
+This is a fork of [HeyMaslo/companion-kit](https://github.com/HeyMaslo/companion-kit) that is extended to include features specifically for the Bipolar Bridges project.
 
 ## Setup
+
+The steps below are required to set up a local instance of this project. The subsequent section outlines how to run the applications and deploy new functionality to the firebase server after the project has been set up.
 
 ### 1. Install Requirements
 
 Clone the respository and ensure you have the requirements below:
 
- * React Native CLI development environment for both iOS and Android (instructions [`here`](https://reactnative.dev/docs/environment-setup))
+ * React Native CLI development environment for both iOS and Android (Needed for running mobile apps. Xcode and Android studio must be installed in order to run iOS and android apps, respectively.)  
+ Instructions: [https://reactnative.dev/docs/environment-setup](https://reactnative.dev/docs/environment-setup)
 
  * Node.js 10 ([`nvm`](https://github.com/nvm-sh/nvm) is preferable)  
  To install:  ```nvm install 10```	
@@ -20,9 +23,8 @@ Clone the respository and ensure you have the requirements below:
  * React-native CLI  
  To install: ```npm i -g react-native-cli```
  
- * Firebase Tools:  
- To install: ```npm i -g firebase-tools```
-
+ * Firebase Tools (Needed to test and deploy firebase functions, dashboard etc.)  
+ To install: ```npm i -g react-native-cli```
 
 ### 2. Configure the Development Environment
 
@@ -34,18 +36,17 @@ Clone the respository and ensure you have the requirements below:
     ./bin/setup.bash
     ```
 5.  Now create `.env` in `./server/functions` with the following:
-
 	```
 	GOOGLE_APPLICATION_CREDENTIALS=/path/to/json/credentials
 	```
 	(we will fill in the path in the next step)
-6. Go to the Google Cloud Platform [here](https://console.cloud.google.com/iam-admin/serviceaccounts?project=bipolarbridges). On the "App Engine default service account", click the three dots, select "Create key", and download the json file. Fill in the path to this downloaded file in the `.env` from the previous step.
 
+6. Go to the Google Cloud Platform [here](https://console.cloud.google.com/iam-admin/serviceaccounts?project=bipolarbridges). On the "App Engine default service account", click the three dots, select "Create key", and download the json file. Fill in the path to this downloaded file in the `.env` from the previous step.
 ## Running and Deploying the App
 
 ### Run Mobile Apps Locally
 
-* **IOS**: To run project locally run `yarn ios` from the `./mobile` directory
+* **iOS**: To run project locally run `yarn ios` from the `./mobile` directory
 * **Android**: To run project locally the first time, open the android directory in android studio, sync with gradle and run the app. In subsequent runs, run `yarn android` from the `./mobile` directory
 
 ### Deploy Cloud Functionality

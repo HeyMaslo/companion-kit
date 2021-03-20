@@ -53,7 +53,7 @@ export default class SignInViewModel extends SignInViewModelBase {
                     'Forgot your password?',
                     {
                         text: 'Reset',
-                        submit: () => this.resetPassword(),
+                        submit: () => this.resetPasswordWeb(),
                     },
                 ],
             },
@@ -257,8 +257,8 @@ export default class SignInViewModel extends SignInViewModelBase {
         History.push(Routes.CheckYourEmail);
     }
 
-    private resetPassword = async () => {
-        const res = await this.forgotPassword();
+    private resetPasswordWeb = async () => {
+        const res = await this.forgotPasswordWeb();
         if (res) {
             History.push(Routes.CheckYourEmail_PasswordReset);
         }

@@ -17,7 +17,7 @@ import { sendEmail, EmailsScheme } from './services/emails';
 import { getDashboardLink, getActionCodeSettings } from './services/dynamicLinks';
 import { generateAuthToken } from './services/generateToken';
 import NamesHelper from 'common/utils/nameHelper';
-import { FeatureSettings, AllowedForceLoginEmails } from './services/config';
+import { FeatureSettings, AllowedForceLoginEmails, EmailSettings } from './services/config';
 import AppHttpError from './utils/AppHttpError';
 import { createLogger } from 'common/logger';
 
@@ -52,6 +52,26 @@ export const AuthEndpoint = new FunctionFactory(UsersFunctions.AuthEndpoint)
                 return getMagicLigURL(data);
             }
 
+            case AuthActionTypes.SendVerificationCodeEmail: {
+                return sendVerificationCodeByEmail(data);
+            }
+
+            case AuthActionTypes.ValidateCode: {
+                return validateCode(data);
+            }
+
+            case AuthActionTypes.ResetPassword: {
+                return resetPassword(data);
+            }
+
+            case AuthActionTypes.GenerateToken: {
+                return generateToken(data);
+            }
+
+            case AuthActionTypes.HasAccount: {
+                return hasAccount(data);
+            }
+
             default: {
                 return {
                     error: 'Unknown action type',
@@ -61,6 +81,83 @@ export const AuthEndpoint = new FunctionFactory(UsersFunctions.AuthEndpoint)
         }
 
     });
+
+async function hasAccount(data: { email: string }): Promise<{ result: boolean }> {
+    try {
+        const user = await admin.auth().getUserByEmail(data.email);
+        return { result: !!user };
+    } catch (error) {
+        return { result: false };
+    }
+}
+
+async function generateToken(data: { email: string }): Promise<{ result: boolean, token?: string }> {
+    const user = await admin.auth().getUserByEmail(data.email);
+
+    if (!user) {
+        return { result: false };
+    }
+
+    const token = await generateAuthToken(data.email);
+
+    if (!token) {
+        return { result: false };
+    }
+
+    return { result: true, token };
+}
+
+async function resetPassword(data: { email: string, newPassword: string }): Promise<{ result: boolean }> {
+    const user = await admin.auth().getUserByEmail(data.email);
+
+    const updateResult = await admin.auth().updateUser(user.uid, {
+        password: data.newPassword,
+        emailVerified: true,
+    });
+
+    return { result: !!updateResult };
+}
+
+async function validateCode(data: { email: string, code: string }): Promise<{ result: boolean }> {
+    const invite = await Repo.Invites.getInvite(data.email);
+
+    if (!invite || !data.code) {
+        return { result: false };
+    }
+
+    return { result: invite.verificationCode === data.code };
+}
+
+async function sendVerificationCodeByEmail(data: { email: string }): Promise<{ result: boolean, verificationCode: string } | 'noInvitation'> {
+    let mailData: EmailsScheme.ClientVerificationCode;
+
+    const requestReason = MagicLinkRequestReasons.SignIn;
+    const subject = EmailsScheme.EmailSubjects.getByMagicLinkReason(requestReason);
+
+    const invite = await Repo.Invites.getInvite(data.email);
+
+    if (!invite) {
+        return 'noInvitation';
+    }
+    const verificationCode = `${Math.floor(100000 + Math.random() * 900000)}`;
+    await Repo.Invites.udpate(data.email, { verificationCode });
+
+    mailData = {
+        subject,
+        templateSignInClient: {
+            verificationCode: verificationCode,
+            projectName: EmailSettings.projectName,
+        },
+    };
+
+    await sendEmail({
+        to: data.email,
+        data: mailData,
+        templateId: EmailSettings.sendgridVerificationCodeTemplateId,
+    });
+
+    return { result: true, verificationCode };
+}
 
 async function getUserByEmail(data: { email: string }): Promise<UserProfileIded> {
     const email = prepareEmail(data.email);
@@ -101,7 +198,7 @@ async function checkInvite(data: CheckInviteRequest): Promise<BaseResponse | { t
         || !Invitation.isValid(invite)
         || !invite.role
         || !UserRoles.Helper.contains(invite.role, data.role)
-        || invite?.signInKey !== data.key
+        || (!data.useVerificationCode && invite?.signInKey !== data.key)
     ) {
         return { result: false };
     }

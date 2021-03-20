@@ -24,6 +24,9 @@ export abstract class SignInViewModelBase {
     @observable
     private _needsOldPassword: boolean = null;
 
+    @observable
+    protected _isResettingPassword: boolean = false;
+
     protected isSettingNewPassword = false;
 
     readonly email = new TextInputVM({
@@ -50,6 +53,7 @@ export abstract class SignInViewModelBase {
     get error() { return this._error; }
     get inProgress() { return this._inProgress; }
     get needsOldPassword() { return this._needsOldPassword; }
+    get isResettingPassword() { return this._isResettingPassword; }
 
     protected validatePassword(val: string): Validations.ValidationErrors {
         return this.isSettingNewPassword
@@ -98,7 +102,7 @@ export abstract class SignInViewModelBase {
         return authProviders;
     }
 
-    public forgotPassword = async () => {
+    public forgotPasswordWeb = async () => {
         if (this._inProgress) {
             return false;
         }
@@ -115,6 +119,30 @@ export abstract class SignInViewModelBase {
         } finally {
             this._inProgress = false;
         }
+    }
+
+    public forgotPassword = async () => {
+        if (this._inProgress) {
+            return false;
+        }
+
+        // WARNING this assumed to be called only when email address is validated already
+        this._error = null;
+        this._inProgress = true;
+        try {
+            if (process.appFeatures.USE_MAGIC_LINK) {
+                await this.Auth.signInWithEmailLink(this.email.value, MagicLinkRequestReasons.PasswordReset);
+                return true;
+            }
+            this._isResettingPassword = true;
+            const data = await this.Auth.sendVerificationCodeByEmail(this.email.value);
+            return data;
+        } catch (err) {
+            this._error = err.message;
+        } finally {
+            this._inProgress = false;
+        }
+        return false;
     }
 
     public signInWithPassword = async (): Promise<boolean> => {
@@ -140,6 +168,34 @@ export abstract class SignInViewModelBase {
         } finally {
             this._inProgress = false;
         }
+    }
+
+    public signInWithEmailOnly = async () => {
+        if (!await this.email.validate()) {
+            return 'invalidEmail';
+        }
+        
+        const email = prepareEmail(this.email.value);
+
+        const data = await this.Auth.signInWithEmailOnly(email);
+
+        return data;
+    } 
+
+    public sendVerificationCodeByEmail = async (): Promise<{ result: boolean } | 'noInvitation' | 'usePassword' | 'invalidEmail'> => {
+        if (!await this.email.validate()) {
+            return 'invalidEmail';
+        }
+
+        const email = prepareEmail(this.email.value);
+
+        const accountStatus = await this.getHasAccount();
+
+        if (Array.isArray(accountStatus) && accountStatus.length > 0) {
+            return 'usePassword';
+        }
+
+        return await this.Auth.sendVerificationCodeByEmail(email);
     }
 
     public signInWithMagicLink = async (force = false): Promise<boolean | 'usePassword' | 'noaccount' | 'devLogin'> => {
@@ -187,6 +243,16 @@ export abstract class SignInViewModelBase {
         }
     }
 
+    public resetPassword = async () => {
+        const data = await this.Auth.resetPassword(this.email.value, this.password.value);
+
+        if (data && data.result) {
+            this._isResettingPassword = false;
+        }
+
+        return data;
+    }
+
     public updatePassword = async (allowOldPassword = true) => {
         this._error = null;
         this._inProgress = true;
@@ -214,7 +280,8 @@ export abstract class SignInViewModelBase {
                 ? this.password.value
                 : null;
 
-            const resp = await this.Auth.updatePassword(newPassword, oldPassword);
+            const resp = await this.Auth.updatePasswordWithEmail(this.email.value, newPassword, oldPassword);
+
             if (resp.result === false) {
                 if (resp.error === AuthErrors.NeedsReauthentication) {
                     if (this.Auth.needsCreatePassword === true) {

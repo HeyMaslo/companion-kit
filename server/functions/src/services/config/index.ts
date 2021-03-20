@@ -69,4 +69,5 @@ process.appFeatures = {
     COACH_TIME_TRACKING_ENABLED: FeatureSettings.TimeTrackingEnabled,
     NOTES_ON_INDIVIDUALS: undefined,
     PICTURE_CHECKINS_ENABLED: FeatureSettings.PicturesCheckInsEnabled,
+    USE_MAGIC_LINK: FeatureSettings.UseMagicLink,
 };
