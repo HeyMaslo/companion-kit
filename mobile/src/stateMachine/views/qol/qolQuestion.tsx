@@ -35,6 +35,7 @@ export class qolQuestion extends ViewState {
     private nextQuestion = () => {
         if (this.model.getQuestionNum != (this.model.numQuestions - 1)) {
             this.model.nextQuestion();
+            // todo: rotate orb
         } else {
             this.finish();
         }
@@ -61,7 +62,7 @@ export class qolQuestion extends ViewState {
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
                 <Container style={[{ height: this._contentHeight, paddingTop: 40, paddingBottom: 15 }]}>
-                    <Text style={{marginLeft: '75%'}}>label</Text>
+                    <Text style={{marginLeft: '75%'}}>{this.model.getDomain}</Text>
                     <View style={{alignItems: 'center', width: '100%', marginTop: '4%'}}>
                         <Text style={this.textStyles.p3}>{this.model.getQuestionNum+1} of {this.model.numQuestions}</Text>
                     </View>

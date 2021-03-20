@@ -1,9 +1,7 @@
 // this model will hold the state of the screen
-// todo: create functionality for "next" when an option is pressed that will update the view
 // todo: create data structure to hold responses
 
 /* Notes:
-    - may need to add mobx @ tags in the view so that it will re-render when the state is changed
     - will add controller layer after (this will store things I believe - more backend, while model is more state)
 */
 
@@ -14,17 +12,11 @@ import { reaction, transaction, observable, computed, toJS } from 'mobx';
 // import Firebase from 'common/services/firebase';
 // import * as Functions from 'common/abstractions/functions';
 // import LocationsStrings from 'common/localization/LocationStrings';
-// import { getTimeSafe, months } from 'common/utils/dateHelpers';
 // import { safeCall } from 'common/utils/functions';
-// import { SpeechRecognition, JournalRecordDataIded, Moods, TipsLabels, WordReference } from 'common/models';
-// import logger from 'common/logger';
 // import AudioPlayerViewModel from 'src/viewModels/components/AudioPlayerViewModel';
 // import AppController from 'src/controllers';
 // import EnvConstants from 'src/constants/env';
-// import { google } from '@google-cloud/vision/build/protos/protos';
-// import vision = google.cloud.vision;
-// import { VisionRecognition } from 'common/models/VisionRecognition';
-import { SurveyQuestions, QUESTIONS_COUNT } from "../constants/QoLSurvey";
+import { SurveyQuestions, Domains, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT } from "../constants/QoLSurvey";
 import { createLogger } from 'common/logger';
 
 export const logger = createLogger('[QOLModel]');
@@ -34,21 +26,43 @@ export default class QOLSurveyViewModel {
     @observable
     private _questionNum: number;
 
+    @observable
+    private _domainNum: number;
+
+    private _surveyResponses: any;
+
     public numQuestions: number = QUESTIONS_COUNT;
 
     constructor() {
         this._questionNum = 0;
+        this._domainNum = 0;
+        const surveyResponses = {};
+
+        for (let domain of Domains) {
+            surveyResponses[domain] = new Array(DOMAIN_QUESTION_COUNT).fill(0);
+        }
+
+        this._surveyResponses = surveyResponses;
     }
 
     @computed
     get getQuestionNum(): number { return this._questionNum; }
 
     @computed
+    get getDomainNum(): number { return this._domainNum; }
+
+    @computed
     get getQuestion(): string { return SurveyQuestions[this._questionNum]; }
+
+    @computed
+    get getDomain(): string { return Domains[this._domainNum]; }
 
     public nextQuestion(): void {
         if (!((this._questionNum + 1) > (QUESTIONS_COUNT - 1))) {
             this._questionNum++;
+            if ((this._questionNum + 1) % (DOMAIN_QUESTION_COUNT) === 1) {
+                this._domainNum++;
+            }
         }
     }
 
