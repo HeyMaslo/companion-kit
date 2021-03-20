@@ -1,17 +1,19 @@
 export const Domains = [
-    "Physical",
-    "Sleep",
-    "Mood",
-    "Cognition",
-    "Leisure",
-    "Relationships",
-    "Spiritual",
-    "Money",
-    "Home",
-    "Self-esteem",
-    "Independence",
-    "Identity",
+    "PHYSICAL",
+    "SLEEP",
+    "MOOD",
+    "COGNITION",
+    "LEISURE",
+    "RELATIONSHIPS",
+    "SPIRITUAL",
+    "MONEY",
+    "HOME",
+    "SELF-ESTEEM",
+    "INDEPENDENCE",
+    "IDENITY",
 ]
+
+export const DOMAIN_QUESTION_COUNT = 4;
 
 export const SurveyQuestions  = [
     "Had plenty of energy",
