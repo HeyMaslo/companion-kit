@@ -4,9 +4,12 @@ import { observer } from 'mobx-react';
 import { StyleSheet, Text, View } from 'react-native';
 import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
-
+import { createLogger } from 'common/logger';
 import { styles } from 'react-native-markdown-renderer';
 import Layout from 'src/constants/Layout';
+import AppViewModel from 'src/viewModels';
+
+export const logger = createLogger('[endQOL]');
 
 const minContentHeight = 1000;
 
@@ -18,7 +21,13 @@ export class qolEndView extends ViewState {
         this.persona.view = {...this.persona.view, position: { x: this.persona.view.position.x, y: Layout.window.height*0.18} };
     }
 
-    async start() {}
+    public get viewModel() {
+        return AppViewModel.Instance.QOL;
+    }
+
+    async start() {
+        logger.log(this.viewModel.getSurveyResponses);
+    }
 
     private cancel = () => {
         this.trigger(ScenarioTriggers.Cancel);

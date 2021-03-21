@@ -1,5 +1,6 @@
 import { ViewState } from '../base';
 import React from 'react';
+import AppViewModel from 'src/viewModels';
 import { observer } from 'mobx-react';
 import { StyleSheet, Text, View, Dimensions, Animated } from 'react-native';
 import { MasloPage, Container, Button } from 'src/components';
@@ -24,13 +25,16 @@ export class qolQuestion extends ViewState {
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -15, transition: { duration: 1 }, scale: 0.8 });
     }
 
-    private readonly model = new QOLSurveyViewModel();
+    public get viewModel() {
+        return AppViewModel.Instance.QOL;
+    }
 
     async start() {
         Animated.timing(this.labelState.opacity, {
             toValue: 1,
             delay: 450,
             duration: 500,
+            useNativeDriver: true
         }).start();
     }
 
@@ -43,7 +47,7 @@ export class qolQuestion extends ViewState {
     }
 
     private isNextDomain = (currQuestion: number) => {
-        return (currQuestion + 1) % (this.model.domainQuestions) === 1 && (currQuestion !== 1);
+        return (currQuestion + 1) % (this.viewModel.domainQuestions) === 1 && (currQuestion !== 1);
     }
 
     private animateDomainChange = () => {
@@ -53,7 +57,7 @@ export class qolQuestion extends ViewState {
             duration: 20,
             useNativeDriver: true
         }).start(() => {
-            this.model.nextQuestion();
+            this.viewModel.nextQuestion();
             this.persona.view = {...this.persona.view, rotation: (this.persona.view.rotation + 30), transition: {duration: 1}};
             Animated.timing(this.labelState.opacity, {
                 toValue: 1,
@@ -66,12 +70,12 @@ export class qolQuestion extends ViewState {
 
     // todo: add encouragement interlude
     private nextQuestion = (prevResponse: number) => {
-        this.model.savePrevResponse(prevResponse);
-        if (this.model.getQuestionNum != (this.model.numQuestions - 1)) {
-            if (this.isNextDomain(this.model.getQuestionNum + 1)) { 
+        this.viewModel.savePrevResponse(prevResponse);
+        if (this.viewModel.getQuestionNum != (this.viewModel.numQuestions - 1)) {
+            if (this.isNextDomain(this.viewModel.getQuestionNum + 1)) { 
                 this.animateDomainChange();
             } else {
-                this.model.nextQuestion();
+                this.viewModel.nextQuestion();
             }
         } else {
             this.finish();
@@ -100,14 +104,14 @@ export class qolQuestion extends ViewState {
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
                 <Container style={[{ height: this._contentHeight, paddingTop: 40, paddingBottom: 15 }]}>
                     <Animated.View style={{opacity: this.labelState.opacity}}>
-                        <Text style={{marginLeft: '70%', fontFamily: TextStyles.labelMedium.fontFamily}}>{this.model.getDomain}</Text>
+                        <Text style={{marginLeft: '70%', fontFamily: TextStyles.labelMedium.fontFamily}}>{this.viewModel.getDomain}</Text>
                     </Animated.View>
                     <View style={{alignItems: 'center', width: '100%', marginTop: '4%'}}>
-                        <Text style={this.textStyles.p3}>{this.model.getQuestionNum+1} of {this.model.numQuestions}</Text>
+                        <Text style={this.textStyles.p3}>{this.viewModel.getQuestionNum+1} of {this.viewModel.numQuestions}</Text>
                     </View>
                     <Text style={{...this.textStyles.p3, marginTop: '8%'}}>OVER THE LAST 7 DAYS I HAVE...</Text>
                     <View style={styles.question}>
-                        <Text style={[this.textStyles.h2, {marginVertical: '5%', textAlign: "center"}]}>{this.model.getQuestion}</Text>
+                        <Text style={[this.textStyles.h2, {marginVertical: '5%', textAlign: "center"}]}>{this.viewModel.getQuestion}</Text>
                     </View>
                     <View style={styles.buttonContainer}>
                             <Button title="STRONGLY AGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion(5)}></Button>

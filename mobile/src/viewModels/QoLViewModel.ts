@@ -51,6 +51,8 @@ export default class QOLSurveyViewModel {
     @computed
     get getDomain(): string { return Domains[this._domainNum]; }
 
+    get getSurveyResponses(): any { return this._surveyResponses; }
+
     public nextQuestion(): void {
         if (!((this._questionNum + 1) > (QUESTIONS_COUNT - 1))) {
             this._questionNum++;
