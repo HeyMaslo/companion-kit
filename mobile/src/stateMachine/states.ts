@@ -62,4 +62,5 @@ export enum States {
 
     // LIFE DOMAINS block
     Choose_Domain,
+    Domain_Details,
 }

@@ -16,6 +16,13 @@ const minContentHeight = 300;
 const { width } = Dimensions.get('window');
 const date = new Date();
 const today = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+const domains = ['','DOMAIN1', 'DOMAIN2', 'DOMAIN3',''];
+const content = [
+    "DOMANIN1 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod", 
+    "DOMAIN2 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
+    "DOMAIN3 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "it in volutate velit esse cillum dolore eu fugiat nulla pariatur."
+];
 
 @observer
 export class ChooseDomainView extends ViewState {
@@ -32,8 +39,11 @@ export class ChooseDomainView extends ViewState {
         translateX: new Animated.Value(0),
         translateXTabTwo: new Animated.Value(width),
         translateXTabOne: new Animated.Value(0),
-        translateY: -1000,
+        translateY: 0,
         xDomain: 0,
+        domain: 2,
+        lDomain: 1,
+        rDomain: 3,
     }
 
     handleSlide = type => {
@@ -69,14 +79,6 @@ export class ChooseDomainView extends ViewState {
 
     }
 
-    handleDomainSwitch = type => {
-        let {xDomain, xTabTwo, active, translateX, translateXTabTwo, translateXTabOne } = this.state
-        Animated.spring(translateX, {
-            toValue: xDomain,
-            useNativeDriver: true,
-        }).start()
-    }
-
     async start() {}
 
     private cancel = () => {
@@ -85,7 +87,7 @@ export class ChooseDomainView extends ViewState {
 
     onClose = (): void | Promise<void> => this.runLongOperation(async () => {
         this.showModal({
-            title: `Do you really want to stop the survey? Your progress will not be saved.`,
+            title: `Do you really want to stop? Your progress will not be saved.`,
             primaryButton: {
                 text: 'yes, stop',
                 action: this.cancel,
@@ -97,18 +99,24 @@ export class ChooseDomainView extends ViewState {
         });
     })
 
+    onDetails = () => {
+        this.trigger(ScenarioTriggers.Submit);
+    }
+
 
 
 
     renderContent() {
-        let {xTabOne, xTabTwo, active, translateX, translateXTabTwo, translateXTabOne, translateY, xDomain } = this.state
+        let {xTabOne, xTabTwo, active, translateX, translateXTabTwo, translateXTabOne, translateY, xDomain, lDomain, rDomain, domain } = this.state
+        // let mainDomain, leftDomain, rightDomain = 0;
         // TODO: put styles in style sheet and abstract common styles
         // TODO: see if there are styles in basestyles that work
+        this.logger.log('DOMAINS', lDomain, rDomain, domain);
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()}>
                 <Container style={[{height: this._contentHeight, paddingTop: 10, paddingBottom: 10}]}>
                     <View style={{justifyContent: 'space-between', flexDirection: 'row', marginBottom: 20}}>
-                        <Text style={[TextStyles.p1, styles.domain]}>DOMAIN</Text>
+                        <Text style={[TextStyles.p1, styles.domain]}>{domains[domain % 4]}</Text>
                         <Text style={[TextStyles.labelMedium, styles.date]}>{today}</Text>
                     </View>
                     <View style={{borderWidth: 1, borderRadius: 10, height: 350, justifyContent: 'center', alignItems: 'center'}}>
@@ -155,13 +163,11 @@ export class ChooseDomainView extends ViewState {
                                    
                                 }}
                                 onLayout = {event => this.setState({translateY: event.nativeEvent.layout.height})}
+                    
                                 
                                 >
                                     <Text style={this.textStyles.p2}>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
-                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-                                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                                        it in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                        {content[domain % 4]}
                                     </Text>
                                 </Animated.View>
                                 <Animated.View style={{
@@ -191,7 +197,7 @@ export class ChooseDomainView extends ViewState {
                                         title= {active === 0? 'View Details' : 'Calendar'}
                                         style={styles.buttonDetails}
                                         titleStyles={styles.mailButtonTitle}
-                                        onPress={(null)}
+                                        onPress={active === 0? () => this.onDetails() : null}
                                         isTransparent
                                      />
 
@@ -212,29 +218,32 @@ export class ChooseDomainView extends ViewState {
                          flexDirection: 'row', 
                          justifyContent: 'space-between', 
                          marginBottom: 50,
-                         transform: [{
-                            translateX: 0
-                        },
-                        {
-                            translateY:0
-                        }]
+                        //  transform: [{
+                        //     translateX: 0
+                        // },
+                        // {
+                        //     translateY:0
+                        // }]
                          }}>
                     
                          <TouchableOpacity 
-                         onLayout = {event => this.setState({xDomain: event.nativeEvent.layout.x})}
-                         onPress = {() => this.handleDomainSwitch(xDomain)}
+                        //  onLayout = {event => this.setState({xDomain: event.nativeEvent.layout.x})}
+                        onPress = {() => this.setState({domain:rDomain === 4? domain: domain + 1, rDomain:rDomain === 4? rDomain: rDomain + 1, lDomain:rDomain === 4? lDomain: lDomain + 1})}
                          
                          >
                          <Images.backIcon width={20} height={20} />
                          </TouchableOpacity>
-                         <Text style={[TextStyles.p1, styles.domain, {fontSize: 30}]}>DOMAIN</Text>
-                         <TouchableOpacity onPress={() => null}>
+                         <Text style={[TextStyles.p1, styles.domain, {fontSize: 30}]}>{domains[domain % 4]}</Text>
+                         <TouchableOpacity 
+                
+                         onPress = {() => this.setState({domain: lDomain === 0? domain: domain - 1, rDomain: lDomain === 0? rDomain:rDomain - 1, lDomain: lDomain === 0? lDomain:lDomain - 1})}
+                         >
                          <Images.backIcon width={20} height={20} />
                          </TouchableOpacity>
                     </View>
                      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                         <Text style={[TextStyles.labelMedium, styles.domain, {fontSize: 17}]}>Prev-DOMAIN</Text>
-                         <Text style={[TextStyles.labelMedium, styles.domain, {fontSize: 17}]}>Next-DOMAIN</Text>
+                         <Text style={[TextStyles.labelMedium, styles.domain, {fontSize: 17}]}>{domains[lDomain % 4]}</Text>
+                         <Text style={[TextStyles.labelMedium, styles.domain, {fontSize: 17}]}>{domains[rDomain % 4]}</Text>
                      </View>
                 </Container>
             </MasloPage>

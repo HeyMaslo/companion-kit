@@ -34,7 +34,8 @@ import { GoalsView } from './views/main/goals';
 import { RewardsView } from './views/rewardsView';
 import { RecordPitureCheckinView } from './views/checkin/recordPictureCheckIn';
 import { qolStartView } from './views/qol/startQOL';
-import {ChooseDomainView} from './views/lifeDomains/chooseDomain'
+import {ChooseDomainView} from './views/lifeDomains/chooseDomain';
+import {DomainDetailsView} from './views/lifeDomains/domainDetails';
 
 import Triggers = ScenarioTriggers;
 import { qolPhysical } from './views/qol/qolPhysical';
@@ -342,6 +343,13 @@ export const MasloScenario: GlobalScenario<States> = {
         view: ChooseDomainView,
         exit: [
             { target: States.Home, trigger: [Triggers.Cancel] },
+            { target: States.Domain_Details, trigger: [Triggers.Submit] },
+        ]
+    },
+    [States.Domain_Details]: {
+        view: DomainDetailsView,
+        exit: [
+            { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
             // { target: States.qol_Physical, trigger: [Triggers.Submit] },
         ]
     },
