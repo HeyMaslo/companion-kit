@@ -12,4 +12,10 @@ export default class BackendControllerBase implements IBackendController {
         }
     }
 
+    public async setDomainMagnitudes(magnitudes: any): Promise<boolean> {
+        // STUB FUNCTION
+        const success = true;
+        return true;
+    }
+
 }
