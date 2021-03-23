@@ -15,6 +15,7 @@ type BaseInvitation = EntityWithStatus<InvitationState> & {
     role: UserRoles,
     usedByUserId?: string;
     signInKey?: string,
+    verificationCode: string;
 };
 
 export type ClientInvitation = BaseInvitation & {

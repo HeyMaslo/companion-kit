@@ -34,11 +34,17 @@ import { GoalsView } from './views/main/goals';
 import { RewardsView } from './views/rewardsView';
 import { RecordPitureCheckinView } from './views/checkin/recordPictureCheckIn';
 import { qolStartView } from './views/qol/startQOL';
+
 import {ChooseDomainView} from './views/lifeDomains/chooseDomain';
 import {DomainDetailsView} from './views/lifeDomains/domainDetails';
 
+import { qolEndView } from './views/qol/endQOL';
+import { qolQuestion } from './views/qol/qolQuestion';
+
 import Triggers = ScenarioTriggers;
-import { qolPhysical } from './views/qol/qolPhysical';
+import { VerificationCodeView } from './views/login/verificationCode';
+import { NoInvitationView } from './views/login/noInvitation';
+import { ResetPasswordView } from './views/password/resetPassword';
 
 const CreateJournalCancelTransition: StateTransition<States> = {
     target: States.Home,
@@ -78,18 +84,35 @@ export const MasloScenario: GlobalScenario<States> = {
         view: SignInView,
         exit: [
             { target: States.Welcome, trigger: Triggers.Back },
+            { target: States.EnterVerificationCode, trigger: Triggers.Primary },
             { target: States.SignInPassword, trigger: Triggers.Submit },
             { target: States.SetPassword, trigger: Triggers.Secondary },
+            { target: States.NoInvitationEmail, trigger: Triggers.Cancel },
         ],
     },
-
+    [States.NoInvitationEmail]: {
+        view: NoInvitationView,
+        exit: [
+            { target: States.SignInWithEmail, trigger: Triggers.Primary },
+            { target: States.Welcome, trigger: Triggers.Back },
+        ],
+    },
+    [States.EnterVerificationCode]: {
+        view: VerificationCodeView,
+        exit: [
+            // { target: States.SignInWithEmail, trigger: Triggers.Submit },
+            { target: States.SetPassword, trigger: Triggers.Submit },
+            { target: States.ResetPassword, trigger: Triggers.Primary },
+            { target: States.Welcome, trigger: Triggers.Back },
+        ],
+    },
     [States.SignInPassword]: {
         view: PasswordSignInView,
         exit: [
             { target: States.SignInWithEmail, trigger: Triggers.Back },
+            { target: States.EnterVerificationCode, trigger: Triggers.Secondary },
         ],
     },
-
     [States.SetPassword]: {
         view: SetPasswordView,
         enter: { condition: VM.shouldCreatePassword },
@@ -97,7 +120,12 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.SignInWithEmail, trigger: Triggers.Cancel },
         ],
     },
-
+    [States.ResetPassword]: {
+        view: ResetPasswordView,        
+        exit: [
+            { target: States.SignInWithEmail, trigger: Triggers.Cancel },
+        ],
+    },
     [States.ConfirmAccount]: {
         view: ConfirmAccountView,
         enter: { condition: VM.confirmAccount },
@@ -146,7 +174,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { condition: VM.notificationReceived, compose: 'and', trigger: GlobalTriggers.NotificationReceived },
         ],
         exit: [
-            { priority: 3, target: States.Journal_SelectMood, condition: VM.openCreateJournal, params: <MoodViewParams>{ openedByNotification: true } },
+            { priority: 3, target: States.Journal_SelectMood, condition: VM.openCreateJournal, params: <MoodViewParams> { openedByNotification: true } },
             { priority: 5, target: States.Goals, condition: VM.openGoals },
             { priority: 10, target: States.Home, condition: () => true },
         ],
@@ -191,7 +219,8 @@ export const MasloScenario: GlobalScenario<States> = {
                 target: VM.showLocation
                     ? States.Journal_Location
                     : States.Journal_SelectType,
-                trigger: Triggers.Primary },
+                trigger: Triggers.Primary
+            },
             { target: States.Journal_Feelings, trigger: Triggers.Secondary },
             CreateJournalCancelTransition,
         ],
@@ -358,14 +387,22 @@ export const MasloScenario: GlobalScenario<States> = {
         view: qolStartView,
         exit: [
             { target: States.Home, trigger: [Triggers.Cancel] },
-            { target: States.qol_Physical, trigger: [Triggers.Submit] },
+            { target: States.qol_Question, trigger: [Triggers.Submit] },
         ]
     },
 
-    [States.qol_Physical]: {
-        view: qolPhysical,
+    [States.qol_Question]: {
+        view: qolQuestion,
+        exit: [
+            { target: States.Home, trigger: [Triggers.Cancel] },
+            { target: States.End_Qol, trigger: [Triggers.Submit] },
+        ]
+    },
+
+    [States.End_Qol]: {
+        view: qolEndView,
         exit: [
             { target: States.Home, trigger: [Triggers.Cancel] },
         ]
-    }
+    },
 };

@@ -16,6 +16,7 @@ export type AppFeaturesConfig = {
     GOALS_ENABLED?: boolean,
     CLIENT_REWARDS_ENABLED?: boolean,
     PICTURE_CHECKINS_ENABLED?: boolean,
+    USE_MAGIC_LINK: boolean
 };
 
 export type FirebasePlatformConfig = Record<'android' | 'ios', Partial<FirebaseConfig>>;
