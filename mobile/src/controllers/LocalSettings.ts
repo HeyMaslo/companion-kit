@@ -93,7 +93,8 @@ export class LocalSettingsController implements ILocalSettingsController {
             await RepoFactory.Instance.users.updateLocalSettings(
                 this._uid,
                 this._sameDevice.deviceId,
-                { notifications: { ...this._sameDevice.notifications, token: null }, health: {...this._sameDevice.health, enabled: null} },
+                { notifications: { ...this._sameDevice.notifications, token: null }},
+                //  health: {...this._sameDevice.health, enabled: null} 
                 // { health: { ...this._sameDevice.h, token: null } },
             );
         }
@@ -139,8 +140,12 @@ export class LocalSettingsController implements ILocalSettingsController {
 
     updateHealthPermissions(diff: Partial<HealthPermissionsSettings>) {
         const health = this.current.health || { };
+        // health.enabled = true;
+        logger.log("Value of Health: ", health);
         transaction(() => {
             let changed = transferChangedFields(diff, health, 'enabled');
+            logger.log("Value of changed: ", changed);
+            logger.log("Value of changed: ", diff);
 
             // if (diff.locals && getLocalsHash(diff.locals) !== getLocalsHash(notifications.locals)) {
             //     notifications.locals = diff.locals;

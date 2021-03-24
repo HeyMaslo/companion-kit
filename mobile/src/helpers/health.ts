@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
 import { Alert } from 'react-native';
 import GoogleFit, { Scopes } from 'react-native-google-fit';
+import AppleHealthKit from 'rn-apple-healthkit';
 import logger from 'common/logger';
 import moment from 'moment'
 import { Scope } from 'sentry-expo';
@@ -17,6 +18,14 @@ const runOptions = {
     // Scopes.FITNESS_LOCATION_READ,
     // Scopes.FITNESS_AUTH,
   ]
+};
+const PERMS = AppleHealthKit.Constants.Permissions;
+
+const options = {
+  permissions: {
+    read: [PERMS.BiologicalSex],
+    write: [],
+  },
 };
 
 
@@ -40,7 +49,7 @@ export const auth = async() => {
           logger.log("GOOGLEFIT.isAuthorized: " + authResult.success);
 
         }else{
-          logger.log("AUTH_DENIED" + authResult.message);
+          logger.log("AUTH_DENIED" + authResult);
         }
         return authResult.success === true;
       })
@@ -68,51 +77,14 @@ export const auth = async() => {
   // return isAuth;
 }
 
-export const startRecording = async() => {
-  const isAuth = await auth();
-  if(isAuth) {
-    GoogleFit.startRecording( callback => {
-      const data = loadDaily();
-      logger.log(data);
-       // Process data from Google Fit Recording API (no google fit app needed)
-     }, ['step']);
-  }
-}
-
-export const loadDaily = () => {
-  logger.log("IN LOAD_DAILY")
-  return async () => {
-    logger.log("IN LOAD_DAILY1")
-    const isAuth = await auth();
-    
-
-    if(isAuth){
-      const opt = {
-        startDate: "2017-01-01T00:00:17.971Z", // required ISO8601Timestamp
-        endDate: new Date().toISOString(), // required ISO8601Timestamp
-        // bucketUnit: "DAY", // optional - default "DAY". Valid values: "NANOSECOND" | "MICROSECOND" | "MILLISECOND" | "SECOND" | "MINUTE" | "HOUR" | "DAY"
-        bucketInterval: 1, // optional - default 1. 
-      };
-       
-      GoogleFit.getDailyStepCountSamples(opt)
-       .then((res) => {
-           logger.log('Daily steps >>> ', res)
-       })
-       .catch((err) => {logger.warn(err)});
-      // logger.log("IN LOAD_DAILY")
-      // const today = moment()
-      // const opt = {
-      //   startDate: moment(today).startOf('day').toISOString(), // required ISO8601Timestamp
-      //   endDate: moment(today).endOf('day').toISOString(), // required ISO8601Timestamp
-      //   // bucketUnit: "DAY", // optional - default "DAY". Valid values: "NANOSECOND" | "MICROSECOND" | "MILLISECOND" | "SECOND" | "MINUTE" | "HOUR" | "DAY"
-      //   bucketInterval: 1, // optional - default 1. 
-      // };
-
-      // GoogleFit.getDailyStepCountSamples(opt)
-      // .then((res) => {
-      //     logger.log('Daily steps >>> ', res)
-      // })
-      // .catch((err) => {logger.warn(err)});
+export const init = async () => {
+  // var isAuth;
+  AppleHealthKit.initHealthKit(options, (err, results) => {
+    if (err) {
+        console.log("error initializing Healthkit: ", err);
+        return false;
     }
-  }
+    console.log("RESULTS FROM INIT HEALTHKIT", results == 1);
+    return true;
+});
 }

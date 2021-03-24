@@ -97,8 +97,10 @@ export default class AppController implements IAppController {
         this.version.checkForUpdates();
 
         if (this.User && this.User.user) {
-            await this.User.notifications.initAsync();
+            logger.log('INITIALIZE PERM/HEALTH: INIT HEALTH');
+            // await this.User.notifications.initAsync();
             await this.User.hasHealthDataPermissions.initAsync();
+            await this.User.notifications.initAsync();
         }
 
         // force reconnect to the database

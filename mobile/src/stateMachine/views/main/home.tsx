@@ -302,22 +302,16 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
+                { !healthPerm && (<View style={styles.healthView}>
+                    <Text style={[this.textStyles.p1, {color: 'red'}]}> health permissions missing</Text>
+                    </View>
+                    )}
                     { this.getTitle() }
                     { loading
                         ? <ActivityIndicator size="large" />
                         : this.getCheckinsList()
                     }
                     <BottomBar screen={'home'} />
-                    { !healthPerm && (<View style={styles.healthView}>
-                    <Button
-                            title="health permissions missing"
-                            style={styles.health}
-                            titleStyles={styles.mailButtonTitle}
-                            // onPress={this.goToEmailSignin}
-                            isTransparent
-                        />
-                    </View>
-                    )}
                 </Animated.View>
             </MasloPage>
         );
@@ -378,8 +372,9 @@ const styles = StyleSheet.create({
         color: Colors.welcome.mailButton.title,
     },
     healthView: {
-        justifyContent: 'center',
-        paddingLeft: 100,
-        paddingTop: 5
+        // flex:1,
+        paddingHorizontal: 15,
+        paddingTop: 5,
+        paddingBottom: 5,
     },
 });
