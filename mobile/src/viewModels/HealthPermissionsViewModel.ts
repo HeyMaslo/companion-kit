@@ -77,11 +77,13 @@ export class HealthPermissionsViewModel {
             this.updateEnabledState();
 
             // need to learn who you is!!
+            logger.log("PREV_VAL-val", prevValue, this.originalIsEnabled);
 
             if (!prevValue && prevValue === this._isEnabled) {
+                logger.log("PREV_VAL_LATEST", prevValue);
                 Alert.alert(
                     'Oops',
-                    'Looks like notifications have been restricted. Please re-enable it anytime in Settings and try again.',
+                    'Looks like health Permissions have been restricted. Please re-enable it anytime in Settings and try again.',
                     [
                         { text: 'Cancel' },
 

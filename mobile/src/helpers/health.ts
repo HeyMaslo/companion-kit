@@ -85,6 +85,6 @@ export const init = async () => {
         return false;
     }
     console.log("RESULTS FROM INIT HEALTHKIT", results == 1);
-    return true;
+    return results;
 });
 }

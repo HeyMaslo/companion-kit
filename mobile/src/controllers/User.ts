@@ -254,8 +254,9 @@ export class UserController extends UserControllerBase implements IUserControlle
             }
 
             await this._localSettings.load(user.id);
-            await this.notifications.initAsync();
+            // await this.notifications.initAsync();
             await this.hasHealthDataPermissions.initAsync();
+            await this.notifications.initAsync();
         }
     }
 

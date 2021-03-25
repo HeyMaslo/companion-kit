@@ -7,8 +7,20 @@ import { IDisposable } from 'common/utils/unsubscriber';
 import { createLogger } from 'common/logger';
 import {auth, init} from 'src/helpers/health'
 import { Platform } from 'react-native';
+import AppleHealthKit from 'rn-apple-healthkit';
+
+const PERMS = AppleHealthKit.Constants.Permissions;
+
+const options = {
+  permissions: {
+    read: [PERMS.BiologicalSex],
+    write: [],
+  },
+};
 
 const logger = createLogger('[HealthPermissionsController]');
+
+const AllowanceStorageKey = 'healthAllowedByUser';
 
 
 export class HealthPermissionsController implements IDisposable {
@@ -40,46 +52,54 @@ export class HealthPermissionsController implements IDisposable {
 
     // Should be OK to call multiple times
     async initAsync() {
-       if (this.settings.current.health?.enabled === null){
+        // logger.log("INIT HEALTH - latest-l", this.settings.current.health?.enabled);
+       if (this.settings.current.health?.enabled == null){
            // very first time using the app
+           const allowedByUser = await AsyncStorage.getValue(AllowanceStorageKey);
+           logger.log("ALLOWED_BY_USER_INOT", allowedByUser === 'true');
            this.settings.updateHealthPermissions({
-            enabled: false,
-            });
-            this._enabledByUser = this.settings.current.notifications?.enabled;
-            logger.log("IN INIT FIRST TIME", this.permissionsAsked);
-            logger.log("FALSE && NULL", (null === false));
-            return;
-       }
-
-       if (this.settings.current.health?.enabled === false){
-        logger.log("enabled in init", this.settings.current.health?.enabled);
-           //user denied permissions at some point
-           const enabledbyUser = Platform.OS == 'android'? await auth() : init();
-           logger.log("ENABLED BY USER",enabledbyUser);
-           if (enabledbyUser){
-            this.settings.updateHealthPermissions({
-                enabled: true,
+            enabled: allowedByUser? allowedByUser === 'true' : null,
             });
             // this._enabledByUser = this.settings.current.notifications?.enabled;
-           }
-        }
+            logger.log("IN INIT FIRST TIME", this.permissionsAsked);
+            // logger.log("FALSE && NULL", (null === false));
+            // return;
+            this._enabledByUser = allowedByUser === 'true';
+       }
 
-       this._enabledByUser = this.settings.current.notifications?.enabled;
+    //    if (this.settings.current.health?.enabled === false){
+    //     logger.log("enabled in init", this.settings.current.health?.enabled);
+    //        //user denied permissions at some point
+    //        const enabledbyUser = Platform.OS == 'android'? await auth() : init();
+    //        logger.log("ENABLED BY USER",enabledbyUser);
+    //        if (enabledbyUser){
+    //         this.settings.updateHealthPermissions({
+    //             enabled: true,
+    //         });
+    //         // this._enabledByUser = this.settings.current.notifications?.enabled;
+    //        }
+    //     }
+
+    //    this._enabledByUser = this.settings.current.notifications?.enabled;
+       logger.log("INIT HEALTH - latest", this._enabledByUser);
        await this.sync();
     }
 
     public askPermission = async () => {
-        const authorized = Platform.OS == 'android'? await auth() : await init();
-        logger.log("AUTH_ASK_HELPER", authorized)
-        if (Platform.OS == 'ios' && authorized == 1){
+        const authorized = Platform.OS == 'android'? await auth() : null;
+        if (Platform.OS == 'android'){
             logger.log("NEW METHOD", authorized)
-            
             this._enabledByUser = true;
+            // await AsyncStorage.setValue(AllowanceStorageKey, 'true');
         } else {
-            logger.log("NEW METHOD1", authorized)
-            logger.log("NEW METHOD", Platform.OS)
-            this._enabledByUser = authorized;
-        } 
+            this._enabledByUser = false;
+        }
+
+        if (Platform.OS == 'ios') {
+            const yep = await init();
+            this._enabledByUser = true;
+        }
+        await AsyncStorage.setValue(AllowanceStorageKey, 'true');
         await this.sync();
         logger.log("PERMISSIONGRANTED", this.permissionsGranted);
         return this.permissionsGranted;
