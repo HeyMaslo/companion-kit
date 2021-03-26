@@ -2,8 +2,8 @@ name: build
 on: push
 jobs:
   all:
-  runs-on: ubuntu-latest
-  steps:
+    runs-on: ubuntu-latest
+    steps:
       - name: Check out
         uses: actions/checkout@v2
       - name: Create environment file
