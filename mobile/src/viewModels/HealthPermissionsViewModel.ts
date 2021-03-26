@@ -17,7 +17,10 @@ export class HealthPermissionsViewModel {
 
     private _unsubscribe: () => void = null;
 
+    private enabledSettings: boolean = this.originalIsEnabled1;
+
     private get originalIsEnabled() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabled; }
+    private get originalIsEnabled1() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabledOriginal; }
 
     get isEnabled() { return this._isEnabled; }
     get isToggleInProgress() { return this._toggleInProgress; }
@@ -79,7 +82,7 @@ export class HealthPermissionsViewModel {
             // need to learn who you is!!
             logger.log("PREV_VAL-val", prevValue, this.originalIsEnabled);
 
-            if (!prevValue && prevValue === this._isEnabled) {
+            if (this.originalIsEnabled != this.originalIsEnabled1) {
                 logger.log("PREV_VAL_LATEST", prevValue);
                 Alert.alert(
                     'Oops',

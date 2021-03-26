@@ -31,6 +31,8 @@ export class HealthPermissionsController implements IDisposable {
 
     @observable
     private _enabledByUser: boolean;
+    @observable
+    private _enabledByUserOriginal: boolean;
 
     // private _previousPermissionsState: boolean = null;
 
@@ -46,6 +48,8 @@ export class HealthPermissionsController implements IDisposable {
 
     public get enabled() { return this._enabledByUser; }
 
+    public get enabledOriginal() { return this._enabledByUserOriginal; }
+
     public get permissionsGranted() { return this._enabledByUser; }
 
     public get permissionsAsked() { return this._enabledByUser != null; }
@@ -56,10 +60,19 @@ export class HealthPermissionsController implements IDisposable {
        if (this.settings.current.health?.enabled == null){
            // very first time using the app
            const allowedByUser = await AsyncStorage.getValue(AllowanceStorageKey);
-           logger.log("ALLOWED_BY_USER_INOT", allowedByUser === 'true');
+           logger.log("ALLOWED_BY_USER_INOT-4", allowedByUser === 'true');
            this.settings.updateHealthPermissions({
             enabled: allowedByUser? allowedByUser === 'true' : null,
             });
+
+            if (allowedByUser === 'true'){
+                const authorized = Platform.OS == 'android'? await auth() : await init();
+                if (Platform.OS == 'ios' && authorized != 1) {
+                    this._enabledByUserOriginal = false;
+                } else {
+                    this._enabledByUserOriginal = true;
+                }
+            }
             // this._enabledByUser = this.settings.current.notifications?.enabled;
             logger.log("IN INIT FIRST TIME", this.permissionsAsked);
             // logger.log("FALSE && NULL", (null === false));
@@ -79,8 +92,9 @@ export class HealthPermissionsController implements IDisposable {
     //         // this._enabledByUser = this.settings.current.notifications?.enabled;
     //        }
     //     }
+    //    const allowedByUser = await AsyncStorage.getValue(AllowanceStorageKey);
 
-    //    this._enabledByUser = this.settings.current.notifications?.enabled;
+       this._enabledByUser = this.settings.current.health?.enabled;
        logger.log("INIT HEALTH - latest", this._enabledByUser);
        await this.sync();
     }
