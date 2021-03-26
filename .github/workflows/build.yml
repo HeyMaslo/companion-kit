@@ -1,0 +1,18 @@
+name: build
+on: push
+jobs:
+  all:
+  runs-on: ubuntu-latest
+  steps:
+      - name: Check out
+        uses: actions/checkout@v2
+      - name: Create environment file
+        run: cp test.env .env
+      - name: Initialize project
+        name: ./bin/setup.bash -y -p 0 -f 1 -s 0
+      - name: Lint functions code
+        run: yarn lint:server
+      - name: Build server
+        run: yarn build:server
+      - name: Build dashboard
+        run: yarn build:dashboard
