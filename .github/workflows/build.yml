@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: '10'
       - name: Initialize project
-        run: ./bin/setup.bash -y -p 0 -f 1 -s 0
+        run: ./bin/setup.bash -y -p 0 -f 1 -s 1
       - name: Lint functions code
         run: yarn lint:server
       - name: Build server
