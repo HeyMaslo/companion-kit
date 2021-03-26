@@ -9,7 +9,7 @@ jobs:
       - name: Create environment file
         run: cp test.env .env
       - name: Initialize project
-        name: ./bin/setup.bash -y -p 0 -f 1 -s 0
+        run: ./bin/setup.bash -y -p 0 -f 1 -s 0
       - name: Lint functions code
         run: yarn lint:server
       - name: Build server
