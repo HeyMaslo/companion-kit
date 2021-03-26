@@ -29,7 +29,7 @@
     "node": "10"
   },
   "dependencies": {
-    "@firebase/app": "^0.6.9",
+    "@firebase/app": "^0.6.17",
     "@firebase/app-types": "^0.6.1",
     "@google-cloud/bigquery": "^5.1.0",
     "@google-cloud/language": "^4.1.0",
@@ -44,9 +44,9 @@
     "expo-server-sdk": "^3.5.1",
     "ffmpeg-static": "^4.2.6",
     "ffprobe-static": "^3.0.0",
-    "firebase": "^7.17.1",
+    "firebase": "^8.3.1",
     "firebase-admin": "^9.5.0",
-    "firebase-functions": "^3.8.0",
+    "firebase-functions": "^3.13.2",
     "firesql": "^2.0.2",
     "fluent-ffmpeg": "^2.1.2",
     "libphonenumber-js": "^1.7.55",
