@@ -45,15 +45,14 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
     get viewModel() { return HomeViewModel.Instance; }
 
     async start() {
-        const mags = await this.viewModel.getArmMagnitudes();
-        this.persona.view = {...this.persona.view, login: true, logout: false, armMagnitudes: mags };
         Animated.timing(this.state.opacity, {
             toValue: 1,
             delay: isFirstLaunch ? 1000 : 400,
             duration: 500,
         }).start(this.checkNewLinkDoc);
-
         isFirstLaunch = false;
+        const mags = await this.viewModel.getArmMagnitudes();
+        this.persona.view = {...this.persona.view, login: true, logout: false, armMagnitudes: mags };
     }
 
     private checkNewLinkDoc = () => {
