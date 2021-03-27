@@ -40,12 +40,13 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
         this._contentHeight = smallHeight
             ? this.persona.setupContainerHeightForceScroll({ rotation: 120 , transition: {duration: 1.5}})
             : this.persona.setupContainerHeight(minContentHeight, { rotation: 120 , transition: {duration: 1.5}});
-        this.persona.view = {...this.persona.view, login: true, logout: false};
     }
 
     get viewModel() { return HomeViewModel.Instance; }
 
     async start() {
+        const mags = await this.viewModel.getArmMagnitudes();
+        this.persona.view = {...this.persona.view, login: true, logout: false, armMagnitudes: mags };
         Animated.timing(this.state.opacity, {
             toValue: 1,
             delay: isFirstLaunch ? 1000 : 400,

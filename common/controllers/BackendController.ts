@@ -7,8 +7,19 @@ export default class BackendControllerBase implements IBackendController {
 
     public async getDomainMagnitudes(): Promise<DomainMagnitudesData> {
         // STUB FUNCTION
-        return {
-            'health': 0.9
+        return { 
+            "physical": 0,
+            "sleep": 0,
+            "mood": 0,
+            "cognition": 0,
+            "leisure": 0,
+            "relationships": 0,
+            "spiritual": 0,
+            "money": 0,
+            "home": 0,
+            "selfEsteem": 0,
+            "independence": 0,
+            "identity": 0,
         }
     }
 

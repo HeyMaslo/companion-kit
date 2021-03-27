@@ -132,6 +132,10 @@ export default class HomeViewModel {
         ];
     }
 
+    public getArmMagnitudes = async () => {
+        return await AppController.Instance.Backend.getDomainMagnitudes();
+    }
+
     public markLinkDocumentAsSeen = (doc: Identify<DocumentLinkEntry>) => {
         const docid = this.newDocumentLink?.id;
         if (!docid) {
