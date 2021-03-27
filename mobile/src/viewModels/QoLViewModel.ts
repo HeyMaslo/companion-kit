@@ -8,7 +8,7 @@ import { reaction, transaction, observable, computed, toJS } from 'mobx';
 // import { safeCall } from 'common/utils/functions';
 // import AppController from 'src/controllers';
 // import EnvConstants from 'src/constants/env';
-import { SurveyQuestions, Domains, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT } from "../constants/QoLSurvey";
+import { SurveyQuestions, Domains, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT, Domain_Importance, DOMAIN_COUNT } from "../constants/QoLSurvey";
 import { createLogger } from 'common/logger';
 
 export const logger = createLogger('[QOLModel]');
@@ -21,11 +21,21 @@ export default class QOLSurveyViewModel {
     @observable
     private _domainNum: number;
 
+    // @observable
+    // private _lDomainNum : Number;
+
+    // @observable
+    // private _rDomainNum : Number;
+
+    
+
     private _surveyResponses: any;
 
     public numQuestions: number = QUESTIONS_COUNT;
 
     public domainQuestions: number = DOMAIN_QUESTION_COUNT;
+
+    public domainCount: number = DOMAIN_COUNT;
 
     constructor() {
         this._questionNum = 0;
@@ -37,6 +47,10 @@ export default class QOLSurveyViewModel {
         }
 
         this._surveyResponses = surveyResponses;
+
+        // for (let domain of Domains) {
+        //     domainResponses[domain] = new Array(DOMAIN_COUNT).fill(0);
+        // }
     }
 
     @computed
@@ -52,6 +66,9 @@ export default class QOLSurveyViewModel {
     get getDomain(): string { return Domains[this._domainNum]; }
 
     get getSurveyResponses(): any { return this._surveyResponses; }
+    get getDomainImportance(): any { return Domain_Importance; }
+
+    get Domains (): any {return Domains};
 
     public nextQuestion(): void {
         if (!((this._questionNum + 1) > (QUESTIONS_COUNT - 1))) {
