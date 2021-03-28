@@ -8,7 +8,8 @@ import { reaction, transaction, observable, computed, toJS } from 'mobx';
 // import { safeCall } from 'common/utils/functions';
 // import AppController from 'src/controllers';
 // import EnvConstants from 'src/constants/env';
-import { SurveyQuestions, Domains, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT } from "../constants/QoLSurvey";
+import { SurveyQuestions, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT } from "../constants/QoLSurvey";
+import { Domains } from "../../dependencies/persona/lib/domains";
 import { createLogger } from 'common/logger';
 
 export const logger = createLogger('[QOLModel]');

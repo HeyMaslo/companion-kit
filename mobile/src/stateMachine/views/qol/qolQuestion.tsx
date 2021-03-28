@@ -6,7 +6,6 @@ import { StyleSheet, Text, View, Dimensions, Animated } from 'react-native';
 import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import Colors from '../../../constants/colors';
-import QOLSurveyViewModel from "../../../viewModels/QoLViewModel";
 import TextStyles from '../../../../src/styles/TextStyles';
 
 import { styles } from 'react-native-markdown-renderer';
