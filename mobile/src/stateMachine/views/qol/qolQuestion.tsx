@@ -22,19 +22,20 @@ export class qolQuestion extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -15, transition: { duration: 1 }, scale: 0.8 });
+        const initialMag: number = 0.2;
         this.persona.qolMags = { 
-            "physical": 0.4,
-            "sleep": 0.4,
-            "mood": 0.4,
-            "cognition": 0.4,
-            "leisure": 0.4,
-            "relationships": 0.4,
-            "spiritual": 0.4,
-            "money": 0.4,
-            "home": 0.4,
-            "self-esteem": 0.4,
-            "independence": 0.4,
-            "identity": 0.4,
+            "physical": initialMag,
+            "sleep": initialMag,
+            "mood": initialMag,
+            "cognition": initialMag,
+            "leisure": initialMag,
+            "relationships": initialMag,
+            "spiritual": initialMag,
+            "money": initialMag,
+            "home": initialMag,
+            "self-esteem": initialMag,
+            "independence": initialMag,
+            "identity": initialMag,
         };
     }
 
