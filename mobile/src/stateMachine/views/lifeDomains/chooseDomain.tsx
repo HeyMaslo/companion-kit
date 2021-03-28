@@ -108,6 +108,10 @@ export class ChooseDomainView extends ViewState {
         this.trigger(ScenarioTriggers.Submit);
     }
 
+    onSelectDomain = () => {
+        this.trigger(ScenarioTriggers.Tertiary);
+    }
+
 
 
 
@@ -217,7 +221,7 @@ export class ChooseDomainView extends ViewState {
                                     title="Select Focus Domain"
                                     style={styles.domain}
                                     titleStyles={styles.selectDomain}
-                                    onPress={null}
+                                    onPress={this.onSelectDomain}
                                     isTransparent
                                 />
                      </View>

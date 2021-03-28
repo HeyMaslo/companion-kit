@@ -1,4 +1,5 @@
 import { reaction, transaction, observable, computed, toJS } from 'mobx';
+import AppController from 'src/controllers';
 // import { asyncComputed } from 'computed-async-mobx';
 // import { ClientJournalEntryIded } from 'common/models/ClientEntries';
 // import { StorageReferenceViewModel } from 'common/viewModels/StorageReferenceViewModel';
@@ -20,13 +21,6 @@ export default class QOLSurveyViewModel {
 
     @observable
     private _domainNum: number;
-
-    // @observable
-    // private _lDomainNum : Number;
-
-    // @observable
-    // private _rDomainNum : Number;
-
     
 
     private _surveyResponses: any;
@@ -36,6 +30,7 @@ export default class QOLSurveyViewModel {
     public domainQuestions: number = DOMAIN_QUESTION_COUNT;
 
     public domainCount: number = DOMAIN_COUNT;
+
 
     constructor() {
         this._questionNum = 0;
@@ -47,10 +42,6 @@ export default class QOLSurveyViewModel {
         }
 
         this._surveyResponses = surveyResponses;
-
-        // for (let domain of Domains) {
-        //     domainResponses[domain] = new Array(DOMAIN_COUNT).fill(0);
-        // }
     }
 
     @computed
@@ -66,6 +57,7 @@ export default class QOLSurveyViewModel {
     get getDomain(): string { return Domains[this._domainNum]; }
 
     get getSurveyResponses(): any { return this._surveyResponses; }
+
     get getDomainImportance(): any { return Domain_Importance; }
 
     get Domains (): any {return Domains};
