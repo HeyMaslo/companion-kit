@@ -21,7 +21,7 @@ export class qolQuestion extends ViewState {
 
     constructor(props) {
         super(props);
-        this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -15, transition: { duration: 1 }, scale: 0.8 });
+        this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -140, transition: { duration: 1 }, scale: 0.8 });
         const initialMag: number = 0.2;
         this.persona.qolMags = { 
             "physical": initialMag,
@@ -72,7 +72,7 @@ export class qolQuestion extends ViewState {
             useNativeDriver: true
         }).start(() => {
             this.viewModel.nextQuestion();
-            this.persona.view = {...this.persona.view, rotation: (this.persona.view.rotation + 30), transition: {duration: 1}};
+            this.persona.view = {...this.persona.view, rotation: (this.persona.view.rotation - 30), transition: {duration: 1}};
             Animated.timing(this.labelState.opacity, {
                 toValue: 1,
                 delay: 200,
@@ -85,6 +85,8 @@ export class qolQuestion extends ViewState {
     // todo: add encouragement interlude
     private nextQuestion = (prevResponse: number) => {
         this.viewModel.savePrevResponse(prevResponse);
+        const newDomainMag: number = this.calculateNewDomainMag(prevResponse);
+        this.persona.qolMags = {...this.persona.qolMags, [this.viewModel.getDomain]: newDomainMag }
         if (this.viewModel.getQuestionNum != (this.viewModel.numQuestions - 1)) {
             if (this.isNextDomain(this.viewModel.getQuestionNum + 1)) { 
                 this.animateDomainChange();
@@ -94,6 +96,16 @@ export class qolQuestion extends ViewState {
         } else {
             this.finish();
         }
+    }
+
+    private calculateNewDomainMag = (response: number) => {
+        let booster: number = 0;
+        if ((this.viewModel.getQuestionNum+1) % 4 === 1) {
+            booster = 0.2;
+        }
+        let inc: number = response * 3 / 100;
+        const oldMag: number = this.persona.qolMags[this.viewModel.getDomain];
+        return oldMag + inc + booster;
     }
 
     private onClose = (): void | Promise<void> => this.runLongOperation(async () => {
@@ -118,7 +130,7 @@ export class qolQuestion extends ViewState {
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
                 <Container style={[{ height: this._contentHeight, paddingTop: 40, paddingBottom: 15 }]}>
                     <Animated.View style={{opacity: this.labelState.opacity}}>
-                        <Text style={{marginLeft: '70%', fontFamily: TextStyles.labelMedium.fontFamily}}>{this.viewModel.getDomain}</Text>
+                        <Text style={{marginLeft: '70%', fontFamily: TextStyles.labelMedium.fontFamily}}>{this.viewModel.getDomain.toUpperCase()}</Text>
                     </Animated.View>
                     <View style={{alignItems: 'center', width: '100%', marginTop: '4%'}}>
                         <Text style={this.textStyles.p3}>{this.viewModel.getQuestionNum+1} of {this.viewModel.numQuestions}</Text>

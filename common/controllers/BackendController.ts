@@ -9,16 +9,16 @@ export default class BackendControllerBase implements IBackendController {
         // STUB FUNCTION
         return { 
             "physical": 1,
-            "sleep": 0.7,
-            "mood": 1,
-            "cognition": 0.7,
-            "leisure": 1,
+            "sleep": 0.8,
+            "mood": 0.8,
+            "cognition": 0.8,
+            "leisure": 0.9,
             "relationships": 1,
-            "spiritual": 1,
-            "money": 0.7,
-            "home": 1,
-            "self-esteem": 1,
-            "independence": 0.7,
+            "spiritual": 0.7,
+            "money": 0.8,
+            "home": 0.8,
+            "self-esteem": 0.8,
+            "independence": 1,
             "identity": 1,
         }
     }

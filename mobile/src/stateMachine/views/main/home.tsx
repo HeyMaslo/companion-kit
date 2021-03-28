@@ -50,9 +50,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
             delay: isFirstLaunch ? 1000 : 400,
             duration: 500,
         }).start(this.checkNewLinkDoc);
+        if (isFirstLaunch) {
+            const mags = await this.viewModel.getArmMagnitudes();
+            this.persona.view = {...this.persona.view, login: true, logout: false, armMagnitudes: mags };
+        }
         isFirstLaunch = false;
-        const mags = await this.viewModel.getArmMagnitudes();
-        this.persona.view = {...this.persona.view, login: true, logout: false, armMagnitudes: mags };
     }
 
     private checkNewLinkDoc = () => {
