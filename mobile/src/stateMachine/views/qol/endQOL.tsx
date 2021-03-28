@@ -8,6 +8,7 @@ import { createLogger } from 'common/logger';
 import { styles } from 'react-native-markdown-renderer';
 import Layout from 'src/constants/Layout';
 import AppViewModel from 'src/viewModels';
+import QOLSurveyViewModel from '../../../viewModels/QoLViewModel';
 
 export const logger = createLogger('[endQOL]');
 
@@ -26,7 +27,7 @@ export class qolEndView extends ViewState {
     }
 
     async start() {
-        logger.log(this.viewModel.getSurveyResponses);
+        logger.log("QoL Survey Results:", this.viewModel.getSurveyResponses);
     }
 
     private cancel = () => {
@@ -34,6 +35,7 @@ export class qolEndView extends ViewState {
     }
 
     private onEndSurvey = () => {
+        AppViewModel.Instance.QOL = new QOLSurveyViewModel();
         this.cancel();
     }
 

@@ -56,7 +56,6 @@ export class qolQuestion extends ViewState {
     }
 
     private finish = () => {
-        this.viewModel.finishSurvey();
         this.trigger(ScenarioTriggers.Submit);
     }
 

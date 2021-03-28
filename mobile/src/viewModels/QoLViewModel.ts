@@ -1,8 +1,7 @@
-import { reaction, transaction, observable, computed, toJS } from 'mobx';
+import { observable, computed, toJS } from 'mobx';
 import { SurveyQuestions, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT } from "../constants/QoLSurvey";
 import { PersonaDomains } from '../stateMachine/persona';
 import { createLogger } from 'common/logger';
-import AppViewModel from '.';
 
 export const logger = createLogger('[QOLModel]');
 
@@ -50,12 +49,6 @@ export default class QOLSurveyViewModel {
         this._surveyResponses = surveyResponses;
     }
 
-    finishSurvey(): void {
-        logger.log("QoL Survey Results:", this._surveyResponses);
-        this.resetSurveyResults();
-        AppViewModel.Instance.QOL = new QOLSurveyViewModel();
-    }
-
     public nextQuestion(): void {
         if (!((this._questionNum + 1) > (QUESTIONS_COUNT - 1))) {
             this._questionNum++;
@@ -67,9 +60,7 @@ export default class QOLSurveyViewModel {
 
     public savePrevResponse(prevResponse: number): void {
         const currDomain: string = this.getDomain;
-        const domainResponseIndex: number = this.getQuestionNum % DOMAIN_QUESTION_COUNT;
-        const domainResponseArray: number[] = this._surveyResponses[currDomain];
-        domainResponseArray[domainResponseIndex] = prevResponse;
+        this._surveyResponses[currDomain] += prevResponse;
     }
 }
 
