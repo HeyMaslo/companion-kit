@@ -9,7 +9,7 @@ import { reaction, transaction, observable, computed, toJS } from 'mobx';
 // import AppController from 'src/controllers';
 // import EnvConstants from 'src/constants/env';
 import { SurveyQuestions, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT } from "../constants/QoLSurvey";
-import { Domains } from "../../dependencies/persona/lib/domains";
+import { PersonaDomains } from '../stateMachine/persona';
 import { createLogger } from 'common/logger';
 
 export const logger = createLogger('[QOLModel]');
@@ -33,7 +33,7 @@ export default class QOLSurveyViewModel {
         this._domainNum = 0;
         const surveyResponses = {};
 
-        for (let domain of Domains) {
+        for (let domain of PersonaDomains) {
             surveyResponses[domain] = new Array(DOMAIN_QUESTION_COUNT).fill(0);
         }
 
@@ -50,7 +50,7 @@ export default class QOLSurveyViewModel {
     get getQuestion(): string { return SurveyQuestions[this._questionNum]; }
 
     @computed
-    get getDomain(): string { return Domains[this._domainNum]; }
+    get getDomain(): string { return PersonaDomains[this._domainNum]; }
 
     get getSurveyResponses(): any { return this._surveyResponses; }
 
