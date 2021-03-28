@@ -1,13 +1,4 @@
 import { reaction, transaction, observable, computed, toJS } from 'mobx';
-// import { asyncComputed } from 'computed-async-mobx';
-// import { ClientJournalEntryIded } from 'common/models/ClientEntries';
-// import { StorageReferenceViewModel } from 'common/viewModels/StorageReferenceViewModel';
-// import Firebase from 'common/services/firebase';
-// import * as Functions from 'common/abstractions/functions';
-// import LocationsStrings from 'common/localization/LocationStrings';
-// import { safeCall } from 'common/utils/functions';
-// import AppController from 'src/controllers';
-// import EnvConstants from 'src/constants/env';
 import { SurveyQuestions, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT } from "../constants/QoLSurvey";
 import { PersonaDomains } from '../stateMachine/persona';
 import { createLogger } from 'common/logger';
@@ -32,13 +23,7 @@ export default class QOLSurveyViewModel {
     constructor() {
         this._questionNum = 0;
         this._domainNum = 0;
-        const surveyResponses = {};
-
-        for (let domain of PersonaDomains) {
-            surveyResponses[domain] = new Array(DOMAIN_QUESTION_COUNT).fill(0);
-        }
-
-        this._surveyResponses = surveyResponses;
+        this.resetSurveyResults();
     }
 
     @computed
@@ -55,12 +40,19 @@ export default class QOLSurveyViewModel {
 
     get getSurveyResponses(): any { return this._surveyResponses; }
 
+    resetSurveyResults(): void {
+        const surveyResponses = {};
+
+        for (let domain of PersonaDomains) {
+            surveyResponses[domain] = 0;
+        }
+        
+        this._surveyResponses = surveyResponses;
+    }
+
     finishSurvey(): void {
         logger.log("QoL Survey Results:", this._surveyResponses);
-        this._surveyResponses = {};
-        for (let domain of PersonaDomains) {
-            this._surveyResponses[domain] = new Array(DOMAIN_QUESTION_COUNT).fill(0);
-        }
+        this.resetSurveyResults();
         AppViewModel.Instance.QOL = new QOLSurveyViewModel();
     }
 
@@ -79,53 +71,5 @@ export default class QOLSurveyViewModel {
         const domainResponseArray: number[] = this._surveyResponses[currDomain];
         domainResponseArray[domainResponseIndex] = prevResponse;
     }
-
-
-//     @computed
-//     get checkIn(): ClientJournalEntryIded {
-//         return this._checkInId == null ? null : AppController.Instance.User.journal.entries.find(e => e.id === this._checkInId);
-//     }
-//
-//     @computed
-//     get record(): Readonly<JournalRecordDataIded> {
-//         if (this._testRecord) {
-//             return this._testRecord;
-//         }
-//
-//         const ref = this.checkIn && AppController.Instance.User.records.observeRecord(this.checkIn.id);
-//         const r = ref?.record;
-//         if (r?.type === 'journal') {
-//             return r;
-//         }
-//         return null;
-//     }
-//
-//     manualProcess = async () => {
-//         if (!EnvConstants.AllowManualProcessing) {
-//             return;
-//         }
-//
-//         const record = await Firebase.Instance.getFunction(Functions.AI.ProcessAudioEntry)
-//             .execute({
-//                 type: 'journal',
-//                 clientUid: AppController.Instance.User.user.id,
-//                 entryId: this._checkInId,
-//                 accountId: AppController.Instance.User.activeAccount.id,
-//                 force: true,
-//             });
-//
-//         if (record && record.type === 'journal') {
-//             this._testRecord = record;
-//         }
-//     }
-//
-//     public clearModel = () => {
-//         this._checkInId = null;
-//         // this._audioUrl = null;
-//     }
-
-//     public dispose = () => {
-//         safeCall(this._urlObserver);
-//     }
 }
 
