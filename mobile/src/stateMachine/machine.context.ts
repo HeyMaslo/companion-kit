@@ -12,8 +12,9 @@ class PersonaViewContext implements IPersonaViewContext {
     @observable.ref
     public view: PersonaViewState = PersonaViewPresets.Default;
 
+    // will be set outside
     @observable
-    public qolMags: { [dom: string]: number } = {};
+    public qolMags: { [dom: string]: number } = null;
 
     // will be set outside
     public currentSettings: CurrentPersonaSettings = null;

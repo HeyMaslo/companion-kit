@@ -17,7 +17,7 @@ export default class BackendControllerBase implements IBackendController {
             "spiritual": 1,
             "money": 0.7,
             "home": 1,
-            "selfEsteem": 1,
+            "self-esteem": 1,
             "independence": 0.7,
             "identity": 1,
         }
