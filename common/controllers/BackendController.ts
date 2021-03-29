@@ -18,11 +18,11 @@ export default class BackendControllerBase implements IBackendController {
             "cognition": 0.7,
             "leisure": 1,
             "relationships": 1,
-            "spiritual": 1,
-            "money": 0.7,
+            "spiritual": 0.8,
+            "money": 0.8,
             "home": 1,
-            "self-esteem": 1,
-            "independence": 0.7,
+            "self-esteem": 0.8,
+            "independence": 1,
             "identity": 1,
         }
     }
