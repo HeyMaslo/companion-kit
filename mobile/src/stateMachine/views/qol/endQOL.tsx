@@ -35,7 +35,7 @@ export class qolEndView extends ViewState {
     }
 
     private onEndSurvey = () => {
-        // todo: to send results to firebase
+        this.viewModel.sendArmMagnitudes(this.persona.qolMags);
         this.persona.qolMags = null;
         AppViewModel.Instance.QOL = new QOLSurveyViewModel();
         this.cancel();

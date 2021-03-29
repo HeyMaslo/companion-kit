@@ -2,6 +2,7 @@ import { observable, computed, toJS } from 'mobx';
 import { SurveyQuestions, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT } from "../constants/QoLSurvey";
 import { PersonaDomains } from '../stateMachine/persona';
 import { createLogger } from 'common/logger';
+import AppController from 'src/controllers';
 
 export const logger = createLogger('[QOLModel]');
 
@@ -61,6 +62,11 @@ export default class QOLSurveyViewModel {
     public savePrevResponse(prevResponse: number): void {
         const currDomain: string = this.getDomain;
         this._surveyResponses[currDomain] += prevResponse;
+    }
+
+    public sendArmMagnitudes = async (qolMags) => {
+        const res = await AppController.Instance.Backend.setDomainMagnitudes(qolMags);
+        return res;
     }
 }
 
