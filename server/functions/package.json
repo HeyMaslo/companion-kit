@@ -22,7 +22,7 @@
     "deploy:hosting:web:stage": "firebase deploy -P staging --only hosting:web-staging",
     "deploy:hosting:web:prod": "firebase deploy -P production --only hosting:web-prod",
     "logs": "firebase functions:log",
-    "test": "echo 'Running tests!'"
+    "test": "env-cmd firebase emulators:exec -P staging 'jest test'"
   },
   "main": "lib/server/functions/src/index.js",
   "engines": {
@@ -57,10 +57,15 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.20",
     "@types/uuid": "^8.0.0",
+    "chai": "^4.3.0",
     "concurrently": "^5.2.0",
     "env-cmd": "^10.1.0",
+    "firebase-functions-test": "^0.2.3",
+    "jest": "^26.6.3",
     "nodemon": "^2.0.4",
+    "ts-jest": "^26.5.1",
     "ts-nameof": "^5.0.0",
     "ts-node": "^8.10.2",
     "tsconfig-paths": "^3.9.0",
