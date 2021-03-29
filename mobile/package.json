@@ -48,6 +48,7 @@
     "react-native-shadow": "^1.2.2",
     "react-native-svg": "^12.1.0",
     "react-native-unimodules": "^0.10.1",
+    "rn-apple-healthkit": "0.8.0",
     "sentry-expo": "^2.1.2",
     "simplex-noise": "2.4.0",
     "three": "^0.120.1"
