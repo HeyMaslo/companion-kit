@@ -42,9 +42,6 @@ export class ChooseDomainView extends ViewState {
         translateXTabOne: new Animated.Value(0),
         translateY: 0,
         xDomain: 0,
-        domain:1,
-        lDomain: 0,
-        rDomain: 2,
     }
 
     public get viewModel() {
@@ -108,18 +105,23 @@ export class ChooseDomainView extends ViewState {
         this.trigger(ScenarioTriggers.Submit);
     }
 
-    onSelectDomain = () => {
+    onSelectDomain = n => {
+        this.viewModel.selectDomain(n);
         this.trigger(ScenarioTriggers.Tertiary);
+    }
+
+    onselectThird = () => {
+        this.trigger(ScenarioTriggers.Next);
     }
 
 
 
 
     renderContent() {
-        let {xTabOne, xTabTwo, active, translateX, translateXTabTwo, translateXTabOne, translateY, xDomain, domain, rDomain, lDomain} = this.state
+        let {xTabOne, xTabTwo, active, translateX, translateXTabTwo, translateXTabOne, translateY, xDomain} = this.state
+        const [lDomain, domain, rDomain, importance] = this.viewModel.getDomainDisplay();
         const domainLength = this.viewModel.domainCount;
-        const domains = this.viewModel.Domains;
-        const importance = this.viewModel.getDomainImportance;
+        const domainsChosen = this.viewModel.SelectedDomain;
         // let mainDomain, leftDomain, rightDomain = 0;
         // TODO: put styles in style sheet and abstract common styles
         // TODO: see if there are styles in basestyles that work
@@ -128,7 +130,7 @@ export class ChooseDomainView extends ViewState {
             <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()}>
                 <Container style={[{height: this._contentHeight, paddingTop: 10, paddingBottom: 10}]}>
                     <View style={{justifyContent: 'space-between', flexDirection: 'row', marginBottom: 20}}>
-                        <Text style={[TextStyles.p1, styles.domain]}>{domains[domain % domainLength]}</Text>
+                        <Text style={[TextStyles.p1, styles.domain]}>{domain}</Text>
                         <Text style={[TextStyles.labelMedium, styles.date]}>{today}</Text>
                     </View>
                     <View style={{borderWidth: 1, borderRadius: 10, height: 350, justifyContent: 'center', alignItems: 'center'}}>
@@ -179,7 +181,7 @@ export class ChooseDomainView extends ViewState {
                                 
                                 >
                                     <Text style={this.textStyles.p2}>
-                                        {importance[domain % domainLength]}
+                                        {importance}
                                     </Text>
                                 </Animated.View>
                                 <Animated.View style={{
@@ -221,7 +223,7 @@ export class ChooseDomainView extends ViewState {
                                     title="Select Focus Domain"
                                     style={styles.domain}
                                     titleStyles={styles.selectDomain}
-                                    onPress={this.onSelectDomain}
+                                    onPress={() => domainsChosen.length == 2?this.onselectThird(): this.onSelectDomain(domain)}
                                     isTransparent
                                 />
                      </View>
@@ -240,24 +242,25 @@ export class ChooseDomainView extends ViewState {
                     
                          <TouchableOpacity 
                         //  onLayout = {event => this.setState({xDomain: event.nativeEvent.layout.x})}
-                        onPress = {() => this.setState({domain: lDomain === -1? domain: domain - 1, rDomain: lDomain === -1? rDomain:rDomain - 1, lDomain: lDomain === -1? lDomain:lDomain - 1})}
+                        onPress = {() => this.viewModel.getNextDomain(-1)}
                         // onPress = {() => this.setState({domain: domain - 1, rDomain: rDomain - 1, lDomain: lDomain - 1})}
                          
                          >
                          <Images.backIcon width={20} height={20} />
                          </TouchableOpacity>
-                         <Text style={[TextStyles.p1, styles.domain, {fontSize: 30}]}>{domains[domain % domainLength]}</Text>
+                         <Text style={[TextStyles.p1, styles.domain, {fontSize: 30}]}>{domain}</Text>
                          <TouchableOpacity 
                         //  onPress = {() => this.setState({domain:domain + 1, rDomain:rDomain + 1, lDomain:lDomain + 1})}
                          
-                         onPress = {() => this.setState({domain:rDomain === domainLength? domain: domain + 1, rDomain:rDomain === domainLength? rDomain: rDomain + 1, lDomain:rDomain === domainLength? lDomain: lDomain + 1})}
+                        //  onPress = {() => this.setState({domain:rDomain === domainLength? domain: domain + 1, rDomain:rDomain === domainLength? rDomain: rDomain + 1, lDomain:rDomain === domainLength? lDomain: lDomain + 1})}
+                        onPress = {() => this.viewModel.getNextDomain(1)}
                          >
                          <Images.backIcon width={20} height={20} />
                          </TouchableOpacity>
                     </View>
                      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                         <Text style={[TextStyles.labelMedium, styles.domain, {fontSize: 17}]}>{lDomain < 0? '' : domains[lDomain % domainLength]}</Text>
-                         <Text style={[TextStyles.labelMedium, styles.domain, {fontSize: 17}]}>{rDomain > domainLength - 1? '' : domains[rDomain % domainLength]}</Text>
+                         <Text style={[TextStyles.labelMedium, styles.domain, {fontSize: 17}]}>{lDomain}</Text>
+                         <Text style={[TextStyles.labelMedium, styles.domain, {fontSize: 17}]}>{rDomain}</Text>
                      </View>
                 </Container>
             </MasloPage>

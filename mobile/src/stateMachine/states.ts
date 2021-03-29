@@ -67,6 +67,8 @@ export enum States {
     Choose_Domain,
     Domain_Details,
     Select_Domain,
+    Three_Selected,
+    Choose_end,
 
     qol_Question,
     End_Qol,

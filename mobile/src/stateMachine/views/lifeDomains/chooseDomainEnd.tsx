@@ -14,7 +14,7 @@ export const logger = createLogger('[endQOL]');
 const minContentHeight = 1000;
 
 @observer
-export class SelectDomainView extends ViewState {
+export class ChooseDomainEndView extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { transition: { duration: 2.2 }});
@@ -35,7 +35,7 @@ export class SelectDomainView extends ViewState {
     }
 
     private onEndSurvey = () => {
-        this.trigger(ScenarioTriggers.Next);
+        this.cancel();
     }
 
     onThreeSelected = () => {
@@ -50,13 +50,11 @@ export class SelectDomainView extends ViewState {
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()}>
                 <Container style={[{ height: this._contentHeight, alignItems: 'center' }]}>
-                    <Text style={[this.textStyles.h1, styles.title]}>{(selectedDomains.length == 2)? `You have Selected the ${selectedDomains[0]} & ${selectedDomains[1]} Domain.` : `You have Selected the  ${mainDomain} domain.`} </Text>
-                    <Text style={[this.textStyles.h1, styles.title]}>{selectedDomains.length == 2? "would you like to choose a third Domain?" : "would you like to choose an additional focus Domain?" }</Text>
+                    <Text style={[this.textStyles.h1, styles.title]}>Next, you'll choose strategies for your focus domains </Text>
                     <Text style={[this.textStyles.p1, styles.message]}></Text>
-                    <View style ={{width: '90%', flex: 1, alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row'}}>
-                        {(selectedDomains.length == 2 || selectedDomains.length == 3) && <Button title="Continue" style={styles.continueButton} onPress={() => this.onThreeSelected()}/>}
-                    { selectedDomains.length < 2 && <Button title="No" style={[styles.readyButtonNo]} onPress={() => this.onEndSurvey()}/>}
-                    { selectedDomains.length < 2 && <Button title="Yes" style={styles.readyButton} onPress={() => this.cancel()}/>}
+                    <View style ={{width: '90%', flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
+                    <Text style={[this.textStyles.p3, styles.title]}>You can choose upto 4 strategies and update them weekly </Text>
+                       <Button title="View Strategies" style={styles.continueButton} onPress={() => this.onThreeSelected()}/>
                     </View>
                 </Container>
             </MasloPage>
