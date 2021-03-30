@@ -22,7 +22,7 @@ export class SelectDomainView extends ViewState {
     }
 
     public get viewModel() {
-        return AppViewModel.Instance.QOL;
+        return AppViewModel.Instance.ChooseDomain;
     }
     
 

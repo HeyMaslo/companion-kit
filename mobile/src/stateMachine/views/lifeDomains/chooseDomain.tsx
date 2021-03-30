@@ -45,7 +45,7 @@ export class ChooseDomainView extends ViewState {
     }
 
     public get viewModel() {
-        return AppViewModel.Instance.QOL;
+        return AppViewModel.Instance.ChooseDomain;
     }
 
     handleSlide = type => {

@@ -22,14 +22,6 @@ export default class QOLSurveyViewModel {
     @observable
     private _domainNum: number;
 
-    @observable
-    private _mainDomain: number;
-    @observable
-    private _leftDomain: number;
-    @observable
-    private _rightDomain: number;
-    
-
     private _surveyResponses: any;
 
     public _selectedDomains: any;
@@ -45,20 +37,13 @@ export default class QOLSurveyViewModel {
         this._questionNum = 0;
         this._domainNum = 0;
 
-        this._mainDomain = 1;
-        this._rightDomain = 2;
-        this._leftDomain = 0;
-
         const surveyResponses = {};
-
-        const selectedDomains = [];
 
         for (let domain of Domains) {
             surveyResponses[domain] = new Array(DOMAIN_QUESTION_COUNT).fill(0);
         }
 
         this._surveyResponses = surveyResponses;
-        this._selectedDomains = selectedDomains;
     }
 
     @computed
@@ -74,8 +59,6 @@ export default class QOLSurveyViewModel {
     get getDomain(): string { return Domains[this._domainNum]; }
 
     get getSurveyResponses(): any { return this._surveyResponses; }
-
-    // get getDomainImportance(): any { return Domain_Importance; }
 
     // @computed
     get SelectedDomain (): any {return this._selectedDomains};
@@ -95,44 +78,6 @@ export default class QOLSurveyViewModel {
         const domainResponseArray: number[] = this._surveyResponses[currDomain];
         domainResponseArray[domainResponseIndex] = prevResponse;
     }
-
-
-    public getDomainDisplay () : string[] {
-        // if (this._leftDomain == -1) {
-        //     return ['',Domains[0], Domains[1]];
-        // }
-
-        // if (this._rightDomain == DOMAIN_COUNT) {
-        //     return [Domains[DOMAIN_COUNT - 3], Domains[DOMAIN_COUNT - 2], ''];
-        // }
-
-        return [Domains[this._leftDomain % DOMAIN_COUNT], Domains[this._mainDomain % DOMAIN_COUNT], Domains[this._rightDomain % DOMAIN_COUNT],Domain_Importance[this._mainDomain]];
-    }
-
-    public getNextDomain (dir:number) : void {
-        if (dir > 0){
-            if (!((this._rightDomain + 1) > (DOMAIN_COUNT))) {
-                this._rightDomain++;
-                this._mainDomain++;
-                this._leftDomain++;
-            }
-        }
-
-        if (dir < 0){
-            if (!((this._leftDomain - 1) < -1)) {
-                this._rightDomain--;
-                this._mainDomain--;
-                this._leftDomain--;
-            }
-
-        }
-    }
-
-    public selectDomain(domain: string): void {
-        this._selectedDomains.push(domain);
-    }
-
-
 
 
 //     @computed
