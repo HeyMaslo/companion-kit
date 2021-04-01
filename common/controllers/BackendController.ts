@@ -1,5 +1,6 @@
 import { 
     DomainMagnitudesData,
+    QolSurveyResults,
     IBackendController 
 } from "abstractions/controlllers/IBackendController";
 
@@ -23,7 +24,13 @@ export default class BackendControllerBase implements IBackendController {
         }
     }
 
-    public async setDomainMagnitudes(magnitudes: any): Promise<boolean> {
+    public async setDomainMagnitudes(magnitudes: DomainMagnitudesData): Promise<boolean> {
+        // STUB FUNCTION
+        const success = true;
+        return true;
+    }
+
+    public async sendSurveyResults(results: QolSurveyResults): Promise<boolean> {
         // STUB FUNCTION
         const success = true;
         return true;
