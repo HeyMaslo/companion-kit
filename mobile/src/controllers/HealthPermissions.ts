@@ -5,22 +5,14 @@ import { ILocalSettingsController } from './LocalSettings';
 import { ThrottleAction } from 'common/utils/throttle';
 import { IDisposable } from 'common/utils/unsubscriber';
 import { createLogger } from 'common/logger';
-import {auth, init} from 'src/helpers/health'
+import {auth, init, isAvailable, stepCount, getHeight} from 'src/helpers/health'
 import { Platform } from 'react-native';
-import AppleHealthKit from 'rn-apple-healthkit';
-
-const PERMS = AppleHealthKit.Constants.Permissions;
-
-const options = {
-  permissions: {
-    read: [PERMS.BiologicalSex],
-    write: [],
-  },
-};
 
 const logger = createLogger('[HealthPermissionsController]');
 
 const AllowanceStorageKey = 'healthAllowedByUser';
+
+let isFirstUse = true;
 
 
 export class HealthPermissionsController implements IDisposable {
@@ -31,8 +23,12 @@ export class HealthPermissionsController implements IDisposable {
 
     @observable
     private _enabledByUser: boolean;
+
+
     @observable
-    private _enabledByUserOriginal: boolean;
+    private _enabledByUserOG: boolean;
+
+
 
     // private _previousPermissionsState: boolean = null;
 
@@ -42,13 +38,9 @@ export class HealthPermissionsController implements IDisposable {
         // this._service = new NotificationsService(name);
     }
 
-    // public get schedule(): Readonly<Schedule> { return this._schedule; }
-
-    // public get openedNotification() { return this._service.openedNotification; }
-
     public get enabled() { return this._enabledByUser; }
-
-    public get enabledOriginal() { return this._enabledByUserOriginal; }
+    
+    public get enabledOG() { return this._enabledByUserOG; }
 
     public get permissionsGranted() { return this._enabledByUser; }
 
@@ -56,66 +48,31 @@ export class HealthPermissionsController implements IDisposable {
 
     // Should be OK to call multiple times
     async initAsync() {
-        // logger.log("INIT HEALTH - latest-l", this.settings.current.health?.enabled);
-       if (this.settings.current.health?.enabled == null){
-           // very first time using the app
-           const allowedByUser = await AsyncStorage.getValue(AllowanceStorageKey);
-           logger.log("ALLOWED_BY_USER_INOT-4", allowedByUser === 'true');
-           this.settings.updateHealthPermissions({
-            enabled: allowedByUser? allowedByUser === 'true' : null,
-            });
+        this._enabledByUser = this.settings.current.health?.enabled;
 
-            if (allowedByUser === 'true'){
-                const authorized = Platform.OS == 'android'? await auth() : await init();
-                if (Platform.OS == 'ios' && authorized != 1) {
-                    this._enabledByUserOriginal = false;
-                } else {
-                    this._enabledByUserOriginal = true;
-                }
-            }
-            // this._enabledByUser = this.settings.current.notifications?.enabled;
-            logger.log("IN INIT FIRST TIME", this.permissionsAsked);
-            // logger.log("FALSE && NULL", (null === false));
-            // return;
-            this._enabledByUser = allowedByUser === 'true';
-       }
+        if (Platform.OS == 'ios' && this._enabledByUserOG){
+            const steps = await stepCount(); 
+            this._enabledByUserOG = steps;
 
-    //    if (this.settings.current.health?.enabled === false){
-    //     logger.log("enabled in init", this.settings.current.health?.enabled);
-    //        //user denied permissions at some point
-    //        const enabledbyUser = Platform.OS == 'android'? await auth() : init();
-    //        logger.log("ENABLED BY USER",enabledbyUser);
-    //        if (enabledbyUser){
-    //         this.settings.updateHealthPermissions({
-    //             enabled: true,
-    //         });
-    //         // this._enabledByUser = this.settings.current.notifications?.enabled;
-    //        }
-    //     }
-    //    const allowedByUser = await AsyncStorage.getValue(AllowanceStorageKey);
-
-       this._enabledByUser = this.settings.current.health?.enabled;
-       logger.log("INIT HEALTH - latest", this._enabledByUser);
-       await this.sync();
+            // this.settings.updateHealthPermissions({
+            //     enabled: steps? true : false,
+            //     });
+        }
     }
 
     public askPermission = async () => {
-        const authorized = Platform.OS == 'android'? await auth() : null;
-        if (Platform.OS == 'android'){
-            logger.log("NEW METHOD", authorized)
-            this._enabledByUser = true;
-            // await AsyncStorage.setValue(AllowanceStorageKey, 'true');
-        } else {
-            this._enabledByUser = false;
+
+        const authorized = Platform.OS == 'android'? await auth() : await init();
+
+        if (Platform.OS == 'ios' && !this._enabledByUserOG){
+            const steps = await stepCount(); 
+            this._enabledByUserOG = steps;
         }
 
-        if (Platform.OS == 'ios') {
-            const yep = await init();
-            this._enabledByUser = true;
-        }
-        await AsyncStorage.setValue(AllowanceStorageKey, 'true');
+        logger.log("AUTHORIZED__", authorized);
+        this._enabledByUser = authorized;
+
         await this.sync();
-        logger.log("PERMISSIONGRANTED", this.permissionsGranted);
         return this.permissionsGranted;
     }
 

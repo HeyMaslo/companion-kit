@@ -6,6 +6,7 @@ import logger from 'common/logger';
 import moment from 'moment'
 import { Scope } from 'sentry-expo';
 import Env from 'src/constants/env';
+import getHealth from 'src/hooks/getHealthKitData'
 
 const runOptions = {
   scopes: [
@@ -19,11 +20,10 @@ const runOptions = {
     // Scopes.FITNESS_AUTH,
   ]
 };
-const PERMS = AppleHealthKit.Constants.Permissions;
 
 const options = {
   permissions: {
-    read: [PERMS.BiologicalSex],
+    read: ["StepCount"],
     write: [],
   },
 };
@@ -77,14 +77,58 @@ export const auth = async() => {
   // return isAuth;
 }
 
-export const init = async () => {
-  // var isAuth;
-  AppleHealthKit.initHealthKit(options, (err, results) => {
-    if (err) {
-        console.log("error initializing Healthkit: ", err);
-        return false;
-    }
-    console.log("RESULTS FROM INIT HEALTHKIT", results == 1);
-    return results;
-});
+export const init = async (): Promise<boolean> => {
+  return new Promise((resolve, reject) => {
+    AppleHealthKit.initHealthKit(options, (err, results) => {
+      if (err) {
+          console.log("error initializing Healthkit:", err);
+          resolve(false);
+      }
+      console.log("RESULTS FROM INIT HEALTHKIT", results);
+      resolve(true);
+    });
+  })
+}
+
+
+export const isAvailable = async (): Promise<boolean>  => {
+  return new Promise((resolve, reject) => {
+    AppleHealthKit.isAvailable((err, results) => {
+      if (err) {
+          console.log("error initializing ISAVAIL----:", err.hasOwnProperty("message"));
+          resolve(false);
+          return;
+      }
+      console.log("RESULTS FROM IS_AVAIL HEALTHKIT", results);
+      resolve(true);
+    });
+  })
+}
+
+export const stepCount = async (): Promise<boolean>  => {
+  return new Promise((resolve, reject) => {
+    AppleHealthKit.getStepCount(null,(err, results) => {
+      if (err) {
+          console.log("error initializing StepCount:", err);
+          resolve(false);
+          return;
+      }
+      console.log("RESULTS FROM Steps HEALTHKIT");
+      resolve(true);
+    });
+  })
+}
+
+export const getHeight = async () => {
+  return new Promise((resolve, reject) => {
+    AppleHealthKit.getLatestHeight(null,(err, results) => {
+      if (err) {
+          console.log("error initializing height:", err);
+          resolve(false);
+          return;
+      }
+      console.log("RESULTS FROM Height HEALTHKIT");
+      resolve(true);
+    });
+  })
 }

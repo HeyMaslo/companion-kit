@@ -45,7 +45,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
     }
 
     get viewModel() { return HomeViewModel.Instance; }
-    private get originalIsEnabled() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabled; }
+    private get originalIsEnabled() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabledOG; }
 
     async start() {
         Animated.timing(this.state.opacity, {
