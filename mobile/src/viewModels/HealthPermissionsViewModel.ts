@@ -1,7 +1,7 @@
 import { observable, computed, autorun, reaction } from 'mobx';
 import AppController from 'src/controllers';
 import { NotificationTime, timeToString } from 'src/helpers/notifications';
-import { Alert, Linking } from 'react-native';
+import { Alert, Linking, Platform } from 'react-native';
 import { createLogger } from 'common/logger';
 import * as Links from 'src/constants/links';
 
@@ -17,12 +17,16 @@ export class HealthPermissionsViewModel {
 
     private _unsubscribe: () => void = null;
 
+    @observable
+    private _isEnabledOG: boolean = this.originalIsEnabledOG;
+
    // private enabledSettings: boolean = this.originalIsEnabled1;
 
     private get originalIsEnabled() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabled; }
-    //private get originalIsEnabled1() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabledOriginal; }
+    private get originalIsEnabledOG() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabledOG; }
 
     get isEnabled() { return this._isEnabled; }
+    get isEnabledOG() { return this._isEnabledOG; }
     get isToggleInProgress() { return this._toggleInProgress; }
 
     // get schedule() { return AppController.Instance.User.notifications.schedule; }
@@ -56,6 +60,7 @@ export class HealthPermissionsViewModel {
 
     updateEnabledState = () => {
         this._isEnabled = this.originalIsEnabled;
+        this._isEnabledOG = this.originalIsEnabledOG;
     }
 
     toggleEnabledState = async () => {
@@ -68,12 +73,13 @@ export class HealthPermissionsViewModel {
         this._toggleInProgress = true;
         try {
 
-            this._isEnabled = !this._isEnabled;
+            // this._isEnabled = !this._isEnabled;
 
             if (!AppController.Instance.User.hasHealthDataPermissions.enabled) {
                 await AppController.Instance.User.hasHealthDataPermissions.enableHealthPermissions();
             } else {
-                await AppController.Instance.User.hasHealthDataPermissions.disableHealthPermissions();
+                if (Platform.OS != 'ios'){
+                await AppController.Instance.User.hasHealthDataPermissions.disableHealthPermissions();}
             }
 
         } finally {
@@ -82,11 +88,11 @@ export class HealthPermissionsViewModel {
             // need to learn who you is!!
             logger.log("PREV_VAL-val", prevValue, this.originalIsEnabled);
 
-            if (!prevValue && prevValue === this.isEnabled) {
+            if ((this.isEnabled != this._isEnabledOG) && Platform.OS == 'ios') {
                 logger.log("PREV_VAL_LATEST", prevValue);
                 Alert.alert(
                     'Oops',
-                    'Looks like health Permissions have been restricted. Please re-enable it anytime in Settings and try again.',
+                    'Looks like health Permissions have been restricted. Please re-enable it anytime in Settings/Health and try again.',
                     [
                         { text: 'Cancel' },
 

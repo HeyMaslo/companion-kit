@@ -54,19 +54,19 @@ export const auth = async() => {
         return authResult.success === true;
       })
       .catch(() => {
-        Alert.alert(
-          "AUTH_ERROR",
-          "Click Reload button to re-authorize.",
-          [
-            {
-              text: "Cancel",
-              onPress: () => {},
-              style: "cancel"
-            },
-            { text: "OK", onPress: () => auth() }
-          ],
-          { cancelable: false }
-        );
+        // Alert.alert(
+        //   "AUTH_ERROR",
+        //   "Click Reload button to re-authorize.",
+        //   [
+        //     {
+        //       text: "Cancel",
+        //       onPress: () => {},
+        //       style: "cancel"
+        //     },
+        //     { text: "OK", onPress: () => auth() }
+        //   ],
+        //   { cancelable: false }
+        // );
         return false;
       })
     }
@@ -76,6 +76,8 @@ export const auth = async() => {
 
   // return isAuth;
 }
+
+export const disconnectAndroid = () => { GoogleFit.disconnect()}
 
 export const init = async (): Promise<boolean> => {
   return new Promise((resolve, reject) => {

@@ -14,6 +14,7 @@ import Layout from 'src/constants/Layout';
 import { PersonaScrollMask } from 'src/components/PersonaScollMask';
 import Switch from 'dependencies/react-native-switch-pro';
 import { HealthPermissionsViewModel } from 'src/viewModels/HealthPermissionsViewModel';
+import logger from 'common/logger';
 
 
 const minContentHeight = 344;
@@ -27,7 +28,7 @@ export class GoogleFitScopesView extends ViewState {
     }
 
     state = {
-        opacity: new Animated.Value(0),
+        // opacity: new Animated.Value(0),
     };
 
     private readonly model = new HealthPermissionsViewModel();
@@ -50,7 +51,9 @@ export class GoogleFitScopesView extends ViewState {
     renderContent() {
         // const texts = Localization.Current.MobileProject;
         // const containerPadding = Layout.window.height - this._contentHeight;
-        const permissionsEnabled = this.model.isEnabled && !this.model.isToggleInProgress;
+        const enabled = Platform.OS == 'ios'? this.model.isEnabledOG : this.model.isEnabled;
+        logger.log("SCREENS MAN", enabled);
+        const permissionsEnabled = enabled && !this.model.isToggleInProgress;
         const titleText = permissionsEnabled?  "Health Data" : "Health Data Missing";
         const explaining = permissionsEnabled? "": "We need the following scopes to enhance your experience";
         // const more = "check or uncheck and click save to update permission"
@@ -75,7 +78,7 @@ export class GoogleFitScopesView extends ViewState {
                         style={{ marginBottom: 20 }}
                     >
                         <Switch
-                             value={this.model.isEnabled}
+                             value={permissionsEnabled}
                              disabled={this.model.isToggleInProgress}
                              onSyncPress={this.model.toggleEnabledState}
                              width={50}

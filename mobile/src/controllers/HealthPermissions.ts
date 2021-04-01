@@ -5,7 +5,7 @@ import { ILocalSettingsController } from './LocalSettings';
 import { ThrottleAction } from 'common/utils/throttle';
 import { IDisposable } from 'common/utils/unsubscriber';
 import { createLogger } from 'common/logger';
-import {auth, init, isAvailable, stepCount, getHeight} from 'src/helpers/health'
+import {auth, init, stepCount, disconnectAndroid} from 'src/helpers/health'
 import { Platform } from 'react-native';
 
 const logger = createLogger('[HealthPermissionsController]');
@@ -50,13 +50,8 @@ export class HealthPermissionsController implements IDisposable {
     async initAsync() {
         this._enabledByUser = this.settings.current.health?.enabled;
 
-        if (Platform.OS == 'ios' && this._enabledByUserOG){
-            const steps = await stepCount(); 
-            this._enabledByUserOG = steps;
-
-            // this.settings.updateHealthPermissions({
-            //     enabled: steps? true : false,
-            //     });
+        if (this.permissionsGranted){
+            this.askPermission();
         }
     }
 
@@ -64,9 +59,13 @@ export class HealthPermissionsController implements IDisposable {
 
         const authorized = Platform.OS == 'android'? await auth() : await init();
 
-        if (Platform.OS == 'ios' && !this._enabledByUserOG){
+        if (Platform.OS == 'ios'){
             const steps = await stepCount(); 
             this._enabledByUserOG = steps;
+            logger.log("ask permission por",  this._enabledByUserOG);
+        }
+        if (Platform.OS == 'android'){ 
+            this._enabledByUserOG = authorized;
         }
 
         logger.log("AUTHORIZED__", authorized);
@@ -78,22 +77,20 @@ export class HealthPermissionsController implements IDisposable {
 
     // enableHealthPermissions
     public enableHealthPermissions = async () => {
-        logger.log("ENABLE_PERMISSIONS", this.permissionsGranted);
-        if (!this.permissionsGranted) {
-            // try to request permission (don't know they were denied or just never asked)
-            const enabled = await this.askPermission();
-            if (!enabled) {
-                return false;
-            }
-        }
 
-        this._enabledByUser = true;
-        this._syncThrottle.tryRun(this.sync);
+        const enabled = await this.askPermission();
+        if (!enabled) {
+            return false;
+        }
         return true;
     }
 
     public disableHealthPermissions = async () => {
+        if (Platform.OS == 'android') {
+            disconnectAndroid();
+        }
         this._enabledByUser = false;
+        this._enabledByUserOG = this._enabledByUser;
         this._syncThrottle.tryRun(this.sync);
     }
 
