@@ -13,5 +13,6 @@ rm -f server/.firebaserc
 rm -f server/functions/.runtimeconfig.json
 rm -f mobile/android/sentry.properties
 rm -f mobile/ios/sentry.properties
+rm -f common/models/ClientCard.ts
 
 echo "Done."

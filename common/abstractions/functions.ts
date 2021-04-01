@@ -30,6 +30,26 @@ export namespace Users {
 
     export const AuthEndpoint = new FunctionDefinition<AuthDtos.AuthRequest, AuthDtos.AuthResponse>('auth', Namespace);
 
+    export const SendVerificationCodeEmail = AuthEndpoint.specify<AuthDtos.SendVerificationCodeEmailRequest, { result: boolean, verificationCode?: string } | 'noInvitation'>(
+        a => ({ ...a, type: AuthDtos.AuthActionTypes.SendVerificationCodeEmail }),
+    );
+
+    export const ResetPassword = AuthEndpoint.specify<AuthDtos.ResetPasswordRequest, { result: boolean }>(
+        a => ({ ...a, type: AuthDtos.AuthActionTypes.ResetPassword }),
+    );
+
+    export const GenerateToken = AuthEndpoint.specify<AuthDtos.GenerateTokenRequest, { result: boolean, token?: string }>(
+        a => ({ ...a, type: AuthDtos.AuthActionTypes.GenerateToken }),
+    );
+
+    export const HasAccount = AuthEndpoint.specify<AuthDtos.HasAccountRequest, { result: boolean }>(
+        a => ({ ...a, type: AuthDtos.AuthActionTypes.HasAccount }),
+    );
+
+    export const ValidateCode = AuthEndpoint.specify<AuthDtos.ValidateCodeRequest, { result: boolean }>(
+        a => ({ ...a, type: AuthDtos.AuthActionTypes.ValidateCode }),
+    );
+
     export const MagicLink = AuthEndpoint.specify<AuthDtos.MagicLinkRequest, AuthDtos.BaseResponse>(
         a => ({ ...a, type: AuthDtos.AuthActionTypes.MagicLinkSignIn }),
     );
@@ -69,7 +89,7 @@ export namespace Clients {
 
     export const IntakeFormsEndpoint =
         new FunctionDefinition<IntakeFormsDtos.IntakeFormsRequest, IntakeFormsDtos.IntakeFormsResponse>('intakeforms', Namespace);
-    export const AddIntakeFormResponse = IntakeFormsEndpoint.specify<IntakeFormsDtos.SubmitFormDto, {account: ClientAccountIded, entry: IntakeFormsDtos.IntakeFormsResponse}>();
+    export const AddIntakeFormResponse = IntakeFormsEndpoint.specify<IntakeFormsDtos.SubmitFormDto, { account: ClientAccountIded, entry: IntakeFormsDtos.IntakeFormsResponse }>();
 
     export const EventsEndpoint = new FunctionDefinition<EventsDtos.EventsRequestDto, EventsDtos.EventsResponseDto>('events', Namespace);
 }
