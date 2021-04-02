@@ -73,7 +73,10 @@ export class HealthPermissionsViewModel {
         this._toggleInProgress = true;
         try {
 
-            // this._isEnabled = !this._isEnabled;
+            // this._isEnabledOG = !this._isEnabledOG;
+            this._isEnabled = !this._isEnabled;
+            // logger.log("PREV_VAL-val-----",this.isEnabledOG);
+            logger.log("PREV_VAL-val----|--",prevValue);
 
             if (!AppController.Instance.User.hasHealthDataPermissions.enabled) {
                 await AppController.Instance.User.hasHealthDataPermissions.enableHealthPermissions();
@@ -105,7 +108,28 @@ export class HealthPermissionsViewModel {
                             style: 'default',
                         },
                     ]);
+            } else {
+                if (Platform.OS == 'ios'){
+                    Alert.alert(
+                        '',
+                        'Disable permissions in settings/Health',
+                        [
+                            { text: 'Cancel' },
+    
+                            {
+                                text: 'Settings',
+                                onPress: async () => {
+                                    const url = 'app-settings:';
+                                    await Links.tryOpenLink(url);
+                                },
+                                style: 'default',
+                            },
+                        ]);
+                }
+
+                return  this._toggleInProgress = true;
             }
+            
 
             this._toggleInProgress = false;
         }

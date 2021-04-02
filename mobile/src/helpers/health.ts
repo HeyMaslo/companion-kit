@@ -23,7 +23,7 @@ const runOptions = {
 
 const options = {
   permissions: {
-    read: ["StepCount"],
+    read: ["StepCount", "BiologicalSex", "DateOfBirth"],
     write: [],
   },
 };
@@ -110,11 +110,12 @@ export const isAvailable = async (): Promise<boolean>  => {
 export const stepCount = async (): Promise<boolean>  => {
   return new Promise((resolve, reject) => {
     AppleHealthKit.getStepCount(null,(err, results) => {
-      if (err) {
-          console.log("error initializing StepCount:", err);
-          resolve(false);
-          return;
+      if (err.message == "No data available for the specified predicate.") {
+        resolve (true);
+      } else {
+        resolve(false);
       }
+      return;
       console.log("RESULTS FROM Steps HEALTHKIT");
       resolve(true);
     });
@@ -130,6 +131,24 @@ export const getHeight = async () => {
           return;
       }
       console.log("RESULTS FROM Height HEALTHKIT");
+      resolve(true);
+    });
+  })
+}
+export const getDOB = async (): Promise<boolean> => {
+  return new Promise((resolve, reject) => {
+    AppleHealthKit.getDateOfBirth(null,(err, results) => {
+      if (err) {
+          console.log("error initializing height:", err);
+
+          if (err.message == "No data available for the specified predicate.") {
+            resolve (true);
+          } else {
+            resolve(false);
+          }
+          return;
+      }
+      console.log("RESULTS FROM Height HEALTHKIT", results.value);
       resolve(true);
     });
   })

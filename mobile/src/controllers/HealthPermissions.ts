@@ -5,7 +5,7 @@ import { ILocalSettingsController } from './LocalSettings';
 import { ThrottleAction } from 'common/utils/throttle';
 import { IDisposable } from 'common/utils/unsubscriber';
 import { createLogger } from 'common/logger';
-import {auth, init, stepCount, disconnectAndroid} from 'src/helpers/health'
+import {auth, init, stepCount, disconnectAndroid, isAvailable, getDOB} from 'src/helpers/health'
 import { Platform } from 'react-native';
 
 const logger = createLogger('[HealthPermissionsController]');
@@ -60,8 +60,8 @@ export class HealthPermissionsController implements IDisposable {
         const authorized = Platform.OS == 'android'? await auth() : await init();
 
         if (Platform.OS == 'ios'){
-            const steps = await stepCount(); 
-            this._enabledByUserOG = steps;
+            const dob = await getDOB(); 
+            this._enabledByUserOG = dob;
             logger.log("ask permission por",  this._enabledByUserOG);
         }
         if (Platform.OS == 'android'){ 
