@@ -1,7 +1,7 @@
 import { ViewState } from '../base';
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import { createLogger } from 'common/logger';
@@ -18,7 +18,7 @@ export class SelectDomainView extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { transition: { duration: 2.2 }});
-        this.persona.view = {...this.persona.view, position: { x: this.persona.view.position.x, y: Layout.window.height*0.18} };
+        this.persona.view = {...this.persona.view, position: { x: this.persona.view.position.x, y: Layout.window.height*0.20} };
     }
 
     public get viewModel() {
@@ -53,9 +53,9 @@ export class SelectDomainView extends ViewState {
                     <Text style={[this.textStyles.h1, styles.title]}>{(selectedDomains.length == 2)? `You have Selected the ${selectedDomains[0]} & ${selectedDomains[1]} Domain.` : `You have Selected the  ${mainDomain} domain.`} </Text>
                     <Text style={[this.textStyles.h1, styles.title]}>{selectedDomains.length == 2? "would you like to choose a third Domain?" : "would you like to choose an additional focus Domain?" }</Text>
                     <Text style={[this.textStyles.p1, styles.message]}></Text>
-                    <View style ={{width: '90%', flex: 1, alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row'}}>
+                    <View style ={{width: '90%', flex: 1, alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row', paddingTop: 30}}>
                         {(selectedDomains.length == 2 || selectedDomains.length == 3) && <Button title="Continue" style={styles.continueButton} onPress={() => this.onThreeSelected()}/>}
-                    { selectedDomains.length < 2 && <Button title="No" style={[styles.readyButtonNo]} onPress={() => this.onEndSurvey()}/>}
+                    { selectedDomains.length < 2 && <Button title="No" titleStyles={{color:'black'}} withBorder={true} style={[styles.readyButtonNo, {color: 'red'}]} onPress={() => this.onEndSurvey()}/>}
                     { selectedDomains.length < 2 && <Button title="Yes" style={styles.readyButton} onPress={() => this.cancel()}/>}
                     </View>
                 </Container>
@@ -77,13 +77,14 @@ const styles = StyleSheet.create({
         marginBottom: '20%',
     },
     readyButton: {
-        width: '40%',
-        height: 50, 
+        width: '45%',
+        height: 45,
     },
     readyButtonNo: {
-        width: '40%',
-        height: 50,
-        // backgroundColor: '#ffff' 
+        width: '45%',
+        height: 45,
+        backgroundColor: '#ffff',
+        borderRadius: 5
     },
     continueButton: {
         width: '100%',

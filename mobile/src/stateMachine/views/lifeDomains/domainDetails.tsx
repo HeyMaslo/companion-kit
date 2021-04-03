@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import Colors from '../../../constants/colors';
+import AppViewModel from 'src/viewModels';
 
 import { styles } from 'react-native-markdown-renderer';
 
@@ -20,24 +21,29 @@ export class DomainDetailsView extends ViewState {
 
     async start() {}
 
+    public get viewModel() {
+        return AppViewModel.Instance.ChooseDomain;
+    }
+    
+
     private cancel = () => {
         this.trigger(ScenarioTriggers.Cancel);
     }
 
     renderContent() {
+        const [l,domain,r,k] = this.viewModel.getDomainDisplay();
         // TODO: put styles in style sheet and abstract common styles
         // TODO: see if there are styles in basestyles that work
         return (
             <MasloPage style={[this.baseStyles.page,{backgroundColor: '#E7E7F6'}]} onClose={() => this.cancel()}>
                 <Container style={[{ height: this._contentHeight, paddingTop: 90, paddingBottom: 15, backgroundColor:'#E7E7F6', alignItems:'center' }]}>
                     <View style={{justifyContent:'center', alignItems:'center', marginBottom: 20}}>
-                    <Text style={this.textStyles.h1}>Why leisure is important to your quality of life</Text>
+                    <Text style={this.textStyles.h1}>Why {domain} is important to your quality of life</Text>
                     </View>
                     <View style={{width: '90%', backgroundColor: '#ffff', padding: 10, borderRadius: 5}}>
                         <Text style={[this.textStyles.h3, {marginBottom: 10}]}>What to know:</Text>
                         <ScrollView>
-                            <Text>DOMANIN1 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod non provident, 
-                        similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga</Text>
+                        <Text>{k}</Text>
                         </ScrollView>
                     </View>
                     <View style={{alignItems:'center', width: '90%', marginTop:20}}>
