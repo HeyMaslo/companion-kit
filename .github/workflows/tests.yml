@@ -25,6 +25,6 @@ jobs:
       - name: Build project
         working-directory: companion-app/server/functions
         run: docker-compose build server
-      - name: Test functions
+      - name: Perform Tests
         working-directory: companion-app/server/functions
-        run: docker-compose run --rm server yarn test:functions
+        run: docker-compose run --rm server yarn test
