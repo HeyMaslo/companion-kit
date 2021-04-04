@@ -2,7 +2,7 @@ import { Platform } from 'react-native';
 import ExpoConstants, { AppOwnership } from 'expo-constants';
 import * as Device from 'expo-device';
 import { observable, toJS, transaction } from 'mobx';
-import { UserLocalSettings, NotificationsSettings, DeviceInfo, LocalNotificationsSchedule } from 'common/models';
+import { UserLocalSettings, NotificationsSettings, DeviceInfo, LocalNotificationsSchedule, QolSettings } from 'common/models';
 import RepoFactory from 'common/controllers/RepoFactory';
 import { transferChangedFields } from 'common/utils/fields';
 import { ThrottleAction } from 'common/utils/throttle';
@@ -26,6 +26,7 @@ export interface ILocalSettingsController {
     readonly synced: IEvent;
 
     updateNotifications(diff: Partial<NotificationsSettings>): void;
+    updateQolOnboarding(diff: Partial<QolSettings>): void;
 
     flushChanges(): Promise<void>;
 }
@@ -130,6 +131,18 @@ export class LocalSettingsController implements ILocalSettingsController {
                 this.update({ notifications });
             }
         });
+    }
+
+    updateQolOnboarding(diff: Partial<QolSettings>) {
+        const qol = this.current.qol || { };
+        logger.log("updating unboarding field");
+        // transaction(() => {
+        //     let changed = transferChangedFields(diff, qol, "seenOnboardingQol");
+
+        //     if (changed) {
+        //         this.update({ qol });
+        //     }
+        // });
     }
 }
 

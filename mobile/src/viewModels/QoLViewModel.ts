@@ -3,6 +3,7 @@ import { SurveyQuestions, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT } from "../cons
 import { PersonaDomains } from '../stateMachine/persona';
 import { createLogger } from 'common/logger';
 import AppController from 'src/controllers';
+import { ILocalSettingsController } from 'src/controllers/LocalSettings';
 
 export const logger = createLogger('[QOLModel]');
 
@@ -19,6 +20,8 @@ export default class QOLSurveyViewModel {
     public numQuestions: number = QUESTIONS_COUNT;
 
     public domainQuestions: number = DOMAIN_QUESTION_COUNT;
+
+    private _settings: ILocalSettingsController = AppController.Instance.User.localSettings;
 
     constructor() {
         this._questionNum = 0;
@@ -72,6 +75,10 @@ export default class QOLSurveyViewModel {
     public sendSurveyResults = async () => {
         const res = AppController.Instance.Backend.sendSurveyResults(this._surveyResponses);
         return res;
+    }
+
+    public updateQolOnboarding = () => {
+        this._settings.updateQolOnboarding({ seenOnboardingQol: true })
     }
 }
 

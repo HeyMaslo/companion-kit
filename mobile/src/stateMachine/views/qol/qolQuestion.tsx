@@ -37,6 +37,7 @@ export class qolQuestion extends ViewState {
             "independence": initialMag,
             "identity": initialMag,
         };
+        this.viewModel.updateQolOnboarding();
     }
 
     public get viewModel() {
