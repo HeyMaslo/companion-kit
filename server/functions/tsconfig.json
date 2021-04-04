@@ -19,8 +19,7 @@
         "node_modules/*"
       ]
     },
-    "plugins": [{ "transform": "ts-nameof", "type": "raw" }],
-    "types": ["jest"],
+    "plugins": [{ "transform": "ts-nameof", "type": "raw" }]
   },
   "compileOnSave": true,
   "include": [
