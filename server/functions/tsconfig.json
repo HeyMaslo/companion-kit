@@ -19,10 +19,12 @@
         "node_modules/*"
       ]
     },
-    "plugins": [{ "transform": "ts-nameof", "type": "raw" }]
+    "plugins": [{ "transform": "ts-nameof", "type": "raw" }],
+    "types": ["jest"],
   },
   "compileOnSave": true,
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "__tests__/**/*"
   ]
 }
