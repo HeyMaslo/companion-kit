@@ -9,6 +9,7 @@ import Colors from '../../../constants/colors';
 import TextStyles from '../../../../src/styles/TextStyles';
 
 import { styles } from 'react-native-markdown-renderer';
+import { PersonaArmState } from 'dependencies/persona/lib';
 
 const minContentHeight = 560;
 
@@ -22,21 +23,7 @@ export class qolQuestion extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -140, transition: { duration: 1 }, scale: 0.8 });
-        const initialMag: number = 0.2;
-        this.persona.qolMags = { 
-            "physical": initialMag,
-            "sleep": initialMag,
-            "mood": initialMag,
-            "cognition": initialMag,
-            "leisure": initialMag,
-            "relationships": initialMag,
-            "spiritual": initialMag,
-            "money": initialMag,
-            "home": initialMag,
-            "self-esteem": initialMag,
-            "independence": initialMag,
-            "identity": initialMag,
-        };
+        this.persona.qolMags = PersonaArmState.createEmptyArmState();
         this.viewModel.updateQolOnboarding();
     }
 

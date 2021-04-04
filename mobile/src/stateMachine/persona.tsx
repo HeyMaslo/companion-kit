@@ -4,6 +4,7 @@ import { reaction } from 'mobx';
 import {
     MasloPersonaExpo,
     PersonaViewState,
+    PersonaArmState,
     States as PersonaStates,
     IPersonaContext,
     PersonaSettings,
@@ -18,7 +19,7 @@ import * as Haptics from 'src/services/haptics';
 // FIREBASE & EXPO-THREE COMPATIBILITY HOTFIX
 (global as any).Image = undefined;
 
-export { PersonaStates, PersonaViewState, IPersonaContext, PersonaSettings, CurrentPersonaSettings, PersonaDomains };
+export { PersonaStates, PersonaViewState, PersonaArmState, IPersonaContext, PersonaSettings, CurrentPersonaSettings, PersonaDomains };
 
 export const PersonaViewPresets: { [name: string]: PersonaViewState } = {
     Default: {
