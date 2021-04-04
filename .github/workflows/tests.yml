@@ -27,4 +27,4 @@ jobs:
         run: docker-compose build server
       - name: Test functions
         working-directory: companion-app/server/functions
-        run: docker-compose run --rm server yarn test:functions
+        run: docker-compose run --rm server yarn test
