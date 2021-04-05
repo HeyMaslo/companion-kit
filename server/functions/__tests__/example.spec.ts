@@ -3,6 +3,9 @@ import { fail } from 'assert';
 import { expect } from 'chai';
 import fbFuncTest from 'firebase-functions-test';
 
+// should be able to import this
+import { initializeAsync } from '../../../common/services/firebase';
+
 // Initialize testing server
 const test = fbFuncTest({
     projectId: 'bipolarbridges',
