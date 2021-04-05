@@ -3,8 +3,9 @@ import { fail } from 'assert';
 import { expect } from 'chai';
 import fbFuncTest from 'firebase-functions-test';
 
-// should be able to import this
+// should be able to import things like the following:
 import { initializeAsync } from '../../../common/services/firebase';
+import { env } from '../../../env';
 
 // Initialize testing server
 const test = fbFuncTest({
