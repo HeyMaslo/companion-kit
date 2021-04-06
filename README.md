@@ -447,5 +447,5 @@ Maslo users the following technologies which may be referenced for their own sec
 * Google Cloud and Amazon AWS https://cloud.google.com/security and https://aws.amazon.com/compliance/data-privacy-faq/
 
 Interested parties may want more info on Maslo Privacy and Security:
-https://docs.google.com/document/d/1W6DQOg-QFav4Xi3eSOKneMlWGB6ElMd5qTKgsNsJ7R0/edit?ts=5ef231b5
+https://github.com/HeyMaslo/data-privacy
 https://maslo.kb.help/5-data-privacy/
