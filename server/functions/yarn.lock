@@ -328,7 +328,7 @@
   resolved "https://registry.yarnpkg.com/@firebase/app-types/-/app-types-0.6.1.tgz#dcbd23030a71c0c74fc95d4a3f75ba81653850e9"
   integrity sha512-L/ZnJRAq7F++utfuoTKX4CLBG5YR7tFO3PLzG1/oXXKEezJ0kRL3CMRoueBEmTCzVb/6SIs2Qlaw++uDgi5Xyg==
 
-"@firebase/app@0.6.18", "@firebase/app@^0.6.17":
+"@firebase/app@0.6.18", "@firebase/app@^0.6.18":
   version "0.6.18"
   resolved "https://registry.yarnpkg.com/@firebase/app/-/app-0.6.18.tgz#68df65fee9929d5ace7a25fcd522888c0858bb2b"
   integrity sha512-eBThPc4QGHy/FC+oHZsnp4Qk6oksYTZ10B4jXaVH1lCS5eUSKvV1TIzAtpkPzMp2huS/qBz411r1tkQUv5vKcw==
@@ -2739,7 +2739,7 @@ find-up@^4.0.0, find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-firebase-admin@^9.5.0:
+firebase-admin@^9.6.0:
   version "9.6.0"
   resolved "https://registry.yarnpkg.com/firebase-admin/-/firebase-admin-9.6.0.tgz#eabb0513f5aa0ebc473934669895d2a4d7e4e8a3"
   integrity sha512-GNrxsQsZ6alz9u+uYmX84qcixxYQnfOrByxVgEHWiCI9JSCbMOQ/1Px2A6+Coz5zzFokTgXsHnIg+Qz7hMlNZg==
@@ -2772,7 +2772,7 @@ firebase-functions@^3.13.2:
     express "^4.17.1"
     lodash "^4.17.14"
 
-firebase@^8.3.1:
+firebase@^8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-8.3.2.tgz#f647770472ede31e4411ce5ffdc2ab84796fe4dd"
   integrity sha512-qGKASp6lXcV8NriHz/3wdltyLUjHOVkON6TQ1syGjW0sS5q/yTl9LK4O83hDLwG+UeRVRhLOaVa3jaLG4o3gnw==
