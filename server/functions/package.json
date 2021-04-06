@@ -22,7 +22,7 @@
     "deploy:hosting:web:stage": "firebase deploy -P staging --only hosting:web-staging",
     "deploy:hosting:web:prod": "firebase deploy -P production --only hosting:web-prod",
     "logs": "firebase functions:log",
-    "test": "env-cmd firebase emulators:exec -P staging 'jest test --config=../../jest.config.js'"
+    "test": "env-cmd firebase emulators:exec -P staging 'jest test --config=./jest.config.js'"
   },
   "main": "lib/server/functions/src/index.js",
   "engines": {
@@ -57,6 +57,7 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.16",
     "@types/jest": "^26.0.22",
     "@types/uuid": "^8.0.0",
     "chai": "^4.3.4",
