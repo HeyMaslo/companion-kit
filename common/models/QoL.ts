@@ -5,7 +5,7 @@
     survey data.
 */
 
-import { Identify } from "models";
+import { Identify } from "common/models";
 
 export enum DomainScope {
     GENERAL ='GENERAL',
