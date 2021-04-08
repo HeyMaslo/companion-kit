@@ -291,7 +291,6 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
                     <Button title="QoL Suvey" style={styles.qolButton} onPress={() => this.onStartQOL()}/>
-                    <Text style={styles.orbLabel}>PHYSICAL</Text>
                     { this.getTitle() }
                     { loading
                         ? <ActivityIndicator size="large" />
@@ -346,12 +345,6 @@ const styles = StyleSheet.create({
     newLinkMsg: {
         paddingHorizontal: 5,
         textAlign: 'center',
-    },
-    orbLabel: {
-        position: 'absolute',
-        fontFamily: TextStyles.labelMedium.fontFamily,
-        top: 80,
-        left: 260
     },
     qolButton: {
         width: '30%',
