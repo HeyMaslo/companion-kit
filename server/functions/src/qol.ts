@@ -1,5 +1,5 @@
 import { DomainScope, Domain } from 'common/models/QoL';
-import RepoFactory from 'common/controllers/RepoFactory';
+import { Repo } from './services/db';
 import { Identify } from 'common/models';
 import { QoL as QoLFunctions } from 'common/abstractions/functions';
 import { FunctionFactory } from 'server/utils/createFunction';
@@ -29,7 +29,7 @@ export async function createDomain(args: CreateDomainRequest)
     : Promise<CreateDomainResponse> {
     
     if (args.scope in DomainScope) {
-        await RepoFactory.Instance.domains.create({
+        await Repo.Domains.create({
             scope:      args.scope as DomainScope,
             position:   args.position,
             name:       args.name,
@@ -48,7 +48,7 @@ export async function createDomain(args: CreateDomainRequest)
 export async function getDomains(): Promise<GetDomainsResponse> {
     return {
         error: null,
-        results: await RepoFactory.Instance.domains.get()
+        results: await Repo.Domains.get()
     };
 }
 

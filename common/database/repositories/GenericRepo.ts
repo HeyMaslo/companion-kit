@@ -16,8 +16,10 @@ export default class GenericRepo<T> {
 
     constructor(protected readonly db: DBProvider) { }
 
-    public      get collection() { return this.db.collection(Collections.Records); }
-    private     get serverCollection() { return serverOnly(this.db).collection(Collections.Records); }
+    public      get collection() { return this.db.collection(Collections.Generic); }
+    
+    // TODO: should we be using this?
+    //private     get serverCollection() { return serverOnly(this.db).collection(Collections.Records); }
 
     async create(question: T): Promise<Identify<T>> {
         const collection = this.collection;

@@ -10,6 +10,7 @@ enum Collections {
     Tips = 'tips',
     LocalSettings = 'localSettings',
     ServiceJobs = 'serviceJobs',
+    Generic = 'generic',
 }
 
 namespace Collections {
