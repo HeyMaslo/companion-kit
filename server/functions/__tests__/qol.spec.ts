@@ -5,13 +5,18 @@ import { fail } from 'assert';
 import { expect, assert } from 'chai';
 
 import { initializeAsync } from '../../../common/services/firebase';
-import { init } from './util/firebase';
+import * as firebase from './util/firebase';
 import clientConfig from './mocks/client/config';
 
 import { createDomain, createQuestion, getDomains } from 'server/qol';
 import { QoLActionTypes } from 'common/models/dtos/qol';
 
-const test = init('qol-test');
+const test = firebase.init('qol-test');
+
+async function fbCleanup() {
+    await firebase.clear();
+    await test.cleanup();
+}
 
 describe('QoL', () => {
     beforeAll(async () => {
@@ -20,9 +25,7 @@ describe('QoL', () => {
     });
     describe('Domains', () => {
         describe('Domain Creation', () => {
-            afterEach(async () => {
-                await test.cleanup();
-            });
+            afterEach(fbCleanup);
             it('Should allow a domain to be created', async () => {
                 const result = await createDomain({
                     type: QoLActionTypes.CreateDomain,
@@ -45,9 +48,7 @@ describe('QoL', () => {
             });
         });
         describe('Domain List', () => {
-            afterEach(async () => {
-                await test.cleanup();
-            });
+            afterEach(fbCleanup);
             it('Should list no domains before any are added', async () => {
                 const result = await getDomains();
                 assert.isNull(result.error);
@@ -68,9 +69,7 @@ describe('QoL', () => {
         });
     });
     describe('Question Creation', () => {
-        afterEach(async () => {
-            await test.cleanup();
-        });
+        afterEach(fbCleanup);
         it('Should not allow a question to be created if the domain slug is invalid', async () => {
             const result = await createQuestion({
                 type: QoLActionTypes.CreateQuestion,

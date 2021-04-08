@@ -57,6 +57,7 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
+    "@firebase/testing": "^0.20.11",
     "@types/chai": "^4.2.16",
     "@types/jest": "^26.0.22",
     "@types/uuid": "^8.0.0",
