@@ -95,17 +95,17 @@ export class HealthPermissionsViewModel {
                 logger.log("PREV_VAL_LATEST", prevValue);
                 Alert.alert(
                     'Oops',
-                    'Looks like health Permissions have been restricted. Please re-enable it anytime in Settings/Health and try again.',
+                    'Looks like health Permissions have been restricted. Please re-enable it anytime in Settings and try again.',
                     [
                         { text: 'Cancel' },
 
                         {
                             text: 'Ok',
-                            onPress: async () => {
-                                // this.getAuthScreens();
-                                const url = 'app-settings:';
-                                await Links.tryOpenLink(url);
-                            },
+                            // onPress: async () => {
+                            //     // this.getAuthScreens();
+                            //     const url = 'app-settings:';
+                            //     await Links.tryOpenLink(url);
+                            // },
                             style: 'default',
                         },
                     ]);
