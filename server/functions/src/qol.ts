@@ -1,27 +1,32 @@
 import { DomainScope, Domain } from 'common/models/QoL';
 import RepoFactory from 'common/controllers/RepoFactory';
 import { Identify } from 'common/models';
+import { QoL as QoLFunctions } from 'common/abstractions/functions';
+import { FunctionFactory } from 'server/utils/createFunction';
+import {
+    QoLActionTypes,
+    CreateDomainRequest,
+    CreateDomainResponse,
+    GetDomainsRequest,
+    GetDomainsResponse,
+    CreateQuestionRequest,
+    CreateQuestionResponse,
+} from 'common/models/dtos/qol';
 
-type CreateDomainArgs = {
-    scope:      string,
-    position:   number,
-    name:       string,
-    slug:       string,
-};
+export const QoLEndpoint = new FunctionFactory(QoLFunctions.QoLEndpoint)
+    .create(async (data, ctx) => {
+        switch (data.type) {
+            case QoLActionTypes.CreateDomain:
+                return createDomain(data);
+            case QoLActionTypes.GetDomains:
+                return getDomains();
+            case QoLActionTypes.CreateQuestion:
+                return createQuestion(data);
+        }
+    });
 
-type Error = string | null;
-
-type CreateResult = {
-    error: Error,
-};
-
-type GetManyResult<T> = {
-    error: Error,
-    results: T[]
-}
-
-export async function createDomain(args: CreateDomainArgs)
-    : Promise<CreateResult> {
+export async function createDomain(args: CreateDomainRequest)
+    : Promise<CreateDomainResponse> {
     
     if (args.scope in DomainScope) {
         await RepoFactory.Instance.domains.create({
@@ -40,24 +45,20 @@ export async function createDomain(args: CreateDomainArgs)
     }
 }
 
-export async function getDomains()
-    : Promise<GetManyResult<Identify<Domain>>> {
-
+export async function getDomains(): Promise<GetDomainsResponse> {
     return {
         error: null,
         results: await RepoFactory.Instance.domains.get()
     };
 }
 
-type CreateQuestionArgs = {
-    text: string,
-    domainSlug: string,
-    position: number,
-};
-
-export async function createQuestion(args: CreateQuestionArgs)
-    : Promise<CreateResult> {
+export async function createQuestion(args: CreateQuestionRequest)
+    : Promise<CreateQuestionResponse> {
     return {
         error: null
     }; // STUB
 }
+
+export const Functions = {
+    [QoLEndpoint.Definition.Name]: QoLEndpoint.Function,
+};

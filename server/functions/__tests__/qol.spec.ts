@@ -9,6 +9,7 @@ import { init } from './util/firebase';
 import clientConfig from './mocks/client/config';
 
 import { createDomain, createQuestion, getDomains } from 'server/qol';
+import { QoLActionTypes } from 'common/models/dtos/qol';
 
 const test = init('qol-test');
 
@@ -24,6 +25,7 @@ describe('QoL', () => {
             });
             it('Should allow a domain to be created', async () => {
                 const result = await createDomain({
+                    type: QoLActionTypes.CreateDomain,
                     scope: 'GENERAL',
                     position: 1,
                     name: 'Physical',
@@ -33,6 +35,7 @@ describe('QoL', () => {
             });
             it('Should not allow a domain to be created if the scope is not valid', async () => {
                 const result = await createDomain({
+                    type: QoLActionTypes.CreateDomain,
                     scope: 'NOT_A_VALID_SCOPE',
                     position: 1,
                     name: 'Physical',
@@ -52,6 +55,7 @@ describe('QoL', () => {
             });
             it('Should list domains that are added', async () => {
                 await createDomain({
+                    type: QoLActionTypes.CreateDomain,
                     scope: 'GENERAL',
                     position: 1,
                     name: 'Physical',
@@ -69,6 +73,7 @@ describe('QoL', () => {
         });
         it('Should not allow a question to be created if the domain slug is invalid', async () => {
             const result = await createQuestion({
+                type: QoLActionTypes.CreateQuestion,
                 text: "had plenty of energy",
                 domainSlug: "not_a_valid_slug",
                 position: 1,
