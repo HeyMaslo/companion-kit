@@ -60,7 +60,7 @@ export class GrantPermission2GfitView extends ViewState {
                 <ScrollView style={[{ zIndex: 0, elevation: 0 }]}>
                     <Container style={[this.baseStyles.container, styles.container]}>
                         <View style={[this.baseStyles.textBlock, styles.textBlock]}>
-                            <Text style={[this.textStyles.h1, this.baseStyles.textCenter]}>Next, Click on CompanionKit App</Text>
+                            <Text style={[this.textStyles.h1, this.baseStyles.textCenter]}>Next, Click on Data Access & Devices, choose CompanionKit</Text>
                             {/* <Text style={[this.textStyles.p1, this.baseStyles.textCenter]}>Can you tell me more about how you feel?</Text> */}
                         </View>
                         <View>

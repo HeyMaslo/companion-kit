@@ -20,7 +20,7 @@ import logger from 'common/logger';
 const minContentHeight = 344;
 
 @observer
-export class GoogleFitScopesView extends ViewState {
+export class HealthScopesView extends ViewState {
     constructor(props) {
         super(props);
         // this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: 405 });
@@ -71,15 +71,17 @@ export class GoogleFitScopesView extends ViewState {
                 <Container style={[this.baseStyles.container, styles.container]}>
                     <Text style={[this.textStyles.h1, styles.title]}>{titleText}</Text>
                     <Text style={[this.textStyles.p2, styles.title]}>{explaining}</Text>
+                    {/* {Platform.OS == 'ios' && <Text style={[this.textStyles.p2, styles.title]}>You need to change Permissions in settings for changes to take effect, Click CHANGE MY PERMISSIONS</Text>} */}
                     {/* <Text style={[this.textStyles.p3, styles.title]}>{more}</Text> */}
                     <Card
                         title="Permissions"
-                        description={permissionsEnabled ? "ON" : 'Off' }
+                        description={permissionsEnabled ? "ON" :  'Off' }
                         style={{ marginBottom: 20 }}
                     >
                         <Switch
                              value={permissionsEnabled}
                              disabled={this.model.isToggleInProgress}
+                            //  onSyncPress={this.model.toggleEnabledState}
                              onSyncPress={this.model.toggleEnabledState}
                              width={50}
                              height={24}
@@ -89,7 +91,7 @@ export class GoogleFitScopesView extends ViewState {
                              circleStyle={{ width: 18, height: 18 }}
                         />
                     </Card>
-                    {permissionsEnabled && (
+                    {(
                         <>
                             <Card
                                 title="Activity Samples"
@@ -146,7 +148,7 @@ export class GoogleFitScopesView extends ViewState {
                                 )}
                         </>
                     )} 
-                    {false && (
+                    {!permissionsEnabled && (
                         <View style={styles.buttonView}>
                         <Button
                        title="Change my Permissions"

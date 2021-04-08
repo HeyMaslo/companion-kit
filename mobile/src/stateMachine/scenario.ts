@@ -33,8 +33,8 @@ import { FeelingsView } from './views/checkin/feelings';
 import { GoalsView } from './views/main/goals';
 import { RewardsView } from './views/rewardsView';
 import { RecordPitureCheckinView } from './views/checkin/recordPictureCheckIn';
-import { GoogleFitConsentView } from './views/healthData/googleFitConsent';
-import { GoogleFitScopesView } from './views/healthData/googleFitScopes';
+import { HealthConsentView } from './views/healthData/healthConsent';
+import { HealthScopesView } from './views/healthData/healthScopes';
 import { GrantPermissionGfitView } from './views/healthData/grantPerm1';
 import { GrantPermission2GfitView } from './views/healthData/grantPerm2';
 import { GrantPermission3GfitView } from './views/healthData/grantPerm3';
@@ -76,13 +76,13 @@ export const MasloScenario: GlobalScenario<States> = {
         view: WelcomeView,
         exit: [
             { target: States.SignInWithEmail, trigger: Triggers.Secondary },
-            { target: States.GoogleFitConsent, trigger: Triggers.Primary },
+            { target: States.HealthConsent, trigger: Triggers.Primary },
         ],
     },
-    [States.GoogleFitConsent]: {
-        view: GoogleFitConsentView,
+    [States.HealthConsent]: {
+        view: HealthConsentView,
         exit: [
-            { target: States.GoogleFitScopes, trigger: Triggers.Primary },
+            { target: States.HealthScopes, trigger: Triggers.Primary },
             { target: States.HomeRouter, trigger: Triggers.Submit },
             // { target: States.HomeRouter, trigger: Triggers.Submit },
             
@@ -91,7 +91,7 @@ export const MasloScenario: GlobalScenario<States> = {
     [States.GrantPerm1]: {
         view: GrantPermissionGfitView,
         exit: [
-            { target: States.GoogleFitScopes, trigger: Triggers.Primary },
+            { target: States.HealthScopes, trigger: Triggers.Primary },
             { target: States.GrantPerm2, trigger: Triggers.Secondary },
             // { target: States.HomeRouter, trigger: Triggers.Submit },
             
@@ -102,7 +102,7 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { target: States.GrantPerm1, trigger: Triggers.Back },
             { target: States.GrantPerm3, trigger: Triggers.Secondary },
-            { target: States.GoogleFitScopes, trigger: Triggers.Primary },
+            { target: States.HealthScopes, trigger: Triggers.Primary },
             // { target: States.HomeRouter, trigger: Triggers.Submit },
             
         ],
@@ -111,13 +111,13 @@ export const MasloScenario: GlobalScenario<States> = {
         view: GrantPermission3GfitView,
         exit: [
             { target: States.GrantPerm2, trigger: Triggers.Back },
-            { target: States.GoogleFitScopes, trigger: Triggers.Primary },
+            { target: States.HealthScopes, trigger: Triggers.Primary },
             // { target: States.HomeRouter, trigger: Triggers.Submit },
             
         ],
     },
-    [States.GoogleFitScopes]: {
-        view: GoogleFitScopesView,
+    [States.HealthScopes]: {
+        view: HealthScopesView,
         exit: [
             { target: States.Settings, trigger: Triggers.Back },
             { target: States.GrantPerm1, trigger: Triggers.Primary },
@@ -205,7 +205,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { priority: 0, target: States.Consent, condition: VM.showConsent },
             { priority: 1, target: States.OnboardingEnter, condition: VM.hasActiveOnboarding },
             { priority: 2, target: States.AskNotificationsPermissions, condition: VM.askNotifyPermissions },
-            { priority: 3, target: States.GoogleFitConsent, condition: VM.hasHeathPermissions },
+            { priority: 3, target: States.HealthConsent, condition: VM.hasHeathPermissions },
             { priority: 4, target: States.IntakeForm, condition: VM.showAssessment },
             { priority: 10, target: States.Home, condition: () => true },
 
@@ -385,7 +385,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.NotificationsSettings, trigger: Triggers.Primary },
             { target: States.ChangePassword, trigger: Triggers.Submit },
             // { target: States.ConfirmAccount, trigger: Triggers.Secondary },
-            { target: States.GoogleFitScopes, trigger: Triggers.Secondary },
+            { target: States.HealthScopes, trigger: Triggers.Secondary },
         ],
     },
 

@@ -59,7 +59,7 @@ export class GrantPermissionGfitView extends ViewState {
                 <ScrollView style={[{ zIndex: 0, elevation: 0 }]}>
                     <Container style={[this.baseStyles.container, styles.container]}>
                         <View style={[this.baseStyles.textBlock, styles.textBlock]}>
-                            <Text style={[this.textStyles.h1, this.baseStyles.textCenter]}>Open Settings App on your device and click on Apps and Notifications</Text>
+                            <Text style={[this.textStyles.h1, this.baseStyles.textCenter]}>Open Settings App on your device and click Health</Text>
                             {/* <Text style={[this.textStyles.p1, this.baseStyles.textCenter]}>Can you tell me more about how you feel?</Text> */}
                         </View>
                         <View>

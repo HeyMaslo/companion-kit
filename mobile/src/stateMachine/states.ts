@@ -60,8 +60,8 @@ export enum States {
     NotificationsSettings,
 
     // Health Block
-    GoogleFitConsent,
-    GoogleFitScopes,
+    HealthConsent,
+    HealthScopes,
     GrantPerm1,
     GrantPerm2,
     GrantPerm3,

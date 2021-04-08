@@ -100,8 +100,9 @@ export class HealthPermissionsViewModel {
                         { text: 'Cancel' },
 
                         {
-                            text: 'Settings',
+                            text: 'Ok',
                             onPress: async () => {
+                                // this.getAuthScreens();
                                 const url = 'app-settings:';
                                 await Links.tryOpenLink(url);
                             },
@@ -112,7 +113,7 @@ export class HealthPermissionsViewModel {
                 if (Platform.OS == 'ios'){
                     Alert.alert(
                         '',
-                        'Disable permissions in settings/Health',
+                        'You need to Disable permissions in settings/Health',
                         [
                             { text: 'Cancel' },
     

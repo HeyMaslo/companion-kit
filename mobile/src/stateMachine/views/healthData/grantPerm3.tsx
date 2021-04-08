@@ -2,7 +2,7 @@ import { ViewState } from '../base';
 import React from 'react';
 import ExpoConstants from 'expo-constants';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Alert } from 'react-native';
 import Colors from 'src/constants/colors';
 import { MasloPage, Container, Button, Card, Link,ButtonBlock,Checkbox } from 'src/components';
 import AppViewModel from 'src/viewModels';
@@ -17,6 +17,7 @@ import { ProfileViewModel } from 'src/viewModels/ProfileViewModel';
 import { PersonaScrollMask } from 'src/components/PersonaScollMask';
 import BottomBar from 'src/screens/components/BottomBar';
 import { TextStyles } from 'src/styles/BaseStyles';
+import * as Links from 'src/constants/links';
 
 @observer
 export class GrantPermission3GfitView extends ViewState {
@@ -35,6 +36,22 @@ export class GrantPermission3GfitView extends ViewState {
     }
 
     onClose = () => {
+        Alert.alert(
+            'Health Permissions',
+            'Would you like to change permissions?',
+            [
+                { text: 'Cancel' },
+
+                {
+                    text: 'Ok',
+                    onPress: async () => {
+                        // this.getAuthScreens();
+                        const url = 'app-settings:';
+                        await Links.tryOpenLink(url);
+                    },
+                    style: 'default',
+                },
+            ]);
         this.trigger(ScenarioTriggers.Primary);
     }
 
@@ -59,7 +76,7 @@ export class GrantPermission3GfitView extends ViewState {
                 <ScrollView style={[{ zIndex: 0, elevation: 0 }]}>
                     <Container style={[this.baseStyles.container, styles.container]}>
                         <View style={[this.baseStyles.textBlock, styles.textBlock]}>
-                            <Text style={[this.textStyles.h1, this.baseStyles.textCenter]}>Click Permissions and Allow physical Avtivity</Text>
+                            <Text style={[this.textStyles.h1, this.baseStyles.textCenter]}>Allow/Disable permissions as needed</Text>
                             {/* <Text style={[this.textStyles.p1, this.baseStyles.textCenter]}>Can you tell me more about how you feel?</Text> */}
                         </View>
                         <View>
@@ -69,7 +86,7 @@ export class GrantPermission3GfitView extends ViewState {
                             <FeelingsSelect model={feelingsMultiSelect} />
                         </View> */}
                          <Button
-                            title="You're Done!"
+                            title="Go to Settings!"
                             style={styles.mailButton}
                             titleStyles={styles.mailButtonTitle}
                             onPress={this.onClose}

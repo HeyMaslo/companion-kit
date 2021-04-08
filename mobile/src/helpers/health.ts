@@ -110,12 +110,15 @@ export const isAvailable = async (): Promise<boolean>  => {
 export const stepCount = async (): Promise<boolean>  => {
   return new Promise((resolve, reject) => {
     AppleHealthKit.getStepCount(null,(err, results) => {
-      if (err.message == "No data available for the specified predicate.") {
-        resolve (true);
-      } else {
-        resolve(false);
-      }
-      return;
+      if (err){
+        if (err.message == "No data available for the specified predicate.") {
+          resolve (true);
+          return;
+        } else {
+          resolve(false);
+          return;
+        }
+    }
       console.log("RESULTS FROM Steps HEALTHKIT");
       resolve(true);
     });
@@ -147,6 +150,13 @@ export const getDOB = async (): Promise<boolean> => {
             resolve(false);
           }
           return;
+      }
+
+      if (!results.value){
+        console.log("RESULTS FROM Height HEALTHKIT11", results.value);
+        console.log("RESULTS FROM Height HEALTHKIT11", results.age);
+        resolve(false);
+        return;
       }
       console.log("RESULTS FROM Height HEALTHKIT", results.value);
       resolve(true);
