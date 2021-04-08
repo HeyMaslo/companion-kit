@@ -9,6 +9,7 @@ import { ThrottleAction } from 'common/utils/throttle';
 import { IEvent, Event } from 'common/utils/event';
 import { AppVersion } from './AppVersion';
 import logger from 'common/logger';
+import { ProgressBarCircleGradient } from 'src/components';
 
 const DeviceId = ExpoConstants.installationId;
 
@@ -103,13 +104,31 @@ export class LocalSettingsController implements ILocalSettingsController {
         await this._synced.triggerAsync();
     }
 
+    private submitQolChanges = async () => {
+        const diff: Partial<UserLocalSettings> = {
+            qol: toJS(this._current.qol),
+        };
+
+        logger.log('[LocalSettingsController] submitting changes...', diff);
+        await RepoFactory.Instance.users.updateLocalSettings(
+            this._uid,
+            DeviceId,
+            diff,
+        );
+        await this._synced.triggerAsync();
+    }
+
     private update(diff: Partial<UserLocalSettings>) {
         if (!this._current) {
             throw new Error('LocalSettingsController.update: not initialized!');
         }
 
         Object.assign(this._current, diff);
-        this._syncThrottle.tryRun(this.submitChanges);
+        if (diff.qol !== undefined) {
+            this._syncThrottle.tryRun(this.submitQolChanges);
+        } else {
+            this._syncThrottle.tryRun(this.submitChanges);
+        }
     }
 
     public flushChanges() {
@@ -135,14 +154,13 @@ export class LocalSettingsController implements ILocalSettingsController {
 
     updateQolOnboarding(diff: Partial<QolSettings>) {
         const qol = this.current.qol || { };
-        logger.log("updating unboarding field");
-        // transaction(() => {
-        //     let changed = transferChangedFields(diff, qol, "seenOnboardingQol");
+        transaction(() => {
+            let changed = transferChangedFields(diff, qol, "seenOnboardingQol");
 
-        //     if (changed) {
-        //         this.update({ qol });
-        //     }
-        // });
+            if (changed) {
+                this.update({ qol });
+            }
+        });
     }
 }
 

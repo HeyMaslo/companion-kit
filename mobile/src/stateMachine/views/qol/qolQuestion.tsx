@@ -1,6 +1,7 @@
 import { ViewState } from '../base';
 import React from 'react';
 import AppViewModel from 'src/viewModels';
+import AppController from 'src/controllers';
 import { observer } from 'mobx-react';
 import { StyleSheet, Text, View, Dimensions, Animated } from 'react-native';
 import { MasloPage, Container, Button } from 'src/components';
@@ -24,7 +25,9 @@ export class qolQuestion extends ViewState {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -140, transition: { duration: 1 }, scale: 0.8 });
         this.persona.qolMags = PersonaArmState.createEmptyArmState();
-        this.viewModel.updateQolOnboarding();
+        if (!AppController.Instance.User.localSettings?.current?.qol?.seenOnboardingQol) {
+            this.viewModel.updateQolOnboarding();
+        }
     }
 
     public get viewModel() {
