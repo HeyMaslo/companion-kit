@@ -3,6 +3,7 @@
   "version": "1.5.6",
   "scripts": {
     "lint": "tslint --project tsconfig.json",
+	"lint:fix": "tslint --project tsconfig.json --fix",
     "build": "rm -rf ./lib && ttsc",
     "watch": "concurrently \"nodemon --exec \\\"yarn lint\\\" \" \"tsc --watch --noEmit\" ",
     "serve": "env-cmd firebase emulators:start --only functions,firestore -P staging",

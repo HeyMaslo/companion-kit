@@ -5,10 +5,10 @@ import { RepoError } from '.';
 import DBProvider, { DocumentSnapshot, documentSnapshot, getIdentify, serverOnly } from './dbProvider';
 
 function Identify<T> (d: T, id: string): Identify<T> {
-    let ided: Identify<T> = {
+    const ided: Identify<T> = {
         ... d,
-        id
-    }
+        id,
+    };
     return ided;
 }
 
@@ -17,9 +17,9 @@ export default class GenericRepo<T> {
     constructor(protected readonly db: DBProvider) { }
 
     public      get collection() { return this.db.collection(Collections.Generic); }
-    
+
     // TODO: should we be using this?
-    //private     get serverCollection() { return serverOnly(this.db).collection(Collections.Records); }
+    // private     get serverCollection() { return serverOnly(this.db).collection(Collections.Records); }
 
     async create(question: T): Promise<Identify<T>> {
         const collection = this.collection;
@@ -43,7 +43,7 @@ export default class GenericRepo<T> {
 
     async get(): Promise<Identify<T>[]> {
         const snaps = await this.collection.get();
-        let results: Array<Identify<T>> = [];
+        const results: Array<Identify<T>> = [];
         snaps.forEach((snap: DocumentSnapshot) => {
             results.push(getIdentify<Identify<T>>(snap));
         });

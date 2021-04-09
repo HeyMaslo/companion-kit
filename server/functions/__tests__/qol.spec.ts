@@ -8,7 +8,7 @@ import { initializeAsync } from '../../../common/services/firebase';
 import * as firebase from './util/firebase';
 import clientConfig from './mocks/client/config';
 
-import { createDomain, createQuestion, getDomains } from 'server/qol';
+import { createDomain, createQuestion, getDomains, getQuestions } from 'server/qol';
 import { QoLActionTypes } from 'common/models/dtos/qol';
 
 const test = firebase.init('qol-test');
@@ -73,11 +73,31 @@ describe('QoL', () => {
         it('Should not allow a question to be created if the domain slug is invalid', async () => {
             const result = await createQuestion({
                 type: QoLActionTypes.CreateQuestion,
-                text: "had plenty of energy",
-                domainSlug: "not_a_valid_slug",
+                text: 'had plenty of energy',
+                domainSlug: 'not_a_valid_slug',
                 position: 1,
             });
             assert.isNotNull(result.error);
+        });
+        it('Should allow a question to be created referring to a domain', async () => {
+            await createDomain({
+                type: QoLActionTypes.CreateDomain,
+                scope: 'GENERAL',
+                position: 1,
+                name: 'Physical',
+                slug: 'physical',
+            });
+            const createResult = await createQuestion({
+                type: QoLActionTypes.CreateQuestion,
+                text: 'had plenty of energy',
+                domainSlug: 'physical',
+                position: 1,
+            });
+            assert.isNull(createResult.error);
+            const getResult = await getQuestions({
+                type: QoLActionTypes.GetQuestions,
+            });
+            assert.lengthOf(getResult.results, 1);
         });
     });
 });
