@@ -1,7 +1,8 @@
 import { 
     DomainMagnitudesData,
     QolSurveyResults,
-    IBackendController 
+    IBackendController,
+    PartialQol
 } from "abstractions/controlllers/IBackendController";
 import logger from "logger";
 
@@ -21,6 +22,8 @@ export default class BackendControllerBase implements IBackendController {
         "identity": 1,
     };
 
+    private _partialQolState: PartialQol = null;
+
     public async getDomainMagnitudes(): Promise<DomainMagnitudesData> {
         // STUB FUNCTION
         return this._magsState;
@@ -37,6 +40,17 @@ export default class BackendControllerBase implements IBackendController {
         // STUB FUNCTION
         const success = true;
         return success;
+    }
+
+    public async sendPartialQol(domainMags: DomainMagnitudesData, surveyScores: QolSurveyResults,
+        questionNumber: number, domainNumber: number): Promise<boolean> {
+        this._partialQolState = {questionNum: questionNumber, domainNum: domainNumber, mags: domainMags, scores: surveyScores};
+        const success = true;
+        return success;
+    }
+
+    public async getPartialQol(): Promise<PartialQol> {
+        return this._partialQolState;
     }
 
 }

@@ -4,31 +4,54 @@ import { PersonaDomains } from '../stateMachine/persona';
 import { createLogger } from 'common/logger';
 import AppController from 'src/controllers';
 import { ILocalSettingsController } from 'src/controllers/LocalSettings';
+import { PartialQol } from 'common/abstractions/controlllers/IBackendController';
+import { PersonaArmState } from 'dependencies/persona/lib';
 
 export const logger = createLogger('[QOLModel]');
 
 export default class QOLSurveyViewModel {
 
+    // VIEW MODEL STATE:
     @observable
     private _questionNum: number;
-
     @observable
     private _domainNum: number;
-
     private _surveyResponses: any;
+    private _armMags: PersonaArmState;
+    public isUnfinished: boolean;
+    private initModel: Promise<void>;
 
-    public numQuestions: number = QUESTIONS_COUNT;
-
-    public domainQuestions: number = DOMAIN_QUESTION_COUNT;
-
-    private _settings: ILocalSettingsController = AppController.Instance.User.localSettings;
+    public readonly numQuestions: number = QUESTIONS_COUNT;
+    public readonly domainQuestions: number = DOMAIN_QUESTION_COUNT;
+    private readonly _settings: ILocalSettingsController = AppController.Instance.User.localSettings;
 
     constructor() {
-        this._questionNum = 0;
-        this._domainNum = 0;
-        this.resetSurveyResults();
+        this.initModel = AppController.Instance.Backend.getPartialQol().then((partialQolState: PartialQol) => {
+            if (partialQolState !== null) {
+                this._questionNum = partialQolState.questionNum;
+                this._domainNum = partialQolState.domainNum;
+                this._surveyResponses = partialQolState.scores;
+                this.isUnfinished = true;
+                return;
+            } else {
+                this._questionNum = 0;
+                this._domainNum = 0;
+                const surveyResponses = {};
+                for (let domain of PersonaDomains) {
+                    surveyResponses[domain] = 0;
+                }
+                this._surveyResponses = surveyResponses;
+                this.isUnfinished = false;
+                return;
+            }
+        });
     }
 
+    async init() {
+        await this.initModel;
+    }
+    
+    // TODO: rename getters with proper convention
     @computed
     get getQuestionNum(): number { return this._questionNum; }
 
@@ -65,6 +88,11 @@ export default class QOLSurveyViewModel {
     public savePrevResponse(prevResponse: number): void {
         const currDomain: string = this.getDomain;
         this._surveyResponses[currDomain] += prevResponse;
+    }
+
+    // TODO: add types to parameters below
+    public saveSurveyProgress = async (qolMags) => {
+        const res = AppController.Instance.Backend.sendPartialQol(qolMags, this._surveyResponses);
     }
 
     public sendArmMagnitudes = async (qolMags) => {
