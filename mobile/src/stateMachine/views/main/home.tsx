@@ -17,6 +17,8 @@ import { IInterventionTipItem, ITipItem } from 'src/viewModels/components/TipIte
 import { InterventionTipsStatuses, Identify, DocumentLinkEntry } from 'common/models';
 import { TransitionObserver } from 'common/utils/transitionObserver';
 import { UserProfileName } from 'src/screens/components/UserProfileName';
+import AppController from 'src/controllers';
+import AppViewModel from 'src/viewModels';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -49,8 +51,8 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
             toValue: 1,
             delay: isFirstLaunch ? 600 : 300,
             duration: 500,
+            useNativeDriver: true
         }).start(this.checkNewLinkDoc);
-
         isFirstLaunch = false;
     }
 
@@ -239,6 +241,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
                                 onPress={() => this.onTipItemPress(s)}
                             />
                         ))}
+                        {/* add logic to render certain things in check in spot depending on state of partial save*/}
                     </ScrollView>
                 ) : null}
                 <Container style={styles.heading}>
