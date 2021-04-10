@@ -1,5 +1,6 @@
 import { ViewState } from '../base';
 import React from 'react';
+import AppViewModel from 'src/viewModels';
 import { observer } from 'mobx-react';
 import { StyleSheet, Text, View } from 'react-native';
 import { MasloPage, Container, Button } from 'src/components';
@@ -18,6 +19,10 @@ export class qolStartView extends ViewState {
 
     async start() {}
 
+    public get viewModel() {
+        return AppViewModel.Instance.QOL;
+    }
+
     private cancel = () => {
         this.trigger(ScenarioTriggers.Cancel);
     }
@@ -26,10 +31,24 @@ export class qolStartView extends ViewState {
         this.trigger(ScenarioTriggers.Submit);
     }
 
+    private onClose = (): void | Promise<void> => this.runLongOperation(async () => {
+        this.showModal({
+            title: `Do you really want to stop the survey? Your progress will be saved.`,
+            primaryButton: {
+                text: 'yes, stop',
+                action: this.cancel,
+            },
+            secondaryButton: {
+                text: 'no, go back',
+                action: this.hideModal,
+            }
+        });
+    })
+
     renderContent() {
 
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()}>
+            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
                 <Container style={[{ height: this._contentHeight, paddingTop: 130, alignItems: 'center' }]}>
                     <Text style={[this.textStyles.h1, styles.title]}>Welcome!</Text>
                     <Text style={[this.textStyles.p1, styles.message]}>I’m happy you’re here! First, I’ll need to gather some information about your current Quality of Life. Ready to begin?</Text>
