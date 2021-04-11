@@ -37,7 +37,9 @@ export class qolEndView extends ViewState {
     private onEndSurvey = async () => {
         await this.viewModel.sendArmMagnitudes(this.persona.qolMags);
         await this.viewModel.sendSurveyResults();
-        // this.persona.qolMags = null;
+        if (this.viewModel.isUnfinished) {
+            await this.viewModel.saveSurveyProgress(null);
+        }
         AppViewModel.Instance.QOL = new QOLSurveyViewModel();
         this.cancel();
     }

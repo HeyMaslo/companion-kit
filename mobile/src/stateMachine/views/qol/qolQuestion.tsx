@@ -1,7 +1,6 @@
 import { ViewState } from '../base';
 import React from 'react';
 import AppViewModel from 'src/viewModels';
-import AppController from 'src/controllers';
 import { observer } from 'mobx-react';
 import { StyleSheet, Text, View, Dimensions, Animated } from 'react-native';
 import { MasloPage, Container, Button } from 'src/components';
@@ -24,10 +23,9 @@ export class qolQuestion extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -140, transition: { duration: 1 }, scale: 0.8 });
+        // change below to send arms from the value from the qol model
         this.persona.qolMags = PersonaArmState.createEmptyArmState();
-        if (!AppController.Instance.User.localSettings?.current?.qol?.seenOnboardingQol) {
-            this.viewModel.updateQolOnboarding();
-        }
+        // save orig mags in case its exited
     }
 
     public get viewModel() {
@@ -41,6 +39,11 @@ export class qolQuestion extends ViewState {
             duration: 500,
             useNativeDriver: true
         }).start();
+    }
+
+    private saveProgress() {
+        // todo: change link from onClose to this method
+        // call save progress in view model
     }
 
     private cancel = () => {

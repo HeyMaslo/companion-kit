@@ -93,8 +93,15 @@ export default class QOLSurveyViewModel {
     }
 
     public saveSurveyProgress = async (qolMags: PersonaArmState) => {
-        const res = await AppController.Instance.Backend.sendPartialQol(qolMags, this._surveyResponses, this._questionNum, this._domainNum);
-        this.isUnfinished = true;
+        let res;
+        if (qolMags === null) {
+            res = await AppController.Instance.Backend.sendPartialQol(null, null, null, null);
+            this.isUnfinished = false;
+
+        } else {
+            res = await AppController.Instance.Backend.sendPartialQol(qolMags, this._surveyResponses, this._questionNum, this._domainNum);
+            this.isUnfinished = true;
+        }
         return res;
     }
 

@@ -44,8 +44,14 @@ export default class BackendControllerBase implements IBackendController {
 
     public async sendPartialQol(domainMags: DomainMagnitudesData, surveyScores: QolSurveyResults,
         questionNumber: number, domainNumber: number): Promise<boolean> {
-        this._partialQolState = {questionNum: questionNumber, domainNum: domainNumber, mags: domainMags, scores: surveyScores};
-        const success = true;
+            let success;
+            if (domainMags === null) {
+                this._partialQolState = null;
+                success = true;
+            } else {
+                this._partialQolState = {questionNum: questionNumber, domainNum: domainNumber, mags: domainMags, scores: surveyScores};
+                success = true;
+            }
         return success;
     }
 
