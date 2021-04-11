@@ -13,6 +13,7 @@ export enum ScenarioTriggers {
     Primary,
     Secondary,
     Tertiary,
+    Quaternary
 }
 
 export enum NavigationStates {

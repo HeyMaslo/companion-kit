@@ -188,6 +188,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.IntakeForm, trigger: Triggers.Secondary },
             { target: States.Start_QoL, trigger: Triggers.Tertiary },
             { target: States.Journal_SelectMood, trigger: Triggers.Submit },
+            { target: States.qol_Question, trigger: Triggers.Quaternary },
         ],
     },
 

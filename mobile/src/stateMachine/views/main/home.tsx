@@ -123,6 +123,10 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         this.trigger(ScenarioTriggers.Submit);
     }
 
+    private onfinishQol = () => {
+        this.trigger(ScenarioTriggers.Quaternary);
+    }
+
     private onStartQOL = () => {
         this.trigger(ScenarioTriggers.Tertiary);
     }
@@ -215,6 +219,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
             case 'check-in': {
                 this.onAddCheckin();
+                return;
+            }
+
+            case 'finish-qol': {
+                this.onfinishQol();
                 return;
             }
 
