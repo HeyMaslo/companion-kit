@@ -49,10 +49,10 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     async start() {
         if (isFirstLaunch) {
             await AppViewModel.Instance.QOL.init();
-            this.setState({...this.state, isUnfinishedQol: AppViewModel.Instance.QOL.isUnfinished});
             const mags = await this.viewModel.getArmMagnitudes();
             this.persona.qolMags = mags;
         }
+        this.setState({...this.state, isUnfinishedQol: AppViewModel.Instance.QOL.isUnfinished});
         Animated.timing(this.state.opacity, {
             toValue: 1,
             delay: isFirstLaunch ? 1000 : 400,
@@ -236,7 +236,6 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                 return;
             }
         }
-        //TODO: add case for completing a qol
     }
 
     private getTitle() {

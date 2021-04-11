@@ -21,6 +21,7 @@ export default class BackendControllerBase implements IBackendController {
         "identity": 1,
     };
 
+    //private _partialQolState: PartialQol = {questionNum: 1, domainNum: 1, mags: this._magsState, scores: null};
     private _partialQolState: PartialQol = null;
 
     public async getDomainMagnitudes(): Promise<DomainMagnitudesData> {

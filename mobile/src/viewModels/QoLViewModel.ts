@@ -92,12 +92,13 @@ export default class QOLSurveyViewModel {
         this._surveyResponses[currDomain] += prevResponse;
     }
 
-    // TODO: add types to parameters below
-    public saveSurveyProgress = async (qolMags) => {
-        //const res = AppController.Instance.Backend.sendPartialQol(qolMags, this._surveyResponses);
+    public saveSurveyProgress = async (qolMags: PersonaArmState) => {
+        const res = await AppController.Instance.Backend.sendPartialQol(qolMags, this._surveyResponses, this._questionNum, this._domainNum);
+        this.isUnfinished = true;
+        return res;
     }
 
-    public sendArmMagnitudes = async (qolMags) => {
+    public sendArmMagnitudes = async (qolMags: PersonaArmState) => {
         const res = AppController.Instance.Backend.setDomainMagnitudes(qolMags);
         return res;
     }

@@ -8,6 +8,7 @@ import { ScenarioTriggers } from '../../abstractions';
 import AppController from 'src/controllers';
 
 import { styles } from 'react-native-markdown-renderer';
+import { PersonaArmState } from 'dependencies/persona/lib';
 
 const minContentHeight = 460;
 
@@ -29,12 +30,10 @@ export class qolStartView extends ViewState {
         return AppViewModel.Instance.QOL;
     }
 
-    // private saveProgress = () => {
-    //     this.viewModel.saveSurveyProgress(PersonaArmState.createEmptyArmState());
-    //     // update partial state in model
-    //     this.cancel;
-    // }
-
+    private saveProgress = async() => {
+        await this.viewModel.saveSurveyProgress(PersonaArmState.createEmptyArmState());
+        this.cancel();
+    }
     private cancel = () => {
         this.trigger(ScenarioTriggers.Cancel);
     }
@@ -48,7 +47,7 @@ export class qolStartView extends ViewState {
             title: `Do you really want to stop the survey? Your progress will be saved.`,
             primaryButton: {
                 text: 'yes, stop',
-                action: this.cancel,
+                action: this.saveProgress,
             },
             secondaryButton: {
                 text: 'no, go back',
