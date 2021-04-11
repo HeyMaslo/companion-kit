@@ -7,18 +7,18 @@ import {
 
 export default class BackendControllerBase implements IBackendController {
     private _magsState: DomainMagnitudesData = { 
-        "physical": 1,
-        "sleep": 0.8,
-        "mood": 0.8,
-        "cognition": 0.8,
-        "leisure": 0.9,
-        "relationships": 1,
-        "spiritual": 0.8,
-        "money": 0.8,
-        "home": 1,
-        "self-esteem": 0.8,
-        "independence": 1,
-        "identity": 1,
+        "physical": 0.2,
+        "sleep": 0.2,
+        "mood": 0.2,
+        "cognition": 0.2,
+        "leisure": 0.2,
+        "relationships": 0.2,
+        "spiritual": 0.2,
+        "money": 0.2,
+        "home": 0.2,
+        "self-esteem": 0.2,
+        "independence": 0.2,
+        "identity": 0.2,
     };
 
     //private _partialQolState: PartialQol = {questionNum: 1, domainNum: 1, mags: this._magsState, scores: null};

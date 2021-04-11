@@ -22,10 +22,9 @@ export class qolQuestion extends ViewState {
 
     constructor(props) {
         super(props);
-        this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -140, transition: { duration: 1 }, scale: 0.8 });
-        // change below to send arms from the value from the qol model
-        this.persona.qolMags = PersonaArmState.createEmptyArmState();
-        // save orig mags in case its exited
+        this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -140 - (this.viewModel.getDomainNum*30), transition: { duration: 1 }, scale: 0.8 });
+        this.viewModel.origMags = this.persona.qolMags;
+        this.persona.qolMags = this.viewModel.getQolMags;
     }
 
     public get viewModel() {
@@ -41,12 +40,13 @@ export class qolQuestion extends ViewState {
         }).start();
     }
 
-    private saveProgress() {
-        // todo: change link from onClose to this method
-        // call save progress in view model
+    private saveProgress = async () => {
+        await this.viewModel.saveSurveyProgress(this.persona.qolMags);
+        this.cancel();
     }
 
     private cancel = () => {
+        this.persona.qolMags = this.viewModel.origMags;
         this.trigger(ScenarioTriggers.Cancel);
     }
 
@@ -107,7 +107,7 @@ export class qolQuestion extends ViewState {
             title: `Do you really want to stop the survey? Your progress will be saved.`,
             primaryButton: {
                 text: 'yes, stop',
-                action: this.cancel,
+                action: this.saveProgress,
             },
             secondaryButton: {
                 text: 'no, go back',
