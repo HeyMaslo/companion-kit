@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import { StyleSheet, Text, View } from 'react-native';
 import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
+import AppController from 'src/controllers';
 
 import { styles } from 'react-native-markdown-renderer';
 
@@ -15,13 +16,24 @@ export class qolStartView extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -15, transition: { duration: 1.5 } });
+        if (!AppController.Instance.User.localSettings?.current?.qol?.seenOnboardingQol) {
+            this.viewModel.updateQolOnboarding();
+        }
     }
 
-    async start() {}
+    async start() {
+        await this.viewModel.init();
+    }
 
     public get viewModel() {
         return AppViewModel.Instance.QOL;
     }
+
+    // private saveProgress = () => {
+    //     this.viewModel.saveSurveyProgress(PersonaArmState.createEmptyArmState());
+    //     // update partial state in model
+    //     this.cancel;
+    // }
 
     private cancel = () => {
         this.trigger(ScenarioTriggers.Cancel);

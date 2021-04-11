@@ -3,7 +3,7 @@ import CheckInViewModel from './CheckInViewModel';
 import { computed } from 'mobx';
 import NamesHelper from 'common/utils/nameHelper';
 import { months } from 'common/utils/dateHelpers';
-import { ITipItem, IStaticTipItem, ICheckInTipItem, IAssessmentTipItem, IDocumentLinkTip } from './components/TipItemViewModel';
+import { ITipItem, IStaticTipItem, ICheckInTipItem, IFinishQolTipItem, IAssessmentTipItem, IDocumentLinkTip } from './components/TipItemViewModel';
 import AppViewModel from './index';
 import InterventionTipsViewModel from 'src/viewModels/components/InterventionTipsViewModel';
 import Localization from 'src/services/localization';
@@ -97,6 +97,15 @@ export default class HomeViewModel {
             })) || EmptyArr;
         }
 
+        if (AppViewModel.Instance.QOL.isUnfinished) {
+            return [
+                <IFinishQolTipItem>{
+                    id: 'finish-qol',
+                    type: 'finish-qol',
+                    title: 'Tap to continue your check-in!',
+                },
+            ];
+        }
         return [
             <ICheckInTipItem>{
                 id: 'check-in',

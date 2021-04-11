@@ -19,7 +19,7 @@ export default class QOLSurveyViewModel {
     private _surveyResponses: any;
     private _armMags: PersonaArmState;
     public isUnfinished: boolean;
-    private initModel: Promise<void>;
+    public initModel: Promise<void>;
 
     public readonly numQuestions: number = QUESTIONS_COUNT;
     public readonly domainQuestions: number = DOMAIN_QUESTION_COUNT;
@@ -31,6 +31,7 @@ export default class QOLSurveyViewModel {
                 this._questionNum = partialQolState.questionNum;
                 this._domainNum = partialQolState.domainNum;
                 this._surveyResponses = partialQolState.scores;
+                this._armMags = partialQolState.mags;
                 this.isUnfinished = true;
                 return;
             } else {
@@ -41,6 +42,7 @@ export default class QOLSurveyViewModel {
                     surveyResponses[domain] = 0;
                 }
                 this._surveyResponses = surveyResponses;
+                this._armMags = PersonaArmState.createEmptyArmState();
                 this.isUnfinished = false;
                 return;
             }
@@ -48,7 +50,7 @@ export default class QOLSurveyViewModel {
     }
 
     async init() {
-        await this.initModel;
+        return await this.initModel;
     }
     
     // TODO: rename getters with proper convention
@@ -92,7 +94,7 @@ export default class QOLSurveyViewModel {
 
     // TODO: add types to parameters below
     public saveSurveyProgress = async (qolMags) => {
-        const res = AppController.Instance.Backend.sendPartialQol(qolMags, this._surveyResponses);
+        //const res = AppController.Instance.Backend.sendPartialQol(qolMags, this._surveyResponses);
     }
 
     public sendArmMagnitudes = async (qolMags) => {

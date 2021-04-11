@@ -4,7 +4,6 @@ import {
     IBackendController,
     PartialQol
 } from "abstractions/controlllers/IBackendController";
-import logger from "logger";
 
 export default class BackendControllerBase implements IBackendController {
     private _magsState: DomainMagnitudesData = { 
