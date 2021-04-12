@@ -17,6 +17,8 @@ export interface IBackendController {
 
     getDomainMagnitudes(): Promise<DomainMagnitudesData>;
 
+    setDomainMagnitudes(magnitudes: any): Promise<boolean>;
+
     setDomainMagnitudes(magnitudes: DomainMagnitudesData): Promise<boolean>;
 
     sendSurveyResults(results: QolSurveyResults): Promise<boolean>;
