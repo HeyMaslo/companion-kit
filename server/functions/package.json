@@ -67,11 +67,12 @@
     "jest": "^26.6.3",
     "nodemon": "^2.0.4",
     "ts-jest": "^26.5.4",
+    "mobx": "^6.1.8",
     "ts-nameof": "^5.0.0",
     "ts-node": "^8.10.2",
     "tsconfig-paths": "^3.9.0",
     "tslint": "^6.1.2",
-    "ttypescript": "^1.5.10",
+    "ttypescript": "^1.5.12",
     "typescript": "^3.9.7"
   },
   "private": true
