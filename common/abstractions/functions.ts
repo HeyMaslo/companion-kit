@@ -22,6 +22,7 @@ import * as SessionsDtos from 'common/models/dtos/sessions';
 import * as ClientsDtos from 'common/models/dtos/clients';
 import * as PromptsDtos from 'common/models/dtos/prompts';
 import * as EventsDtos from 'common/models/dtos/events';
+import * as QoLDtos from 'common/models/dtos/qol';
 
 export { Stats };
 
@@ -158,4 +159,9 @@ export namespace Billing {
     export const Namespace = 'billing';
     export const UpdateBilling = new FunctionDefinition<{ token: string, plan: Plans, category?: PlansCategories }, { ok: boolean, error?: string }>
         ('update', Namespace);
+}
+
+export namespace QoL {
+    export const Namespace = 'qol';
+    export const QoLEndpoint = new FunctionDefinition<QoLDtos.QoLRequest, QoLDtos.QoLResponse>('admin', Namespace);
 }
