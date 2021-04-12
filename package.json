@@ -11,10 +11,12 @@
         "dev:dashboard": "cd dashboard && yarn dev",
         "dev:server": "cd server/functions && yarn dev:functions",
         "dev": "concurrently -k \"yarn dev:server\" \"yarn dev:dashboard\"",
+        "lint:server": "cd server/functions && yarn lint",
         "build:emails": "cd emails && npm i && npm run build && cd ..",
         "build:dashboard": "cd dashboard && yarn && yarn build:prod:env:toserver && cd ..",
         "build:dashboard:stage": "cross-env APP_ENV=staging yarn build:dashboard",
         "build:dashboard:prod": "cross-env APP_ENV=production yarn build:dashboard",
+        "build:server": "cd server/functions && yarn build",
         "deploy:server:stage": "cd server/functions && yarn && yarn deploy:stage && cd ../..",
         "deploy:server:prod": "cd server/functions && yarn && yarn deploy:prod && cd ../..",
         "deploy:dashboard": "yarn build:dashboard && cd server/functions && yarn deploy:hosting:dashboard",
@@ -22,7 +24,8 @@
         "deploy:dashboard:prod": "yarn build:dashboard:prod && cd server/functions && yarn deploy:hosting:dashboard:prod",
         "env:set": "bash bin/env_set.bash",
         "env:clean": "bash bin/env_clean.bash",
-        "env:show": "less .env"
+        "env:show": "less .env",
+        "test": "cd server/functions && yarn test"
     },
     "author": "zajno",
     "license": "ISC",
