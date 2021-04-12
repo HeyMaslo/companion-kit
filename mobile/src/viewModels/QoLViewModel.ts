@@ -109,6 +109,11 @@ export default class QOLSurveyViewModel {
         return res;
     }
 
+    public sendArmMagnitudes = async (qolMags: PersonaArmState) => {
+        const res = AppController.Instance.Backend.setDomainMagnitudes(qolMags);
+        return res;
+    }
+
     public sendSurveyResults = async () => {
         const res = AppController.Instance.Backend.sendSurveyResults(this._surveyResponses);
         return res;

@@ -9,6 +9,30 @@ export default class BackendControllerBase implements IBackendController {
 
     private _partialQolState: PartialQol = null;
 
+    public async getDomainMagnitudes(): Promise<DomainMagnitudesData> {
+        // STUB FUNCTION
+        return { 
+            "physical": 1,
+            "sleep": 0.7,
+            "mood": 1,
+            "cognition": 0.7,
+            "leisure": 1,
+            "relationships": 1,
+            "spiritual": 0.8,
+            "money": 0.8,
+            "home": 1,
+            "self-esteem": 0.8,
+            "independence": 1,
+            "identity": 1,
+        }
+    }
+
+    public async setDomainMagnitudes(magnitudes: DomainMagnitudesData): Promise<boolean> {
+        // STUB FUNCTION
+        const success = true;
+        return true;
+    }
+
     // Submit survey results to the server
     public async sendSurveyResults(results: QolSurveyResults): Promise<boolean> {
         // STUB FUNCTION
