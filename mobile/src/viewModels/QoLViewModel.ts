@@ -4,7 +4,7 @@ import { PersonaDomains } from '../stateMachine/persona';
 import { createLogger } from 'common/logger';
 import AppController from 'src/controllers';
 import { ILocalSettingsController } from 'src/controllers/LocalSettings';
-import { PartialQol } from 'common/abstractions/controlllers/IBackendController';
+import { PartialQol } from 'common/models/QoL';
 import { PersonaArmState } from 'dependencies/persona/lib';
 
 export const logger = createLogger('[QOLModel]');
@@ -106,11 +106,6 @@ export default class QOLSurveyViewModel {
             res = await AppController.Instance.Backend.sendPartialQol(qolMags, this._surveyResponses, this._questionNum, this._domainNum);
             this.isUnfinished = true;
         }
-        return res;
-    }
-
-    public sendArmMagnitudes = async (qolMags: PersonaArmState) => {
-        const res = AppController.Instance.Backend.setDomainMagnitudes(qolMags);
         return res;
     }
 
