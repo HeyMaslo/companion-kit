@@ -28,3 +28,20 @@ export type Question = {
 };
 
 export type QuestionIded = Identify<Question>;
+
+// SURVEY STATE DATA
+
+export type DomainMagnitudesData = {
+    [dom: string]: number
+};
+
+export type QolSurveyResults = {
+    [dom: string]: number
+};
+
+export type PartialQol = {
+    questionNum: number,
+    domainNum: number,
+    mags: DomainMagnitudesData,
+    scores: QolSurveyResults
+};
