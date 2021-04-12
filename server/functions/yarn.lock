@@ -4269,6 +4269,11 @@ mkdirp@^0.5.3:
   dependencies:
     minimist "^1.2.5"
 
+mobx@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/mobx/-/mobx-6.2.0.tgz#9a5afe3525a0302691c7805d0df6ef60834d79e5"
+  integrity sha512-j5f16JIq2v4flvYCqaAB9tMtJt/y5efR2OO5Xy+w4/MBMeQ1WeGR0T8BtiNgmxM/OQzPFUKb5DTex9Y8a/yk+g==
+
 module-alias@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/module-alias/-/module-alias-2.2.2.tgz#151cdcecc24e25739ff0aa6e51e1c5716974c0e0"
