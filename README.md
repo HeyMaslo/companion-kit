@@ -62,3 +62,10 @@ After making any changes to the functions, firestore or the dashboard, you must 
 2. Run `yarn deploy:dashboard:stage` from within the root directory
 
 The staging dashboard is currently hosted [here](https://bipolarbridges.web.app/)
+
+## Testing Code
+All tests are currently in the `server/functions` directory. To run tests, navigate there and run
+```
+yarn test
+```
+This same command is used by the CI workflow to guarantee correctness on commits.
