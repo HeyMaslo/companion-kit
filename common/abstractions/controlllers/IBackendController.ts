@@ -1,23 +1,6 @@
-export type DomainMagnitudesData = {
-    [dom: string]: number
-};
-
-export type QolSurveyResults = {
-    [dom: string]: number
-};
-
-export type PartialQol = {
-    questionNum: number,
-    domainNum: number,
-    mags: DomainMagnitudesData,
-    scores: QolSurveyResults
-};
+import { DomainMagnitudesData, PartialQol, QolSurveyResults } from "common/models/QoL";
 
 export interface IBackendController {
-
-    getDomainMagnitudes(): Promise<DomainMagnitudesData>;
-
-    setDomainMagnitudes(magnitudes: DomainMagnitudesData): Promise<boolean>;
 
     sendSurveyResults(results: QolSurveyResults): Promise<boolean>;
 
@@ -25,4 +8,5 @@ export interface IBackendController {
         questionNumber: number, domainNumber: number): Promise<boolean>;
 
     getPartialQol(): Promise<PartialQol>;
+
 }
