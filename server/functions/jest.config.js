@@ -8,10 +8,10 @@ module.exports = {
         "ts-jest": { "astTransformers": ["ts-nameof"] }
     },
 	roots: [
-		'<rootDir>'
+		'<rootDir>',
 	],
    	testMatch: [
-        '<rootDir>/__tests__/*.spec.ts'
+        '<rootDir>/__tests__/*.spec.ts',
     ],
 	moduleNameMapper: {
 		'^common/(.*)': '<rootDir>/../../common/$1',
@@ -21,6 +21,13 @@ module.exports = {
 	modulePaths: [
 		'<rootDir>/node_modules',
 		'<rootDir/../../dashboard/node_modules>',
+        'src',
+        'node_modules',
+        '../..',
 		// add additional modules if needed
 	],
+    testPathIgnorePatterns: [
+        '/util/*',
+        '/mocks/*'
+    ]
 };
