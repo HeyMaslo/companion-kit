@@ -54,7 +54,7 @@ yarn all
 if [ $submodules == 1 ]; then
 	cd mobile/dependencies || exit 1
 	git clone -b bipolarbridges-persona https://github.com/bipolarbridges/maslo-persona.git persona
-    git clone https://github.com/HeyMaslo/react-native-switch-pro.git
+	git clone https://github.com/HeyMaslo/react-native-switch-pro.git
 	cd ../..
 fi
 if [ $functions == 1 ]; then
