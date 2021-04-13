@@ -2,6 +2,8 @@ import { DomainMagnitudesData, PartialQol, QolSurveyResults } from "common/model
 
 export interface IBackendController {
 
+    getSurveyResults(): Promise<QolSurveyResults>;
+
     sendSurveyResults(results: QolSurveyResults): Promise<boolean>;
 
     sendPartialQol(domainMags: DomainMagnitudesData, surveyScores: QolSurveyResults,
