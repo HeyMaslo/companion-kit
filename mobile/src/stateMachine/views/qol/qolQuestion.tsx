@@ -14,7 +14,7 @@ import { PersonaArmState } from 'dependencies/persona/lib';
 const minContentHeight = 560;
 
 @observer
-export class qolQuestion extends ViewState {
+export class QolQuestion extends ViewState {
 
     labelState = {
         opacity: new Animated.Value(0),

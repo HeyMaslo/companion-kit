@@ -60,7 +60,7 @@ export enum States {
     NotificationsSettings,
 
     // QOL Block
-    Start_QoL,
-    qol_Question,
-    End_Qol,
+    StartQol,
+    QolQuestion,
+    EndQol,
 }

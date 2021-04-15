@@ -9,7 +9,6 @@ import { ThrottleAction } from 'common/utils/throttle';
 import { IEvent, Event } from 'common/utils/event';
 import { AppVersion } from './AppVersion';
 import logger from 'common/logger';
-import { ProgressBarCircleGradient } from 'src/components';
 
 const DeviceId = ExpoConstants.installationId;
 

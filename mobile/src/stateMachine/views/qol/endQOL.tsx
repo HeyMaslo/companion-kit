@@ -15,7 +15,7 @@ export const logger = createLogger('[endQOL]');
 const minContentHeight = 1000;
 
 @observer
-export class qolEndView extends ViewState {
+export class QolEndView extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { transition: { duration: 2.2 }});

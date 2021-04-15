@@ -33,9 +33,9 @@ import { FeelingsView } from './views/checkin/feelings';
 import { GoalsView } from './views/main/goals';
 import { RewardsView } from './views/rewardsView';
 import { RecordPitureCheckinView } from './views/checkin/recordPictureCheckIn';
-import { qolStartView } from './views/qol/startQOL';
-import { qolEndView } from './views/qol/endQOL';
-import { qolQuestion } from './views/qol/qolQuestion';
+import { QolStartView } from './views/qol/startQOL';
+import { QolEndView } from './views/qol/endQOL';
+import { QolQuestion } from './views/qol/qolQuestion';
 
 import Triggers = ScenarioTriggers;
 import { VerificationCodeView } from './views/login/verificationCode';
@@ -159,7 +159,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { priority: 1, target: States.OnboardingEnter, condition: VM.hasActiveOnboarding },
             { priority: 2, target: States.AskNotificationsPermissions, condition: VM.askNotifyPermissions },
             { priority: 4, target: States.IntakeForm, condition: VM.showAssessment },
-            { priority: 5, target: States.Start_QoL, condition: VM.showQol },
+            { priority: 5, target: States.StartQol, condition: VM.showQol },
             { priority: 10, target: States.Home, condition: () => true },
         ],
         log: true,
@@ -186,9 +186,9 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { target: States.JournalDetail, trigger: Triggers.Primary },
             { target: States.IntakeForm, trigger: Triggers.Secondary },
-            { target: States.Start_QoL, trigger: Triggers.Tertiary },
+            { target: States.StartQol, trigger: Triggers.Tertiary },
             { target: States.Journal_SelectMood, trigger: Triggers.Submit },
-            { target: States.qol_Question, trigger: Triggers.Quaternary },
+            { target: States.QolQuestion, trigger: Triggers.Quaternary },
         ],
     },
 
@@ -366,24 +366,24 @@ export const MasloScenario: GlobalScenario<States> = {
         ],
     },
 
-    [States.Start_QoL]: {
-        view: qolStartView,
+    [States.StartQol]: {
+        view: QolStartView,
         exit: [
             { target: States.Home, trigger: [Triggers.Cancel] },
-            { target: States.qol_Question, trigger: [Triggers.Submit] },
+            { target: States.QolQuestion, trigger: [Triggers.Submit] },
         ]
     },
 
-    [States.qol_Question]: {
-        view: qolQuestion,
+    [States.QolQuestion]: {
+        view: QolQuestion,
         exit: [
             { target: States.Home, trigger: [Triggers.Cancel] },
-            { target: States.End_Qol, trigger: [Triggers.Submit] },
+            { target: States.EndQol, trigger: [Triggers.Submit] },
         ]
     },
 
-    [States.End_Qol]: {
-        view: qolEndView,
+    [States.EndQol]: {
+        view: QolEndView,
         exit: [
             { target: States.Home, trigger: [Triggers.Cancel] },
         ]

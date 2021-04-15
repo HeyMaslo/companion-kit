@@ -13,7 +13,7 @@ import { PersonaArmState } from 'dependencies/persona/lib';
 const minContentHeight = 460;
 
 @observer
-export class qolStartView extends ViewState {
+export class QolStartView extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -15, transition: { duration: 1.5 } });
