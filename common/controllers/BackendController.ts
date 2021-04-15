@@ -9,38 +9,31 @@ export default class BackendControllerBase implements IBackendController {
 
     private _partialQolState: PartialQol = null;
 
-    public async getDomainMagnitudes(): Promise<DomainMagnitudesData> {
-        // STUB FUNCTION
+    // Fetch the latests survey results (i.e. scores)
+    public async getSurveyResults(): Promise<QolSurveyResults> {
         return { 
-            "physical": 1,
-            "sleep": 0.7,
-            "mood": 1,
-            "cognition": 0.7,
-            "leisure": 1,
-            "relationships": 1,
-            "spiritual": 0.8,
-            "money": 0.8,
-            "home": 1,
-            "self-esteem": 0.8,
-            "independence": 1,
-            "identity": 1,
-        }
+            "physical": 10,
+            "sleep": 7,
+            "mood": 10,
+            "cognition": 7,
+            "leisure": 10,
+            "relationships": 10,
+            "spiritual": 8,
+            "money": 8,
+            "home": 10,
+            "self-esteem": 8,
+            "independence": 10,
+            "identity": 10,
+        };
     }
 
-    public async setDomainMagnitudes(magnitudes: DomainMagnitudesData): Promise<boolean> {
-        // STUB FUNCTION
-        const success = true;
-        return true;
-    }
-
-    // Submit survey results to the server
+    // Submit new survey results
     public async sendSurveyResults(results: QolSurveyResults): Promise<boolean> {
-        // STUB FUNCTION
-        const success = true;
         return true;
     }
 
-    // Store partial survey state 
+    // Store partial survey state
+	// Any subsequent calls to get will return this state
     public async sendPartialQol(domainMags: DomainMagnitudesData, surveyScores: QolSurveyResults,
         questionNumber: number, domainNumber: number): Promise<boolean> {
         this._partialQolState = {questionNum: questionNumber, domainNum: domainNumber, mags: domainMags, scores: surveyScores};
@@ -48,7 +41,8 @@ export default class BackendControllerBase implements IBackendController {
         return success;
     }
 
-    // Restore last stored state
+    // Get last stored state
+	// null value indicates no outstanding survey
     public async getPartialQol(): Promise<PartialQol> {
         return this._partialQolState;
     }
