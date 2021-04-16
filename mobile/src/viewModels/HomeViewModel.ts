@@ -12,6 +12,9 @@ import { tryOpenLink } from 'src/constants/links';
 import { Identify, DocumentLinkEntry, DocumentLinkShareStatuses } from 'common/models';
 import { arraySplit } from 'common/utils/mathx';
 import { UserProfileViewModel } from './UserProfileViewModel';
+import { QolSurveyResults } from 'common/models/QoL';
+import { PersonaArmState, PersonaDomains } from 'src/stateMachine/persona';
+import logger from 'common/logger';
 
 const EmptyArr: any[] = [];
 
@@ -142,7 +145,14 @@ export default class HomeViewModel {
     }
 
     public getArmMagnitudes = async () => {
-        return await AppController.Instance.Backend.getDomainMagnitudes();
+        const lastSurveyScores: QolSurveyResults = await AppController.Instance.Backend.getSurveyResults();
+        let currMags: PersonaArmState = {};
+        for (let domain of PersonaDomains) {
+            let score: number = lastSurveyScores[domain];
+            let mag: number = 0.2 + (score * 4 / 100);
+            currMags[domain] = mag;
+        }
+        return currMags;
     }
 
     public markLinkDocumentAsSeen = (doc: Identify<DocumentLinkEntry>) => {
