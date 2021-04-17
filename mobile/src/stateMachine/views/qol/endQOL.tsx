@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
         marginTop: "100%",
         textAlign: 'center',
         width: '90%',
-        marginBottom: '14%',
+        marginBottom: '10%',
     },
     readyButton: {
         width: '70%',

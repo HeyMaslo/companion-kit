@@ -35,29 +35,29 @@ export default class BackendControllerBase implements IBackendController {
         "independence": 0,
         "identity": 0,
     }};
-    private _SurveyResults: QolSurveyResults[] = [];
+    private _surveyResults: QolSurveyResults[] = [{ 
+        "physical": 18,
+        "sleep": 20,
+        "mood": 20,
+        "cognition": 20,
+        "leisure": 6,
+        "relationships": 20,
+        "spiritual": 4,
+        "money": 20,
+        "home": 20,
+        "self-esteem": 8,
+        "independence": 20,
+        "identity": 20,
+    }];
 
     // Fetch the latests survey results (i.e. scores)
     public async getSurveyResults(): Promise<QolSurveyResults> {
-        return { 
-            "physical": 18,
-            "sleep": 20,
-            "mood": 20,
-            "cognition": 20,
-            "leisure": 6,
-            "relationships": 20,
-            "spiritual": 4,
-            "money": 20,
-            "home": 20,
-            "self-esteem": 8,
-            "independence": 20,
-            "identity": 20,
-        };
+        return this._surveyResults[this._surveyResults.length-1];
     }
 
     // Submit new survey results
     public async sendSurveyResults(results: QolSurveyResults): Promise<boolean> {
-        this._SurveyResults.push(results);
+        this._surveyResults.push(results);
         return true;
     }
 
@@ -65,9 +65,12 @@ export default class BackendControllerBase implements IBackendController {
 	// Any subsequent calls to get will return this state
     public async sendPartialQol(domainMags: DomainMagnitudesData, surveyScores: QolSurveyResults,
         questionNumber: number, domainNumber: number): Promise<boolean> {
-        this._partialQolState = {questionNum: questionNumber, domainNum: domainNumber, mags: domainMags, scores: surveyScores};
-        const success = true;
-        return success;
+        if (domainMags === null) {
+            this._partialQolState = null;
+        } else {
+            this._partialQolState = {questionNum: questionNumber, domainNum: domainNumber, mags: domainMags, scores: surveyScores};
+        }
+        return true;
     }
 
     // Get last stored state
