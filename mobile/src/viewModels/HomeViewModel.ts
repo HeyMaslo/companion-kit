@@ -148,7 +148,7 @@ export default class HomeViewModel {
         let currMags: PersonaArmState = {};
         for (let domain of PersonaDomains) {
             let score: number = lastSurveyScores[domain];
-            let mag: number = 0.4 + (score * 3 / 100); // CHECK THIS
+            let mag: number = 0.4 + (score * 3 / 100);
             currMags[domain] = mag;
         }
         return currMags;
