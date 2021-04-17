@@ -54,7 +54,6 @@ export default class QOLSurveyViewModel {
         return await this.initModel;
     }
     
-    // TODO: rename getters with proper convention
     @computed
     get questionNum(): number { return this._questionNum; }
 
