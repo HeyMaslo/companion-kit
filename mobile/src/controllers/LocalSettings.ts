@@ -85,17 +85,13 @@ export class LocalSettingsController implements ILocalSettingsController {
     private submitChanges = async () => {
         const diff: Partial<UserLocalSettings> = {
             notifications: toJS(this._current.notifications),
-            health: toJS(this._current.health),
         };
 
-        //  do i need to change this?
         if (this._sameDevice && this._sameDevice.notifications) {
             await RepoFactory.Instance.users.updateLocalSettings(
                 this._uid,
                 this._sameDevice.deviceId,
                 { notifications: { ...this._sameDevice.notifications, token: null }},
-                //  health: {...this._sameDevice.health, enabled: null} 
-                // { health: { ...this._sameDevice.h, token: null } },
             );
         }
 
@@ -109,20 +105,8 @@ export class LocalSettingsController implements ILocalSettingsController {
     }
     private submitChangesHealth = async () => {
         const diff: Partial<UserLocalSettings> = {
-            // notifications: toJS(this._current.notifications),
             health: toJS(this._current.health),
         };
-
-        //  do i need to change this?
-        // if (this._sameDevice && this._sameDevice.notifications) {
-        //     await RepoFactory.Instance.users.updateLocalSettings(
-        //         this._uid,
-        //         this._sameDevice.deviceId,
-        //         { notifications: { ...this._sameDevice.notifications, token: null }},
-        //         //  health: {...this._sameDevice.health, enabled: null} 
-        //         // { health: { ...this._sameDevice.h, token: null } },
-        //     );
-        // }
 
         logger.log('[LocalSettingsController] submitting changes...', diff);
         await RepoFactory.Instance.users.updateLocalSettings(
@@ -139,15 +123,11 @@ export class LocalSettingsController implements ILocalSettingsController {
         }
 
         Object.assign(this._current, diff);
-        this._syncThrottle.tryRun(this.submitChanges);
-    }
-    private updateHealth(diff: Partial<UserLocalSettings>) {
-        if (!this._current) {
-            throw new Error('LocalSettingsController.update: not initialized!');
-        }
-
-        Object.assign(this._current, diff);
-        this._syncThrottle.tryRun(this.submitChangesHealth);
+        if (this.current.health !== undefined){ 
+            this._syncThrottle.tryRun(this.submitChangesHealth);
+        } else {
+            this._syncThrottle.tryRun(this.submitChanges);
+        }      
     }
 
     public flushChanges() {
@@ -187,7 +167,7 @@ export class LocalSettingsController implements ILocalSettingsController {
 
             if (changed) {
                 // logger.log('UPDATE');
-                this.updateHealth({ health });
+                this.update({ health });
             }
         });
     }

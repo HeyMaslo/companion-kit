@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React from 'react';
 import { TouchableOpacity, StyleSheet, View, Text } from 'react-native';
 import Colors from 'src/constants/colors';
 import Layout from 'src/constants/Layout';
@@ -7,7 +7,6 @@ import { ITipItem, TipTypes } from 'src/viewModels/components/TipItemViewModel';
 import InfoIcon from 'src/assets/images/info-icon.svg';
 import PlusIcon from 'src/assets/images/plus-icon.svg';
 import ShareIcon from 'src/assets/images/share-icon.svg';
-import getHealthKitData from 'src/hooks/getHealthKitData';
 
 function getTipIcon(type: TipTypes) {
     switch (type) {
@@ -45,8 +44,6 @@ function getIconTitle(item: ITipItem) {
 export default function TipItemCard(props: { item: ITipItem, onPress: () => void }) {
     const { onPress, item } = props;
     const { type, title } = item;
-    const [loading, setLoading] = useState(true);
-    // const data = getHealthKitData();
 
     const isExternal = (item.type === 'staticTip' || item.type === 'docLinkTip') && !!item.url;
 
@@ -59,7 +56,6 @@ export default function TipItemCard(props: { item: ITipItem, onPress: () => void
                 >
                     {title}
                 </Text>
-                {/* <Text style={{color: "white"}}>Gender: {loading ? "Fetching" : data.gender}</Text> */}
                 <View style={styles.footing}>
                     <View style={styles.type}>
                         {getTipIcon(type)}

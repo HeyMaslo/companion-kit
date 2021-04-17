@@ -1,25 +1,14 @@
-import AsyncStorage from 'src/services/StorageAsync';
 import { observable } from 'mobx';
 import { IUserNameProvider } from 'src/services/Notifications';
 import { ILocalSettingsController } from './LocalSettings';
 import { ThrottleAction } from 'common/utils/throttle';
 import { IDisposable } from 'common/utils/unsubscriber';
-import { createLogger } from 'common/logger';
-import {auth, init, stepCount, disconnectAndroid, isAvailable, getDOB} from 'src/helpers/health'
+import {auth, init, disconnectAndroid, getDOB} from 'src/helpers/health'
 import { Platform } from 'react-native';
-
-const logger = createLogger('[HealthPermissionsController]');
-
-const AllowanceStorageKey = 'healthAllowedByUser';
-
-let isFirstUse = true;
+import { createLogger } from 'common/logger';
 
 
 export class HealthPermissionsController implements IDisposable {
-    // private readonly _service: NotificationsService;
-
-    // @observable
-    // private _schedule: Schedule;
 
     @observable
     private _enabledByUser: boolean;
@@ -29,13 +18,9 @@ export class HealthPermissionsController implements IDisposable {
     private _enabledByUserOG: boolean;
 
 
-
-    // private _previousPermissionsState: boolean = null;
-
     private readonly _syncThrottle = new ThrottleAction<Promise<void>>(1000);
 
     constructor(private readonly settings: ILocalSettingsController, name: IUserNameProvider) {
-        // this._service = new NotificationsService(name);
     }
 
     public get enabled() { return this._enabledByUser; }
@@ -62,13 +47,10 @@ export class HealthPermissionsController implements IDisposable {
         if (Platform.OS == 'ios'){
             const dob = await getDOB(); 
             this._enabledByUserOG = dob;
-            logger.log("ask permission por",  this._enabledByUserOG);
         }
         if (Platform.OS == 'android'){ 
             this._enabledByUserOG = authorized;
         }
-
-        logger.log("AUTHORIZED__", authorized);
         this._enabledByUser = authorized;
 
         await this.sync();
@@ -88,10 +70,12 @@ export class HealthPermissionsController implements IDisposable {
     public disableHealthPermissions = async () => {
         if (Platform.OS == 'android') {
             disconnectAndroid();
+            this._enabledByUser = false;
+            this._syncThrottle.tryRun(this.sync);
+            return true;
         }
-        this._enabledByUser = false;
-        this._enabledByUserOG = this._enabledByUser;
-        this._syncThrottle.tryRun(this.sync);
+
+        return false; 
     }
 
     private sync = async () => {
@@ -101,7 +85,5 @@ export class HealthPermissionsController implements IDisposable {
     }
 
     dispose() {
-        // this._service.dispose();
     }
 }
-// 

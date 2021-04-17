@@ -1,11 +1,17 @@
 import { observable, computed, autorun, reaction } from 'mobx';
 import AppController from 'src/controllers';
-import { NotificationTime, timeToString } from 'src/helpers/notifications';
-import { Alert, Linking, Platform } from 'react-native';
+import { Alert,Platform } from 'react-native';
 import { createLogger } from 'common/logger';
 import * as Links from 'src/constants/links';
+import Images from 'src/constants/images';
 
 const logger = createLogger('[HealthPermissionsViewModel]');
+
+// this can be updated when we want to add/remove permissions
+const permissions = [{title:"Sex", icon: Images.difficultIcon, description: "Allow Companion kit to access sex info"}
+,{title:"Date Of Birth", icon: Images.veryPositiveIcon, description: "Allow Companion kit to access DOB info"},
+ {title:"Active Steps", icon:Images.busIcon, description: "Allow Companion kit to access Steps info"},
+{title:"BMI", icon:Images.keyIcon, description: "Allow Companion kit to access BMI info"}];
 
 export class HealthPermissionsViewModel {
 
@@ -20,47 +26,21 @@ export class HealthPermissionsViewModel {
     @observable
     private _isEnabledOG: boolean = this.originalIsEnabledOG;
 
-   // private enabledSettings: boolean = this.originalIsEnabled1;
-
     private get originalIsEnabled() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabled; }
-    private get originalIsEnabledOG() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabledOG; }
+    private get originalIsEnabledOG() { return AppController.Instance.User?.hasHealthDataPermissions.enabledOG; }
 
     get isEnabled() { return this._isEnabled; }
     get isEnabledOG() { return this._isEnabledOG; }
     get isToggleInProgress() { return this._toggleInProgress; }
 
-    // get schedule() { return AppController.Instance.User.notifications.schedule; }
-
     get settingsSynced() { return AppController.Instance.User.localSettings.synced; }
 
-    // @computed
-    // get scheduleTimeString() {
-    //     const ntfTime = AppController.Instance.User.notifications.schedule;
-
-    //     if (!ntfTime) {
-    //         return 'Not specified';
-    //     }
-
-    //     const keys = Object.keys(ntfTime) as NotificationTime[];
-    //     const strings = keys.map(time => {
-    //         const val = time === NotificationTime.ExactTime
-    //             ? ntfTime[time] && ntfTime[time].active
-    //             : ntfTime[time];
-
-    //         const res = val ? timeToString(time) : '';
-
-    //         return res;
-    //     });
-
-    //     const filtered = strings.filter(v => !!v);
-    //     const result = filtered.join(', ');
-
-    //     return result && result.length !== 0 ? result : 'Not specified';
-    // }
-
     updateEnabledState = () => {
-        this._isEnabled = this.originalIsEnabled;
         this._isEnabledOG = this.originalIsEnabledOG;
+    }
+
+    getPermissions = () => {
+        return permissions;
     }
 
     toggleEnabledState = async () => {
@@ -73,40 +53,33 @@ export class HealthPermissionsViewModel {
         this._toggleInProgress = true;
         try {
 
-            // this._isEnabledOG = !this._isEnabledOG;
-            this._isEnabled = !this._isEnabled;
-            // logger.log("PREV_VAL-val-----",this.isEnabledOG);
-            logger.log("PREV_VAL-val----|--",prevValue);
+            this._isEnabledOG = !this._isEnabledOG;
 
             if (!AppController.Instance.User.hasHealthDataPermissions.enabled) {
                 await AppController.Instance.User.hasHealthDataPermissions.enableHealthPermissions();
-            } else {
-                if (Platform.OS != 'ios'){
-                await AppController.Instance.User.hasHealthDataPermissions.disableHealthPermissions();}
+            }else {
+                await AppController.Instance.User.hasHealthDataPermissions.disableHealthPermissions();
             }
+            console.log("LOGHO_OG", !this._isEnabledOG);
 
         } finally {
             this.updateEnabledState();
 
-            // need to learn who you is!!
-            logger.log("PREV_VAL-val", prevValue, this.originalIsEnabled);
-
             if ((this.isEnabled != this._isEnabledOG) && Platform.OS == 'ios') {
-                logger.log("PREV_VAL_LATEST", prevValue);
                 Alert.alert(
                     'Oops',
                     'Looks like health Permissions have been restricted. Please re-enable it anytime in Settings and try again.',
                     [
-                        { text: 'Cancel' },
+                        { text: 'Cancel',
+                     },
 
                         {
-                            text: 'Ok',
-                            // onPress: async () => {
-                            //     // this.getAuthScreens();
-                            //     const url = 'app-settings:';
-                            //     await Links.tryOpenLink(url);
-                            // },
+                            text: 'Settings',
                             style: 'default',
+                            onPress: async () => {
+                                const url = 'app-settings:';
+                                await Links.tryOpenLink(url);
+                            },
                         },
                     ]);
             } else {
@@ -127,20 +100,13 @@ export class HealthPermissionsViewModel {
                             },
                         ]);
                 }
-
-                return  this._toggleInProgress = true;
             }
-            
+            console.log("HERE AT THE END")
+            console.log("LOGHO_OG_1", !this._isEnabledOG);
 
             this._toggleInProgress = false;
         }
     }
-
-    // toggleTime = (time: NotificationTime, value?: number) => {
-    //     return time === NotificationTime.ExactTime
-    //         ? AppController.Instance.User.notifications.toggleTime(time, value)
-    //         : AppController.Instance.User.notifications.toggleTime(time);
-    // }
 
     init() {
         this.updateEnabledState();

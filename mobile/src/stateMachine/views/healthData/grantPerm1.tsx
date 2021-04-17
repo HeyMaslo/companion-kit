@@ -1,22 +1,15 @@
 import { ViewState } from '../base';
 import React from 'react';
-import ExpoConstants from 'expo-constants';
 import { observer } from 'mobx-react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import Colors from 'src/constants/colors';
-import { MasloPage, Container, Button, Card, Link,ButtonBlock,Checkbox } from 'src/components';
-import AppViewModel from 'src/viewModels';
-import AppController from 'src/controllers';
+import { MasloPage, Container, Button,ButtonBlock, } from 'src/components';
+
 import { ScenarioTriggers } from '../../abstractions';
-import Localization from 'src/services/localization';
 import Images from 'src/constants/images';
 import Dots from 'src/components/Dots';
 
 import Layout from 'src/constants/Layout';
-import { ProfileViewModel } from 'src/viewModels/ProfileViewModel';
 import { PersonaScrollMask } from 'src/components/PersonaScollMask';
-import BottomBar from 'src/screens/components/BottomBar';
-import { TextStyles } from 'src/styles/BaseStyles';
 
 @observer
 export class GrantPermissionGfitView extends ViewState {
@@ -40,6 +33,7 @@ export class GrantPermissionGfitView extends ViewState {
 
     onNext = () => {
         this.trigger(ScenarioTriggers.Secondary);
+
     }
    
 
@@ -60,27 +54,12 @@ export class GrantPermissionGfitView extends ViewState {
                     <Container style={[this.baseStyles.container, styles.container]}>
                         <View style={[this.baseStyles.textBlock, styles.textBlock]}>
                             <Text style={[this.textStyles.h1, this.baseStyles.textCenter]}>Open Settings App on your device and click Health</Text>
-                            {/* <Text style={[this.textStyles.p1, this.baseStyles.textCenter]}>Can you tell me more about how you feel?</Text> */}
                         </View>
-                        <View>
-                            {/* <Images.resumeIcon width={10} height={20}/> */}
-                        </View>
-                        {/* <View style={[styles.feelingsWrap]}>
-                            <FeelingsSelect model={feelingsMultiSelect} />
-                        </View> */}
+
                         <ButtonBlock
                             onOk={this.onNext}
                             onCancel={this.back}
-                            // nextDisabled={!isFeelingsSelected}
                         />
-                        {/* <Card
-                                title="Continue"
-                                description=""
-                                // Image={Images.veryPositiveIcon}
-                                // onPress={() => this.model.toggleTime(NotificationTime.Midday)}
-                                >
-                                    <Images.arrowRight width={8} height={8} />
-                            </Card> */}
                     </Container>
                 </ScrollView> 
             </MasloPage>

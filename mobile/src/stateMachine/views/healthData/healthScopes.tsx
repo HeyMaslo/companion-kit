@@ -1,23 +1,19 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, View, Text, Animated, ScrollView, Alert, Platform} from 'react-native';
+import { StyleSheet, View, Text,ScrollView,Platform} from 'react-native';
 import { ViewState } from '../base';
-import AppController from 'src/controllers';
 import Colors from 'src/constants/colors';
 import Images from 'src/constants/images';
-import Localization from 'src/services/localization';
 import { PushToast } from '../../toaster';
 
-import { Link, Button, MasloPage, AnimatedContainer, Container, Card, Checkbox, ButtonBlock } from 'src/components';
+import { Button, MasloPage,Container, Card, Checkbox} from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import Layout from 'src/constants/Layout';
 import { PersonaScrollMask } from 'src/components/PersonaScollMask';
 import Switch from 'dependencies/react-native-switch-pro';
 import { HealthPermissionsViewModel } from 'src/viewModels/HealthPermissionsViewModel';
-import logger from 'common/logger';
+import TextStyles from 'src/styles/TextStyles';
 
-
-const minContentHeight = 344;
 
 @observer
 export class HealthScopesView extends ViewState {
@@ -49,14 +45,11 @@ export class HealthScopesView extends ViewState {
         this.trigger(ScenarioTriggers.Primary)
     }
     renderContent() {
-        // const texts = Localization.Current.MobileProject;
-        // const containerPadding = Layout.window.height - this._contentHeight;
         const enabled = Platform.OS == 'ios'? this.model.isEnabledOG : this.model.isEnabled;
-        logger.log("SCREENS MAN", enabled);
         const permissionsEnabled = enabled && !this.model.isToggleInProgress;
         const titleText = permissionsEnabled?  "Health Data" : "Health Data Missing";
         const explaining = permissionsEnabled? "": "We need the following scopes to enhance your experience";
-        // const more = "check or uncheck and click save to update permission"
+        const perm = this.model.getPermissions();
         return (
         <MasloPage style={this.baseStyles.page}>
             <Container style={styles.topBarWrapWrap}>
@@ -71,88 +64,45 @@ export class HealthScopesView extends ViewState {
                 <Container style={[this.baseStyles.container, styles.container]}>
                     <Text style={[this.textStyles.h1, styles.title]}>{titleText}</Text>
                     <Text style={[this.textStyles.p2, styles.title]}>{explaining}</Text>
-                    {/* {Platform.OS == 'ios' && <Text style={[this.textStyles.p2, styles.title]}>You need to change Permissions in settings for changes to take effect, Click CHANGE MY PERMISSIONS</Text>} */}
-                    {/* <Text style={[this.textStyles.p3, styles.title]}>{more}</Text> */}
                     <Card
                         title="Permissions"
                         description={permissionsEnabled ? "ON" :  'Off' }
                         style={{ marginBottom: 20 }}
                     >
                         <Switch
-                             value={permissionsEnabled}
-                             disabled={this.model.isToggleInProgress}
-                            //  onSyncPress={this.model.toggleEnabledState}
-                             onSyncPress={this.model.toggleEnabledState}
-                             width={50}
-                             height={24}
-                             backgroundActive={Colors.switch.activeBg}
-                             backgroundInactive={Colors.switch.inactiveBg}
-                             style={styles.switchStyles}
-                             circleStyle={{ width: 18, height: 18 }}
-                        />
+                                value={this.model.isEnabledOG}
+                                disabled={this.model.isToggleInProgress}
+                                onSyncPress={this.model.toggleEnabledState}
+                                width={50}
+                                height={24}
+                                backgroundActive={Colors.switch.activeBg}
+                                backgroundInactive={Colors.switch.inactiveBg}
+                                style={styles.switchStyles}
+                                circleStyle={{ width: 18, height: 18 }}
+                            />
                     </Card>
                     {(
                         <>
-                            <Card
-                                title="Activity Samples"
-                                description={"Allows to show activity based on your movements"}
-                                Image={Images.difficultIcon}
-                                // onPress={() => this.model.toggleTime(NotificationTime.Morning)}
-                            >
-                                <Checkbox
-                                    checked={Platform.OS == 'android'? permissionsEnabled: false}
-                                    onChange={() => null}
-                                />
-                            </Card>
-                            <Card
-                                title="Heart Rate"
-                                description="Allows us to collect heart rate data"
-                                Image={Images.veryPositiveIcon}
-                                // onPress={() => this.model.toggleTime(NotificationTime.Midday)}
-                                >
-                                    <Checkbox
-                                    checked={Platform.OS == 'android'? permissionsEnabled: false}
-                                    onChange={() => null}
-                                />
-                            </Card>
-                            <Card
-                                title="Steps"
-                                description="Helps show amount of active steps"
-                                Image={Images.busIcon}
-                                // onPress={() => this.model.toggleTime(NotificationTime.Evening)}
-                                >
-                                    <Checkbox
-                                    checked={Platform.OS == 'android'? permissionsEnabled: false}
-                                    onChange={() => null}
-                                />
-                            </Card>
-                            <Card
-                                title="Body Weight and Height"
-                                description="help calculate your BMI index and adds value to stats"
-                                Image={Images.keyIcon}
-                                // style={exactActive ? styles.exactCard : null}
-                                // onPress={this.openDatePicker}
-                                >
-                                    <Checkbox
-                                    checked={Platform.OS == 'android'? permissionsEnabled: false}
-                                    onChange={() => null}
-                                />
-                            </Card>
-                            {false && (
-                                    <View style={styles.exactTime}>
-                                        <Container style={[this.baseStyles.flexRowBetween, { paddingVertical: 12 }]}>
-                                            <Text style={this.baseStyles.cardTitle}>At</Text>
-                                            {/* <Text style={{...this.baseStyles.cardTitle, color: Colors.notificationsSettings.exact.desc}}>{this.formatDate(exactTime)}</Text> */}
-                                        </Container>
-                                    </View>
-                                )}
+                           {perm.map((n, key) => {
+                               return <Card
+                               title={n.title}
+                               description={n.description}
+                               Image={n.icon}
+                               key={key}
+                           >
+                               <Checkbox
+                                   checked={permissionsEnabled}
+                                   onChange={() => null}
+                               />
+                           </Card>
+                           })}
                         </>
                     )} 
-                    {!permissionsEnabled && (
+                    {!permissionsEnabled && Platform.OS == 'ios' && (
                         <View style={styles.buttonView}>
                         <Button
-                       title="Change my Permissions"
-                       style={styles.mailButton}
+                       title="How do i change my permissions?"
+                       style={[styles.mailButton, TextStyles.h2]}
                        titleStyles={styles.mailButtonTitle}
                        onPress={this.onNext}
                        isTransparent
@@ -161,14 +111,6 @@ export class HealthScopesView extends ViewState {
                     )}
                      
                 </Container>
-                {/* <DateTimePicker
-                    isVisible={showDatePicker}
-                    onConfirm={this.setDate}
-                    onCancel={this.closeDatePicker}
-                    mode="time"
-                    // TODO test Android
-                    isDarkModeEnabled={colorScheme === 'dark'}
-                /> */}
             </ScrollView>
         </MasloPage>
     );
@@ -228,13 +170,14 @@ mailButtonTitle: {
 },
 mailButton: {
     width: '80%',
-    height: 55,
+    height: 40,
     borderColor: Colors.welcome.mailButton.border,
-    borderWidth: 0.5,
+    borderWidth: 0.25,
+    padding: 5
 },
 buttonView : {
-    paddingTop: 20,
-    paddingLeft: 50
-    
+   alignContent: 'center',
+   alignItems: 'center',
+   padding: 5
 },
 });

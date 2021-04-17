@@ -26,6 +26,7 @@ export class GrantPermission2GfitView extends ViewState {
     }
 
     async start() {
+        
         // this.model.notifications.init();
     }
 
