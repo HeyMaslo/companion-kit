@@ -54,18 +54,17 @@ export class HealthPermissionsViewModel {
         try {
 
             this._isEnabledOG = !this._isEnabledOG;
+            this._isEnabled = !this._isEnabled;
 
             if (!AppController.Instance.User.hasHealthDataPermissions.enabled) {
                 await AppController.Instance.User.hasHealthDataPermissions.enableHealthPermissions();
             }else {
                 await AppController.Instance.User.hasHealthDataPermissions.disableHealthPermissions();
             }
-            console.log("LOGHO_OG", !this._isEnabledOG);
 
         } finally {
             this.updateEnabledState();
-
-            if ((this.isEnabled != this._isEnabledOG) && Platform.OS == 'ios') {
+            if ((!this._isEnabledOG) && Platform.OS == 'ios') {
                 Alert.alert(
                     'Oops',
                     'Looks like health Permissions have been restricted. Please re-enable it anytime in Settings and try again.',
@@ -85,8 +84,8 @@ export class HealthPermissionsViewModel {
             } else {
                 if (Platform.OS == 'ios'){
                     Alert.alert(
-                        '',
-                        'You need to Disable permissions in settings/Health',
+                        'Oops',
+                        'You need to disable permissions in your settings',
                         [
                             { text: 'Cancel' },
     
@@ -101,9 +100,6 @@ export class HealthPermissionsViewModel {
                         ]);
                 }
             }
-            console.log("HERE AT THE END")
-            console.log("LOGHO_OG_1", !this._isEnabledOG);
-
             this._toggleInProgress = false;
         }
     }

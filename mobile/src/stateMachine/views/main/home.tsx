@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, ScrollView, ActivityIndicator, View, Animated } from 'react-native';
+import { StyleSheet, Text, ScrollView, ActivityIndicator, View, Animated, Platform } from 'react-native';
 import TextStyles from 'src/styles/TextStyles';
 import Colors from 'src/constants/colors';
 import { Container, MasloPage, Placeholder, Button } from 'src/components';
@@ -45,7 +45,8 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
     }
 
     get viewModel() { return HomeViewModel.Instance; }
-    private get originalIsEnabled() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabledOG; }
+    private get originalIsEnabledOG() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabledOG; }
+    private get originalIsEnabled() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabled; }
 
     async start() {
         Animated.timing(this.state.opacity, {
@@ -282,7 +283,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
         const {
             loading,
         } = this.viewModel;
-        const healthPerm = this.originalIsEnabled
+        const healthPerm = Platform.OS == 'ios'? this.originalIsEnabledOG : this.originalIsEnabled
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>

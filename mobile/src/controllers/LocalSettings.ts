@@ -123,7 +123,9 @@ export class LocalSettingsController implements ILocalSettingsController {
         }
 
         Object.assign(this._current, diff);
+        logger.log("OUT SUBMIT", this.current.health)
         if (this.current.health !== undefined){ 
+            logger.log("IN SUBMIT")
             this._syncThrottle.tryRun(this.submitChangesHealth);
         } else {
             this._syncThrottle.tryRun(this.submitChanges);
@@ -153,20 +155,12 @@ export class LocalSettingsController implements ILocalSettingsController {
 
     updateHealthPermissions(diff: Partial<HealthPermissionsSettings>) {
         const health = this.current.health || { };
-        // health.enabled = true;
         logger.log("Value of Health: ", health);
         transaction(() => {
             let changed = transferChangedFields(diff, health, 'enabled');
             logger.log("Value of changed: ", changed);
             logger.log("Value of changed: ", diff);
-
-            // if (diff.locals && getLocalsHash(diff.locals) !== getLocalsHash(notifications.locals)) {
-            //     notifications.locals = diff.locals;
-            //     changed = true;
-            // }
-
             if (changed) {
-                // logger.log('UPDATE');
                 this.update({ health });
             }
         });

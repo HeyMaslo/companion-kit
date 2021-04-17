@@ -7,7 +7,6 @@ const runOptions = {
     Scopes.FITNESS_ACTIVITY_READ,
     Scopes.FITNESS_ACTIVITY_WRITE,
     Scopes.FITNESS_BODY_READ,
-    Scopes.FITNESS_BODY_WRITE,
   ]
 };
 
@@ -23,20 +22,24 @@ export const auth = async() => {
 
   return await GoogleFit.checkIsAuthorized().then (() => {
     isAuth = GoogleFit.isAuthorized;
-    logger.log("GOOGLE_FIT_IS_AUTHORIZED", isAuth)
-    if (!isAuth) {
+    logger.log("GOOGLE_FIT_IS_AUTHORIZED?", isAuth)
+    // if (!isAuth) {
       isAuth = GoogleFit.authorize(runOptions)
       .then(authResult => {
         if(authResult.success) {
+          logger.log("GOOGLE_FIT_IS_AUTHORIZED", authResult.success);
+          return true;
+          
         }else{
           logger.log("GOOGLEFIT_AUTH_DENIED" + authResult);
+          return false;
         }
-        return authResult.success === true;
+        // return authResult.success === true;
       })
       .catch(() => {
         return false;
       })
-    }
+    // }
     return isAuth;
   })
 }

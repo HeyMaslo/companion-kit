@@ -13,6 +13,7 @@ import { PersonaScrollMask } from 'src/components/PersonaScollMask';
 import Switch from 'dependencies/react-native-switch-pro';
 import { HealthPermissionsViewModel } from 'src/viewModels/HealthPermissionsViewModel';
 import TextStyles from 'src/styles/TextStyles';
+import Dots from 'src/components/Dots';
 
 
 @observer
@@ -42,7 +43,7 @@ export class HealthScopesView extends ViewState {
     }
 
     onNext = () => {
-        this.trigger(ScenarioTriggers.Primary)
+         this.trigger(ScenarioTriggers.Primary)
     }
     renderContent() {
         const enabled = Platform.OS == 'ios'? this.model.isEnabledOG : this.model.isEnabled;
@@ -70,7 +71,7 @@ export class HealthScopesView extends ViewState {
                         style={{ marginBottom: 20 }}
                     >
                         <Switch
-                                value={this.model.isEnabledOG}
+                                value={Platform.OS == 'ios'? this.model.isEnabledOG : this.model.isEnabled}
                                 disabled={this.model.isToggleInProgress}
                                 onSyncPress={this.model.toggleEnabledState}
                                 width={50}
@@ -169,7 +170,7 @@ mailButtonTitle: {
     color: Colors.welcome.mailButton.title,
 },
 mailButton: {
-    width: '80%',
+    width: 'auto',
     height: 40,
     borderColor: Colors.welcome.mailButton.border,
     borderWidth: 0.25,
@@ -179,5 +180,12 @@ buttonView : {
    alignContent: 'center',
    alignItems: 'center',
    padding: 5
+},
+closeBtn: {
+    width: 50,
+    height: 50,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
 },
 });

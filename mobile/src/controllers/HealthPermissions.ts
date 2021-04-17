@@ -5,7 +5,7 @@ import { ThrottleAction } from 'common/utils/throttle';
 import { IDisposable } from 'common/utils/unsubscriber';
 import {auth, init, disconnectAndroid, getDOB} from 'src/helpers/health'
 import { Platform } from 'react-native';
-import { createLogger } from 'common/logger';
+import logger, { createLogger } from 'common/logger';
 
 
 export class HealthPermissionsController implements IDisposable {
@@ -43,6 +43,7 @@ export class HealthPermissionsController implements IDisposable {
     public askPermission = async () => {
 
         const authorized = Platform.OS == 'android'? await auth() : await init();
+        logger.log("PERMS", authorized);
 
         if (Platform.OS == 'ios'){
             const dob = await getDOB(); 
@@ -59,9 +60,9 @@ export class HealthPermissionsController implements IDisposable {
 
     // enableHealthPermissions
     public enableHealthPermissions = async () => {
-
         const enabled = await this.askPermission();
         if (!enabled) {
+
             return false;
         }
         return true;
@@ -69,6 +70,7 @@ export class HealthPermissionsController implements IDisposable {
 
     public disableHealthPermissions = async () => {
         if (Platform.OS == 'android') {
+            logger.log("DISABLE HEALTH ANDROID");
             disconnectAndroid();
             this._enabledByUser = false;
             this._syncThrottle.tryRun(this.sync);
