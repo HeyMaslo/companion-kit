@@ -9,7 +9,6 @@ import Colors from '../../../constants/colors';
 import TextStyles from '../../../../src/styles/TextStyles';
 
 import { styles } from 'react-native-markdown-renderer';
-import { PersonaArmState } from 'dependencies/persona/lib';
 
 const minContentHeight = 560;
 
@@ -22,9 +21,9 @@ export class QolQuestion extends ViewState {
 
     constructor(props) {
         super(props);
-        this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -140 - (this.viewModel.getDomainNum*30), transition: { duration: 1 }, scale: 0.8 });
+        this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -140 - (this.viewModel.domainNum*30), transition: { duration: 1 }, scale: 0.8 });
         this.viewModel.origMags = this.persona.qolMags;
-        this.persona.qolMags = this.viewModel.getQolMags;
+        this.persona.qolMags = this.viewModel.qolMags;
     }
 
     public get viewModel() {
@@ -76,13 +75,13 @@ export class QolQuestion extends ViewState {
         });        
     }
 
-    // todo: add encouragement interlude
+    // TODO: add encouragement interlude
     private nextQuestion = (prevResponse: number) => {
         this.viewModel.savePrevResponse(prevResponse);
         const newDomainMag: number = this.calculateNewDomainMag(prevResponse);
-        this.persona.qolMags = {...this.persona.qolMags, [this.viewModel.getDomain]: newDomainMag }
-        if (this.viewModel.getQuestionNum != (this.viewModel.numQuestions - 1)) {
-            if (this.isNextDomain(this.viewModel.getQuestionNum + 1)) { 
+        this.persona.qolMags = {...this.persona.qolMags, [this.viewModel.domain]: newDomainMag }
+        if (this.viewModel.questionNum != (this.viewModel.numQuestions - 1)) {
+            if (this.isNextDomain(this.viewModel.questionNum + 1)) { 
                 this.animateDomainChange();
             } else {
                 this.viewModel.nextQuestion();
@@ -94,11 +93,11 @@ export class QolQuestion extends ViewState {
 
     private calculateNewDomainMag = (response: number) => {
         let booster: number = 0;
-        if ((this.viewModel.getQuestionNum+1) % 4 === 1) {
+        if ((this.viewModel.questionNum+1) % 4 === 1) {
             booster = 0.2;
         }
         let inc: number = response * 3 / 100;
-        const oldMag: number = this.persona.qolMags[this.viewModel.getDomain];
+        const oldMag: number = this.persona.qolMags[this.viewModel.domain];
         return oldMag + inc + booster;
     }
 
@@ -122,16 +121,16 @@ export class QolQuestion extends ViewState {
         // TODO: see if there are styles in basestyles that work
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
-                <Container style={[{ height: this._contentHeight, paddingTop: 40, paddingBottom: 15 }]}>
+                <Container style={[styles.container, { height: this._contentHeight }]}>
                     <Animated.View style={{opacity: this.labelState.opacity}}>
-                        <Text style={{marginLeft: '70%', fontFamily: TextStyles.labelMedium.fontFamily}}>{this.viewModel.getDomain.toUpperCase()}</Text>
+                        <Text style={styles.domainLabel}>{this.viewModel.domain.toUpperCase()}</Text>
                     </Animated.View>
-                    <View style={{alignItems: 'center', width: '100%', marginTop: '4%'}}>
-                        <Text style={this.textStyles.p3}>{this.viewModel.getQuestionNum+1} of {this.viewModel.numQuestions}</Text>
+                    <View style={styles.subText1}>
+                        <Text style={this.textStyles.p3}>{this.viewModel.questionNum+1} of {this.viewModel.numQuestions}</Text>
                     </View>
                     <Text style={{...this.textStyles.p3, marginTop: '8%'}}>OVER THE LAST 7 DAYS I HAVE...</Text>
                     <View style={styles.question}>
-                        <Text style={[this.textStyles.h2, {marginVertical: '5%', textAlign: "center"}]}>{this.viewModel.getQuestion}</Text>
+                        <Text style={[this.textStyles.h2, styles.questionText]}>{this.viewModel.question}</Text>
                     </View>
                     <View style={styles.buttonContainer}>
                             <Button title="STRONGLY AGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion(5)}></Button>
@@ -147,6 +146,23 @@ export class QolQuestion extends ViewState {
 }
 
 const styles = StyleSheet.create({ 
+    container: {
+        paddingTop: 40,
+        paddingBottom: 15
+    },
+    domainLabel: {
+        marginLeft: '70%',
+        fontFamily: TextStyles.labelMedium.fontFamily
+    },
+    subText1: {
+        alignItems: 'center',
+        width: '100%',
+        marginTop: '4%'
+    },
+    questionText: {
+        marginVertical: '5%',
+        textAlign: "center"
+    },
     title: {
         width: '100%',
     },

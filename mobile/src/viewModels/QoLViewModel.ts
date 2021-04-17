@@ -56,20 +56,20 @@ export default class QOLSurveyViewModel {
     
     // TODO: rename getters with proper convention
     @computed
-    get getQuestionNum(): number { return this._questionNum; }
+    get questionNum(): number { return this._questionNum; }
 
     @computed
-    get getDomainNum(): number { return this._domainNum; }
+    get domainNum(): number { return this._domainNum; }
 
     @computed
-    get getQuestion(): string { return SurveyQuestions[this._questionNum]; }
+    get question(): string { return SurveyQuestions[this._questionNum]; }
 
     @computed
-    get getDomain(): string { return PersonaDomains[this._domainNum]; }
+    get domain(): string { return PersonaDomains[this._domainNum]; }
 
-    get getSurveyResponses(): any { return this._surveyResponses; }
+    get surveyResponses(): any { return this._surveyResponses; }
 
-    get getQolMags(): any { return this._armMags; }
+    get qolMags(): any { return this._armMags; }
 
     resetSurveyResults(): void {
         const surveyResponses = {};
@@ -91,13 +91,13 @@ export default class QOLSurveyViewModel {
     }
 
     public savePrevResponse(prevResponse: number): void {
-        const currDomain: string = this.getDomain;
+        const currDomain: string = this.domain;
         this._surveyResponses[currDomain] += prevResponse;
     }
 
     public saveSurveyProgress = async (qolMags: PersonaArmState) => {
         this._armMags = qolMags;
-        let res;
+        let res: boolean;
         if (qolMags === null) {
             res = await AppController.Instance.Backend.sendPartialQol(null, null, null, null);
             this.isUnfinished = false;
@@ -109,13 +109,8 @@ export default class QOLSurveyViewModel {
         return res;
     }
 
-    public sendArmMagnitudes = async (qolMags: PersonaArmState) => {
-        const res = AppController.Instance.Backend.setDomainMagnitudes(qolMags);
-        return res;
-    }
-
     public sendSurveyResults = async () => {
-        const res = AppController.Instance.Backend.sendSurveyResults(this._surveyResponses);
+        const res: boolean = await AppController.Instance.Backend.sendSurveyResults(this._surveyResponses);
         return res;
     }
 

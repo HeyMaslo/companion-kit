@@ -14,7 +14,6 @@ import { arraySplit } from 'common/utils/mathx';
 import { UserProfileViewModel } from './UserProfileViewModel';
 import { QolSurveyResults } from 'common/models/QoL';
 import { PersonaArmState, PersonaDomains } from 'src/stateMachine/persona';
-import logger from 'common/logger';
 
 const EmptyArr: any[] = [];
 
@@ -149,7 +148,7 @@ export default class HomeViewModel {
         let currMags: PersonaArmState = {};
         for (let domain of PersonaDomains) {
             let score: number = lastSurveyScores[domain];
-            let mag: number = 0.2 + (score * 4 / 100);
+            let mag: number = 0.4 + (score * 3 / 100); // CHECK THIS
             currMags[domain] = mag;
         }
         return currMags;

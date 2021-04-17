@@ -27,7 +27,7 @@ export class QolEndView extends ViewState {
     }
 
     async start() {
-        logger.log("QoL Survey Results:", this.viewModel.getSurveyResponses);
+        logger.log("QoL Survey Results:", this.viewModel.surveyResponses);
     }
 
     private cancel = () => {
@@ -35,7 +35,6 @@ export class QolEndView extends ViewState {
     }
 
     private onEndSurvey = async () => {
-        await this.viewModel.sendArmMagnitudes(this.persona.qolMags);
         await this.viewModel.sendSurveyResults();
         if (this.viewModel.isUnfinished) {
             await this.viewModel.saveSurveyProgress(null);
