@@ -57,7 +57,7 @@ export class QolEndView extends ViewState<{ opacity: Animated.Value}> {
     renderContent() {
 
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()}>
+            <MasloPage style={this.baseStyles.page}>
                 <Animated.View style={[{ height: this._contentHeight, alignItems: 'center', opacity: this.state.opacity }]}>
                     <Text style={[this.textStyles.h1, styles.title]}>Great job! Here are your Quality of Life results.</Text>
                     <Text style={[this.textStyles.p1, styles.message]}>There are 12 different Life Domains within your overall Quality of Life.</Text>
