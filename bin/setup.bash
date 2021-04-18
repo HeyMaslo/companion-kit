@@ -50,13 +50,13 @@ fi
 yarn env:clean
 yarn env:set
 mkdir mobile/dependencies
-yarn all
 if [ $submodules == 1 ]; then
 	cd mobile/dependencies || exit 1
 	git clone -b dev-ts https://github.com/HeyMaslo/maslo-persona.git persona
 	git clone https://github.com/HeyMaslo/react-native-switch-pro.git
 	cd ../..
 fi
+yarn all
 if [ $functions == 1 ]; then
 	cd server/functions || exit 1
 	yarn
