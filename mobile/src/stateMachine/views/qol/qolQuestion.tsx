@@ -16,7 +16,7 @@ const minContentHeight = 560;
 export class QolQuestion extends ViewState {
 
     labelState = {
-        opacity: new Animated.Value(0),
+        opacity: new Animated.Value(1),
     }
 
     constructor(props) {
@@ -30,14 +30,7 @@ export class QolQuestion extends ViewState {
         return AppViewModel.Instance.QOL;
     }
 
-    async start() {
-        Animated.timing(this.labelState.opacity, {
-            toValue: 1,
-            delay: 450,
-            duration: 500,
-            useNativeDriver: true
-        }).start();
-    }
+    async start() {}
 
     private saveProgress = async () => {
         await this.viewModel.saveSurveyProgress(this.persona.qolMags);
@@ -71,11 +64,12 @@ export class QolQuestion extends ViewState {
                 delay: 200,
                 duration: 900,
                 useNativeDriver: true
-            }).start();
+            }).start(() => {
+                this.checkForInterlude();
+            });
         });        
     }
 
-    // TODO: add encouragement interlude
     private nextQuestion = (prevResponse: number) => {
         this.viewModel.savePrevResponse(prevResponse);
         const newDomainMag: number = this.calculateNewDomainMag(prevResponse);
@@ -85,6 +79,7 @@ export class QolQuestion extends ViewState {
                 this.animateDomainChange();
             } else {
                 this.viewModel.nextQuestion();
+                this.checkForInterlude();
             }
         } else {
             this.finish();
@@ -116,9 +111,24 @@ export class QolQuestion extends ViewState {
     })
 
 
+    private checkForInterlude() {
+        if (this.viewModel.showInterlude && this.viewModel.questionNum === this.viewModel.numQuestions / 2) {
+            this.showInterlude();
+        }
+    }
+
+    private showInterlude = (): void | Promise<void> => this.runLongOperation(async () => {
+        this.showModal({
+            title: `You're getting there!`,
+            message: "You're doing great! I have a couple more questions for you.",
+            primaryButton: {
+                text: 'CONTINUE',
+                action: this.hideModal,
+            }
+        });
+    })
+
     renderContent() {
-        // TODO: put styles in style sheet and abstract common styles
-        // TODO: see if there are styles in basestyles that work
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
                 <Container style={[styles.container, { height: this._contentHeight }]}>
@@ -133,11 +143,11 @@ export class QolQuestion extends ViewState {
                         <Text style={[this.textStyles.h2, styles.questionText]}>{this.viewModel.question}</Text>
                     </View>
                     <View style={styles.buttonContainer}>
-                            <Button title="STRONGLY AGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion(5)}></Button>
-                            <Button title="AGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion(4)}></Button>
-                                    <Button title="NEUTRAL" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion(3)}></Button>
-                            <Button title="DISAGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion(2)}></Button>
-                            <Button title="STRONGLY DISAGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion(1)}></Button>
+                        <Button title="STRONGLY AGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion(5)}></Button>
+                        <Button title="AGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion(4)}></Button>
+                        <Button title="NEUTRAL" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion(3)}></Button>
+                        <Button title="DISAGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion(2)}></Button>
+                        <Button title="STRONGLY DISAGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion(1)}></Button>
                     </View>
                 </Container>
             </MasloPage>

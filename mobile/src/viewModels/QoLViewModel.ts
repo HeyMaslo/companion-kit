@@ -21,6 +21,7 @@ export default class QOLSurveyViewModel {
     public isUnfinished: boolean;
     public initModel: Promise<void>;
     public origMags: PersonaArmState;
+    public showInterlude: boolean = false;
 
     public readonly numQuestions: number = QUESTIONS_COUNT;
     public readonly domainQuestions: number = DOMAIN_QUESTION_COUNT;
@@ -115,6 +116,7 @@ export default class QOLSurveyViewModel {
 
     public updateQolOnboarding = () => {
         this._settings.updateQolOnboarding({ seenOnboardingQol: true })
+        this.showInterlude = true;
     }
 }
 
