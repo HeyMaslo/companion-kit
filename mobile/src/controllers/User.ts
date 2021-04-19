@@ -26,6 +26,7 @@ import { StaticTipItemIded } from 'common/models/StaticTips';
 import { LocalSettingsController, ILocalSettingsController } from './LocalSettings';
 import { RewardsController } from './Rewards';
 import { IDocumentsController, DocumentsController } from './Documents';
+import BackendController from 'common/controllers/BackendController';
 
 type ClientUser = Identify<UserProfile> & { client?: ClientProfileFull };
 
@@ -54,6 +55,8 @@ export interface IUserController extends IUserControllerBase {
 
     readonly onboardingDayIndex: number | null;
     readonly rewards?: RewardsController;
+
+    readonly backend: BackendController;
 
     readonly hasSeenOnboarding: boolean;
     onboardingSeen(): void;
@@ -112,6 +115,14 @@ export class UserController extends UserControllerBase implements IUserControlle
 
     private _documents: DocumentsController;
 
+    private readonly _backend = new Lazy(() => {
+        const bk = new BackendController();
+        if (this.user && this.activeAccount) {
+            bk.setUser(this.user.id);
+        }
+        return bk;
+    });
+
     public readonly notifications: NotificationsController;
 
     constructor(auth: IAuthController) {
@@ -163,6 +174,8 @@ export class UserController extends UserControllerBase implements IUserControlle
         }
         return this._documents;
     }
+
+    get backend() { return this._backend.value; };
 
     get firstName() { return this.user?.firstName; }
     get lastName() { return this.user?.lastName; }
@@ -229,6 +242,7 @@ export class UserController extends UserControllerBase implements IUserControlle
         if (!isUpdating && user) {
             this._records.weakValue?.setClient(this.activeAccount.coachId, this.user.id, this.user.displayName);
             this._recordsLastWeek.weakValue?.setLoggerName(`${this.user.displayName || '??'}:week`);
+            this._backend.weakValue?.setUser(this.user.id);
 
             this._onboardingSeen = false;
 
