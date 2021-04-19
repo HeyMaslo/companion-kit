@@ -7,6 +7,7 @@ import {
 
 export default class BackendControllerBase implements IBackendController {
 
+    private _userId: string = null;
     private _partialQolState: PartialQol = null;
 
     // Fetch the latests survey results (i.e. scores)
@@ -44,7 +45,12 @@ export default class BackendControllerBase implements IBackendController {
     // Get last stored state
 	// null value indicates no outstanding survey
     public async getPartialQol(): Promise<PartialQol> {
+        console.log(`get partial qol: userId = ${this._userId}`);
         return this._partialQolState;
+    }
+
+    public setUser(userId: string) {
+        this._userId = userId;
     }
 
 }
