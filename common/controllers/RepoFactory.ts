@@ -47,7 +47,7 @@ export default class RepoFactory {
     get clientCards(): ClientCardRepo { return this._clientCards.value; }
     get records(): RecordRepo { return this._records.value; }
     get staticTips(): StaticTipsRepo { return this._staticTips.value; }
-    get surveyState(): SurveyStateRepo { return this._qolSurveyState.value };
+    get surveyState(): SurveyStateRepo { return this._qolSurveyState.value; }
 
     // private createProxyRepo<T extends RepoType<T>>(prefix: string, Type: IRepoConstructor<T>) {
     //     const repo = new Type(Firebase.Instance.database);

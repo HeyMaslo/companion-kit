@@ -1,4 +1,4 @@
-import { DomainMagnitudesData, PartialQol, QolSurveyResults } from "common/models/QoL";
+import { DomainMagnitudesData, PartialQol, QolSurveyResults } from 'common/models/QoL';
 
 export interface IBackendController {
 
