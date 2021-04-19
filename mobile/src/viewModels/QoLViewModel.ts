@@ -116,7 +116,7 @@ export default class QOLSurveyViewModel {
     }
 
     public updateQolOnboarding = () => {
-        this._settings.updateQolOnboarding({ seenOnboardingQol: true })
+        this._settings.updateQolOnboarding({ seenOnboardingQol: true, lastMonthlyQol: new Date() })
         this.showInterlude = true;
     }
 }
