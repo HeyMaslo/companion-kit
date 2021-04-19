@@ -64,9 +64,8 @@ export class QolQuestion extends ViewState {
                 delay: 200,
                 duration: 900,
                 useNativeDriver: true
-            }).start(() => {
-                this.checkForInterlude();
-            });
+            }).start();
+            this.checkForInterlude();
         });        
     }
 
@@ -79,7 +78,6 @@ export class QolQuestion extends ViewState {
                 this.animateDomainChange();
             } else {
                 this.viewModel.nextQuestion();
-                this.checkForInterlude();
             }
         } else {
             this.finish();
