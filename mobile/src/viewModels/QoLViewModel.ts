@@ -35,6 +35,7 @@ export default class QOLSurveyViewModel {
                 this._surveyResponses = partialQolState.scores;
                 this._armMags = partialQolState.mags;
                 this.isUnfinished = true;
+                this.showInterlude = partialQolState.isFirstTimeQol;
                 return;
             } else {
                 this._questionNum = 0;
@@ -99,11 +100,11 @@ export default class QOLSurveyViewModel {
         this._armMags = qolMags;
         let res: boolean;
         if (qolMags === null) {
-            res = await AppController.Instance.Backend.sendPartialQol(null, null, null, null);
+            res = await AppController.Instance.Backend.sendPartialQol(null, null, null, null, null);
             this.isUnfinished = false;
 
         } else {
-            res = await AppController.Instance.Backend.sendPartialQol(qolMags, this._surveyResponses, this._questionNum, this._domainNum);
+            res = await AppController.Instance.Backend.sendPartialQol(qolMags, this._surveyResponses, this._questionNum, this._domainNum, this.showInterlude);
             this.isUnfinished = true;
         }
         return res;

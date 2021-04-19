@@ -13,7 +13,8 @@ import { Identify, DocumentLinkEntry, DocumentLinkShareStatuses } from 'common/m
 import { arraySplit } from 'common/utils/mathx';
 import { UserProfileViewModel } from './UserProfileViewModel';
 import { QolSurveyResults } from 'common/models/QoL';
-import { PersonaArmState, PersonaDomains } from 'src/stateMachine/persona';
+import { PersonaDomains } from 'src/stateMachine/persona';
+import { PersonaArmState } from 'dependencies/persona/lib';
 
 const EmptyArr: any[] = [];
 
@@ -145,6 +146,9 @@ export default class HomeViewModel {
 
     public getArmMagnitudes = async () => {
         const lastSurveyScores: QolSurveyResults = await AppController.Instance.Backend.getSurveyResults();
+        if (lastSurveyScores === null) {
+            return PersonaArmState.createEmptyArmState();
+        }
         let currMags: PersonaArmState = {};
         for (let domain of PersonaDomains) {
             let score: number = lastSurveyScores[domain];

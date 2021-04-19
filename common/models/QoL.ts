@@ -44,4 +44,5 @@ export type PartialQol = {
     domainNum: number,
     mags: DomainMagnitudesData,
     scores: QolSurveyResults,
+    isFirstTimeQol: boolean,
 };

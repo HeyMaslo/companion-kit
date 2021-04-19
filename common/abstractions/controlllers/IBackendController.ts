@@ -7,7 +7,7 @@ export interface IBackendController {
     sendSurveyResults(results: QolSurveyResults): Promise<boolean>;
 
     sendPartialQol(domainMags: DomainMagnitudesData, surveyScores: QolSurveyResults,
-        questionNumber: number, domainNumber: number): Promise<boolean>;
+        questionNumber: number, domainNumber: number, isFirstTimeQol: boolean): Promise<boolean>;
 
     getPartialQol(): Promise<PartialQol>;
 

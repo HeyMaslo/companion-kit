@@ -2,8 +2,9 @@ import { observable } from 'mobx';
 import { Keyboard, PixelRatio } from 'react-native';
 import Layout from 'src/constants/Layout';
 import { IPersonaViewContext, IStateViewContext, KeyboardState } from './abstractions';
-import { PersonaViewPresets, PersonaStates, PersonaViewState, PersonaArmState, CurrentPersonaSettings } from './persona';
+import { PersonaViewPresets, PersonaStates, PersonaViewState, CurrentPersonaSettings } from './persona';
 import logger from 'common/logger';
+import { PersonaArmState } from 'dependencies/persona/lib';
 
 class PersonaViewContext implements IPersonaViewContext {
     @observable
@@ -12,9 +13,8 @@ class PersonaViewContext implements IPersonaViewContext {
     @observable.ref
     public view: PersonaViewState = PersonaViewPresets.Default;
 
-    // will be set outside
     @observable
-    public qolMags: PersonaArmState = null;
+    public qolMags: PersonaArmState = PersonaArmState.createEmptyArmState();
 
     // will be set outside
     public currentSettings: CurrentPersonaSettings = null;
