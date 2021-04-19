@@ -125,6 +125,10 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         this.trigger(ScenarioTriggers.Quaternary);
     }
 
+    private onMonthlyQol = () => {
+        // stub
+    }
+
     private onStartQOL = () => {
         this.trigger(ScenarioTriggers.Tertiary);
     }
@@ -222,6 +226,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
             case 'finish-qol': {
                 this.onfinishQol();
+                return;
+            }
+
+            case 'monthly-qol': {
+                this.onMonthlyQol();
                 return;
             }
 

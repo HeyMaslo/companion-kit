@@ -3,7 +3,7 @@ import CheckInViewModel from './CheckInViewModel';
 import { computed } from 'mobx';
 import NamesHelper from 'common/utils/nameHelper';
 import { months } from 'common/utils/dateHelpers';
-import { ITipItem, IStaticTipItem, ICheckInTipItem, IFinishQolTipItem, IAssessmentTipItem, IDocumentLinkTip } from './components/TipItemViewModel';
+import { ITipItem, IStaticTipItem, ICheckInTipItem, IFinishQolTipItem, IMonthlyQolTipItem, IAssessmentTipItem, IDocumentLinkTip } from './components/TipItemViewModel';
 import AppViewModel from './index';
 import InterventionTipsViewModel from 'src/viewModels/components/InterventionTipsViewModel';
 import Localization from 'src/services/localization';
@@ -109,6 +109,17 @@ export default class HomeViewModel {
                 },
             ];
         }
+
+        if (this.isTimeForMonthlyQol()) {
+            return [
+                <IMonthlyQolTipItem>{
+                    id: 'monthly-qol',
+                    type: 'monthly-qol',
+                    title: "It's time for your monthly check-in!",
+                },
+            ];
+        }
+
         return [
             <ICheckInTipItem>{
                 id: 'check-in',
@@ -142,6 +153,19 @@ export default class HomeViewModel {
             ...tips,
             ...openedLinks.map(docLinkToTip),
         ];
+    }
+
+    private isTimeForMonthlyQol(): boolean {
+        const lastMonthlyQol: Date = new Date(AppController.Instance.User.localSettings?.current?.qol?.lastMonthlyQol);
+        let nextMonthlyQol: Date = new Date();
+        // change 28 to 0 for testing
+        nextMonthlyQol.setDate(lastMonthlyQol.getDate() + 28);
+        const today: Date = new Date();
+        if (nextMonthlyQol.getDay() === today.getDay() && nextMonthlyQol.getMonth() === today.getMonth()
+        && nextMonthlyQol.getFullYear() === today.getFullYear()) {
+            return true;
+        }
+        return false;
     }
 
     public getArmMagnitudes = async () => {

@@ -19,7 +19,7 @@ export type NotificationsSettings = {
 
 export type QolSettings = {
     seenOnboardingQol?: boolean,
-    lastMonthlyQol?: Date,
+    lastMonthlyQol?: string,
 };
 
 export type LocalNotificationsSchedule = {

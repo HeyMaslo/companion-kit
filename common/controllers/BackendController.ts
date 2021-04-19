@@ -8,38 +8,41 @@ import {
 export default class BackendControllerBase implements IBackendController {
 
     // State to test first-time use
+    /*
     private _partialQolState: PartialQol = null;
     private _surveyResults: QolSurveyResults[] = [];
+    */
 
     // Normal State
-    /*
-    private _partialQolState: PartialQol = {questionNum: 3, domainNum: 0, mags: { 
-        "physical": 0.8,
-        "sleep": 0.2,
-        "mood": 0.2,
-        "cognition": 0.2,
-        "leisure": 0.2,
-        "relationships": 0.2,
-        "spiritual": 0.2,
-        "money": 0.2,
-        "home": 0.2,
-        "self-esteem": 0.2,
-        "independence": 0.2,
-        "identity": 0.2,
-    }, scores: {
-        "physical": 18,
-        "sleep": 0,
-        "mood": 0,
-        "cognition": 0,
-        "leisure": 0,
-        "relationships": 0,
-        "spiritual": 0,
-        "money": 0,
-        "home": 0,
-        "self-esteem": 0,
-        "independence": 0,
-        "identity": 0,
-    }};
+    
+    // private _partialQolState: PartialQol = {questionNum: 3, domainNum: 0, mags: { 
+    //     "physical": 0.8,
+    //     "sleep": 0.2,
+    //     "mood": 0.2,
+    //     "cognition": 0.2,
+    //     "leisure": 0.2,
+    //     "relationships": 0.2,
+    //     "spiritual": 0.2,
+    //     "money": 0.2,
+    //     "home": 0.2,
+    //     "self-esteem": 0.2,
+    //     "independence": 0.2,
+    //     "identity": 0.2,
+    // }, scores: {
+    //     "physical": 18,
+    //     "sleep": 0,
+    //     "mood": 0,
+    //     "cognition": 0,
+    //     "leisure": 0,
+    //     "relationships": 0,
+    //     "spiritual": 0,
+    //     "money": 0,
+    //     "home": 0,
+    //     "self-esteem": 0,
+    //     "independence": 0,
+    //     "identity": 0,
+    // }};
+    private _partialQolState: PartialQol = null;
     private _surveyResults: QolSurveyResults[] = [
         { 
          "physical": 18,
@@ -56,7 +59,7 @@ export default class BackendControllerBase implements IBackendController {
          "identity": 20,
         }
     ];
-    */
+    
     
 
     // Fetch the latests survey results (i.e. scores)

@@ -1,12 +1,20 @@
 import { StaticTipTypes } from 'common/models/StaticTips';
 import { InterventionTipsStatuses } from 'common/models';
 
-export type TipTypes = 'check-in' | 'finish-qol' | 'assessment' | 'staticTip' | 'interventionTip' | 'docLinkTip';
+export type TipTypes = 'finish-qol' | 'monthly-qol' | 'check-in' | 'assessment' | 'staticTip' | 'interventionTip' | 'docLinkTip';
 
 export interface ITipItemBase {
     id: string,
     type: TipTypes,
     title: string,
+}
+
+export interface IFinishQolTipItem extends ITipItemBase {
+    type: 'finish-qol',
+}
+
+export interface IMonthlyQolTipItem extends ITipItemBase {
+    type: 'monthly-qol',
 }
 
 export interface IStaticTipItem extends ITipItemBase {
@@ -18,10 +26,6 @@ export interface IStaticTipItem extends ITipItemBase {
 
 export interface ICheckInTipItem extends ITipItemBase {
     type: 'check-in',
-}
-
-export interface IFinishQolTipItem extends ITipItemBase {
-    type: 'finish-qol',
 }
 
 export interface IAssessmentTipItem extends ITipItemBase {
@@ -46,4 +50,4 @@ export interface IDocumentLinkTip extends ITipItemBase {
     open: () => Promise<void>,
 }
 
-export type ITipItem = IStaticTipItem | ICheckInTipItem | IFinishQolTipItem | IAssessmentTipItem | IInterventionTipItem | IDocumentLinkTip;
+export type ITipItem = IStaticTipItem | ICheckInTipItem | IFinishQolTipItem | IMonthlyQolTipItem | IAssessmentTipItem | IInterventionTipItem | IDocumentLinkTip;
