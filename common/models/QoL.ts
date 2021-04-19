@@ -45,3 +45,8 @@ export type PartialQol = {
     mags: DomainMagnitudesData,
     scores: QolSurveyResults,
 };
+
+export type SurveyState = {
+    userId: string,
+    state: PartialQol,
+};

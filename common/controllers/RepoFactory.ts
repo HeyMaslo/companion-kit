@@ -9,6 +9,7 @@ import {
     ClientCardRepo,
     RecordRepo,
     StaticTipsRepo,
+    SurveyStateRepo,
 } from 'common/database/repositories';
 
 const PROXIES_PREFIX = 'proxies';
@@ -33,6 +34,7 @@ export default class RepoFactory {
     private readonly _clientCards = createLazy(() => new ClientCardRepo(Firebase.Instance.database));
     private readonly _records = createLazy(() => new RecordRepo(Firebase.Instance.database));
     private readonly _staticTips = createLazy(() => new StaticTipsRepo(Firebase.Instance.database));
+    private readonly _qolSurveyState = createLazy(() => new SurveyStateRepo(Firebase.Instance.database));
 
     constructor(
         private readonly useProxy: boolean,
@@ -45,6 +47,7 @@ export default class RepoFactory {
     get clientCards(): ClientCardRepo { return this._clientCards.value; }
     get records(): RecordRepo { return this._records.value; }
     get staticTips(): StaticTipsRepo { return this._staticTips.value; }
+    get surveyState(): SurveyStateRepo { return this._qolSurveyState.value };
 
     // private createProxyRepo<T extends RepoType<T>>(prefix: string, Type: IRepoConstructor<T>) {
     //     const repo = new Type(Firebase.Instance.database);

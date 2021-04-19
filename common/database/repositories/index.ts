@@ -10,6 +10,7 @@ import StaticTipsRepo from './StaticTipsRepo';
 import ServiceJobs from './ServiceJobsRepo';
 import GenericRepo from './GenericRepo';
 import DomainRepo from './DomainRepo';
+import SurveyStateRepo from './SurveyStateRepo';
 
 export {
     DBProvider,
@@ -25,4 +26,5 @@ export {
     ServiceJobs,
     GenericRepo,
     DomainRepo,
+    SurveyStateRepo,
 };

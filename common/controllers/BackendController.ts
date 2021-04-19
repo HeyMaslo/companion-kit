@@ -4,11 +4,11 @@ import {
     QolSurveyResults,
     PartialQol
 } from "common/models/QoL";
+import RepoFactory from 'common/controllers/RepoFactory';
 
 export default class BackendControllerBase implements IBackendController {
 
     private _userId: string = null;
-    private _partialQolState: PartialQol = null;
 
     // Fetch the latests survey results (i.e. scores)
     public async getSurveyResults(): Promise<QolSurveyResults> {
@@ -37,16 +37,31 @@ export default class BackendControllerBase implements IBackendController {
 	// Any subsequent calls to get will return this state
     public async sendPartialQol(domainMags: DomainMagnitudesData, surveyScores: QolSurveyResults,
         questionNumber: number, domainNumber: number): Promise<boolean> {
-        this._partialQolState = {questionNum: questionNumber, domainNum: domainNumber, mags: domainMags, scores: surveyScores};
-        const success = true;
-        return success;
+        
+        console.log(`set partial qol: userId = ${this._userId}`);
+        if (!this._userId) {
+            return false;
+        } else {
+            try {
+                await RepoFactory.Instance.surveyState.setByUserId(this._userId,
+                    {
+                        questionNum: questionNumber,
+                        domainNum: domainNumber,
+                        mags: null,
+                        scores: surveyScores
+                    });
+                    return true;
+            } catch (err) {
+                return false;
+            }
+        }
     }
 
     // Get last stored state
 	// null value indicates no outstanding survey
     public async getPartialQol(): Promise<PartialQol> {
         console.log(`get partial qol: userId = ${this._userId}`);
-        return this._partialQolState;
+        return RepoFactory.Instance.surveyState.getByUserId(this._userId);
     }
 
     public setUser(userId: string) {
