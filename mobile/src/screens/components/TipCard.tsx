@@ -12,7 +12,8 @@ function getTipIcon(type: TipTypes) {
     switch (type) {
         case 'check-in':
         case 'assessment':
-        case 'finish-qol': {
+        case 'finish-qol':
+        case 'monthly-qol': {
             return <PlusIcon width={16} height={16} />;
         }
 

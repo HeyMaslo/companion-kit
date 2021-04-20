@@ -9,6 +9,11 @@ import { PersonaArmState } from 'dependencies/persona/lib';
 
 export const logger = createLogger('[QOLModel]');
 
+export enum QolType {
+    Onboarding = "ONBOARDING",
+    Monthly = "MONTHLY",
+}
+
 export default class QOLSurveyViewModel {
 
     // VIEW MODEL STATE:
@@ -22,6 +27,7 @@ export default class QOLSurveyViewModel {
     public initModel: Promise<void>;
     public origMags: PersonaArmState;
     public showInterlude: boolean = false;
+    public qolType: QolType;
 
     public readonly numQuestions: number = QUESTIONS_COUNT;
     public readonly domainQuestions: number = DOMAIN_QUESTION_COUNT;
@@ -71,6 +77,8 @@ export default class QOLSurveyViewModel {
     get surveyResponses(): any { return this._surveyResponses; }
 
     get qolMags(): any { return this._armMags; }
+
+    set setQolType(type: QolType) { this.qolType = type; }
 
     resetSurveyResults(): void {
         const surveyResponses = {};

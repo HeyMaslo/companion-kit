@@ -6,6 +6,7 @@ import { StyleSheet, Text } from 'react-native';
 import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import AppController from 'src/controllers';
+import { QolType } from 'src/viewModels/QoLViewModel';
 
 import { styles } from 'react-native-markdown-renderer';
 import { PersonaArmState } from 'dependencies/persona/lib';
@@ -18,7 +19,10 @@ export class QolStartView extends ViewState {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -15, transition: { duration: 1.5 } });
         if (!AppController.Instance.User.localSettings?.current?.qol?.seenOnboardingQol) {
+            this.viewModel.setQolType = QolType.Onboarding;
             this.viewModel.updateQolOnboarding();
+        } else {
+            this.viewModel.setQolType = QolType.Monthly;
         }
     }
 

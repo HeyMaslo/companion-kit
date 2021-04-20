@@ -18,6 +18,7 @@ import { InterventionTipsStatuses, Identify, DocumentLinkEntry } from 'common/mo
 import { TransitionObserver } from 'common/utils/transitionObserver';
 import { UserProfileName } from 'src/screens/components/UserProfileName';
 import AppViewModel from 'src/viewModels';
+import { QolType } from 'src/viewModels/QoLViewModel';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -45,6 +46,8 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     }
 
     get viewModel() { return HomeViewModel.Instance; }
+    get viewQolModel() { return AppViewModel.Instance.QOL; }
+    
 
     async start() {
         await AppViewModel.Instance.QOL.init();
@@ -126,7 +129,8 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     }
 
     private onMonthlyQol = () => {
-        // stub
+        this.viewQolModel.setQolType = QolType.Monthly;
+        this.trigger(ScenarioTriggers.Tertiary);
     }
 
     private onStartQOL = () => {
