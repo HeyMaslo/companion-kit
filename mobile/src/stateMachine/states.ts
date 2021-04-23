@@ -72,4 +72,7 @@ export enum States {
 
     qol_Question,
     End_Qol,
+    StartQol,
+    QolQuestion,
+    EndQol,
 }

@@ -1,67 +1,99 @@
-import { reaction, transaction, observable, computed, toJS } from 'mobx';
-import AppController from 'src/controllers';
-// import { asyncComputed } from 'computed-async-mobx';
-// import { ClientJournalEntryIded } from 'common/models/ClientEntries';
-// import { StorageReferenceViewModel } from 'common/viewModels/StorageReferenceViewModel';
-// import Firebase from 'common/services/firebase';
-// import * as Functions from 'common/abstractions/functions';
-// import LocationsStrings from 'common/localization/LocationStrings';
-// import { safeCall } from 'common/utils/functions';
-// import AppController from 'src/controllers';
-// import EnvConstants from 'src/constants/env';
-import { SurveyQuestions, Domains, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT, Domain_Importance, DOMAIN_COUNT } from "../constants/QoLSurvey";
+import { observable, computed, toJS } from 'mobx';
+import { SurveyQuestions, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT } from "../constants/QoLSurvey";
+import { PersonaDomains } from '../stateMachine/persona';
 import { createLogger } from 'common/logger';
+import AppController from 'src/controllers';
+import { ILocalSettingsController } from 'src/controllers/LocalSettings';
+import { PartialQol } from 'common/models/QoL';
+import { PersonaArmState } from 'dependencies/persona/lib';
 
 export const logger = createLogger('[QOLModel]');
 
+export enum QolType {
+    Onboarding = "ONBOARDING",
+    Monthly = "MONTHLY",
+}
+
 export default class QOLSurveyViewModel {
 
+    // VIEW MODEL STATE:
     @observable
     private _questionNum: number;
-
     @observable
     private _domainNum: number;
-
     private _surveyResponses: any;
+    private _armMags: PersonaArmState;
+    public isUnfinished: boolean;
+    public initModel: Promise<void>;
+    public origMags: PersonaArmState;
+    public showInterlude: boolean = false;
+    public qolType: QolType;
 
-    public _selectedDomains: any;
+    public readonly numQuestions: number = QUESTIONS_COUNT;
+    public readonly domainQuestions: number = DOMAIN_QUESTION_COUNT;
+    private readonly _settings: ILocalSettingsController = AppController.Instance.User.localSettings;
 
-    public numQuestions: number = QUESTIONS_COUNT;
-
-    public domainQuestions: number = DOMAIN_QUESTION_COUNT;
-
-    public domainCount: number = DOMAIN_COUNT;
+    // public domainCount: number = DOMAIN_COUNT;
 
 
     constructor() {
-        this._questionNum = 0;
-        this._domainNum = 0;
+        this.initModel = AppController.Instance.Backend.getPartialQol().then((partialQolState: PartialQol) => {
+            if (partialQolState !== null) {
+                this._questionNum = partialQolState.questionNum;
+                this._domainNum = partialQolState.domainNum;
+                this._surveyResponses = partialQolState.scores;
+                this._armMags = partialQolState.mags;
+                this.isUnfinished = true;
+                this.showInterlude = partialQolState.isFirstTimeQol;
+                return;
+            } else {
+                this._questionNum = 0;
+                this._domainNum = 0;
+                const surveyResponses = {};
+                for (let domain of PersonaDomains) {
+                    surveyResponses[domain] = 0;
+                }
+                this._surveyResponses = surveyResponses;
+                this._armMags = PersonaArmState.createEmptyArmState();
+                this.isUnfinished = false;
+                return;
+            }
+        });
+    }
 
+    async init() {
+        return await this.initModel;
+    }
+    
+    @computed
+    get questionNum(): number { return this._questionNum; }
+
+    @computed
+    get domainNum(): number { return this._domainNum; }
+
+    @computed
+    get question(): string { return SurveyQuestions[this._questionNum]; }
+
+    @computed
+    get domain(): string { return PersonaDomains[this._domainNum]; }
+
+    get surveyResponses(): any { return this._surveyResponses; }
+
+    get qolMags(): any { return this._armMags; }
+
+    set setQolType(type: QolType) { this.qolType = type; }
+
+    resetSurveyResults(): void {
         const surveyResponses = {};
 
-        for (let domain of Domains) {
-            surveyResponses[domain] = new Array(DOMAIN_QUESTION_COUNT).fill(0);
+        for (let domain of PersonaDomains) {
+            surveyResponses[domain] = 0;
         }
-
+        
         this._surveyResponses = surveyResponses;
     }
 
-    @computed
-    get getQuestionNum(): number { return this._questionNum; }
-
-    @computed
-    get getDomainNum(): number { return this._domainNum; }
-
-    @computed
-    get getQuestion(): string { return SurveyQuestions[this._questionNum]; }
-
-    @computed
-    get getDomain(): string { return Domains[this._domainNum]; }
-
-    get getSurveyResponses(): any { return this._surveyResponses; }
-
     // @computed
-    get SelectedDomain (): any {return this._selectedDomains};
 
     public nextQuestion(): void {
         if (!((this._questionNum + 1) > (QUESTIONS_COUNT - 1))) {
@@ -73,58 +105,32 @@ export default class QOLSurveyViewModel {
     }
 
     public savePrevResponse(prevResponse: number): void {
-        const currDomain: string = this.getDomain;
-        const domainResponseIndex: number = this.getQuestionNum % DOMAIN_QUESTION_COUNT;
-        const domainResponseArray: number[] = this._surveyResponses[currDomain];
-        domainResponseArray[domainResponseIndex] = prevResponse;
+        const currDomain: string = this.domain;
+        this._surveyResponses[currDomain] += prevResponse;
     }
 
+    public saveSurveyProgress = async (qolMags: PersonaArmState) => {
+        this._armMags = qolMags;
+        let res: boolean;
+        if (qolMags === null) {
+            res = await AppController.Instance.Backend.sendPartialQol(null, null, null, null, null);
+            this.isUnfinished = false;
 
-//     @computed
-//     get checkIn(): ClientJournalEntryIded {
-//         return this._checkInId == null ? null : AppController.Instance.User.journal.entries.find(e => e.id === this._checkInId);
-//     }
-//
-//     @computed
-//     get record(): Readonly<JournalRecordDataIded> {
-//         if (this._testRecord) {
-//             return this._testRecord;
-//         }
-//
-//         const ref = this.checkIn && AppController.Instance.User.records.observeRecord(this.checkIn.id);
-//         const r = ref?.record;
-//         if (r?.type === 'journal') {
-//             return r;
-//         }
-//         return null;
-//     }
-//
-//     manualProcess = async () => {
-//         if (!EnvConstants.AllowManualProcessing) {
-//             return;
-//         }
-//
-//         const record = await Firebase.Instance.getFunction(Functions.AI.ProcessAudioEntry)
-//             .execute({
-//                 type: 'journal',
-//                 clientUid: AppController.Instance.User.user.id,
-//                 entryId: this._checkInId,
-//                 accountId: AppController.Instance.User.activeAccount.id,
-//                 force: true,
-//             });
-//
-//         if (record && record.type === 'journal') {
-//             this._testRecord = record;
-//         }
-//     }
-//
-//     public clearModel = () => {
-//         this._checkInId = null;
-//         // this._audioUrl = null;
-//     }
+        } else {
+            res = await AppController.Instance.Backend.sendPartialQol(qolMags, this._surveyResponses, this._questionNum, this._domainNum, this.showInterlude);
+            this.isUnfinished = true;
+        }
+        return res;
+    }
 
-//     public dispose = () => {
-//         safeCall(this._urlObserver);
-//     }
+    public sendSurveyResults = async () => {
+        const res: boolean = await AppController.Instance.Backend.sendSurveyResults(this._surveyResponses);
+        return res;
+    }
+
+    public updateQolOnboarding = () => {
+        this._settings.updateQolOnboarding({ seenOnboardingQol: true, lastMonthlyQol: Date() })
+        this.showInterlude = true;
+    }
 }
 

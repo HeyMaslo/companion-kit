@@ -1,0 +1,22 @@
+version: '3'
+services:
+  server:
+    build: .
+    tty: true
+    stdin_open: true
+    command: sh -c "cd server/functions && yarn serve"
+    ports:
+      - 4000:4000
+      - 5000:5000
+      - 5001:5001
+      - 8080:8080
+      - 8085:8085
+      - 9000:9000
+      - 9005:9005
+      - 9099:9099
+      - 4400:4400
+      - 5555:5555
+networks:
+  default:
+    external:
+      name: bb_default

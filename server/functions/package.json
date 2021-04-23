@@ -3,6 +3,7 @@
   "version": "1.5.6",
   "scripts": {
     "lint": "tslint --project tsconfig.json",
+	"lint:fix": "tslint --project tsconfig.json --fix",
     "build": "rm -rf ./lib && ttsc",
     "watch": "concurrently \"nodemon --exec \\\"yarn lint\\\" \" \"tsc --watch --noEmit\" ",
     "serve": "env-cmd firebase emulators:start --only functions,firestore -P staging",
@@ -21,7 +22,8 @@
     "deploy:hosting:dashboard:prod": "firebase deploy -P production --only hosting:dashboard-prod",
     "deploy:hosting:web:stage": "firebase deploy -P staging --only hosting:web-staging",
     "deploy:hosting:web:prod": "firebase deploy -P production --only hosting:web-prod",
-    "logs": "firebase functions:log"
+    "logs": "firebase functions:log",
+    "test": "yarn build && env-cmd firebase emulators:exec -P staging 'jest test --config=./jest.config.js'"
   },
   "main": "lib/server/functions/src/index.js",
   "engines": {
@@ -50,21 +52,29 @@
     "fluent-ffmpeg": "^2.1.2",
     "libphonenumber-js": "^1.7.55",
     "long": "^4.0.0",
+    "mobx": "^6.2.0",
     "module-alias": "^2.2.2",
     "stripe": "^7.14.0",
     "twilio": "^3.47.0",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
+    "@firebase/testing": "^0.20.11",
+    "@types/chai": "^4.2.16",
+    "@types/jest": "^26.0.22",
     "@types/uuid": "^8.0.0",
+    "chai": "^4.3.4",
     "concurrently": "^5.2.0",
     "env-cmd": "^10.1.0",
+    "firebase-functions-test": "^0.2.3",
+    "jest": "^26.6.3",
     "nodemon": "^2.0.4",
+    "ts-jest": "^26.5.4",
     "ts-nameof": "^5.0.0",
     "ts-node": "^8.10.2",
     "tsconfig-paths": "^3.9.0",
     "tslint": "^6.1.2",
-    "ttypescript": "^1.5.10",
+    "ttypescript": "^1.5.12",
     "typescript": "^3.9.7"
   },
   "private": true
