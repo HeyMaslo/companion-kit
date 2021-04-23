@@ -5,8 +5,6 @@ import Lazy from 'common/utils/lazy';
 import { IAuthController, AuthController } from './Auth';
 import { IUserController, UserController } from './User';
 import { IStorageController, StorageController } from 'common/controllers/StorageController';
-import { IBackendController } from 'common/abstractions/controlllers/IBackendController';
-import BackendController from 'common/controllers/BackendController';
 import PromptModalViewModel from 'common/viewModels/PromptModalViewModel';
 import { AppVersion } from './AppVersion';
 import Analytics from 'common/services/analytics/analytics';
