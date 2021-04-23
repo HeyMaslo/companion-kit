@@ -108,7 +108,7 @@ export default class QOLSurveyViewModel {
         this._armMags = qolMags;
         let res: boolean;
         if (qolMags === null) {
-            res = await AppController.Instance.User.backend.sendPartialQol(null, null, null, null);
+            res = await AppController.Instance.User.backend.sendPartialQol(null, null, null, null, null);
             this.isUnfinished = false;
 
         } else {
