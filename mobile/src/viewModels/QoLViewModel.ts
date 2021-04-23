@@ -34,7 +34,7 @@ export default class QOLSurveyViewModel {
     private readonly _settings: ILocalSettingsController = AppController.Instance.User.localSettings;
 
     constructor() {
-        this.initModel = AppController.Instance.Backend.getPartialQol().then((partialQolState: PartialQol) => {
+        this.initModel = AppController.Instance.User.backend.getPartialQol().then((partialQolState: PartialQol) => {
             if (partialQolState !== null) {
                 this._questionNum = partialQolState.questionNum;
                 this._domainNum = partialQolState.domainNum;
@@ -108,18 +108,18 @@ export default class QOLSurveyViewModel {
         this._armMags = qolMags;
         let res: boolean;
         if (qolMags === null) {
-            res = await AppController.Instance.Backend.sendPartialQol(null, null, null, null, null);
+            res = await AppController.Instance.User.backend.sendPartialQol(null, null, null, null);
             this.isUnfinished = false;
 
         } else {
-            res = await AppController.Instance.Backend.sendPartialQol(qolMags, this._surveyResponses, this._questionNum, this._domainNum, this.showInterlude);
+            res = await AppController.Instance.User.backend.sendPartialQol(qolMags, this._surveyResponses, this._questionNum, this._domainNum, this.showInterlude);
             this.isUnfinished = true;
         }
         return res;
     }
 
     public sendSurveyResults = async () => {
-        const res: boolean = await AppController.Instance.Backend.sendSurveyResults(this._surveyResponses);
+        const res: boolean = await AppController.Instance.User.backend.sendSurveyResults(this._surveyResponses);
         return res;
     }
 
