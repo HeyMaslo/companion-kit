@@ -151,6 +151,7 @@ export async function AddClient(data: Partial<ClientCard>, coachId: string, skip
         date: data.inviteSentTime,
         status: 'created',
         signInKey: signInKey,
+        verificationCode: '',
     });
 
     if (!skipEmail) {
@@ -268,7 +269,7 @@ export const ClientAction = new FunctionFactory(CoachesFunctions.ClientAction)
 
         switch (data.action) {
             case CoachClientActions.Add: {
-                const newClient = await AddClient(data.data, coachId, true);
+                const newClient = await AddClient(data.data, coachId, false);
                 return newClient;
             }
 

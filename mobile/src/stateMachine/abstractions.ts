@@ -14,6 +14,7 @@ export enum ScenarioTriggers {
     Secondary,
     Tertiary,
     Next,
+    Quaternary
 }
 
 export enum NavigationStates {

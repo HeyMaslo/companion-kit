@@ -133,6 +133,13 @@ export namespace EmailsScheme {
         requestReason: MagicLinkReasons,
     }
 
+    export interface ClientVerificationCode extends BaseScheme {
+        templateSignInClient: {
+            projectName: string;
+            verificationCode: string;
+        };
+    }
+
     export interface LinkToDashboard extends BaseScheme {
         templateLinkToDashboard: CoachBaseType;
     }
@@ -141,7 +148,7 @@ export namespace EmailsScheme {
         templateAdminApprove: CoachRegistrationDataType;
     }
 
-    export type AnyScheme = InviteClient | LinkToDashboard | AdminApprove | CoachSignIn | ClientSignIn | CoachSignUp | ClientAcceptedInvite;
+    export type AnyScheme = InviteClient | LinkToDashboard | AdminApprove | CoachSignIn | ClientSignIn | CoachSignUp | ClientAcceptedInvite | ClientVerificationCode;
 }
 
 export interface MailInfo {
@@ -150,6 +157,8 @@ export interface MailInfo {
     data: EmailsScheme.AnyScheme;
 
     actionName?: string,
+
+    templateId?: string;
 }
 
 export async function validateEmailAddress(e: string) {
@@ -185,7 +194,7 @@ export async function sendEmail(email: MailInfo) {
     const to = EMAIL_OVERRIDE_ADDRESS || email.to;
 
     const data: SGMailData = {
-        templateId: EmailSettings.sendgridTemplateId,
+        templateId: email.templateId || EmailSettings.sendgridTemplateId,
         to: to,
         from: EmailSettings.fromAddress,
         subject: subject,

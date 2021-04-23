@@ -1,0 +1,4 @@
+**/**/node_modules
+.env
+mobile/dependencies
+server/functions/.env

@@ -14,9 +14,12 @@ export enum States {
     Welcome,
     SignInWithEmail,
     SignInPassword,
+    NoInvitationEmail,
+    EnterVerificationCode,
 
     // Main Block
     SetPassword,
+    ResetPassword,
     ConfirmAccount,
     NoAccount,
 
@@ -57,9 +60,8 @@ export enum States {
     NotificationsSettings,
 
     // QOL Block
-    Start_QoL,
-    qol_Physical,
-
-    // LIFE DOMAINS block
+    StartQol,
+    QolQuestion,
+    EndQol,
     Choose_Domain,
 }
