@@ -2,7 +2,7 @@ import { ViewState } from '../base';
 import React from 'react';
 import ExpoConstants from 'expo-constants';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import Colors from 'src/constants/colors';
 import { MasloPage, Container, Button, Card, Link,ButtonBlock,Checkbox } from 'src/components';
 import AppViewModel from 'src/viewModels';
@@ -46,13 +46,14 @@ export class GrantPermission2GfitView extends ViewState {
    
 
     renderContent() {
+        const screen1 = Images.screen2
 
         return (
             <MasloPage style={this.baseStyles.page}>
                 <Container style={styles.topBarWrapWrap}>
                     <PersonaScrollMask height={Layout.getViewHeight(24)} />
                     <View style={styles.topBarWrap}>
-                        <Dots length={3} active={0} styles={{ left: 0 }} />
+                        <Dots length={3} active={2} styles={{ left: 0 }} />
                         <Button style={styles.closeBtn} underlayColor="transparent" onPress={this.onClose}>
                             <Images.closeIcon width={28} height={14} />
                         </Button>
@@ -70,6 +71,9 @@ export class GrantPermission2GfitView extends ViewState {
                         {/* <View style={[styles.feelingsWrap]}>
                             <FeelingsSelect model={feelingsMultiSelect} />
                         </View> */}
+                         <View style={{justifyContent: 'center', alignContent:'center', alignItems:'center', marginBottom: 40}}>
+                        <Image source={screen1} style={{width:300, height:400}}/>
+                        </View>
                         <ButtonBlock
                             onOk={this.onNext}
                             onCancel={this.back}

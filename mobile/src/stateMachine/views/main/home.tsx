@@ -111,6 +111,10 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
         }
     }
 
+    private healthSettings() {
+        this.trigger(ScenarioTriggers.Tertiary)
+    }
+
     private onInTake = () => {
         this.trigger(ScenarioTriggers.Secondary);
     }
@@ -288,7 +292,16 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
                 { !healthPerm && (<View style={styles.healthView}>
-                    <Text style={[this.textStyles.p1, {color: 'red', fontSize: 18}]}> Enable health Permissions in Settings</Text>
+                    <Button
+                    title='Enable health Permissions in the settings'
+                    style={{height: 15,paddingHorizontal:5}}
+                    titleStyles={{color:'red', fontSize: 10}}
+                    onPress={() => this.healthSettings()}
+                    isTransparent
+                    withBorder={true}
+                    
+                    />
+                    {/* <Text style={[this.textStyles.p1, {color: 'red', fontSize: 18}]}> Enable health Permissions in Settings</Text> */}
                     </View>
                     )}
                     { this.getTitle() }

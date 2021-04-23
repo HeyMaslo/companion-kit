@@ -43,12 +43,10 @@ export class NotificationsController implements IDisposable {
 
     // Should be OK to call multiple times
     async initAsync() {
-        logger.log("INIT NOTIFICATION")
         await this._service.checkPermissions();
 
         // backward compatibility for 'enabled'
         if (this.settings.current.notifications?.enabled == null) {
-            logger.log("INIT NOTIFICATION START")
             const allowedByUser = await AsyncStorage.getValue(AllowanceStorageKey);
             this.settings.updateNotifications({
                 enabled: allowedByUser ? allowedByUser === 'true' : null,

@@ -2,7 +2,7 @@ import { ViewState } from '../base';
 import React from 'react';
 import ExpoConstants from 'expo-constants';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, View, ScrollView, Alert } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Alert,Image } from 'react-native';
 import Colors from 'src/constants/colors';
 import { MasloPage, Container, Button, Card, Link,ButtonBlock,Checkbox } from 'src/components';
 import AppViewModel from 'src/viewModels';
@@ -61,13 +61,14 @@ export class GrantPermission3GfitView extends ViewState {
    
 
     renderContent() {
+        const screen = Images.screen3
 
         return (
             <MasloPage style={this.baseStyles.page}>
                 <Container style={styles.topBarWrapWrap}>
                     <PersonaScrollMask height={Layout.getViewHeight(24)} />
                     <View style={styles.topBarWrap}>
-                        <Dots length={3} active={0} styles={{ left: 0 }} />
+                        <Dots length={3} active={3} styles={{ left: 0 }} />
                         <Button style={styles.closeBtn} underlayColor="transparent" onPress={this.onClose}>
                             <Images.closeIcon width={28} height={14} />
                         </Button>
@@ -77,29 +78,18 @@ export class GrantPermission3GfitView extends ViewState {
                     <Container style={[this.baseStyles.container, styles.container]}>
                         <View style={[this.baseStyles.textBlock, styles.textBlock]}>
                             <Text style={[this.textStyles.h1, this.baseStyles.textCenter]}>Allow/Disable permissions as needed</Text>
-                            {/* <Text style={[this.textStyles.p1, this.baseStyles.textCenter]}>Can you tell me more about how you feel?</Text> */}
                         </View>
-                        <View>
-                            {/* <Images.resumeIcon width={10} height={20}/> */}
+                         <View style={{justifyContent: 'center', alignContent:'center', alignItems:'center', marginBottom: 40}}>
+                        <Image source={screen} style={{width:300, height:400}}/>
                         </View>
-                        {/* <View style={[styles.feelingsWrap]}>
-                            <FeelingsSelect model={feelingsMultiSelect} />
-                        </View> */}
                          <Button
                             title="Go to Settings!"
                             style={styles.mailButton}
                             titleStyles={styles.mailButtonTitle}
                             onPress={this.onClose}
                             isTransparent
+                            withBorder={true}
                              />
-                        {/* <Card
-                                title="Continue"
-                                description=""
-                                // Image={Images.veryPositiveIcon}
-                                // onPress={() => this.model.toggleTime(NotificationTime.Midday)}
-                                >
-                                    <Images.arrowRight width={8} height={8} />
-                            </Card> */}
                     </Container>
                 </ScrollView> 
             </MasloPage>

@@ -1,7 +1,7 @@
 import { ViewState } from '../base';
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import { MasloPage, Container, Button,ButtonBlock, } from 'src/components';
 
 import { ScenarioTriggers } from '../../abstractions';
@@ -38,6 +38,7 @@ export class GrantPermissionGfitView extends ViewState {
    
 
     renderContent() {
+        const screen1 = Images.screen1;
 
         return (
             <MasloPage style={this.baseStyles.page}>
@@ -55,7 +56,9 @@ export class GrantPermissionGfitView extends ViewState {
                         <View style={[this.baseStyles.textBlock, styles.textBlock]}>
                             <Text style={[this.textStyles.h1, this.baseStyles.textCenter]}>Open Settings App on your device and click Health</Text>
                         </View>
-
+                        <View style={{justifyContent: 'center', alignContent:'center', alignItems:'center', marginBottom: 40}}>
+                        <Image source={screen1} style={{width:300, height:400}}/>
+                        </View>
                         <ButtonBlock
                             onOk={this.onNext}
                             onCancel={this.back}
@@ -105,5 +108,10 @@ const styles = StyleSheet.create({
     },
     textBlock: {
         marginBottom: 64,
+    },
+    gIcon: {
+        width: 19,
+        height: 19,
+        marginRight: 14,
     },
 });

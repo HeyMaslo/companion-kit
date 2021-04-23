@@ -235,6 +235,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.JournalDetail, trigger: Triggers.Primary },
             { target: States.IntakeForm, trigger: Triggers.Secondary },
             { target: States.Journal_SelectMood, trigger: Triggers.Submit },
+            { target: States.HealthScopes, trigger: Triggers.Tertiary },
         ],
     },
 

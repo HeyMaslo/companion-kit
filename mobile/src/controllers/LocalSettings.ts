@@ -123,9 +123,7 @@ export class LocalSettingsController implements ILocalSettingsController {
         }
 
         Object.assign(this._current, diff);
-        logger.log("OUT SUBMIT", this.current.health)
         if (this.current.health !== undefined){ 
-            logger.log("IN SUBMIT")
             this._syncThrottle.tryRun(this.submitChangesHealth);
         } else {
             this._syncThrottle.tryRun(this.submitChanges);

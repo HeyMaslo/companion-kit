@@ -62,7 +62,6 @@ export class HealthPermissionsController implements IDisposable {
     public enableHealthPermissions = async () => {
         const enabled = await this.askPermission();
         if (!enabled) {
-
             return false;
         }
         return true;
@@ -70,11 +69,10 @@ export class HealthPermissionsController implements IDisposable {
 
     public disableHealthPermissions = async () => {
         if (Platform.OS == 'android') {
-            logger.log("DISABLE HEALTH ANDROID");
             disconnectAndroid();
             this._enabledByUser = false;
             this._syncThrottle.tryRun(this.sync);
-            return true;
+            return;
         }
 
         return false; 

@@ -1,6 +1,6 @@
-import { observable, computed, autorun, reaction } from 'mobx';
+import { observable,reaction } from 'mobx';
 import AppController from 'src/controllers';
-import { Alert,Platform } from 'react-native';
+import { Alert,Platform} from 'react-native';
 import { createLogger } from 'common/logger';
 import * as Links from 'src/constants/links';
 import Images from 'src/constants/images';
