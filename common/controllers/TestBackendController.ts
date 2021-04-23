@@ -92,4 +92,8 @@ export default class TestBackendControllerBase implements IBackendController {
         return this._partialQolState;
     }
 
+    public setUser(userId: string) {
+        console.log(`user id: ${userId}`)
+    }
+
 }
