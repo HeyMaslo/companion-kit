@@ -112,7 +112,7 @@ export default class QOLSurveyViewModel {
             this.isUnfinished = false;
 
         } else {
-            res = await AppController.Instance.User.backend.sendPartialQol(qolMags, this._surveyResponses, this._questionNum, this._domainNum);
+            res = await AppController.Instance.User.backend.sendPartialQol(qolMags, this._surveyResponses, this._questionNum, this._domainNum, this.showInterlude);
             this.isUnfinished = true;
         }
         return res;
