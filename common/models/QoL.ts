@@ -46,3 +46,8 @@ export type PartialQol = {
     scores: QolSurveyResults,
     isFirstTimeQol: boolean,
 };
+
+export type SurveyState = {
+    userId: string,
+    state: PartialQol,
+};
