@@ -294,7 +294,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
                 { !healthPerm && (<View style={styles.healthView}>
                     <Button
                     title='Enable health Permissions in the settings'
-                    style={{height: 15,paddingHorizontal:5}}
+                    style={{height: 'auto',paddingHorizontal:5}}
                     titleStyles={{color:'red', fontSize: 10}}
                     onPress={() => this.healthSettings()}
                     isTransparent

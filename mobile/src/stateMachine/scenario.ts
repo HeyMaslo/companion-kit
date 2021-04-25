@@ -35,9 +35,7 @@ import { RewardsView } from './views/rewardsView';
 import { RecordPitureCheckinView } from './views/checkin/recordPictureCheckIn';
 import { HealthConsentView } from './views/healthData/healthConsent';
 import { HealthScopesView } from './views/healthData/healthScopes';
-import { GrantPermissionGfitView } from './views/healthData/grantPerm1';
-import { GrantPermission2GfitView } from './views/healthData/grantPerm2';
-import { GrantPermission3GfitView } from './views/healthData/grantPerm3';
+import { PermissionInstructionView } from './views/healthData/permInstructions';
 
 import Triggers = ScenarioTriggers;
 import { VerificationCodeView } from './views/login/verificationCode';
@@ -88,31 +86,10 @@ export const MasloScenario: GlobalScenario<States> = {
             
         ],
     },
-    [States.GrantPerm1]: {
-        view: GrantPermissionGfitView,
+    [States.PermInstructions]: {
+        view: PermissionInstructionView,
         exit: [
             { target: States.HealthScopes, trigger: Triggers.Primary },
-            { target: States.GrantPerm2, trigger: Triggers.Secondary },
-            // { target: States.HomeRouter, trigger: Triggers.Submit },
-            
-        ],
-    },
-    [States.GrantPerm2]: {
-        view: GrantPermission2GfitView,
-        exit: [
-            { target: States.GrantPerm1, trigger: Triggers.Back },
-            { target: States.GrantPerm3, trigger: Triggers.Secondary },
-            { target: States.HealthScopes, trigger: Triggers.Primary },
-            // { target: States.HomeRouter, trigger: Triggers.Submit },
-            
-        ],
-    },
-    [States.GrantPerm3]: {
-        view: GrantPermission3GfitView,
-        exit: [
-            { target: States.GrantPerm2, trigger: Triggers.Back },
-            { target: States.HealthScopes, trigger: Triggers.Primary },
-            // { target: States.HomeRouter, trigger: Triggers.Submit },
             
         ],
     },
@@ -120,7 +97,7 @@ export const MasloScenario: GlobalScenario<States> = {
         view: HealthScopesView,
         exit: [
             { target: States.Settings, trigger: Triggers.Back },
-            { target: States.GrantPerm1, trigger: Triggers.Primary },
+            { target: States.PermInstructions, trigger: Triggers.Primary },
         ],
     },
     [States.SignInWithEmail]: {

@@ -50,9 +50,10 @@ import GoalsActiveSVG from 'src/assets/images/app/goals-icon-active.svg';
 import GoalsIndicatorSVG from 'src/assets/images/app/goals-icon-indicator.svg';
 import GoalsIndicatorActiveSVG from 'src/assets/images/app/goals-icon-indicator-active.svg';
 import SettingsIconActiveSVG from 'src/assets/images/app/settings-icon-active.svg';
-import Screen1 from 'src/assets/images/app/screen1.png';
-import Screen2 from 'src/assets/images/app/screen2.png';
-import Screen3 from 'src/assets/images/app/lastScreen.png';
+import Screen1 from 'src/assets/images/app/Authorization-Instructions-1.png';
+import Screen2 from 'src/assets/images/app/Authorization-Instructions-1.png';
+import Screen3 from 'src/assets/images/app/Authorization-Instructions-3.png';
+import Screen4 from 'src/assets/images/app/Authorization-Instructions-4.png';
 
 export default {
     signInWithGoogle: GoogleIconPng,
@@ -115,4 +116,5 @@ export default {
     screen1: Screen1,
     screen2: Screen2,
     screen3: Screen3,
+    screen4: Screen4,
 };
