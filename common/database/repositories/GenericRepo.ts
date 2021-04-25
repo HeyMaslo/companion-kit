@@ -1,4 +1,3 @@
-import { DocumentData, QueryDocumentSnapshot } from '@google-cloud/firestore';
 import Collections from 'common/database/collections';
 import { Identify } from 'common/models';
 import { RepoError } from '.';
