@@ -62,7 +62,9 @@ export default class BackendControllerBase implements IBackendController {
     // null value indicates no outstanding survey
     public async getPartialQol(): Promise<PartialQol> {
         console.log(`get partial qol: userId = ${this._userId}`);
-        return RepoFactory.Instance.surveyState.getByUserId(this._userId);
+        const result = await RepoFactory.Instance.surveyState.getByUserId(this._userId);
+        console.log(`get partial qol: result = ${JSON.stringify(result)}`);
+        return result;
     }
 
     public setUser(userId: string) {
