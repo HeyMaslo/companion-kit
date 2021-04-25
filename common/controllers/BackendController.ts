@@ -36,7 +36,7 @@ export default class BackendControllerBase implements IBackendController {
     // Store partial survey state
     // Any subsequent calls to get will return this state
     public async sendPartialQol(domainMags: DomainMagnitudesData, surveyScores: QolSurveyResults,
-        questionNumber: number, domainNumber: number): Promise<boolean> {
+        questionNumber: number, domainNumber: number, isFirstTimeQol: boolean): Promise<boolean> {
 
         console.log(`set partial qol: userId = ${this._userId}`);
         if (!this._userId) {
@@ -49,6 +49,7 @@ export default class BackendControllerBase implements IBackendController {
                         domainNum: domainNumber,
                         mags: null,
                         scores: surveyScores,
+                        isFirstTimeQol,
                     });
                     return true;
             } catch (err) {
