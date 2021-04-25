@@ -12,24 +12,14 @@ export default class BackendControllerBase implements IBackendController {
 
     // Fetch the latests survey results (i.e. scores)
     public async getSurveyResults(): Promise<QolSurveyResults> {
-        return {
-            'physical': 10,
-            'sleep': 7,
-            'mood': 10,
-            'cognition': 7,
-            'leisure': 10,
-            'relationships': 10,
-            'spiritual': 8,
-            'money': 8,
-            'home': 10,
-            'self-esteem': 8,
-            'independence': 10,
-            'identity': 10,
-        };
+        console.log(`get qol results: userId = ${this._userId}`);
+        return await RepoFactory.Instance.surveyResults.getLatestResults(this._userId);
     }
 
     // Submit new survey results
     public async sendSurveyResults(results: QolSurveyResults): Promise<boolean> {
+        console.log(`add qol results: userId = ${this._userId}`);
+        await RepoFactory.Instance.surveyResults.addResults(this._userId, results);
         return true;
     }
 

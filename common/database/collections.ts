@@ -12,6 +12,7 @@ enum Collections {
     ServiceJobs = 'serviceJobs',
     Generic = 'generic',
     SurveyState = 'surveyState',
+    SurveyResults = 'surveyResults',
 }
 
 namespace Collections {

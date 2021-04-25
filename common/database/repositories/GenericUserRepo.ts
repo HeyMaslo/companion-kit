@@ -23,4 +23,8 @@ export default class GenericUserRepo<T> extends GenericRepo<UserData<T>> {
         return docs.map((d: DocumentSnapshot) => (d.data() as UserData<T>).data);
     }
 
+    async createUserData(userId: string, data: T) {
+        return this.create({ userId, data });
+    }
+
 }
