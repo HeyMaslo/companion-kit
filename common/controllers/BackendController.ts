@@ -41,13 +41,14 @@ export default class BackendControllerBase implements IBackendController {
         console.log(`set partial qol: userId = ${this._userId}`);
         if (!this._userId) {
             return false;
-        } else {
+        } else if (domainMags != null) {
+            // If it's null, then don't update
             try {
                 await RepoFactory.Instance.surveyState.setByUserId(this._userId,
                     {
                         questionNum: questionNumber,
                         domainNum: domainNumber,
-                        mags: null,
+                        mags: domainMags,
                         scores: surveyScores,
                         isFirstTimeQol,
                     });
