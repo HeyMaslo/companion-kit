@@ -24,11 +24,13 @@ export default class SurveyStateRepo extends GenericRepo<SurveyState> {
     }
 
     async setByUserId(userId: string, state: PartialQol) {
-        // TODO: should probably be optimized
         const docs = (await this.query(userId).get()).docs;
+        const data = { userId, state };
         if (docs.length < 1) {
-            this.create({ userId, state });
-        } else if (docs.length > 1) {
+            await this.create(data);
+        } else if (docs.length === 1) {
+            await docs[0].ref.set(data);
+        } else {
             throw new Error('assertion failed: should not have more than on state per user');
         }
     }
