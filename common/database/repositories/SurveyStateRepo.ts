@@ -1,8 +1,13 @@
 import { PartialQol, SurveyState } from 'common/models/QoL';
 import { GenericRepo } from 'common/database/repositories';
 import { DocumentSnapshot, Query } from 'common/database/repositories/dbProvider';
+import Collections from 'common/database/collections';
 
 export default class SurveyStateRepo extends GenericRepo<SurveyState> {
+
+    get collectionName() {
+        return Collections.SurveyState;
+    }
 
     query(userId: string): Query {
         return this.collection
