@@ -5,8 +5,6 @@ import Lazy from 'common/utils/lazy';
 import { IAuthController, AuthController } from './Auth';
 import { IUserController, UserController } from './User';
 import { IStorageController, StorageController } from 'common/controllers/StorageController';
-import { IBackendController } from 'common/abstractions/controlllers/IBackendController';
-import BackendController from 'common/controllers/BackendController';
 import PromptModalViewModel from 'common/viewModels/PromptModalViewModel';
 import { AppVersion } from './AppVersion';
 import Analytics from 'common/services/analytics/analytics';
@@ -20,7 +18,6 @@ export interface IAppController {
     readonly User: IUserController;
     readonly Storage: IStorageController;
     readonly PromptModal: PromptModalViewModel;
-    readonly Backend: IBackendController;
 
     readonly isAppActive: boolean;
     readonly loading: boolean;
@@ -42,7 +39,6 @@ export default class AppController implements IAppController {
     readonly auth = new AuthController();
     readonly user = new Lazy(() => new UserController(this.auth));
     readonly promptModal = new Lazy(() => new PromptModalViewModel());
-    readonly backend = new BackendController();
 
     readonly version = new AppVersion();
 
@@ -57,7 +53,6 @@ export default class AppController implements IAppController {
     get User(): IUserController { return this.user.value; }
     get Storage(): IStorageController { return StorageController.Instance; }
     get PromptModal(): PromptModalViewModel { return this.promptModal.value; }
-    get Backend(): IBackendController { return this.backend; }
 
     get loading() { return this.auth.initializing || this.user.value.initializing; }
 

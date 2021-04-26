@@ -15,6 +15,8 @@ import { UserProfileViewModel } from './UserProfileViewModel';
 import { QolSurveyResults } from 'common/models/QoL';
 import { PersonaDomains } from 'src/stateMachine/persona';
 import { PersonaArmState } from 'dependencies/persona/lib';
+import { ILocalSettingsController } from 'src/controllers/LocalSettings';
+import logger from 'common/logger';
 
 const EmptyArr: any[] = [];
 
@@ -22,6 +24,7 @@ export default class HomeViewModel {
 
     private static readonly _instance = createLazy(() => new HomeViewModel());
     public static get Instance() { return HomeViewModel._instance.value; }
+    private readonly _settings: ILocalSettingsController = AppController.Instance.User.localSettings;
 
     public readonly interventionTips = process.appFeatures.INTERVENTIONS_ENABLED ? new InterventionTipsViewModel() : null;
 
@@ -157,19 +160,20 @@ export default class HomeViewModel {
 
     private isTimeForMonthlyQol(): boolean {
         const lastMonthlyQol: Date = new Date(AppController.Instance.User.localSettings?.current?.qol?.lastMonthlyQol);
-        let nextMonthlyQol: Date = new Date();
-        // change 28 to 0 for testing
-        nextMonthlyQol.setDate(lastMonthlyQol.getDate() + 28);
+        let nextMonthlyQol: Date = lastMonthlyQol;
+        nextMonthlyQol.setDate(nextMonthlyQol.getDate() + 28);
         const today: Date = new Date();
         if (nextMonthlyQol.getDay() === today.getDay() && nextMonthlyQol.getMonth() === today.getMonth()
         && nextMonthlyQol.getFullYear() === today.getFullYear()) {
+            this._settings.updateLastMonthlyQol({ lastMonthlyQol: Date() });
+            this._settings.updatePendingMonthlyQol({ pendingMonthlyQol: true });
             return true;
-        }
+        } else if (AppController.Instance.User.localSettings?.current?.qol?.pendingMonthlyQol) { return true; }
         return false;
     }
 
     public getArmMagnitudes = async () => {
-        const lastSurveyScores: QolSurveyResults = await AppController.Instance.Backend.getSurveyResults();
+        const lastSurveyScores: QolSurveyResults = await AppController.Instance.User.backend.getSurveyResults();
         if (lastSurveyScores === null) {
             return PersonaArmState.createEmptyArmState();
         }

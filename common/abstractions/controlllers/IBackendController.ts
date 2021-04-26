@@ -1,4 +1,4 @@
-import { DomainMagnitudesData, PartialQol, QolSurveyResults } from "common/models/QoL";
+import { PartialQol, QolSurveyResults } from 'common/models/QoL';
 
 export type Domains = string[];
 
@@ -8,7 +8,7 @@ export interface IBackendController {
 
     sendSurveyResults(results: QolSurveyResults): Promise<boolean>;
 
-    sendPartialQol(domainMags: DomainMagnitudesData, surveyScores: QolSurveyResults,
+    sendPartialQol(surveyScores: QolSurveyResults,
         questionNumber: number, domainNumber: number, isFirstTimeQol: boolean): Promise<boolean>;
 
     getPartialQol(): Promise<PartialQol>;

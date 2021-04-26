@@ -1,4 +1,3 @@
-import { DocumentData, QueryDocumentSnapshot } from '@google-cloud/firestore';
 import Collections from 'common/database/collections';
 import { Identify } from 'common/models';
 import { RepoError } from '.';
@@ -16,7 +15,7 @@ export default class GenericRepo<T> {
 
     constructor(protected readonly db: DBProvider) { }
 
-    public      get collection() { return this.db.collection(Collections.Generic); }
+    public      get collection() { return this.db.collection(this.collectionName); }
 
     // TODO: should we be using this?
     // private     get serverCollection() { return serverOnly(this.db).collection(Collections.Records); }
@@ -48,6 +47,10 @@ export default class GenericRepo<T> {
             results.push(getIdentify<Identify<T>>(snap));
         });
         return results;
+    }
+
+    get collectionName() {
+        return Collections.Generic;
     }
 
 }

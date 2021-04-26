@@ -11,6 +11,8 @@ enum Collections {
     LocalSettings = 'localSettings',
     ServiceJobs = 'serviceJobs',
     Generic = 'generic',
+    SurveyState = 'surveyState',
+    SurveyResults = 'surveyResults',
 }
 
 namespace Collections {

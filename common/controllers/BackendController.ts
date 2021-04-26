@@ -1,94 +1,48 @@
-import { IBackendController, Domains } from "common/abstractions/controlllers/IBackendController";
-// import { 
-//     DomainMagnitudesData,
-//     IBackendController, 
-//     Domains
-// } from "abstractions/controlllers/IBackendController";
-import { 
+import { IBackendController, Domains} from 'common/abstractions/controlllers/IBackendController';
+import {
     QolSurveyResults,
     PartialQol,
-    DomainMagnitudesData
-} from "common/models/QoL";
+} from 'common/models/QoL';
+import RepoFactory from 'common/controllers/RepoFactory';
 
 export default class BackendControllerBase implements IBackendController {
 
-    // State to test first-time use
-    /*
-    private _partialQolState: PartialQol = null;
-    private _surveyResults: QolSurveyResults[] = [];
-    */
-
-    // Normal State
-    
-    // private _partialQolState: PartialQol = {questionNum: 3, domainNum: 0, mags: { 
-    //     "physical": 0.8,
-    //     "sleep": 0.2,
-    //     "mood": 0.2,
-    //     "cognition": 0.2,
-    //     "leisure": 0.2,
-    //     "relationships": 0.2,
-    //     "spiritual": 0.2,
-    //     "money": 0.2,
-    //     "home": 0.2,
-    //     "self-esteem": 0.2,
-    //     "independence": 0.2,
-    //     "identity": 0.2,
-    // }, scores: {
-    //     "physical": 18,
-    //     "sleep": 0,
-    //     "mood": 0,
-    //     "cognition": 0,
-    //     "leisure": 0,
-    //     "relationships": 0,
-    //     "spiritual": 0,
-    //     "money": 0,
-    //     "home": 0,
-    //     "self-esteem": 0,
-    //     "independence": 0,
-    //     "identity": 0,
-    // }};
-    private _partialQolState: PartialQol = null;
-    private _surveyResults: QolSurveyResults[] = [
-        { 
-         "physical": 18,
-         "sleep": 20,
-         "mood": 20,
-         "cognition": 20,
-         "leisure": 6,
-         "relationships": 20,
-         "spiritual": 4,
-         "money": 20,
-         "home": 20,
-         "self-esteem": 8,
-         "independence": 20,
-         "identity": 20,
-        }
-    ];
-    
-    
+    private _userId: string = null;
 
     // Fetch the latests survey results (i.e. scores)
     public async getSurveyResults(): Promise<QolSurveyResults> {
-        if (this._surveyResults.length === 0) { return null; }
-        return this._surveyResults[this._surveyResults.length-1];
+        console.log(`get qol results: userId = ${this._userId}`);
+        return await RepoFactory.Instance.surveyResults.getLatestResults(this._userId);
     }
 
     // Submit new survey results
     public async sendSurveyResults(results: QolSurveyResults): Promise<boolean> {
-        this._surveyResults.push(results);
+        console.log(`add qol results: userId = ${this._userId}`);
+        await RepoFactory.Instance.surveyResults.addResults(this._userId, results);
         return true;
     }
 
     // Store partial survey state
-	// Any subsequent calls to get will return this state
-    public async sendPartialQol(domainMags: DomainMagnitudesData, surveyScores: QolSurveyResults,
-        questionNumber: number, domainNumber: number, firstTimeQol: boolean): Promise<boolean> {
-        if (domainMags === null) {
-            this._partialQolState = null;
-        } else {
-            this._partialQolState = {questionNum: questionNumber, domainNum: domainNumber, mags: domainMags, scores: surveyScores, isFirstTimeQol: firstTimeQol};
+    // Any subsequent calls to get will return this state
+    public async sendPartialQol(surveyScores: QolSurveyResults,
+        questionNumber: number, domainNumber: number, isFirstTimeQol: boolean): Promise<boolean> {
+
+        console.log(`set partial qol: userId = ${this._userId}`);
+        if (!this._userId) {
+            return false;
         }
-        return true;
+        const data = surveyScores == null ? null : {
+            questionNum: questionNumber,
+            domainNum: domainNumber,
+            scores: surveyScores,
+            isFirstTimeQol,
+        };
+        try {
+            await RepoFactory.Instance.surveyState.setByUserId(this._userId, data);
+            return true;
+        } catch (err) {
+            return false;
+        }
     }
 
     public async getDomains(): Promise<Domains> {
@@ -102,9 +56,16 @@ export default class BackendControllerBase implements IBackendController {
         return true;
     }
     // Get last stored state
-	// null value indicates no outstanding survey
+    // null value indicates no outstanding survey
     public async getPartialQol(): Promise<PartialQol> {
-        return this._partialQolState;
+        console.log(`get partial qol: userId = ${this._userId}`);
+        const result = await RepoFactory.Instance.surveyState.getByUserId(this._userId);
+        console.log(`get partial qol: result = ${JSON.stringify(result)}`);
+        return result;
+    }
+
+    public setUser(userId: string) {
+        this._userId = userId;
     }
 
 }
