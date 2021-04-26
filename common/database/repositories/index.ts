@@ -11,6 +11,8 @@ import ServiceJobs from './ServiceJobsRepo';
 import GenericRepo from './GenericRepo';
 import DomainRepo from './DomainRepo';
 import SurveyStateRepo from './SurveyStateRepo';
+import GenericUserRepo from './GenericUserRepo';
+import SurveyResultsRepo from './SurveyResultsRepo';
 
 export {
     DBProvider,
@@ -25,6 +27,8 @@ export {
     StaticTipsRepo,
     ServiceJobs,
     GenericRepo,
+    GenericUserRepo,
     DomainRepo,
     SurveyStateRepo,
+    SurveyResultsRepo,
 };
