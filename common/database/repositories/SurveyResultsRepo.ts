@@ -3,7 +3,7 @@ import GenericUserRepo from './GenericUserRepo';
 import Collections from 'common/database/collections';
 
 type SurveyResults = {
-    index: number,
+    date: number,
     results: QolSurveyResults,
 };
 
@@ -18,7 +18,7 @@ export default class SurveyResultsRepo extends GenericUserRepo<SurveyResults> {
         if (all.length >= 1) {
             // server-side native query aggregation not supported in firestore,
             // so we do it here
-            return all.reduce((r1: SurveyResults, r2: SurveyResults) => (r2.index > r1.index ? r2 : r1));
+            return all.reduce((r1: SurveyResults, r2: SurveyResults) => (r2.date > r1.date ? r2 : r1));
         } else {
             return null;
         }
@@ -34,9 +34,7 @@ export default class SurveyResultsRepo extends GenericUserRepo<SurveyResults> {
     }
 
     async addResults(userId: string, results: QolSurveyResults) {
-        const latest: SurveyResults = await this._getLatestResults(userId);
-        const index = latest ? latest.index + 1 : 0;
-        await this.createUserData(userId, { index, results });
+        await this.createUserData(userId, { date: Date.now(), results });
     }
 
 }
