@@ -4,7 +4,7 @@ import { PersonaDomains } from '../stateMachine/persona';
 import { createLogger } from 'common/logger';
 import AppController from 'src/controllers';
 import { ILocalSettingsController } from 'src/controllers/LocalSettings';
-import { PartialQol } from 'common/models/QoL';
+import { PartialQol, QolSurveyResults } from 'common/models/QoL';
 import { PersonaArmState } from 'dependencies/persona/lib';
 
 export const logger = createLogger('[QOLModel]');
@@ -38,7 +38,7 @@ export default class QOLSurveyViewModel {
                 this._questionNum = partialQolState.questionNum;
                 this._domainNum = partialQolState.domainNum;
                 this._surveyResponses = partialQolState.scores;
-                this._armMags = partialQolState.mags;
+                this._armMags = this.getMags(partialQolState.scores);
                 this.isUnfinished = true;
                 this.showInterlude = partialQolState.isFirstTimeQol;
                 return;
@@ -55,6 +55,18 @@ export default class QOLSurveyViewModel {
                 return;
             }
         });
+    }
+
+    getMags(scores: QolSurveyResults): PersonaArmState {
+        let currMags: PersonaArmState = {};
+        for (let domain of PersonaDomains) {
+            let score: number = scores[domain];
+            let mag: number;
+            if (score === 0) { mag = 0.2; }
+            else { mag = 0.4 + (score * 3 / 100); }
+            currMags[domain] = mag;
+        }
+        return currMags;
     }
 
     async init() {
@@ -107,11 +119,11 @@ export default class QOLSurveyViewModel {
         this._armMags = qolMags;
         let res: boolean;
         if (qolMags === null) {
-            res = await AppController.Instance.User.backend.sendPartialQol(null, null, null, null, null);
+            res = await AppController.Instance.User.backend.sendPartialQol(null, null, null, null);
             this.isUnfinished = false;
 
         } else {
-            res = await AppController.Instance.User.backend.sendPartialQol(qolMags, this._surveyResponses, this._questionNum, this._domainNum, this.showInterlude);
+            res = await AppController.Instance.User.backend.sendPartialQol(this._surveyResponses, this._questionNum, this._domainNum, this.showInterlude);
             this.isUnfinished = true;
         }
         return res;
