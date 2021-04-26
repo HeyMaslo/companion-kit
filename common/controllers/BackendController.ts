@@ -31,15 +31,15 @@ export default class BackendControllerBase implements IBackendController {
         if (!this._userId) {
             return false;
         }
+        const data = surveyScores == null ? null : {
+            questionNum: questionNumber,
+            domainNum: domainNumber,
+            scores: surveyScores,
+            isFirstTimeQol,
+        };
         try {
-            await RepoFactory.Instance.surveyState.setByUserId(this._userId,
-                {
-                    questionNum: questionNumber,
-                    domainNum: domainNumber,
-                    scores: surveyScores,
-                    isFirstTimeQol,
-                });
-                return true;
+            await RepoFactory.Instance.surveyState.setByUserId(this._userId, data);
+            return true;
         } catch (err) {
             return false;
         }
