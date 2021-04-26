@@ -1,10 +1,8 @@
 import AppController from 'src/controllers';
 import AppViewModel from 'src/viewModels';
 import * as Features from 'common/constants/features';
-import GoogleFit, { Scopes } from 'react-native-google-fit';
 
 import { NotificationTypes } from 'common/models/Notifications';
-import { Platform } from 'react-native';
 
 export class ScenarioViewModel {
 

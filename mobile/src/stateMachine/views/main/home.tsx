@@ -1,9 +1,9 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, ScrollView, ActivityIndicator, View, Animated, Platform } from 'react-native';
+import { StyleSheet, Text, ScrollView, ActivityIndicator, View, Animated, Platform, TouchableOpacity, Image } from 'react-native';
 import TextStyles from 'src/styles/TextStyles';
 import Colors from 'src/constants/colors';
-import { Container, MasloPage, Placeholder, Button } from 'src/components';
+import { Container, MasloPage, Placeholder, Button, } from 'src/components';
 import HomeViewModel from 'src/viewModels/HomeViewModel';
 import BottomBar from 'src/screens/components/BottomBar';
 import CheckInCard from 'src/screens/components/CheckInCard';
@@ -18,6 +18,7 @@ import { InterventionTipsStatuses, Identify, DocumentLinkEntry } from 'common/mo
 import { TransitionObserver } from 'common/utils/transitionObserver';
 import { UserProfileName } from 'src/screens/components/UserProfileName';
 import AppController from 'src/controllers';
+import Images from 'src/constants/images';
 import logger from 'common/logger';
 
 const minContentHeight = 535;
@@ -41,7 +42,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
         this.persona.state = PersonaStates.Idle;
         this._contentHeight = smallHeight
             ? this.persona.setupContainerHeightForceScroll({ rotation: 360 })
-            : this.persona.setupContainerHeight(minContentHeight, { rotation: 360 });
+            : this.persona.setupContainerHeightForceScroll({ rotation: 405 });
     }
 
     get viewModel() { return HomeViewModel.Instance; }
@@ -257,6 +258,30 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
         );
     }
 
+    private getHealthPerm(){
+        return Platform.OS == 'ios'? this.originalIsEnabledOG : this.originalIsEnabled
+    }
+    
+
+    private getHealth() {
+        return (
+            <>
+            {!this.getHealthPerm() && (
+                <TouchableOpacity style={styles.healthView} onPress={() => this.healthSettings()}>
+                <View style={{flexDirection:'row', justifyContent: 'space-around', paddingTop: 10}}>
+                        <Text style={this.textStyles.p1}>Polarus needs access to {"\n"} your health data</Text>
+                        <Image source={Images.screen5} height={50}/>
+                </View>
+                <View style={{flexDirection:'row', paddingLeft:20, paddingBottom:10, alignItems:'center'}}>
+                    <Images.settingsIcon />
+                    <Text style={this.textStyles.p2}> Change Settings</Text>
+                </View>
+                </TouchableOpacity>
+            )}
+            </>
+        );
+    };
+
     private getCheckinsList() {
         const { checkIns } = this.viewModel;
 
@@ -291,24 +316,14 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
-                { !healthPerm && (<View style={styles.healthView}>
-                    <Button
-                    title='Enable health Permissions in the settings'
-                    style={{height: 'auto',paddingHorizontal:5}}
-                    titleStyles={{color:'red', fontSize: 10}}
-                    onPress={() => this.healthSettings()}
-                    isTransparent
-                    withBorder={true}
-                    
-                    />
-                    {/* <Text style={[this.textStyles.p1, {color: 'red', fontSize: 18}]}> Enable health Permissions in Settings</Text> */}
-                    </View>
-                    )}
+                    {/* <ScrollView> */}
+                    {this.getHealth() }
                     { this.getTitle() }
                     { loading
                         ? <ActivityIndicator size="large" />
                         : this.getCheckinsList()
                     }
+                    {/* </ScrollView> */}
                     <BottomBar screen={'home'} />
                 </Animated.View>
             </MasloPage>
@@ -370,9 +385,13 @@ const styles = StyleSheet.create({
         color: Colors.welcome.mailButton.title,
     },
     healthView: {
-        // flex:1,
-        paddingHorizontal: 15,
-        paddingTop: 5,
-        paddingBottom: 5,
+        // height: 100, 
+        width: '85%',
+        borderWidth: 1, 
+        marginBottom: 10, 
+        alignSelf: 'center', 
+        borderRadius:5, 
+        borderColor: 'grey', 
+        backgroundColor:'white'
     },
 });

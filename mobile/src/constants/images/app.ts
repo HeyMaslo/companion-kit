@@ -54,6 +54,7 @@ import Screen1 from 'src/assets/images/app/Authorization-Instructions-1.png';
 import Screen2 from 'src/assets/images/app/Authorization-Instructions-1.png';
 import Screen3 from 'src/assets/images/app/Authorization-Instructions-3.png';
 import Screen4 from 'src/assets/images/app/Authorization-Instructions-4.png';
+import Screen5 from 'src/assets/images/app/Authorization-Instructions-5.png';
 
 export default {
     signInWithGoogle: GoogleIconPng,
@@ -117,4 +118,6 @@ export default {
     screen2: Screen2,
     screen3: Screen3,
     screen4: Screen4,
+    screen5: Screen5,
+
 };
