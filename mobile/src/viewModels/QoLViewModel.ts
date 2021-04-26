@@ -16,7 +16,6 @@ export enum QolType {
 
 export default class QOLSurveyViewModel {
 
-    // VIEW MODEL STATE:
     @observable
     private _questionNum: number;
     @observable
@@ -126,6 +125,10 @@ export default class QOLSurveyViewModel {
     public updateQolOnboarding = () => {
         this._settings.updateQolOnboarding({ seenOnboardingQol: true, lastMonthlyQol: Date() })
         this.showInterlude = true;
+    }
+
+    public updatePendingMonthlyQol = () => {
+        this._settings.updatePendingMonthlyQol({ pendingMonthlyQol: false });
     }
 }
 
