@@ -34,6 +34,7 @@ export default class ChooseDomainViewModel {
     // @computed
     get SelectedDomain (): any {return this._selectedDomains};
 
+    //  Returns the three domains displayed on the choose domain screen, main(center donain), ldomain(domain on left side), rdomain(domain on right side)
     public getDomainDisplay () : string[] {
         return [Domains[this._leftDomain], 
         Domains[this._mainDomain], 
@@ -41,6 +42,7 @@ export default class ChooseDomainViewModel {
         Domain_Importance[this._mainDomain]];
     }
 
+    //  Iterates through the domains as user clicks the next or back button, (-1) going back, (1) going forward through the list of domains
     public getNextDomain (dir:number) : void {
         if (dir > 0){
             if (!((this._rightDomain + 1) > (DOMAIN_COUNT))) {
@@ -60,6 +62,7 @@ export default class ChooseDomainViewModel {
         }
     }
 
+    // adds selected domains by user to the selected domains array, use this array to persist to backend
     public selectDomain(domain: string): Boolean {
         if (this._selectedDomains.includes(domain)) {
             return false;
