@@ -232,30 +232,20 @@ export class ChooseDomainView extends ViewState {
                          flexDirection: 'row', 
                          justifyContent: 'space-between', 
                          marginBottom: 50,
-                        //  transform: [{
-                        //     translateX: 0
-                        // },
-                        // {
-                        //     translateY:0
-                        // }]
                          }}>
                     
                          <TouchableOpacity 
-                        //  onLayout = {event => this.setState({xDomain: event.nativeEvent.layout.x})}
                         onPress = {() => this.viewModel.getNextDomain(-1)}
-                        // onPress = {() => this.setState({domain: domain - 1, rDomain: rDomain - 1, lDomain: lDomain - 1})}
                          
                          >
                          <Images.backIcon width={20} height={20} />
                          </TouchableOpacity>
                          <Text style={[TextStyles.p1, styles.domain, {fontSize: 30}]}>{domain}</Text>
                          <TouchableOpacity 
-                        //  onPress = {() => this.setState({domain:domain + 1, rDomain:rDomain + 1, lDomain:lDomain + 1})}
-                         
-                        //  onPress = {() => this.setState({domain:rDomain === domainLength? domain: domain + 1, rDomain:rDomain === domainLength? rDomain: rDomain + 1, lDomain:rDomain === domainLength? lDomain: lDomain + 1})}
+                       
                         onPress = {() => this.viewModel.getNextDomain(1)}
                          >
-                         <Images.backIcon width={20} height={20} />
+                         <Images.backIcon width={20} height={20} style={{transform: [{ rotate: '180deg' }]}}/>
                          </TouchableOpacity>
                     </View>
                      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -285,15 +275,10 @@ const styles = StyleSheet.create({
         width: '90%',
     },
     topView: {
-        // flex: 1,
         borderWidth: 1,
         borderColor: 'red',
         width: '100%',
         height: '100%'
-        // marginLeft: 'auto',
-        // marginRight: 'auto',
-        // height: 100
-        // borderRadius: 5
 
     },
     pView: {
@@ -303,8 +288,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center', 
         alignItems: 'center',
-        // borderWidth: 1,
-        // borderColor: '#007aff',
         borderRadius: 4,
     },
     placeholderHeading: {
