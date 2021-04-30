@@ -22,6 +22,8 @@
     "deploy:hosting:dashboard:prod": "firebase deploy -P production --only hosting:dashboard-prod",
     "deploy:hosting:web:stage": "firebase deploy -P staging --only hosting:web-staging",
     "deploy:hosting:web:prod": "firebase deploy -P production --only hosting:web-prod",
+    "deploy:firestore:stage": "firebase deploy -P staging --only firestore",
+    "deploy:rules:stage": "firebase deploy -P staging --only firestore:rules",
     "logs": "firebase functions:log",
     "test": "yarn build && env-cmd firebase emulators:exec -P staging 'jest test --config=./jest.config.js'"
   },

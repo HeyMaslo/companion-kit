@@ -9,9 +9,9 @@ import {
     ClientCardRepo,
     RecordRepo,
     StaticTipsRepo,
-    GenericRepo
+    SurveyStateRepo,
+    SurveyResultsRepo,
 } from 'common/database/repositories';
-import { Domain } from 'common/models/QoL';
 
 const PROXIES_PREFIX = 'proxies';
 
@@ -35,7 +35,8 @@ export default class RepoFactory {
     private readonly _clientCards = createLazy(() => new ClientCardRepo(Firebase.Instance.database));
     private readonly _records = createLazy(() => new RecordRepo(Firebase.Instance.database));
     private readonly _staticTips = createLazy(() => new StaticTipsRepo(Firebase.Instance.database));
-    private readonly _domains = createLazy(() => new GenericRepo<Domain>(Firebase.Instance.database));
+    private readonly _qolSurveyState = createLazy(() => new SurveyStateRepo(Firebase.Instance.database));
+    private readonly _qolSurveyResults = createLazy(() => new SurveyResultsRepo(Firebase.Instance.database));
 
     constructor(
         private readonly useProxy: boolean,
@@ -48,7 +49,8 @@ export default class RepoFactory {
     get clientCards(): ClientCardRepo { return this._clientCards.value; }
     get records(): RecordRepo { return this._records.value; }
     get staticTips(): StaticTipsRepo { return this._staticTips.value; }
-    get domains(): GenericRepo<Domain> { return this._domains.value; }
+    get surveyState(): SurveyStateRepo { return this._qolSurveyState.value; }
+    get surveyResults(): SurveyResultsRepo { return this._qolSurveyResults.value; }
 
     // private createProxyRepo<T extends RepoType<T>>(prefix: string, Type: IRepoConstructor<T>) {
     //     const repo = new Type(Firebase.Instance.database);

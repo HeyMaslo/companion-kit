@@ -93,6 +93,16 @@ service cloud.firestore {
 			allow delete: if request.auth.uid == resource.data.clientUid || request.auth.uid == resource.data.coachUid;
     }
 
+    match /surveyState/{id} {
+        allow read;
+        allow write: if request.auth.uid == request.resource.data.userId;
+    }
+
+    match /surveyResults/{id} {
+        allow read;
+        allow write: if request.auth.uid == request.resource.data.userId;
+    }
+
     match /prompts/{coachId}/{document=**} {
     	allow read: if request.auth.uid != null
       	|| exists(/databases/$(database)/documents/prompts/$(coachId)/clientPrompts/$(request.auth.uid));
