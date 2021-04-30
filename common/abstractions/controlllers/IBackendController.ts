@@ -15,7 +15,7 @@ export interface IBackendController {
 
     // setDomainMagnitudes(magnitudes: any): Promise<boolean>;
 
-    setDomain(domain: string): Promise<boolean>;
+    // setDomain(domain: string): Promise<boolean>;
 
-    getDomains(): Promise<Domains>;
+    // getDomains(): Promise<Domains>;
 }

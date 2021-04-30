@@ -2,7 +2,7 @@ import { ViewState } from '../base';
 import React from 'react';
 import { observer } from 'mobx-react';
 import AppViewModel from 'src/viewModels';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, Animated, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, Animated, Dimensions, Alert } from 'react-native';
 import { MasloPage, Container, Button, BackArrow, GradientChart, Card } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import Images from 'src/constants/images';
@@ -106,8 +106,16 @@ export class ChooseDomainView extends ViewState {
     }
 
     onSelectDomain = n => {
-        this.viewModel.selectDomain(n);
-        this.trigger(ScenarioTriggers.Tertiary);
+        if (this.viewModel.selectDomain(n)) {
+            this.trigger(ScenarioTriggers.Tertiary)
+        } else {
+            Alert.alert(
+                'Oops',
+                'Looks like you have already selected that domain.',
+                [
+                    { text: 'OK' },
+                ]);
+        }
     }
 
     onselectThird = () => {

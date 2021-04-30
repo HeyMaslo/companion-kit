@@ -60,8 +60,12 @@ export default class ChooseDomainViewModel {
         }
     }
 
-    public selectDomain(domain: string): void {
+    public selectDomain(domain: string): Boolean {
+        if (this._selectedDomains.includes(domain)) {
+            return false;
+        } 
         this._selectedDomains.push(domain);
+        return true;
     }
 
 }
