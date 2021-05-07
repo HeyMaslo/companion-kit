@@ -25,8 +25,7 @@
         "env:set": "bash bin/env_set.bash",
         "env:clean": "bash bin/env_clean.bash",
         "env:show": "less .env",
-        "test": "cd server/functions && yarn test",
-        "build:mobile": "cd mobile && yarn build"
+        "test": "cd server/functions && yarn test"
     },
     "author": "zajno",
     "license": "ISC",
