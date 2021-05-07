@@ -11,4 +11,5 @@ export interface IBackendController {
 
     getPartialQol(): Promise<PartialQol>;
 
+    setUser(userId: string): void;
 }
