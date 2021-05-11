@@ -13,9 +13,9 @@ export interface IBackendController {
 
     getPartialQol(): Promise<PartialQol>;
 
-    // setDomainMagnitudes(magnitudes: any): Promise<boolean>;
-
     // setDomain(domain: string): Promise<boolean>;
 
     // getDomains(): Promise<Domains>;
+
+    setUser(userId: string): void;
 }

@@ -25,4 +25,3 @@ jobs:
         run: yarn build:server
       - name: Build dashboard
         run: yarn build:dashboard
-      - run: yarn build:mobile
