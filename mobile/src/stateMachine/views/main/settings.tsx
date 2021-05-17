@@ -66,6 +66,10 @@ export class SettingsView extends ViewState {
         this.trigger(ScenarioTriggers.Primary);
     }
 
+    private onAuthChange = () => {
+        this.trigger(ScenarioTriggers.Auth);
+    }
+
     private renderLinksFooter() {
         const { feedback, terms, privacy } = Localization.Current.MobileProject.links;
         return (
@@ -98,7 +102,7 @@ export class SettingsView extends ViewState {
             : Images.envelopeIcon;
 
         const notificationsEnabled = this.model.notifications.isEnabled && !this.model.notifications.isToggleInProgress && this.model.notifications.schedule;
-
+        // const healthAuthEnabled = this.model.healthAuth.isEnabled;
         return (
             <MasloPage style={this.baseStyles.page}>
                 <Container style={styles.topBarWrapWrap}>
@@ -140,7 +144,7 @@ export class SettingsView extends ViewState {
                                     onPress={this.onPasswordChange}
                                 >
                                     <Images.arrowRight width={8} height={8} />
-                                </Card>
+                            </Card>
                             )}
                             <Card
                                 title={'Notifications'}
@@ -150,6 +154,15 @@ export class SettingsView extends ViewState {
                             >
                                 <Images.arrowRight width={8} height={8} />
                             </Card>
+                            <Card
+                                    title={'Health Data'}
+                                    description={notificationsEnabled ? 'On' : 'Off'}
+                                    Image={Images.archiveIcon}
+                                    onPress={this.onAuthChange}
+                                >
+                                    <Images.arrowRight width={8} height={8} />
+                            </Card>
+
                         </View>
                         <View style={[this.baseStyles.flexCenterBottom, styles.bottomBlock]}>
                             <Button

@@ -1,0 +1,110 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    match /users/{userId}/{document=**} {
+    	allow read: if request.auth.uid == userId;
+
+      match /public/info {
+        allow read: if request.auth.uid != null;
+      }
+
+      match /localSettings/{deviceId} {
+        allow write: if request.auth.uid == userId;
+      }
+    }
+
+    function getClientAccount(clientUid, accountId) {
+      return get(/databases/$(database)/documents/clients/$(clientUid)/accounts/$(accountId)).data;
+    }
+
+    function getClientCard(coachUid, clientCardId) {
+    	return get(/databases/$(database)/documents/coaches/$(coachUid)/clients/$(clientCardId)).data;
+    }
+
+    match /coaches/{coachId}/{document=**} {
+    	allow read: if request.auth.uid == coachId;
+
+      match /clients/{clientCardId} {
+
+        allow read: if request.auth.uid == resource.data.clientId;
+
+        match /insights/{document} {
+          allow create: if request.auth.uid == coachId;
+        }
+
+        match /sessions/{sessionId} {
+          allow delete: if request.auth.uid == coachId;
+        }
+
+        match /documents/{documentId} {
+          allow read: if request.auth.uid == getClientCard(coachId, clientCardId).clientId;
+          allow create, delete: if request.auth.uid == coachId;
+        }
+  
+      }
+    }
+
+    match /clients/{clientId}/{document=**} {
+    	allow read: if request.auth.uid == clientId;
+
+      match /accounts/{clientCardId} {
+        // disallow to change state
+      	allow update: if request.auth.uid == clientId && request.resource.data.status == resource.data.status;
+
+        // allow coach to read account
+        allow read: if request.auth.uid == resource.data.coachId;
+
+				function getAccount() {
+        	return getClientAccount(clientId, clientCardId);
+        }
+
+        match /journal/{journalId} {
+        	// allow client to delete own journals
+        	allow delete: if request.auth.uid == clientId;
+          // allow coach to read journals
+          allow read: if getAccount().coachId == request.auth.uid;
+        }
+
+        match /intakeforms/{intakeformId} {
+           // allow coach and client to read forms
+           allow read: if getAccount().coachId == request.auth.uid
+              || request.auth.uid == clientId;
+        }
+
+        match /events/{eventId} {
+           // allow coach and client to read events
+           allow read: if getAccount().coachId == request.auth.uid
+              || request.auth.uid == clientId;
+           }
+      }
+    }
+
+    match /records/{recordId} {
+    	// allow client & coach read records
+    	allow read: if request.auth.uid == resource.data.clientUid
+      	|| request.auth.uid == resource.data.coachUid;
+
+      // allow client to delete own records
+			allow delete: if request.auth.uid == resource.data.clientUid || request.auth.uid == resource.data.coachUid;
+    }
+
+    match /prompts/{coachId}/{document=**} {
+    	allow read: if request.auth.uid != null
+      	|| exists(/databases/$(database)/documents/prompts/$(coachId)/clientPrompts/$(request.auth.uid));
+
+      match /clientPrompts/{clientId} {
+      	allow read: if request.auth.uid == clientId;
+      }
+    }
+
+    match /tips/{document=**} {
+      allow read: if request.auth.uid != null;
+    }
+  }
+}
+

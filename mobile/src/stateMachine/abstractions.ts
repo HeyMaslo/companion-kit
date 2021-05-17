@@ -12,6 +12,7 @@ export enum ScenarioTriggers {
     Submit,
     Primary,
     Secondary,
+    Auth,
 }
 
 export enum NavigationStates {

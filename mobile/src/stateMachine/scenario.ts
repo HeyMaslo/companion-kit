@@ -20,6 +20,7 @@ import { CheckInTypeView } from './views/checkin/selectCheckInType';
 import { TextRecordView } from './views/checkin/recordTextCheckIn';
 import { RecordView } from './views/checkin/recordAudioCheckIn';
 import { NotificationsSettingsView } from './views/main/notificationsSettings';
+import { HealthAuthSettingsView } from './views/main/healthAuthSettings';
 import { EmailSettingsView } from './views/main/emailSettings';
 import { SettingsView } from './views/main/settings';
 import { ChangePasswordView } from './views/password/changePassword';
@@ -333,6 +334,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.NotificationsSettings, trigger: Triggers.Primary },
             { target: States.ChangePassword, trigger: Triggers.Submit },
             { target: States.ConfirmAccount, trigger: Triggers.Secondary },
+            { target: States.HealthAuthSettings, trigger: Triggers.Auth },
         ],
     },
 
@@ -354,6 +356,14 @@ export const MasloScenario: GlobalScenario<States> = {
 
     [States.NotificationsSettings]: {
         view: NotificationsSettingsView,
+        enter: { trigger: GlobalTriggers.NotifictaionSettings },
+        exit: [
+            { target: States.Settings, trigger: [Triggers.Back] },
+        ],
+    },
+
+    [States.HealthAuthSettings]: {
+        view: HealthAuthSettingsView,
         enter: { trigger: GlobalTriggers.NotifictaionSettings },
         exit: [
             { target: States.Settings, trigger: [Triggers.Back] },
