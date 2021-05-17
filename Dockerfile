@@ -1,4 +1,4 @@
-FROM rowanl22/firebase-tools:node10
+FROM polarusapp/firebase-tools:node10
 USER root
 RUN apk --no-cache add git
 WORKDIR /home/node
