@@ -42,12 +42,40 @@ Clone the respository and ensure you have the requirements below:
 	(we will fill in the path in the next step)
 
 6. Go to the Google Cloud Platform [here](https://console.cloud.google.com/iam-admin/serviceaccounts?project=bipolarbridges). On the "App Engine default service account", click the three dots, select "Create key", and download the json file. Fill in the path to this downloaded file in the `.env` from the previous step.
+
 ## Running and Deploying the App
 
-### Run Mobile Apps Locally
+### Run Mobile Apps Locally on a Simulator
 
-* **iOS**: To run project locally run `yarn ios` from the `./mobile` directory
-* **Android**: To run project locally the first time, open the android directory in android studio, sync with gradle and run the app. In subsequent runs, run `yarn android` from the `./mobile` directory
+**iOS**: To run project locally run `yarn ios` from the `./mobile` directory
+
+**Android**: To run project locally the first time, open the android directory in android studio, sync with gradle and run the app. In subsequent runs, run `yarn android` from the `./mobile` directory
+
+### Run Mobile Apps Locally on a Real Device
+
+**iOS** (Mac Instructions):
+
+1. Open `./mobile/ios/CompanionKit.xcworkspace` in Xcode
+2. In the menu bar (top of screen), go to: Xcode > Preferences > Accounts and sign in with your Apple ID
+3. Click the folder icon in the left navigation pane, and click on “CompanionKit”
+4. In the tabs that open, select “Signing and Capabilities"
+5. Remove the “Associated Domains” capability
+6. Select “Automatically manage signing”
+7. In the “Team dropdown, select your personal team
+8. Open “Keychain Access” from your search bar and on the left navigation pane, ensure “login” is selected
+9. In the tabs that open, select the “Certificates” tab. Find your apple development key, right click and select “Get Info”. In the pop-up that opens, select “Access Control”, and add Xcode with the plus button. (You may also need to follow this step again in the “Keys” tab)
+10. Change the bundle id in your `.env` file to something unique and run `yarn env:set` from the root directory
+11. Run the app on your physical device through Xcode. When prompted, "CompanionKit" would like to find and connect to local devices on your network choose OK otherwise you will receive a bundle.js error and not be able to run. If you tapped Don't Allow delete CompanionKit from your iPhone and retry.
+
+**Android** (Mac Instructions):
+
+1. Enable "DEVELOPER OPTIONS" by going to Settings > About phone > Software Information
+2. Scroll to the bottom and tap on "Build number" seven times (you will see a countdown to let you know when you get to 7)
+3. Go back to Settings > Developer options, and enable "USB Debugging"
+4. Plug in your device via USB and run `adb devices` on your terminal (this verifies connection to the Android Debug Bridge)
+5. You should see "List of devices attached". Make sure your device is listed
+6. Run the app on your physical device by running `yarn android`
+
 
 ### Deploy Cloud Functionality
 
