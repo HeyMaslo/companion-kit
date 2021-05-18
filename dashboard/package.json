@@ -34,7 +34,7 @@
         "core-js": "^3.6.5",
         "d3": "^5.16.0",
         "firebase": "^8.3.1",
-        "gsap": "^3.2.6",
+        "gsap": "^3.6.0",
         "history": "^4.10.1",
         "libphonenumber-js": "^1.7.53",
         "lottie-web": "^5.6.8",
