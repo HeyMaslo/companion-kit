@@ -39,6 +39,7 @@ import Triggers = ScenarioTriggers;
 import { VerificationCodeView } from './views/login/verificationCode';
 import { NoInvitationView } from './views/login/noInvitation';
 import { ResetPasswordView } from './views/password/resetPassword';
+import { GetAuthInstructSettingsView } from './views/main/getAuthInstructionsSettings';
 
 const CreateJournalCancelTransition: StateTransition<States> = {
     target: States.Home,
@@ -334,7 +335,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.NotificationsSettings, trigger: Triggers.Primary },
             { target: States.ChangePassword, trigger: Triggers.Submit },
             { target: States.ConfirmAccount, trigger: Triggers.Secondary },
-            { target: States.HealthAuthSettings, trigger: Triggers.Auth },
+            { target: States.HealthAuthSettings, trigger: Triggers.Cancel },
         ],
     },
 
@@ -364,9 +365,21 @@ export const MasloScenario: GlobalScenario<States> = {
 
     [States.HealthAuthSettings]: {
         view: HealthAuthSettingsView,
-        enter: { trigger: GlobalTriggers.NotifictaionSettings },
+        enter: { trigger: GlobalTriggers.HealthAuthSettings },
         exit: [
             { target: States.Settings, trigger: [Triggers.Back] },
+            { target: States.HealthAuthSettings, trigger: [Triggers.Primary] },
+            { target: States.GetAuthInstructSettings, trigger: [Triggers.Secondary] },
+        ],
+    },
+
+    [States.GetAuthInstructSettings]: {
+        view: GetAuthInstructSettingsView,
+        enter: { trigger: GlobalTriggers.GetAuthInstructSettingsView },
+        exit: [
+            { target: States.HealthAuthSettings, trigger: [Triggers.Back] },
+            { target: States.GetAuthInstructSettings, trigger: [Triggers.Primary] },
+            { target: States.GetAuthInstructSettings, trigger: [Triggers.Secondary] },
         ],
     },
 };

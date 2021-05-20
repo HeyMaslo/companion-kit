@@ -5,7 +5,6 @@ import AppleHealthKit from 'rn-apple-healthkit';
 const logger = createLogger('[SettingsHealthAuthViewModel]');
 
 export class SettingsHealthAuthViewModel {
-    // const PERMS = AppleHealthKit.Permissions;
 
     @observable
     private _isEnabled: boolean = this.originalIsEnabled;
@@ -13,13 +12,18 @@ export class SettingsHealthAuthViewModel {
     private get originalIsEnabled() { return !!AppController.Instance.User?.localSettings; }  // get user auth in other app
 
     get isEnabled() { return this._isEnabled; }
-
-    get settingsSynced() { return AppController.Instance.User.localSettings.synced; }
-
+    get isActivityEnabled() { return this._isEnabled; }
+    get isMindfulnessEnabled() { return this._isEnabled; }
+    get isNutritionEnabled() { return this._isEnabled; }
+    get isMoEnabled() { return this._isEnabled; }
+    get isRespiratoryEnabled() { return this._isEnabled; }
+    get isSleepEnabled() { return this._isEnabled; }
+    
     updateEnabledState = () => {
         this._isEnabled = this.originalIsEnabled;
     }
 
+    AppleHealthKit
 
     init() {
         this.updateEnabledState();
@@ -33,7 +37,7 @@ export class SettingsHealthAuthViewModel {
 
     // to be fixed to without authr
     private _unsubscribe: () => void = null;
-    dispose() {
+    dispose() { 
         if (this._unsubscribe) {
             this._unsubscribe();
         }

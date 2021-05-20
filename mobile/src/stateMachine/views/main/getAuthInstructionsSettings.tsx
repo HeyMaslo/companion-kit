@@ -16,9 +16,10 @@ import { ProfileViewModel } from 'src/viewModels/ProfileViewModel';
 import { PersonaScrollMask } from 'src/components/PersonaScollMask';
 import BottomBar from 'src/screens/components/BottomBar';
 import { TextStyles } from 'src/styles/BaseStyles';
+import Modal from 'react-native-modal';
 
 @observer
-export class SettingsView extends ViewState {
+export class GetAuthInstructSettingsView extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeightForceScroll();
@@ -54,47 +55,44 @@ export class SettingsView extends ViewState {
         });
     }
 
-    private onPasswordChange = () => {
-        this.trigger(ScenarioTriggers.Submit);
-    }
-
-    private onEmailChange = () => {
-        // this.trigger(ScenarioTriggers.Primary);
-    }
-
-    private onNotificationsChange = () => {
-        this.trigger(ScenarioTriggers.Primary);
-    }
-
-    private onAuthChange = () => {
-        this.trigger(ScenarioTriggers.Cancel);
-    }
-
     private renderLinksFooter() {
-        const { feedback, terms, privacy } = Localization.Current.MobileProject.links;
-        return (
-            <Text style={this.textStyles.p4}>
-                { !!feedback ? (
-                    <>
-                        Send
-                        <Link link={feedback}> Feedback, </Link>
-                    </>
-                ) : null}
-                <Text style={feedback ? null : { textTransform: 'capitalize' }}>
-                    read
-                </Text>
-                { !!terms ? (
-                    <>
-                        <Link link={terms}> Terms <Text style={{ textTransform: 'lowercase' }}>of</Text> Service </Link>
-                        or
-                    </>
-                ) : (
-                    <> our</>
-                )}
-                <Link link={privacy}> Privacy Policy</Link>
-            </Text>
-        );
-    }
+      const { feedback, terms, privacy } = Localization.Current.MobileProject.links;
+      return (
+          <Text style={this.textStyles.p4}>
+              { !!feedback ? (
+                  <>
+                      Send
+                      <Link link={feedback}> Feedback, </Link>
+                  </>
+              ) : null}
+              <Text style={feedback ? null : { textTransform: 'capitalize' }}>
+                  read
+              </Text>
+              { !!terms ? (
+                  <>
+                      <Link link={terms}> Terms <Text style={{ textTransform: 'lowercase' }}>of</Text> Service </Link>
+                      or
+                  </>
+              ) : (
+                  <> our</>
+              )}
+              <Link link={privacy}> Privacy Policy</Link>
+          </Text>
+      );
+  }
+
+  AppVersionView(this: void) {
+    const [toggle, setToggle] = React.useState(false);
+
+    return (
+        <Text style={[TextStyles.p4, styles.version]} onPress={() => setToggle(!toggle)}>
+            {toggle
+                ? ExpoConstants.installationId
+                : AppController.Instance.version.fullVersion
+            }
+        </Text>
+    );
+}
 
     renderContent() {
         const authProviderIcon = this.model.authProvider === 'google'
@@ -117,7 +115,7 @@ export class SettingsView extends ViewState {
                 </Container>
                 <ScrollView style={[{ zIndex: 0, elevation: 0 }]}>
                     <Container style={[this.baseStyles.container, styles.container]}>
-                        <Text style={[this.textStyles.h1, styles.title]}>What do you need help with?</Text>
+                        <Text style={[this.textStyles.h1, styles.title]}>Instructions</Text>
                         { AppController.Instance.version.hasNext ? (
                             <Button
                                 style={styles.updateButton}
@@ -129,49 +127,36 @@ export class SettingsView extends ViewState {
                         ) : null}
                         <View style={styles.cardsWrap}>
                             <Card
-                                title={'Email'}
-                                description={AppController.Instance.User?.user?.email}
+                                title={'First Step'}
+                                description={'Open the Apple Health App on your phone'}
                                 Image={authProviderIcon}
-                                onPress={this.onEmailChange}
+                                style = {{height: '90%'}}
                             >
-                                {/* <Images.arrowRight width={8} height={8} /> */}
                             </Card>
-                            { this.model.disablePassword ? null : (
-                                <Card
-                                    title={'Password'}
-                                    description={this.model.needsCreatePassword ? 'Create password' : 'Change your password'}
-                                    Image={Images.keyIcon}
-                                    onPress={this.onPasswordChange}
-                                >
-                                    <Images.arrowRight width={8} height={8} />
-                            </Card>
-                            )}
-                            <Card
-                                title={'Notifications'}
-                                description={notificationsEnabled ? this.model.notifications.scheduleTimeString : 'Off'}
-                                Image={Images.bellIcon}
-                                onPress={this.onNotificationsChange}
-                            >
-                                <Images.arrowRight width={8} height={8} />
-                            </Card>
-                            <Card
-                                    title={'Health Data'}
-                                    description={healthAuthEnabled ? 'On' : 'Off'}
-                                    Image={Images.archiveIcon}
-                                    onPress={this.onAuthChange}
-                                >
-                                    <Images.arrowRight width={8} height={8} />
-                            </Card>
+                            {/* <Text style={[this.textStyles.p3, styles.Card]}>First Step: Open the Apple Health App on your phone</Text>
+                            <Text style={[this.textStyles.p3, styles.container]}>Second Step: Open your personal health settings by tapping the top right corner in the app</Text> */}
 
+                            <Card
+                                    title={'Third Step'}
+                                    description={'Selet Apps under the Privacy section'}
+                                    Image={Images.keyIcon}
+                                    style = {{height: '90%'}}
+                            ></Card>
+                            <Card
+                                    title={'Fourth Step'}
+                                    description={'Selet BB App and complete these steps'}
+                                    Image={Images.keyIcon}
+                                    style = {{height: '90%'}}
+                            ></Card>
                         </View>
                         <View style={[this.baseStyles.flexCenterBottom, styles.bottomBlock]}>
                             <Button
-                                title="logout"
+                                title="Go To Apple Health Settings"
                                 withBorder
                                 isTransparent
                                 onPress={this.logout}
                             />
-                            <AppVersionView />
+                           <this.AppVersionView />
                             {this.renderLinksFooter()}
                         </View>
                     </Container>
@@ -180,19 +165,6 @@ export class SettingsView extends ViewState {
             </MasloPage>
         );
     }
-}
-
-function AppVersionView(this: void) {
-    const [toggle, setToggle] = React.useState(false);
-
-    return (
-        <Text style={[TextStyles.p4, styles.version]} onPress={() => setToggle(!toggle)}>
-            {toggle
-                ? ExpoConstants.installationId
-                : AppController.Instance.version.fullVersion
-            }
-        </Text>
-    );
 }
 
 const styles = StyleSheet.create({
@@ -229,7 +201,14 @@ const styles = StyleSheet.create({
     },
     cardsWrap: {
         width: '100%',
-        marginBottom: 40,
+        height: '20%',
+        marginBottom: 100,
+    },
+    Card:{
+      width: '100%',
+      height: '20%',
+      marginBottom: 40,
+      borderColor: 'black',
     },
     updateButton: {
         width: '100%',

@@ -4,7 +4,7 @@ import ExpoConstants from 'expo-constants';
 import { observer } from 'mobx-react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import Colors from 'src/constants/colors';
-import { MasloPage, Container, Button, Card, Link } from 'src/components';
+import { MasloPage, Container, Button, Card, Link, Checkbox } from 'src/components';
 import AppViewModel from 'src/viewModels';
 import AppController from 'src/controllers';
 import { ScenarioTriggers } from '../../abstractions';
@@ -13,12 +13,15 @@ import Images from 'src/constants/images';
 import Switch from 'dependencies/react-native-switch-pro';
 
 import { SettingsHealthAuthViewModel } from 'src/viewModels/SettingsHealthAuthViewModel';
+import ModalTester from 'src/stateMachine/views/main/modalTester';
 
 import Layout from 'src/constants/Layout';
 import BottomBar from 'src/screens/components/BottomBar';
 import { TextStyles } from 'src/styles/BaseStyles';
 import { PersonaStates, PersonaViewPresets } from 'src/stateMachine/persona';
 import { PersonaScrollMask } from 'src/components/PersonaScollMask';
+import PromptModal from 'src/components/PromptModal';
+
 
 
 @observer
@@ -42,20 +45,11 @@ export class HealthAuthSettingsView extends ViewState {
         this.model.dispose();
     }
 
-    permissionInstruct = () => {
-        this.showModal({
-            title: 'Instructions',
-            primaryButton: {
-                text: 'Next',
-                action: null,
-            },
-            secondaryButton: {
-                text: 'Back',
-                action: null,
-            },
-        });
+    
+    private permissionInstruct = () => {
+        this.trigger(ScenarioTriggers.Secondary);
     }
-
+    
     private renderLinksFooter() {
         const { feedback, terms, privacy } = Localization.Current.MobileProject.links;
         return (
@@ -105,102 +99,64 @@ export class HealthAuthSettingsView extends ViewState {
                         <View style={styles.cardsWrap}>
                         <Card
                             title="Activity"
-                            description={this.model.isEnabled ? 'Authorization On' : 'Authorization Off'}
-                            style={{ marginBottom: 20 }}
+                            description={this.model.isActivityEnabled ? 'Authorization On' : 'Authorization Off'}
+                            style={{ marginBottom: 20, borderColor: 'black'}}
                         >
-                            <Switch
-                                value={this.model.isEnabled}
-                                width={50}
-                                height={24}
-                                backgroundActive={Colors.switch.activeBg}
-                                backgroundInactive={Colors.switch.inactiveBg}
-                                style={styles.switchStyles}
-                                circleStyle={{ width: 18, height: 18 }}
-                            />
+                        <Checkbox
+                            checked = {this.model.isActivityEnabled}
+                            onChange = {this.permissionInstruct}
+                        />
                         </Card>
-
                         <Card
                             title="Mindfuless"
-                            description={this.model.isEnabled ? 'Authorization On' : 'Authorization Off'}
-                            style={{ marginBottom: 20 }}
+                            description={this.model.isMindfulnessEnabled ? 'Authorization On' : 'Authorization Off'}
+                            style={{ marginBottom: 20, borderColor: 'black'}}
 
                         >
-                            <Switch
-                                value={this.model.isEnabled}
-
-                                width={50}
-                                height={24}
-                                backgroundActive={Colors.switch.activeBg}
-                                backgroundInactive={Colors.switch.inactiveBg}
-                                style={styles.switchStyles}
-                                circleStyle={{ width: 18, height: 18 }}
-                            />
+                        <Checkbox
+                            checked = {this.model.isMindfulnessEnabled}
+                            onChange = {this.permissionInstruct}
+                        />
                         </Card>
-
                         <Card
                             title="Mobility"
-                            description={this.model.isEnabled ? 'Authorization On' : 'Authorization Off'}
-                            style={{ marginBottom: 20 }}
+                            description={this.model.isMobilityEnabled ? 'Authorization On' : 'Authorization Off'}
+                            style={{ marginBottom: 20, borderColor: 'black'}}
                         >
-                            <Switch
-                                value={this.model.isEnabled}
-                                width={50}
-                                height={24}
-                                backgroundActive={Colors.switch.activeBg}
-                                backgroundInactive={Colors.switch.inactiveBg}
-                                style={styles.switchStyles}
-                                circleStyle={{ width: 18, height: 18 }}
-                            />
+                        <Checkbox
+                            checked = {this.model.isMobilityEnabled}
+                            onChange = {this.permissionInstruct}
+                        />
                         </Card>
-
                         <Card
                             title="Nutrition"
-                            description={this.model.isEnabled ? 'Authorization On' : 'Authorization Off'}
-                            style={{ marginBottom: 20 }}
+                            description={this.model.isNutritionEnabled ? 'Authorization On' : 'Authorization Off'}
+                            style={{ marginBottom: 20, borderColor: 'black'}}
                         >
-                            <Switch
-                                value={this.model.isEnabled}
-
-                                width={50}
-                                height={24}
-                                backgroundActive={Colors.switch.activeBg}
-                                backgroundInactive={Colors.switch.inactiveBg}
-                                style={styles.switchStyles}
-                                circleStyle={{ width: 18, height: 18 }}
-                            />
+                        <Checkbox
+                            checked = {this.model.isNutritionEnabled}
+                            onChange = {this.permissionInstruct}
+                        />
                         </Card>
-
                         <Card
                             title="Respiratory"
-                            description={this.model.isEnabled ? 'Authorization On' : 'Authorization Off'}
-                            style={{ marginBottom: 20 }}
+                            description={this.model.isRespiratoryEnabled ? 'Authorization On' : 'Authorization Off'}
+                            style={{ marginBottom: 20 , borderColor: 'black'}}
                         >
-                            <Switch
-                                value={this.model.isEnabled}
-                                width={50}
-                                height={24}
-                                backgroundActive={Colors.switch.activeBg}
-                                backgroundInactive={Colors.switch.inactiveBg}
-                                style={styles.switchStyles}
-                                circleStyle={{ width: 18, height: 18 }}
-                            />
+                        <Checkbox
+                            checked = {this.model.isRespiratoryEnabled}
+                            onChange = {this.permissionInstruct}
+                        />
                         </Card>
-
-
                         <Card
                             title="Sleep"
-                            description={this.model.isEnabled ? 'Authorization On' : 'Authorization Off'}
-                            style={{ marginBottom: 20 }}
+                            description={this.model.isSleepEnabled ? 'Authorization On' : 'Authorization Off'}
+                            style={{ marginBottom: 20, borderColor: 'black'}}
                         >
-                            <Switch
-                                value={this.model.isEnabled}
-                                width={50}
-                                height={24}
-                                backgroundActive={Colors.switch.activeBg}
-                                backgroundInactive={Colors.switch.inactiveBg}
-                                style={styles.switchStyles}
-                                circleStyle={{ width: 18, height: 18 }}
-                            />
+                        <Checkbox
+                            checked = {this.model.isSleepEnabled }
+                            onChange = {this.permissionInstruct}
+                        />
                         </Card>
                     
                         </View>
@@ -302,8 +258,34 @@ const styles = StyleSheet.create({
     switchStyles: {
         paddingHorizontal: 3,
     },
-    scrollView: {
-        backgroundColor: 'pink',
-        marginHorizontal: 20,
+
+    layerContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
+    circleHolder: {
+        width: 200,
+        height: 200,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    circle: {
+        backgroundColor: 'white',
+        width: 150,
+        height: 150,
+        borderRadius: 75,
+        borderWidth: 2
+    },
+    square: {
+        backgroundColor: 'green',
+        width: 200,
+        height: 200,
+    },
+
+    checkbox: {
+        alignSelf: "center",
+        flexDirection: "row",
+        marginBottom: 20,
+    }
 });
