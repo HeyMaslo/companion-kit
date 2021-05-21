@@ -16,7 +16,6 @@ import { ProfileViewModel } from 'src/viewModels/ProfileViewModel';
 import { PersonaScrollMask } from 'src/components/PersonaScollMask';
 import BottomBar from 'src/screens/components/BottomBar';
 import { TextStyles } from 'src/styles/BaseStyles';
-import Modal from 'react-native-modal';
 
 @observer
 export class GetAuthInstructSettingsView extends ViewState {
@@ -41,18 +40,8 @@ export class GetAuthInstructSettingsView extends ViewState {
         this.model.notifications.dispose();
     }
 
-    logout = () => {
-        this.showModal({
-            title: 'Are you sure you want to log out?',
-            primaryButton: {
-                text: 'yes, please',
-                action: this.model.logout,
-            },
-            secondaryButton: {
-                text: 'no, I don’t',
-                action: null,
-            },
-        });
+    goToAppleHealthSettings = () => {
+      //go to settings
     }
 
     private renderLinksFooter() {
@@ -125,38 +114,42 @@ export class GetAuthInstructSettingsView extends ViewState {
                                 <Text style={[this.textStyles.labelMedium, styles.updateText]}>Update Available</Text>
                             </Button>
                         ) : null}
-                        <View style={styles.cardsWrap}>
-                            <Card
-                                title={'First Step'}
-                                description={'Open the Apple Health App on your phone'}
-                                Image={authProviderIcon}
-                                style = {{height: '90%'}}
+                          <Text style={[this.textStyles.p2, styles.bottomBlock]}>Step 1</Text>
+                          <Card
+                                title={' Open the Apple Health App on your phone'}
+                                description={null}
+                                style = {{height: '8%'}}
                             >
                             </Card>
-                            {/* <Text style={[this.textStyles.p3, styles.Card]}>First Step: Open the Apple Health App on your phone</Text>
-                            <Text style={[this.textStyles.p3, styles.container]}>Second Step: Open your personal health settings by tapping the top right corner in the app</Text> */}
-
+                            <Text style={[this.textStyles.p2, styles.bottomBlock]}>Step 2</Text>
                             <Card
-                                    title={'Third Step'}
-                                    description={'Selet Apps under the Privacy section'}
-                                    Image={Images.keyIcon}
-                                    style = {{height: '90%'}}
-                            ></Card>
+                                title={' Next, open your personal health settings by tapping the top right corner in the app'}
+                                description={null}
+                                style = {{height: '10%'}}
+                            >
+                            </Card>
+                            <Text style={[this.textStyles.p2, styles.bottomBlock]}>Step 3</Text>
                             <Card
-                                    title={'Fourth Step'}
-                                    description={'Selet BB App and complete these steps'}
-                                    Image={Images.keyIcon}
-                                    style = {{height: '90%'}}
-                            ></Card>
-                        </View>
+                                title={' Select Apps under the Privacy section'}
+                                description={null}
+                                style = {{height: '10%'}}
+                            >
+                            </Card>
+                            <Text style={[this.textStyles.p2, styles.bottomBlock]}>Step 4</Text>
+                            <Card
+                                title={' Select BB App and turn on authorization'}
+                                description={' Make sure all categorise are switched on'}
+                                style = {{height: '10%'}}
+                            >
+                            </Card>
                         <View style={[this.baseStyles.flexCenterBottom, styles.bottomBlock]}>
                             <Button
                                 title="Go To Apple Health Settings"
                                 withBorder
                                 isTransparent
-                                onPress={this.logout}
+                                onPress={this.goToAppleHealthSettings}
                             />
-                           <this.AppVersionView />
+                            <this.AppVersionView />
                             {this.renderLinksFooter()}
                         </View>
                     </Container>
@@ -166,79 +159,100 @@ export class GetAuthInstructSettingsView extends ViewState {
         );
     }
 }
-
+   
 const styles = StyleSheet.create({
-    topBarWrapWrap: {
-        position: 'absolute',
-        top: 0,
-        width: '100%',
-        zIndex: 2,
-        elevation: 2,
-    },
-    topBarWrap: {
-        position: 'relative',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        height: 72,
-        zIndex: 2,
-        elevation: 2,
-    },
-    backBtn: {
-        width: 52,
-        height: 52,
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-        backgroundColor: 'transparent',
-    },
-    container: {
-        minHeight: Layout.window.height,
-        paddingTop: Layout.getViewHeight(21),
-    },
-    title: {
-        textAlign: 'center',
-        marginBottom: 40,
-    },
-    cardsWrap: {
-        width: '100%',
-        height: '20%',
-        marginBottom: 100,
-    },
-    Card:{
+  topBarWrapWrap: {
+      position: 'absolute',
+      top: 0,
       width: '100%',
-      height: '20%',
+      zIndex: 2,
+      elevation: 2,
+  },
+  topBarWrap: {
+      position: 'relative',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      height: 72,
+      zIndex: 2,
+      elevation: 2,
+  },
+  backBtn: {
+      width: 52,
+      height: 52,
+      alignItems: 'flex-start',
+      justifyContent: 'center',
+      backgroundColor: 'transparent',
+  },
+  container: {
+      minHeight: Layout.window.height,
+      paddingTop: Layout.getViewHeight(21),
+  },
+  title: {
+      textAlign: 'center',
       marginBottom: 40,
-      borderColor: 'black',
-    },
-    updateButton: {
-        width: '100%',
-        backgroundColor: Colors.settings.updateButtonBg,
-        height: 40,
-        borderRadius: 5,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginBottom: 16,
-    },
-    refreshIcon: {
-        height: 20,
-        width: 20,
-        marginRight: 8,
-    },
-    updateText: {
-        color: Colors.settings.updateText,
-        letterSpacing: 1.6,
-        // marginTop: 4,
-    },
-    version: {
-        marginTop: 20,
-        marginBottom: 4,
-    },
-    bottomBlock: {
-        width: '100%',
-        marginTop: 'auto',
-        marginBottom: process.appFeatures.GOALS_ENABLED ? 90 : 0,
-    },
-    switchStyles: {
-        paddingHorizontal: 3,
-    },
+  },
+  cardsWrap: {
+      width: '100%',
+      marginBottom: 40,
+  },
+  Card: {
+    backgroundColor: 'white', 
+    borderColor: 'black',
+  },
+  updateButton: {
+      width: '100%',
+      backgroundColor: Colors.settings.updateButtonBg,
+      height: 40,
+      borderRadius: 5,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      marginBottom: 16,
+  },
+  refreshIcon: {
+      height: 20,
+      width: 20,
+      marginRight: 8,
+  },
+  updateText: {
+      color: Colors.settings.updateText,
+      letterSpacing: 1.6,
+      // marginTop: 4,
+  },
+  version: {
+      marginTop: 20,
+      marginBottom: 4,
+  },
+  bottomBlock: {
+      width: '100%',
+      marginTop: 'auto',
+      marginBottom: process.appFeatures.GOALS_ENABLED ? 90 : 0,
+  },
+  switchStyles: {
+      paddingHorizontal: 3,
+  },
+
+  layerContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center'
+  },
+  circleHolder: {
+      width: 200,
+      height: 200,
+      justifyContent: 'center',
+      alignItems: 'center'
+  },
+  circle: {
+      backgroundColor: 'white',
+      width: 150,
+      height: 150,
+      borderRadius: 75,
+      borderWidth: 2
+  },
+  square: {
+      backgroundColor: 'green',
+      width: 200,
+      height: 200,
+  },
 });

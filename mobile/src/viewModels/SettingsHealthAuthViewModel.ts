@@ -15,6 +15,7 @@ export class SettingsHealthAuthViewModel {
     get isActivityEnabled() { return this._isEnabled; }
     get isMindfulnessEnabled() { return this._isEnabled; }
     get isNutritionEnabled() { return this._isEnabled; }
+    get isMobilityEnabled() { return this._isEnabled; }
     get isMoEnabled() { return this._isEnabled; }
     get isRespiratoryEnabled() { return this._isEnabled; }
     get isSleepEnabled() { return this._isEnabled; }

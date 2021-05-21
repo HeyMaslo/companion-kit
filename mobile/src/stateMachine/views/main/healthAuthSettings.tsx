@@ -10,17 +10,14 @@ import AppController from 'src/controllers';
 import { ScenarioTriggers } from '../../abstractions';
 import Localization from 'src/services/localization';
 import Images from 'src/constants/images';
-import Switch from 'dependencies/react-native-switch-pro';
 
 import { SettingsHealthAuthViewModel } from 'src/viewModels/SettingsHealthAuthViewModel';
-import ModalTester from 'src/stateMachine/views/main/modalTester';
 
 import Layout from 'src/constants/Layout';
 import BottomBar from 'src/screens/components/BottomBar';
 import { TextStyles } from 'src/styles/BaseStyles';
 import { PersonaStates, PersonaViewPresets } from 'src/stateMachine/persona';
 import { PersonaScrollMask } from 'src/components/PersonaScollMask';
-import PromptModal from 'src/components/PromptModal';
 
 
 
