@@ -26,7 +26,7 @@ import { StaticTipItemIded } from 'common/models/StaticTips';
 import { LocalSettingsController, ILocalSettingsController } from './LocalSettings';
 import { RewardsController } from './Rewards';
 import { IDocumentsController, DocumentsController } from './Documents';
-import BackendController from 'common/controllers/BackendController';
+import BackendController from 'common/controllers/QoLController';
 
 type ClientUser = Identify<UserProfile> & { client?: ClientProfileFull };
 
