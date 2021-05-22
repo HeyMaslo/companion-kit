@@ -1,11 +1,11 @@
-import { IBackendController } from 'common/abstractions/controlllers/IQoLController';
+import { IQoLController } from 'common/abstractions/controlllers/IQoLController';
 import {
     QolSurveyResults,
     PartialQol,
 } from 'common/models/QoL';
 import RepoFactory from 'common/controllers/RepoFactory';
 
-export default class BackendControllerBase implements IBackendController {
+export default class QoLControllerBase implements IQoLController {
 
     private _userId: string = null;
 

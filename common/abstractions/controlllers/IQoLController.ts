@@ -1,6 +1,6 @@
 import { PartialQol, QolSurveyResults } from 'common/models/QoL';
 
-export interface IBackendController {
+export interface IQoLController {
 
     getSurveyResults(): Promise<QolSurveyResults>;
 

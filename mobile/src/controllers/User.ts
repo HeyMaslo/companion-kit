@@ -26,7 +26,7 @@ import { StaticTipItemIded } from 'common/models/StaticTips';
 import { LocalSettingsController, ILocalSettingsController } from './LocalSettings';
 import { RewardsController } from './Rewards';
 import { IDocumentsController, DocumentsController } from './Documents';
-import BackendController from 'common/controllers/QoLController';
+import QoLController from 'common/controllers/QoLController';
 
 type ClientUser = Identify<UserProfile> & { client?: ClientProfileFull };
 
@@ -56,7 +56,7 @@ export interface IUserController extends IUserControllerBase {
     readonly onboardingDayIndex: number | null;
     readonly rewards?: RewardsController;
 
-    readonly backend: BackendController;
+    readonly backend: QoLController;
 
     readonly hasSeenOnboarding: boolean;
     onboardingSeen(): void;
@@ -116,7 +116,7 @@ export class UserController extends UserControllerBase implements IUserControlle
     private _documents: DocumentsController;
 
     private readonly _backend = new Lazy(() => {
-        const bk = new BackendController();
+        const bk = new QoLController();
         if (this.user && this.activeAccount) {
             bk.setUser(this.user.id);
         }
