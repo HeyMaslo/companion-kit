@@ -20,7 +20,15 @@ class PersonaViewContext implements IPersonaViewContext {
     public currentSettings: CurrentPersonaSettings = null;
 
     private get personaRadius() { return (this.currentSettings?.radius || 123) * (this.currentSettings?.resultScale || 1); }
-    private get personaBoxHeight() { return Layout.window.width < 800 ? Layout.window.width * 0.8 : Layout.window.width; }
+    private get personaBoxHeight() {
+        if (Layout.window.width < 710) {
+            return Layout.window.width * 0.7;
+        } else if (Layout.window.width < 800) {
+            return Layout.window.width * 0.8;
+        } else {
+            return Layout.window.width;
+        }
+    }
 
     getContainerHeight(minHeight: number, baseView?: Partial<PersonaViewState>): { height: number, view: PersonaViewState } {
         const pixelRatio = PixelRatio.get();

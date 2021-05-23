@@ -30,7 +30,7 @@ if [[ $? != 0 ]]; then
 else
     if [ $yes == 0 ]; then
         read -r -p "Is this okay? [Y/n] " confirm
-        if [[ ! $confirm =~ ^[Yy]$ ]]; then
+        if [[ ! $confirm =~ ^[Yy]$ ]] ; then	
             echo "exiting."
             exit 0
         fi
@@ -41,7 +41,7 @@ if [ ! -f ".env" ]; then
     echo "No env file installed!"
     if [ $yes == 0 ]; then
         read -r -p "Continue? [Y/n] " confirm
-        if [[ ! "$confirm" =~ ^[Yy]$ ]] ; then
+        if [[ ! "$confirm" =~ ^[Yy]$ ]] ; then	
             echo "exiting."
             exit 0
         fi
@@ -56,7 +56,6 @@ if [ $submodules == 1 ]; then
 	git clone https://github.com/HeyMaslo/react-native-switch-pro.git
 	cd ../..
 fi
-yarn all
 if [ $functions == 1 ]; then
 	cd server/functions || exit 1
 	yarn
