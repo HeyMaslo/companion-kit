@@ -1,11 +1,11 @@
-import { IBackendController, Domains} from 'common/abstractions/controlllers/IBackendController';
+import { IQoLController, Domains } from 'common/abstractions/controlllers/IQoLController';
 import {
     QolSurveyResults,
     PartialQol,
 } from 'common/models/QoL';
 import RepoFactory from 'common/controllers/RepoFactory';
 
-export default class BackendControllerBase implements IBackendController {
+export default class QoLControllerBase implements IQoLController {
 
     private _userId: string = null;
 
@@ -55,9 +55,11 @@ export default class BackendControllerBase implements IBackendController {
         const success = true;
         return true;
     }
+
     // Get last stored state
     // null value indicates no outstanding survey
     public async getPartialQol(): Promise<PartialQol> {
+
         console.log(`get partial qol: userId = ${this._userId}`);
         const result = await RepoFactory.Instance.surveyState.getByUserId(this._userId);
         console.log(`get partial qol: result = ${JSON.stringify(result)}`);

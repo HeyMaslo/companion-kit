@@ -2,7 +2,7 @@ import { PartialQol, QolSurveyResults } from 'common/models/QoL';
 
 export type Domains = string[];
 
-export interface IBackendController {
+export interface IQoLController {
 
     getSurveyResults(): Promise<QolSurveyResults>;
 
