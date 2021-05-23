@@ -47,7 +47,7 @@ export default class QoLControllerBase implements IQoLController {
 
     public async getDomains(): Promise<Domains> {
         // STUB FUNCTION
-        return ["HEALTH", "PHYSICAL"];
+        return ['HEALTH', 'PHYSICAL'];
     }
 
     public async setDomain(domain: string): Promise<boolean> {
