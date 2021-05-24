@@ -1,5 +1,3 @@
-![A Companion For Every Person]
-
 # Maslo Companion Kit  
 
 ![GitHub stars](https://img.shields.io/github/stars/heymaslo/companion-kit?style=social)
@@ -10,19 +8,16 @@
 ## Overview
 Companions are personal, trusted, and adaptable AI’s that meet people where they are and help them get to where they want to be. They are surface agnostic and can live on websites, mobile apps, computers, in car dashboards, and more.
 
-Maslo Companion Kit is a fully functional and customizable mobile application project for iOS and Android to grow your own companion. The Companion Kit also includes an optional web dashboard for care providers to get deeper insights into the signals users are expressing. 
+Maslo Companion Kit is a fully functional and customizable mobile application project for iOS and Android to grow your own companion. 
 
 Out of the box features include:
 * Email/SMS/SO Authentication Methods
 * Text and voice check-ins
 * Mood and location logging 
 * Editable/customizable prompts
-* Ability to schedule prompts
 * Customizable notifications/reminders to check in
-* Report exports to visualize progress
 * Administer assessments and questionnaires
 * Administration capability to summarize information by client
-* Documents repository 
 * Custom companion branding 
 * Algorithms to generate insights from signals - options include Anxiety, Depression, Anger, Well-being, Energy, Mindfulness, and more.
 
@@ -36,7 +31,6 @@ Maslo has packaged components that allow customers & developers to easily custom
 * Career companion for finding jobs and building skills
 * And so much more... there are many possibilities!
 
-<img src="/examples/SigBee/SigBee.png" width="25%"> <img src="/examples/Aibly/Aibly.png" width="25%"> <img src="/examples/Canbe/Canbe.png" width="25%"> <img src="/examples/Carree/Carree.png" width="25%"> <img src="/examples/Emily/Emily.png" width="25%"> <img src="/examples/eva/Eva.png" width="25%"> <img src="/examples/Opti/Opti.png" width="25%"> <img src="/examples/Stella/Stella.png" width="25%"> <img src="/examples/pAIper/Paiper.png" width="25%">
 
 On with it. Get to Growing Your Maslo!
 
