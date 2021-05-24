@@ -247,11 +247,9 @@ The following dependencies are organized as Git submodules:
 Mobile app uses Local and Push notifications. Most related types are defined in `common/models/Notifications.ts`. NotificationTypes enum defines the following types:
 
 1. Retention – local notifications for reminding a user to make a check-in. A user can adjust them in Settings.
-2. CustomPrompt – push sent to a client for a scheduled prompt. Latters are set in the Dashboard.
+2. CustomPrompt – push sent to a client for a scheduled prompt.
 3. Assessment – push sent to a client when an assessment has been activated by a Coach in their Dashboard.
-4. NewGoals – push sent to a client when a new goal has been added by a Coach.
-5. TriggerPhrase – push sent to a client when Records analyzer has found ‘trigger phrase’ in their check-in.
-6. NewDocumentLinkShared – push sent to a client when a document link has been shared with them by a Coach.
+4. NewDocumentLinkShared – push sent to a client when a document link has been shared with them by a Coach.
 
 
 ## Persona
@@ -289,8 +287,6 @@ IntakeForms (aka Assessments) – feature for allowing Coach to collect some dat
 
 This folder contains models definitions for few connected features: 
   * Custom Prompts 
-  * Intervention Tips
-  * Goals
 They are connected by sharing the same data structure their data stored in (PromptsLibrary and ClientLibraryState in `common/models/prompts/Prompt.ts`) and endpoint (IntakeFormsEndpoint in `common/abstractions/functions.ts`).
 
 
