@@ -18,6 +18,7 @@ const getHealthKitData = () => {
   const options = {
     permissions: {
       read: [PERMS.BiologicalSex],
+      write: null,
     },
   };
 

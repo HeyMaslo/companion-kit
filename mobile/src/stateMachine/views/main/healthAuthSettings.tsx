@@ -38,9 +38,6 @@ export class HealthAuthSettingsView extends ViewState {
         this.resetPersona(PersonaStates.Question, PersonaViewPresets.TopHalfOut);
     }
 
-    componentWillUnmount() {
-        this.model.dispose();
-    }
 
     
     private permissionInstruct = () => {

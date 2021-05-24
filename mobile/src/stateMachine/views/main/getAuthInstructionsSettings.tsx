@@ -40,8 +40,9 @@ export class GetAuthInstructSettingsView extends ViewState {
         this.model.notifications.dispose();
     }
 
-    goToAppleHealthSettings = () => {
-      //go to settings
+    goToAppleHealthSettings() {
+      //pop up to the settings
+
     }
 
     private renderLinksFooter() {
