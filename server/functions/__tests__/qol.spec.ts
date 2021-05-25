@@ -34,7 +34,7 @@ describe('QoL', () => {
                     position: 1,
                     name: 'Physical',
                     slug: 'physical',
-                    importance: 'SLEEP = Sleeeeepz Sleeeeepz Sleeeeepz Sleeeeepz incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud'
+                    importance: 'SLEEP = Sleeeeepz Sleeeeepz Sleeeeepz Sleeeeepz incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
                 });
                 assert.isNull(result.error);
             });
