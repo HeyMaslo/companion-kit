@@ -41,6 +41,7 @@ export async function createDomain(args: CreateDomainRequest)
             position:   args.position,
             name:       args.name,
             slug:       args.slug,
+            importance: args.importance,
         });
         return {
             error: null,

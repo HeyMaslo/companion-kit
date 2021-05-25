@@ -2,8 +2,10 @@ import { IQoLController, Domains } from 'common/abstractions/controlllers/IQoLCo
 import {
     QolSurveyResults,
     PartialQol,
+    Domain,
 } from 'common/models/QoL';
 import RepoFactory from 'common/controllers/RepoFactory';
+import { Identify } from 'models';
 
 export default class QoLControllerBase implements IQoLController {
 
@@ -43,6 +45,10 @@ export default class QoLControllerBase implements IQoLController {
         } catch (err) {
             return false;
         }
+    }
+
+    public async getPossibleDomains(): Promise<Identify<Domain>[]> {
+        return await RepoFactory.Instance.qolDomains.get();
     }
 
     public async getDomains(): Promise<Domains> {

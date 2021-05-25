@@ -12,6 +12,7 @@ type CreateDomainArgs = {
     position:   number,
     name:       string,
     slug:       string,
+    importance: string,
 };
 
 type GetDomainsArgs = {};

@@ -17,6 +17,7 @@ export type Domain = {
     position:   number,
     name:       string,
     slug:       string,
+    importance: string,     // description of why the domain is important
 };
 
 export type DomainIded = Identify<Domain>;
