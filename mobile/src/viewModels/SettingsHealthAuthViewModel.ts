@@ -8,7 +8,7 @@ export class SettingsHealthAuthViewModel {
     @observable
     private _isEnabled: boolean = this.originalIsEnabled;
 
-    private get originalIsEnabled() { return !!appleHealthKit.Constants.Permissions; }  // get user auth in other app
+    private get originalIsEnabled() { return !!appleHealthKit.Constants.Permissions; }
     
     get isEnabled() { return this._isEnabled}
     get isActivityEnabled() { return this._isEnabled; }
