@@ -1,4 +1,4 @@
-import { observable, computed, autorun, reaction } from 'mobx';
+import { observable } from 'mobx';
 import { createLogger } from 'common/logger';
 import appleHealthKit from 'rn-apple-healthkit';
 const logger = createLogger('[SettingsHealthAuthViewModel]');
