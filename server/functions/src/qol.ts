@@ -14,7 +14,7 @@ import {
     GetQuestionsResponse,
     GetQuestionsRequest,
 } from 'common/models/dtos/qol';
-import { Maybe, wrap } from 'common/abstractions/structures/monads';
+import { Maybe, wrapAsync } from 'common/abstractions/structures/monads';
 
 export const QoLEndpoint = new FunctionFactory(QoLFunctions.QoLEndpoint)
     .create(async (data, ctx) => {
@@ -63,11 +63,16 @@ export async function getDomains(): Promise<GetDomainsResponse> {
 export async function createQuestion(args: CreateQuestionRequest)
     : Promise<CreateQuestionResponse> {
     const dom: Maybe<Domain> = await Repo.Domains.getBySlug(args.domainSlug);
-    return wrap<Domain, CreateQuestionResponse>(dom, () => {
+    return await wrapAsync<Domain, CreateQuestionResponse>(dom, async () => {
+        await Repo.Questions.create({
+            domainId: dom.slug,
+            text: args.text,
+            position: args.position
+        });
         return {
             error: null,
         };
-    }, () => {
+    }, async () => {
         return {
             error: 'Domain with slug does not exist',
         };
