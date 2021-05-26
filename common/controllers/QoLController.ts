@@ -42,7 +42,14 @@ export default class QoLControllerBase implements IQoLController {
         };
         try {
             let st: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
-            st.surveyState = data;
+            if (st) {
+                st.surveyState = data;
+            } else {
+                st = {
+                    surveyState: data,
+                    focusDomains: []
+                }
+            }
             await RepoFactory.Instance.userState.setByUserId(this._userId, st);
             return true;
         } catch (err) {
@@ -57,7 +64,14 @@ export default class QoLControllerBase implements IQoLController {
     public async setDomains(domains: DomainSelection): Promise<void> {
         console.log("setting focus domains: ", domains);
         let st: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
-        st.focusDomains = domains;
+        if (st === null) {
+            st = {
+                focusDomains: domains,
+                surveyState: null
+            }
+        } else {
+            st.focusDomains = domains;
+        }
         await RepoFactory.Instance.userState.setByUserId(this._userId, st);
     }
 
@@ -66,7 +80,11 @@ export default class QoLControllerBase implements IQoLController {
     public async getPartialQol(): Promise<PartialQol> {
 
         console.log(`get partial qol: userId = ${this._userId}`);
-        const result = await (await RepoFactory.Instance.userState.getByUserId(this._userId)).surveyState;
+        const state = await RepoFactory.Instance.userState.getByUserId(this._userId);
+        let result = null;
+        if (state) {
+            result = state.surveyState;
+        }
         console.log(`get partial qol: result = ${JSON.stringify(result)}`);
         return result;
     }
