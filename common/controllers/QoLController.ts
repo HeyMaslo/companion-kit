@@ -5,7 +5,7 @@ import {
     Domain,
 } from 'common/models/QoL';
 import RepoFactory from 'common/controllers/RepoFactory';
-import { Identify } from 'models';
+import { Identify } from 'common/models';
 import { DomainSelection, UserState } from 'common/models/userState';
 
 export default class QoLControllerBase implements IQoLController {
