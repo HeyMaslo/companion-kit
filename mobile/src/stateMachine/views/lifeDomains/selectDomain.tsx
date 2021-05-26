@@ -50,7 +50,7 @@ export class SelectDomainView extends ViewState {
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()}>
                 <Container style={[{ height: this._contentHeight, alignItems: 'center' }]}>
-                    <Text style={[this.textStyles.h1, styles.title]}>{(selectedDomains.length == 2)? `You have Selected the ${selectedDomains[0]} & ${selectedDomains[1]} Domain.` : `You have Selected the  ${mainDomain} domain.`} </Text>
+                    <Text style={[this.textStyles.h1, styles.title]}>{(selectedDomains.length == 2)? `You have Selected the ${selectedDomains[0].name} & ${selectedDomains[1].name} Domains.` : `You have Selected the  ${mainDomain} domain.`} </Text>
                     <Text style={[this.textStyles.h1, styles.title]}>{selectedDomains.length == 2? "would you like to choose a third Domain?" : "would you like to choose an additional focus Domain?" }</Text>
                     <Text style={[this.textStyles.p1, styles.message]}></Text>
                     <View style ={{width: '90%', flex: 1, alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row', paddingTop: 30}}>
