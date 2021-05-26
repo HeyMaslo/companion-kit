@@ -30,5 +30,5 @@ async function wrapAsync<T, Y>(m: Maybe<T>, a: (t: T) => Promise<Y>, b: () => Pr
 export {
     Maybe,
     wrap,
-    wrapAsync
+    wrapAsync,
 };

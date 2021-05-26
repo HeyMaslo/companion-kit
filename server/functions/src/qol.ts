@@ -66,7 +66,7 @@ export async function createQuestion(args: CreateQuestionRequest)
         await Repo.Questions.create({
             domainId: dom.slug,
             text: args.text,
-            position: args.position
+            position: args.position,
         });
         return {
             error: null,
