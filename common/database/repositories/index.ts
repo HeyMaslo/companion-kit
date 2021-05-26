@@ -13,6 +13,7 @@ import DomainRepo from './DomainRepo';
 import SurveyStateRepo from './SurveyStateRepo';
 import GenericUserRepo from './GenericUserRepo';
 import SurveyResultsRepo from './SurveyResultsRepo';
+import UserStateRepo from './UserStateRepo';
 
 export {
     DBProvider,
@@ -31,4 +32,5 @@ export {
     DomainRepo,
     SurveyStateRepo,
     SurveyResultsRepo,
+    UserStateRepo,
 };

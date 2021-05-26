@@ -12,6 +12,7 @@ import {
     SurveyStateRepo,
     SurveyResultsRepo,
     DomainRepo,
+    UserStateRepo,
 } from 'common/database/repositories';
 
 const PROXIES_PREFIX = 'proxies';
@@ -39,6 +40,7 @@ export default class RepoFactory {
     private readonly _qolSurveyState = createLazy(() => new SurveyStateRepo(Firebase.Instance.database));
     private readonly _qolSurveyResults = createLazy(() => new SurveyResultsRepo(Firebase.Instance.database));
     private readonly _qolDomains = createLazy(() => new DomainRepo(Firebase.Instance.database));
+    private readonly _userState = createLazy(() => new UserStateRepo(Firebase.Instance.database));
 
     constructor(
         private readonly useProxy: boolean,
@@ -54,6 +56,7 @@ export default class RepoFactory {
     get surveyState(): SurveyStateRepo { return this._qolSurveyState.value; }
     get surveyResults(): SurveyResultsRepo { return this._qolSurveyResults.value; }
     get qolDomains(): DomainRepo { return this._qolDomains.value };
+    get userState(): UserStateRepo { return this._userState.value };
 
     // private createProxyRepo<T extends RepoType<T>>(prefix: string, Type: IRepoConstructor<T>) {
     //     const repo = new Type(Firebase.Instance.database);

@@ -6,6 +6,7 @@ import {
 } from 'common/models/QoL';
 import RepoFactory from 'common/controllers/RepoFactory';
 import { Identify } from 'models';
+import { DomainSelection } from 'common/models/userState';
 
 export default class QoLControllerBase implements IQoLController {
 
@@ -51,15 +52,10 @@ export default class QoLControllerBase implements IQoLController {
         return await RepoFactory.Instance.qolDomains.get();
     }
 
-    public async getDomains(): Promise<Domains> {
-        // STUB FUNCTION
-        return ['HEALTH', 'PHYSICAL'];
-    }
-
-    public async setDomain(domain: string): Promise<boolean> {
-        // STUB FUNCTION
-        const success = true;
-        return true;
+    public async setDomains(domains: DomainSelection): Promise<void> {
+        await RepoFactory.Instance.userState.setByUserId(this._userId, {
+            focusDomains: domains,
+        });
     }
 
     // Get last stored state

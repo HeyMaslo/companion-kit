@@ -22,8 +22,10 @@ export type Domain = {
 
 export type DomainIded = Identify<Domain>;
 
+export type DomainId = string;
+
 export type Question = {
-    domainId:   string, // reference to single domain
+    domainId:   DomainId, // reference to single domain
     text:       string,
     position:   number,
 };

@@ -14,6 +14,7 @@ enum Collections {
     SurveyState = 'surveyState',
     SurveyResults = 'surveyResults',
     Domains = 'domains',
+    UserState = 'userState'
 }
 
 namespace Collections {
