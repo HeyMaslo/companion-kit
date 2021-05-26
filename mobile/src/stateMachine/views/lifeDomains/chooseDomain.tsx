@@ -107,7 +107,7 @@ export class ChooseDomainView extends ViewState {
     onSelectDomain = (n: string) => {
         if (this.viewModel.selectDomain(this.viewModel.getDomainByName(n))) {
             AppController.Instance.User.backend
-                .setDomains(this.viewModel._selectedDomains.map(d => d.id));
+                .setDomains(this.viewModel.selectedDomains.map(d => d.id));
             this.trigger(ScenarioTriggers.Tertiary)
         } else {
             Alert.alert(
@@ -130,7 +130,8 @@ export class ChooseDomainView extends ViewState {
         let {xTabOne, xTabTwo, active, translateX, translateXTabTwo, translateXTabOne, translateY, xDomain} = this.state
         const [lDomain, domain, rDomain, importance] = this.viewModel.getDomainDisplay();
         const domainLength = this.viewModel.domainCount;
-        const domainsChosen = this.viewModel.SelectedDomain;
+        const domainsChosen = this.viewModel.selectedDomains;
+        console.log('domainsChosen ', domainsChosen)
         // let mainDomain, leftDomain, rightDomain = 0;
         // TODO: put styles in style sheet and abstract common styles
         // TODO: see if there are styles in basestyles that work
@@ -232,7 +233,7 @@ export class ChooseDomainView extends ViewState {
                                     title="Select Focus Domain"
                                     style={styles.domain}
                                     titleStyles={styles.selectDomain}
-                                    onPress={() => domainsChosen.length == 2?this.onselectThird(): this.onSelectDomain(domain)}
+                                    onPress={() => domainsChosen.length == 2 ? this.onselectThird(): this.onSelectDomain(domain)}
                                     isTransparent
                                 />
                      </View>

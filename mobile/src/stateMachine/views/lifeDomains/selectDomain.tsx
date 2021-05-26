@@ -44,7 +44,7 @@ export class SelectDomainView extends ViewState {
 
     renderContent() {
         const [l,mainDomain,r,i] = this.viewModel.getDomainDisplay();
-        const selectedDomains = this.viewModel.SelectedDomain;
+        const selectedDomains = this.viewModel.selectedDomains;
         logger.log("MY_SELECTL", selectedDomains.length);
 
         return (

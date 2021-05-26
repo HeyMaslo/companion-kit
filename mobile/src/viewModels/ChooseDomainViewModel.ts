@@ -15,7 +15,7 @@ export default class ChooseDomainViewModel {
     
 
     public _availableDomains: DomainIded[];
-    public _selectedDomains: DomainIded[];
+    private _selectedDomains: DomainIded[];
 
 
     public domainCount: number;
@@ -23,9 +23,9 @@ export default class ChooseDomainViewModel {
 
     constructor() {
 
+        this._leftDomain = 0;
         this._mainDomain = 1;
         this._rightDomain = 2;
-        this._leftDomain = 0;
 
         this._availableDomains = [];
         this._selectedDomains = [];
@@ -39,25 +39,29 @@ export default class ChooseDomainViewModel {
     }
 
     // @computed
-    get SelectedDomain (): any {return this._selectedDomains};
+    get selectedDomains(): DomainIded[] { return this._selectedDomains };
 
     //  Returns the three domains displayed on the choose domain screen, main(center donain), ldomain(domain on left side), rdomain(domain on right side)
-    public getDomainDisplay () : string[] {
+    public getDomainDisplay(): string[] {
         if (this.domainCount < 3) {
             console.log("Warning: not enough domains available!");
             return [null, null, null, null];
         }
         console.log("indices", this._leftDomain, this._mainDomain, this._rightDomain);
-        return [this._availableDomains[this._leftDomain].name,
-        this._availableDomains[this._mainDomain].name,
-        this._availableDomains[this._rightDomain].name,
-        this._availableDomains[this._mainDomain].importance];
+
+        const leftName = this._leftDomain > -1 ? this._availableDomains[this._leftDomain].name : '';
+        const rightName = this._rightDomain < this._availableDomains.length ? this._availableDomains[this._rightDomain].name : '';
+        const mainName = this._availableDomains[this._mainDomain].name;
+        const mainImportance = this._availableDomains[this._mainDomain].importance;
+
+        return [leftName, mainName, rightName, mainImportance];
     }
 
     //  Iterates through the domains as user clicks the next or back button, (-1) going back, (1) going forward through the list of domains
-    public getNextDomain (dir:number) : void {
+    public getNextDomain(dir:number): void {
+        console.log('dir: ', dir);
         if (dir > 0){
-            if (this._rightDomain + 1 < this.domainCount) {
+            if (this._rightDomain < this.domainCount) {
                 this._rightDomain++;
                 this._mainDomain++;
                 this._leftDomain++;
@@ -65,7 +69,7 @@ export default class ChooseDomainViewModel {
         }
 
         if (dir < 0){
-            if (this._leftDomain - 1 >= 0) {
+            if (this._leftDomain >= 0) {
                 this._rightDomain--;
                 this._mainDomain--;
                 this._leftDomain--;

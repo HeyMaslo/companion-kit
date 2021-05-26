@@ -39,12 +39,12 @@ export class ChooseDomainEndView extends ViewState {
     }
 
     onThreeSelected = () => {
-        this,this.trigger(ScenarioTriggers.Submit)
+        this.trigger(ScenarioTriggers.Submit)
     }
 
     renderContent() {
         const [l,mainDomain,r,i] = this.viewModel.getDomainDisplay();
-        const selectedDomains = this.viewModel.SelectedDomain;
+        const selectedDomains = this.viewModel.selectedDomains;
         logger.log("MY_SELECTL", selectedDomains.length);
 
         return (
