@@ -1,33 +1,3 @@
-export const Domains = [
-    "PHYSICAL",
-    "SLEEP",
-    "MOOD",
-    "COGNITION",
-    "LEISURE",
-    "RELATIONSHIPS",
-    "SPIRITUAL",
-    "MONEY",
-    "HOME",
-    "SELF-ESTEEM",
-    "INDEPENDENCE",
-    "IDENTITY",
-]
-
-export const Domain_Importance =  [
-    "PHYSICAL = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    "SLEEP = Sleeeeepz Sleeeeepz Sleeeeepz Sleeeeepz incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud ",
-    "MOOD = exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure Million Dollar Bills Million Dollar Bills Million Dollar Bills Million Dollar Bills",
-    "COGNITION = dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Smarty Pants",
-    "LEISURE = Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit ",
-    "RELATIONSHIPS = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod ",
-    "SPIRITUAL = Arcu felis bibendum ut tristique et egestas quis ipsum suspendisse",
-    "MONEY = Sem fringilla ut morbi tincidunt augue interdum velit euismod in",
-    "HOME = Gravida quis blandit turpis cursus in. Rutrum quisque non tellus orci",
-    "SELFESTEEM = Egestas diam in arcu cursus euismod quis viverra nibh. Ac turpis egestas ",
-    "INDEPENDENCE = Orci a scelerisque purus semper eget duis at tellus at.",
-    "IDENTITY = ullamcorper morbi tincidunt ornare massa eget egestas. Vitae justo"
-]
-
 export const DOMAIN_QUESTION_COUNT = 4;
 
 export const SurveyQuestions  = [
@@ -93,4 +63,3 @@ export const SurveyQuestions  = [
 ];
 
 export const QUESTIONS_COUNT = SurveyQuestions.length; // 48
-export const DOMAIN_COUNT = Domains.length; // 12
