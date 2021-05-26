@@ -13,7 +13,7 @@ enum Collections {
     Generic = 'generic',
     SurveyResults = 'surveyResults',
     Domains = 'domains',
-    UserState = 'userState'
+    UserState = 'userState',
 }
 
 namespace Collections {

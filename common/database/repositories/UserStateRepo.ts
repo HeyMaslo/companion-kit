@@ -1,6 +1,6 @@
-import { GenericUserRepo } from "common/database/repositories";
-import { UserState } from "common/models/userState";
-import Collections from "common/database/collections";
+import { GenericUserRepo } from 'common/database/repositories';
+import { UserState } from 'common/models/userState';
+import Collections from 'common/database/collections';
 
 export default class DomainRepo extends GenericUserRepo<UserState> {
 
