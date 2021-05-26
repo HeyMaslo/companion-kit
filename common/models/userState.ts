@@ -1,7 +1,8 @@
-import { DomainId } from "./QoL";
+import { DomainId, PartialQol } from "./QoL";
 
 export type DomainSelection = DomainId[]; 
 
 export type UserState = {
-    focusDomains: DomainSelection;
-}
+    surveyState:    PartialQol;
+    focusDomains:   DomainSelection;
+};

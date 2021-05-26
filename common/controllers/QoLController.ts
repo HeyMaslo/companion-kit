@@ -6,7 +6,7 @@ import {
 } from 'common/models/QoL';
 import RepoFactory from 'common/controllers/RepoFactory';
 import { Identify } from 'models';
-import { DomainSelection } from 'common/models/userState';
+import { DomainSelection, UserState } from 'common/models/userState';
 
 export default class QoLControllerBase implements IQoLController {
 
@@ -41,7 +41,9 @@ export default class QoLControllerBase implements IQoLController {
             isFirstTimeQol,
         };
         try {
-            await RepoFactory.Instance.surveyState.setByUserId(this._userId, data);
+            let st: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
+            st.surveyState = data;
+            await RepoFactory.Instance.userState.setByUserId(this._userId, st);
             return true;
         } catch (err) {
             return false;
@@ -54,9 +56,9 @@ export default class QoLControllerBase implements IQoLController {
 
     public async setDomains(domains: DomainSelection): Promise<void> {
         console.log("setting focus domains: ", domains);
-        await RepoFactory.Instance.userState.setByUserId(this._userId, {
-            focusDomains: domains,
-        });
+        let st: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
+        st.focusDomains = domains;
+        await RepoFactory.Instance.userState.setByUserId(this._userId, st);
     }
 
     // Get last stored state
@@ -64,7 +66,7 @@ export default class QoLControllerBase implements IQoLController {
     public async getPartialQol(): Promise<PartialQol> {
 
         console.log(`get partial qol: userId = ${this._userId}`);
-        const result = await RepoFactory.Instance.surveyState.getByUserId(this._userId);
+        const result = await (await RepoFactory.Instance.userState.getByUserId(this._userId)).surveyState;
         console.log(`get partial qol: result = ${JSON.stringify(result)}`);
         return result;
     }
