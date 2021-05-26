@@ -75,12 +75,22 @@ export default class ChooseDomainViewModel {
     }
 
     // adds selected domains by user to the selected domains array, use this array to persist to backend
-    public selectDomain(domain: string): Boolean {
+    public selectDomain(domain: DomainIded): Boolean {
         if (this._selectedDomains.includes(domain)) {
             return false;
-        } 
+        }
         this._selectedDomains.push(domain);
         return true;
+    }
+
+    public getDomainByName(name: string): DomainIded {
+        let dom: DomainIded = null;
+        this._availableDomains.forEach(d => {
+            if (d.name === name) {
+                dom = d;
+            }
+        });
+        return dom;
     }
 
 }

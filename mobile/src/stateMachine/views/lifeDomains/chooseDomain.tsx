@@ -104,8 +104,8 @@ export class ChooseDomainView extends ViewState {
         this.trigger(ScenarioTriggers.Submit);
     }
 
-    onSelectDomain = n => {
-        if (this.viewModel.selectDomain(n)) {
+    onSelectDomain = (n: string) => {
+        if (this.viewModel.selectDomain(this.viewModel.getDomainByName(n))) {
             AppController.Instance.User.backend
                 .setDomains(this.viewModel._selectedDomains.map(d => d.id));
             this.trigger(ScenarioTriggers.Tertiary)

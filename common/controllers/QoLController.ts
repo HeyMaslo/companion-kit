@@ -53,6 +53,7 @@ export default class QoLControllerBase implements IQoLController {
     }
 
     public async setDomains(domains: DomainSelection): Promise<void> {
+        console.log("setting focus domains: ", domains);
         await RepoFactory.Instance.userState.setByUserId(this._userId, {
             focusDomains: domains,
         });
