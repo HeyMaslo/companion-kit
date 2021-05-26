@@ -18,7 +18,17 @@ function wrap<T, Y>(m: Maybe<T>, a: (t: T) => Y, b: () => Y): Y {
     }
 }
 
+async function wrapAsync<T, Y>(m: Maybe<T>, a: (t: T) => Promise<Y>, b: () => Promise<Y>)
+        : Promise<Y> {
+    if (Nothing<T>(m)) {
+        return await b();
+    } else {
+        return await a(m);
+    }
+}
+
 export {
     Maybe,
     wrap,
+    wrapAsync
 };
