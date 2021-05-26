@@ -14,3 +14,4 @@ yarn-error.log
 common/models/ClientCard.ts
 
 **/**/**/*.swp
+/server/functions/api_key.json
