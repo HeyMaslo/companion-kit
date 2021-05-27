@@ -26,7 +26,6 @@ export default class ChooseStrategyViewModel {
       this._strategyCount = strats.length;
   }
 
-  //  Returns the three strategies displayed on the choose strategy screen, main(center donain), lstrategy(strategy on left side), rstrategy(strategy on right side)
   public getStrategyDisplay(): string[] {
     // MK-TODO
     return [];

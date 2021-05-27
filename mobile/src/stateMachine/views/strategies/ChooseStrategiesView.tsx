@@ -2,19 +2,18 @@ import { ViewState } from '../base';
 import React from 'react';
 import { observer } from 'mobx-react';
 import AppViewModel from 'src/viewModels';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, Animated, Dimensions, Alert, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, Animated, Dimensions, Alert, SafeAreaView, FlatList } from 'react-native';
 import { MasloPage, Container, Button, BackArrow, GradientChart, Card } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
-import Images from 'src/constants/images';
-import Colors from 'src/constants/colors';
-import { months } from 'common/utils/dateHelpers';
 import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
+import Colors from '../../../constants/colors/Colors';
 
 // import { styles } from 'react-native-markdown-renderer';
 
 import AppController from 'src/controllers';
 
 const minContentHeight = 300;
+const { width } = Dimensions.get('window');
 
 @observer
 export class ChooseStrategiesView extends ViewState {
@@ -37,6 +36,10 @@ export class ChooseStrategiesView extends ViewState {
     private cancel = () => {
         this.trigger(ScenarioTriggers.Cancel);
     }
+
+    private onLearnMorePress(id: string) {
+      console.log('Learn more about: ', id);
+  }
 
     onClose = (): void | Promise<void> => this.runLongOperation(async () => {
         this.showModal({
@@ -70,50 +73,39 @@ export class ChooseStrategiesView extends ViewState {
         }
     }
 
+    renderListItem = ({ item }) => (
+      <View style={styles.listItem}>
+        <Text style={TextStyles.p1}>{item.title}</Text>
+        {/* Checkmark circle */}
+        <Text style={[TextStyles.p2, {paddingLeft: 7, paddingTop: 7}]}>{item.details}</Text>
+        <View>
+        <TouchableOpacity onPress={() => this.onLearnMorePress(item.id)}>
+          <Text style={{paddingRight: 7, textAlign: 'right'}}>{'LEARN MORE >'}</Text>
+        </TouchableOpacity>
+        </View>
+      </View>
+
+    );
 
 
 
     renderContent() {
+      console.log('availableStrategies', this.viewModel.availableStrategies.length)
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()}>
                 <Container style={[{height: this._contentHeight, paddingTop: 10, paddingBottom: 10}]}>
-                    <View style={{justifyContent: 'space-between', flexDirection: 'row', marginBottom: 20}}>
-                        <Text style={[TextStyles.p1, styles.Strategy]}>{'Strategy'}</Text>
+                    {/* Title */}
+                    <View style={{justifyContent: 'center', flexDirection: 'row', marginBottom: 20}}>
+                        <Text style={[TextStyles.h2, styles.strategy]}>{'Choose up to 4 focus strategies below.'}</Text>
                     </View>
-                    <View style={{borderWidth: 1, borderRadius: 10, height: 350, justifyContent: 'center', alignItems: 'center'}}>
-                        {/* <View style={{justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: 'red'}}> */}
-                            <View style={{
-                                flexDirection: 'row', 
-                                margin: 10,
-                                height: 36,
-                                position: 'relative',
-                                borderRadius: 4,
-                                borderColor: 'green'
-                            }}>
-                            </View>
-                            <ScrollView>
-                                    <Text style={this.textStyles.p2}>
-                                        {'importance'} 
-                                        </Text>
-                            </ScrollView>
-                            <View style= {[{
-                                    marginLeft: 'auto',
-                                    flexDirection: 'row',
-                                    paddingBottom: 10,
-                                }]}
-                                // onLayout = {event => this.setState({translateY: event.nativeEvent.layout.height})}
-                                
-                                >
-                                    <Button
-                                        title= {0 === 0? 'View Details' : 'Calendar'}
-                                        style={styles.buttonDetails}
-                                        titleStyles={styles.mailButtonTitle}
-                                        onPress={0 === 0? () => this.onDetails() : null}
-                                        isTransparent
-                                     />
-
-                                </View>
-                    </View>
+                    {/* Sort Drop Down Button */}
+                    <Button titleStyles={styles.sortButtonTitle} title='SHOW ALL' style={styles.sortButton}/>
+                    {/* List of Strategies */}
+                    <FlatList style={styles.list}    
+                    data={this.viewModel.availableStrategies}
+                    renderItem={this.renderListItem}
+                    keyExtractor={item => item.id}/>
+                    <Button title='SELECT THESE STRATEGIES' style={styles.selectButton}/>
                 </Container>
             </MasloPage>
         );
@@ -121,75 +113,33 @@ export class ChooseStrategiesView extends ViewState {
 }
 
 const styles = StyleSheet.create({ 
-    title: {
-        width: '100%',
-    },
-    buttonContainer: {
-        alignItems: 'center',
-        width: '100%',
-        height: 350,
-        // justifyContent: 'space-between',
-        paddingBottom: 50,
-        // borderWidth: 1,
-    },
-    buttons: {
-        height: 60,
-        width: '90%',
-    },
-    topView: {
-        borderWidth: 1,
-        borderColor: 'red',
-        width: '100%',
-        height: '100%'
+  sortButton: {
+    marginBottom: 30,
+    borderWidth: 1,
+    borderRadius: 7,
+    borderColor: '#CBC8CD',
+    backgroundColor: 'rgba(0,0,0,0)',
+  },
+  sortButtonTitle: {
+    textDecorationLine: 'underline',
+    color: Colors.survey.btnFontColor,
+  },
+  list: {
+    marginBottom: 25,
+  },
+  listItem: {
+    borderWidth: 1,
+    borderRadius: 7,
+    borderColor: '#CBC8CD',
+    padding: 10,
+    marginBottom: 30,
+  },
+  strategy: {
+    textAlign: 'center',
+  },
+  selectButton: {
+    // width: width * 0.8,
+    marginBottom: 30,
+  }
 
-    },
-    pView: {
-
-    },
-    tabs: {
-        flex: 1,
-        justifyContent: 'center', 
-        alignItems: 'center',
-        borderRadius: 4,
-    },
-    placeholderHeading: {
-        marginTop: 16,
-        marginBottom: 12,
-    },
-    placeholderSubtitle: {
-        textAlign: 'center',
-        maxWidth: '90%',
-        marginVertical: 0,
-        marginHorizontal: 'auto',
-        color: Colors.secondarySubtitle,
-    },
-    buttonDetails : {
-        borderTopLeftRadius: 25,
-        borderBottomLeftRadius: 20,
-        borderWidth: 1,
-        backgroundColor: '#E0E0E0',
-        height: 40,
-        width: '45%',
-    },
-    mailButtonTitle: {
-        color: 'black',
-        fontSize: 10,
-        padding: 10,
-    },
-    date: {
-        textTransform: 'uppercase',
-    },
-    Strategy :{
-        fontWeight: '500',
-        letterSpacing: 1.79,
-        fontFamily: mainFontMedium,
-        // fontSize: 25
-    },
-    selectStrategy : {
-        borderWidth: 1,
-        borderRadius: 5,
-        color: 'black',
-        fontSize: 10,
-        padding: 10,
-    }
 });
