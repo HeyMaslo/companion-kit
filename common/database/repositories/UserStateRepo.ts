@@ -2,7 +2,7 @@ import { GenericUserRepo } from 'common/database/repositories';
 import { UserState } from 'common/models/userState';
 import Collections from 'common/database/collections';
 
-export default class DomainRepo extends GenericUserRepo<UserState> {
+export default class UserStateRepo extends GenericUserRepo<UserState> {
 
     get collectionName() {
         return Collections.UserState;
