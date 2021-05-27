@@ -22,6 +22,7 @@ const RepoFactory = {
     Invites: createLazy(() => new Repositories.InvitesRepo(db.value)),
     ServiceJobs: createLazy(() => new Repositories.ServiceJobs(db.value)),
     Domains: createLazy(() => new Repositories.DomainRepo(db.value)),
+    Strategies: createLazy(() => new Repositories.StrategyRepo(db.value)),
     Questions: createLazy(() => new Repositories.GenericRepo<Question>(db.value)),
 };
 
@@ -34,6 +35,7 @@ export const Repo = {
     get Invites() { return RepoFactory.Invites.value; },
     get ServiceJobs() { return RepoFactory.ServiceJobs.value; },
     get Domains() { return RepoFactory.Domains.value; },
+    get strategies() { return RepoFactory.Strategies.value; },
     get Questions() { return RepoFactory.Questions.value; },
 };
 
