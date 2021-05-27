@@ -410,7 +410,7 @@ export const MasloScenario: GlobalScenario<States> = {
         view: ChooseDomainEndView,
         exit: [
             { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
-            { target: States.Choose_Strategies, trigger: [Triggers.Submit] }, // MK-TODO: change target to the strategies selection screen
+            { target: States.Choose_Strategies, trigger: [Triggers.Submit] },
         ]
     },
 
@@ -418,7 +418,7 @@ export const MasloScenario: GlobalScenario<States> = {
         view: ChooseStrategiesView,
         exit: [
             { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
-            { target: States.Home, trigger: [Triggers.Submit] }, // MK-TODO: change target to the strategies selection screen
+            { target: States.Home, trigger: [Triggers.Submit] }, // MK-TODO: change target to the next strategies screen
         ]
     },
 
