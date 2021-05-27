@@ -19,7 +19,7 @@ export default {
     GaTrackingId: process.env.GA_TRACKING_ID, // 'UA-106568684-4',
     Firebase: {
         Config: getFirebaseConfig(),
-        // FunctionsEmulator: 'http://localhost:5001',
+        // FunctionsEmulator: 'http://192.168.1.69:5001',
         FunctionsEmulator: process.env.FIREBASE_FUNCTIONS_EMULATOR,
         FirestoreEmulator: process.env.FIRESTORE_EMULATOR,
         AllowDevLogin: process.env.ALLOW_DEV_LOGIN === 'true',

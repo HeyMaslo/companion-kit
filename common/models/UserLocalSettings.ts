@@ -7,6 +7,7 @@ export type UserLocalSettings = {
     deviceInfo?: DeviceInfo;
 
     notifications?: NotificationsSettings;
+    health?: HealthPermissionsSettings;
 };
 
 export type NotificationsSettings = {
@@ -15,7 +16,10 @@ export type NotificationsSettings = {
     token?: string,
     locals?: LocalNotificationsSchedule,
 };
-
+export type HealthPermissionsSettings = {
+    // currenty we use this only for locals
+    enabled?: boolean,
+};
 export type LocalNotificationsSchedule = {
     current: ScheduleResult,
     schedule: {

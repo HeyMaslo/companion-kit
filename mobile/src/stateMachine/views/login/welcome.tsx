@@ -52,6 +52,7 @@ export class WelcomeView extends ViewState {
     async start() {
         Animated.timing(this.state.opacity, {
             toValue: 1, delay: 500, duration: 500,
+            useNativeDriver: true,
         }).start();
     }
 
@@ -60,7 +61,12 @@ export class WelcomeView extends ViewState {
             this.trigger(ScenarioTriggers.Secondary);
         }
     }
-
+    goTodata = () => {
+        if (!this.globalLoading) {
+            this.trigger(ScenarioTriggers.Primary);
+        }
+    }
+    
     googleSignIn = () => {
         if (!this.globalLoading) {
             SignInViewModel.Instance.googleSignIn();

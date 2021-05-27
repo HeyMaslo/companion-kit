@@ -2,6 +2,7 @@ import { ViewState } from '../base';
 import AppController from 'src/controllers';
 import { observer } from 'mobx-react';
 import { ScenarioTriggers } from '../../abstractions';
+import GoogleFit, { Scopes } from 'react-native-google-fit';
 
 @observer
 export class NotificationsPermissionView extends ViewState {

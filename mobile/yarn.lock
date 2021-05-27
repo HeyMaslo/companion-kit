@@ -8005,6 +8005,11 @@ mobx@^5.15.6:
   resolved "https://registry.yarnpkg.com/mobx/-/mobx-5.15.6.tgz#24750af56f87bcf9c3cf82ece4c79eb91bb71968"
   integrity sha512-U5nnx3UNdRkUjntpwzO060VWifGVx/JZeu/aMw4y28dTjDNjoY3vNKs6tFNm7z1qIfcPInsd9L9HIm8H0zTDqg==
 
+moment@2.20.1:
+  version "2.20.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
+  integrity sha512-Yh9y73JRljxW5QxN08Fner68eFLxM5ynNOAw2LbIB1YAGeQzZT8QFSUvkAz609Zf+IHhhaUxqZK8dG3W/+HEvg==
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
@@ -8906,6 +8911,13 @@ react-native-fit-image@^1.5.2:
   integrity sha512-Wl3Vq2DQzxgsWKuW4USfck9zS7YzhvLNPpkwUUCF90bL32e1a0zOVQ3WsJILJOwzmPdHfzZmWasiiAUNBkhNkg==
   dependencies:
     prop-types "^15.5.10"
+
+react-native-google-fit@^0.16.2:
+  version "0.16.2"
+  resolved "https://registry.yarnpkg.com/react-native-google-fit/-/react-native-google-fit-0.16.2.tgz#78ca9514b3a0ca68f9ebaaa14131013bc67b4e62"
+  integrity sha512-lNjKrv9JUVPeFgoPKt68I2YWX1TmzynuxE06LkzRySGzNEXwQU8saF7CQBzzMYhq6t1YZ1gq/fX6N3eR29/RkA==
+  dependencies:
+    moment "2.20.1"
 
 react-native-markdown-renderer@^3.2.8:
   version "3.2.8"

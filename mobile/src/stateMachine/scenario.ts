@@ -34,6 +34,9 @@ import { FeelingsView } from './views/checkin/feelings';
 import { GoalsView } from './views/main/goals';
 import { RewardsView } from './views/rewardsView';
 import { RecordPitureCheckinView } from './views/checkin/recordPictureCheckIn';
+import { HealthConsentView } from './views/healthData/healthConsent';
+import { HealthScopesView } from './views/healthData/healthScopes';
+import { PermissionInstructionView } from './views/healthData/permInstructions';
 
 import Triggers = ScenarioTriggers;
 import { VerificationCodeView } from './views/login/verificationCode';
@@ -73,6 +76,30 @@ export const MasloScenario: GlobalScenario<States> = {
         view: WelcomeView,
         exit: [
             { target: States.SignInWithEmail, trigger: Triggers.Secondary },
+            { target: States.HealthConsent, trigger: Triggers.Primary },
+        ],
+    },
+    [States.HealthConsent]: {
+        view: HealthConsentView,
+        exit: [
+            { target: States.HealthScopes, trigger: Triggers.Primary },
+            { target: States.HomeRouter, trigger: Triggers.Submit },
+            // { target: States.HomeRouter, trigger: Triggers.Submit },
+            
+        ],
+    },
+    [States.PermInstructions]: {
+        view: PermissionInstructionView,
+        exit: [
+            { target: States.HealthScopes, trigger: Triggers.Primary },
+            
+        ],
+    },
+    [States.HealthScopes]: {
+        view: HealthScopesView,
+        exit: [
+            { target: States.Settings, trigger: Triggers.Back },
+            { target: States.PermInstructions, trigger: Triggers.Primary },
         ],
     },
     [States.SignInWithEmail]: {
@@ -157,8 +184,10 @@ export const MasloScenario: GlobalScenario<States> = {
             { priority: 0, target: States.Consent, condition: VM.showConsent },
             { priority: 1, target: States.OnboardingEnter, condition: VM.hasActiveOnboarding },
             { priority: 2, target: States.AskNotificationsPermissions, condition: VM.askNotifyPermissions },
+            { priority: 3, target: States.HealthConsent, condition: VM.hasHeathPermissions },
             { priority: 4, target: States.IntakeForm, condition: VM.showAssessment },
             { priority: 10, target: States.Home, condition: () => true },
+
         ],
         log: true,
     },
@@ -185,6 +214,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.JournalDetail, trigger: Triggers.Primary },
             { target: States.IntakeForm, trigger: Triggers.Secondary },
             { target: States.Journal_SelectMood, trigger: Triggers.Submit },
+            { target: States.HealthScopes, trigger: Triggers.Tertiary },
         ],
     },
 
@@ -334,8 +364,8 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Profile, trigger: Triggers.Back },
             { target: States.NotificationsSettings, trigger: Triggers.Primary },
             { target: States.ChangePassword, trigger: Triggers.Submit },
-            { target: States.ConfirmAccount, trigger: Triggers.Secondary },
-            { target: States.HealthAuthSettings, trigger: Triggers.Cancel },
+            // { target: States.ConfirmAccount, trigger: Triggers.Secondary },
+            { target: States.HealthScopes, trigger: Triggers.Secondary },
         ],
     },
 

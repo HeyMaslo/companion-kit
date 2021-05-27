@@ -2,7 +2,7 @@ import { Platform } from 'react-native';
 import ExpoConstants, { AppOwnership } from 'expo-constants';
 import * as Device from 'expo-device';
 import { observable, toJS, transaction } from 'mobx';
-import { UserLocalSettings, NotificationsSettings, DeviceInfo, LocalNotificationsSchedule } from 'common/models';
+import { UserLocalSettings, NotificationsSettings, DeviceInfo, LocalNotificationsSchedule, HealthPermissionsSettings } from 'common/models';
 import RepoFactory from 'common/controllers/RepoFactory';
 import { transferChangedFields } from 'common/utils/fields';
 import { ThrottleAction } from 'common/utils/throttle';
@@ -26,6 +26,8 @@ export interface ILocalSettingsController {
     readonly synced: IEvent;
 
     updateNotifications(diff: Partial<NotificationsSettings>): void;
+
+    updateHealthPermissions(diff: HealthPermissionsSettings): void;
 
     flushChanges(): Promise<void>;
 }
@@ -89,9 +91,22 @@ export class LocalSettingsController implements ILocalSettingsController {
             await RepoFactory.Instance.users.updateLocalSettings(
                 this._uid,
                 this._sameDevice.deviceId,
-                { notifications: { ...this._sameDevice.notifications, token: null } },
+                { notifications: { ...this._sameDevice.notifications, token: null }},
             );
         }
+
+        logger.log('[LocalSettingsController] submitting changes...', diff);
+        await RepoFactory.Instance.users.updateLocalSettings(
+            this._uid,
+            DeviceId,
+            diff,
+        );
+        await this._synced.triggerAsync();
+    }
+    private submitChangesHealth = async () => {
+        const diff: Partial<UserLocalSettings> = {
+            health: toJS(this._current.health),
+        };
 
         logger.log('[LocalSettingsController] submitting changes...', diff);
         await RepoFactory.Instance.users.updateLocalSettings(
@@ -108,7 +123,11 @@ export class LocalSettingsController implements ILocalSettingsController {
         }
 
         Object.assign(this._current, diff);
-        this._syncThrottle.tryRun(this.submitChanges);
+        if (this.current.health !== undefined){ 
+            this._syncThrottle.tryRun(this.submitChangesHealth);
+        } else {
+            this._syncThrottle.tryRun(this.submitChanges);
+        }      
     }
 
     public flushChanges() {
@@ -128,6 +147,19 @@ export class LocalSettingsController implements ILocalSettingsController {
             if (changed) {
                 // logger.log('UPDATE');
                 this.update({ notifications });
+            }
+        });
+    }
+
+    updateHealthPermissions(diff: Partial<HealthPermissionsSettings>) {
+        const health = this.current.health || { };
+        logger.log("Value of Health: ", health);
+        transaction(() => {
+            let changed = transferChangedFields(diff, health, 'enabled');
+            logger.log("Value of changed: ", changed);
+            logger.log("Value of changed: ", diff);
+            if (changed) {
+                this.update({ health });
             }
         });
     }

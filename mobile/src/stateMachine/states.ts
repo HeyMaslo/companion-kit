@@ -58,5 +58,10 @@ export enum States {
     ChangePassword,
     NotificationsSettings,
     HealthAuthSettings,
+
+    // Health Block
+    HealthConsent,
+    HealthScopes,
+    PermInstructions,
     GetAuthInstructSettings
 }

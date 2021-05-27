@@ -91,7 +91,7 @@ export class FeelingsView extends CheckInViewBase {
                             nextDisabled={!isFeelingsSelected}
                         />
                     </Container>
-                </ScrollView>
+                </ScrollView> 
             </MasloPage>
         );
     }

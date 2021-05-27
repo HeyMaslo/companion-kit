@@ -75,7 +75,6 @@ export class SettingsNotificationsViewModel {
 
         } finally {
             this.updateEnabledState();
-
             if (!prevValue && prevValue === this._isEnabled) {
                 Alert.alert(
                     'Oops',

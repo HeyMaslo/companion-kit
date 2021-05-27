@@ -58,16 +58,16 @@ export class SettingsView extends ViewState {
         this.trigger(ScenarioTriggers.Submit);
     }
 
+    private onHealthChange = () => {
+        this.trigger(ScenarioTriggers.Secondary);
+    }
+
     private onEmailChange = () => {
         // this.trigger(ScenarioTriggers.Primary);
     }
 
     private onNotificationsChange = () => {
         this.trigger(ScenarioTriggers.Primary);
-    }
-
-    private onAuthChange = () => {
-        this.trigger(ScenarioTriggers.Cancel);
     }
 
     private renderLinksFooter() {
@@ -158,7 +158,7 @@ export class SettingsView extends ViewState {
                                     title={'Health Data'}
                                     description={healthAuthEnabled ? 'On' : 'Off'}
                                     Image={Images.archiveIcon}
-                                    onPress={this.onAuthChange}
+                                    onPress={this.onHealthChange}
                                 >
                                     <Images.arrowRight width={8} height={8} />
                             </Card>
