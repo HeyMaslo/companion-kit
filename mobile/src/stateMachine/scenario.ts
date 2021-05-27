@@ -34,11 +34,13 @@ import { GoalsView } from './views/main/goals';
 import { RewardsView } from './views/rewardsView';
 import { RecordPitureCheckinView } from './views/checkin/recordPictureCheckIn';
 
-import {ChooseDomainView} from './views/lifeDomains/chooseDomain';
-import {DomainDetailsView} from './views/lifeDomains/domainDetails';
-import {SelectDomainView} from './views/lifeDomains/selectDomain';
-import {ThreeDomainView} from './views/lifeDomains/threeDomains';
-import {ChooseDomainEndView} from './views/lifeDomains/chooseDomainEnd';
+import { ChooseStrategiesView } from './views/strategies/ChooseStrategiesView';
+
+import { ChooseDomainView } from './views/lifeDomains/chooseDomain';
+import { DomainDetailsView } from './views/lifeDomains/domainDetails';
+import { SelectDomainView } from './views/lifeDomains/selectDomain';
+import {ThreeDomainView } from './views/lifeDomains/threeDomains';
+import { ChooseDomainEndView } from './views/lifeDomains/chooseDomainEnd';
 
 import { QolStartView } from './views/qol/startQOL';
 import { QolEndView } from './views/qol/endQOL';
@@ -406,6 +408,14 @@ export const MasloScenario: GlobalScenario<States> = {
     },
     [States.Choose_end]: {
         view: ChooseDomainEndView,
+        exit: [
+            { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
+            { target: States.Choose_Strategies, trigger: [Triggers.Submit] }, // MK-TODO: change target to the strategies selection screen
+        ]
+    },
+
+    [States.Choose_Strategies]: {
+        view: ChooseStrategiesView,
         exit: [
             { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
             { target: States.Home, trigger: [Triggers.Submit] }, // MK-TODO: change target to the strategies selection screen

@@ -13,6 +13,7 @@ enum Collections {
     Generic = 'generic',
     SurveyResults = 'surveyResults',
     Domains = 'domains',
+    Strategies = 'strategies',
     UserState = 'userState',
 }
 

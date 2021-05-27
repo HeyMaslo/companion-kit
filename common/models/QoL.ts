@@ -6,6 +6,8 @@
 
 import { Identify } from 'common/models';
 
+// DOMAIN
+
 export enum DomainScope {
     GENERAL = 'GENERAL',
     WORK    = 'WORK',
@@ -22,15 +24,28 @@ export type Domain = {
 
 export type DomainIded = Identify<Domain>;
 
-export type DomainId = string;
+
+// STRATEGIES
+
+export type Strategy = {
+    title:       string,
+    details:     string,
+    slug:        string,
+};
+
+export type StrategyIded = Identify<Strategy>;
+
+
+// QUESTION
 
 export type Question = {
-    domainId:   DomainId, // reference to single domain
+    domainId:   string, // reference to single domain
     text:       string,
     position:   number,
 };
 
 export type QuestionIded = Identify<Question>;
+
 
 // SURVEY STATE DATA
 

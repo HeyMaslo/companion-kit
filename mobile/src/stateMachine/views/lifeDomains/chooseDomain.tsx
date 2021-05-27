@@ -10,7 +10,7 @@ import Colors from 'src/constants/colors';
 import { months } from 'common/utils/dateHelpers';
 import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
 
-import { styles } from 'react-native-markdown-renderer';
+// import { styles } from 'react-native-markdown-renderer';
 import { color } from 'd3';
 
 import AppController from 'src/controllers';

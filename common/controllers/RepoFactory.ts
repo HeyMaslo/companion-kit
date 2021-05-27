@@ -11,6 +11,7 @@ import {
     StaticTipsRepo,
     SurveyResultsRepo,
     DomainRepo,
+    StrategyRepo,
     UserStateRepo,
 } from 'common/database/repositories';
 
@@ -38,6 +39,7 @@ export default class RepoFactory {
     private readonly _staticTips = createLazy(() => new StaticTipsRepo(Firebase.Instance.database));
     private readonly _qolSurveyResults = createLazy(() => new SurveyResultsRepo(Firebase.Instance.database));
     private readonly _qolDomains = createLazy(() => new DomainRepo(Firebase.Instance.database));
+    private readonly _strategies = createLazy(() => new StrategyRepo(Firebase.Instance.database));
     private readonly _userState = createLazy(() => new UserStateRepo(Firebase.Instance.database));
 
     constructor(
@@ -53,6 +55,7 @@ export default class RepoFactory {
     get staticTips(): StaticTipsRepo { return this._staticTips.value; }
     get surveyResults(): SurveyResultsRepo { return this._qolSurveyResults.value; }
     get qolDomains(): DomainRepo { return this._qolDomains.value };
+    get strategies(): StrategyRepo { return this._strategies.value };
     get userState(): UserStateRepo { return this._userState.value };
 
     // private createProxyRepo<T extends RepoType<T>>(prefix: string, Type: IRepoConstructor<T>) {

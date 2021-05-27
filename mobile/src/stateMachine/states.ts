@@ -59,9 +59,9 @@ export enum States {
     ChangePassword,
     NotificationsSettings,
 
-    // QOL Block
-    Start_QoL,
-    qol_Physical,
+    // QOL Block (not in use??)
+    // Start_QoL,
+    // qol_Physical,
 
     // LIFE DOMAINS block
     Choose_Domain,
@@ -69,6 +69,9 @@ export enum States {
     Select_Domain,
     Three_Selected,
     Choose_end,
+
+    // Strategies block
+    Choose_Strategies,
 
     qol_Question,
     End_Qol,

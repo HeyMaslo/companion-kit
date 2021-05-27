@@ -3,10 +3,13 @@ import {
     QolSurveyResults,
     PartialQol,
     Domain,
+    DomainIded,
+    Strategy,
+    StrategyIded,
 } from 'common/models/QoL';
 import RepoFactory from 'common/controllers/RepoFactory';
 import { Identify } from 'common/models';
-import { DomainSelection, UserState } from 'common/models/userState';
+import { UserState } from 'common/models/userState';
 
 export default class QoLControllerBase implements IQoLController {
 
@@ -61,16 +64,33 @@ export default class QoLControllerBase implements IQoLController {
         return await RepoFactory.Instance.qolDomains.get();
     }
 
-    public async setDomains(domains: DomainSelection): Promise<void> {
-        console.log("setting focus domains: ", domains);
+    public async setDomains(domainIds: string[]): Promise<void> {
+        console.log("setting focus domains: ", domainIds);
         let st: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
         if (st === null) {
             st = {
-                focusDomains: domains,
+                focusDomains: domainIds,
+                surveyState: null,
+            }
+        } else {
+            st.focusDomains = domainIds;
+        }
+        await RepoFactory.Instance.userState.setByUserId(this._userId, st);
+    }
+
+    public async getPossibleStrategies(): Promise<Identify<Strategy>[]> {
+        return await RepoFactory.Instance.strategies.get();
+    }
+
+    public async setStrategies(strategyIds: string[]): Promise<void> {
+        let st: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
+        if (st === null) {
+            st = {
+                chosenStrategies: strategyIds,
                 surveyState: null
             }
         } else {
-            st.focusDomains = domains;
+            st.focusDomains = strategyIds;
         }
         await RepoFactory.Instance.userState.setByUserId(this._userId, st);
     }
