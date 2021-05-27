@@ -24,7 +24,6 @@ export type Domain = {
 
 export type DomainIded = Identify<Domain>;
 
-
 // STRATEGIES
 
 export type Strategy = {
@@ -35,7 +34,6 @@ export type Strategy = {
 
 export type StrategyIded = Identify<Strategy>;
 
-
 // QUESTION
 
 export type Question = {
@@ -45,7 +43,6 @@ export type Question = {
 };
 
 export type QuestionIded = Identify<Question>;
-
 
 // SURVEY STATE DATA
 
