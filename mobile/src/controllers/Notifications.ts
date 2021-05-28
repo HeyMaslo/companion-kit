@@ -7,7 +7,6 @@ import { ILocalSettingsController } from './LocalSettings';
 import { ScheduleResult } from 'common/models/Notifications';
 import { ThrottleAction } from 'common/utils/throttle';
 import { IDisposable } from 'common/utils/unsubscriber';
-//
 
 const logger = createLogger('[NotificationsController]');
 

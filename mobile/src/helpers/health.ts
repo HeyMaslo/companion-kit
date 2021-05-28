@@ -23,7 +23,6 @@ export const auth = async() => {
   return await GoogleFit.checkIsAuthorized().then (() => {
     isAuth = GoogleFit.isAuthorized;
     logger.log("GOOGLE_FIT_IS_AUTHORIZED?", isAuth)
-    // if (!isAuth) {
       isAuth = GoogleFit.authorize(runOptions)
       .then(authResult => {
         if(authResult.success) {
@@ -34,12 +33,10 @@ export const auth = async() => {
           logger.log("GOOGLEFIT_AUTH_DENIED" + authResult);
           return false;
         }
-        // return authResult.success === true;
       })
       .catch(() => {
         return false;
       })
-    // }
     return isAuth;
   })
 }

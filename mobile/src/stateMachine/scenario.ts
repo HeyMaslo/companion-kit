@@ -83,16 +83,13 @@ export const MasloScenario: GlobalScenario<States> = {
         view: HealthConsentView,
         exit: [
             { target: States.HealthScopes, trigger: Triggers.Primary },
-            { target: States.HomeRouter, trigger: Triggers.Submit },
-            // { target: States.HomeRouter, trigger: Triggers.Submit },
-            
+            { target: States.HomeRouter, trigger: Triggers.Submit }, 
         ],
     },
     [States.PermInstructions]: {
         view: PermissionInstructionView,
         exit: [
             { target: States.HealthScopes, trigger: Triggers.Primary },
-            
         ],
     },
     [States.HealthScopes]: {

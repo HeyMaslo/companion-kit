@@ -7,13 +7,12 @@ import { ScenarioTriggers } from '../../abstractions';
 import { createLogger } from 'common/logger';
 import { styles } from 'react-native-markdown-renderer';
 import Images from 'src/constants/images';
-import Dots from 'src/components/Dots';
 
 export const logger = createLogger('[endQOL]');
 
 const minContentHeight = 1000;
 
-const display = [{title : 'Open the Apple Health App on your phone',image: Images.screen2},
+const display = [{title : 'Open the Apple Health app on your phone',image: Images.screen2},
 {title : 'Next, open your personal health settings by tapping the top right corner in the App ', image: Images.screen2},
 {title : 'Select Apps under the privacy section', image: Images.screen3},
 {title : 'Select Polarus and complete these steps', image: Images.screen4}

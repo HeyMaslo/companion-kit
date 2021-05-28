@@ -98,7 +98,6 @@ export default class AppController implements IAppController {
 
         if (this.User && this.User.user) {
             logger.log('INITIALIZE PERM/HEALTH: INIT HEALTH');
-            // await this.User.notifications.initAsync();
             await this.User.hasHealthDataPermissions.initAsync();
             await this.User.notifications.initAsync();
         }

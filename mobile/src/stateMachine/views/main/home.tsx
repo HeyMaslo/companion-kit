@@ -316,14 +316,12 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
-                    {/* <ScrollView> */}
                     {this.getHealth() }
                     { this.getTitle() }
                     { loading
                         ? <ActivityIndicator size="large" />
                         : this.getCheckinsList()
                     }
-                    {/* </ScrollView> */}
                     <BottomBar screen={'home'} />
                 </Animated.View>
             </MasloPage>
@@ -385,7 +383,6 @@ const styles = StyleSheet.create({
         color: Colors.welcome.mailButton.title,
     },
     healthView: {
-        // height: 100, 
         width: '85%',
         borderWidth: 1, 
         marginBottom: 10, 

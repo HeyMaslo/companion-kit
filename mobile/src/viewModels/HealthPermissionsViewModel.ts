@@ -11,7 +11,7 @@ const logger = createLogger('[HealthPermissionsViewModel]');
 const permissions = [{title:"Sex", icon: Images.difficultIcon, description: "Allow Companion kit to access sex info"}
 ,{title:"Date Of Birth", icon: Images.veryPositiveIcon, description: "Allow Companion kit to access DOB info"},
  {title:"Active Steps", icon:Images.busIcon, description: "Allow Companion kit to access Steps info"},
-{title:"BMI", icon:Images.keyIcon, description: "Allow Companion kit to access BMI info"}];
+{title:"Heart Rate", icon:Images.keyIcon, description: "Allow Companion kit to access Heart Info"}];
 
 export class HealthPermissionsViewModel {
 
