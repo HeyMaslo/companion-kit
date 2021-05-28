@@ -270,11 +270,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
                 <TouchableOpacity style={styles.healthView} onPress={() => this.healthSettings()}>
                 <View style={{flexDirection:'row', justifyContent: 'space-around', paddingTop: 10}}>
                         <Text style={this.textStyles.p1}>Polarus needs access to {"\n"} your health data</Text>
-                        <Image source={Images.screen5} height={50}/>
+                        <Image source={Images.screen5} height={10}/>
                 </View>
                 <View style={{flexDirection:'row', paddingLeft:20, paddingBottom:10, alignItems:'center'}}>
                     <Images.settingsIcon />
-                    <Text style={this.textStyles.p2}> Change Settings</Text>
+                    <Text style={this.textStyles.p3}> Manage Settings</Text>
                 </View>
                 </TouchableOpacity>
             )}
@@ -383,12 +383,12 @@ const styles = StyleSheet.create({
         color: Colors.welcome.mailButton.title,
     },
     healthView: {
-        width: '85%',
-        borderWidth: 1, 
-        marginBottom: 10, 
+        width: '90%',
+        borderWidth: 3, 
+        marginBottom: 15, 
         alignSelf: 'center', 
-        borderRadius:5, 
-        borderColor: 'grey', 
+        borderRadius:30, 
+        borderColor: 'red', 
         backgroundColor:'white'
     },
 });
