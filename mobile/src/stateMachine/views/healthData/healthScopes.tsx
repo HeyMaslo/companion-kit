@@ -12,6 +12,7 @@ import Layout from 'src/constants/Layout';
 import { PersonaScrollMask } from 'src/components/PersonaScollMask';
 import Switch from 'dependencies/react-native-switch-pro';
 import { HealthPermissionsViewModel } from 'src/viewModels/HealthPermissionsViewModel';
+import TextStyles from 'src/styles/TextStyles';
 
 
 @observer
@@ -46,8 +47,8 @@ export class HealthScopesView extends ViewState {
     renderContent() {
         const enabled = Platform.OS == 'ios'? this.model.isEnabledOG : this.model.isEnabled;
         const permissionsEnabled = enabled && !this.model.isToggleInProgress;
-        const titleText = permissionsEnabled?  "Health Data" : "Health Data Missing";
-        const explaining = permissionsEnabled? "": "We need the following scopes to enhance your experience";
+        const titleText = "Health Data";
+        const explaining ="We are collecting your health data to build a better personalized experience for you in the app";
         const perm = this.model.getPermissions();
         return (
         <MasloPage style={this.baseStyles.page}>
@@ -62,7 +63,7 @@ export class HealthScopesView extends ViewState {
             <ScrollView style={[{ zIndex: 0, elevation: 0 }]}>
                 <Container style={[this.baseStyles.container, styles.container]}>
                     <Text style={[this.textStyles.h1, styles.title]}>{titleText}</Text>
-                    <Text style={[this.textStyles.p2, styles.title]}>{explaining}</Text>
+                    <Text style={[this.textStyles.p1, styles.subTitle]}>{explaining}</Text>
                     <Card
                         title="Permissions"
                         description={permissionsEnabled ? "ON" :  'Off' }
@@ -85,28 +86,28 @@ export class HealthScopesView extends ViewState {
                            {perm.map((n, key) => {
                                return <Card
                                title={n.title}
-                               description={n.description}
+                               description={permissionsEnabled? "Authorization on" : "Authorization off"}
                                Image={n.icon}
                                key={key}
                            >
                                <Checkbox
                                    checked={permissionsEnabled}
-                                   onChange={() => null}
+                                   onChange={this.onNext}
                                />
                            </Card>
                            })}
                         </>
                     )} 
                     {!permissionsEnabled && Platform.OS == 'ios' && (
-                        <View style={[this.baseStyles.flexCenterBottom, styles.bottomBlock]}>
-                        <Button
-                        title="HOW DO I CHANGE PERMISSIONS?"
-                        withBorder
-                        isTransparent
-                       onPress={this.onNext}
-                        />
-                        </View>
-            
+                    <View style={styles.buttonView}>
+                    <Button
+                   title="How Do I change permissions?"
+                   style={[styles.mailButton, TextStyles.h2]}
+                   titleStyles={styles.mailButtonTitle}
+                   onPress={this.onNext}
+                   isTransparent
+                    />
+                    </View>
                     )}
                 </Container>
             </ScrollView>
@@ -147,6 +148,14 @@ title: {
     marginBottom: 40,
     textAlign: 'center',
 },
+
+subTitle: {
+    marginBottom: 40,
+    textAlign: 'center',
+    color: 'grey',
+    borderStartWidth: 23,
+    borderEndWidth:23
+},
 exactCard: {
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
@@ -167,10 +176,11 @@ mailButtonTitle: {
     color: Colors.welcome.mailButton.title,
 },
 mailButton: {
-    width: 'auto',
-    height: 40,
-    borderColor: Colors.welcome.mailButton.border,
+    width: 320,
+    height: 50,
+    borderColor: 'white',
     borderWidth: 0.25,
+    backgroundColor: '#f3f3f3',
     padding: 5
 },
 buttonView : {

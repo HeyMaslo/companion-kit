@@ -5,10 +5,9 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { MasloPage, Container } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import { createLogger } from 'common/logger';
-import { styles } from 'react-native-markdown-renderer';
 import Images from 'src/constants/images';
 
-export const logger = createLogger('[endQOL]');
+export const logger = createLogger('[PermInstruction]');
 
 const minContentHeight = 1000;
 

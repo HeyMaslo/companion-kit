@@ -2,7 +2,7 @@ import { ViewState } from '../base';
 import React from 'react';
 import ExpoConstants from 'expo-constants';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Platform } from 'react-native';
 import Colors from 'src/constants/colors';
 import { MasloPage, Container, Button, Card, Link } from 'src/components';
 import AppViewModel from 'src/viewModels';
@@ -102,7 +102,8 @@ export class SettingsView extends ViewState {
             : Images.envelopeIcon;
 
         const notificationsEnabled = this.model.notifications.isEnabled && !this.model.notifications.isToggleInProgress && this.model.notifications.schedule;
-        const healthAuthEnabled = this.model.healthAuth.isEnabled;
+        const enabled = Platform.OS == 'ios'? this.model.isEnabledOG : this.model.isEnabled;
+        const permissionsEnabled = enabled && !this.model.isToggleInProgress;
         return (
             <MasloPage style={this.baseStyles.page}>
                 <Container style={styles.topBarWrapWrap}>
@@ -156,7 +157,7 @@ export class SettingsView extends ViewState {
                             </Card>
                             <Card
                                     title={'Health Data'}
-                                    description={healthAuthEnabled ? 'On' : 'Off'}
+                                    description={permissionsEnabled ? 'Authorization On' : 'Authorization Off'}
                                     Image={Images.archiveIcon}
                                     onPress={this.onHealthChange}
                                 >

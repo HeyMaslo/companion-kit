@@ -7,6 +7,9 @@ export default class SettingsViewModel {
 
     public readonly notifications = new SettingsNotificationsViewModel();
     public readonly healthAuth = new HealthPermissionsViewModel();
+    isEnabledOG: any;
+    isEnabled: any;
+    isToggleInProgress: any;
 
     get authProvider() {
         return AppController.Instance.Auth.authUser

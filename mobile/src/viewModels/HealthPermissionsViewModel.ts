@@ -8,12 +8,13 @@ import Images from 'src/constants/images';
 const logger = createLogger('[HealthPermissionsViewModel]');
 
 // this can be updated when we want to add/remove permissions
-const permissions = [{title:"Activity", icon: Images.difficultIcon, description: "Allow Companion kit to access sex info"}
-,{title:"Minfulness", icon: Images.veryPositiveIcon, description: "Allow Companion kit to access DOB info"},
- {title:"Mobility", icon:Images.busIcon, description: "Allow Companion kit to access Steps info"},
-{title:"Nutrition", icon:Images.keyIcon, description: "Allow Companion kit to access Heart Info"},
-{title:"Respiractory", icon:Images.keyIcon, description: "Allow Companion kit to access Heart Info"},
-{title:"Sleep", icon:Images.keyIcon, description: "Allow Companion kit to access Heart Info"}];
+const permissions = [
+{title:"Activity", icon: Images.difficultIcon},
+{title:"Minfulness", icon: Images.veryPositiveIcon},
+{title:"Mobility", icon:Images.busIcon},
+{title:"Nutrition", icon:Images.keyIcon},
+{title:"Respiractory", icon:Images.keyIcon},
+{title:"Sleep", icon:Images.keyIcon}];
 
 export class HealthPermissionsViewModel {
 

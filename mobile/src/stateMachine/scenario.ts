@@ -20,7 +20,6 @@ import { CheckInTypeView } from './views/checkin/selectCheckInType';
 import { TextRecordView } from './views/checkin/recordTextCheckIn';
 import { RecordView } from './views/checkin/recordAudioCheckIn';
 import { NotificationsSettingsView } from './views/main/notificationsSettings';
-import { HealthAuthSettingsView } from './views/main/healthAuthSettings';
 import { EmailSettingsView } from './views/main/emailSettings';
 import { SettingsView } from './views/main/settings';
 import { ChangePasswordView } from './views/password/changePassword';
@@ -42,7 +41,6 @@ import Triggers = ScenarioTriggers;
 import { VerificationCodeView } from './views/login/verificationCode';
 import { NoInvitationView } from './views/login/noInvitation';
 import { ResetPasswordView } from './views/password/resetPassword';
-import { GetAuthInstructSettingsView } from './views/main/getAuthInstructionsSettings';
 
 const CreateJournalCancelTransition: StateTransition<States> = {
     target: States.Home,
@@ -387,26 +385,6 @@ export const MasloScenario: GlobalScenario<States> = {
         enter: { trigger: GlobalTriggers.NotifictaionSettings },
         exit: [
             { target: States.Settings, trigger: [Triggers.Back] },
-        ],
-    },
-
-    [States.HealthAuthSettings]: {
-        view: HealthAuthSettingsView,
-        enter: { trigger: GlobalTriggers.HealthAuthSettings },
-        exit: [
-            { target: States.Settings, trigger: [Triggers.Back] },
-            { target: States.HealthAuthSettings, trigger: [Triggers.Primary] },
-            { target: States.GetAuthInstructSettings, trigger: [Triggers.Secondary] },
-        ],
-    },
-
-    [States.GetAuthInstructSettings]: {
-        view: GetAuthInstructSettingsView,
-        enter: { trigger: GlobalTriggers.GetAuthInstructSettingsView },
-        exit: [
-            { target: States.HealthAuthSettings, trigger: [Triggers.Back] },
-            { target: States.GetAuthInstructSettings, trigger: [Triggers.Primary] },
-            { target: States.GetAuthInstructSettings, trigger: [Triggers.Secondary] },
         ],
     },
 };
