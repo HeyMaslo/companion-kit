@@ -1,49 +1,60 @@
 import { observable} from 'mobx';
-import { StrategyIded } from 'common/models/QoL';
+import { StrategyIded, DisplayStrategyIded } from 'common/models/QoL';
 
 export default class ChooseStrategyViewModel {
 
-  private _availableStrategies: StrategyIded[];
-  private _selectedStrategies: StrategyIded[];
+@observable
+  public availableStrategies: DisplayStrategyIded[];
 
-  private _strategyCount: number;
+@observable
+  public selectedStrategies: StrategyIded[];
 
-  get availableStrategies(): StrategyIded[] { return this._availableStrategies };
-  get selectedStrategies(): StrategyIded[] { return this._selectedStrategies };
-
-  get strategyCount(): number { return this._strategyCount };
+  @observable
+  public strategyThatDidntWork: StrategyIded;
 
 
   constructor() {
 
-      this._availableStrategies = [];
-      this._selectedStrategies = [];
-      this._strategyCount = 0;
+      this.availableStrategies = [];
+      this.selectedStrategies = [];
+      this.strategyThatDidntWork = {
+        id: '',
+        title: '',
+        details: '',
+        slug: '',
+}
   }
 
   public setAvailableStrategies(strats: StrategyIded[]) {
-      this._availableStrategies = strats;
-      this._strategyCount = strats.length;
-  }
-
-  public getStrategyDisplay(): string[] {
-    // MK-TODO
-    return [];
+      console.log('basketball')
+      this.availableStrategies = strats.map( (s) => {
+            return  {
+                id: s.id,
+                title: s.title,
+                details: s.details,
+                slug: s.slug,
+                isChecked: false,
+            } as DisplayStrategyIded
+      });
   }
 
   // adds selected strategies by user to the selected strategies array, use this array to persist to backend
   public selectStrategy(strategy: StrategyIded): Boolean {
-      if (this._selectedStrategies.map(s => s.id).includes(strategy.id)) {
-          return false;
+      if (this.selectedStrategies.map(s => s.id).includes(strategy.id)) {
+        this.selectedStrategies = this.selectedStrategies.filter(s => s.id != strategy.id)
+        this.availableStrategies.find(s => s.id == strategy.id).isChecked = false;
+        return false;
       }
-      this._selectedStrategies.push(strategy);
+      this.selectedStrategies.push(strategy);
+      this.availableStrategies.find(s => s.id == strategy.id).isChecked = true;
+      console.log('selectedStrategies', this.selectedStrategies.length)
       return true;
   }
 
-  public getStrategyByTitle(title: string): StrategyIded {
+  public getStrategyById(id: string): StrategyIded {
       let strat: StrategyIded = null;
-      this._availableStrategies.forEach(s => {
-          if (s.title === title) {
+      this.availableStrategies.forEach(s => {
+          if (s.id === id) {
               strat = s;
           }
       });

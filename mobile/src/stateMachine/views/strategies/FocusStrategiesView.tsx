@@ -2,12 +2,11 @@ import { ViewState } from '../base';
 import React from 'react';
 import { observer } from 'mobx-react';
 import AppViewModel from 'src/viewModels';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, Animated, Dimensions, Alert, SafeAreaView, FlatList, Pressable } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, Animated, Dimensions, Alert, SafeAreaView, FlatList } from 'react-native';
 import { MasloPage, Container, Button, BackArrow, GradientChart, Card } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
 import Colors from '../../../constants/colors/Colors';
-import Images from 'src/constants/images';
 
 // import { styles } from 'react-native-markdown-renderer';
 
@@ -17,7 +16,7 @@ const minContentHeight = 300;
 const { width } = Dimensions.get('window');
 
 @observer
-export class ChooseStrategiesView extends ViewState {
+export class FocusStrategiesView extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0} });
@@ -29,8 +28,6 @@ export class ChooseStrategiesView extends ViewState {
     }
 
     async start() {
-        let possibleStrategies = await AppController.Instance.User.backend.getPossibleStrategies();
-        this.viewModel.setAvailableStrategies(possibleStrategies);
         this.forceUpdate();
     }
 
@@ -40,6 +37,7 @@ export class ChooseStrategiesView extends ViewState {
 
     onLearnMorePress(id: string) {
       console.log('Learn more about: ', id);
+      // MK-TODO
   }
 
     onClose = (): void | Promise<void> => this.runLongOperation(async () => {
@@ -56,34 +54,40 @@ export class ChooseStrategiesView extends ViewState {
         });
     })
 
-    onSelectStrategy = (id: string) => {
-      this.viewModel.selectStrategy(this.viewModel.getStrategyById(id))
-      // this.forceUpdate(); // Is this right, or do i need toJS() on the available strategies array
-    }
-
     nextPage = () => {
       this.trigger(ScenarioTriggers.Submit);
     }
 
-    
+    // onDetails = () => {
+    //     this.trigger(ScenarioTriggers.Submit);
+    // }
+
+    // onSelectStrategy = (id: string) => {
+    //     if (this.viewModel.selectStrategy(this.viewModel.getStrategyById(id))) {
+    //         AppController.Instance.User.backend.setStrategies(this.viewModel.selectedStrategies.map(s => s.id));
+    //         this.trigger(ScenarioTriggers.Tertiary)
+    //     } else {
+    //         Alert.alert(
+    //             'Oops',
+    //             'Looks like you have already selected that Strategy.',
+    //             [
+    //                 { text: 'OK' },
+    //             ]);
+    //     }
+    // }
 
     renderListItem = ({ item }) => (
-      <Pressable onPress={() => this.onSelectStrategy(item.id)}>
-        <View style={styles.listItem}>
-          <View style={{flexDirection: "row", justifyContent: 'space-between', alignItems: 'center'}}>
-          <Text style={[TextStyles.p1, {display: 'flex', maxWidth: width - size - 70}]}>{item.title}</Text>
-            <View style={[styles.checkbox, item.isChecked && styles.checkboxChecked, {display: 'flex'}]}>
-                {item.isChecked && <Images.radioChecked width={8} height={6} />}
-            </View>
-          </View>
-          <Text style={[TextStyles.p2, {paddingLeft: 7, paddingTop: 7}]}>{item.details}</Text>
-          <View>
-            <TouchableOpacity onPress={() => this.onLearnMorePress(item.id)}>
-              <Text style={{paddingRight: 7, textAlign: 'right'}}>{'LEARN MORE >'}</Text>
-            </TouchableOpacity>
-          </View>
+      <View style={styles.listItem}>
+        <Text style={TextStyles.p1}>{item.title}</Text>
+        {/* Checkmark circle */}
+        <Text style={[TextStyles.p2, {paddingLeft: 7, paddingTop: 7}]}>{item.details}</Text>
+        <View>
+        <TouchableOpacity onPress={() => this.onLearnMorePress(item.id)}>
+          <Text style={{paddingRight: 7, textAlign: 'right'}}>{'LEARN MORE >'}</Text>
+        </TouchableOpacity>
         </View>
-      </Pressable>
+      </View>
+
     );
 
 
@@ -95,23 +99,19 @@ export class ChooseStrategiesView extends ViewState {
                 <Container style={[{height: this._contentHeight, paddingTop: 10, paddingBottom: 10}]}>
                     {/* Title */}
                     <View style={{justifyContent: 'center', flexDirection: 'row', marginBottom: 20}}>
-                        <Text style={[TextStyles.h2, styles.strategy]}>{'Choose up to 4 focus strategies below.'}</Text>
+                        <Text style={[TextStyles.h2, styles.strategy]}>{'Here are your focus strategies.'}</Text>
                     </View>
-                    {/* Sort Drop Down Button */}
-                    <Button titleStyles={styles.sortButtonTitle} title='SHOW ALL' style={styles.sortButton}/>
                     {/* List of Strategies */}
                     <FlatList style={styles.list}    
-                    data={this.viewModel.availableStrategies}
+                    data={this.viewModel.selectedStrategies}
                     renderItem={this.renderListItem}
                     keyExtractor={item => item.id}/>
-                    <Button title='SELECT THESE STRATEGIES' style={styles.selectButton} onPress={this.nextPage} disabled={this.viewModel.selectedStrategies.length < 1}/>
+                    <Button title='CONTINUE' style={styles.selectButton} onPress={this.nextPage}/>
                 </Container>
             </MasloPage>
         );
     }
 }
-
-const size = 24;
 
 const styles = StyleSheet.create({ 
   sortButton: {
@@ -141,21 +141,6 @@ const styles = StyleSheet.create({
   selectButton: {
     // width: width * 0.8,
     marginBottom: 30,
-  },
-  checkbox: {
-    height: size,
-    width: size,
-    borderRadius: size / 2,
-    borderWidth: 1,
-    borderColor: Colors.borderColor,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    flexShrink: 0,
-},
-checkboxChecked: {
-    backgroundColor: Colors.radioButton.checkedBg,
-    borderWidth: 0,
-},
+  }
 
 });

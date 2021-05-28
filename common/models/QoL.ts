@@ -34,6 +34,10 @@ export type Strategy = {
 
 export type StrategyIded = Identify<Strategy>;
 
+export type DisplayStrategyIded = StrategyIded & {
+    isChecked: boolean
+} 
+
 // QUESTION
 
 export type Question = {

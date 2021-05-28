@@ -72,6 +72,8 @@ export enum States {
 
     // Strategies block
     Choose_Strategies,
+    Focus_Strategies,
+    DidntWork_Strategies,
 
     qol_Question,
     End_Qol,

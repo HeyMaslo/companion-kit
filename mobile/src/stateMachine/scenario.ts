@@ -34,13 +34,15 @@ import { GoalsView } from './views/main/goals';
 import { RewardsView } from './views/rewardsView';
 import { RecordPitureCheckinView } from './views/checkin/recordPictureCheckIn';
 
-import { ChooseStrategiesView } from './views/strategies/ChooseStrategiesView';
-
 import { ChooseDomainView } from './views/lifeDomains/chooseDomain';
 import { DomainDetailsView } from './views/lifeDomains/domainDetails';
 import { SelectDomainView } from './views/lifeDomains/selectDomain';
-import {ThreeDomainView } from './views/lifeDomains/threeDomains';
+import { ThreeDomainView } from './views/lifeDomains/threeDomains';
 import { ChooseDomainEndView } from './views/lifeDomains/chooseDomainEnd';
+
+import { ChooseStrategiesView } from './views/strategies/ChooseStrategiesView';
+import { FocusStrategiesView } from './views/strategies/FocusStrategiesView';
+import { DidntWorkStrategiesView } from './views/strategies/DidntWorkStrategiesView';
 
 import { QolStartView } from './views/qol/startQOL';
 import { QolEndView } from './views/qol/endQOL';
@@ -418,7 +420,23 @@ export const MasloScenario: GlobalScenario<States> = {
         view: ChooseStrategiesView,
         exit: [
             { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
-            { target: States.Home, trigger: [Triggers.Submit] }, // MK-TODO: change target to the next strategies screen
+            { target: States.Focus_Strategies, trigger: [Triggers.Submit] },
+        ]
+    },
+
+    [States.Focus_Strategies]: {
+        view: FocusStrategiesView,
+        exit: [
+            { target: States.Choose_Strategies, trigger: [Triggers.Cancel] },
+            { target: States.DidntWork_Strategies, trigger: [Triggers.Submit] }, // MK-TODO
+        ]
+    },
+
+    [States.DidntWork_Strategies]: {
+        view: DidntWorkStrategiesView,
+        exit: [
+            { target: States.Focus_Strategies, trigger: [Triggers.Cancel] }, // MK-TODO
+            // { target: States.DidntWork_Strategies, trigger: [Triggers.Submit] }, // MK-TODO
         ]
     },
 
