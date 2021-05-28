@@ -50,7 +50,7 @@ export class DidntWorkStrategiesView extends ViewState {
 
     onLearnMorePress(id: string) {
       console.log('Learn more about: ', id);
-      // MK-TODO
+      // MK-TODO: need design of StrategDetailsView
   }
 
     onClose = (): void | Promise<void> => this.runLongOperation(async () => {
@@ -66,10 +66,6 @@ export class DidntWorkStrategiesView extends ViewState {
             }
         });
     })
-
-    // onDetails = () => {
-    //     this.trigger(ScenarioTriggers.Submit);
-    // }
 
     // onSelectStrategy = (id: string) => {
     //     if (this.viewModel.selectStrategy(this.viewModel.getStrategyById(id))) {

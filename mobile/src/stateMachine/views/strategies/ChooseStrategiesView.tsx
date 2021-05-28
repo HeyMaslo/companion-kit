@@ -58,7 +58,6 @@ export class ChooseStrategiesView extends ViewState {
 
     onSelectStrategy = (id: string) => {
       this.viewModel.selectStrategy(this.viewModel.getStrategyById(id))
-      // this.forceUpdate(); // Is this right, or do i need toJS() on the available strategies array
     }
 
     nextPage = () => {
@@ -97,7 +96,7 @@ export class ChooseStrategiesView extends ViewState {
                     <View style={{justifyContent: 'center', flexDirection: 'row', marginBottom: 20}}>
                         <Text style={[TextStyles.h2, styles.strategy]}>{'Choose up to 4 focus strategies below.'}</Text>
                     </View>
-                    {/* Sort Drop Down Button */}
+                    {/* Sort Drop Down Button MK-TODO: this needs to be implemented as a dropdown and perform sorting*/}
                     <Button titleStyles={styles.sortButtonTitle} title='SHOW ALL' style={styles.sortButton}/>
                     {/* List of Strategies */}
                     <FlatList style={styles.list}    

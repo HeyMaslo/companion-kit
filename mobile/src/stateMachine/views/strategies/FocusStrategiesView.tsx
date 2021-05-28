@@ -37,7 +37,7 @@ export class FocusStrategiesView extends ViewState {
 
     onLearnMorePress(id: string) {
       console.log('Learn more about: ', id);
-      // MK-TODO
+      // MK-TODO: need design of StrategDetailsView
   }
 
     onClose = (): void | Promise<void> => this.runLongOperation(async () => {
@@ -57,10 +57,6 @@ export class FocusStrategiesView extends ViewState {
     nextPage = () => {
       this.trigger(ScenarioTriggers.Submit);
     }
-
-    // onDetails = () => {
-    //     this.trigger(ScenarioTriggers.Submit);
-    // }
 
     // onSelectStrategy = (id: string) => {
     //     if (this.viewModel.selectStrategy(this.viewModel.getStrategyById(id))) {
