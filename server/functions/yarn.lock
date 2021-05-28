@@ -2670,7 +2670,7 @@ find-up@^4.0.0, find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-firebase-admin@^9.6.0:
+firebase-admin@^9.9.0:
   version "9.9.0"
   resolved "https://registry.yarnpkg.com/firebase-admin/-/firebase-admin-9.9.0.tgz#40442704b5ac0fddfdcdf4255601f8acb1e6fab3"
   integrity sha512-04HT7JAAqcJYty95qf15IBD9CXf+vr7S8zNU6Zt1ayC1J05DLaCsUd19/sCNAjZ614KHexAYUtyLgZoJwu2wOQ==
@@ -2686,7 +2686,7 @@ firebase-admin@^9.6.0:
     "@google-cloud/firestore" "^4.5.0"
     "@google-cloud/storage" "^5.3.0"
 
-firebase-functions-test@^0.2.3:
+firebase-functions-test@0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/firebase-functions-test/-/firebase-functions-test-0.2.3.tgz#90d6da662d604ed013a3735c6cdba5984e0d57ea"
   integrity sha512-zYX0QTm53wCazuej7O0xqbHl90r/v1PTXt/hwa0jo1YF8nDM+iBKnLDlkIoW66MDd0R6aGg4BvKzTTdJpvigUA==
@@ -2694,17 +2694,17 @@ firebase-functions-test@^0.2.3:
     "@types/lodash" "^4.14.104"
     lodash "^4.17.5"
 
-firebase-functions@^3.13.2:
-  version "3.14.1"
-  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-3.14.1.tgz#3ac5bc70989365874f41d06bca3b42a233dd6039"
-  integrity sha512-hL/qm+i5i1qKYmAFMlQ4mwRngDkP+3YT3F4E4Nd5Hj2QKeawBdZiMGgEt6zqTx08Zq04vHiSnSM0z75UJRSg6Q==
+firebase-functions@3.13.1:
+  version "3.13.1"
+  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-3.13.1.tgz#a34e61ab328903fe88a9532d267f031d9a0d9e23"
+  integrity sha512-tmYHN9OWWIij/8xO72AD2sKHm9T8pdLPYXy5RWk9VidP8+LDOUZ68vq1g1WKeSkRR7WyVYQ3scU2QoMDfe9T8g==
   dependencies:
     "@types/express" "4.17.3"
     cors "^2.8.5"
     express "^4.17.1"
     lodash "^4.17.14"
 
-firebase@^8.4.1:
+firebase@^8.6.3:
   version "8.6.3"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-8.6.3.tgz#e6e985e78f15543f399f13d476ac6738d35dc7bb"
   integrity sha512-VjaHkR+BsTpXXrQec84FJQiGz/x7K7a+V9JHWDRUbd+XANgxBiCC+p5WDUUv0bgCw5Swg02xLGdFRkqx2LIjSg==

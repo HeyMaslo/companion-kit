@@ -33,7 +33,7 @@
         "computed-async-mobx": "^4.2.1",
         "core-js": "^3.6.5",
         "d3": "^5.16.0",
-        "firebase": "^8.3.1",
+        "firebase": "^8.6.3",
         "gsap": "^3.6.0",
         "history": "^4.10.1",
         "libphonenumber-js": "^1.7.53",
