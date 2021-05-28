@@ -1,4 +1,4 @@
-import * as FirebaseClient from 'firebase/app';
+import FirebaseClient from 'firebase/app';
 import * as FirebaseAdmin from 'firebase-admin';
 import Identify, { DocumentShallowReference } from 'common/models/Identify';
 
