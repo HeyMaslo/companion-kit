@@ -16,3 +16,7 @@ services:
       - 9099:9099
       - 4400:4400
       - 5555:5555
+networks:
+  default:
+    external:
+      name: bb_default
