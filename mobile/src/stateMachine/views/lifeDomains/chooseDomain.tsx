@@ -162,7 +162,7 @@ export class ChooseDomainView extends ViewState {
                                 onLayout = {event => this.setState({xTabOne: event.nativeEvent.layout.x})}
                                 onPress = {() => this.setState({active: 0}, () => this.handleSlide(xTabOne))}
                                 >
-                                    <Text style={{fontWeight: active===0? 'bold' : 'normal', textDecorationLine: active === 0? 'underline': 'none'}}>Importamce</Text>
+                                    <Text style={{fontWeight: active===0? 'bold' : 'normal', textDecorationLine: active === 0? 'underline': 'none'}}>Importance</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                  style={[ styles.tabs,{
