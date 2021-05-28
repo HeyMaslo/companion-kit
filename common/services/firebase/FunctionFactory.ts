@@ -2,9 +2,9 @@ import { FunctionDefinition } from 'common/abstractions/functions.definition';
 import firebase from 'firebase';
 import { ILogger, createLogger } from 'common/logger';
 
-import type { functions } from 'firebase';
+import type Firebase from 'firebase';
 
-type HttpsError = functions.HttpsError;
+type HttpsError = Firebase.functions.HttpsError;
 
 export class FunctionFactory<TArg, TResult> {
 
