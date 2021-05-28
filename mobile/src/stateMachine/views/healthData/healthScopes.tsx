@@ -12,8 +12,6 @@ import Layout from 'src/constants/Layout';
 import { PersonaScrollMask } from 'src/components/PersonaScollMask';
 import Switch from 'dependencies/react-native-switch-pro';
 import { HealthPermissionsViewModel } from 'src/viewModels/HealthPermissionsViewModel';
-import TextStyles from 'src/styles/TextStyles';
-import Dots from 'src/components/Dots';
 
 
 @observer
@@ -100,17 +98,16 @@ export class HealthScopesView extends ViewState {
                         </>
                     )} 
                     {!permissionsEnabled && Platform.OS == 'ios' && (
-                        <View style={styles.buttonView}>
+                        <View style={[this.baseStyles.flexCenterBottom, styles.bottomBlock]}>
                         <Button
-                       title="How do i change my permissions?"
-                       style={[styles.mailButton, TextStyles.h2]}
-                       titleStyles={styles.mailButtonTitle}
+                        title="HOW DO I CHANGE PERMISSIONS?"
+                        withBorder
+                        isTransparent
                        onPress={this.onNext}
-                       isTransparent
                         />
                         </View>
+            
                     )}
-                     
                 </Container>
             </ScrollView>
         </MasloPage>
@@ -187,5 +184,10 @@ closeBtn: {
     alignItems: 'flex-end',
     justifyContent: 'center',
     backgroundColor: 'transparent',
+},
+bottomBlock: {
+    width: '100%',
+    marginTop: 'auto',
+    marginBottom: process.appFeatures.GOALS_ENABLED ? 90 : 0,
 },
 });

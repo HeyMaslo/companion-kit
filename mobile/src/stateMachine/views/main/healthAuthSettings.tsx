@@ -5,7 +5,6 @@ import { observer } from 'mobx-react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import Colors from 'src/constants/colors';
 import { MasloPage, Container, Button, Card, Link, Checkbox } from 'src/components';
-import AppViewModel from 'src/viewModels';
 import AppController from 'src/controllers';
 import { ScenarioTriggers } from '../../abstractions';
 import Localization from 'src/services/localization';
