@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 import fbFuncTest from 'firebase-functions-test';
-import { clearFirestoreData } from '@firebase/testing';
+import { clearFirestoreData } from '@firebase/rules-unit-testing';
 
 const projectId = 'bipolarbridges';
 
