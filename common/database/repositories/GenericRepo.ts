@@ -13,7 +13,19 @@ function Identify<T> (d: T, id: string): Identify<T> {
 
 export default class GenericRepo<T> {
 
-    constructor(protected readonly db: DBProvider) { }
+    private readonly _coll: Collections;
+
+    /*
+        Create a Generic repo with the specified collection name.
+        If no name is specified, the default will be used.
+        WARNING: only one default-named collection can exist at once,
+        so all repositories using this collection will have their data
+        merged together. Hence, it is recommended to set the name
+        explicitly.
+    */
+    constructor(protected readonly db: DBProvider, coll: Collections = Collections.Generic) {
+        this._coll = coll;
+     }
 
     public      get collection() { return this.db.collection(this.collectionName); }
 
@@ -50,7 +62,7 @@ export default class GenericRepo<T> {
     }
 
     get collectionName() {
-        return Collections.Generic;
+        return this._coll;
     }
 
 }
