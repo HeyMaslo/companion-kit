@@ -10,15 +10,16 @@ export default class StrategyRepo extends GenericRepo<Strategy> {
         return Collections.Strategies;
     }
 
-    async getBySlug(slug: string): Promise<Maybe<Strategy>> {
-        const query: Query = this.collection
-            .where(nameof<Strategy>(d => d.slug), '==', slug);
-        const docs: DocumentSnapshot[] = (await query.get()).docs;
-        if (docs.length < 1) {
-            return null;
-        } else {
-            return docs[0].data() as Strategy;
-        }
-    }
+    // slug has been changed to slugs which is an array of strings
+    // async getBySlug(slug: string): Promise<Maybe<Strategy>> {
+    //     const query: Query = this.collection
+    //         .where(nameof<Strategy>(d => d.slug), '==', slug);
+    //     const docs: DocumentSnapshot[] = (await query.get()).docs;
+    //     if (docs.length < 1) {
+    //         return null;
+    //     } else {
+    //         return docs[0].data() as Strategy;
+    //     }
+    // }
 
 }

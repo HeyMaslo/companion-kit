@@ -43,8 +43,7 @@ export class DidntWorkStrategiesView extends ViewState {
     }
 
     onLearnMorePress(id: string) {
-      console.log('Learn more about: ', id);
-      // MK-TODO: need design of StrategDetailsView
+      // MK-TODO: is this a place for learn more
   }
 
     onClose = (): void | Promise<void> => this.runLongOperation(async () => {
