@@ -3,36 +3,38 @@ import { StrategyIded, DisplayStrategyIded } from 'common/models/QoL';
 
 export default class ChooseStrategyViewModel {
 
-@observable
+  @observable
   public availableStrategies: DisplayStrategyIded[];
 
-@observable
+  @observable
   public selectedStrategies: StrategyIded[];
 
   @observable
   public strategyThatDidntWork: StrategyIded;
+
+  @observable
+  public learnMoreStrategy: StrategyIded;
 
 
   constructor() {
 
       this.availableStrategies = [];
       this.selectedStrategies = [];
-      this.strategyThatDidntWork = {
+      this.strategyThatDidntWork, this.learnMoreStrategy = {
         id: '',
         title: '',
         details: '',
-        slug: '',
+        slugs: [''],
 }
   }
 
   public setAvailableStrategies(strats: StrategyIded[]) {
-      console.log('basketball')
       this.availableStrategies = strats.map( (s) => {
             return  {
                 id: s.id,
                 title: s.title,
                 details: s.details,
-                slug: s.slug,
+                slugs: s.slugs,
                 isChecked: false,
             } as DisplayStrategyIded
       });

@@ -36,8 +36,8 @@ export class FocusStrategiesView extends ViewState {
     }
 
     onLearnMorePress(id: string) {
-      console.log('Learn more about: ', id);
-      // MK-TODO: need design of StrategDetailsView
+      this.viewModel.learnMoreStrategy = this.viewModel.getStrategyById(id);
+      this.trigger(ScenarioTriggers.Tertiary);
   }
 
     onClose = (): void | Promise<void> => this.runLongOperation(async () => {

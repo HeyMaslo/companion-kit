@@ -39,7 +39,8 @@ export class ChooseStrategiesView extends ViewState {
     }
 
     onLearnMorePress(id: string) {
-      console.log('Learn more about: ', id);
+      this.viewModel.learnMoreStrategy = this.viewModel.getStrategyById(id);
+      this.trigger(ScenarioTriggers.Tertiary);
   }
 
     onClose = (): void | Promise<void> => this.runLongOperation(async () => {
@@ -61,6 +62,9 @@ export class ChooseStrategiesView extends ViewState {
     }
 
     nextPage = () => {
+      // For TESTING DidntWorkStrategiesView
+      this.viewModel.strategyThatDidntWork = this.viewModel.selectedStrategies[0];
+      //
       this.trigger(ScenarioTriggers.Submit);
     }
 
@@ -88,7 +92,6 @@ export class ChooseStrategiesView extends ViewState {
 
 
     renderContent() {
-      console.log('availableStrategies', this.viewModel.availableStrategies.length)
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} onBack={() => this.cancel()}>
                 <Container style={[{height: this._contentHeight, paddingTop: 10, paddingBottom: 10}]}>

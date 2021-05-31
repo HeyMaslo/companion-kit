@@ -20,19 +20,13 @@ const { width } = Dimensions.get('window');
 @observer
 export class DidntWorkStrategiesView extends ViewState {
 
-  @observable
-  private strategyThatDidntWork: StrategyIded;
+  private _strategyThatDidntWork: StrategyIded;
 
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0} });
         this.hidePersona();
-        this.strategyThatDidntWork = {
-          id: '',
-          title: '',
-          details: '',
-          slug: '',
-  }
+        this._strategyThatDidntWork = this.viewModel.strategyThatDidntWork;
     }
 
     public get viewModel() {
@@ -40,7 +34,7 @@ export class DidntWorkStrategiesView extends ViewState {
     }
 
     async start() {
-      this.strategyThatDidntWork = this.viewModel.strategyThatDidntWork;
+      this._strategyThatDidntWork = this.viewModel.strategyThatDidntWork;
       this.forceUpdate();
     }
 
@@ -83,11 +77,11 @@ export class DidntWorkStrategiesView extends ViewState {
 
     renderListItem = () => (
       <View style={styles.listItem}>
-        <Text style={TextStyles.p1}>{this.strategyThatDidntWork.title}</Text>
+        <Text style={TextStyles.p1}>{this._strategyThatDidntWork.title}</Text>
         {/* Checkmark circle */}
-        <Text style={[TextStyles.p2, {paddingLeft: 7, paddingTop: 7}]}>{this.strategyThatDidntWork.details}</Text>
+        <Text style={[TextStyles.p2, {paddingLeft: 7, paddingTop: 7}]}>{this._strategyThatDidntWork.details}</Text>
         <View>
-        <TouchableOpacity onPress={() => this.onLearnMorePress(this.strategyThatDidntWork.id)}>
+        <TouchableOpacity onPress={() => this.onLearnMorePress(this._strategyThatDidntWork.id)}>
           <Text style={{paddingRight: 7, textAlign: 'right'}}>{'LEARN MORE >'}</Text>
         </TouchableOpacity>
         </View>

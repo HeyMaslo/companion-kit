@@ -29,7 +29,7 @@ export type DomainIded = Identify<Domain>;
 export type Strategy = {
     title:       string,
     details:     string,
-    slug:        string,
+    slugs:       string[],
 };
 
 export type StrategyIded = Identify<Strategy>;

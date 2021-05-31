@@ -43,6 +43,7 @@ import { ChooseDomainEndView } from './views/lifeDomains/chooseDomainEnd';
 import { ChooseStrategiesView } from './views/strategies/ChooseStrategiesView';
 import { FocusStrategiesView } from './views/strategies/FocusStrategiesView';
 import { DidntWorkStrategiesView } from './views/strategies/DidntWorkStrategiesView';
+import { StrategyDetailsView } from './views/strategies/StrategyDetailsView';
 
 import { QolStartView } from './views/qol/startQOL';
 import { QolEndView } from './views/qol/endQOL';
@@ -421,6 +422,7 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
             { target: States.Focus_Strategies, trigger: [Triggers.Submit] },
+            { target: States.Strategy_Details, trigger: [Triggers.Tertiary] },
         ]
     },
 
@@ -429,6 +431,15 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { target: States.Choose_Strategies, trigger: [Triggers.Cancel] },
             { target: States.DidntWork_Strategies, trigger: [Triggers.Submit] }, // MK-TODO
+            { target: States.Strategy_Details, trigger: [Triggers.Tertiary] },
+        ]
+    },
+
+    [States.Strategy_Details]: {
+        view: StrategyDetailsView,
+        exit: [
+            { target: States.Choose_Strategies, trigger: [Triggers.Cancel] },
+            // { target: States.DidntWork_Strategies, trigger: [Triggers.Submit] }, 
         ]
     },
 
