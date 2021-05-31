@@ -12,12 +12,19 @@ import Images from 'src/constants/images';
 // import { styles } from 'react-native-markdown-renderer';
 
 import AppController from 'src/controllers';
+import { observable } from 'mobx';
 
 const minContentHeight = 300;
 const { width } = Dimensions.get('window');
 
 @observer
 export class ChooseStrategiesView extends ViewState {
+
+  @observable
+  private dropDownIsExtended = false;
+
+  private dropDownItems = ['mood', 'physical', 'cognitive'];
+
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0} });
@@ -68,7 +75,24 @@ export class ChooseStrategiesView extends ViewState {
       this.trigger(ScenarioTriggers.Submit);
     }
 
-    
+    dropDown = () => {
+      if (this.dropDownIsExtended) {
+        this.viewModel.filterAvailableStrategies(null);
+      }
+      this.dropDownIsExtended = !this.dropDownIsExtended;
+    }
+
+    dropDownPressed = (strategyDomain: string) => {
+      this.viewModel.filterAvailableStrategies(strategyDomain)
+    }
+
+    renderDropDownListItem = ({ item }) => (
+      <TouchableOpacity onPress={() => this.dropDownPressed(item)}>
+        <View style={styles.dropDownlistItem}>
+          <Text style={[TextStyles.btnTitle, {display: 'flex', color: Colors.button.buttonForm.text}]}>{item}</Text>
+        </View>
+      </TouchableOpacity>
+    );
 
     renderListItem = ({ item }) => (
       <Pressable onPress={() => this.onSelectStrategy(item.id)}>
@@ -99,8 +123,17 @@ export class ChooseStrategiesView extends ViewState {
                     <View style={{justifyContent: 'center', flexDirection: 'row', marginBottom: 20}}>
                         <Text style={[TextStyles.h2, styles.strategy]}>{'Choose up to 4 focus strategies below.'}</Text>
                     </View>
-                    {/* Sort Drop Down Button MK-TODO: this needs to be implemented as a dropdown and perform sorting*/}
-                    <Button titleStyles={styles.sortButtonTitle} title='SHOW ALL' style={styles.sortButton}/>
+                    {/* Sort Drop Down Button */}
+                    <Button titleStyles={styles.sortButtonTitle} title='SHOW ALL' style={styles.sortButton} onPress={this.dropDown}/>
+                    <View>
+                    {this.dropDownIsExtended ? 
+                      <FlatList style={styles.dropDownlist}    
+                      data={this.dropDownItems}
+                      renderItem={this.renderDropDownListItem}
+                      keyExtractor={item => item}
+                      scrollEnabled={false}/>
+                      : null}
+                      </View>
                     {/* List of Strategies */}
                     <FlatList style={styles.list}    
                     data={this.viewModel.availableStrategies}
@@ -117,7 +150,6 @@ const size = 24;
 
 const styles = StyleSheet.create({ 
   sortButton: {
-    marginBottom: 30,
     borderWidth: 1,
     borderRadius: 7,
     borderColor: '#CBC8CD',
@@ -127,7 +159,26 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     color: Colors.survey.btnFontColor,
   },
+  dropDownTitle: {
+    display: 'flex',
+    color: Colors.survey.btnFontColor,
+  },
+  dropDownlist: {
+    marginTop: 5,
+    display: 'flex',
+    flexGrow: 0,
+    borderWidth: 1,
+    borderRadius: 7,
+    borderColor: '#CBC8CD',
+  },
+  dropDownlistItem: {
+    flexDirection: "row", 
+    justifyContent: 'center',
+    padding: 20,
+    // marginTop: 30,
+  },
   list: {
+    marginTop: 30,
     marginBottom: 25,
   },
   listItem: {

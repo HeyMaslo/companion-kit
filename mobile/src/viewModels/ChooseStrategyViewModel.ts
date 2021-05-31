@@ -3,6 +3,8 @@ import { StrategyIded, DisplayStrategyIded } from 'common/models/QoL';
 
 export default class ChooseStrategyViewModel {
 
+  private allStrategies: DisplayStrategyIded[];
+
   @observable
   public availableStrategies: DisplayStrategyIded[];
 
@@ -18,8 +20,7 @@ export default class ChooseStrategyViewModel {
 
   constructor() {
 
-      this.availableStrategies = [];
-      this.selectedStrategies = [];
+      this.allStrategies, this.availableStrategies, this.selectedStrategies = [];
       this.strategyThatDidntWork, this.learnMoreStrategy = {
         id: '',
         title: '',
@@ -38,6 +39,15 @@ export default class ChooseStrategyViewModel {
                 isChecked: false,
             } as DisplayStrategyIded
       });
+      this.allStrategies = this.availableStrategies;
+  }
+
+  public filterAvailableStrategies(strategyDomain: string) {
+    if (strategyDomain == null) {
+      this.availableStrategies = this.allStrategies;
+    } else {
+      this.availableStrategies = this.allStrategies.filter((s) => s.slugs.includes(strategyDomain))
+    }
   }
 
   // adds selected strategies by user to the selected strategies array, use this array to persist to backend
