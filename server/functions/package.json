@@ -40,7 +40,7 @@
     "@types/fluent-ffmpeg": "^2.1.14",
     "@types/module-alias": "^2.0.0",
     "@types/stripe": "^7.13.18",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "expo-server-sdk": "^3.5.1",
     "ffmpeg-static": "^4.2.6",
     "ffprobe-static": "^3.0.0",
