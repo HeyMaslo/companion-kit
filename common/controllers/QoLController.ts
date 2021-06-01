@@ -60,6 +60,26 @@ export default class QoLControllerBase implements IQoLController {
         }
     }
 
+    // Get last stored state
+    // null value indicates no outstanding survey
+    public async getPartialQol(): Promise<PartialQol> {
+
+        console.log(`get partial qol: userId = ${this._userId}`);
+        const state = await RepoFactory.Instance.userState.getByUserId(this._userId);
+        let result = null;
+        if (state) {
+            result = state.surveyState;
+        }
+        console.log(`get partial qol: result = ${JSON.stringify(result)}`);
+        return result;
+    }
+
+    public setUser(userId: string) {
+        this._userId = userId;
+    }
+
+    // Domains
+
     public async getPossibleDomains(): Promise<Identify<Domain>[]> {
         return await RepoFactory.Instance.qolDomains.get();
     }
@@ -78,6 +98,8 @@ export default class QoLControllerBase implements IQoLController {
         await RepoFactory.Instance.userState.setByUserId(this._userId, st);
     }
 
+    // Strategies
+
     public async getPossibleStrategies(): Promise<Identify<Strategy>[]> {
         return await RepoFactory.Instance.strategies.get();
     }
@@ -90,27 +112,9 @@ export default class QoLControllerBase implements IQoLController {
                 surveyState: null
             }
         } else {
-            st.focusDomains = strategyIds;
+            st.chosenStrategies = strategyIds;
         }
         await RepoFactory.Instance.userState.setByUserId(this._userId, st);
-    }
-
-    // Get last stored state
-    // null value indicates no outstanding survey
-    public async getPartialQol(): Promise<PartialQol> {
-
-        console.log(`get partial qol: userId = ${this._userId}`);
-        const state = await RepoFactory.Instance.userState.getByUserId(this._userId);
-        let result = null;
-        if (state) {
-            result = state.surveyState;
-        }
-        console.log(`get partial qol: result = ${JSON.stringify(result)}`);
-        return result;
-    }
-
-    public setUser(userId: string) {
-        this._userId = userId;
     }
 
 }

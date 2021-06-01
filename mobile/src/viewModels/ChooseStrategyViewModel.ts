@@ -1,11 +1,10 @@
 import { observable} from 'mobx';
 import { StrategyIded, DisplayStrategyIded, DomainIded } from 'common/models/QoL';
-import { Domains } from 'dependencies/persona/lib/domains';
 
 export default class ChooseStrategyViewModel {
 
   private _selectedDomains: string[];
-  private allStrategies: DisplayStrategyIded[];
+  private _allStrategies: DisplayStrategyIded[];
 
   @observable
   public availableStrategies: DisplayStrategyIded[];
@@ -20,10 +19,9 @@ export default class ChooseStrategyViewModel {
     return this._selectedDomains;
   }
 
-
   constructor() {
 
-      this._selectedDomains, this.allStrategies, this.availableStrategies, this.selectedStrategies = [];
+      this._selectedDomains, this._allStrategies, this.availableStrategies, this.selectedStrategies = [];
       this.learnMoreStrategy = {
         id: '',
         title: '',
@@ -34,7 +32,6 @@ export default class ChooseStrategyViewModel {
 
   public setSelectedDomains(domains: DomainIded[]) {
     this._selectedDomains = domains.map((d) => d.slug);
-    console.log('_selectedDomains: ', this._selectedDomains)
   }
 
   public setAvailableStrategies(strats: StrategyIded[]) {
@@ -47,19 +44,20 @@ export default class ChooseStrategyViewModel {
                 isChecked: false,
             } as DisplayStrategyIded
       });
+      // Only include strategies from the selectedDomains
       this.availableStrategies = this.availableStrategies.filter((s) => s.slugs.some(r => this._selectedDomains.includes(r)))
-      this.allStrategies = this.availableStrategies;
+      this._allStrategies = this.availableStrategies;
   }
 
   public filterAvailableStrategies(strategyDomain: string) {
     if (strategyDomain == null) {
-      this.availableStrategies = this.allStrategies;
+      this.availableStrategies = this._allStrategies;
     } else {
-      this.availableStrategies = this.allStrategies.filter((s) => s.slugs.includes(strategyDomain))
+      this.availableStrategies = this._allStrategies.filter((s) => s.slugs.includes(strategyDomain))
     }
   }
 
-  // adds selected strategies by user to the selected strategies array, use this array to persist to backend
+  // adds strategies selected by user to the selected strategies array, use this array to persist to backend
   public selectStrategy(strategy: StrategyIded): Boolean {
       if (this.selectedStrategies.map(s => s.id).includes(strategy.id)) {
         this.selectedStrategies = this.selectedStrategies.filter(s => s.id != strategy.id)
@@ -68,7 +66,6 @@ export default class ChooseStrategyViewModel {
       }
       this.selectedStrategies.push(strategy);
       this.availableStrategies.find(s => s.id == strategy.id).isChecked = true;
-      console.log('selectedStrategies', this.selectedStrategies.length)
       return true;
   }
 

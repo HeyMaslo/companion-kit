@@ -2,16 +2,12 @@ import { ViewState } from '../base';
 import React from 'react';
 import { observer } from 'mobx-react';
 import AppViewModel from 'src/viewModels';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, Animated, Dimensions, Alert, SafeAreaView, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, Animated, Dimensions, Alert, SafeAreaView, FlatList } from 'react-native';
 import { MasloPage, Container, Button, BackArrow, GradientChart, Card } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
 import Colors from '../../../constants/colors/Colors';
 import Images from 'src/constants/images';
-
-// import { styles } from 'react-native-markdown-renderer';
-
-import AppController from 'src/controllers';
 import { StrategyIded } from 'common/models/QoL';
 
 const minContentHeight = 300;
@@ -43,7 +39,7 @@ export class StrategyDetailsView extends ViewState {
     }
 
     private capitalizeFirstLetter(str: string) {
-      return str.charAt(0).toUpperCase() + str.slice(1);
+      return str.charAt(0).toLocaleUpperCase() + str.slice(1).toLocaleLowerCase();
     }
 
     renderIconItem = ({ item }) => (
@@ -79,13 +75,10 @@ export class StrategyDetailsView extends ViewState {
     }
 }
 
-const size = 24;
-
 const styles = StyleSheet.create({ 
   list: {
     flexGrow: 0,
     marginTop: 50,
-    // paddingLeft: width/4.5,
   },
   listItem: {
     // borderWidth: 1,

@@ -14,13 +14,10 @@ export default class ChooseDomainViewModel {
     @observable
     private _rightDomain: number;
     
-
     public _availableDomains: DomainIded[];
     private _selectedDomains: DomainIded[];
 
-
     public domainCount: number;
-
 
     constructor() {
 
@@ -83,7 +80,6 @@ export default class ChooseDomainViewModel {
         }
         this._selectedDomains.push(domain);
         AppViewModel.Instance.ChooseStrategy.setSelectedDomains(this._selectedDomains);
-        console.log("domainVM selectDomain", this._selectedDomains)
         return true;
     }
 
