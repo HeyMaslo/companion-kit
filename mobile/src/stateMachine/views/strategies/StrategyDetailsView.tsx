@@ -34,8 +34,8 @@ export class StrategyDetailsView extends ViewState {
         this.forceUpdate();
     }
 
-    private cancel = () => {
-        this.trigger(ScenarioTriggers.Cancel);
+     onBack = () => {
+        this.trigger(ScenarioTriggers.Back);
     }
 
     private capitalizeFirstLetter(str: string) {
@@ -53,7 +53,7 @@ export class StrategyDetailsView extends ViewState {
 
     renderContent() {
         return (
-            <MasloPage style={this.baseStyles.page} onBack={() => this.cancel()}>
+            <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()}>
                 <Container style={[{height: this._contentHeight, paddingTop: 10, paddingBottom: 10}]}>
                     {/* Title */}
                     <View style={{justifyContent: 'center', flexDirection: 'row', marginBottom: 20}}>

@@ -60,7 +60,8 @@ export class ChooseStrategiesView extends ViewState {
         });
     })
 
-    nextPage = () => {
+    onNextPage = () => {
+      AppController.Instance.User.backend.setStrategies(this.viewModel.selectedStrategies.map(s => s.id));
       this.trigger(ScenarioTriggers.Submit);
     }
 
@@ -151,7 +152,7 @@ export class ChooseStrategiesView extends ViewState {
                               data={this.viewModel.availableStrategies}
                               renderItem={this.renderListItem}
                               keyExtractor={item => item.id}/>
-                    <Button title='SELECT THESE STRATEGIES' style={styles.selectButton} onPress={this.nextPage} disabled={this.viewModel.selectedStrategies.length < 1}/>
+                    <Button title='SELECT THESE STRATEGIES' style={styles.selectButton} onPress={this.onNextPage} disabled={this.viewModel.selectedStrategies.length < 1}/>
                 </Container>
             </MasloPage>
         );

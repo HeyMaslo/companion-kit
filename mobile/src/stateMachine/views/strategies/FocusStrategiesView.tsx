@@ -62,20 +62,6 @@ export class FocusStrategiesView extends ViewState {
       this.trigger(ScenarioTriggers.Submit);
     }
 
-    // onSelectStrategy = (id: string) => {
-    //     if (this.viewModel.selectStrategy(this.viewModel.getStrategyById(id))) {
-    //         AppController.Instance.User.backend.setStrategies(this.viewModel.selectedStrategies.map(s => s.id));
-    //         this.trigger(ScenarioTriggers.Tertiary)
-    //     } else {
-    //         Alert.alert(
-    //             'Oops',
-    //             'Looks like you have already selected that Strategy.',
-    //             [
-    //                 { text: 'OK' },
-    //             ]);
-    //     }
-    // }
-
     renderListItem = ({ item }) => (
       <View style={styles.listItem}>
         <Text style={TextStyles.p1}>{item.title}</Text>
