@@ -420,7 +420,8 @@ export const MasloScenario: GlobalScenario<States> = {
     [States.Choose_Strategies]: {
         view: ChooseStrategiesView,
         exit: [
-            { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
+            { target: States.Home, trigger: [Triggers.Cancel] },
+            { target: States.Choose_Domain, trigger: [Triggers.Back] },
             { target: States.Focus_Strategies, trigger: [Triggers.Submit] },
             { target: States.Strategy_Details, trigger: [Triggers.Tertiary] },
         ]
@@ -429,8 +430,8 @@ export const MasloScenario: GlobalScenario<States> = {
     [States.Focus_Strategies]: {
         view: FocusStrategiesView,
         exit: [
-            { target: States.Choose_Strategies, trigger: [Triggers.Cancel] },
-            { target: States.DidntWork_Strategies, trigger: [Triggers.Submit] }, // MK-TODO
+            { target: States.Home, trigger: [Triggers.Cancel] },
+            { target: States.Choose_Strategies, trigger: [Triggers.Back] },
             { target: States.Strategy_Details, trigger: [Triggers.Tertiary] },
         ]
     },
@@ -438,16 +439,8 @@ export const MasloScenario: GlobalScenario<States> = {
     [States.Strategy_Details]: {
         view: StrategyDetailsView,
         exit: [
-            { target: States.Choose_Strategies, trigger: [Triggers.Cancel] },
-            // { target: States.DidntWork_Strategies, trigger: [Triggers.Submit] }, 
-        ]
-    },
-
-    [States.DidntWork_Strategies]: {
-        view: DidntWorkStrategiesView,
-        exit: [
-            { target: States.Focus_Strategies, trigger: [Triggers.Cancel] }, // MK-TODO
-            // { target: States.DidntWork_Strategies, trigger: [Triggers.Submit] }, // MK-TODO
+            { target: States.Home, trigger: [Triggers.Cancel] },
+            { target: States.Choose_Strategies, trigger: [Triggers.Back] },
         ]
     },
 

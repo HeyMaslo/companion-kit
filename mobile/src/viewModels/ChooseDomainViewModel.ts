@@ -1,6 +1,7 @@
 import { observable} from 'mobx';
 import { createLogger } from 'common/logger';
 import { DomainIded } from 'common/models/QoL';
+import AppViewModel from 'src/viewModels';
 
 export const logger = createLogger('[QOLModel]');
 
@@ -35,7 +36,6 @@ export default class ChooseDomainViewModel {
     public setAvailableDomains(doms: DomainIded[]) {
         this._availableDomains = doms;
         this.domainCount = doms.length;
-        console.log("available domains: ", this._availableDomains.map(d => d.slug));
     }
 
     // @computed
@@ -47,7 +47,6 @@ export default class ChooseDomainViewModel {
             console.log("Warning: not enough domains available!");
             return [null, null, null, null];
         }
-        console.log("indices", this._leftDomain, this._mainDomain, this._rightDomain);
 
         const leftName = this._leftDomain > -1 ? this._availableDomains[this._leftDomain].name : '';
         const rightName = this._rightDomain < this._availableDomains.length ? this._availableDomains[this._rightDomain].name : '';
@@ -59,7 +58,6 @@ export default class ChooseDomainViewModel {
 
     //  Iterates through the domains as user clicks the next or back button, (-1) going back, (1) going forward through the list of domains
     public getNextDomain(dir:number): void {
-        console.log('dir: ', dir);
         if (dir > 0){
             if (this._rightDomain < this.domainCount) {
                 this._rightDomain++;
@@ -84,6 +82,8 @@ export default class ChooseDomainViewModel {
             return false;
         }
         this._selectedDomains.push(domain);
+        AppViewModel.Instance.ChooseStrategy.setSelectedDomains(this._selectedDomains);
+        console.log("domainVM selectDomain", this._selectedDomains)
         return true;
     }
 

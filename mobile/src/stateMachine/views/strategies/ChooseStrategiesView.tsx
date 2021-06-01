@@ -22,13 +22,13 @@ export class ChooseStrategiesView extends ViewState {
 
   @observable
   private dropDownIsExtended = false;
-
-  private dropDownItems = ['mood', 'physical', 'cognitive'];
+  private domains: string[] = [];
 
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0} });
         this.hidePersona();
+        this.domains = this.viewModel.selectedDomains;
     }
 
     public get viewModel() {
@@ -38,24 +38,20 @@ export class ChooseStrategiesView extends ViewState {
     async start() {
         let possibleStrategies = await AppController.Instance.User.backend.getPossibleStrategies();
         this.viewModel.setAvailableStrategies(possibleStrategies);
+        this.domains = this.viewModel.selectedDomains;
         this.forceUpdate();
     }
 
-    private cancel = () => {
-        this.trigger(ScenarioTriggers.Cancel);
+    onBack = () => {
+        this.trigger(ScenarioTriggers.Back);
     }
-
-    onLearnMorePress(id: string) {
-      this.viewModel.learnMoreStrategy = this.viewModel.getStrategyById(id);
-      this.trigger(ScenarioTriggers.Tertiary);
-  }
 
     onClose = (): void | Promise<void> => this.runLongOperation(async () => {
         this.showModal({
             title: `Do you really want to stop? Your progress will not be saved.`,
             primaryButton: {
                 text: 'yes, stop',
-                action: this.cancel,
+                action:  () => this.trigger(ScenarioTriggers.Cancel),
             },
             secondaryButton: {
                 text: 'no, go back',
@@ -64,15 +60,21 @@ export class ChooseStrategiesView extends ViewState {
         });
     })
 
+    nextPage = () => {
+      this.trigger(ScenarioTriggers.Submit);
+    }
+
+    onLearnMorePress(id: string) {
+      this.viewModel.learnMoreStrategy = this.viewModel.getStrategyById(id);
+      this.trigger(ScenarioTriggers.Tertiary);
+  }
+
     onSelectStrategy = (id: string) => {
       this.viewModel.selectStrategy(this.viewModel.getStrategyById(id))
     }
 
-    nextPage = () => {
-      // For TESTING DidntWorkStrategiesView
-      this.viewModel.strategyThatDidntWork = this.viewModel.selectedStrategies[0];
-      //
-      this.trigger(ScenarioTriggers.Submit);
+    changeFilterPressed = (strategyDomain: string) => {
+      this.viewModel.filterAvailableStrategies(strategyDomain)
     }
 
     dropDown = () => {
@@ -82,12 +84,8 @@ export class ChooseStrategiesView extends ViewState {
       this.dropDownIsExtended = !this.dropDownIsExtended;
     }
 
-    dropDownPressed = (strategyDomain: string) => {
-      this.viewModel.filterAvailableStrategies(strategyDomain)
-    }
-
     renderDropDownListItem = ({ item }) => (
-      <TouchableOpacity onPress={() => this.dropDownPressed(item)}>
+      <TouchableOpacity onPress={() => this.changeFilterPressed(item)}>
         <View style={styles.dropDownlistItem}>
           <Text style={[TextStyles.btnTitle, {display: 'flex', color: Colors.button.buttonForm.text}]}>{item}</Text>
         </View>
@@ -117,28 +115,42 @@ export class ChooseStrategiesView extends ViewState {
 
     renderContent() {
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} onBack={() => this.cancel()}>
+            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} onBack={() => this.onBack()}>
                 <Container style={[{height: this._contentHeight, paddingTop: 10, paddingBottom: 10}]}>
+
                     {/* Title */}
                     <View style={{justifyContent: 'center', flexDirection: 'row', marginBottom: 20}}>
                         <Text style={[TextStyles.h2, styles.strategy]}>{'Choose up to 4 focus strategies below.'}</Text>
                     </View>
-                    {/* Sort Drop Down Button */}
-                    <Button titleStyles={styles.sortButtonTitle} title='SHOW ALL' style={styles.sortButton} onPress={this.dropDown}/>
+
                     <View>
-                    {this.dropDownIsExtended ? 
-                      <FlatList style={styles.dropDownlist}    
-                      data={this.dropDownItems}
-                      renderItem={this.renderDropDownListItem}
-                      keyExtractor={item => item}
-                      scrollEnabled={false}/>
-                      : null}
+                    {this.domains.length < 3 ? 
+                      <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                        {/* Sort Row of Three Buttons */}
+                        <TouchableOpacity onPress={() => this.changeFilterPressed(null)}><Text style={[TextStyles.btnTitle, styles.rowButton, {textDecorationLine: 'underline'}]}>{'Show All'}</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.changeFilterPressed(this.domains[0])}><Text style={[TextStyles.btnTitle, styles.rowButton]}>{this.domains[0]}</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.changeFilterPressed(this.domains[1])}><Text style={[TextStyles.btnTitle, styles.rowButton]}>{this.domains[1]}</Text></TouchableOpacity>
                       </View>
+                    :
+                      <View>
+                      {/* Sort Drop Down Button */}
+                        <Button titleStyles={styles.sortButtonTitle} title='SHOW ALL' style={styles.sortButton} onPress={this.dropDown}/>
+                        {this.dropDownIsExtended ? 
+                         <FlatList style={styles.dropDownlist}    
+                                   data={this.domains}
+                                   renderItem={this.renderDropDownListItem}
+                                   keyExtractor={item => item}
+                                   scrollEnabled={false}/>
+                        : null}
+                      </View>
+                      }
+                      </View>
+
                     {/* List of Strategies */}
                     <FlatList style={styles.list}    
-                    data={this.viewModel.availableStrategies}
-                    renderItem={this.renderListItem}
-                    keyExtractor={item => item.id}/>
+                              data={this.viewModel.availableStrategies}
+                              renderItem={this.renderListItem}
+                              keyExtractor={item => item.id}/>
                     <Button title='SELECT THESE STRATEGIES' style={styles.selectButton} onPress={this.nextPage} disabled={this.viewModel.selectedStrategies.length < 1}/>
                 </Container>
             </MasloPage>
@@ -149,6 +161,10 @@ export class ChooseStrategiesView extends ViewState {
 const size = 24;
 
 const styles = StyleSheet.create({ 
+  rowButton: {
+    display: 'flex',
+    color: Colors.survey.btnFontColor,
+  },
   sortButton: {
     borderWidth: 1,
     borderRadius: 7,

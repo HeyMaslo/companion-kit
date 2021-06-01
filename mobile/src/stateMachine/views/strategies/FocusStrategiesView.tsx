@@ -54,6 +54,10 @@ export class FocusStrategiesView extends ViewState {
         });
     })
 
+    onBack = () => {
+      this.trigger(ScenarioTriggers.Back);
+    }
+
     nextPage = () => {
       this.trigger(ScenarioTriggers.Submit);
     }
@@ -91,7 +95,7 @@ export class FocusStrategiesView extends ViewState {
     renderContent() {
       console.log('availableStrategies', this.viewModel.availableStrategies.length)
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} onBack={() => this.cancel()}>
+            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} onBack={this.onBack}>
                 <Container style={[{height: this._contentHeight, paddingTop: 10, paddingBottom: 10}]}>
                     {/* Title */}
                     <View style={{justifyContent: 'center', flexDirection: 'row', marginBottom: 20}}>

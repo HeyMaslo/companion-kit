@@ -1,8 +1,10 @@
 import { observable} from 'mobx';
-import { StrategyIded, DisplayStrategyIded } from 'common/models/QoL';
+import { StrategyIded, DisplayStrategyIded, DomainIded } from 'common/models/QoL';
+import { Domains } from 'dependencies/persona/lib/domains';
 
 export default class ChooseStrategyViewModel {
 
+  private _selectedDomains: string[];
   private allStrategies: DisplayStrategyIded[];
 
   @observable
@@ -12,21 +14,27 @@ export default class ChooseStrategyViewModel {
   public selectedStrategies: StrategyIded[];
 
   @observable
-  public strategyThatDidntWork: StrategyIded;
-
-  @observable
   public learnMoreStrategy: StrategyIded;
+
+  get selectedDomains(): string[] {
+    return this._selectedDomains;
+  }
 
 
   constructor() {
 
-      this.allStrategies, this.availableStrategies, this.selectedStrategies = [];
-      this.strategyThatDidntWork, this.learnMoreStrategy = {
+      this._selectedDomains, this.allStrategies, this.availableStrategies, this.selectedStrategies = [];
+      this.learnMoreStrategy = {
         id: '',
         title: '',
         details: '',
         slugs: [''],
-}
+      }
+  }
+
+  public setSelectedDomains(domains: DomainIded[]) {
+    this._selectedDomains = domains.map((d) => d.slug);
+    console.log('_selectedDomains: ', this._selectedDomains)
   }
 
   public setAvailableStrategies(strats: StrategyIded[]) {
@@ -39,6 +47,7 @@ export default class ChooseStrategyViewModel {
                 isChecked: false,
             } as DisplayStrategyIded
       });
+      this.availableStrategies = this.availableStrategies.filter((s) => s.slugs.some(r => this._selectedDomains.includes(r)))
       this.allStrategies = this.availableStrategies;
   }
 

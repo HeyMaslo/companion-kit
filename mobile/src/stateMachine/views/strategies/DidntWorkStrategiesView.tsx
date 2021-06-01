@@ -26,7 +26,7 @@ export class DidntWorkStrategiesView extends ViewState {
         super(props);
         this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0} });
         this.hidePersona();
-        this._strategyThatDidntWork = this.viewModel.strategyThatDidntWork;
+        this._strategyThatDidntWork = null; // this.viewModel.strategyThatDidntWork;
     }
 
     public get viewModel() {
@@ -34,7 +34,7 @@ export class DidntWorkStrategiesView extends ViewState {
     }
 
     async start() {
-      this._strategyThatDidntWork = this.viewModel.strategyThatDidntWork;
+      // this._strategyThatDidntWork = this.viewModel.strategyThatDidntWork;
       this.forceUpdate();
     }
 

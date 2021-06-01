@@ -105,10 +105,11 @@ export class ChooseDomainView extends ViewState {
     }
 
     onSelectDomain = (n: string) => {
+        let onSelectThird = this.viewModel.selectedDomains.length == 2;
         if (this.viewModel.selectDomain(this.viewModel.getDomainByName(n))) {
             AppController.Instance.User.backend
                 .setDomains(this.viewModel.selectedDomains.map(d => d.id));
-            this.trigger(ScenarioTriggers.Tertiary)
+            onSelectThird ? this.trigger(ScenarioTriggers.Next) : this.trigger(ScenarioTriggers.Tertiary);
         } else {
             Alert.alert(
                 'Oops',
@@ -118,13 +119,6 @@ export class ChooseDomainView extends ViewState {
                 ]);
         }
     }
-
-    onselectThird = () => {
-        this.trigger(ScenarioTriggers.Next);
-    }
-
-
-
 
     renderContent() {
         let {xTabOne, xTabTwo, active, translateX, translateXTabTwo, translateXTabOne, translateY, xDomain} = this.state
@@ -233,7 +227,7 @@ export class ChooseDomainView extends ViewState {
                                     title="Select Focus Domain"
                                     style={styles.domain}
                                     titleStyles={styles.selectDomain}
-                                    onPress={() => domainsChosen.length == 2 ? this.onselectThird(): this.onSelectDomain(domain)}
+                                    onPress={() => this.onSelectDomain(domain)}
                                     isTransparent
                                 />
                      </View>
