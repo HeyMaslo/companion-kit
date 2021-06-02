@@ -103,16 +103,32 @@ export class ChooseStrategiesView extends ViewState {
             </View>
           </View>
           <Text style={[TextStyles.p2, {paddingLeft: 7, paddingTop: 7}]}>{item.details}</Text>
-          <View>
+          <View style={{flexDirection: "row", justifyContent: 'space-between', marginTop: 10}}>
+            <View style={{display: 'flex', flexDirection: "row", justifyContent: 'flex-start'}}>
+            {item.slugs.map((slug) => {
+              return this.iconForDomain(slug);
+            })}
+            </View>
             <TouchableOpacity onPress={() => this.onLearnMorePress(item.id)}>
-              <Text style={{paddingRight: 7, textAlign: 'right'}}>{'LEARN MORE >'}</Text>
+              <Text style={{display: 'flex', paddingRight: 7, textAlign: 'right'}}>{'LEARN MORE >'}</Text>
             </TouchableOpacity>
           </View>
         </View>
       </Pressable>
     );
 
-
+    private iconForDomain(d: string): JSX.Element {
+      switch (d.toLowerCase()) {
+        case 'sleep':
+          return <View style={styles.icon}><Images.sleepIcon width={20} height={20}/></View>;
+        case 'physical':
+          return <View style={styles.icon}><Images.physicalIcon width={20} height={20}/></View>;
+        case 'mood':
+          return <View style={styles.icon}><Images.selfEsteemIcon width={20} height={20}/></View>;
+        case 'cognition':
+          return <View style={styles.icon}><Images.leisureIcon width={20} height={20}/></View>;
+      }
+    }
 
     renderContent() {
         return (
@@ -223,9 +239,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     flexShrink: 0,
 },
-checkboxChecked: {
+  checkboxChecked: {
     backgroundColor: Colors.radioButton.checkedBg,
     borderWidth: 0,
 },
+  icon: {
+    display: 'flex',
+    marginRight: 5,
+    height: 20,
+    width: 20,
+  },
 
 });

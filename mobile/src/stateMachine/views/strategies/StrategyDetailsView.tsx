@@ -44,11 +44,23 @@ export class StrategyDetailsView extends ViewState {
 
     renderIconItem = ({ item }) => (
         <View style={[styles.listItem, {flexDirection: "row", justifyContent: 'center'}]}>
-          {/* keyIcon is currently a placholder */}
-          <Images.keyIcon width={30} height={30} style={{display: 'flex', marginRight: 20,}}/>
+          {this.iconForDomain(item)}
           <Text style={[TextStyles.h2, styles.strategy, {display: 'flex'}]}>{this.capitalizeFirstLetter(item)}</Text>
         </View>
     );
+
+    private iconForDomain(d: string): JSX.Element {
+      switch (d.toLowerCase()) {
+        case 'sleep':
+          return <Images.sleepIcon width={30} height={30} style={{display: 'flex', marginRight: 20}}/>;
+        case 'physical':
+          return <Images.physicalIcon width={30} height={30} style={{display: 'flex', marginRight: 20}}/>;
+        case 'mood':
+          return <Images.selfEsteemIcon width={30} height={30} style={{display: 'flex', marginRight: 20}}/>;
+        case 'cognition':
+          return <Images.leisureIcon width={30} height={30} style={{display: 'flex', marginRight: 20}}/>;
+      }
+    }
 
 
     renderContent() {

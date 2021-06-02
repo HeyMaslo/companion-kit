@@ -50,6 +50,11 @@ import GoalsActiveSVG from 'src/assets/images/app/goals-icon-active.svg';
 import GoalsIndicatorSVG from 'src/assets/images/app/goals-icon-indicator.svg';
 import GoalsIndicatorActiveSVG from 'src/assets/images/app/goals-icon-indicator-active.svg';
 import SettingsIconActiveSVG from 'src/assets/images/app/settings-icon-active.svg';
+import LeisureIconSVG from 'src/assets/images/app/leisure.svg';
+import MoneyIconSVG from 'src/assets/images/app/money.svg';
+import PhysicalIconSVG from 'src/assets/images/app/physical.svg';
+import SelfEsteemIconSVG from 'src/assets/images/app/selfesteem.svg';
+import SleepIconSVG from 'src/assets/images/app/sleep.svg';
 
 export default {
     signInWithGoogle: GoogleIconPng,
@@ -108,4 +113,10 @@ export default {
     pinIcon: PinIconSVG,
     homeIcon: HomeIconSVG,
     busIcon: BusIconSVG,
+    // Domain
+    leisureIcon: LeisureIconSVG,
+    moneyIcon: MoneyIconSVG,
+    physicalIcon: PhysicalIconSVG,
+    selfEsteemIcon: SelfEsteemIconSVG,
+    sleepIcon: SleepIconSVG,
 };
