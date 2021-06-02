@@ -432,7 +432,7 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { target: States.Home, trigger: [Triggers.Cancel] },
             { target: States.Choose_Strategies, trigger: [Triggers.Back] },
-            { target: States.Strategy_Details, trigger: [Triggers.Tertiary] },
+            { target: States.Strategy_Details2, trigger: [Triggers.Tertiary] },
             { target: States.Home, trigger: [Triggers.Submit] },
         ]
     },
@@ -440,8 +440,14 @@ export const MasloScenario: GlobalScenario<States> = {
     [States.Strategy_Details]: {
         view: StrategyDetailsView,
         exit: [
-            { target: States.Home, trigger: [Triggers.Cancel] },
             { target: States.Choose_Strategies, trigger: [Triggers.Back] },
+        ]
+    },
+
+    [States.Strategy_Details2]: {
+        view: StrategyDetailsView,
+        exit: [
+            { target: States.Focus_Strategies, trigger: [Triggers.Back] },
         ]
     },
 

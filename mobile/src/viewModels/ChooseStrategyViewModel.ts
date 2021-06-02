@@ -63,6 +63,8 @@ export default class ChooseStrategyViewModel {
         this.selectedStrategies = this.selectedStrategies.filter(s => s.id != strategy.id)
         this.availableStrategies.find(s => s.id == strategy.id).isChecked = false;
         return false;
+      } else if (this.selectedStrategies.length >= 4) {
+        return false
       }
       this.selectedStrategies.push(strategy);
       this.availableStrategies.find(s => s.id == strategy.id).isChecked = true;
