@@ -433,6 +433,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Home, trigger: [Triggers.Cancel] },
             { target: States.Choose_Strategies, trigger: [Triggers.Back] },
             { target: States.Strategy_Details, trigger: [Triggers.Tertiary] },
+            { target: States.Home, trigger: [Triggers.Submit] },
         ]
     },
 
