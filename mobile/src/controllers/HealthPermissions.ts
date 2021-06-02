@@ -3,7 +3,7 @@ import { IUserNameProvider } from 'src/services/Notifications';
 import { ILocalSettingsController } from './LocalSettings';
 import { ThrottleAction } from 'common/utils/throttle';
 import { IDisposable } from 'common/utils/unsubscriber';
-import {auth, init, disconnectAndroid, getDOB} from 'src/helpers/health'
+import {auth, init, disconnectAndroid, getDOB, getMindfulness} from 'src/helpers/health'
 import { Platform } from 'react-native';
 import logger, { createLogger } from 'common/logger';
 
@@ -47,6 +47,7 @@ export class HealthPermissionsController implements IDisposable {
 
         if (Platform.OS == 'ios'){
             const dob = await getDOB(); 
+            const mindfulness = await getMindfulness();
             this._enabledByUserOG = dob;
         }
         if (Platform.OS == 'android'){ 

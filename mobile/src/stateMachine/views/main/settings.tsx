@@ -102,8 +102,8 @@ export class SettingsView extends ViewState {
             : Images.envelopeIcon;
 
         const notificationsEnabled = this.model.notifications.isEnabled && !this.model.notifications.isToggleInProgress && this.model.notifications.schedule;
-        const enabled = Platform.OS == 'ios'? this.model.isEnabledOG : this.model.isEnabled;
-        const permissionsEnabled = enabled && !this.model.isToggleInProgress;
+        const enabled = Platform.OS == 'ios'? this.model.healthAuth.isEnabledOG : this.model.healthAuth.isEnabled;
+        const permissionsEnabled = enabled && !this.model.healthAuth.isToggleInProgress;
         return (
             <MasloPage style={this.baseStyles.page}>
                 <Container style={styles.topBarWrapWrap}>

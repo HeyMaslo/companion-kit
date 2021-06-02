@@ -12,7 +12,7 @@ const runOptions = {
 
 const options = {
   permissions: {
-    read: ["StepCount", "BiologicalSex", "DateOfBirth"],
+    read: ["Activity", "Mindfulness", "Mobility", "Nutrition", "Respiractory", "Sleep"],
     write: [],
   },
 };
@@ -51,6 +51,31 @@ export const init = async (): Promise<boolean> => {
           resolve(false);
       }
       console.log("RESULTS FROM INIT HEALTHKIT", results);
+      resolve(true);
+    });
+  })
+}
+
+export const getMindfulness = async (): Promise<boolean> => {
+  return new Promise((resolve, reject) => {
+    AppleHealthKit.getMindfulSession(null,(err, results) => {
+      if (err) {
+          console.log("error initializing height:", err);
+
+          if (err.message == "No data available for the specified predicate.") {
+            resolve (true);
+          } else {
+            resolve(false);
+          }
+          return;
+      }
+
+      if (!results.value){
+        console.log("RESULTS FROM Height HEALTHKIT11", results.value);
+        resolve(false);
+        return;
+      }
+      console.log("RESULTS FROM Height HEALTHKIT", results.value);
       resolve(true);
     });
   })
