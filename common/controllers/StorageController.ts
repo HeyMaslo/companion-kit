@@ -1,7 +1,9 @@
-import FileMetadata = firebase.storage.UploadMetadata;
+import firebase from 'firebase';
 import Firebase from 'common/services/firebase';
 import { createLogger } from 'common/logger';
 import Lazy from 'common/utils/lazy';
+
+type FileMetadata = firebase.storage.UploadMetadata;
 
 const logger = createLogger('[Storage]');
 
