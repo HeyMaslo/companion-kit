@@ -2,15 +2,11 @@ import { ViewState } from '../base';
 import React from 'react';
 import { observer } from 'mobx-react';
 import AppViewModel from 'src/viewModels';
-import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, Animated, Dimensions, Alert, SafeAreaView, FlatList, Pressable } from 'react-native';
-import { MasloPage, Container, Button } from 'src/components';
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, FlatList } from 'react-native';
+import { MasloPage, Container, Button, StrategyCard } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
-import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
+import TextStyles from 'src/styles/TextStyles';
 import Colors from '../../../constants/colors/Colors';
-import Images from 'src/constants/images';
-
-// import { styles } from 'react-native-markdown-renderer';
-
 import AppController from 'src/controllers';
 import { observable } from 'mobx';
 
@@ -29,6 +25,9 @@ export class ChooseStrategiesView extends ViewState {
         this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0} });
         this.hidePersona();
         this.domains = this.viewModel.selectedDomains;
+
+        this.onLearnMorePress = this.onLearnMorePress.bind(this);
+        this.onSelectStrategy = this.onSelectStrategy.bind(this);
     }
 
     public get viewModel() {
@@ -66,6 +65,7 @@ export class ChooseStrategiesView extends ViewState {
     }
 
     onLearnMorePress(id: string) {
+      console.log('this.viewModel', this.viewModel)
       this.viewModel.learnMoreStrategy = this.viewModel.getStrategyById(id);
       this.trigger(ScenarioTriggers.Tertiary);
   }
@@ -94,41 +94,8 @@ export class ChooseStrategiesView extends ViewState {
     );
 
     renderListItem = ({ item }) => (
-      <Pressable onPress={() => this.onSelectStrategy(item.id)}>
-        <View style={styles.listItem}>
-          <View style={{flexDirection: "row", justifyContent: 'space-between', alignItems: 'center'}}>
-          <Text style={[TextStyles.p1, {display: 'flex', maxWidth: width - size - 70}]}>{item.title}</Text>
-            <View style={[styles.checkbox, item.isChecked && styles.checkboxChecked, {display: 'flex'}]}>
-                {item.isChecked && <Images.radioChecked width={8} height={6} />}
-            </View>
-          </View>
-          <Text style={[TextStyles.p2, {paddingLeft: 7, paddingTop: 7}]}>{item.details}</Text>
-          <View style={{flexDirection: "row", justifyContent: 'space-between', marginTop: 10}}>
-            <View style={{display: 'flex', flexDirection: "row", justifyContent: 'flex-start'}}>
-            {item.slugs.map((slug) => {
-              return this.iconForDomain(slug);
-            })}
-            </View>
-            <TouchableOpacity onPress={() => this.onLearnMorePress(item.id)}>
-              <Text style={{display: 'flex', paddingRight: 7, textAlign: 'right'}}>{'LEARN MORE >'}</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Pressable>
+      <StrategyCard item={item} onSelectStrategy={this.onSelectStrategy} onLearnMorePress={this.onLearnMorePress}/>
     );
-
-    private iconForDomain(d: string): JSX.Element {
-      switch (d.toLowerCase()) {
-        case 'sleep':
-          return <View style={styles.icon}><Images.sleepIcon width={20} height={20}/></View>;
-        case 'physical':
-          return <View style={styles.icon}><Images.physicalIcon width={20} height={20}/></View>;
-        case 'mood':
-          return <View style={styles.icon}><Images.selfEsteemIcon width={20} height={20}/></View>;
-        case 'cognition':
-          return <View style={styles.icon}><Images.leisureIcon width={20} height={20}/></View>;
-      }
-    }
 
     renderContent() {
         return (

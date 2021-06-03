@@ -2,12 +2,11 @@ import { ViewState } from '../base';
 import React from 'react';
 import { observer } from 'mobx-react';
 import AppViewModel from 'src/viewModels';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, Animated, Dimensions, Alert, SafeAreaView, FlatList } from 'react-native';
-import { MasloPage, Container, Button, BackArrow, GradientChart, Card } from 'src/components';
+import { StyleSheet, Text, View, Dimensions, FlatList } from 'react-native';
+import { MasloPage, Container, Button, StrategyCard} from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
-import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
+import TextStyles from 'src/styles/TextStyles';
 import Colors from '../../../constants/colors/Colors';
-import Images from 'src/constants/images';
 
 // import { styles } from 'react-native-markdown-renderer';
 
@@ -64,35 +63,8 @@ export class FocusStrategiesView extends ViewState {
     }
 
     renderListItem = ({ item }) => (
-      <View style={styles.listItem}>
-        <Text style={TextStyles.p1}>{item.title}</Text>
-        <Text style={[TextStyles.p2, {paddingLeft: 7, paddingTop: 7}]}>{item.details}</Text>
-        <View style={{flexDirection: "row", justifyContent: 'space-between', marginTop: 10}}>
-        <View style={{display: 'flex', flexDirection: "row", justifyContent: 'flex-start'}}>
-            {item.slugs.map((slug) => {
-              return this.iconForDomain(slug);
-            })}
-            </View>
-        <TouchableOpacity onPress={() => this.onLearnMorePress(item.id)}>
-          <Text style={{paddingRight: 7, textAlign: 'right'}}>{'LEARN MORE >'}</Text>
-        </TouchableOpacity>
-        </View>
-      </View>
-
+      <StrategyCard item={item} onSelectStrategy={(()=>(null))} onLearnMorePress={this.onLearnMorePress} hideCheckbox={true}/>
     );
-
-    private iconForDomain(d: string): JSX.Element {
-      switch (d.toLowerCase()) {
-        case 'sleep':
-          return <View style={styles.icon}><Images.sleepIcon width={20} height={20}/></View>;
-        case 'physical':
-          return <View style={styles.icon}><Images.physicalIcon width={20} height={20}/></View>;
-        case 'mood':
-          return <View style={styles.icon}><Images.selfEsteemIcon width={20} height={20}/></View>;
-        case 'cognition':
-          return <View style={styles.icon}><Images.leisureIcon width={20} height={20}/></View>;
-      }
-    }
 
     renderContent() {
       console.log('availableStrategies', this.viewModel.availableStrategies.length)
