@@ -1,0 +1,30 @@
+name: tests
+on: push
+jobs:
+  server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v2
+        with:
+          path: companion-app
+      - name: Check out external services
+        uses: actions/checkout@v2
+        with:
+          repository: bipolarbridges/data-services
+          ref: f77b56b308d66039b96368706bf52edac4f7256e
+          path: data-services
+      - name: Create shared network
+        run: docker network create bb_default
+      - name: Create environment file
+        working-directory: companion-app
+        run: cp test.env .docker.env
+      - name: Start API service
+        working-directory: data-services
+        run: yarn start
+      - name: Build project
+        working-directory: companion-app/server/functions
+        run: docker-compose build server
+      - name: Perform Tests
+        working-directory: companion-app/server/functions
+        run: docker-compose run --rm server yarn test
