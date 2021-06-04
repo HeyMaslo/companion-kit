@@ -1,19 +1,15 @@
-import { ViewState } from '../base';
-import React from 'react';
-import { observer } from 'mobx-react';
-import AppViewModel from 'src/viewModels';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, Animated, Dimensions, Alert } from 'react-native';
-import { MasloPage, Container, Button, BackArrow, GradientChart, Card } from 'src/components';
-import { ScenarioTriggers } from '../../abstractions';
-import Images from 'src/constants/images';
-import Colors from 'src/constants/colors';
 import { months } from 'common/utils/dateHelpers';
-import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
-
-// import { styles } from 'react-native-markdown-renderer';
-import { color } from 'd3';
-
+import { observer } from 'mobx-react';
+import React from 'react';
+import { Alert, Animated, Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Button, Container, MasloPage } from 'src/components';
+import Colors from 'src/constants/colors';
+import Images from 'src/constants/images';
 import AppController from 'src/controllers';
+import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
+import AppViewModel from 'src/viewModels';
+import { ScenarioTriggers } from '../../abstractions';
+import { ViewState } from '../base';
 
 const minContentHeight = 300;
 const { width } = Dimensions.get('window');

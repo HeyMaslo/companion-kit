@@ -1,13 +1,12 @@
-import { ViewState } from '../base';
-import React from 'react';
-import { observer } from 'mobx-react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { MasloPage, Container, Button } from 'src/components';
-import { ScenarioTriggers } from '../../abstractions';
 import { createLogger } from 'common/logger';
-import { styles } from 'react-native-markdown-renderer';
+import { observer } from 'mobx-react';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { Button, Container, MasloPage } from 'src/components';
 import Layout from 'src/constants/Layout';
 import AppViewModel from 'src/viewModels';
+import { ScenarioTriggers } from '../../abstractions';
+import { ViewState } from '../base';
 
 export const logger = createLogger('[endQOL]');
 

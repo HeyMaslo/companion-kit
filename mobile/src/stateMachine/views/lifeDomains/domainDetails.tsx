@@ -1,13 +1,12 @@
-import { ViewState } from '../base';
-import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import { MasloPage, Container, Button } from 'src/components';
-import { ScenarioTriggers } from '../../abstractions';
-import Colors from '../../../constants/colors';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Container, MasloPage } from 'src/components';
 import AppViewModel from 'src/viewModels';
+import Colors from '../../../constants/colors';
+import { ScenarioTriggers } from '../../abstractions';
+import { ViewState } from '../base';
 
-import { styles } from 'react-native-markdown-renderer';
 
 const minContentHeight = 560;
 

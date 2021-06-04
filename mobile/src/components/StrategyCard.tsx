@@ -1,9 +1,9 @@
+import { DisplayStrategyIded } from 'common/models/QoL';
 import React from 'react';
-import { View, Pressable, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
-import TextStyles from 'src/styles/TextStyles';
+import { Dimensions, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Images from 'src/constants/images';
+import TextStyles from 'src/styles/TextStyles';
 import Colors from '../constants/colors/Colors';
-import { DisplayStrategyIded } from 'common/models/QoL'
 
 const { width } = Dimensions.get('window');
 

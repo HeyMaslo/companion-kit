@@ -1,14 +1,14 @@
-import { ViewState } from '../base';
-import React from 'react';
-import { observer } from 'mobx-react';
-import AppViewModel from 'src/viewModels';
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions, FlatList } from 'react-native';
-import { MasloPage, Container, Button, StrategyCard } from 'src/components';
-import { ScenarioTriggers } from '../../abstractions';
-import TextStyles from 'src/styles/TextStyles';
-import Colors from '../../../constants/colors/Colors';
-import AppController from 'src/controllers';
 import { observable } from 'mobx';
+import { observer } from 'mobx-react';
+import React from 'react';
+import { Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Button, Container, MasloPage, StrategyCard } from 'src/components';
+import AppController from 'src/controllers';
+import TextStyles from 'src/styles/TextStyles';
+import AppViewModel from 'src/viewModels';
+import Colors from '../../../constants/colors/Colors';
+import { ScenarioTriggers } from '../../abstractions';
+import { ViewState } from '../base';
 
 const minContentHeight = 300;
 const { width } = Dimensions.get('window');
