@@ -21,6 +21,8 @@ export class FocusStrategiesView extends ViewState {
         super(props);
         this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0} });
         this.hidePersona();
+
+        this.onLearnMorePress = this.onLearnMorePress.bind(this);
     }
 
     public get viewModel() {
