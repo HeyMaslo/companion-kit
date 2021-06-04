@@ -35,10 +35,7 @@ export class ChooseStrategiesView extends ViewState {
     }
 
     async start() {
-        let possibleStrategies = await AppController.Instance.User.backend.getPossibleStrategies();
-        this.viewModel.setAvailableStrategies(possibleStrategies);
-        this.domains = this.viewModel.selectedDomains;
-        this.forceUpdate();
+      //
     }
 
     onBack = () => {
@@ -65,7 +62,6 @@ export class ChooseStrategiesView extends ViewState {
     }
 
     onLearnMorePress(id: string) {
-      console.log('this.viewModel', this.viewModel)
       this.viewModel.learnMoreStrategy = this.viewModel.getStrategyById(id);
       this.trigger(ScenarioTriggers.Tertiary);
   }

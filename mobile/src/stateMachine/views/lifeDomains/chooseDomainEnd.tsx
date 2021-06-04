@@ -5,9 +5,10 @@ import { StyleSheet, Text, View } from 'react-native';
 import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import { createLogger } from 'common/logger';
-import { styles } from 'react-native-markdown-renderer';
+// import { styles } from 'react-native-markdown-renderer';
 import Layout from 'src/constants/Layout';
 import AppViewModel from 'src/viewModels';
+import AppController from 'src/controllers';
 
 export const logger = createLogger('[endQOL]');
 
@@ -34,11 +35,9 @@ export class ChooseDomainEndView extends ViewState {
         this.trigger(ScenarioTriggers.Cancel);
     }
 
-    private onEndSurvey = () => {
-        this.cancel();
-    }
-
-    onThreeSelected = () => {
+    async onThreeSelected() {
+        let possibleStrategies = await AppController.Instance.User.backend.getPossibleStrategies();
+        AppViewModel.Instance.ChooseStrategy.setAvailableStrategies(possibleStrategies);
         this.trigger(ScenarioTriggers.Submit)
     }
 
