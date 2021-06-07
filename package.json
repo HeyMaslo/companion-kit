@@ -58,7 +58,6 @@
         "typescript": "^3.8.3"
     },
     "dependencies": {
-        "@react-native-firebase/dynamic-links": "^10.0.0",
-        "firebase-functions": "^3.14.0"
+        "@react-native-firebase/dynamic-links": "^10.0.0"
     }
 }

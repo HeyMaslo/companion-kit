@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import AppleHealthKit from 'rn-apple-healthkit';
+import AppleHealthKit from 'react-native-health';
 
 const PERMS = AppleHealthKit.Constants.Permissions;
 

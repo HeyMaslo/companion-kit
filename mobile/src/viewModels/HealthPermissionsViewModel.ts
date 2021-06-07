@@ -10,7 +10,7 @@ const logger = createLogger('[HealthPermissionsViewModel]');
 // this can be updated when we want to add/remove permissions
 const permissions = [
 {title:"Activity", icon: Images.difficultIcon},
-{title:"Minfulness", icon: Images.veryPositiveIcon},
+{title:"Mindfulness", icon: Images.veryPositiveIcon},
 {title:"Mobility", icon:Images.busIcon},
 {title:"Nutrition", icon:Images.keyIcon},
 {title:"Respiractory", icon:Images.keyIcon},
