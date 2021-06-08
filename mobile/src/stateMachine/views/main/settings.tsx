@@ -104,6 +104,7 @@ export class SettingsView extends ViewState {
         const notificationsEnabled = this.model.notifications.isEnabled && !this.model.notifications.isToggleInProgress && this.model.notifications.schedule;
         const enabled = Platform.OS == 'ios'? this.model.healthAuth.isEnabledOG : this.model.healthAuth.isEnabled;
         const permissionsEnabled = enabled && !this.model.healthAuth.isToggleInProgress;
+        const activityEnabled = this.model.healthAuth.isEnabledActivity;
         return (
             <MasloPage style={this.baseStyles.page}>
                 <Container style={styles.topBarWrapWrap}>
@@ -157,7 +158,7 @@ export class SettingsView extends ViewState {
                             </Card>
                             <Card
                                     title={'Health Data'}
-                                    description={permissionsEnabled ? 'Authorization On' : 'Authorization Off'}
+                                    description={activityEnabled? 'Authorization On' : 'Authorization Off'}
                                     Image={Images.archiveIcon}
                                     onPress={this.onHealthChange}
                                 >

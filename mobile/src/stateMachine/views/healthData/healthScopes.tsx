@@ -50,6 +50,7 @@ export class HealthScopesView extends ViewState {
         const titleText = "Health Data";
         const explaining ="We are collecting your health data to build a better personalized experience for you in the app";
         const perm = this.model.getPermissions();
+        const activityEnabled = this.model.isEnabledActivity && !this.model.isToggleInProgress;
         return (
         <MasloPage style={this.baseStyles.page}>
             <Container style={styles.topBarWrapWrap}>
@@ -86,12 +87,12 @@ export class HealthScopesView extends ViewState {
                            {perm.map((n, key) => {
                                return <Card
                                title={n.title}
-                               description={permissionsEnabled? "Authorization on" : "Authorization off"}
+                               description={activityEnabled? "Authorization on" : "Authorization off"}
                                Image={n.icon}
                                key={key}
                            >
                                <Checkbox
-                                   checked={permissionsEnabled}
+                                   checked={activityEnabled}
                                    onChange={this.onNext}
                                />
                            </Card>
