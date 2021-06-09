@@ -138,151 +138,25 @@ export const getDOB = async (): Promise<boolean> => {
   })
 }
 
-export const getStepCount = async (): Promise<boolean> => {
+export const getAuthStatus = async (): Promise<boolean> => {
   return new Promise((resolve, reject) => {
-    AppleHealthKit.getStepCount(null,(err, results) => {
+    AppleHealthKit.getAuthStatus(permissions,(err, results) => {
       if (err) {
-          console.log("error initializing height:", err);
+          console.log("error loading permissions", err);
 
-          if (err.message == "No data available for the specified predicate.") {
+          if (err.message == "No data available for the targeted permissions.") {
             resolve (true);
           } else {
             resolve(false);
           }
           return;
-      }
-
-      if (!results.value){
-        console.log("RESULTS FROM Height HEALTHKIT11", results.value);
+      } 
+      if (!results.permissions){
         resolve(false);
         return;
       }
-      console.log("RESULTS FROM Height HEALTHKIT", results.value);
+      console.log("RESULTS FROM HEALTHKIT", results);
       resolve(true);
     });
   })
 }
-
-  export const getMindfulSession = async (): Promise<boolean> => {
-    return new Promise((resolve, reject) => {
-      AppleHealthKit.getMindfulSession(null,(err, results) => {
-        if (err) {
-            console.log("error initializing height:", err);
-  
-            if (err.message == "No data available for the specified predicate.") {
-              resolve (true);
-            } else {
-              resolve(false);
-            }
-            return;
-        }
-  
-        if (!results.value){
-          console.log("RESULTS FROM Height HEALTHKIT11", results.value);
-          resolve(false);
-          return;
-        }
-        console.log("RESULTS FROM Height HEALTHKIT", results.value);
-        resolve(true);
-      });
-    })
-  }
-
-  export const getCarbohydratesSamples = async (): Promise<boolean> => {
-    return new Promise((resolve, reject) => {
-      AppleHealthKit.getCarbohydratesSamples(null,(err, results) => {
-        if (err) {
-            console.log("error initializing height:", err);
-  
-            if (err.message == "No data available for the specified predicate.") {
-              resolve (true);
-            } else {
-              resolve(false);
-            }
-            return;
-        }
-  
-        if (!results.values){
-          console.log("RESULTS FROM Height HEALTHKIT11", results.values);
-          resolve(false);
-          return;
-        }
-        console.log("RESULTS FROM Height HEALTHKIT", results.values);
-        resolve(true);
-      });
-    })
-  }
-  
-    export const getSleepSamples = async (): Promise<boolean> => {
-      return new Promise((resolve, reject) => {
-        AppleHealthKit.getSleepSamples(null,(err, results) => {
-          if (err) {
-              console.log("error initializing height:", err);
-    
-              if (err.message == "No data available for the specified predicate.") {
-                resolve (true);
-              } else {
-                resolve(false);
-              }
-              return;
-          }
-  
-          if (!results.values){
-            console.log("RESULTS FROM Height HEALTHKIT11", results.values);
-            resolve(false);
-            return;
-          }
-          console.log("RESULTS FROM Height HEALTHKIT", results.values);
-          resolve(true);
-        });
-      })
-    }
-
-      export const getWater = async (): Promise<boolean> => {
-        return new Promise((resolve, reject) => {
-          AppleHealthKit.getWater(null,(err, results) => {
-            if (err) {
-                console.log("error initializing height:", err);
-      
-                if (err.message == "No data available for the specified predicate.") {
-                  resolve (true);
-                } else {
-                  resolve(false);
-                }
-                return;
-            }
-    
-            if (!results.value){
-              console.log("RESULTS FROM Height HEALTHKIT11", results.value);
-              resolve(false);
-              return;
-            }
-            console.log("RESULTS FROM Height HEALTHKIT", results.value);
-            resolve(true);
-          });
-        })
-      }
-        export const getRespiratoryRateSamples = async (): Promise<boolean> => {
-          return new Promise((resolve, reject) => {
-            AppleHealthKit.getRespiratoryRateSamples(null,(err, results) => {
-              if (err) {
-                  console.log("error initializing height:", err);
-        
-                  if (err.message == "No data available for the specified predicate.") {
-                    resolve (true);
-                  } else {
-                    resolve(false);
-                  }
-                  return;
-              }
-      
-              if (!results.values){
-                console.log("RESULTS FROM Height HEALTHKIT11", results.values);
-                resolve(false);
-                return;
-              }
-              console.log("RESULTS FROM Height HEALTHKIT", results.values);
-              resolve(true);
-            });
-          })
-        }

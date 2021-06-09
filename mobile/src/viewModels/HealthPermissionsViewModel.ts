@@ -24,9 +24,6 @@ export class HealthPermissionsViewModel {
     @observable
     private _isEnabled: boolean = this.originalIsEnabled;
 
-    @observable
-    private _isEnabledActivity: boolean = this.originalIsEnabledActivity;
-
     private _unsubscribe: () => void = null;
 
     @observable
@@ -34,11 +31,9 @@ export class HealthPermissionsViewModel {
 
     private get originalIsEnabled() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabled; }
     private get originalIsEnabledOG() { return AppController.Instance.User?.hasHealthDataPermissions.enabledOG; }
-    private get originalIsEnabledActivity() { return AppController.Instance.User?.hasHealthDataPermissions.enabledActivity; }
 
     get isEnabled() { return this._isEnabled; }
     get isEnabledOG() { return this._isEnabledOG; }
-    get isEnabledActivity() { return this._isEnabledActivity;}
     get isToggleInProgress() { return this._toggleInProgress; }
 
     get settingsSynced() { return AppController.Instance.User.localSettings.synced; }
@@ -75,7 +70,7 @@ export class HealthPermissionsViewModel {
             if ((!this._isEnabledOG) && Platform.OS == 'ios') {
                 Alert.alert(
                     'Oops',
-                    'Looks like health Permissions have been restricted. Please re-enable it anytime in Settings and try again.',
+                    'Looks like health permissions have been restricted. Please re-enable it anytime in Settings and try again.',
                     [
                         { text: 'Cancel',
                      },

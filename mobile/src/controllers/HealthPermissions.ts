@@ -3,7 +3,7 @@ import { IUserNameProvider } from 'src/services/Notifications';
 import { ILocalSettingsController } from './LocalSettings';
 import { ThrottleAction } from 'common/utils/throttle';
 import { IDisposable } from 'common/utils/unsubscriber';
-import {auth, init, disconnectAndroid, getDOB, getStepCount, getMindfulSession} from 'src/helpers/health'
+import {auth, init, disconnectAndroid, getDOB, getAuthStatus} from 'src/helpers/health'
 import { Platform } from 'react-native';
 import logger, { createLogger } from 'common/logger';
 
@@ -16,25 +16,6 @@ export class HealthPermissionsController implements IDisposable {
     @observable
     private _enabledByUserOG: boolean;
 
-    @observable
-    private _enabledByUserActivity: boolean;
-
-    @observable
-    private _enabledByUserMindfulness: boolean;
-
-    // @observable
-    // private _enabledByUserMobility: boolean;
-
-    // @observable
-    // private _enabledByUserNutrition: boolean;
-
-    // @observable
-    // private _enabledByUserRespiractory: boolean;
-
-    // @observable
-    // private _enabledByUserSleep: boolean;
-
-
     private readonly _syncThrottle = new ThrottleAction<Promise<void>>(1000);
 
     constructor(private readonly settings: ILocalSettingsController, name: IUserNameProvider) {
@@ -43,18 +24,6 @@ export class HealthPermissionsController implements IDisposable {
     public get enabled() { return this._enabledByUser; }
     
     public get enabledOG() { return this._enabledByUserOG; }
-
-    public get enabledActivity() {return this._enabledByUserActivity}
-
-    public get enabledMindfulness() {return this._enabledByUserMindfulness}
-
-    // public get enabledMobility() {return this._enabledByUserMobility}
-
-    // public get enabledNutrition() {return this._enabledByUserNutrition}
-
-    // public get enabledRespiractory() {return this._enabledByUserRespiractory}
-
-    // public get enabledSleep() {return this._enabledByUserSleep}
 
     public get permissionsGranted() { return this._enabledByUser; }
 
@@ -75,20 +44,8 @@ export class HealthPermissionsController implements IDisposable {
         logger.log("PERMS", authorized);
 
         if (Platform.OS == 'ios'){
-            const dob = await getDOB(); 
-            const activity = await getStepCount();
-            const mindfulness = await getMindfulSession();
-            // const mobility = await getCarbohydratesSamples();
-            // const nutrition = await getWater();
-            // const respiractory = await getRespiratoryRateSamples();
-            // const sleep = await getSleepSamples();
+            const dob = await getDOB();
             this._enabledByUserOG = dob;
-            this._enabledByUserActivity = activity;
-            this._enabledByUserMindfulness = mindfulness;
-            // this._enabledByUserMobility = mobility;
-            // this._enabledByUserNutrition = nutrition;
-            // this._enabledByUserRespiractory = respiractory;
-            // this._enabledByUserSleep = sleep;
         }
         if (Platform.OS == 'android'){ 
             this._enabledByUserOG = authorized;
