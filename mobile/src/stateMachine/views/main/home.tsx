@@ -18,7 +18,7 @@ import { InterventionTipsStatuses, Identify, DocumentLinkEntry } from 'common/mo
 import { TransitionObserver } from 'common/utils/transitionObserver';
 import { UserProfileName } from 'src/screens/components/UserProfileName';
 import AppViewModel from 'src/viewModels';
-import { QolType } from 'src/viewModels/QoLViewModel';
+import { QolSurveyType } from 'src/constants/QoL';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -129,7 +129,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     }
 
     private onMonthlyQol = () => {
-        this.viewQolModel.setQolType = QolType.Monthly;
+        this.viewQolModel.setQolSurveyType = QolSurveyType.Monthly;
         this.trigger(ScenarioTriggers.Tertiary);
     }
 
@@ -316,7 +316,6 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
-                    <Button title="Qol Survey" style={styles.qolButton} onPress={() => this.onStartQOL()}/>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
                     { loading
                         ? <ActivityIndicator size="large" />
@@ -372,10 +371,4 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         textAlign: 'center',
     },
-    qolButton: {
-        width: '30%',
-        height: 30,
-        marginLeft: 20,
-        marginBottom: 15
-    }
 });

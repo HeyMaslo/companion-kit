@@ -1,13 +1,12 @@
-import { PartialQol, QolSurveyResults } from 'common/models/QoL';
+import { PartialQol, QolSurveyResults } from '../../../mobile/src/constants/QoL';
 
 export interface IQoLController {
 
     getSurveyResults(): Promise<QolSurveyResults>;
 
-    sendSurveyResults(results: QolSurveyResults): Promise<boolean>;
+    sendSurveyResults(results: QolSurveyResults, startDate: number, questionCompletionDates: number[]): Promise<boolean>;
 
-    sendPartialQol(surveyScores: QolSurveyResults,
-        questionNumber: number, domainNumber: number, isFirstTimeQol: boolean): Promise<boolean>;
+    sendPartialQol(qol: PartialQol): Promise<boolean>;
 
     getPartialQol(): Promise<PartialQol>;
 

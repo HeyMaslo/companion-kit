@@ -2,7 +2,7 @@ import { IQoLController } from 'common/abstractions/controlllers/IQoLController'
 import {
     QolSurveyResults,
     PartialQol,
-} from 'common/models/QoL';
+} from '../../mobile/src/constants/QoL';
 import RepoFactory from 'common/controllers/RepoFactory';
 
 export default class QoLControllerBase implements IQoLController {
@@ -16,31 +16,25 @@ export default class QoLControllerBase implements IQoLController {
     }
 
     // Submit new survey results
-    public async sendSurveyResults(results: QolSurveyResults): Promise<boolean> {
+    public async sendSurveyResults(results: QolSurveyResults, startDate: number, questionCompletionDates: number[]): Promise<boolean> {
         console.log(`add qol results: userId = ${this._userId}`);
-        await RepoFactory.Instance.surveyResults.addResults(this._userId, results);
+        await RepoFactory.Instance.surveyResults.addResults(this._userId, results, startDate, questionCompletionDates);
         return true;
     }
 
     // Store partial survey state
     // Any subsequent calls to get will return this state
-    public async sendPartialQol(surveyScores: QolSurveyResults,
-        questionNumber: number, domainNumber: number, isFirstTimeQol: boolean): Promise<boolean> {
+    public async sendPartialQol(qol: PartialQol): Promise<boolean> {
 
         console.log(`set partial qol: userId = ${this._userId}`);
         if (!this._userId) {
             return false;
         }
-        const data = surveyScores == null ? null : {
-            questionNum: questionNumber,
-            domainNum: domainNumber,
-            scores: surveyScores,
-            isFirstTimeQol,
-        };
         try {
-            await RepoFactory.Instance.surveyState.setByUserId(this._userId, data);
+            await RepoFactory.Instance.surveyState.setByUserId(this._userId, qol);
             return true;
         } catch (err) {
+            console.log(`sendPartialQol ERROR:  ${err}`);
             return false;
         }
     }

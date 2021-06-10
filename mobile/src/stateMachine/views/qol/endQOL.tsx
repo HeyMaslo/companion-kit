@@ -8,7 +8,7 @@ import { createLogger } from 'common/logger';
 import { styles } from 'react-native-markdown-renderer';
 import Layout from 'src/constants/Layout';
 import AppViewModel from 'src/viewModels';
-import QOLSurveyViewModel, { QolType } from '../../../viewModels/QoLViewModel';
+import QOLSurveyViewModel from '../../../viewModels/QoLViewModel';
 
 export const logger = createLogger('[endQOL]');
 
@@ -45,14 +45,7 @@ export class QolEndView extends ViewState<{ opacity: Animated.Value }> {
         this.trigger(ScenarioTriggers.Cancel);
     }
 
-    private onEndSurvey = async () => {
-        await this.viewModel.sendSurveyResults();
-        if (this.viewModel.isUnfinished) {
-            await this.viewModel.saveSurveyProgress(null);
-        }
-        if (this.viewModel.qolType = QolType.Monthly) {
-            this.viewModel.updatePendingMonthlyQol();
-        }
+    private onEndSurvey = () => {
         AppViewModel.Instance.QOL = new QOLSurveyViewModel();
         this.cancel();
     }

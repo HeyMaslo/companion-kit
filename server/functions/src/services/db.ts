@@ -3,7 +3,7 @@ import * as Repositories from 'common/database/repositories';
 import Collections from 'common/database/collections';
 import { ServerFirestore } from 'common/database/repositories/dbProvider';
 import admin from './admin';
-import { Domain, Question } from 'common/models/QoL';
+import { Domain, Question } from '../../../../mobile/src/constants/QoL';
 
 const db = createLazy<ServerFirestore>(() => {
     const res = admin.firestore() as ServerFirestore;

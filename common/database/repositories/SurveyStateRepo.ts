@@ -1,4 +1,4 @@
-import { PartialQol } from 'common/models/QoL';
+import { PartialQol } from '../../../mobile/src/constants/QoL';
 import GenericUserRepo from './GenericUserRepo';
 import { DocumentSnapshot, Query } from 'common/database/repositories/dbProvider';
 import Collections from 'common/database/collections';
