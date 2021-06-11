@@ -391,7 +391,6 @@ export const MasloScenario: GlobalScenario<States> = {
         view: DomainDetailsView,
         exit: [
             { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
-            // { target: States.qol_Physical, trigger: [Triggers.Submit] },
         ]
     },
     [States.Select_Domain]: {
