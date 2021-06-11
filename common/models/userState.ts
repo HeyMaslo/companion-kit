@@ -1,4 +1,4 @@
-import { PartialQol } from './QoL';
+import { PartialQol } from '../../mobile/src/constants/QoL';
 
 export type UserState = {
     surveyState:    PartialQol;
