@@ -74,6 +74,7 @@ export default class ChooseDomainViewModel {
     }
 
     // adds selected domains by user to the selected domains array, use this array to persist to backend
+    // returns false if domain has already been selected
     public selectDomain(domain: DomainIded): Boolean {
         if (this._selectedDomains.map(d => d.id).includes(domain.id)) {
             return false;
@@ -81,6 +82,11 @@ export default class ChooseDomainViewModel {
         this._selectedDomains.push(domain);
         AppViewModel.Instance.ChooseStrategy.setSelectedDomains(this._selectedDomains);
         return true;
+    }
+
+    public clearSelectedDomains() {
+        this._selectedDomains = [];
+        AppViewModel.Instance.ChooseStrategy.setSelectedDomains(this._selectedDomains);
     }
 
     public getDomainByName(name: string): DomainIded {

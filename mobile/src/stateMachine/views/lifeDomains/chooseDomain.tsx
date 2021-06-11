@@ -101,11 +101,22 @@ export class ChooseDomainView extends ViewState {
     }
 
     onSelectDomain = (n: string) => {
-        let onSelectThird = this.viewModel.selectedDomains.length == 2;
-        if (this.viewModel.selectDomain(this.viewModel.getDomainByName(n))) {
-            AppController.Instance.User.backend
-                .setDomains(this.viewModel.selectedDomains.map(d => d.id));
-            onSelectThird ? this.trigger(ScenarioTriggers.Next) : this.trigger(ScenarioTriggers.Tertiary);
+        let hasTwoSelected = this.viewModel.selectedDomains.length == 2;
+        let hasThreeSelected = this.viewModel.selectedDomains.length == 3;
+
+        if (hasThreeSelected) {
+            Alert.alert(
+                'Too Many',
+                'Looks like you have already selected three domains.',
+                [
+                    { text: 'Deselct all', onPress: this.clearDomains, style: 'destructive'},
+                    { text: 'OK' },
+                ]);
+        } else if ((hasTwoSelected || hasThreeSelected) && !this.viewModel.selectDomain(this.viewModel.getDomainByName(n))) {
+            this.trigger(ScenarioTriggers.Tertiary);
+        } else if (this.viewModel.selectDomain(this.viewModel.getDomainByName(n))) {
+            AppController.Instance.User.backend.setDomains(this.viewModel.selectedDomains.map(d => d.id));
+            hasTwoSelected ? this.trigger(ScenarioTriggers.Next) : this.trigger(ScenarioTriggers.Tertiary);
         } else {
             Alert.alert(
                 'Oops',
@@ -116,16 +127,14 @@ export class ChooseDomainView extends ViewState {
         }
     }
 
+    private clearDomains = () => {
+        this.viewModel.clearSelectedDomains();
+    }
+
     renderContent() {
         let {xTabOne, xTabTwo, active, translateX, translateXTabTwo, translateXTabOne, translateY, xDomain} = this.state
         const [lDomain, domain, rDomain, importance] = this.viewModel.getDomainDisplay();
-        const domainLength = this.viewModel.domainCount;
-        const domainsChosen = this.viewModel.selectedDomains;
-        console.log('domainsChosen ', domainsChosen)
-        // let mainDomain, leftDomain, rightDomain = 0;
-        // TODO: put styles in style sheet and abstract common styles
-        // TODO: see if there are styles in basestyles that work
-        // this.logger.log('DOMAINS', lDomain, rDomain, domain);
+
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()}>
                 <Container style={[{height: this._contentHeight, paddingTop: 10, paddingBottom: 10}]}>
@@ -134,7 +143,6 @@ export class ChooseDomainView extends ViewState {
                         <Text style={[TextStyles.labelMedium, styles.date]}>{today}</Text>
                     </View>
                     <View style={{borderWidth: 1, borderRadius: 10, height: 350, justifyContent: 'center', alignItems: 'center'}}>
-                        {/* <View style={{justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: 'red'}}> */}
                             <View style={{
                                 flexDirection: 'row', 
                                 margin: 10,
@@ -152,7 +160,7 @@ export class ChooseDomainView extends ViewState {
                                 onLayout = {event => this.setState({xTabOne: event.nativeEvent.layout.x})}
                                 onPress = {() => this.setState({active: 0}, () => this.handleSlide(xTabOne))}
                                 >
-                                    <Text style={{fontWeight: active===0? 'bold' : 'normal', textDecorationLine: active === 0? 'underline': 'none'}}>Importance</Text>
+                                    <Text style={{fontWeight: active === 0 ? 'bold' : 'normal', textDecorationLine: active === 0 ? 'underline' : 'none'}}>Importance</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                  style={[ styles.tabs,{
@@ -163,7 +171,7 @@ export class ChooseDomainView extends ViewState {
                                 onLayout = {event => this.setState({xTabTwo: event.nativeEvent.layout.x})}
                                 onPress = {() => this.setState({active: 1}, () => this.handleSlide(xTabTwo))}
                                 >
-                                    <Text style={{fontWeight: active===1? 'bold' : 'normal', textDecorationLine: active === 1? 'underline': 'none'}}>Timeline</Text>
+                                    <Text style={{fontWeight: active === 1 ? 'bold' : 'normal', textDecorationLine: active === 1 ? 'underline' : 'none'}}>Timeline</Text>
                                 </TouchableOpacity>
                             </View>
                             <ScrollView>
@@ -196,31 +204,27 @@ export class ChooseDomainView extends ViewState {
                                 }}>
                                     <Images.noStatistics width={200} height={100} />
                                     <Text style={[this.textStyles.h1, styles.placeholderHeading]}>No statistics yet</Text>
-                                    <Text style={[this.textStyles.p1, styles.placeholderSubtitle]}>{`Complete at-least one week of check-ins to use your timeline.`}</Text>
+                                    <Text style={[this.textStyles.p1, styles.placeholderSubtitle]}>{'Complete at-least one week of check-ins to use your timeline.'}</Text>
                                 </Animated.View>     
                             </ScrollView>
                             <View style= {[{
                                     marginLeft: 'auto',
                                     flexDirection: 'row',
                                     paddingBottom: 10,
-                                }]}
-                                // onLayout = {event => this.setState({translateY: event.nativeEvent.layout.height})}
-                                
-                                >
+                                }]}>
                                     <Button
-                                        title= {active === 0? 'View Details' : 'Calendar'}
+                                        title= {active === 0 ? 'View Details' : 'Calendar'}
                                         style={styles.buttonDetails}
                                         titleStyles={styles.mailButtonTitle}
-                                        onPress={active === 0? () => this.onDetails() : null}
+                                        onPress={active === 0 ? () => this.onDetails() : null}
                                         isTransparent
                                      />
 
                                 </View>
-                        {/* </View> */}
                     </View>
                     <View style={{justifyContent: 'center', marginLeft: 'auto', marginRight: 'auto', marginTop: 50, marginBottom: 50}}>
                                 <Button
-                                    title="Select Focus Domain"
+                                    title={this.viewModel.selectedDomains.map((s) => s.name).includes(domain) && this.viewModel.selectedDomains.length > 1 ? 'Chosoe Strategies' : 'Select Focus Domain'}
                                     style={styles.domain}
                                     titleStyles={styles.selectDomain}
                                     onPress={() => this.onSelectDomain(domain)}
@@ -266,9 +270,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         height: 350,
-        // justifyContent: 'space-between',
         paddingBottom: 50,
-        // borderWidth: 1,
     },
     buttons: {
         height: 60,
@@ -317,13 +319,12 @@ const styles = StyleSheet.create({
     date: {
         textTransform: 'uppercase',
     },
-    domain :{
+    domain: {
         fontWeight: '500',
         letterSpacing: 1.79,
         fontFamily: mainFontMedium,
-        // fontSize: 25
     },
-    selectDomain : {
+    selectDomain: {
         borderWidth: 1,
         borderRadius: 5,
         color: 'black',

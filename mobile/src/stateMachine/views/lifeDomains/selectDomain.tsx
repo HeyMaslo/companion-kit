@@ -38,7 +38,7 @@ export class SelectDomainView extends ViewState {
     }
 
     onThreeSelected = () => {
-        this,this.trigger(ScenarioTriggers.Submit)
+        this.trigger(ScenarioTriggers.Submit)
     }
 
     renderContent() {
