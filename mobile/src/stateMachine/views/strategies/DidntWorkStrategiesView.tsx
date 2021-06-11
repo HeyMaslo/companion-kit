@@ -7,7 +7,7 @@ import { MasloPage, Container, Button, BackArrow, GradientChart, Card } from 'sr
 import { ScenarioTriggers } from '../../abstractions';
 import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
 import Colors from '../../../constants/colors/Colors';
-import { StrategyIded } from 'common/models/QoL';
+import { StrategyIded } from '../../../../../mobile/src/constants/QoL';
 
 // import { styles } from 'react-native-markdown-renderer';
 

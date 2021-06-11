@@ -1,4 +1,4 @@
-import { StrategyIded } from 'common/models/QoL';
+import { StrategyIded } from '../../../../../mobile/src/constants/QoL';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native';

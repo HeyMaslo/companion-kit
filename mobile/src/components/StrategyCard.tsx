@@ -1,4 +1,4 @@
-import { DisplayStrategyIded } from 'common/models/QoL';
+import { DisplayStrategyIded } from '../../../mobile/src/constants/QoL';
 import React from 'react';
 import { Dimensions, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Images from 'src/constants/images';
