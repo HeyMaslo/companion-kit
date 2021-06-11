@@ -19,6 +19,7 @@ export class ChooseStrategiesView extends ViewState {
   @observable
   private dropDownIsExtended = false;
   private domains: string[] = [];
+  private currentFilter: string = null;
 
     constructor(props) {
         super(props);
@@ -71,12 +72,13 @@ export class ChooseStrategiesView extends ViewState {
     }
 
     changeFilterPressed = (strategyDomain: string) => {
+      this.currentFilter = strategyDomain;
       this.viewModel.filterAvailableStrategies(strategyDomain)
     }
 
     dropDown = () => {
       if (this.dropDownIsExtended) {
-        this.viewModel.filterAvailableStrategies(null);
+        this.changeFilterPressed(null);
       }
       this.dropDownIsExtended = !this.dropDownIsExtended;
     }
@@ -84,7 +86,7 @@ export class ChooseStrategiesView extends ViewState {
     renderDropDownListItem = ({ item }) => (
       <TouchableOpacity onPress={() => this.changeFilterPressed(item)}>
         <View style={styles.dropDownlistItem}>
-          <Text style={[TextStyles.btnTitle, {display: 'flex', color: Colors.button.buttonForm.text}]}>{item}</Text>
+          <Text style={[TextStyles.btnTitle, {display: 'flex', color: Colors.button.buttonForm.text}, this.currentFilter == item ? {textDecorationLine: 'underline'} : null]}>{item}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -107,14 +109,14 @@ export class ChooseStrategiesView extends ViewState {
                     {this.domains.length < 3 ? 
                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                         {/* Sort Row of Three Buttons */}
-                        <TouchableOpacity onPress={() => this.changeFilterPressed(null)}><Text style={[TextStyles.btnTitle, styles.rowButton, {textDecorationLine: 'underline'}]}>{'Show All'}</Text></TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.changeFilterPressed(this.domains[0])}><Text style={[TextStyles.btnTitle, styles.rowButton]}>{this.domains[0]}</Text></TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.changeFilterPressed(this.domains[1])}><Text style={[TextStyles.btnTitle, styles.rowButton]}>{this.domains[1]}</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.changeFilterPressed(null)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == null ? {textDecorationLine: 'underline'} : null]}>{'Show All'}</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.changeFilterPressed(this.domains[0])}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.domains[0] ? {textDecorationLine: 'underline'} : null]}>{this.domains[0]}</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.changeFilterPressed(this.domains[1])}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.domains[1] ? {textDecorationLine: 'underline'} : null]}>{this.domains[1]}</Text></TouchableOpacity>
                       </View>
                     :
                       <View>
                       {/* Sort Drop Down Button */}
-                        <Button titleStyles={styles.sortButtonTitle} title='SHOW ALL' style={styles.sortButton} onPress={this.dropDown}/>
+                        <Button titleStyles={[styles.sortButtonTitle, this.currentFilter == null ? {textDecorationLine: 'underline'} : null]} title='SHOW ALL' style={styles.sortButton} onPress={this.dropDown}/>
                         {this.dropDownIsExtended ? 
                          <FlatList style={styles.dropDownlist}    
                                    data={this.domains}
@@ -152,7 +154,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0)',
   },
   sortButtonTitle: {
-    textDecorationLine: 'underline',
     color: Colors.survey.btnFontColor,
   },
   dropDownTitle: {

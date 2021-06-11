@@ -22,6 +22,7 @@ export class StrategyDetailsView extends ViewState {
         this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0} });
         this.hidePersona();
         this._learnMoreStrategy = this.viewModel.learnMoreStrategy;
+        this.slideInRightContent(300, 5);
     }
 
     public get viewModel() {
