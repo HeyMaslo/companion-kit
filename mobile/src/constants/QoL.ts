@@ -10,7 +10,7 @@ import { Identify } from 'common/models';
 
 export enum DomainScope {
     GENERAL = 'GENERAL',
-    WORK    = 'WORK',
+    WORK = 'WORK',
     STUDENT = 'STUDENT',
 }
 
@@ -41,9 +41,9 @@ export type DisplayStrategyIded = StrategyIded & {
 // QUESTION
 
 export type Question = {
-    domainId:   string, // reference to single domain
-    text:       string,
-    position:   number,
+    domainId: string, // reference to single domain
+    text: string,
+    position: number,
 };
 
 export type QuestionIded = Identify<Question>;
@@ -54,11 +54,20 @@ export type QolSurveyResults = {
     [dom: string]: number,
 };
 
+export enum QolSurveyType {
+    Onboarding = 'ONBOARDING',
+    Monthly = 'MONTHLY',
+}
+
+export type QoLSurveyTimestamp = number;
+
 export type PartialQol = {
     questionNum: number,
     domainNum: number,
     scores: QolSurveyResults,
     isFirstTimeQol: boolean,
+    startDate: QoLSurveyTimestamp,
+    questionCompletionDates: QoLSurveyTimestamp[],
 };
 
 export type SurveyState = {

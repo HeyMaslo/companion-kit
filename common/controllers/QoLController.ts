@@ -6,7 +6,7 @@ import {
     DomainIded,
     Strategy,
     StrategyIded,
-} from 'common/models/QoL';
+} from '../../mobile/src/constants/QoL';
 import RepoFactory from 'common/controllers/RepoFactory';
 import { Identify } from 'common/models';
 import { UserState } from 'common/models/userState';
@@ -22,27 +22,20 @@ export default class QoLControllerBase implements IQoLController {
     }
 
     // Submit new survey results
-    public async sendSurveyResults(results: QolSurveyResults): Promise<boolean> {
+    public async sendSurveyResults(results: QolSurveyResults, startDate: number, questionCompletionDates: number[]): Promise<boolean> {
         console.log(`add qol results: userId = ${this._userId}`);
-        await RepoFactory.Instance.surveyResults.addResults(this._userId, results);
+        await RepoFactory.Instance.surveyResults.addResults(this._userId, results, startDate, questionCompletionDates);
         return true;
     }
 
     // Store partial survey state
     // Any subsequent calls to get will return this state
-    public async sendPartialQol(surveyScores: QolSurveyResults,
-        questionNumber: number, domainNumber: number, isFirstTimeQol: boolean): Promise<boolean> {
+    public async sendPartialQol(qol: PartialQol): Promise<boolean> {
 
         console.log(`set partial qol: userId = ${this._userId}`);
         if (!this._userId) {
             return false;
         }
-        const data = surveyScores == null ? null : {
-            questionNum: questionNumber,
-            domainNum: domainNumber,
-            scores: surveyScores,
-            isFirstTimeQol,
-        };
         try {
             let st: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
             if (st) {
@@ -56,6 +49,7 @@ export default class QoLControllerBase implements IQoLController {
             await RepoFactory.Instance.userState.setByUserId(this._userId, st);
             return true;
         } catch (err) {
+            console.log(`sendPartialQol ERROR:  ${err}`);
             return false;
         }
     }

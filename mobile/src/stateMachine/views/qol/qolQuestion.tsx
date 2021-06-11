@@ -7,8 +7,8 @@ import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import Colors from '../../../constants/colors';
 import TextStyles from '../../../../src/styles/TextStyles';
-
-import { styles } from 'react-native-markdown-renderer';
+import QOLSurveyViewModel from '../../../viewModels/QoLViewModel';
+import { QolSurveyType } from 'src/constants/QoL';
 
 const minContentHeight = 560;
 
@@ -17,11 +17,11 @@ export class QolQuestion extends ViewState {
 
     labelState = {
         opacity: new Animated.Value(1),
-    }
+    };
 
     constructor(props) {
         super(props);
-        this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -140 - (this.viewModel.domainNum*30), transition: { duration: 1 }, scale: 0.8 });
+        this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -140 - (this.viewModel.domainNum * 30), transition: { duration: 1 }, scale: 0.8 });
         this.viewModel.origMags = this.persona.qolMags;
         this.persona.qolMags = this.viewModel.qolMags;
     }
@@ -30,11 +30,8 @@ export class QolQuestion extends ViewState {
         return AppViewModel.Instance.QOL;
     }
 
-    async start() {}
-
-    private saveProgress = async () => {
-        await this.viewModel.saveSurveyProgress(this.persona.qolMags);
-        this.cancel();
+    async start() {
+        // Not yet implemented
     }
 
     private cancel = () => {
@@ -42,12 +39,21 @@ export class QolQuestion extends ViewState {
         this.trigger(ScenarioTriggers.Cancel);
     }
 
-    private finish = () => {
+    // Called when survey is completed
+    private finish = async () => {
         this.trigger(ScenarioTriggers.Submit);
+        await this.viewModel.sendSurveyResults();
+
+        if (this.viewModel.isUnfinished) {
+            await this.viewModel.saveSurveyProgress(null);
+        }
+        if (this.viewModel.QolSurveyType === QolSurveyType.Monthly) {
+            this.viewModel.updatePendingMonthlyQol();
+        }
     }
 
     private isNextDomain = (currQuestion: number) => {
-        return (currQuestion + 1) % (this.viewModel.domainQuestions) === 1 && (currQuestion !== 1);
+        return (currQuestion + 1) % (this.viewModel.domainQuestionCount) === 1 && (currQuestion !== 1);
     }
 
     private animateDomainChange = () => {
@@ -55,41 +61,42 @@ export class QolQuestion extends ViewState {
             toValue: 0,
             delay: 0,
             duration: 20,
-            useNativeDriver: true
+            useNativeDriver: true,
         }).start(() => {
             this.viewModel.nextQuestion();
-            this.persona.view = {...this.persona.view, rotation: (this.persona.view.rotation - 30), transition: {duration: 1}};
+            this.persona.view = { ...this.persona.view, rotation: (this.persona.view.rotation - 30), transition: { duration: 1 } };
             Animated.timing(this.labelState.opacity, {
                 toValue: 1,
                 delay: 200,
                 duration: 900,
-                useNativeDriver: true
+                useNativeDriver: true,
             }).start();
             this.checkForInterlude();
-        });        
+        });
     }
 
     private nextQuestion = (prevResponse: number) => {
         this.viewModel.savePrevResponse(prevResponse);
         const newDomainMag: number = this.calculateNewDomainMag(prevResponse);
-        this.persona.qolMags = {...this.persona.qolMags, [this.viewModel.domain]: newDomainMag }
-        if (this.viewModel.questionNum != (this.viewModel.numQuestions - 1)) {
-            if (this.isNextDomain(this.viewModel.questionNum + 1)) { 
+        this.persona.qolMags = { ...this.persona.qolMags, [this.viewModel.domain]: newDomainMag };
+
+        if (this.viewModel.questionNum === (this.viewModel.numQuestions - 1)) {
+            this.finish();
+        } else {
+            if (this.isNextDomain(this.viewModel.questionNum + 1)) {
                 this.animateDomainChange();
             } else {
                 this.viewModel.nextQuestion();
             }
-        } else {
-            this.finish();
         }
     }
 
     private calculateNewDomainMag = (response: number) => {
         let booster: number = 0;
-        if ((this.viewModel.questionNum+1) % 4 === 1) {
+        if ((this.viewModel.questionNum + 1) % 4 === 1) {
             booster = 0.2;
         }
-        let inc: number = response * 3 / 100;
+        const inc: number = response * 3 / 100;
         const oldMag: number = this.persona.qolMags[this.viewModel.domain];
         return oldMag + inc + booster;
     }
@@ -99,15 +106,14 @@ export class QolQuestion extends ViewState {
             title: `Do you really want to stop the survey? Your progress will be saved.`,
             primaryButton: {
                 text: 'yes, stop',
-                action: this.saveProgress,
+                action: this.cancel,
             },
             secondaryButton: {
                 text: 'no, go back',
                 action: this.hideModal,
-            }
+            },
         });
     })
-
 
     private checkForInterlude() {
         if (this.viewModel.showInterlude && this.viewModel.questionNum === this.viewModel.numQuestions / 2) {
@@ -122,7 +128,7 @@ export class QolQuestion extends ViewState {
             primaryButton: {
                 text: 'CONTINUE',
                 action: this.hideModal,
-            }
+            },
         });
     })
 
@@ -130,22 +136,22 @@ export class QolQuestion extends ViewState {
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
                 <Container style={[styles.container, { height: this._contentHeight }]}>
-                    <Animated.View style={{opacity: this.labelState.opacity}}>
+                    <Animated.View style={{ opacity: this.labelState.opacity }}>
                         <Text style={styles.domainLabel}>{this.viewModel.domain.toUpperCase()}</Text>
                     </Animated.View>
                     <View style={styles.subText1}>
-                        <Text style={this.textStyles.p3}>{this.viewModel.questionNum+1} of {this.viewModel.numQuestions}</Text>
+                        <Text style={this.textStyles.p3}>{this.viewModel.questionNum + 1} of {this.viewModel.numQuestions}</Text>
                     </View>
-                    <Text style={{...this.textStyles.p3, marginTop: '8%'}}>OVER THE LAST 7 DAYS I HAVE...</Text>
+                    <Text style={{ ...this.textStyles.p3, marginTop: '8%' }}>OVER THE LAST 7 DAYS I HAVE...</Text>
                     <View style={styles.question}>
                         <Text style={[this.textStyles.h2, styles.questionText]}>{this.viewModel.question}</Text>
                     </View>
                     <View style={styles.buttonContainer}>
-                        <Button title="STRONGLY AGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion(5)}></Button>
-                        <Button title="AGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion(4)}></Button>
-                        <Button title="NEUTRAL" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion(3)}></Button>
-                        <Button title="DISAGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion(2)}></Button>
-                        <Button title="STRONGLY DISAGREE" style={styles.buttons} titleStyles={{color: Colors.survey.btnFontColor}} withBorder={true} onPress={() => this.nextQuestion(1)}></Button>
+                        <Button title="STRONGLY AGREE" style={styles.buttons} titleStyles={{ color: Colors.survey.btnFontColor }} withBorder={true} onPress={() => this.nextQuestion(5)}></Button>
+                        <Button title="AGREE" style={styles.buttons} titleStyles={{ color: Colors.survey.btnFontColor }} withBorder={true} onPress={() => this.nextQuestion(4)}></Button>
+                        <Button title="NEUTRAL" style={styles.buttons} titleStyles={{ color: Colors.survey.btnFontColor }} withBorder={true} onPress={() => this.nextQuestion(3)}></Button>
+                        <Button title="DISAGREE" style={styles.buttons} titleStyles={{ color: Colors.survey.btnFontColor }} withBorder={true} onPress={() => this.nextQuestion(2)}></Button>
+                        <Button title="STRONGLY DISAGREE" style={styles.buttons} titleStyles={{ color: Colors.survey.btnFontColor }} withBorder={true} onPress={() => this.nextQuestion(1)}></Button>
                     </View>
                 </Container>
             </MasloPage>
@@ -153,23 +159,23 @@ export class QolQuestion extends ViewState {
     }
 }
 
-const styles = StyleSheet.create({ 
+const styles = StyleSheet.create({
     container: {
         paddingTop: 40,
-        paddingBottom: 15
+        paddingBottom: 15,
     },
     domainLabel: {
         marginLeft: '70%',
-        fontFamily: TextStyles.labelMedium.fontFamily
+        fontFamily: TextStyles.labelMedium.fontFamily,
     },
     subText1: {
         alignItems: 'center',
         width: '100%',
-        marginTop: '4%'
+        marginTop: '4%',
     },
     questionText: {
         marginVertical: '5%',
-        textAlign: "center"
+        textAlign: 'center',
     },
     title: {
         width: '100%',
@@ -179,7 +185,7 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width,
         height: '60%',
         justifyContent: 'space-between',
-        position: "absolute",
+        position: 'absolute',
         bottom: 30,
     },
     buttons: {
@@ -190,5 +196,5 @@ const styles = StyleSheet.create({
     question: {
         alignItems: 'center',
         width: '100%',
-    }
+    },
 });

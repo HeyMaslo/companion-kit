@@ -1,4 +1,4 @@
-import { Domain, Question } from 'common/models/QoL';
+import { Domain, Question } from '../../../mobile/src/constants/QoL';
 
 export enum QoLActionTypes {
     CreateDomain = 'createDomain',

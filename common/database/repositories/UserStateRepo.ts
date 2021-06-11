@@ -1,4 +1,4 @@
-import { GenericUserRepo } from 'common/database/repositories';
+import GenericUserRepo from './GenericUserRepo';
 import { UserState } from 'common/models/userState';
 import Collections from 'common/database/collections';
 

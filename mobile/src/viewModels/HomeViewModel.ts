@@ -12,7 +12,7 @@ import { tryOpenLink } from 'src/constants/links';
 import { Identify, DocumentLinkEntry, DocumentLinkShareStatuses } from 'common/models';
 import { arraySplit } from 'common/utils/mathx';
 import { UserProfileViewModel } from './UserProfileViewModel';
-import { QolSurveyResults } from 'common/models/QoL';
+import { QolSurveyResults } from 'src/constants/QoL';
 import { PersonaDomains } from 'src/stateMachine/persona';
 import { PersonaArmState } from 'dependencies/persona/lib';
 import { ILocalSettingsController } from 'src/controllers/LocalSettings';
@@ -108,7 +108,13 @@ export default class HomeViewModel {
                 <IFinishQolTipItem>{
                     id: 'finish-qol',
                     type: 'finish-qol',
-                    title: 'Tap to continue your check-in!',
+                    title: 'Tap to continue your QoL Survey!',
+                },
+                // Currently always shows 'daily' check-in as this feature has not yet been implemented
+                <ICheckInTipItem>{
+                    id: 'check-in',
+                    type: 'check-in',
+                    title: AppViewModel.Instance.CreateCheckIn.question || 'Create a new check-in!',
                 },
             ];
         }
@@ -119,6 +125,12 @@ export default class HomeViewModel {
                     id: 'monthly-qol',
                     type: 'monthly-qol',
                     title: "It's time for your monthly check-in!",
+                },
+                // Currently always shows 'daily' check-in as this feature has not yet been implemented
+                <ICheckInTipItem>{
+                    id: 'check-in',
+                    type: 'check-in',
+                    title: AppViewModel.Instance.CreateCheckIn.question || 'Create a new check-in!',
                 },
             ];
         }
@@ -158,6 +170,7 @@ export default class HomeViewModel {
         ];
     }
 
+    // returns true if it has been 28 calendar days since last Monthly QoL
     private isTimeForMonthlyQol(): boolean {
         const lastMonthlyQol: Date = new Date(AppController.Instance.User.localSettings?.current?.qol?.lastMonthlyQol);
         let nextMonthlyQol: Date = lastMonthlyQol;
