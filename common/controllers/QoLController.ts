@@ -4,6 +4,9 @@ import {
     PartialQol,
 } from '../../mobile/src/constants/QoL';
 import RepoFactory from 'common/controllers/RepoFactory';
+import { createLogger } from 'common/logger';
+
+const logger = createLogger('[QoLController]');
 
 export default class QoLControllerBase implements IQoLController {
 
@@ -11,13 +14,13 @@ export default class QoLControllerBase implements IQoLController {
 
     // Fetch the latests survey results (i.e. scores)
     public async getSurveyResults(): Promise<QolSurveyResults> {
-        console.log(`get qol results: userId = ${this._userId}`);
+        logger.log(`get qol results: userId = ${this._userId}`);
         return await RepoFactory.Instance.surveyResults.getLatestResults(this._userId);
     }
 
     // Submit new survey results
     public async sendSurveyResults(results: QolSurveyResults, startDate: number, questionCompletionDates: number[]): Promise<boolean> {
-        console.log(`add qol results: userId = ${this._userId}`);
+        logger.log(`add qol results: userId = ${this._userId}`);
         await RepoFactory.Instance.surveyResults.addResults(this._userId, results, startDate, questionCompletionDates);
         return true;
     }
@@ -26,7 +29,7 @@ export default class QoLControllerBase implements IQoLController {
     // Any subsequent calls to get will return this state
     public async sendPartialQol(qol: PartialQol): Promise<boolean> {
 
-        console.log(`set partial qol: userId = ${this._userId}`);
+        logger.log(`set partial qol: userId = ${this._userId}`);
         if (!this._userId) {
             return false;
         }
@@ -34,7 +37,7 @@ export default class QoLControllerBase implements IQoLController {
             await RepoFactory.Instance.surveyState.setByUserId(this._userId, qol);
             return true;
         } catch (err) {
-            console.log(`sendPartialQol ERROR:  ${err}`);
+            logger.log(`sendPartialQol ERROR:  ${err}`);
             return false;
         }
     }
@@ -43,9 +46,9 @@ export default class QoLControllerBase implements IQoLController {
     // null value indicates no outstanding survey
     public async getPartialQol(): Promise<PartialQol> {
 
-        console.log(`get partial qol: userId = ${this._userId}`);
+        logger.log(`get partial qol: userId = ${this._userId}`);
         const result = await RepoFactory.Instance.surveyState.getByUserId(this._userId);
-        console.log(`get partial qol: result = ${JSON.stringify(result)}`);
+        logger.log(`get partial qol: result = ${JSON.stringify(result)}`);
         return result;
     }
 
