@@ -58,18 +58,6 @@ export default class QOLSurveyViewModel {
         });
     }
 
-    getMags(scores: QolSurveyResults): PersonaArmState {
-        let currMags: PersonaArmState = {};
-        for (let domain of PersonaDomains) {
-            let score: number = scores[domain];
-            let mag: number;
-            if (score === 0) { mag = 0.2; }
-            else { mag = 0.4 + (score * 3 / 100); }
-            currMags[domain] = mag;
-        }
-        return currMags;
-    }
-
     async init() {
         return await this.initModel;
     }
@@ -91,16 +79,6 @@ export default class QOLSurveyViewModel {
     get qolMags(): any { return this._armMags; }
 
     set setQolSurveyType(type: QolSurveyType) { this.QolSurveyType = type; }
-
-    resetSurveyResults(): void {
-        const surveyResponses = {};
-
-        for (let domain of PersonaDomains) {
-            surveyResponses[domain] = 0;
-        }
-
-        this._surveyResponses = surveyResponses;
-    }
 
     public nextQuestion(): void {
         if (!((this._questionNum + 1) > (QUESTIONS_COUNT - 1))) {
@@ -149,12 +127,24 @@ export default class QOLSurveyViewModel {
     }
 
     public updateQolOnboarding = () => {
-        this._settings.updateQolOnboarding({ seenOnboardingQol: true, lastMonthlyQol: Date() })
+        this._settings.updateQolOnboarding({ seenOnboardingQol: true, lastFullQol: Date() })
         this.showInterlude = true;
     }
 
-    public updatePendingMonthlyQol = () => {
-        this._settings.updatePendingMonthlyQol({ pendingMonthlyQol: false });
+    public updatePendingFullQol = () => {
+        this._settings.updatePendingFullQol({ pendingFullQol: false });
     }
-}
 
+    private getMags(scores: QolSurveyResults): PersonaArmState {
+        let currMags: PersonaArmState = {};
+        for (let domain of PersonaDomains) {
+            let score: number = scores[domain];
+            let mag: number;
+            if (score === 0) { mag = 0.2; }
+            else { mag = 0.4 + (score * 3 / 100); }
+            currMags[domain] = mag;
+        }
+        return currMags;
+    }
+    
+}

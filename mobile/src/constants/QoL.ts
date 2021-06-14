@@ -36,8 +36,7 @@ export type QolSurveyResults = {
 };
 
 export enum QolSurveyType {
-    Onboarding = 'ONBOARDING',
-    Monthly = 'MONTHLY',
+    Full = 'FULL',
 }
 
 export type QoLSurveyTimestamp = number;

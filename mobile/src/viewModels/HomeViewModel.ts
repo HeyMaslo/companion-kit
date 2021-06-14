@@ -3,7 +3,7 @@ import CheckInViewModel from './CheckInViewModel';
 import { computed } from 'mobx';
 import NamesHelper from 'common/utils/nameHelper';
 import { months } from 'common/utils/dateHelpers';
-import { ITipItem, IStaticTipItem, ICheckInTipItem, IFinishQolTipItem, IMonthlyQolTipItem, IAssessmentTipItem, IDocumentLinkTip } from './components/TipItemViewModel';
+import { ITipItem, IStaticTipItem, ICheckInTipItem, IFinishQolTipItem, IFullQolTipItem, IAssessmentTipItem, IDocumentLinkTip } from './components/TipItemViewModel';
 import AppViewModel from './index';
 import InterventionTipsViewModel from 'src/viewModels/components/InterventionTipsViewModel';
 import Localization from 'src/services/localization';
@@ -119,11 +119,11 @@ export default class HomeViewModel {
             ];
         }
 
-        if (this.isTimeForMonthlyQol()) {
+        if (this.isTimeForFullQol()) {
             return [
-                <IMonthlyQolTipItem>{
-                    id: 'monthly-qol',
-                    type: 'monthly-qol',
+                <IFullQolTipItem>{
+                    id: 'full-qol',
+                    type: 'full-qol',
                     title: "It's time for your monthly check-in!",
                 },
                 // Currently always shows 'daily' check-in as this feature has not yet been implemented
@@ -170,18 +170,18 @@ export default class HomeViewModel {
         ];
     }
 
-    // returns true if it has been 28 calendar days since last Monthly QoL
-    private isTimeForMonthlyQol(): boolean {
-        const lastMonthlyQol: Date = new Date(AppController.Instance.User.localSettings?.current?.qol?.lastMonthlyQol);
-        let nextMonthlyQol: Date = lastMonthlyQol;
-        nextMonthlyQol.setDate(nextMonthlyQol.getDate() + 28);
+    // returns true if it has been 28 calendar days since last Full QoL
+    private isTimeForFullQol(): boolean {
+        const lastFullQol: Date = new Date(AppController.Instance.User.localSettings?.current?.qol?.lastFullQol);
+        let nextFullQol: Date = lastFullQol;
+        nextFullQol.setDate(nextFullQol.getDate() + 28);
         const today: Date = new Date();
-        if (nextMonthlyQol.getDay() === today.getDay() && nextMonthlyQol.getMonth() === today.getMonth()
-        && nextMonthlyQol.getFullYear() === today.getFullYear()) {
-            this._settings.updateLastMonthlyQol({ lastMonthlyQol: Date() });
-            this._settings.updatePendingMonthlyQol({ pendingMonthlyQol: true });
+        if (nextFullQol.getDay() === today.getDay() && nextFullQol.getMonth() === today.getMonth()
+        && nextFullQol.getFullYear() === today.getFullYear()) {
+            this._settings.updateLastFullQol({ lastFullQol: Date() });
+            this._settings.updatePendingFullQol({ pendingFullQol: true });
             return true;
-        } else if (AppController.Instance.User.localSettings?.current?.qol?.pendingMonthlyQol) { return true; }
+        } else if (AppController.Instance.User.localSettings?.current?.qol?.pendingFullQol) { return true; }
         return false;
     }
 
