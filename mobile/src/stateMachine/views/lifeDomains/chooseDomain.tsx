@@ -185,8 +185,6 @@ export class ChooseDomainView extends ViewState {
                                    
                                 }}
                                 onLayout = {event => this.setState({translateY: event.nativeEvent.layout.height})}
-                    
-                                
                                 >
                                     <Text style={this.textStyles.p2}>
                                         {importance}
@@ -237,24 +235,21 @@ export class ChooseDomainView extends ViewState {
                          justifyContent: 'space-between', 
                          marginBottom: 50,
                          }}>
-                    
-                         <TouchableOpacity 
-                        onPress = {() => this.viewModel.getNextDomain(-1)}
-                         
-                         >
-                         <Images.backIcon width={20} height={20} />
+                         <TouchableOpacity onPress = {() => this.viewModel.getNextDomain(-1)}>
+                            <Images.backIcon width={20} height={20} />
                          </TouchableOpacity>
                          <Text style={[TextStyles.p1, styles.domain, {fontSize: 30}]}>{domain}</Text>
-                         <TouchableOpacity 
-                       
-                        onPress = {() => this.viewModel.getNextDomain(1)}
-                         >
-                         <Images.backIcon width={20} height={20} style={{transform: [{ rotate: '180deg' }]}}/>
+                         <TouchableOpacity onPress = {() => this.viewModel.getNextDomain(1)}>
+                            <Images.backIcon width={20} height={20} style={{transform: [{ rotate: '180deg' }]}}/>
                          </TouchableOpacity>
                     </View>
                      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                         <Text style={[TextStyles.labelMedium, styles.domain, {fontSize: 17}]}>{lDomain}</Text>
-                         <Text style={[TextStyles.labelMedium, styles.domain, {fontSize: 17}]}>{rDomain}</Text>
+                        <TouchableOpacity onPress = {() => this.viewModel.getNextDomain(-1)}>
+                            <Text style={[TextStyles.labelMedium, styles.domain, {fontSize: 17}]}>{lDomain}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress = {() => this.viewModel.getNextDomain(1)}>
+                            <Text style={[TextStyles.labelMedium, styles.domain, {fontSize: 17}]}>{rDomain}</Text>
+                        </TouchableOpacity>
                      </View>
                 </Container>
             </MasloPage>
