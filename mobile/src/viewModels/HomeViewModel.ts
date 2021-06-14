@@ -110,7 +110,6 @@ export default class HomeViewModel {
                     type: 'finish-qol',
                     title: 'Tap to continue your QoL Survey!',
                 },
-                // Currently always shows 'daily' check-in as this feature has not yet been implemented
                 <ICheckInTipItem>{
                     id: 'check-in',
                     type: 'check-in',
@@ -126,7 +125,6 @@ export default class HomeViewModel {
                     type: 'full-qol',
                     title: "It's time for your monthly check-in!",
                 },
-                // Currently always shows 'daily' check-in as this feature has not yet been implemented
                 <ICheckInTipItem>{
                     id: 'check-in',
                     type: 'check-in',
