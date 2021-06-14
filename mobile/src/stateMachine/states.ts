@@ -59,10 +59,6 @@ export enum States {
     ChangePassword,
     NotificationsSettings,
 
-    // QOL Block (not in use??)
-    // Start_QoL,
-    // qol_Physical,
-
     // LIFE DOMAINS block
     Choose_Domain,
     Domain_Details,
@@ -75,8 +71,8 @@ export enum States {
     Focus_Strategies,
     Strategy_Details,
     Strategy_Details2,
-    // DidntWork_Strategies,
 
+    // QoL Block
     qol_Question,
     End_Qol,
     StartQol,

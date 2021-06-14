@@ -1,7 +1,7 @@
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React from 'react';
-import { Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button, Container, MasloPage, StrategyCard } from 'src/components';
 import AppController from 'src/controllers';
 import TextStyles from 'src/styles/TextStyles';
@@ -9,9 +9,7 @@ import AppViewModel from 'src/viewModels';
 import Colors from '../../../constants/colors/Colors';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
-
-const minContentHeight = 300;
-const { width } = Dimensions.get('window');
+import { AlertExitWithoutSave } from 'src/constants/alerts';
 
 @observer
 export class ChooseStrategiesView extends ViewState {
@@ -35,9 +33,7 @@ export class ChooseStrategiesView extends ViewState {
         return AppViewModel.Instance.ChooseStrategy;
     }
 
-    async start() {
-      //
-    }
+    async start() {}
 
     onBack = () => {
         this.trigger(ScenarioTriggers.Back);
@@ -45,7 +41,7 @@ export class ChooseStrategiesView extends ViewState {
 
     onClose = (): void | Promise<void> => this.runLongOperation(async () => {
         this.showModal({
-            title: `Do you really want to stop? Your progress will not be saved.`,
+            title: AlertExitWithoutSave,
             primaryButton: {
                 text: 'yes, stop',
                 action:  () => this.trigger(ScenarioTriggers.Cancel),
@@ -58,13 +54,16 @@ export class ChooseStrategiesView extends ViewState {
     })
 
     onSubmit = () => {
-      AppController.Instance.User.backend.setStrategies(this.viewModel.selectedStrategies.map(s => s.id));
+      AppController.Instance.User.backend.setUserStateProperty('chosenStrategies', this.viewModel.selectedStrategies.map(s => s.id));
       this.trigger(ScenarioTriggers.Submit);
     }
 
     onLearnMorePress(id: string) {
-      this.viewModel.learnMoreStrategy = this.viewModel.getStrategyById(id);
-      this.trigger(ScenarioTriggers.Tertiary);
+      const found = this.viewModel.getStrategyById(id);
+      if (found) {
+        this.viewModel.learnMoreStrategy = found;
+        this.trigger(ScenarioTriggers.Tertiary);
+      }
   }
 
     onSelectStrategy = (id: string) => {
@@ -172,7 +171,6 @@ const styles = StyleSheet.create({
     flexDirection: "row", 
     justifyContent: 'center',
     padding: 20,
-    // marginTop: 30,
   },
   list: {
     marginTop: 30,
@@ -189,7 +187,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   selectButton: {
-    // width: width * 0.8,
     marginBottom: 30,
   },
   checkbox: {

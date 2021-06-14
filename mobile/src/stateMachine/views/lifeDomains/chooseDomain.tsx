@@ -10,6 +10,7 @@ import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
+import { AlertExitWithoutSave } from 'src/constants/alerts';
 
 const minContentHeight = 300;
 const { width } = Dimensions.get('window');
@@ -21,7 +22,6 @@ export class ChooseDomainView extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ rotation: -15, transition: { duration: 1}, scale: 1.2});
-        // this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -15, transition: { duration: 1 }, scale: 1 });
     }
 
     state = {
@@ -84,7 +84,7 @@ export class ChooseDomainView extends ViewState {
 
     onClose = (): void | Promise<void> => this.runLongOperation(async () => {
         this.showModal({
-            title: `Do you really want to stop? Your progress will not be saved.`,
+            title: AlertExitWithoutSave,
             primaryButton: {
                 text: 'yes, stop',
                 action: this.cancel,
@@ -115,7 +115,7 @@ export class ChooseDomainView extends ViewState {
         } else if ((hasTwoSelected || hasThreeSelected) && !this.viewModel.selectDomain(this.viewModel.getDomainByName(n))) {
             this.trigger(ScenarioTriggers.Tertiary);
         } else if (this.viewModel.selectDomain(this.viewModel.getDomainByName(n))) {
-            AppController.Instance.User.backend.setDomains(this.viewModel.selectedDomains.map(d => d.id));
+            AppController.Instance.User.backend.setUserStateProperty('focusDomains', this.viewModel.selectedDomains.map(d => d.id));
             hasTwoSelected ? this.trigger(ScenarioTriggers.Next) : this.trigger(ScenarioTriggers.Tertiary);
         } else {
             Alert.alert(

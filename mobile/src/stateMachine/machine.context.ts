@@ -147,7 +147,6 @@ class PersonaViewContext implements IPersonaViewContext {
     setupContainerHeightForceScrollDown(baseView?: Partial<PersonaViewState>) {
         const res = this.getScrollContainerHeightDown(baseView);
         this.view = res.view;
-        // logger.log("HEIGHT3", res.height, Layout.window.height)
         return res.height;
     }
 }

@@ -1,14 +1,11 @@
-import { IQoLController, Domains } from 'common/abstractions/controlllers/IQoLController';
+import { IQoLController } from 'common/abstractions/controlllers/IQoLController';
 import {
     QolSurveyResults,
     PartialQol,
-    Domain,
     DomainIded,
-    Strategy,
     StrategyIded,
 } from '../../mobile/src/constants/QoL';
 import RepoFactory from 'common/controllers/RepoFactory';
-import { Identify } from 'common/models';
 import { UserState } from 'common/models/userState';
 import { createLogger } from 'common/logger';
 
@@ -42,10 +39,10 @@ export default class QoLControllerBase implements IQoLController {
         try {
             let st: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
             if (st) {
-                st.surveyState = data;
+                st.surveyState = qol;
             } else {
                 st = {
-                    surveyState: data,
+                    surveyState: qol,
                     focusDomains: []
                 }
             }
@@ -75,41 +72,23 @@ export default class QoLControllerBase implements IQoLController {
         this._userId = userId;
     }
 
-    // Domains
-
-    public async getPossibleDomains(): Promise<Identify<Domain>[]> {
+    public async getPossibleDomains(): Promise<DomainIded[]> {
         return await RepoFactory.Instance.qolDomains.get();
     }
 
-    public async setDomains(domainIds: string[]): Promise<void> {
-        console.log("setting focus domains: ", domainIds);
-        let st: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
-        if (st === null) {
-            st = {
-                focusDomains: domainIds,
-                surveyState: null,
-            }
-        } else {
-            st.focusDomains = domainIds;
-        }
-        await RepoFactory.Instance.userState.setByUserId(this._userId, st);
-    }
-
-    // Strategies
-
-    public async getPossibleStrategies(): Promise<Identify<Strategy>[]> {
+    public async getPossibleStrategies(): Promise<StrategyIded[]> {
         return await RepoFactory.Instance.strategies.get();
     }
 
-    public async setStrategies(strategyIds: string[]): Promise<void> {
+    public async setUserStateProperty(propertyName: keyof UserState, parameter: UserState[keyof UserState]): Promise<void> {
         let st: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
         if (st === null) {
             st = {
-                chosenStrategies: strategyIds,
+                [propertyName]: parameter,
                 surveyState: null
             }
-        } else {
-            st.chosenStrategies = strategyIds;
+        } else if (propertyName !== 'surveyState' && Array.isArray(parameter)){
+            st[propertyName] = parameter;
         }
         await RepoFactory.Instance.userState.setByUserId(this._userId, st);
     }

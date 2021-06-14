@@ -47,7 +47,7 @@ render() {
         <Text style={[TextStyles.p2, {paddingLeft: 7, paddingTop: 7}]}>{this.props.item.details}</Text>
         <View style={{flexDirection: "row", justifyContent: 'space-between', marginTop: 10}}>
         <View style={{display: 'flex', flexDirection: "row", justifyContent: 'flex-start'}}>
-          {this.props.item.slugs.map((slug) => {
+          {this.props.item.associatedDomainNames.map((slug) => {
             return this.iconForDomain(slug);
           })}
         </View>

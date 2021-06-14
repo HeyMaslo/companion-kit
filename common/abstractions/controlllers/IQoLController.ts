@@ -1,6 +1,5 @@
 import { PartialQol, QolSurveyResults } from '../../../mobile/src/constants/QoL';
-
-export type Domains = string[];
+import { UserState } from 'common/models/userState';
 
 export interface IQoLController {
 
@@ -12,7 +11,7 @@ export interface IQoLController {
 
     getPartialQol(): Promise<PartialQol>;
 
-    setDomains(domainIds: string[]): Promise<void>;
+    setUserStateProperty(propertyName: keyof UserState, parameter: UserState[keyof UserState]): Promise<void>
 
     setUser(userId: string): void;
 }

@@ -22,7 +22,6 @@ export class StrategyDetailsView extends ViewState {
         this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0} });
         this.hidePersona();
         this._learnMoreStrategy = this.viewModel.learnMoreStrategy;
-        this.slideInRightContent(300, 5);
     }
 
     public get viewModel() {
@@ -75,7 +74,7 @@ export class StrategyDetailsView extends ViewState {
                     <Text style={[TextStyles.p2, styles.strategy]}>{'This strategy targets personal improvement in these life domains:'}</Text>
                     {/* Icon Container */}
                     <FlatList style={styles.list}    
-                    data={this.viewModel.learnMoreStrategy.slugs}
+                    data={this.viewModel.learnMoreStrategy.associatedDomainNames}
                     renderItem={this.renderIconItem}
                     keyExtractor={item => item}
                     scrollEnabled={false}/>

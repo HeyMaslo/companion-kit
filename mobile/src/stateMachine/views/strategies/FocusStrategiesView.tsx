@@ -7,10 +7,7 @@ import AppViewModel from 'src/viewModels';
 import Colors from '../../../constants/colors/Colors';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
-
-
-const minContentHeight = 300;
-const { width } = Dimensions.get('window');
+import { AlertExitWithoutSave } from 'src/constants/alerts';
 
 @observer
 export class FocusStrategiesView extends ViewState {
@@ -41,7 +38,7 @@ export class FocusStrategiesView extends ViewState {
 
     onClose = (): void | Promise<void> => this.runLongOperation(async () => {
         this.showModal({
-            title: `Do you really want to stop? Your progress will not be saved.`,
+            title: AlertExitWithoutSave,
             primaryButton: {
                 text: 'yes, stop',
                 action: this.cancel,

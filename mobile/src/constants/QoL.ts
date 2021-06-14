@@ -27,9 +27,9 @@ export type DomainIded = Identify<Domain>;
 // STRATEGIES
 
 export type Strategy = {
-    title:       string,
-    details:     string,
-    slugs:       string[],
+    title:                    string,
+    details:                  string,
+    associatedDomainNames:    string[],
 };
 
 export type StrategyIded = Identify<Strategy>;

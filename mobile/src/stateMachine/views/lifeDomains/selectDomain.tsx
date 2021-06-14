@@ -25,9 +25,7 @@ export class SelectDomainView extends ViewState {
     }
     
 
-    async start() {
-        // logger.log("IN_SELECT_DOMAIN",this.viewModel.getDomain);
-    }
+    async start() {}
 
     private cancel = () => {
         this.trigger(ScenarioTriggers.Cancel);

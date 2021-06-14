@@ -10,7 +10,7 @@ import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
 
-export const logger = createLogger('[endQOL]');
+export const logger = createLogger('[chooseDomainEnd]');
 
 const minContentHeight = 1000;
 
@@ -25,11 +25,8 @@ export class ChooseDomainEndView extends ViewState {
     public get viewModel() {
         return AppViewModel.Instance.ChooseDomain;
     }
-    
 
-    async start() {
-        // logger.log("IN_SELECT_DOMAIN",this.viewModel.getDomain);
-    }
+    async start() {}
 
     private cancel = () => {
         this.trigger(ScenarioTriggers.Cancel);
@@ -70,9 +67,7 @@ const styles = StyleSheet.create({
         marginTop: "120%",
         textAlign: 'center',
         width: '90%',
-        // paddingTop: 50,
-        fontSize: 19
-        // marginBottom: '20%',
+        fontSize: 19,
     },
     readyButton: {
         width: '40%',
@@ -81,7 +76,6 @@ const styles = StyleSheet.create({
     continueButton: {
         width: '100%',
         height: 50,
-        // backgroundColor: '#ffff' 
     },
     
 });

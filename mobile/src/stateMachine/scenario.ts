@@ -42,7 +42,6 @@ import { ChooseDomainEndView } from './views/lifeDomains/chooseDomainEnd';
 
 import { ChooseStrategiesView } from './views/strategies/ChooseStrategiesView';
 import { FocusStrategiesView } from './views/strategies/FocusStrategiesView';
-import { DidntWorkStrategiesView } from './views/strategies/DidntWorkStrategiesView';
 import { StrategyDetailsView } from './views/strategies/StrategyDetailsView';
 
 import { QolStartView } from './views/qol/startQOL';

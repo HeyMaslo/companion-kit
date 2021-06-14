@@ -40,10 +40,8 @@ export class ThreeDomainView extends ViewState {
                 <Container style={[{ height: this._contentHeight, paddingTop: 200, alignItems: 'center' }]}>
                     <Text style={[this.textStyles.h1, styles.title]}>Choosing more than two focus domains is not recommended</Text>
                     <Text style={[styles.message, {fontSize: 17, fontWeight: '200'}]}> For Optimal Effect, choose 1-2 per month - 3 Domains is Maximum</Text>
-                    {/* <Text style={[this.textStyles.p1, styles.message1]}> Three Domains is Maximum</Text> */}
                     {selectedDomains.length < 3 && <Button title="Continue with two domains" style={styles.readyButton} onPress={() => this.onStartSurvey()}/>}
                     {selectedDomains.length < 3 && <Button title="Choose Another Domain" titleStyles={{color:'black'}} withBorder={true} style={styles.readyButtonNo} onPress={() => this.cancel()}/>}
-                    {/* {selectedDomains.length == 3 && <Button title="continue" style={styles.readyButton} onPress={() => this.cancel()}/>} */}
                 </Container>
             </MasloPage>
         );

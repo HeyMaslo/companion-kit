@@ -22,12 +22,6 @@ export default class ChooseStrategyViewModel {
   constructor() {
 
       this._selectedDomains, this._allStrategies, this.availableStrategies, this.selectedStrategies = [];
-      this.learnMoreStrategy = {
-        id: '',
-        title: '',
-        details: '',
-        slugs: [''],
-      }
   }
 
   public setSelectedDomains(domains: DomainIded[]) {
@@ -40,12 +34,12 @@ export default class ChooseStrategyViewModel {
                 id: s.id,
                 title: s.title,
                 details: s.details,
-                slugs: s.slugs,
+                associatedDomainNames: s.associatedDomainNames,
                 isChecked: false,
             } as DisplayStrategyIded
       });
       // Only include strategies from the selectedDomains
-      this.availableStrategies = this.availableStrategies.filter((s) => s.slugs.some(r => this._selectedDomains.includes(r)))
+      this.availableStrategies = this.availableStrategies.filter((s) => s.associatedDomainNames.some(r => this._selectedDomains.includes(r)))
       this._allStrategies = this.availableStrategies;
   }
 
@@ -53,7 +47,7 @@ export default class ChooseStrategyViewModel {
     if (strategyDomain == null) {
       this.availableStrategies = this._allStrategies;
     } else {
-      this.availableStrategies = this._allStrategies.filter((s) => s.slugs.includes(strategyDomain))
+      this.availableStrategies = this._allStrategies.filter((s) => s.associatedDomainNames.includes(strategyDomain))
     }
   }
 

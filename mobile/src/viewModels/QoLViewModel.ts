@@ -28,9 +28,7 @@ export default class QOLSurveyViewModel {
     public readonly numQuestions: number = QUESTIONS_COUNT;
     public readonly domainQuestionCount: number = DOMAIN_QUESTION_COUNT;
     private readonly _settings: ILocalSettingsController = AppController.Instance.User.localSettings;
-
-    // public domainCount: number = DOMAIN_COUNT;
-
+    
 
     constructor() {
         this.initModel = AppController.Instance.User.backend.getPartialQol().then((partialQolState: PartialQol) => {
