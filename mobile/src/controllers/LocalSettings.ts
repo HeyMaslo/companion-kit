@@ -27,8 +27,8 @@ export interface ILocalSettingsController {
 
     updateNotifications(diff: Partial<NotificationsSettings>): void;
     updateQolOnboarding(diff: Partial<QolSettings>): void;
-    updateLastMonthlyQol(diff: Partial<QolSettings>): void;
-    updatePendingMonthlyQol(diff: Partial<QolSettings>): void;
+    updateLastFullQol(diff: Partial<QolSettings>): void;
+    updatePendingFullQol(diff: Partial<QolSettings>): void;
 
     flushChanges(): Promise<void>;
 }
@@ -156,7 +156,7 @@ export class LocalSettingsController implements ILocalSettingsController {
     updateQolOnboarding(diff: Partial<QolSettings>) {
         const qol = this.current.qol || { };
         transaction(() => {
-            let changed = transferChangedFields(diff, qol, "seenOnboardingQol", 'lastMonthlyQol');
+            let changed = transferChangedFields(diff, qol, "seenOnboardingQol", 'lastFullQol');
 
             if (changed) {
                 this.update({ qol });
@@ -164,10 +164,10 @@ export class LocalSettingsController implements ILocalSettingsController {
         });
     }
 
-    updateLastMonthlyQol(diff: Partial<QolSettings>) {
+    updateLastFullQol(diff: Partial<QolSettings>) {
         const qol = this.current.qol || { };
         transaction(() => {
-            let changed = transferChangedFields(diff, qol, 'lastMonthlyQol');
+            let changed = transferChangedFields(diff, qol, 'lastFullQol');
 
             if (changed) {
                 this.update({ qol });
@@ -175,10 +175,10 @@ export class LocalSettingsController implements ILocalSettingsController {
         });
     }
 
-    updatePendingMonthlyQol(diff: Partial<QolSettings>) {
+    updatePendingFullQol(diff: Partial<QolSettings>) {
         const qol = this.current.qol || { };
         transaction(() => {
-            let changed = transferChangedFields(diff, qol, 'pendingMonthlyQol');
+            let changed = transferChangedFields(diff, qol, 'pendingFullQol');
 
             if (changed) {
                 this.update({ qol });

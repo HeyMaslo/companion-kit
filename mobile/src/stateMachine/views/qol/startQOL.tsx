@@ -19,7 +19,6 @@ export class QolStartView extends ViewState {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -15, transition: { duration: 1.5 } });
         if (!AppController.Instance.User.localSettings?.current?.qol?.seenOnboardingQol) {
-            this.viewModel.setQolSurveyType = QolSurveyType.Onboarding;
             this.viewModel.updateQolOnboarding();
         }
     }
@@ -63,8 +62,8 @@ export class QolStartView extends ViewState {
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
                 <Container style={[styles.container, { height: this._contentHeight }]}>
-                    <Text style={[this.textStyles.h1, styles.title]}>Welcome{(this.viewModel.QolSurveyType === QolSurveyType.Monthly) ? " back":""}!</Text>
-                    <Text style={[this.textStyles.p1, styles.message]}> {(this.viewModel.QolSurveyType === QolSurveyType.Monthly) ?
+                    <Text style={[this.textStyles.h1, styles.title]}>Welcome{(this.viewModel.QolSurveyType === QolSurveyType.Full) ? " back":""}!</Text>
+                    <Text style={[this.textStyles.p1, styles.message]}> {(this.viewModel.QolSurveyType === QolSurveyType.Full) ?
                     "Welcome to your monthly check-in! We'll start with getting an update on your quality of life." :
                     "I’m happy you’re here! First, I’ll need to gather some information about your current Quality of Life. Ready to begin?"}
                     </Text>

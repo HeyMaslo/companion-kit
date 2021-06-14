@@ -29,9 +29,6 @@ export default class GenericRepo<T> {
 
     public      get collection() { return this.db.collection(this.collectionName); }
 
-    // TODO: should we be using this?
-    // private     get serverCollection() { return serverOnly(this.db).collection(Collections.Records); }
-
     async create(question: T): Promise<Identify<T>> {
         const collection = this.collection;
         const ref = collection.doc();
