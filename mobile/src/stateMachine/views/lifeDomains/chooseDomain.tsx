@@ -12,7 +12,6 @@ import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
 import { AlertExitWithoutSave } from 'src/constants/alerts';
 
-const minContentHeight = 300;
 const { width } = Dimensions.get('window');
 const date = new Date();
 const today = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
@@ -276,9 +275,6 @@ const styles = StyleSheet.create({
         borderColor: 'red',
         width: '100%',
         height: '100%'
-
-    },
-    pView: {
 
     },
     tabs: {

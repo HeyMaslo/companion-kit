@@ -9,9 +9,6 @@ import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
 
-const minContentHeight = 300;
-const { width } = Dimensions.get('window');
-
 @observer
 export class StrategyDetailsView extends ViewState {
 
@@ -92,9 +89,6 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   listItem: {
-    // borderWidth: 1,
-    // borderRadius: 7,
-    // borderColor: '#CBC8CD',
     padding: 10,
     marginBottom: 30,
   },

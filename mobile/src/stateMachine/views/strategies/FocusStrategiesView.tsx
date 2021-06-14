@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { Button, Container, MasloPage, StrategyCard } from 'src/components';
 import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
@@ -109,7 +109,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   selectButton: {
-    // width: width * 0.8,
     marginBottom: 30,
   },
   icon: {

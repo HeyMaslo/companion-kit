@@ -3,7 +3,7 @@ import { createLogger } from 'common/logger';
 import { DomainIded } from '../../../mobile/src/constants/QoL';
 import AppViewModel from 'src/viewModels';
 
-export const logger = createLogger('[QOLModel]');
+const logger = createLogger('[ChooseDomainViewModel]');
 
 export default class ChooseDomainViewModel {
 
@@ -35,13 +35,12 @@ export default class ChooseDomainViewModel {
         this.domainCount = doms.length;
     }
 
-    // @computed
     get selectedDomains(): DomainIded[] { return this._selectedDomains };
 
     //  Returns the three domains displayed on the choose domain screen, main(center donain), ldomain(domain on left side), rdomain(domain on right side)
     public getDomainDisplay(): string[] {
         if (this.domainCount < 3) {
-            console.log("Warning: not enough domains available!");
+            logger.log("Warning: not enough domains available!");
             return [null, null, null, null];
         }
 
