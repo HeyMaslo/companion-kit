@@ -19,6 +19,8 @@ import { TransitionObserver } from 'common/utils/transitionObserver';
 import { UserProfileName } from 'src/screens/components/UserProfileName';
 import AppViewModel from 'src/viewModels';
 import { QolSurveyType } from 'src/constants/QoL';
+import ChooseDomainViewModel from 'src/viewModels/ChooseDomainViewModel';
+import ChooseStrategyViewModel from 'src/viewModels/ChooseStrategyViewModel';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -137,6 +139,8 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         this.trigger(ScenarioTriggers.Tertiary);
     }
     private onStartDomains = () => {
+        AppViewModel.Instance.ChooseDomain = new ChooseDomainViewModel();
+        AppViewModel.Instance.ChooseStrategy = new ChooseStrategyViewModel();
         this.trigger(ScenarioTriggers.Next);
     }
 
@@ -319,6 +323,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
                     <View style={{flexDirection:'row'}}>
+                    {/* Domains button used for development only and will be removed eventually */}
                     <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains()}/>
                     </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
