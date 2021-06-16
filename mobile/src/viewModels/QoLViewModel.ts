@@ -105,6 +105,7 @@ export default class QOLSurveyViewModel {
 
         } else {
             const now = new Date().getTime();
+            this.questionCompletionDates = this.questionCompletionDates || [];
             if (this.questionCompletionDates.length - 1 >= this.questionNum) {
                 this.questionCompletionDates[this.questionNum] = now;
             } else {
