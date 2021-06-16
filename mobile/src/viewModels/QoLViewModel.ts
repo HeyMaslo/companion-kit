@@ -104,12 +104,15 @@ export default class QOLSurveyViewModel {
             this.isUnfinished = false;
 
         } else {
-            // _questionNum + 1 is required as this method is called before nextQuestion() which increments the questionNum counter
             const now = new Date().getTime();
-            this.questionCompletionDates[this.questionNum] = now;
+            if (this.questionCompletionDates.length - 1 >= this.questionNum) {
+                this.questionCompletionDates[this.questionNum] = now;
+            } else {
+                this.questionCompletionDates.push(now);
+            }
 
             let partialQol: PartialQol = {
-                questionNum: this._questionNum + 1,
+                questionNum: this._questionNum + 1, // + 1 is required as this method is called before nextQuestion() which increments the questionNum counter
                 domainNum: this._domainNum,
                 scores: this._surveyResponses,
                 isFirstTimeQol: this.showInterlude,
