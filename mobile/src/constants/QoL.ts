@@ -49,8 +49,3 @@ export type PartialQol = {
     startDate: QoLSurveyTimestamp,
     questionCompletionDates: QoLSurveyTimestamp[],
 };
-
-export type SurveyState = {
-    userId: string,
-    state: PartialQol,
-};
