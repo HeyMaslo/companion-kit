@@ -45,7 +45,7 @@ export class ThreeDomainView extends ViewState {
                     </View>
                     <View style={[styles.flexContainer, {marginBottom: 15}]}>
                         {/* Buttons */}
-                        {selectedDomains.length < 3 && <Button title='Continue with two domains' style={styles.readyButton} onPress={() => this.onStartSurvey()}/>}
+                        {selectedDomains.length < 3 && <Button title='Continue with two Domains' style={styles.readyButton} onPress={() => this.onStartSurvey()}/>}
                         {selectedDomains.length < 3 && <Button title='Choose Another Domain' titleStyles={{color:'black'}} withBorder={true} style={styles.readyButtonNo} onPress={() => this.cancel()}/>}
                     </View>
                 </Container>
