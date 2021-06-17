@@ -9,8 +9,8 @@ const { width } = Dimensions.get('window');
 
 interface IStrategyCardProps {
     item: DisplayStrategyIded,
-    onLearnMorePress: ((strategyId) => void),
-    onSelectStrategy: ((strategyId) => void),
+    onLearnMorePress: ((strategyId: string) => void),
+    onSelectStrategy?: ((strategyId: string) => void),
     hideCheckbox?: boolean,
 }
 
