@@ -97,7 +97,7 @@ export class ChooseStrategiesView extends ViewState {
     renderContent() {
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} onBack={() => this.onBack()}>
-                <Container style={[{height: this._contentHeight, paddingTop: 10, paddingBottom: 10}]}>
+                <Container style={[{height: this._contentHeight, paddingTop: 10}]}>
 
                     {/* Title */}
                     <View style={{justifyContent: 'center', flexDirection: 'row', marginBottom: 20}}>
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     borderColor: '#CBC8CD',
   },
   dropDownlistItem: {
-    flexDirection: "row", 
+    flexDirection: 'row', 
     justifyContent: 'center',
     padding: 20,
   },
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   selectButton: {
-    marginBottom: 30,
+    marginBottom: 20,
   },
   checkbox: {
     height: size,

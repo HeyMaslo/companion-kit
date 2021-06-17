@@ -41,15 +41,15 @@ export class ChooseDomainEndView extends ViewState {
     renderContent() {
         const [l,mainDomain,r,i] = this.viewModel.getDomainDisplay();
         const selectedDomains = this.viewModel.selectedDomains;
-        logger.log("MY_SELECTL", selectedDomains.length);
+        logger.log('MY_SELECTL', selectedDomains.length);
 
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()}>
-                <Container style={[{ height: this._contentHeight, alignItems: 'center'}]}>
+                <Container style={[styles.flexContainer, { height: this._contentHeight, justifyContent: 'space-between',}]}>
                     <Text style={[this.textStyles.h1, styles.title]}>Next, you'll choose strategies for your focus domains </Text>
-                    <View style ={{width: '90%', flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
-                    <Text style={[this.textStyles.p3, styles.message]}>You can choose upto 4 strategies and update them weekly </Text>
-                       <Button title="View Strategies" style={styles.continueButton} onPress={() => this.onThreeSelected()}/>
+                    <View style ={{width: '90%', flex: 0, alignItems: 'center', justifyContent: 'space-around', marginBottom: 15}}>
+                        <Text style={[this.textStyles.p3, styles.message]}>You can choose up to 4 strategies and update them weekly</Text>
+                        <Button title='View Strategies' style={styles.continueButton} onPress={() => this.onThreeSelected()}/>
                     </View>
                 </Container>
             </MasloPage>
@@ -57,25 +57,35 @@ export class ChooseDomainEndView extends ViewState {
     }
 }
 
-const styles = StyleSheet.create({ 
+const styles = StyleSheet.create({
+    flexContainer: {
+        flexDirection: 'column',
+        flexWrap: 'nowrap',
+        width: '100%',
+        flex: 0,
+        alignItems: 'center',
+    },
     title: {
         justifyContent: 'center',
         textAlign: 'center',
         width: '100%',
+        flex: 0,
     },
     message: {
-        marginTop: "120%",
         textAlign: 'center',
         width: '90%',
         fontSize: 19,
+        marginBottom: 15,
     },
     readyButton: {
         width: '40%',
         height: 50, 
+        margin: 5,
     },
     continueButton: {
         width: '100%',
         height: 50,
+        margin: 5,
     },
     
 });

@@ -42,18 +42,17 @@ export class SelectDomainView extends ViewState {
     renderContent() {
         const [l,mainDomain,r,i] = this.viewModel.getDomainDisplay();
         const selectedDomains = this.viewModel.selectedDomains;
-        logger.log("MY_SELECTL", selectedDomains.length);
+        logger.log('MY_SELECTL', selectedDomains.length);
 
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()}>
                 <Container style={[{ height: this._contentHeight, alignItems: 'center' }]}>
                     <Text style={[this.textStyles.h1, styles.title]}>{(selectedDomains.length == 2)? `You have Selected the ${selectedDomains[0].name} & ${selectedDomains[1].name} Domains.` : `You have Selected the  ${mainDomain} domain.`} </Text>
-                    <Text style={[this.textStyles.h1, styles.title]}>{selectedDomains.length == 2? "would you like to choose a third Domain?" : "would you like to choose an additional focus Domain?" }</Text>
-                    <Text style={[this.textStyles.p1, styles.message]}></Text>
-                    <View style ={{width: '90%', flex: 1, alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row', paddingTop: 30}}>
-                        {(selectedDomains.length == 2 || selectedDomains.length == 3) && <Button title="Continue" style={styles.continueButton} onPress={() => this.onThreeSelected()}/>}
-                    { selectedDomains.length < 2 && <Button title="No" titleStyles={{color:'black'}} withBorder={true} style={[styles.readyButtonNo, {color: 'red'}]} onPress={() => this.onEndSurvey()}/>}
-                    { selectedDomains.length < 2 && <Button title="Yes" style={styles.readyButton} onPress={() => this.cancel()}/>}
+                    <Text style={[this.textStyles.h1, styles.title]}>{selectedDomains.length == 2? 'would you like to choose a third Domain?' : 'would you like to choose an additional focus Domain?' }</Text>
+                    <View style ={styles.buttonContainer}>
+                        {(selectedDomains.length == 2 || selectedDomains.length == 3) && <Button title='Continue' style={styles.continueButton} onPress={() => this.onThreeSelected()}/>}
+                        { selectedDomains.length < 2 && <Button title='No' titleStyles={{color:'black'}} withBorder={true} style={[styles.readyButtonNo, {color: 'red'}]} onPress={() => this.onEndSurvey()}/>}
+                        { selectedDomains.length < 2 && <Button title='Yes' style={styles.readyButton} onPress={() => this.cancel()}/>}
                     </View>
                 </Container>
             </MasloPage>
@@ -67,11 +66,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         width: '100%',
     },
-    message: {
-        marginTop: "100%",
-        textAlign: 'center',
+    buttonContainer: {
         width: '90%',
-        marginBottom: '20%',
+        flex: 1,
+        alignItems: 'flex-end',
+        justifyContent: 'space-around',
+        flexDirection: 'row',
+        marginBottom: 20
     },
     readyButton: {
         width: '45%',
@@ -81,12 +82,11 @@ const styles = StyleSheet.create({
         width: '45%',
         height: 45,
         backgroundColor: '#ffff',
-        borderRadius: 5
+        borderRadius: 5,
     },
     continueButton: {
         width: '100%',
         height: 50,
-        // backgroundColor: '#ffff' 
     },
     
 });
