@@ -13,9 +13,9 @@ Clone the respository and ensure you have the requirements below:
  * React Native CLI development environment for both iOS and Android (Needed for running mobile apps. Xcode and Android studio must be installed in order to run iOS and android apps, respectively.)  
  Instructions: [https://reactnative.dev/docs/environment-setup](https://reactnative.dev/docs/environment-setup)
 
- * Node.js 10 ([`nvm`](https://github.com/nvm-sh/nvm) is preferable)  
- To install:  ```nvm install 10```	
- To switch to version 10:  ```nvm use 10```
+ * Node.js 10 and 12 ([`nvm`](https://github.com/nvm-sh/nvm) is preferable)
+ The project contains `.nvmrc` files that indicate the correct node version to use (10 for the server and dashboard, 12 for the mobile application)
+ To switch to the correct version using `nvm`, run ```nvm use``` in a given directory.
  
  * Expo CLI  
  To install: ```npm i -g expo-cli```
