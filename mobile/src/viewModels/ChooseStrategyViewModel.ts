@@ -25,10 +25,13 @@ export default class ChooseStrategyViewModel {
   }
 
   public setSelectedDomains(domains: DomainIded[]) {
-    this._selectedDomains = domains.map((d) => d.slug);
+    if (domains) {
+      this._selectedDomains = domains.map((d) => d.slug);
+    }
   }
 
   public setAvailableStrategies(strats: StrategyIded[]) {
+    if (strats) {
       this.availableStrategies = strats.map( (s) => {
             return  {
                 id: s.id,
@@ -41,6 +44,7 @@ export default class ChooseStrategyViewModel {
       // Only include strategies from the selectedDomains
       this.availableStrategies = this.availableStrategies.filter((s) => s.associatedDomainNames.some(r => this._selectedDomains.includes(r)))
       this._allStrategies = this.availableStrategies;
+    }
   }
 
   public filterAvailableStrategies(strategyDomain: string) {
