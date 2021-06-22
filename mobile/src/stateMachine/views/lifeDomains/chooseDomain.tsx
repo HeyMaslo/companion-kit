@@ -270,13 +270,6 @@ const styles = StyleSheet.create({
         height: 60,
         width: '90%',
     },
-    topView: {
-        borderWidth: 1,
-        borderColor: 'red',
-        width: '100%',
-        height: '100%'
-
-    },
     tabs: {
         flex: 1,
         justifyContent: 'center', 
