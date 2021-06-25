@@ -188,13 +188,13 @@ export default class HomeViewModel {
         if (lastSurveyScores === null) {
             return PersonaArmState.createEmptyArmState();
         }
-        let currMags: PersonaArmState = {};
+        let currentArmMagnitudes: PersonaArmState = {};
         for (let domain of PersonaDomains) {
             let score: number = lastSurveyScores[domain];
             let mag: number = 0.4 + (score * 3 / 100);
-            currMags[domain] = mag;
+            currentArmMagnitudes[domain] = mag;
         }
-        return currMags;
+        return currentArmMagnitudes;
     }
 
     public markLinkDocumentAsSeen = (doc: Identify<DocumentLinkEntry>) => {

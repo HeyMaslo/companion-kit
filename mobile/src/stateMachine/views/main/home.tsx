@@ -53,8 +53,8 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
     async start() {
         await AppViewModel.Instance.QOL.init();
-        const mags = await this.viewModel.getArmMagnitudes();
-        this.persona.qolMags = mags;
+        const qolArmMagnitudes = await this.viewModel.getArmMagnitudes();
+        this.persona.qolArmMagnitudes = qolArmMagnitudes;
         this.setState({...this.state, isUnfinishedQol: AppViewModel.Instance.QOL.isUnfinished});
         Animated.timing(this.state.opacity, {
             toValue: 1,
@@ -126,7 +126,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         this.trigger(ScenarioTriggers.Submit);
     }
 
-    private onfinishQol = () => {
+    private onFinishQol = () => {
         this.trigger(ScenarioTriggers.Quaternary);
     }
 

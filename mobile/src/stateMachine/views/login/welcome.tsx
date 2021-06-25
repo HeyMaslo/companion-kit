@@ -22,7 +22,7 @@ export class WelcomeView extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: 405 });
-        this.persona.qolMags = PersonaArmState.createEmptyArmState();
+        this.persona.qolArmMagnitudes = PersonaArmState.createEmptyArmState();
     }
 
     state = {

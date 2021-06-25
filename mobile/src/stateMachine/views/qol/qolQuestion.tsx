@@ -21,8 +21,8 @@ export class QolQuestion extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -140 - (this.viewModel.domainNum * 30), transition: { duration: 1 }, scale: 0.8 });
-        this.viewModel.origMags = this.persona.qolMags;
-        this.persona.qolMags = this.viewModel.qolMags;
+        this.viewModel.originalArmMagnitudes = this.persona.qolArmMagnitudes;
+        this.persona.qolArmMagnitudes = this.viewModel.qolArmMagnitudes;
     }
 
     public get viewModel() {
@@ -34,7 +34,7 @@ export class QolQuestion extends ViewState {
     }
 
     private cancel = () => {
-        this.persona.qolMags = this.viewModel.origMags;
+        this.persona.qolArmMagnitudes = this.viewModel.originalArmMagnitudes;
         this.trigger(ScenarioTriggers.Cancel);
     }
 
@@ -77,7 +77,7 @@ export class QolQuestion extends ViewState {
     private nextQuestion = (prevResponse: number) => {
         this.viewModel.savePrevResponse(prevResponse);
         const newDomainMag: number = this.calculateNewDomainMag(prevResponse);
-        this.persona.qolMags = { ...this.persona.qolMags, [this.viewModel.domain]: newDomainMag };
+        this.persona.qolArmMagnitudes = { ...this.persona.qolArmMagnitudes, [this.viewModel.domain]: newDomainMag };
 
         if (this.viewModel.questionNum === (this.viewModel.numQuestions - 1)) {
             this.finish();
@@ -96,7 +96,7 @@ export class QolQuestion extends ViewState {
             booster = 0.2;
         }
         const inc: number = response * 3 / 100;
-        const oldMag: number = this.persona.qolMags[this.viewModel.domain];
+        const oldMag: number = this.persona.qolArmMagnitudes[this.viewModel.domain];
         return oldMag + inc + booster;
     }
 
