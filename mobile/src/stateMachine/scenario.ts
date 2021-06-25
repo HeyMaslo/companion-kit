@@ -44,6 +44,8 @@ import { ChooseStrategiesView } from './views/strategies/ChooseStrategiesView';
 import { FocusStrategiesView } from './views/strategies/FocusStrategiesView';
 import { StrategyDetailsView } from './views/strategies/StrategyDetailsView';
 
+import { YourFocusDomainsView } from './views/YourFocusDomainsView';
+
 import { QolStartView } from './views/qol/startQOL';
 import { QolEndView } from './views/qol/endQOL';
 import { QolQuestion } from './views/qol/qolQuestion';
@@ -200,7 +202,9 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.StartQol, trigger: Triggers.Tertiary },
             { target: States.Journal_SelectMood, trigger: Triggers.Submit },
             { target: States.QolQuestion, trigger: Triggers.Quaternary },
-            { target: States.Choose_Domain, trigger: Triggers.Next },
+            // temp testing YourFocusDomainsView
+            { target: States.Focus_Domains, trigger: Triggers.Next },
+            { target: States.Choose_Domain, trigger: Triggers.Back },
         ],
     },
 
@@ -446,6 +450,22 @@ export const MasloScenario: GlobalScenario<States> = {
         view: StrategyDetailsView,
         exit: [
             { target: States.Focus_Strategies, trigger: [Triggers.Back] },
+        ]
+    },
+
+    [States.Strategy_Details3]: {
+        view: StrategyDetailsView,
+        exit: [
+            { target: States.Focus_Domains, trigger: [Triggers.Back] },
+        ]
+    },
+
+    [States.Focus_Domains]: {
+        view: YourFocusDomainsView,
+        exit: [
+            { target: States.Home, trigger: [Triggers.Cancel] },
+            { target: States.Strategy_Details3, trigger: [Triggers.Tertiary] },
+            { target: States.Choose_Strategies, trigger: [Triggers.Next] },
         ]
     },
 
