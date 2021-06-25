@@ -71,6 +71,9 @@ export enum States {
     Focus_Strategies,
     Strategy_Details,
     Strategy_Details2,
+    Strategy_Details3,
+
+    Focus_Domains,
 
     // QoL Block
     qol_Question,
