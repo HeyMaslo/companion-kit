@@ -236,7 +236,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
             }
 
             case 'finish-qol': {
-                this.onfinishQol();
+                this.onFinishQol();
                 return;
             }
 
