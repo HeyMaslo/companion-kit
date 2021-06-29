@@ -9,8 +9,8 @@ export function init(name: string) {
         projectId: projectId,
     };
     const test = fbFuncTest(config);
-    const app = admin.initializeApp(config, name);
-    return {test: test, app : app};
+    admin.initializeApp(config, name);
+    return test;
 }
 
 export async function clear() {

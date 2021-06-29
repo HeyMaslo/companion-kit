@@ -142,8 +142,3 @@ async function deleteFromStorage(path) {
 
     console.log(`gs://${bucketName}/${path} deleted.`);
 }
-
-export async function exportData() {
-    // Cron-based export
-    console.log(`Exporting to data services...`);
-}

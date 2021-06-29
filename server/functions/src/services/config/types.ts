@@ -12,7 +12,6 @@ export type FeaturesSettingsType = {
     ScheduleEvents: boolean,
     MobileStandalone: boolean,
     ExportToBQ: boolean,
-    ExportToDataServices: boolean,
     TimeTrackingEnabled: boolean,
     Goals?: boolean,
     SendSmsOnTriggerPhrases?: boolean;
@@ -39,11 +38,4 @@ export type ClientsSettingsType = {
         ios: string,
         android: string,
     },
-};
-
-export type BackendSettingsType = {
-    prot: string,
-    addr: string,
-    port: number,
-    auth: string,
 };

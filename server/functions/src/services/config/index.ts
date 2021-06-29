@@ -1,14 +1,7 @@
 import * as functions from 'firebase-functions';
 import { } from 'common/declarations/process';
 import { AssessmentType } from 'common/models';
-import {
-    Environments,
-    FeaturesSettingsType,
-    EmailSettingsType,
-    LinksSettingsType,
-    ClientsSettingsType,
-    BackendSettingsType,
-} from './types';
+import { Environments, FeaturesSettingsType, EmailSettingsType, LinksSettingsType, ClientsSettingsType } from './types';
 
 import * as app from './app';
 
@@ -42,7 +35,6 @@ type ProjectConfig = {
     FeatureSettings: Record<Environments, FeaturesSettingsType>,
     EmailSettings: Record<Environments, EmailSettingsType>,
     LinksSettings: Record<Environments, LinksSettingsType>,
-    BackendSettings: Record<Environments, BackendSettingsType>,
     Client: ClientsSettingsType,
     PreActivatedAssessments?: AssessmentType[],
     AllowedForceLoginEmails?: string[];
@@ -55,7 +47,6 @@ const env: Environments = IS_PROD ? 'production' : 'staging';
 export const EmailSettings = projectConfigs?.EmailSettings[env];
 export const FeatureSettings = projectConfigs?.FeatureSettings[env];
 export const LinksSettings = projectConfigs?.LinksSettings[env];
-export const BackendSettings = projectConfigs?.BackendSettings[env];
 export const ClientSettings = projectConfigs?.Client;
 export const PreActivatedAssessments = projectConfigs?.PreActivatedAssessments;
 export const AllowedForceLoginEmails = projectConfigs?.AllowedForceLoginEmails || [

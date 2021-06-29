@@ -7,7 +7,7 @@ import { init } from './util/firebase';
 import { initializeAsync } from '../../../common/services/firebase';
 import { env } from '../../../env';
 
-const {test, app} = init('example-test');
+const test = init('example-test');
 
 describe('Example Tests', () => {
     afterEach(async () => {
