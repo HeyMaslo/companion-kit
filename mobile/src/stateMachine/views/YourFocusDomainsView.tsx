@@ -128,7 +128,6 @@ export class YourFocusDomainsView extends ViewState {
 
                     <IconsOnCircle circleRaius={this.ordRadius * 2.8} symbolSize={40} style={[styles.iconCircle]}/>
 
-                    {/* List of Strategies */}
                     <FlatList style={[styles.list]}
                               data={this.viewModel.selectedStrategies}
                               renderItem={this.renderListItem}
@@ -166,9 +165,9 @@ const styles = StyleSheet.create({
   date: {
     textTransform: 'uppercase',
     marginBottom: 25,
-},
-labelLarge: {
-  marginBottom: 10,
+  },
+  labelLarge: {
+    marginBottom: 10,
 },
 
 });

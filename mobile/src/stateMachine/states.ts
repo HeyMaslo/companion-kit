@@ -73,6 +73,8 @@ export enum States {
     Strategy_Details2,
     Strategy_Details3,
 
+    Past_Strategies,
+
     Focus_Domains,
 
     // QoL Block

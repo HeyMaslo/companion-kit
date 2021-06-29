@@ -54,6 +54,7 @@ import Triggers = ScenarioTriggers;
 import { VerificationCodeView } from './views/login/verificationCode';
 import { NoInvitationView } from './views/login/noInvitation';
 import { ResetPasswordView } from './views/password/resetPassword';
+import { PastWeekStrategiesView } from './views/strategies/PastWeekStrategies';
 
 const CreateJournalCancelTransition: StateTransition<States> = {
     target: States.Home,
@@ -203,7 +204,8 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Journal_SelectMood, trigger: Triggers.Submit },
             { target: States.QolQuestion, trigger: Triggers.Quaternary },
             // temp testing
-            { target: States.Focus_Domains, trigger: Triggers.Next },
+            // { target: States.Focus_Domains, trigger: Triggers.Next },
+            { target: States.Past_Strategies, trigger: Triggers.Next },
             //
             { target: States.Choose_Domain, trigger: Triggers.Back },
         ],
@@ -458,6 +460,13 @@ export const MasloScenario: GlobalScenario<States> = {
         view: StrategyDetailsView,
         exit: [
             { target: States.Focus_Domains, trigger: [Triggers.Back] },
+        ]
+    },
+
+    [States.Past_Strategies]: {
+        view: PastWeekStrategiesView,
+        exit: [
+            { target: States.Home, trigger: [Triggers.Cancel] },
         ]
     },
 

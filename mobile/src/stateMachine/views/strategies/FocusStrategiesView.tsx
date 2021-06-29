@@ -61,22 +61,29 @@ export class FocusStrategiesView extends ViewState {
     renderListItem = ({ item }) => (
       <StrategyCard item={item} onSelectStrategy={(()=>(null))} onLearnMorePress={this.onLearnMorePress} hideCheckbox={true}/>
     );
+    
+    public renderInnerContent(titleText: string): JSX.Element {
+      return (
+            <>
+            {/* Title */}
+            <View style={{justifyContent: 'center', flexDirection: 'row', marginBottom: 20}}>
+              <Text style={[TextStyles.h2, styles.strategy]}>{titleText}</Text>
+            </View>
+            {/* List of Strategies */}
+            <FlatList style={styles.list}    
+            data={this.viewModel.selectedStrategies}
+            renderItem={this.renderListItem}
+            keyExtractor={item => item.id}/>
+          </>
+      );
+    }
 
     renderContent() {
-      console.log('availableStrategies', this.viewModel.availableStrategies.length)
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} onBack={this.onBack}>
                 <Container style={[{height: this._contentHeight, paddingTop: 10, paddingBottom: 10}]}>
-                    {/* Title */}
-                    <View style={{justifyContent: 'center', flexDirection: 'row', marginBottom: 20}}>
-                        <Text style={[TextStyles.h2, styles.strategy]}>{'Here are your focus strategies.'}</Text>
-                    </View>
-                    {/* List of Strategies */}
-                    <FlatList style={styles.list}    
-                    data={this.viewModel.selectedStrategies}
-                    renderItem={this.renderListItem}
-                    keyExtractor={item => item.id}/>
-                    <Button title='CONTINUE' style={styles.selectButton} onPress={this.nextPage}/>
+                  {this.renderInnerContent('Here are your focus strategies.')}
+                  <Button title='CONTINUE' style={styles.selectButton} onPress={this.nextPage}/>
                 </Container>
             </MasloPage>
         );
