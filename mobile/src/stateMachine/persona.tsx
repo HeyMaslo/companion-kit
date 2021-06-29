@@ -86,7 +86,7 @@ export function PersonaView(this: void, props: Props) {
     }, { fireImmediately: true }));
 
     return (
-        <View key='111' style={styles.personaWrapper} pointerEvents={'box-none'}>
+        <View key='111' style={styles.personaWrapper} pointerEvents={'none'}>
             <MasloPersonaExpo
                 context={props.context}
                 disabled={props.disabled}

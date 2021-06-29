@@ -32,10 +32,10 @@ class PersonaViewContext implements IPersonaViewContext {
 
     getContainerHeight(minHeight: number, baseView?: Partial<PersonaViewState>): { height: number, view: PersonaViewState } {
         const pixelRatio = PixelRatio.get();
-        const dh = Layout.window.height;
+        const windowHeight = Layout.window.height;
         const boxSize = this.personaBoxHeight;
-        const notEnoughSpace = (minHeight + boxSize) > dh;
-        const offset = dh - boxSize - minHeight;
+        const notEnoughSpace = (minHeight + boxSize) > windowHeight;
+        const offset = windowHeight - boxSize - minHeight;
         const personaRadius = this.personaRadius;
         const limit = boxSize * 0.38;
 
@@ -52,19 +52,19 @@ class PersonaViewContext implements IPersonaViewContext {
         if (notEnoughSpace) {
             // logger.log('not enough space. move persona up.');
             if (Math.abs(offset) > limit) {
-                view.position.y = dh * pixelRatio / 2;
+                view.position.y = windowHeight * pixelRatio / 2;
                 view.debugName = 'SETUP_HALF_OUT';
 
-                availableHeight = dh - personaRadius / pixelRatio;
+                availableHeight = windowHeight - personaRadius / pixelRatio;
             } else {
-                view.position.y = (minHeight - dh / 2) * pixelRatio;
+                view.position.y = (minHeight - windowHeight / 2) * pixelRatio;
                 view.anchorPoint.y = 1;
                 view.debugName = 'SETUP_PARTIAL';
 
                 availableHeight = minHeight;
             }
         } else {
-            view.position.y = (dh / 2 - boxSize) * pixelRatio;
+            view.position.y = (windowHeight / 2 - boxSize) * pixelRatio;
             view.anchorPoint.y = 1;
             view.debugName = 'SETUP_FULL_SIZE';
 
