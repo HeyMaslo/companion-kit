@@ -53,8 +53,8 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
     async start() {
         await AppViewModel.Instance.QOL.init();
-        const qolArmMagnitudes = await this.viewModel.getArmMagnitudes();
-        this.persona.qolArmMagnitudes = qolArmMagnitudes;
+        const mags = await this.viewModel.getArmMagnitudes();
+        this.persona.qolArmMagnitudes = mags;
         this.setState({...this.state, isUnfinishedQol: AppViewModel.Instance.QOL.isUnfinished});
         Animated.timing(this.state.opacity, {
             toValue: 1,
@@ -126,7 +126,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         this.trigger(ScenarioTriggers.Submit);
     }
 
-    private onFinishQol = () => {
+    private onfinishQol = () => {
         this.trigger(ScenarioTriggers.Quaternary);
     }
 
@@ -138,10 +138,14 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     private onStartQOL = () => {
         this.trigger(ScenarioTriggers.Tertiary);
     }
-    private onStartDomains = () => {
-        AppViewModel.Instance.ChooseDomain = new ChooseDomainViewModel();
-        AppViewModel.Instance.ChooseStrategy = new ChooseStrategyViewModel();
-        this.trigger(ScenarioTriggers.Next);
+    private onStartDomains(str: string) {
+        if (str == 'd') {
+            // AppViewModel.Instance.ChooseDomain.resetDomains();
+            // AppViewModel.Instance.ChooseStrategy.resetStrategies();
+            this.trigger(ScenarioTriggers.Back);
+        } else {
+            this.trigger(ScenarioTriggers.Next);
+        }
     }
 
     private openStoryDetails = (jid: string) => {
@@ -236,7 +240,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
             }
 
             case 'finish-qol': {
-                this.onFinishQol();
+                this.onfinishQol();
                 return;
             }
 
@@ -324,7 +328,8 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
                     <View style={{flexDirection:'row'}}>
                     {/* Domains button used for development only and will be removed eventually */}
-                    <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains()}/>
+                    <Button title="Working View" style={styles.qolButton} onPress={() => this.onStartDomains('w')}/>
+                    <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains('d')}/>
                     </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
                     { loading
