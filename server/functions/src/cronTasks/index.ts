@@ -1,2 +1,2 @@
 export * from './scheduledEvents';
-export * from './exportDB';
+export * from './export';

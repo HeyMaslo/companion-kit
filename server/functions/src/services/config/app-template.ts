@@ -1,4 +1,4 @@
-import { Environments, FeaturesSettingsType, EmailSettingsType, LinksSettingsType, ClientsSettingsType } from './types';
+import { Environments, FeaturesSettingsType, EmailSettingsType, LinksSettingsType, ClientsSettingsType, BackendSettingsType } from './types';
 import { AssessmentType } from 'common/models';
 
 export const FeatureSettings: Record<Environments, FeaturesSettingsType> = {
@@ -15,6 +15,7 @@ export const FeatureSettings: Record<Environments, FeaturesSettingsType> = {
             ScheduleEvents: true,
             MobileStandalone: false,
             ExportToBQ: true,
+            ExportToDataServices: true,
             TimeTrackingEnabled: true,
             Goals: true,
             SendSmsOnTriggerPhrases: true,
@@ -71,3 +72,15 @@ export const Client: ClientsSettingsType = {
 };
 
 export const PreActivedAssessments: AssessmentType[] = null;
+
+export const BackendSettings: Record<Environments, BackendSettingsType> = {
+    get production() {
+        return {
+            prot: '${BACKEND_API_PROTOCOL}',
+            addr: '${BACKEND_API_ADDRESS}',
+            port: parseInt('${BACKEND_API_PORT}', 10),
+            auth: '${BACKEND_API_KEY}',
+        };
+    },
+    get staging() { return BackendSettings.production; },
+};

@@ -8,7 +8,12 @@ import * as coaches from './coaches';
 import * as ai from './ai';
 import * as billing from './billing';
 import * as qol from './qol';
-import { ScheduledFunctionCrontab, ExportFunctionCrontab, ImportFunctionCrontab } from './cron';
+import {
+    ScheduledFunctionCrontab,
+    ExportFunctionCrontab,
+    BQExportFunctionCrontab,
+    ImportFunctionCrontab } from './cron';
+import { ExportFunctions } from './export';
 
 import { StatsCallFunctions } from './adminStats';
 
@@ -32,8 +37,13 @@ if (ScheduledFunctionCrontab) {
 }
 
 if (ExportFunctionCrontab) {
-    exp.events.export = ExportFunctionCrontab;
+    // exp.events.export = ExportFunctionCrontab; // CRON export
+    exp.events.bqExport = BQExportFunctionCrontab;
     exp.events.import = ImportFunctionCrontab;
+}
+
+if (ExportFunctions) {
+    exp.events.export = ExportFunctions;        // DB event export
 }
 
 module.exports = exp;
