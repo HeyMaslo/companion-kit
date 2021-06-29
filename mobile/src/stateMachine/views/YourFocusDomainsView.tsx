@@ -12,6 +12,7 @@ import { months } from 'common/utils/dateHelpers';
 import Layout from 'src/constants/Layout';
 import { getPersonaRadius } from '../persona';
 import AppController from 'src/controllers';
+import IconsOnCircle from './IconsOnCircle';
 
 const date = new Date();
 const today = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
@@ -46,9 +47,9 @@ export class YourFocusDomainsView extends ViewState {
         this.personaYPos = -(this.containerMarginTop - containerMarginBottom) + (this._contentHeight / 10);
         this.persona.view = { ...this.persona.view, position: { x: this.persona.view.position.x, y: (this.personaYPos) * devicePixelRatio + this.ordRadius}, scale: 0.75 };
         this.persona.qolArmMagnitudes = { 'physical': 0, 'sleep': 0, 'mood': 0, 'cognition': 0, 'leisure': 0, 'relationships': 0, 'spiritual': 0, 'money': 0, 'home': 0, 'self-esteem': 0, 'independence': 0, 'identity': 0};
-        this.persona.enableSwipeDownInteraction = true;
+        // this.persona.enableSwipeDownInteraction = true;
         this.onPersonaSwipeDown = this.onPersonaSwipeDown.bind(this);
-        this.persona.onSwipeDownPassThreshold = this.onPersonaSwipeDown;
+        // this.persona.onSwipeDownPassThreshold = this.onPersonaSwipeDown;
 
         console.log('--------------------------------------------')
         console.log('Layout.window.height: ', Layout.window.height)
@@ -125,8 +126,10 @@ export class YourFocusDomainsView extends ViewState {
                       <Text style={[TextStyles.h2, styles.title]}>{this.domainsTitle}</Text>
                     </View>
 
+                    <IconsOnCircle circleRaius={this.ordRadius * 2.8} symbolSize={40} style={[styles.iconCircle]}/>
+
                     {/* List of Strategies */}
-                    <FlatList style={[styles.list, {marginTop: this.strategylistTopMargin}]}    
+                    <FlatList style={[styles.list]}
                               data={this.viewModel.selectedStrategies}
                               renderItem={this.renderListItem}
                               keyExtractor={item => item.id}/>
@@ -145,9 +148,13 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
   },
+  iconCircle: {
+    marginTop: 35,
+    marginBottom: 35,
+  },
   list: {
     marginBottom: 25,
-    // backgroundColor: 'grey',
+    backgroundColor: 'grey',
   },
   listItem: {
     borderWidth: 1,
