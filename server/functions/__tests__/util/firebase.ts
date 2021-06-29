@@ -6,6 +6,6 @@ export function init(name: string) {
         projectId: 'bipolarbridges',
     };
     const test = fbFuncTest(config);
-    admin.initializeApp(config, name);
-    return test;
+    const app = admin.initializeApp(config, name);
+    return {test: test, app : app};
 }

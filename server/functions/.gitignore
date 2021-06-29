@@ -10,3 +10,4 @@ node_modules/
 
 .runtimeconfig.json
 src/services/config/app.ts
+api_key.json
