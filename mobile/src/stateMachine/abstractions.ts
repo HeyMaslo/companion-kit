@@ -14,7 +14,9 @@ export enum ScenarioTriggers {
     Secondary,
     Tertiary,
     Next,
-    Quaternary
+    Quaternary,
+    // MK-TODO For TESTING ONLY to be removed
+    _TESTING_,
 }
 
 export enum NavigationStates {

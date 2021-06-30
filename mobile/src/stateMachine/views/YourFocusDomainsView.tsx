@@ -153,7 +153,6 @@ const styles = StyleSheet.create({
   },
   list: {
     marginBottom: 25,
-    // backgroundColor: 'grey',
   },
   listItem: {
     borderWidth: 1,

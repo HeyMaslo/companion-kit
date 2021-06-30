@@ -139,12 +139,14 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         this.trigger(ScenarioTriggers.Tertiary);
     }
     private onStartDomains(str: string) {
-        if (str == 'd') {
+        if (str == 'domains') {
             // AppViewModel.Instance.ChooseDomain.resetDomains();
             // AppViewModel.Instance.ChooseStrategy.resetStrategies();
             this.trigger(ScenarioTriggers.Back);
-        } else {
+        } else if (str == 'b') {
             this.trigger(ScenarioTriggers.Next);
+        } else {
+            this.trigger(ScenarioTriggers._TESTING_);
         }
     }
 
@@ -328,8 +330,9 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
                     <View style={{flexDirection:'row'}}>
                     {/* Domains button used for development only and will be removed eventually */}
-                    <Button title="Working View" style={styles.qolButton} onPress={() => this.onStartDomains('w')}/>
-                    <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains('d')}/>
+                    <Button title="WorkingView" style={styles.qolButton} onPress={() => this.onStartDomains('b')}/>
+                    <Button title="WorkView 2" style={styles.qolButton} onPress={() => this.onStartDomains('c')}/>
+                    <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains('domains')}/>
                     </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
                     { loading
