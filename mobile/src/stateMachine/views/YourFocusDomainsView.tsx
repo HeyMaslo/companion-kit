@@ -126,8 +126,8 @@ export class YourFocusDomainsView extends ViewState {
                       <Text style={[TextStyles.h2, styles.title]}>{this.domainsTitle}</Text>
                     </View>
 
-                    <IconsOnCircle circleRaius={this.ordRadius * 2.8} symbolSize={40} style={[styles.iconCircle]}/>
-
+                    <IconsOnCircle circleRaius={this.ordRadius * 2.8} symbolSize={40} style={[styles.iconCircle]} highlightedIndices={[1,8]}/>
+                    {/* <Text style={[TextStyles.labelMedium, {textAlign: 'center'}]}>Your Focus Strategies:</Text> */}
                     <FlatList style={[styles.list]}
                               data={this.viewModel.selectedStrategies}
                               renderItem={this.renderListItem}
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   },
   list: {
     marginBottom: 25,
-    backgroundColor: 'grey',
+    // backgroundColor: 'grey',
   },
   listItem: {
     borderWidth: 1,

@@ -4,6 +4,7 @@ import React from 'react';
 import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native';
 import { Container, MasloPage } from 'src/components';
 import Images from 'src/constants/images';
+import Colors from 'src/constants/colors/Colors';
 import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
@@ -48,13 +49,13 @@ export class StrategyDetailsView extends ViewState {
     private iconForDomain(d: string): JSX.Element {
       switch (d.toLowerCase()) {
         case 'sleep':
-          return <Images.sleepIcon width={30} height={30} style={{display: 'flex', marginRight: 20}}/>;
+          return <Images.sleepIcon color={Colors.typography.h1} width={30} height={30} style={{display: 'flex', marginRight: 20}}/>;
         case 'physical':
-          return <Images.physicalIcon width={30} height={30} style={{display: 'flex', marginRight: 20}}/>;
+          return <Images.physicalIcon color={Colors.typography.h1} width={30} height={30} style={{display: 'flex', marginRight: 20}}/>;
         case 'mood':
-          return <Images.selfEsteemIcon width={30} height={30} style={{display: 'flex', marginRight: 20}}/>;
+          return <Images.selfEsteemIcon color={Colors.typography.h1} width={30} height={30} style={{display: 'flex', marginRight: 20}}/>;
         case 'cognition':
-          return <Images.leisureIcon width={30} height={30} style={{display: 'flex', marginRight: 20}}/>;
+          return <Images.leisureIcon color={Colors.typography.h1} width={30} height={30} style={{display: 'flex', marginRight: 20}}/>;
       }
     }
 

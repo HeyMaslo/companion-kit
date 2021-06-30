@@ -23,13 +23,13 @@ export default class StrategyCard extends React.Component<IStrategyCardProps> {
 private iconForDomain(d: string): JSX.Element {
   switch (d.toLowerCase()) {
     case 'sleep':
-      return <View key={d} style={styles.icon}><Images.sleepIcon width={20} height={20}/></View>;
+      return <View key={d} style={styles.icon}><Images.sleepIcon color={Colors.typography.h1} width={20} height={20}/></View>;
     case 'physical':
-      return <View key={d} style={styles.icon}><Images.physicalIcon width={20} height={20}/></View>;
+      return <View key={d} style={styles.icon}><Images.physicalIcon color={Colors.typography.h1} width={20} height={20}/></View>;
     case 'mood':
-      return <View key={d} style={styles.icon}><Images.selfEsteemIcon width={20} height={20}/></View>;
+      return <View key={d} style={styles.icon}><Images.selfEsteemIcon color={Colors.typography.h1} width={20} height={20}/></View>;
     case 'cognition':
-      return <View key={d} style={styles.icon}><Images.leisureIcon width={20} height={20}/></View>;
+      return <View key={d} style={styles.icon}><Images.leisureIcon color={Colors.typography.h1} width={20} height={20}/></View>;
   }
 }
 
