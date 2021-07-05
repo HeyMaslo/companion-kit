@@ -1,5 +1,6 @@
 import { observable} from 'mobx';
-import { StrategyIded, DisplayStrategyIded, DomainIded } from '../../../mobile/src/constants/QoL';
+import { StrategyIded, DisplayStrategyIded } from '../../../mobile/src/constants/Strategy';
+import { DomainIded } from '../../../mobile/src/constants/Domain';
 
 export default class ChooseStrategyViewModel {
 

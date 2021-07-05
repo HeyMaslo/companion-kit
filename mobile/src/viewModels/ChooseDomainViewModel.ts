@@ -1,6 +1,6 @@
 import { observable} from 'mobx';
 import { createLogger } from 'common/logger';
-import { DomainIded } from '../../../mobile/src/constants/QoL';
+import { DomainIded } from '../../../mobile/src/constants/Domain';
 import AppViewModel from 'src/viewModels';
 
 const logger = createLogger('[ChooseDomainViewModel]');

@@ -1,6 +1,6 @@
 import { Maybe } from 'common/abstractions/structures/monads';
 import { GenericRepo } from 'common/database/repositories';
-import { Domain } from '../../../mobile/src/constants/QoL';
+import { Domain } from '../../../mobile/src/constants/Domain';
 import { DocumentSnapshot, Query } from 'common/database/repositories/dbProvider';
 import Collections from 'common/database/collections';
 

@@ -54,7 +54,7 @@ export class ChooseStrategiesView extends ViewState {
     })
 
     onSubmit = () => {
-      AppController.Instance.User.backend.setUserStateProperty('chosenStrategies', this.viewModel.selectedStrategies.map(s => s.id));
+      AppController.Instance.User.qol.setUserStateProperty('chosenStrategies', this.viewModel.selectedStrategies.map(s => s.id));
       this.trigger(ScenarioTriggers.Submit);
     }
 
