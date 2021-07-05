@@ -18,7 +18,7 @@ export type NotificationsSettings = {
 };
 
 export type QolSettings = {
-    seenOnboardingQol?: boolean,
+    seenQolOnboarding?: boolean,
     lastFullQol?: string,
     pendingFullQol: boolean,
 };

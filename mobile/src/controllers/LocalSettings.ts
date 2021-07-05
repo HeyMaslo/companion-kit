@@ -156,7 +156,7 @@ export class LocalSettingsController implements ILocalSettingsController {
     updateQolOnboarding(diff: Partial<QolSettings>) {
         const qol = this.current.qol || { };
         transaction(() => {
-            let changed = transferChangedFields(diff, qol, "seenOnboardingQol", 'lastFullQol');
+            let changed = transferChangedFields(diff, qol, 'seenQolOnboarding', 'lastFullQol');
 
             if (changed) {
                 this.update({ qol });
