@@ -14,7 +14,6 @@ const MAX_DURATION = 1.5 * 60;
 const FPS60 = 1000 / 60;
 
 export default class RecordScreenViewModel {
-
     private _recorder = new Recorder();
 
     private _player = new AudioPlayerViewModel();
@@ -41,27 +40,60 @@ export default class RecordScreenViewModel {
 
     private _countDownBreak: boolean = false;
 
-    get state() { return this._state; }
+    get state() {
+        return this._state;
+    }
 
-    set state(state: States) { this._state = state; }
+    set state(state: States) {
+        this._state = state;
+    }
 
-    get counter() { return this._counter; }
+    get counter() {
+        return this._counter;
+    }
 
-    get progress() { return this._progress; }
+    get progress() {
+        return this._progress;
+    }
 
-    get diffSec() { return this._diffSec; }
+    get diffSec() {
+        return this._diffSec;
+    }
 
-    get audioUrl() { return this._recorder.uri; }
+    get audioUrl() {
+        return this._recorder.uri;
+    }
 
-    get encoding() { return this._recorder.encoding; }
-    get sampleRate() { return this._recorder.sampleRate; }
-    get durationSec() { return this._recorder.duration; }
-    get record() { return this._recorder.record; }
-    get player() { return this._player; }
-    get playing() { return this._player.isPlaying; }
-    get active() { return this._state === States.recording || this._state === States.recordingPaused; }
-    get playElapsedMS() { return this._player.elapsed || 0; }
-    get maxDuration() { return this._maxDurationSec; }
+    get encoding() {
+        return this._recorder.encoding;
+    }
+    get sampleRate() {
+        return this._recorder.sampleRate;
+    }
+    get durationSec() {
+        return this._recorder.duration;
+    }
+    get record() {
+        return this._recorder.record;
+    }
+    get player() {
+        return this._player;
+    }
+    get playing() {
+        return this._player.isPlaying;
+    }
+    get active() {
+        return (
+            this._state === States.recording ||
+            this._state === States.recordingPaused
+        );
+    }
+    get playElapsedMS() {
+        return this._player.elapsed || 0;
+    }
+    get maxDuration() {
+        return this._maxDurationSec;
+    }
 
     public startCountdown = async (from: number = 3) => {
         this._state = States.countDown;
@@ -73,14 +105,14 @@ export default class RecordScreenViewModel {
                 clearInterval(this._countDownInteval);
             }
         }, 1000);
-    }
+    };
 
     public cancelCountdown = () => {
         clearInterval(this._countDownInteval);
         this._diffSec = 0;
         this._counter = undefined;
         // Navigation.push(Routes.RecordType, 'pop');
-    }
+    };
 
     public startRecordingAsync = async () => {
         try {
@@ -91,14 +123,14 @@ export default class RecordScreenViewModel {
             this.reset();
             this.cancelCountdown();
         }
-    }
+    };
 
     private startProgress = () => {
         this._state = States.recording;
         const dateSec = new Date().getTime() / 1000;
         this._startTimeSec = this._diffSec ? dateSec - this._diffSec : dateSec;
         this._progressInteval = setInterval(this.progressTick, FPS60);
-    }
+    };
 
     public stopRecodringAsync = async () => {
         try {
@@ -115,7 +147,7 @@ export default class RecordScreenViewModel {
 
             this._player.setup();
         }
-    }
+    };
 
     public togglePlayingAsync = async () => {
         if (!this._player.isLoaded) {
@@ -127,7 +159,7 @@ export default class RecordScreenViewModel {
         } else {
             await this._player.startPlayAsync();
         }
-    }
+    };
 
     private progressTick = async () => {
         this._diffSec = new Date().getTime() / 1000 - this._startTimeSec;
@@ -136,7 +168,7 @@ export default class RecordScreenViewModel {
         if (this._progress >= 1 && this._state === States.recording) {
             await this.stopRecodringAsync();
         }
-    }
+    };
 
     public reset = async () => {
         try {
@@ -157,20 +189,20 @@ export default class RecordScreenViewModel {
         } catch (err) {
             console.warn(err);
         }
-    }
+    };
 
     pauseAsync = async () => {
         clearInterval(this._progressInteval);
         await this._recorder.pauseAsync();
         this._state = States.recordingPaused;
-    }
+    };
 
     resumeAsync = async () => {
         clearInterval(this._progressInteval);
         await this._recorder.resumeAsync();
         this._state = States.recording;
         this.startProgress();
-    }
+    };
 
     public pausePlayAsync = () => this._player.pausePlayAsync();
 }

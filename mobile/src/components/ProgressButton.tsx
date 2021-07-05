@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-    StyleSheet,
-    Text,
-    Animated,
-    View,
-} from 'react-native';
+import { StyleSheet, Text, Animated, View } from 'react-native';
 import Button, { ButtonProps } from './Button';
 import Colors from 'src/constants/colors';
 import TextStyles from '../styles/TextStyles';
@@ -19,7 +14,10 @@ interface ProgressButtonState {
     isLoading: boolean;
 }
 
-export default class ProgressButton extends React.Component<Props, ProgressButtonState> {
+export default class ProgressButton extends React.Component<
+    Props,
+    ProgressButtonState
+> {
     private _mounted = false;
 
     state: ProgressButtonState = {
@@ -39,12 +37,12 @@ export default class ProgressButton extends React.Component<Props, ProgressButto
                 this.setState({ isLoading: false });
             }
         }
-    }
+    };
 
     componentDidMount = () => {
         this._animateProgress(this.props.progress);
         this._mounted = true;
-    }
+    };
 
     componentWillUnmount() {
         this._mounted = false;
@@ -64,9 +62,7 @@ export default class ProgressButton extends React.Component<Props, ProgressButto
     }
 
     render() {
-        const {
-            progressText,
-        } = this.props;
+        const { progressText } = this.props;
         const { progressAnimation, isLoading } = this.state;
 
         const width = progressAnimation.interpolate({
@@ -79,14 +75,18 @@ export default class ProgressButton extends React.Component<Props, ProgressButto
                 {...this.props}
                 onPress={this._onPressHandler}
                 title={isLoading ? null : this.props.title}
-                disabled={isLoading}
-            >
-                {isLoading &&
+                disabled={isLoading}>
+                {isLoading && (
                     <View style={styles.loadWrap}>
-                        <Animated.View style={[styles.progressIndicator, { width: width }]} />
-                        <Text style={[TextStyles.btnTitle, styles.progressText]}>{progressText || 'Please wait...'}</Text>
+                        <Animated.View
+                            style={[styles.progressIndicator, { width: width }]}
+                        />
+                        <Text
+                            style={[TextStyles.btnTitle, styles.progressText]}>
+                            {progressText || 'Please wait...'}
+                        </Text>
                     </View>
-                }
+                )}
             </Button>
         );
     }

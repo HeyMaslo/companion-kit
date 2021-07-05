@@ -9,7 +9,7 @@ import { Svg, G, Circle, Text as SvgText, TSpan } from 'react-native-svg';
 type Props = {
     data: ReadonlyArray<WordReference>;
     height: number;
-    theme: Themes,
+    theme: Themes;
 };
 
 type State = {
@@ -28,14 +28,16 @@ export default class BubbleCHart extends React.Component<Props, State> {
     private _layoutReady: boolean = false;
 
     static truncateWords(n: number, word: string) {
-        return (word.length > n) ? word.substr(0, n - 1) + '...' : word;
+        return word.length > n ? word.substr(0, n - 1) + '...' : word;
     }
 
     static tryToBreakLine(words: string) {
         const maxLength = 11;
-        return words
-            .split(' ')
-            .map((s, i) => <TSpan key={i} x="0" dy={`${i === 0 ? 0 : 1.2}em`}>{BubbleCHart.truncateWords(maxLength, s)}</TSpan>);
+        return words.split(' ').map((s, i) => (
+            <TSpan key={i} x="0" dy={`${i === 0 ? 0 : 1.2}em`}>
+                {BubbleCHart.truncateWords(maxLength, s)}
+            </TSpan>
+        ));
     }
 
     componentWillUnmount() {
@@ -43,7 +45,10 @@ export default class BubbleCHart extends React.Component<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (this.props.data !== prevProps.data || this.props.data.length !== prevProps.data.length) {
+        if (
+            this.props.data !== prevProps.data ||
+            this.props.data.length !== prevProps.data.length
+        ) {
             this.activateChart();
         }
     }
@@ -56,7 +61,7 @@ export default class BubbleCHart extends React.Component<Props, State> {
         const { height, width } = this.state;
         this._chart.onResize(height, width);
         this._chart.restartSimulation(this.props.data);
-    }
+    };
 
     onLayout = (e: LayoutChangeEvent) => {
         if (this._layoutReady) {
@@ -70,7 +75,7 @@ export default class BubbleCHart extends React.Component<Props, State> {
             this._layoutReady = true;
             this.activateChart();
         });
-    }
+    };
 
     renderBubbles = () => {
         const { rendersCount, nodeData } = this._chart;
@@ -95,19 +100,32 @@ export default class BubbleCHart extends React.Component<Props, State> {
 
             switch (theme) {
                 case Themes.dark:
-                    mainTextColor = item.r > 50 ? Colors.bubbleChartDarkTheme.mainTextColor.large : Colors.bubbleChartDarkTheme.mainTextColor.small;
-                    fill = item.r > 50 ? Colors.bubbleChartDarkTheme.fill.large : Colors.bubbleChartDarkTheme.fill.small;
+                    mainTextColor =
+                        item.r > 50
+                            ? Colors.bubbleChartDarkTheme.mainTextColor.large
+                            : Colors.bubbleChartDarkTheme.mainTextColor.small;
+                    fill =
+                        item.r > 50
+                            ? Colors.bubbleChartDarkTheme.fill.large
+                            : Colors.bubbleChartDarkTheme.fill.small;
                     break;
                 case Themes.light:
-                    mainTextColor = item.r > 50 ? Colors.bubbleChartLightTheme.mainTextColor.large : Colors.bubbleChartLightTheme.mainTextColor.small;
-                    stroke = item.r > 50 ? Colors.bubbleChartLightTheme.stroke.large : Colors.bubbleChartLightTheme.stroke.small;
+                    mainTextColor =
+                        item.r > 50
+                            ? Colors.bubbleChartLightTheme.mainTextColor.large
+                            : Colors.bubbleChartLightTheme.mainTextColor.small;
+                    stroke =
+                        item.r > 50
+                            ? Colors.bubbleChartLightTheme.stroke.large
+                            : Colors.bubbleChartLightTheme.stroke.small;
                     fill = Colors.bubbleChartLightTheme.fill.small;
                     break;
                 default:
             }
 
             const value = BubbleCHart.tryToBreakLine(item.value);
-            const translateValue = value.length > 1 ? -(value.length / 2) * fontSize * 0.85 : 0;
+            const translateValue =
+                value.length > 1 ? -(value.length / 2) * fontSize * 0.85 : 0;
 
             return (
                 <G key={index} translateX={item.x} translateY={item.y}>
@@ -124,8 +142,7 @@ export default class BubbleCHart extends React.Component<Props, State> {
                         fontSize={fontSize}
                         fontWeight="normal"
                         fontFamily="HelveticaNeue-Medium"
-                        fill={mainTextColor}
-                    >
+                        fill={mainTextColor}>
                         {item.r > 20 && value}
                     </SvgText>
                     <SvgText
@@ -135,8 +152,7 @@ export default class BubbleCHart extends React.Component<Props, State> {
                         textAnchor="middle"
                         fontSize={fontSize * 0.6}
                         fontWeight="normal"
-                        fontFamily="HelveticaNeue-Medium"
-                        >
+                        fontFamily="HelveticaNeue-Medium">
                         {item.r > 50 && item.count + ' TIMES'}
                     </SvgText>
                 </G>
@@ -144,11 +160,13 @@ export default class BubbleCHart extends React.Component<Props, State> {
         });
 
         return bubbles;
-    }
+    };
 
     render() {
         return (
-            <View style={{ width: '100%', height: this.props.height}} onLayout={this.onLayout}>
+            <View
+                style={{ width: '100%', height: this.props.height }}
+                onLayout={this.onLayout}>
                 <Svg style={{ width: '100%', height: '100%' }}>
                     {this.renderBubbles()}
                 </Svg>

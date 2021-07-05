@@ -3,7 +3,10 @@ import * as Permissions from 'expo-permissions';
 import { Platform } from 'react-native';
 import { EventSubscription } from 'fbemitter';
 import { observable, transaction } from 'mobx';
-import { Notification, LocalNotification } from 'expo/build/Notifications/Notifications.types';
+import {
+    Notification,
+    LocalNotification,
+} from 'expo/build/Notifications/Notifications.types';
 import ExpoConstants from 'expo-constants';
 
 import { createLogger } from 'common/logger';
@@ -23,7 +26,10 @@ import {
     timeToString,
     correctExactDate,
 } from 'src/helpers/notifications';
-import { getRandomUniqMessages, getMessagesForExactTime } from 'src/constants/notificationMessages';
+import {
+    getRandomUniqMessages,
+    getMessagesForExactTime,
+} from 'src/constants/notificationMessages';
 import { GlobalTrigger, GlobalTriggers } from 'src/stateMachine/globalTriggers';
 import Localization from 'src/services/localization';
 
@@ -37,14 +43,13 @@ export interface IUserNameProvider {
 const SCHEDULE_DAYS_COUNT = 7;
 
 export class NotificationsService {
-
     @observable
     private _currentStatus: Permissions.PermissionStatus;
 
     @observable.ref
     private _openedNotification: NotificationData;
 
-    private _notificationsSubscription: EventSubscription  = null;
+    private _notificationsSubscription: EventSubscription = null;
 
     private _tokenCached: string = null;
 
@@ -52,7 +57,9 @@ export class NotificationsService {
         if (!user) {
             throw new Error('IUserController is required');
         }
-        this._notificationsSubscription = Notifications.addListener(this._onNotificationReceived);
+        this._notificationsSubscription = Notifications.addListener(
+            this._onNotificationReceived,
+        );
 
         // TEST
         // setTimeout(() => {
@@ -76,7 +83,9 @@ export class NotificationsService {
         // }, 7000);
     }
 
-    public get openedNotification() { return this._openedNotification; }
+    public get openedNotification() {
+        return this._openedNotification;
+    }
 
     public get hasPermission() {
         switch (this._currentStatus) {
@@ -102,7 +111,9 @@ export class NotificationsService {
 
     async askPermission() {
         if (this.hasPermission === null) {
-            const result = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+            const result = await Permissions.askAsync(
+                Permissions.NOTIFICATIONS,
+            );
             this._currentStatus = result.status;
             logger.log('got new permission:', this.hasPermission);
         }
@@ -117,7 +128,10 @@ export class NotificationsService {
             try {
                 const token = await Notifications.getExpoPushTokenAsync();
                 if (!token) {
-                    logger.error('Notifications.getExpoPushTokenAsync() returned `null` while `this._currentStatus` =', this._currentStatus);
+                    logger.error(
+                        'Notifications.getExpoPushTokenAsync() returned `null` while `this._currentStatus` =',
+                        this._currentStatus,
+                    );
                 } else {
                     this._tokenCached = token;
                 }
@@ -131,18 +145,28 @@ export class NotificationsService {
         return null;
     }
 
-    private async scheduleRetentionNotifications(time: NotificationTime, startDateMS: number) {
+    private async scheduleRetentionNotifications(
+        time: NotificationTime,
+        startDateMS: number,
+    ) {
         const settings = { name: this.user.firstName };
         const result: NotificationResult[] = [];
 
-        const messages = time === NotificationTime.ExactTime
-            ? getMessagesForExactTime(startDateMS, SCHEDULE_DAYS_COUNT, settings)
-            : getRandomUniqMessages(time, SCHEDULE_DAYS_COUNT, settings);
+        const messages =
+            time === NotificationTime.ExactTime
+                ? getMessagesForExactTime(
+                      startDateMS,
+                      SCHEDULE_DAYS_COUNT,
+                      settings,
+                  )
+                : getRandomUniqMessages(time, SCHEDULE_DAYS_COUNT, settings);
 
         for (let i = 0; i < messages.length; i++) {
             const m = messages[i];
             const date = addDaysToDate(startDateMS, i);
-            const schedulingOptions: NotificationSchedulingOptions = { time: date };
+            const schedulingOptions: NotificationSchedulingOptions = {
+                time: date,
+            };
 
             const data = {
                 type: NotificationTypes.Retention,
@@ -153,11 +177,22 @@ export class NotificationsService {
                 data,
                 body: m,
                 ios: { sound: true },
-                android: Platform.OS === 'android' ? { channelId: AndroidChannels.Default } : null,
+                android:
+                    Platform.OS === 'android'
+                        ? { channelId: AndroidChannels.Default }
+                        : null,
             };
 
-            await Notifications.scheduleLocalNotificationAsync(notification, schedulingOptions);
-            logger.log('scheduleNotifications with message:', m, '| notification time is:', date);
+            await Notifications.scheduleLocalNotificationAsync(
+                notification,
+                schedulingOptions,
+            );
+            logger.log(
+                'scheduleNotifications with message:',
+                m,
+                '| notification time is:',
+                date,
+            );
 
             const dateStr = new Date(schedulingOptions.time).toUTCString();
             result.push({ body: notification.body, date: dateStr });
@@ -173,33 +208,38 @@ export class NotificationsService {
             await this.createAndroidChannel();
         }
 
-        const scheduleData: ScheduleResult = { };
+        const scheduleData: ScheduleResult = {};
         const keys = Object.keys(schedule);
 
         for (let i = 0; i < keys.length; i++) {
             const time = keys[i] as NotificationTime;
-            const active = time === NotificationTime.ExactTime
-                ? schedule[time] && schedule[time].active
-                : schedule[time];
+            const active =
+                time === NotificationTime.ExactTime
+                    ? schedule[time] && schedule[time].active
+                    : schedule[time];
 
             if (!active) {
                 continue;
             }
 
-            const startDateMS = time === NotificationTime.ExactTime
-                ? correctExactDate(schedule[time] && schedule[time].value)
-                : getNotificationTimeMS(time);
+            const startDateMS =
+                time === NotificationTime.ExactTime
+                    ? correctExactDate(schedule[time] && schedule[time].value)
+                    : getNotificationTimeMS(time);
 
             if (!startDateMS) {
                 continue;
             }
 
-            const res = await this.scheduleRetentionNotifications(time, startDateMS);
+            const res = await this.scheduleRetentionNotifications(
+                time,
+                startDateMS,
+            );
             scheduleData[time] = res;
         }
 
         return scheduleData;
-    }
+    };
 
     public resetSchedule = async () => {
         await Notifications.cancelAllScheduledNotificationsAsync();
@@ -207,15 +247,15 @@ export class NotificationsService {
         if (Platform.OS === 'android') {
             await this.deleteAndroidChannel();
         }
-    }
+    };
 
     public resetOpenedNotification = () => {
         this._openedNotification = null;
-    }
+    };
 
     async createAndroidChannel() {
         await Notifications.createChannelAndroidAsync(AndroidChannels.Default, {
-            name:  Localization.Current.MobileProject.projectName,
+            name: Localization.Current.MobileProject.projectName,
             sound: true,
             vibrate: true,
         });
@@ -236,7 +276,7 @@ export class NotificationsService {
 
             GlobalTrigger(GlobalTriggers.NotificationReceived);
         }
-    }
+    };
 
     dispose() {
         this._notificationsSubscription.remove();

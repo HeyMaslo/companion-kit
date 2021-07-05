@@ -16,11 +16,21 @@ export default class MoodChooserViewModel {
 
     private _prevMood: Moods = null;
 
-    get prevMood() { return this._prevMood; }
-    get currentMood() { return this._currentMood; }
-    get inProgress() { return this._inProgress; }
-    get isFinished() { return this._isFinished; }
-    get direction() { return this._direction; }
+    get prevMood() {
+        return this._prevMood;
+    }
+    get currentMood() {
+        return this._currentMood;
+    }
+    get inProgress() {
+        return this._inProgress;
+    }
+    get isFinished() {
+        return this._isFinished;
+    }
+    get direction() {
+        return this._direction;
+    }
 
     set inProgress(value: boolean) {
         this._inProgress = value;
@@ -33,7 +43,7 @@ export default class MoodChooserViewModel {
     public goToMood(direction: -1 | 1) {
         this._direction = direction;
         this._prevMood = this._currentMood;
-        this._currentMood = this.currentMood + (Moods.Step * direction);
+        this._currentMood = this.currentMood + Moods.Step * direction;
     }
 
     public onFinish = () => {
@@ -43,12 +53,12 @@ export default class MoodChooserViewModel {
 
         this._isFinished = true;
         this._inProgress = false;
-    }
+    };
 
     public reset = () => {
         this._currentMood = Moods.Default;
         this._inProgress = false;
         this._isFinished = false;
         this._direction = null;
-    }
+    };
 }

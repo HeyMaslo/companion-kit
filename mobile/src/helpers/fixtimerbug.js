@@ -35,12 +35,12 @@ if (Platform.OS === 'android') {
         }
         return _setTimeout(fn, time, ...args);
     };
-    global.clearTimeout = id => {
+    global.clearTimeout = (id) => {
         if (typeof id === 'string' && id.startsWith('_lt_')) {
             _clearTimeout(timerFix[id]);
             delete timerFix[id];
             return;
         }
         _clearTimeout(id);
-    }
+    };
 }

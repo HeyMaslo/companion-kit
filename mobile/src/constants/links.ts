@@ -9,7 +9,10 @@ export async function tryOpenLink(url: string = OpenEmailClient, alert = true) {
         Linking.openURL(url);
         return true;
     } else if (alert) {
-        Alert.alert('Error', 'We wasn\'t able to open the link. Possibly, it hasn\'t been configured in your system.');
+        Alert.alert(
+            'Error',
+            "We wasn't able to open the link. Possibly, it hasn't been configured in your system.",
+        );
         return false;
     }
 }

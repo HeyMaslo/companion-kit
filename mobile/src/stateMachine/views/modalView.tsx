@@ -12,7 +12,7 @@ export type ModalButton = {
     action: () => Promise<any> | void;
 };
 
-type ModalButtonOrCustom = ModalButton | { customRender: () => JSX.Element};
+type ModalButtonOrCustom = ModalButton | { customRender: () => JSX.Element };
 
 export type ModalProps = {
     title: string;
@@ -24,7 +24,7 @@ export type ModalProps = {
 };
 
 export function isModalButton(b: ModalButtonOrCustom): b is ModalButton {
-    return !!b && !((b as { customRender: () => JSX.Element})?.customRender);
+    return !!b && !(b as { customRender: () => JSX.Element })?.customRender;
 }
 
 function renderSecondary(secondaryButton: ModalButtonOrCustom) {
@@ -53,17 +53,54 @@ function renderSecondary(secondaryButton: ModalButtonOrCustom) {
 }
 
 function ModalView(props: ModalProps) {
-    const { title, primaryButton, secondaryButton, message, contentHeight, onClose } = props;
-    const heightStyle = { height: contentHeight ? contentHeight : BaseStyles.top43FixedHeight };
+    const {
+        title,
+        primaryButton,
+        secondaryButton,
+        message,
+        contentHeight,
+        onClose,
+    } = props;
+    const heightStyle = {
+        height: contentHeight ? contentHeight : BaseStyles.top43FixedHeight,
+    };
 
     return (
-        <MasloPage style={[BaseStyles.page, !contentHeight ? BaseStyles.top43 : null]} onClose={onClose}>
-            <Container style={[BaseStyles.container, BaseStyles.flexBetween, heightStyle]}>
+        <MasloPage
+            style={[BaseStyles.page, !contentHeight ? BaseStyles.top43 : null]}
+            onClose={onClose}>
+            <Container
+                style={[
+                    BaseStyles.container,
+                    BaseStyles.flexBetween,
+                    heightStyle,
+                ]}>
                 <View style={[BaseStyles.textBlock, styles.textBlock]}>
                     <Text style={[TextStyles.h1, styles.title]}>{title}</Text>
-                    {message && (typeof(message) === 'string' ? <Text style={[Layout.isSmallDevice ? TextStyles.p2 : TextStyles.p1, styles.desc]}>{message}</Text> : message)}
+                    {message &&
+                        (typeof message === 'string' ? (
+                            <Text
+                                style={[
+                                    Layout.isSmallDevice
+                                        ? TextStyles.p2
+                                        : TextStyles.p1,
+                                    styles.desc,
+                                ]}>
+                                {message}
+                            </Text>
+                        ) : (
+                            message
+                        ))}
                 </View>
-                <View style={[styles.buttonsBlock, { flexWrap: isModalButton(secondaryButton) ? 'wrap' : 'wrap-reverse'}]}>
+                <View
+                    style={[
+                        styles.buttonsBlock,
+                        {
+                            flexWrap: isModalButton(secondaryButton)
+                                ? 'wrap'
+                                : 'wrap-reverse',
+                        },
+                    ]}>
                     {renderSecondary(secondaryButton)}
                     <ActivityButton
                         onPress={primaryButton.action}
@@ -71,7 +108,9 @@ function ModalView(props: ModalProps) {
                         loading="promise"
                         style={[
                             BaseStyles.blockButtonsWidth,
-                            !isModalButton(secondaryButton) ? styles.primaryButton : null,
+                            !isModalButton(secondaryButton)
+                                ? styles.primaryButton
+                                : null,
                         ]}
                     />
                 </View>

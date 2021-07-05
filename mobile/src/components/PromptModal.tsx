@@ -13,13 +13,14 @@ import ModalImages from 'src/constants/ModalImages';
 interface PromptModalProps {
     style?: any;
     messageStyle?: any;
-    model: PromptModalViewModel,
+    model: PromptModalViewModel;
 }
 
 @observer
 export default class PromptModal extends React.Component<PromptModalProps> {
-
-    get model() { return this.props.model; }
+    get model() {
+        return this.props.model;
+    }
 
     render() {
         const { style, model, messageStyle } = this.props;
@@ -28,7 +29,13 @@ export default class PromptModal extends React.Component<PromptModalProps> {
             return null;
         }
 
-        const { modalImage, confirmText, rejectText, title, message } = model.currentAction;
+        const {
+            modalImage,
+            confirmText,
+            rejectText,
+            title,
+            message,
+        } = model.currentAction;
         const Img = ModalImages[modalImage];
 
         return (
@@ -37,10 +44,21 @@ export default class PromptModal extends React.Component<PromptModalProps> {
                     <View style={styles.content}>
                         <View style={styles.messageWrap}>
                             {Img ? <Img height="110" width="150" /> : null}
-                            <Text style={[TextStyles.h1, styles.title ]}>{title}</Text>
-                            {typeof message === 'string'
-                                ? <Text style={[TextStyles.p1, styles.message, messageStyle ]}>{message}</Text>
-                                : message}
+                            <Text style={[TextStyles.h1, styles.title]}>
+                                {title}
+                            </Text>
+                            {typeof message === 'string' ? (
+                                <Text
+                                    style={[
+                                        TextStyles.p1,
+                                        styles.message,
+                                        messageStyle,
+                                    ]}>
+                                    {message}
+                                </Text>
+                            ) : (
+                                message
+                            )}
                         </View>
                         {/* <View style={styles.actionsWrap}>
                             <ActivityButton

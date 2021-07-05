@@ -5,16 +5,19 @@ import Images from 'src/constants/images';
 import TextStyles from 'src/styles/TextStyles';
 
 export type GoalCardProps = {
-    title: string
+    title: string;
     checked: boolean;
     onPress: () => void;
 };
 
 export default function GoalCard(props: GoalCardProps) {
-    const {title, checked, onPress } = props;
+    const { title, checked, onPress } = props;
 
     return (
-        <TouchableOpacity style={[styles.goalCard, checked ? styles.cardChecked : null ]} activeOpacity={0.7} onPress={onPress}>
+        <TouchableOpacity
+            style={[styles.goalCard, checked ? styles.cardChecked : null]}
+            activeOpacity={0.7}
+            onPress={onPress}>
             <Text style={[TextStyles.p2, styles.title]}>{title}</Text>
             <View style={[styles.checkbox, checked && styles.checkboxChecked]}>
                 {checked && <Images.radioChecked width={8} height={6} />}

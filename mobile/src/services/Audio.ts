@@ -8,8 +8,8 @@ export { AudioSound, AVPlaybackStatus };
 const logger = createLogger('[AudioManager]');
 
 export type AudioModeOptions = {
-    enableRecording?: boolean,
-    forcePlayInSilent?: boolean,
+    enableRecording?: boolean;
+    forcePlayInSilent?: boolean;
 };
 
 const DefaultOptions: AudioModeOptions = {
@@ -20,12 +20,15 @@ const DefaultOptions: AudioModeOptions = {
 let cache: AudioModeOptions = null;
 
 async function initialize(options?: AudioModeOptions) {
-
     const opts = options || { ...DefaultOptions };
     opts.enableRecording = !!opts.enableRecording;
     opts.forcePlayInSilent = !!opts.forcePlayInSilent;
 
-    if (cache != null && cache.enableRecording === opts.enableRecording && cache.forcePlayInSilent === opts.forcePlayInSilent) {
+    if (
+        cache != null &&
+        cache.enableRecording === opts.enableRecording &&
+        cache.forcePlayInSilent === opts.forcePlayInSilent
+    ) {
         // options are identical
         return;
     }
@@ -34,12 +37,13 @@ async function initialize(options?: AudioModeOptions) {
     cache = opts;
 
     try {
-
         await Audio.setAudioModeAsync({
             staysActiveInBackground: false,
             interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_MIX_WITH_OTHERS,
-            interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
-            playsInSilentModeIOS: opts.forcePlayInSilent || opts.enableRecording,
+            interruptionModeAndroid:
+                Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
+            playsInSilentModeIOS:
+                opts.forcePlayInSilent || opts.enableRecording,
             shouldDuckAndroid: true,
             allowsRecordingIOS: opts.enableRecording,
             playThroughEarpieceAndroid: opts.enableRecording,

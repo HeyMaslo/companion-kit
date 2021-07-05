@@ -1,16 +1,21 @@
 import { observable, transaction, computed } from 'mobx';
 import logger from 'common/logger';
-import { AssessmentType, ClientIntakeFormIded, IntakeForms, IntakeFormTypes } from 'common/models';
+import {
+    AssessmentType,
+    ClientIntakeFormIded,
+    IntakeForms,
+    IntakeFormTypes,
+} from 'common/models';
 import AppController from 'src/controllers';
 import * as Features from 'common/constants/features';
 
 const EmptyArray: any[] = [];
 
 type AssessmentResult = {
-    formType: AssessmentType,
-    score: number,
-    date: number,
-    recommendation: IntakeFormTypes.Recommendation,
+    formType: AssessmentType;
+    score: number;
+    date: number;
+    recommendation: IntakeFormTypes.Recommendation;
 };
 
 export class AssessmentItem {
@@ -36,8 +41,14 @@ export class AssessmentItem {
 
     private _disableSubmitOption = false;
 
-    constructor(overrideType: AssessmentType = null, forceResult: ClientIntakeFormIded = null) {
-        this.formType = overrideType || AppController.Instance.User.assessments.nextFormTypeAvailable || null;
+    constructor(
+        overrideType: AssessmentType = null,
+        forceResult: ClientIntakeFormIded = null,
+    ) {
+        this.formType =
+            overrideType ||
+            AppController.Instance.User.assessments.nextFormTypeAvailable ||
+            null;
         if (forceResult) {
             this.formResult = forceResult;
             this._disableSubmitOption = true;
@@ -45,25 +56,45 @@ export class AssessmentItem {
         }
     }
 
-    private get formData() { return this.formType ? IntakeForms[this.formType] : null; }
+    private get formData() {
+        return this.formType ? IntakeForms[this.formType] : null;
+    }
 
-    public get questions(): IntakeFormTypes.Question[] { return this.formData?.QuestionList || EmptyArray; }
-    public get welcomeMessage() { return this.formData?.WelcomeMessage; }
-    public get jumpInQuestion() { return this.formData?.OnboardMessage; }
+    public get questions(): IntakeFormTypes.Question[] {
+        return this.formData?.QuestionList || EmptyArray;
+    }
+    public get welcomeMessage() {
+        return this.formData?.WelcomeMessage;
+    }
+    public get jumpInQuestion() {
+        return this.formData?.OnboardMessage;
+    }
     public get intermission(): IntakeFormTypes.IntermissionScreen {
         if (this.formData?.Intermissions && this.showIntermission) {
-            const interrupt = this.formData.Intermissions.find(i => i.stepIndex === this.step);
+            const interrupt = this.formData.Intermissions.find(
+                (i) => i.stepIndex === this.step,
+            );
             return interrupt;
         }
 
         return null;
     }
 
-    get loading() { return this._loading; }
-    get error() { return this._error; }
-    get step() { return this.stepIndex; }
-    get questionsLength() { return this.formData?.DynamicForm ? null : this.questions.length; }
-    get questionText() { return this.isStepExists ? this.questions[this.stepIndex].text : ''; }
+    get loading() {
+        return this._loading;
+    }
+    get error() {
+        return this._error;
+    }
+    get step() {
+        return this.stepIndex;
+    }
+    get questionsLength() {
+        return this.formData?.DynamicForm ? null : this.questions.length;
+    }
+    get questionText() {
+        return this.isStepExists ? this.questions[this.stepIndex].text : '';
+    }
 
     get isFinalScreen() {
         return this.questions.length === this.stepIndex;
@@ -108,10 +139,12 @@ export class AssessmentItem {
         }
 
         try {
-            const entry = await AppController.Instance.User.assessments.addResponse({
-                formType: this.formType,
-                answers: this.completedAnswers,
-            });
+            const entry = await AppController.Instance.User.assessments.addResponse(
+                {
+                    formType: this.formType,
+                    answers: this.completedAnswers,
+                },
+            );
 
             this.formResult = entry;
 
@@ -122,7 +155,7 @@ export class AssessmentItem {
         } finally {
             this._loading = false;
         }
-    }
+    };
 
     private chooseAnswer(answerIndex: number, route?: number) {
         // save current question index to history
@@ -164,7 +197,9 @@ export class AssessmentItem {
                 this.showIntermission = true;
             }
         } else {
-            logger.warn('[IntakeFormsViewModel] Step value can not be more than questions length');
+            logger.warn(
+                '[IntakeFormsViewModel] Step value can not be more than questions length',
+            );
         }
     }
 
@@ -173,7 +208,9 @@ export class AssessmentItem {
             this.stepIndex = this.previousSteps.pop();
             this.completedAnswers.pop();
         } else {
-            logger.warn('[IntakeFormsViewModel] Step value can not be less than 0');
+            logger.warn(
+                '[IntakeFormsViewModel] Step value can not be less than 0',
+            );
         }
     }
 }

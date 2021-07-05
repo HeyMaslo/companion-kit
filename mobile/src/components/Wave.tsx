@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
     Svg,
@@ -19,13 +18,18 @@ type Props = {
     plusColor?: string;
 };
 
-export default function Wave (props: Props) {
+export default function Wave(props: Props) {
     const { progress, withPlus, plusColor, style } = props;
     const length = 630;
-    const offset = length * (100 - progress) / 100;
+    const offset = (length * (100 - progress)) / 100;
 
     return (
-        <Svg width="100%" height="100%" viewBox="0 0 218 220" fill="none" style={style}>
+        <Svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 218 220"
+            fill="none"
+            style={style}>
             <Defs>
                 {/* we NEED clipRule here */}
                 <ClipPath id="wave-clip" clipRule="evenodd">
@@ -74,7 +78,13 @@ export default function Wave (props: Props) {
                 )}
             </G>
             <Defs>
-                <LinearGradient id="paint0_linear" x1="77.8789" y1="53.2234" x2="126.388" y2="109.037" gradientUnits="userSpaceOnUse">
+                <LinearGradient
+                    id="paint0_linear"
+                    x1="77.8789"
+                    y1="53.2234"
+                    x2="126.388"
+                    y2="109.037"
+                    gradientUnits="userSpaceOnUse">
                     <Stop offset="0" stopColor="#B39DFF" />
                     <Stop offset="1" stopColor="#7154DF" />
                 </LinearGradient>

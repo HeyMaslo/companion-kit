@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, KeyboardAvoidingView, View, Platform } from 'react-native';
+import {
+    StyleSheet,
+    Text,
+    KeyboardAvoidingView,
+    View,
+    Platform,
+} from 'react-native';
 import { observer } from 'mobx-react';
 import { Container, TextInput, MasloPage, ButtonContext } from 'src/components';
 import * as Links from 'src/constants/links';
@@ -16,16 +22,19 @@ const isAndroid = Platform.OS === 'android';
 
 @observer
 export class SignInView extends ViewState {
-
     constructor(props, ctx) {
         super(props, ctx);
-        this._contentHeight = this.persona.setupContainerHeightForceScroll({ rotation: 45 });
+        this._contentHeight = this.persona.setupContainerHeightForceScroll({
+            rotation: 45,
+        });
 
         this.fadeInContent(500, 420);
         this.viewModel.cleanUpVerificationCodeForm();
     }
 
-    get enableGlobalProgressTracking() { return true; }
+    get enableGlobalProgressTracking() {
+        return true;
+    }
 
     get viewModel() {
         return SignInViewModel.Instance;
@@ -33,7 +42,7 @@ export class SignInView extends ViewState {
 
     goBack = () => {
         this.trigger(ScenarioTriggers.Back);
-    }
+    };
 
     private async submitStandalone() {
         const methods = await this.viewModel.getHasAccount();
@@ -66,19 +75,20 @@ export class SignInView extends ViewState {
         this.trigger(ScenarioTriggers.Secondary);
     }
 
-    public submit = () => this.runLongOperation(async () => {
-        if (process.appFeatures.MOBILE_STANDALONE) {
-            await this.submitStandalone();
-            return;
-        }
+    public submit = () =>
+        this.runLongOperation(async () => {
+            if (process.appFeatures.MOBILE_STANDALONE) {
+                await this.submitStandalone();
+                return;
+            }
 
-        if (process.appFeatures.USE_MAGIC_LINK) {
-            await this.requestMagicLink();
-            return;
-        }
+            if (process.appFeatures.USE_MAGIC_LINK) {
+                await this.requestMagicLink();
+                return;
+            }
 
-        await this.sendVerificationCodeByEmail();
-    })
+            await this.sendVerificationCodeByEmail();
+        });
 
     private async sendVerificationCodeByEmail() {
         const data = await this.viewModel.sendVerificationCodeByEmail();
@@ -127,7 +137,8 @@ export class SignInView extends ViewState {
     noAccountModal = () => {
         return this.showModal({
             title: Localization.Current.MobileProject.missingAccountTitle,
-            message: Localization.Current.MobileProject.missingAccountDescription,
+            message:
+                Localization.Current.MobileProject.missingAccountDescription,
             primaryButton: {
                 text: Localization.Current.TryAgain,
                 action: () => {
@@ -137,14 +148,20 @@ export class SignInView extends ViewState {
                 },
             },
             secondaryButton: {
-                customRender: () => ButtonContext({
-                    text: Localization.Current.ThinkItsAMistake,
-                    buttonText: Localization.Current.ContactUs,
-                    onPress: () => Links.tryOpenLink(Localization.Current.MobileProject.contactUsLink, false),
-                }),
+                customRender: () =>
+                    ButtonContext({
+                        text: Localization.Current.ThinkItsAMistake,
+                        buttonText: Localization.Current.ContactUs,
+                        onPress: () =>
+                            Links.tryOpenLink(
+                                Localization.Current.MobileProject
+                                    .contactUsLink,
+                                false,
+                            ),
+                    }),
             },
         });
-    }
+    };
 
     async start() {
         // no-op
@@ -154,23 +171,53 @@ export class SignInView extends ViewState {
         const model = SignInViewModel.Instance;
         const { inProgress, error } = model;
         const { keyboard } = this.props.context;
-        const containerPadding = Layout.window.height - this._contentHeight + 20;
+        const containerPadding =
+            Layout.window.height - this._contentHeight + 20;
         const containerHeight = keyboard?.isOpened ? keyboard?.screenY : '100%';
-        const scaleDownTitle = this.layout.isSmallDevice || this.layout.window.width < 365;
+        const scaleDownTitle =
+            this.layout.isSmallDevice || this.layout.window.width < 365;
 
         return (
             <KeyboardAvoidingView behavior={isAndroid ? 'padding' : null}>
                 <MasloPage
                     inProgress={inProgress || AppController.Instance.loading}
                     onBack={this.goBack}
-                    style={[this.baseStyles.page, { justifyContent: 'flex-start', position: 'relative' }]}
-                >
-                    <Container style={[
-                        keyboard?.isOpened ? this.baseStyles.flexCenterBottom : this.baseStyles.flexStart,
-                        { height: containerHeight, paddingTop: containerPadding },
+                    style={[
+                        this.baseStyles.page,
+                        { justifyContent: 'flex-start', position: 'relative' },
                     ]}>
-                        <View style={[this.baseStyles.textBlock, styles.textBlock, keyboard?.isOpened ? { position: 'absolute', top: containerPadding } : null]}>
-                            <Text style={[scaleDownTitle ? this.textStyles.h3 : this.textStyles.h1, styles.title]}>{`What's your email?\nI need it to find your account.`}</Text>
+                    <Container
+                        style={[
+                            keyboard?.isOpened
+                                ? this.baseStyles.flexCenterBottom
+                                : this.baseStyles.flexStart,
+                            {
+                                height: containerHeight,
+                                paddingTop: containerPadding,
+                            },
+                        ]}>
+                        <View
+                            style={[
+                                this.baseStyles.textBlock,
+                                styles.textBlock,
+                                keyboard?.isOpened
+                                    ? {
+                                          position: 'absolute',
+                                          top: containerPadding,
+                                      }
+                                    : null,
+                            ]}>
+                            <Text
+                                style={[
+                                    scaleDownTitle
+                                        ? this.textStyles.h3
+                                        : this.textStyles.h1,
+                                    styles.title,
+                                ]}>
+                                {
+                                    "What's your email?\nI need it to find your account."
+                                }
+                            </Text>
                         </View>
                         <TextInput
                             onSubmit={this.submit}

@@ -7,7 +7,13 @@ import * as Functions from 'common/abstractions/functions';
 import LocationsStrings from 'common/localization/LocationStrings';
 import { getTimeSafe, months } from 'common/utils/dateHelpers';
 import { safeCall } from 'common/utils/functions';
-import { SpeechRecognition, JournalRecordDataIded, Moods, TipsLabels, WordReference } from 'common/models';
+import {
+    SpeechRecognition,
+    JournalRecordDataIded,
+    Moods,
+    TipsLabels,
+    WordReference,
+} from 'common/models';
 import logger from 'common/logger';
 import AudioPlayerViewModel from 'src/viewModels/components/AudioPlayerViewModel';
 import AppController from 'src/controllers';
@@ -21,11 +27,16 @@ const EmptyEntities = [];
 const EmptyAudioPlayer = new AudioPlayerViewModel();
 
 function formatDate(d: Date): string {
-    return d.toLocaleDateString('default', { month: 'short', day: 'numeric', year: 'numeric' }).toLowerCase();
+    return d
+        .toLocaleDateString('default', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+        })
+        .toLowerCase();
 }
 
 export default class CheckInViewModel {
-
     @observable
     private _checkInId: string;
 
@@ -47,13 +58,19 @@ export default class CheckInViewModel {
         }
 
         logger.log(' ====== GET DOWNLOAD URL FOR AUDIO REF: ', refPath);
-        const url = await AppController.Instance.Storage.getFileDownloadUlr(refPath);
+        const url = await AppController.Instance.Storage.getFileDownloadUlr(
+            refPath,
+        );
         return url;
     });
 
     @computed
     get checkIn(): ClientJournalEntryIded {
-        return this._checkInId == null ? null : AppController.Instance.User.journal.entries.find(e => e.id === this._checkInId);
+        return this._checkInId == null
+            ? null
+            : AppController.Instance.User.journal.entries.find(
+                  (e) => e.id === this._checkInId,
+              );
     }
 
     @computed
@@ -62,7 +79,9 @@ export default class CheckInViewModel {
             return this._testRecord;
         }
 
-        const ref = this.checkIn && AppController.Instance.User.records.observeRecord(this.checkIn.id);
+        const ref =
+            this.checkIn &&
+            AppController.Instance.User.records.observeRecord(this.checkIn.id);
         const r = ref?.record;
         if (r?.type === 'journal') {
             return r;
@@ -71,29 +90,45 @@ export default class CheckInViewModel {
     }
 
     @computed
-    get title() { return this.audioTranscription || this.transcription || this.question; }
+    get title() {
+        return this.audioTranscription || this.transcription || this.question;
+    }
 
-    get question() { return this.checkIn && this.checkIn.question; }
+    get question() {
+        return this.checkIn && this.checkIn.question;
+    }
 
     @computed
     get date() {
         const date = new Date(getTimeSafe(this.checkIn?.date, new Date(0)));
 
-        return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+        return `${
+            months[date.getMonth()]
+        } ${date.getDate()}, ${date.getFullYear()}`;
     }
 
     @computed
-    get location() { return this.checkIn && LocationsStrings[this.checkIn.location]; }
+    get location() {
+        return this.checkIn && LocationsStrings[this.checkIn.location];
+    }
 
-    get transcription() { return this.checkIn && this.checkIn.transcription; }
+    get transcription() {
+        return this.checkIn && this.checkIn.transcription;
+    }
 
     @computed
     get audioTranscription() {
-        return this.record && this.record.transcriptionFull && SpeechRecognition.merge(this.record.transcriptionFull);
+        return (
+            this.record &&
+            this.record.transcriptionFull &&
+            SpeechRecognition.merge(this.record.transcriptionFull)
+        );
     }
 
     @computed
-    private get duration() { return this.checkIn && this.checkIn.audioMeta?.duration; }
+    private get duration() {
+        return this.checkIn && this.checkIn.audioMeta?.duration;
+    }
 
     @computed
     private get audioRef() {
@@ -101,7 +136,7 @@ export default class CheckInViewModel {
         //     return null;
         // }
 
-        return (this.checkIn && this.checkIn.auidioRef);
+        return this.checkIn && this.checkIn.auidioRef;
     }
 
     @computed
@@ -111,26 +146,45 @@ export default class CheckInViewModel {
 
     @computed
     get feelings() {
-        return (this.checkIn?.feelings?.length && this.checkIn.feelings.map(feel => TipsLabels.Strings[feel]));
+        return (
+            this.checkIn?.feelings?.length &&
+            this.checkIn.feelings.map((feel) => TipsLabels.Strings[feel])
+        );
     }
 
     @computed
     get recommendedTips() {
-        if (process.appFeatures.INTERVENTIONS_ENABLED && this.checkIn?.feelings?.length) {
-            const feelings = this.checkIn.feelings.map((feeling: TipsLabels) => ({name: feeling, score: 1}));
-            return AppController.Instance.User.prompts.tipsByFeeling(feelings, true);
+        if (
+            process.appFeatures.INTERVENTIONS_ENABLED &&
+            this.checkIn?.feelings?.length
+        ) {
+            const feelings = this.checkIn.feelings.map(
+                (feeling: TipsLabels) => ({ name: feeling, score: 1 }),
+            );
+            return AppController.Instance.User.prompts.tipsByFeeling(
+                feelings,
+                true,
+            );
         }
         return null;
     }
 
-    get audioUrl() { return this._audioUrlFetcher.get(); }
+    get audioUrl() {
+        return this._audioUrlFetcher.get();
+    }
 
-    get audioPlayer() { return this._audioPlayer || EmptyAudioPlayer; }
+    get audioPlayer() {
+        return this._audioPlayer || EmptyAudioPlayer;
+    }
 
     @computed
-    get mood(): Moods { return this.checkIn?.mood && Moods.findNearest(this.checkIn.mood); }
+    get mood(): Moods {
+        return this.checkIn?.mood && Moods.findNearest(this.checkIn.mood);
+    }
 
-    get id() { return this._checkInId; }
+    get id() {
+        return this._checkInId;
+    }
 
     @computed
     get processResultDebug(): string {
@@ -138,13 +192,14 @@ export default class CheckInViewModel {
             return null;
         }
 
-        const view = this.record.entities.length > 5
-            ? {
-                ...toJS(this.record),
-                entities: 'truncated',
-                entitiesCount: this.record.entities.length,
-            }
-            : this.record;
+        const view =
+            this.record.entities.length > 5
+                ? {
+                      ...toJS(this.record),
+                      entities: 'truncated',
+                      entitiesCount: this.record.entities.length,
+                  }
+                : this.record;
 
         return JSON.stringify(view, null, 2);
     }
@@ -159,8 +214,12 @@ export default class CheckInViewModel {
             : EmptyEntities;
     }
 
-    get isPrivate() { return this.checkIn ? this.checkIn.private : undefined; }
-    get toggleInProgress() { return this._toggleInProgress; }
+    get isPrivate() {
+        return this.checkIn ? this.checkIn.private : undefined;
+    }
+    get toggleInProgress() {
+        return this._toggleInProgress;
+    }
 
     public setCheckInId(id: string) {
         transaction(() => {
@@ -176,17 +235,25 @@ export default class CheckInViewModel {
             return;
         }
 
-        this._urlObserver = reaction(_ => this.audioUrl, url => {
-            transaction(() => {
-                this._audioPlayer?.reset();
-                if (url) {
-                    logger.log('[CheckInViewModel] setting audio url', this.audioRef, ' ====> ', url);
-                    this._audioPlayer = new AudioPlayerViewModel();
-                    this._audioPlayer.url = url;
-                    this._audioPlayer.setup();
-                }
-            });
-        });
+        this._urlObserver = reaction(
+            (_) => this.audioUrl,
+            (url) => {
+                transaction(() => {
+                    this._audioPlayer?.reset();
+                    if (url) {
+                        logger.log(
+                            '[CheckInViewModel] setting audio url',
+                            this.audioRef,
+                            ' ====> ',
+                            url,
+                        );
+                        this._audioPlayer = new AudioPlayerViewModel();
+                        this._audioPlayer.url = url;
+                        this._audioPlayer.setup();
+                    }
+                });
+            },
+        );
     }
 
     public _deleteCheckInAsync = async () => {
@@ -196,26 +263,27 @@ export default class CheckInViewModel {
             logger.warn('Failed to delete check-in, error below');
             logger.error(err);
         }
-    }
+    };
 
     manualProcess = async () => {
         if (!EnvConstants.AllowManualProcessing) {
             return;
         }
 
-        const record = await Firebase.Instance.getFunction(Functions.AI.ProcessAudioEntry)
-            .execute({
-                type: 'journal',
-                clientUid: AppController.Instance.User.user.id,
-                entryId: this._checkInId,
-                accountId: AppController.Instance.User.activeAccount.id,
-                force: true,
-            });
+        const record = await Firebase.Instance.getFunction(
+            Functions.AI.ProcessAudioEntry,
+        ).execute({
+            type: 'journal',
+            clientUid: AppController.Instance.User.user.id,
+            entryId: this._checkInId,
+            accountId: AppController.Instance.User.activeAccount.id,
+            force: true,
+        });
 
         if (record && record.type === 'journal') {
             this._testRecord = record;
         }
-    }
+    };
 
     public togglePrivateness = async () => {
         if (this._toggleInProgress) {
@@ -227,21 +295,24 @@ export default class CheckInViewModel {
         try {
             // optimistically set new value
             this.checkIn.private = val;
-            await AppController.Instance.User.journal.editEntryPrivacy(this.id, val);
+            await AppController.Instance.User.journal.editEntryPrivacy(
+                this.id,
+                val,
+            );
         } catch (err) {
             // restore prev value
             this.checkIn.private = !val;
         } finally {
             this._toggleInProgress = false;
         }
-    }
+    };
 
     public clearModel = () => {
         this._checkInId = null;
         // this._audioUrl = null;
-    }
+    };
 
     public dispose = () => {
         safeCall(this._urlObserver);
-    }
+    };
 }

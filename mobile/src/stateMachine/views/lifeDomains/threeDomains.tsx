@@ -15,18 +15,21 @@ const minContentHeight = 500;
 export class ThreeDomainView extends ViewState {
     constructor(props) {
         super(props);
-        this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -15, transition: { duration: 1.5 } });
+        this._contentHeight = this.persona.setupContainerHeight(
+            minContentHeight,
+            { rotation: -15, transition: { duration: 1.5 } },
+        );
     }
 
     async start() {}
 
     private cancel = () => {
         this.trigger(ScenarioTriggers.Cancel);
-    }
+    };
 
     private onStartSurvey = () => {
         this.trigger(ScenarioTriggers.Submit);
-    }
+    };
 
     public get viewModel() {
         return AppViewModel.Instance.ChooseDomain;
@@ -36,17 +39,50 @@ export class ThreeDomainView extends ViewState {
         const selectedDomains = this.viewModel.selectedDomains;
 
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()}>
-                <Container style={[styles.flexContainer, { height: this._contentHeight, paddingTop: '20%', width: '100%', justifyContent: 'space-between' }]}>
+            <MasloPage
+                style={this.baseStyles.page}
+                onClose={() => this.cancel()}
+                onBack={() => this.cancel()}>
+                <Container
+                    style={[
+                        styles.flexContainer,
+                        {
+                            height: this._contentHeight,
+                            paddingTop: '20%',
+                            width: '100%',
+                            justifyContent: 'space-between',
+                        },
+                    ]}>
                     <View style={styles.flexContainer}>
                         {/* Titles */}
-                        <Text style={[this.textStyles.h1, styles.title]}>Choosing more than two focus domains is not recommended</Text>
-                        <Text style={styles.message}> For Optimal Effect, choose 1-2 per month - 3 Domains is Maximum</Text>
+                        <Text style={[this.textStyles.h1, styles.title]}>
+                            Choosing more than two focus domains is not
+                            recommended
+                        </Text>
+                        <Text style={styles.message}>
+                            {' '}
+                            For Optimal Effect, choose 1-2 per month - 3 Domains
+                            is Maximum
+                        </Text>
                     </View>
-                    <View style={[styles.flexContainer, {marginBottom: 15}]}>
+                    <View style={[styles.flexContainer, { marginBottom: 15 }]}>
                         {/* Buttons */}
-                        {selectedDomains.length < 3 && <Button title='Continue with two Domains' style={styles.readyButton} onPress={() => this.onStartSurvey()}/>}
-                        {selectedDomains.length < 3 && <Button title='Choose Another Domain' titleStyles={{color:'black'}} withBorder={true} style={styles.readyButtonNo} onPress={() => this.cancel()}/>}
+                        {selectedDomains.length < 3 && (
+                            <Button
+                                title="Continue with two Domains"
+                                style={styles.readyButton}
+                                onPress={() => this.onStartSurvey()}
+                            />
+                        )}
+                        {selectedDomains.length < 3 && (
+                            <Button
+                                title="Choose Another Domain"
+                                titleStyles={{ color: 'black' }}
+                                withBorder={true}
+                                style={styles.readyButtonNo}
+                                onPress={() => this.cancel()}
+                            />
+                        )}
                     </View>
                 </Container>
             </MasloPage>
@@ -54,7 +90,7 @@ export class ThreeDomainView extends ViewState {
     }
 }
 
-const styles = StyleSheet.create({ 
+const styles = StyleSheet.create({
     flexContainer: {
         flexDirection: 'column',
         flexWrap: 'nowrap',
@@ -66,7 +102,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         textAlign: 'center',
         width: '100%',
-        lineHeight: 35
+        lineHeight: 35,
     },
     message: {
         textAlign: 'center',
@@ -89,5 +125,5 @@ const styles = StyleSheet.create({
         height: 45,
         marginTop: 10,
         flex: 0,
-    }
+    },
 });

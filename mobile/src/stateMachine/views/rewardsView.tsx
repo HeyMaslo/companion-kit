@@ -6,42 +6,71 @@ import { ViewState } from './base';
 import BaseStyles from 'src/styles/BaseStyles';
 import Colors from 'src/constants/colors';
 import Layout from 'src/constants/Layout';
-import ConcentricCircles, { ConcentricCirclesStyles } from 'src/components/ConcentricCircles';
+import ConcentricCircles, {
+    ConcentricCirclesStyles,
+} from 'src/components/ConcentricCircles';
 import { ScenarioTriggers } from 'src/stateMachine/abstractions';
 import { RewardsViewViewModel } from 'src/viewModels/RewardsViewViewModel';
 
-const concentricCirclesStyles: ConcentricCirclesStyles = { diameter: 200, strokeBgColor: '#39309C' };
+const concentricCirclesStyles: ConcentricCirclesStyles = {
+    diameter: 200,
+    strokeBgColor: '#39309C',
+};
 
 export class RewardsView extends ViewState {
     readonly model = new RewardsViewViewModel();
 
     start() {
-        this.persona.setupContainerHeightForceScroll({ transparency: 1, position: { x: 0, y: 1 } });
+        this.persona.setupContainerHeightForceScroll({
+            transparency: 1,
+            position: { x: 0, y: 1 },
+        });
     }
 
     private onClose = () => {
         this.trigger(ScenarioTriggers.Cancel);
-    }
+    };
 
     private onShare = async () => {
         await this.model.shareReward();
         this.trigger(ScenarioTriggers.Submit);
-    }
+    };
 
     renderContent() {
         const { currentCheckInsCount: count } = this.model.rewards;
 
         return (
             <MasloPage style={BaseStyles.page} onClose={this.onClose}>
-                <Container style={[BaseStyles.container, BaseStyles.flexBetween, { height: Layout.getViewHeight(91.7) }]}>
-                    <ConcentricCircles styles={concentricCirclesStyles} model={this.model.rewards} />
+                <Container
+                    style={[
+                        BaseStyles.container,
+                        BaseStyles.flexBetween,
+                        { height: Layout.getViewHeight(91.7) },
+                    ]}>
+                    <ConcentricCircles
+                        styles={concentricCirclesStyles}
+                        model={this.model.rewards}
+                    />
                     <View style={styles.numberOfCheckins}>
                         <Text style={TextStyles.p1}>{count}</Text>
                     </View>
                     <View style={[BaseStyles.textBlock, styles.textBlock]}>
-                        <Text style={[TextStyles.h1, styles.title]}>New Milestone</Text>
-                        <Text style={[Layout.isSmallDevice ? TextStyles.p2 : TextStyles.p1, styles.desc]}>
-                            Awesome <Text style={{ textTransform: 'capitalize' }}>{this.model.clientName}</Text>! You completed {count} check-in{count > 1 ? 's' : ''}. Keep going!
+                        <Text style={[TextStyles.h1, styles.title]}>
+                            New Milestone
+                        </Text>
+                        <Text
+                            style={[
+                                Layout.isSmallDevice
+                                    ? TextStyles.p2
+                                    : TextStyles.p1,
+                                styles.desc,
+                            ]}>
+                            Awesome{' '}
+                            <Text style={{ textTransform: 'capitalize' }}>
+                                {this.model.clientName}
+                            </Text>
+                            ! You completed {count} check-in
+                            {count > 1 ? 's' : ''}. Keep going!
                         </Text>
                     </View>
                     <ActivityButton

@@ -19,7 +19,15 @@ import * as Haptics from 'src/services/haptics';
 // FIREBASE & EXPO-THREE COMPATIBILITY HOTFIX
 (global as any).Image = undefined;
 
-export { PersonaStates, PersonaViewState, PersonaArmState, IPersonaContext, PersonaSettings, CurrentPersonaSettings, PersonaDomains };
+export {
+    PersonaStates,
+    PersonaViewState,
+    PersonaArmState,
+    IPersonaContext,
+    PersonaSettings,
+    CurrentPersonaSettings,
+    PersonaDomains,
+};
 
 export const PersonaViewPresets: { [name: string]: PersonaViewState } = {
     Default: {
@@ -44,40 +52,48 @@ export const PersonaViewPresets: { [name: string]: PersonaViewState } = {
         debugName: 'QuaterSmall',
     },
     Third: {
-        scale: 1, rotation: 405,
+        scale: 1,
+        rotation: 405,
         position: { x: 0, y: '18%' },
         anchorPoint: { x: 0, y: 0.5 },
         debugName: 'Third',
     },
 };
 
-const PersonaScale = 0.5 * 2 / 3;
+const PersonaScale = (0.5 * 2) / 3;
 
 type Props = {
-    context: IPersonaViewContext,
-    disabled?: boolean,
+    context: IPersonaViewContext;
+    disabled?: boolean;
 };
 
 export function PersonaView(this: void, props: Props) {
+    React.useEffect(() =>
+        reaction(
+            () => props.context.state,
+            (s) => {
+                switch (s) {
+                    case PersonaStates.Idle: {
+                        // nothing
+                        break;
+                    }
 
-    React.useEffect(() => reaction(() => props.context.state, s => {
-        switch (s) {
-            case PersonaStates.Idle: {
-                // nothing
-                break;
-            }
+                    case PersonaStates.Init: {
+                        Haptics.notification(
+                            Haptics.NotificationFeedbackType.Success,
+                        );
+                        break;
+                    }
 
-            case PersonaStates.Init: {
-                Haptics.notification(Haptics.NotificationFeedbackType.Success);
-                break;
-            }
-
-            default: {
-                Haptics.impact(Haptics.ImpactFeedbackStyle.Light);
-                break;
-            }
-        }
-    }, { fireImmediately: true }));
+                    default: {
+                        Haptics.impact(Haptics.ImpactFeedbackStyle.Light);
+                        break;
+                    }
+                }
+            },
+            { fireImmediately: true },
+        ),
+    );
 
     return (
         <View style={styles.personaWrapper} pointerEvents="none">

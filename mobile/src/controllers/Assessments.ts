@@ -22,7 +22,8 @@ export interface IAssessmentsController {
 
 const FetchResponses = false;
 
-export class AssessmentsController implements IAssessmentsController, IDisposable {
+export class AssessmentsController
+    implements IAssessmentsController, IDisposable {
     @observable.ref
     private _assessments: ClientAssessments;
 
@@ -30,7 +31,9 @@ export class AssessmentsController implements IAssessmentsController, IDisposabl
 
     private _now = new TimeObservable(1000 * 30); // will refresh each 30 secs
 
-    private readonly _responses = FetchResponses ? new AssessmentsResponsesController() : null;
+    private readonly _responses = FetchResponses
+        ? new AssessmentsResponsesController()
+        : null;
 
     @computed
     public get nextFormTypeAvailable() {
@@ -38,19 +41,26 @@ export class AssessmentsController implements IAssessmentsController, IDisposabl
             return null;
         }
 
-        const nextActive = AssessmentType.EnabledTypes.value
-            .find((value: AssessmentType) => this.isActive(value));
+        const nextActive = AssessmentType.EnabledTypes.value.find(
+            (value: AssessmentType) => this.isActive(value),
+        );
         return nextActive;
     }
 
-    public get responses() { return this._responses; }
+    public get responses() {
+        return this._responses;
+    }
 
     // constructor() {
     //     reaction(() => this.nextFormTypeAvailable, formType => logger.log('AssessmentsController ==========================> ', formType));
     // }
 
     public isActive(type: AssessmentType): boolean {
-        return ClientAssessments.getIsCooledDown(this._assessments, type, this._now.nowMs)
+        return ClientAssessments.getIsCooledDown(
+            this._assessments,
+            type,
+            this._now.nowMs,
+        );
     }
 
     initialize(account: ClientAccountIded, clientUid: string) {
@@ -66,8 +76,9 @@ export class AssessmentsController implements IAssessmentsController, IDisposabl
         }
 
         try {
-            const result = await Firebase.Instance.getFunction(ClientsFunctions.AddIntakeFormResponse)
-                .execute({ entry, accountId: this._clientCardId });
+            const result = await Firebase.Instance.getFunction(
+                ClientsFunctions.AddIntakeFormResponse,
+            ).execute({ entry, accountId: this._clientCardId });
 
             if (result.account.assessments) {
                 this._assessments = result.account.assessments;

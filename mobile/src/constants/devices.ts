@@ -19,11 +19,13 @@ export function hasNotch() {
         }
 
         if (ios) {
-            const notchDeviceIndex = devicesWithNotch.findIndex(item => item.model.toLowerCase() === _model.toLowerCase());
+            const notchDeviceIndex = devicesWithNotch.findIndex(
+                (item) => item.model.toLowerCase() === _model.toLowerCase(),
+            );
             notch = notchDeviceIndex !== -1;
         } else {
             const otherModel = _model.toLowerCase();
-            notch = devicesWithNotch.some(item => {
+            notch = devicesWithNotch.some((item) => {
                 const itemModel = item.model.toLowerCase();
                 return otherModel.indexOf(itemModel) !== -1;
             });

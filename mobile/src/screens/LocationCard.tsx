@@ -49,7 +49,7 @@ export class LocationCardS extends React.Component<CardProps> {
             layerStyles,
             borderStyles,
         };
-    }
+    };
 
     render() {
         const { title, onPress, active, location } = this.props;
@@ -61,16 +61,28 @@ export class LocationCardS extends React.Component<CardProps> {
         const Icon = Icons[location];
 
         return (
-            <TouchableOpacity onPress={onPress} style={[styles.card, cardStyles]}>
+            <TouchableOpacity
+                onPress={onPress}
+                style={[styles.card, cardStyles]}>
                 {/* BORDERS */}
                 <View style={[styles.cardBorder, style.borderStyles]} />
 
                 {/* LAYER */}
-                {active && <View style={[styles.cardLayer, style.layerStyles]} />}
+                {active && (
+                    <View style={[styles.cardLayer, style.layerStyles]} />
+                )}
 
                 <View style={styles.cardContent}>
                     <Icon width={28} height={28} />
-                    <Text style={[styles.cardTitle, active && { color: Colors.locationCardS.cardTitle.active }]}>{title}</Text>
+                    <Text
+                        style={[
+                            styles.cardTitle,
+                            active && {
+                                color: Colors.locationCardS.cardTitle.active,
+                            },
+                        ]}>
+                        {title}
+                    </Text>
                 </View>
             </TouchableOpacity>
         );
@@ -111,7 +123,7 @@ export class LocationCardM extends LocationCardS {
             layerStyles,
             borderStyles,
         };
-    }
+    };
 }
 
 let styles = StyleSheet.create({

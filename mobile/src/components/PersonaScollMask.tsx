@@ -6,11 +6,10 @@ import { notch } from 'src/styles/BaseStyles';
 import Layout from 'src/constants/Layout';
 
 type Props = {
-    height?: number,
+    height?: number;
 };
 
 export function PersonaScrollMask(props: Props) {
-
     const styles = React.useMemo(() => {
         if (!props.height) {
             return baseStyles.gradientMask;

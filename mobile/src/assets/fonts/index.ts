@@ -1,8 +1,7 @@
-
 export type FontsSet = {
-    'Font-Thin': any,
-    'Font-Light': any,
-    'Font-Medium': any,
+    'Font-Thin': any;
+    'Font-Light': any;
+    'Font-Medium': any;
 };
 
 const FontsLibrary: () => FontsSet = () => ({

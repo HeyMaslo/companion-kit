@@ -20,10 +20,14 @@ export default function RadioButton(props: RadioButtonProps) {
     }, [index]);
 
     return (
-        <TouchableHighlight style={styles.radioButton} onPress={_onClick} underlayColor={'transparent'}>
+        <TouchableHighlight
+            style={styles.radioButton}
+            onPress={_onClick}
+            underlayColor={'transparent'}>
             <>
                 <Text style={[TextStyles.p3, styles.label]}>{label}</Text>
-                <View style={[styles.iconWrap, checked ? styles.checked : null ]}>
+                <View
+                    style={[styles.iconWrap, checked ? styles.checked : null]}>
                     {checked && <Images.radioChecked width={8} height={6} />}
                 </View>
             </>

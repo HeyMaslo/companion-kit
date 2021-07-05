@@ -1,6 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import { Container, MasloPage, ButtonBlock, Button, SelectItem } from 'src/components';
+import {
+    Container,
+    MasloPage,
+    ButtonBlock,
+    Button,
+    SelectItem,
+} from 'src/components';
 import { observer } from 'mobx-react';
 import { PersonaStates, ScenarioTriggers } from '../../abstractions';
 import { CheckInViewBase } from './checkInViewBase';
@@ -15,22 +21,25 @@ const FeelingsSelect = observer((props: { model: MultiselectViewModel }) => {
     const m = props.model;
     return (
         <>
-            {m.items.map((item, i) =>  (
+            {m.items.map((item, i) => (
                 <SelectItem
-                key={`${item.value}_${i}`}
-                title={item.label}
-                isActive={m.selectedValues.indexOf(item.value.toString()) > -1}
-                onPress={() => {
-                    Haptics.selection();
-                    const index = m.selectedValues.indexOf(item.value.toString());
-
-                    if (index === -1) {
-                        m.selectedItems.push(item);
-                    } else {
-                        m.selectedItems.splice(index, 1);
+                    key={`${item.value}_${i}`}
+                    title={item.label}
+                    isActive={
+                        m.selectedValues.indexOf(item.value.toString()) > -1
                     }
+                    onPress={() => {
+                        Haptics.selection();
+                        const index = m.selectedValues.indexOf(
+                            item.value.toString(),
+                        );
 
-                }}
+                        if (index === -1) {
+                            m.selectedItems.push(item);
+                        } else {
+                            m.selectedItems.splice(index, 1);
+                        }
+                    }}
                 />
             ))}
         </>
@@ -52,11 +61,11 @@ export class FeelingsView extends CheckInViewBase {
     back = () => {
         this.viewModel.resetFeelings();
         this.trigger(ScenarioTriggers.Back);
-    }
+    };
 
     next = () => {
         this.trigger(ScenarioTriggers.Primary);
-    }
+    };
 
     renderContent() {
         const { viewModel } = this;
@@ -71,16 +80,36 @@ export class FeelingsView extends CheckInViewBase {
                     <PersonaScrollMask height={Layout.getViewHeight(24)} />
                     <View style={styles.topBarWrap}>
                         <Dots length={3} active={0} styles={{ left: 0 }} />
-                        <Button style={styles.closeBtn} underlayColor="transparent" onPress={this.onClose}>
+                        <Button
+                            style={styles.closeBtn}
+                            underlayColor="transparent"
+                            onPress={this.onClose}>
                             <Images.closeIcon width={28} height={14} />
                         </Button>
                     </View>
                 </Container>
                 <ScrollView style={[{ zIndex: 0, elevation: 0 }]}>
-                    <Container style={[this.baseStyles.container, styles.container]}>
-                        <View style={[this.baseStyles.textBlock, styles.textBlock]}>
-                            <Text style={[this.textStyles.h1, this.baseStyles.textCenter]}>I'm sorry to hear that</Text>
-                            <Text style={[this.textStyles.p1, this.baseStyles.textCenter]}>Can you tell me more about how you feel?</Text>
+                    <Container
+                        style={[this.baseStyles.container, styles.container]}>
+                        <View
+                            style={[
+                                this.baseStyles.textBlock,
+                                styles.textBlock,
+                            ]}>
+                            <Text
+                                style={[
+                                    this.textStyles.h1,
+                                    this.baseStyles.textCenter,
+                                ]}>
+                                I'm sorry to hear that
+                            </Text>
+                            <Text
+                                style={[
+                                    this.textStyles.p1,
+                                    this.baseStyles.textCenter,
+                                ]}>
+                                Can you tell me more about how you feel?
+                            </Text>
                         </View>
                         <View style={[styles.feelingsWrap]}>
                             <FeelingsSelect model={feelingsMultiSelect} />

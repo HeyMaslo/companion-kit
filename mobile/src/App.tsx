@@ -1,6 +1,11 @@
 import React, { ErrorInfo } from 'react';
 import {
-    StatusBar, StyleSheet, View, AppState, AppStateStatus, Alert,
+    StatusBar,
+    StyleSheet,
+    View,
+    AppState,
+    AppStateStatus,
+    Alert,
 } from 'react-native';
 import { AppLoading } from 'expo';
 import { observer, Provider as MobxProvider } from 'mobx-react';
@@ -8,14 +13,16 @@ import * as Font from 'expo-font';
 import 'mobx-react/batchingForReactNative';
 import 'src/services/base64';
 import './helpers/fixtimerbug';
-import type { } from 'common/declarations/process'; // TS fix
+import type {} from 'common/declarations/process'; // TS fix
 
 import AppRouter from './navigation/AppRouter';
 import { ProjectFonts } from './assets/fonts';
 import { createLogger } from 'common/logger';
 import AppController from './controllers';
 import AsyncStorage from './services/StorageAsync';
-import Firebase, { initializeAsync as initializeFirebaseAsync } from 'common/services/firebase';
+import Firebase, {
+    initializeAsync as initializeFirebaseAsync,
+} from 'common/services/firebase';
 
 import Env from 'src/constants/env';
 
@@ -60,7 +67,6 @@ const CONFIRM_DEV_KEY = 'CONFIRM_DEV_KEY';
 
 @observer
 export default class App extends React.Component<IAppProps> {
-
     state = {
         isLoadingComplete: false,
     };
@@ -89,7 +95,7 @@ export default class App extends React.Component<IAppProps> {
         this.processUnhandledError(error);
     }
 
-    handleSiriShortcut({userInfo, activityType}: any) {
+    handleSiriShortcut({ userInfo, activityType }: any) {
         this.setState({
             shortcutInfo: userInfo,
             shortcutActivityType: activityType,
@@ -114,7 +120,7 @@ export default class App extends React.Component<IAppProps> {
     // async updateShortcutList() {
     //     try {
     //       const shortcuts = await getShortcuts();
-    
+
     //       this.setState({
     //         shortcuts,
     //       });
@@ -143,10 +149,10 @@ export default class App extends React.Component<IAppProps> {
         }
 
         AppController.Instance.setAppActive(true);
-    }
+    };
 
     render() {
-        if (!this.props.skipLoadingScreen && (!this.state.isLoadingComplete)) {
+        if (!this.props.skipLoadingScreen && !this.state.isLoadingComplete) {
             return (
                 <AppLoading
                     startAsync={this._loadStuffAsync}
@@ -171,7 +177,7 @@ export default class App extends React.Component<IAppProps> {
             this._loadResourcesAsync(),
             this._initializeControllers(),
         ]);
-    }
+    };
 
     private async _initializeFirebase() {
         try {
@@ -198,24 +204,25 @@ export default class App extends React.Component<IAppProps> {
 
         const AnalyticsService = new AnalyticsExpo();
         InitAnalytics(AnalyticsService);
-    }
+    };
 
-    private _loadResourcesAsync = async () => Promise.all([
-        // Asset.loadAsync([
-        // ]),
-        Font.loadAsync({
-            ...ProjectFonts,
-        }),
-    ])
+    private _loadResourcesAsync = async () =>
+        Promise.all([
+            // Asset.loadAsync([
+            // ]),
+            Font.loadAsync({
+                ...ProjectFonts,
+            }),
+        ]);
 
-    private _handleLoadingError = error => {
+    private _handleLoadingError = (error) => {
         console.error(error);
         this.processUnhandledError(error);
-    }
+    };
 
     private _handleFinishLoading = () => {
         this.setState({ isLoadingComplete: true });
-    }
+    };
 
     private async showDevAlert() {
         if (!AppController.Instance.version.isDevelopment) {
@@ -236,7 +243,7 @@ export default class App extends React.Component<IAppProps> {
                     style: 'cancel',
                 },
                 {
-                    text: 'Don\'t show again',
+                    text: "Don't show again",
                     style: 'destructive',
                     onPress: async () => {
                         await AsyncStorage.setValue(CONFIRM_DEV_KEY, 'true');

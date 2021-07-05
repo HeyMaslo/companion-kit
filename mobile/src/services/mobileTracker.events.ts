@@ -1,7 +1,11 @@
 import { TrackerEvent } from 'common/services/analytics/tracker';
 import { Platform } from 'react-native';
 
-function dashboardEvent(action: string, label: string = null, value: string = null): TrackerEvent {
+function dashboardEvent(
+    action: string,
+    label: string = null,
+    value: string = null,
+): TrackerEvent {
     return {
         category: 'mobile_' + Platform.OS,
         action,

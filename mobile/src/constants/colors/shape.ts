@@ -16,7 +16,7 @@ export type ProjectColorsSchema = {
         btnTitle: string;
         labelMedium: string;
         labelSmall: string;
-    }
+    };
 
     // ========== COMPONENTS ==============
 
@@ -36,25 +36,25 @@ export type ProjectColorsSchema = {
         mainTextColor: {
             large: string;
             small: string;
-        },
+        };
         fill: {
             large: string;
             small: string;
-        },
+        };
     };
     bubbleChartLightTheme: {
         mainTextColor: {
             large: string;
             small: string;
-        },
+        };
         fill: {
             large?: string;
             small: string;
-        },
+        };
         stroke: {
             large: string;
             small: string;
-        },
+        };
     };
 
     // Button
@@ -71,9 +71,9 @@ export type ProjectColorsSchema = {
             border: string;
             text: string;
             underlay: string;
-        }
+        };
         extendButtonText: string;
-    }
+    };
 
     // Dots
     dotBg: string;
@@ -96,7 +96,7 @@ export type ProjectColorsSchema = {
         gradColor3: string;
         gradColor4: string;
         gradColor5: string;
-    }
+    };
 
     // ProgressButton
     progressButtonIndicatorBg: string;
@@ -104,8 +104,8 @@ export type ProjectColorsSchema = {
     progressButtonloadWrapBg: string;
 
     // PromptModal
-    promptModalBg: string,
-    promptModalMessage: string
+    promptModalBg: string;
+    promptModalMessage: string;
     promptModalTitle: string;
 
     // Input
@@ -120,16 +120,16 @@ export type ProjectColorsSchema = {
     // MoodSlider
     moodSlider: {
         thumbTintColor: string;
-    },
+    };
 
     card: {
-        title: string,
-        description: string,
+        title: string;
+        description: string;
         underlay: {
-            primary: string,
-            secondary: string,
-        },
-    },
+            primary: string;
+            secondary: string;
+        };
+    };
 
     // StoryCard
     storyCard: {
@@ -137,7 +137,7 @@ export type ProjectColorsSchema = {
         title: string;
         date: string;
         privacyText: string;
-    }
+    };
 
     // TipCard
     tipCardBg: string;
@@ -149,43 +149,43 @@ export type ProjectColorsSchema = {
         cardTitle: {
             default: string;
             active: string;
-        },
+        };
         cardLayerBg: string;
-    },
+    };
 
     // GradientView
     gradientView: {
-        fallbackColor: string[],
-    }
+        fallbackColor: string[];
+    };
 
     // radioButton
     radioButton: {
-        checkedBg: string,
-    }
+        checkedBg: string;
+    };
 
     placeholder: {
         bg: string;
         text: string;
-    },
+    };
 
     selectItem: {
         bg: string;
         activeBg: string;
         activeText: string;
         activeBorder: string;
-    },
+    };
 
     // Switch
     switch: {
         activeBg: string;
         inactiveBg: string;
-    },
+    };
 
     // Toaster
     toaster: {
         bg: string;
         text: string;
-    },
+    };
 
     // ========== BASE ==============
 
@@ -198,12 +198,12 @@ export type ProjectColorsSchema = {
         Mixed: string;
         Difficult: string;
         Rough: string;
-    }
+    };
 
     borderColor: string;
 
-    gradientMaskColor1: string,
-    gradientMaskColor2: string,
+    gradientMaskColor1: string;
+    gradientMaskColor2: string;
 
     secondarySubtitle: string;
 
@@ -211,46 +211,46 @@ export type ProjectColorsSchema = {
 
     // ConsentView
     consent: {
-        textBlockBg: string,
-        contentHeading: string,
-        contentPrimaryColor: string,
-        contentBodyText: string,
-        buttonDisabledBg: string,
-        buttonDisabledText: string,
-    },
+        textBlockBg: string;
+        contentHeading: string;
+        contentPrimaryColor: string;
+        contentBodyText: string;
+        buttonDisabledBg: string;
+        buttonDisabledText: string;
+    };
 
     // EnterPasswordView
     enterPassword: {
         linkColor: string;
-    }
+    };
 
     // HomeView
     home: {
         headingTitle: string;
         bg: string;
-    },
+    };
 
     // NotificationsSettingsView
     notificationsSettings: {
         exactCard: {
             bg: string;
-        },
+        };
         exact: {
             title: string;
             desc: string;
-        },
-    },
+        };
+    };
 
     // ProfileView
     profile: {
         changePhoto: {
             border: string;
             photoBg: string;
-        },
+        };
         subTextPrimaryColor: string;
         subTextSecondaryColor: string;
         settingsBg: string;
-    },
+    };
 
     // RecordView
     record: {
@@ -259,39 +259,38 @@ export type ProjectColorsSchema = {
         pauseSquareBg: string;
         controlsButtonText: string;
         contentBg: string;
-    },
+    };
 
     // SettingsView
     settings: {
         updateText: string;
         updateButtonBg: string;
-    },
+    };
 
     // TextRecordView
     textRecord: {
         notEditableText: string;
         editBtnLabel: string;
-    },
+    };
 
     // WelcomeView
     welcome: {
         mailButton: {
             border: string;
             title: string;
-        },
-    },
+        };
+    };
 
     // JournalTypeView
     journalType: {
         btnTitle: string;
-        nextPromptText: string,
-        nextPromptBg: string,
-    },
+        nextPromptText: string;
+        nextPromptBg: string;
+    };
 
     // SurveyScreenView
     survey: {
         btnBackgroundColor: string;
         btnFontColor: string;
-    },
-
+    };
 };

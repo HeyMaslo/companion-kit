@@ -18,7 +18,10 @@ import {
 } from 'common/models';
 import Firebase from 'common/services/firebase';
 import { Coaches as CoachesFunctions } from 'common/abstractions/functions';
-import { GoalStatusController, IClientGoalsController } from 'common/controllers/GoalStatusController';
+import {
+    GoalStatusController,
+    IClientGoalsController,
+} from 'common/controllers/GoalStatusController';
 
 export interface IPromptsController {
     readonly loading: boolean;
@@ -30,8 +33,14 @@ export interface IPromptsController {
 
     readonly goals: IClientGoalsController;
 
-    setTipStatus(status: InterventionTipsStatuses.StatusIds, id: string): Promise<boolean>;
-    tipsByFeeling(feelings: {name: TipsLabels, score: number}[], showWillDo: boolean): InterventionTipWithStatus[];
+    setTipStatus(
+        status: InterventionTipsStatuses.StatusIds,
+        id: string,
+    ): Promise<boolean>;
+    tipsByFeeling(
+        feelings: { name: TipsLabels; score: number }[],
+        showWillDo: boolean,
+    ): InterventionTipWithStatus[];
 }
 
 export class PromptsController implements IPromptsController, IDisposable {
@@ -53,24 +62,28 @@ export class PromptsController implements IPromptsController, IDisposable {
     @observable.ref
     private _goals: GoalStatusController;
 
-    constructor(private readonly journals: ReadonlyArray<ClientJournalEntryIded>) {}
+    constructor(
+        private readonly journals: ReadonlyArray<ClientJournalEntryIded>,
+    ) {}
 
-    public get loading() { return this._loading; }
+    public get loading() {
+        return this._loading;
+    }
 
     @computed
     public get promptsList() {
-        const prompts = this._library?.types?.filter(p => !!this.activeById[p.id]);
-        const promptsList = !!prompts?.length ? prompts : getEmergencyPrompts();
+        const prompts = this._library?.types?.filter(
+            (p) => !!this.activeById[p.id],
+        );
+        const promptsList = prompts?.length ? prompts : getEmergencyPrompts();
 
-        return this._loading
-            ? null
-            : promptsList;
+        return this._loading ? null : promptsList;
     }
 
     @computed
     public get activeById() {
         const activeById = {};
-        this._state?.prompts?.forEach(a => {
+        this._state?.prompts?.forEach((a) => {
             activeById[a.promptId] = a.active;
         });
 
@@ -79,22 +92,27 @@ export class PromptsController implements IPromptsController, IDisposable {
 
     @computed
     public get availableTips() {
-        if (!process.appFeatures.INTERVENTIONS_ENABLED || !this._library?.tips?.length) {
+        if (
+            !process.appFeatures.INTERVENTIONS_ENABLED ||
+            !this._library?.tips?.length
+        ) {
             return null;
         }
 
         const threeDays = 1000 * 3600 * 24 * 3;
         const now = Date.now();
-        const journals = this.journals?.filter(j => j.date >= (now - threeDays));
+        const journals = this.journals?.filter(
+            (j) => j.date >= now - threeDays,
+        );
 
-        const feelings: {[key in TipsLabels]?: number} = {};
+        const feelings: { [key in TipsLabels]?: number } = {};
 
         if (!journals?.length) {
             return null;
         }
 
-        journals.forEach(journal => {
-            journal.feelings?.forEach(feeling => {
+        journals.forEach((journal) => {
+            journal.feelings?.forEach((feeling) => {
                 if (feelings[feeling]) {
                     feelings[feeling]++;
                 } else {
@@ -105,16 +123,24 @@ export class PromptsController implements IPromptsController, IDisposable {
 
         const scoredFeelings = Object.keys(feelings)
             .sort((a, b) => feelings[b] - feelings[a])
-            .map((feeling: TipsLabels) => ({name: feeling, score: feelings[feeling]}));
+            .map((feeling: TipsLabels) => ({
+                name: feeling,
+                score: feelings[feeling],
+            }));
 
         const tips = this.tipsByFeeling(scoredFeelings, false)?.slice(0, 3);
         return tips;
     }
 
-    public get goals(): IClientGoalsController { return this._goals; }
+    public get goals(): IClientGoalsController {
+        return this._goals;
+    }
 
-    private isTipStatusChanged = (tipId: string , status: InterventionTipsStatuses.StatusIds) => {
-        const tt = this._state.tipsData?.find(t => t.tipId === tipId);
+    private isTipStatusChanged = (
+        tipId: string,
+        status: InterventionTipsStatuses.StatusIds,
+    ) => {
+        const tt = this._state.tipsData?.find((t) => t.tipId === tipId);
         if (!tt) {
             return true;
         }
@@ -125,12 +151,16 @@ export class PromptsController implements IPromptsController, IDisposable {
 
         // prevent setting status 'no response' to tips marked with any other status already
         // and tip response was made not so long time ago
-        if (status === InterventionTipsStatuses.StatusIds.NoResponse && tt.status && tt.date > Date.now() - TipStatusExpiration) {
+        if (
+            status === InterventionTipsStatuses.StatusIds.NoResponse &&
+            tt.status &&
+            tt.date > Date.now() - TipStatusExpiration
+        ) {
             return false;
         }
 
         return true;
-    }
+    };
 
     async setTipStatus(status: InterventionTipsStatuses.StatusIds, id: string) {
         if (!process.appFeatures.INTERVENTIONS_ENABLED) {
@@ -147,12 +177,13 @@ export class PromptsController implements IPromptsController, IDisposable {
         try {
             this._loading = true;
 
-            await Firebase.Instance.getFunction(CoachesFunctions.UpdateInterventionTips)
-                .execute({
-                    coachId: this._coachUid,
-                    client: { clientId: this._clientUid, states: tipsSetting },
-                    callerRole: UserRoles.Client,
-                });
+            await Firebase.Instance.getFunction(
+                CoachesFunctions.UpdateInterventionTips,
+            ).execute({
+                coachId: this._coachUid,
+                client: { clientId: this._clientUid, states: tipsSetting },
+                callerRole: UserRoles.Client,
+            });
 
             return true;
         } finally {
@@ -191,8 +222,15 @@ export class PromptsController implements IPromptsController, IDisposable {
         this._disposer.dispose();
 
         try {
-            const unsub1 = await RepoFactory.Instance.coaches.getClientPrompts(this._coachUid, this._clientUid, this.processClientPrompts);
-            const unsub2 = await RepoFactory.Instance.coaches.getPromptsLibrary(this._coachUid, this.processLibrary);
+            const unsub1 = await RepoFactory.Instance.coaches.getClientPrompts(
+                this._coachUid,
+                this._clientUid,
+                this.processClientPrompts,
+            );
+            const unsub2 = await RepoFactory.Instance.coaches.getPromptsLibrary(
+                this._coachUid,
+                this.processLibrary,
+            );
 
             this._disposer.add(unsub1);
             this._disposer.add(unsub2);
@@ -208,7 +246,7 @@ export class PromptsController implements IPromptsController, IDisposable {
             ClientLibraryState.migrate(clientPrompts, true);
             this._state = clientPrompts;
         }
-    }
+    };
 
     private processLibrary = (library: PromptsLibraryIded) => {
         if (library != null) {
@@ -216,35 +254,53 @@ export class PromptsController implements IPromptsController, IDisposable {
         }
 
         this._goals?.withLibrary(() => this._library);
-    }
+    };
 
     private isStatusToShow = (status: InterventionTipsStatuses.StatusIds) => {
         if (!status) {
             return true;
         }
 
-        return status === InterventionTipsStatuses.StatusIds.WillDo || status === InterventionTipsStatuses.StatusIds.NoResponse;
-    }
+        return (
+            status === InterventionTipsStatuses.StatusIds.WillDo ||
+            status === InterventionTipsStatuses.StatusIds.NoResponse
+        );
+    };
 
-    public tipsByFeeling(feelings: {name: TipsLabels, score: number}[], showAll: boolean) {
-        if (!process.appFeatures.INTERVENTIONS_ENABLED || !this._library?.tips?.length) {
+    public tipsByFeeling(
+        feelings: { name: TipsLabels; score: number }[],
+        showAll: boolean,
+    ) {
+        if (
+            !process.appFeatures.INTERVENTIONS_ENABLED ||
+            !this._library?.tips?.length
+        ) {
             return null;
         }
 
-        const tipsWithScores: Array<InterventionTipWithStatus & { score: number }> = [];
-        const tipsStatuses: Record<string, InterventionTipsStatuses.StatusIds> = {};
-        this._state?.tipsData?.forEach(tip => {
+        const tipsWithScores: Array<
+            InterventionTipWithStatus & { score: number }
+        > = [];
+        const tipsStatuses: Record<
+            string,
+            InterventionTipsStatuses.StatusIds
+        > = {};
+        this._state?.tipsData?.forEach((tip) => {
             if (tip.date && tip.date >= Date.now() - TipStatusExpiration) {
                 tipsStatuses[tip.tipId] = tip.status;
             }
         });
 
         // !tipsStatuses[tip.id] equal to NoResponse status
-        this._library.tips.forEach(tip => {
-            let score = tipsStatuses[tip.id] === InterventionTipsStatuses.StatusIds.WillDo && !showAll ? 1 : 0;
+        this._library.tips.forEach((tip) => {
+            let score =
+                tipsStatuses[tip.id] ===
+                    InterventionTipsStatuses.StatusIds.WillDo && !showAll
+                    ? 1
+                    : 0;
 
             if (showAll || this.isStatusToShow(tipsStatuses[tip.id])) {
-                feelings.forEach(feel => {
+                feelings.forEach((feel) => {
                     if (tip.labels.indexOf(feel.name) > -1) {
                         score += feel.score;
                     }
@@ -254,7 +310,9 @@ export class PromptsController implements IPromptsController, IDisposable {
             tipsWithScores.push({
                 ...tip,
                 score,
-                status: tipsStatuses[tip.id] || InterventionTipsStatuses.StatusIds.NoResponse,
+                status:
+                    tipsStatuses[tip.id] ||
+                    InterventionTipsStatuses.StatusIds.NoResponse,
             });
         });
 
@@ -268,7 +326,7 @@ export class PromptsController implements IPromptsController, IDisposable {
             return b.score - a.score;
         });
 
-        return tipsWithScores.filter(tip => tip.score > 0);
+        return tipsWithScores.filter((tip) => tip.score > 0);
     }
 
     public dispose() {

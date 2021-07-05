@@ -1,7 +1,11 @@
 import * as Sentry from 'sentry-expo';
 import { reaction } from 'mobx';
 
-import { IAnalytics, UserInfo, EventData } from 'common/services/analytics/analytics';
+import {
+    IAnalytics,
+    UserInfo,
+    EventData,
+} from 'common/services/analytics/analytics';
 import Env from 'src/constants/env';
 import { createLogger } from 'common/logger';
 import AppController from 'src/controllers';
@@ -15,15 +19,18 @@ class AnalyticsExpo implements IAnalytics {
     constructor() {
         this.initialize();
 
-        reaction(() => AppController.Instance.User?.user, user => {
-            if (!user) {
-                return;
-            }
+        reaction(
+            () => AppController.Instance.User?.user,
+            (user) => {
+                if (!user) {
+                    return;
+                }
 
-            const { id, displayName, email } = user;
+                const { id, displayName, email } = user;
 
-            this.indentifyUser({ id, email, username: displayName });
-        });
+                this.indentifyUser({ id, email, username: displayName });
+            },
+        );
     }
 
     initialize = () => {
@@ -35,7 +42,7 @@ class AnalyticsExpo implements IAnalytics {
         }
 
         this.initialized = true;
-    }
+    };
 
     indentifyUser = (userData: UserInfo) => {
         if (userData) {
@@ -47,7 +54,7 @@ class AnalyticsExpo implements IAnalytics {
                 // this.Segment.identifyWithTraits(id, { username, email, appVersion });
             }
 
-            Sentry.configureScope(scope => {
+            Sentry.configureScope((scope) => {
                 scope.setUser({ username, email, id });
             });
 
@@ -55,7 +62,7 @@ class AnalyticsExpo implements IAnalytics {
 
             this.userInfo = userData;
         }
-    }
+    };
 
     trackEvent = (event: EventData) => {
         if (!this.initialized) {
@@ -64,7 +71,7 @@ class AnalyticsExpo implements IAnalytics {
 
         Sentry.captureMessage(event.message);
         // Firebase.Instance.analytics.logEvent('custom');
-    }
+    };
 
     trackError = (error: any) => {
         if (!this.initialized) {
@@ -76,7 +83,7 @@ class AnalyticsExpo implements IAnalytics {
         if (__DEV__) {
             console.log('[AnalyticsExpo] Captured error', error);
         }
-    }
+    };
 }
 
 export default AnalyticsExpo;

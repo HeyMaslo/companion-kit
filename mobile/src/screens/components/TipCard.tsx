@@ -43,19 +43,25 @@ function getIconTitle(item: ITipItem) {
     }
 }
 
-export default function TipItemCard(props: { item: ITipItem, onPress: () => void }) {
+export default function TipItemCard(props: {
+    item: ITipItem;
+    onPress: () => void;
+}) {
     const { onPress, item } = props;
     const { type, title } = item;
 
-    const isExternal = (item.type === 'staticTip' || item.type === 'docLinkTip') && !!item.url;
+    const isExternal =
+        (item.type === 'staticTip' || item.type === 'docLinkTip') && !!item.url;
 
     return (
         <TouchableOpacity onPress={onPress}>
             <View style={[styles.card]}>
                 <Text
                     numberOfLines={2}
-                    style={[!Layout.isSmallDevice ? TextStyles.p1 : TextStyles.p3, styles.cardTitle]}
-                >
+                    style={[
+                        !Layout.isSmallDevice ? TextStyles.p1 : TextStyles.p3,
+                        styles.cardTitle,
+                    ]}>
                     {title}
                 </Text>
                 <View style={styles.footing}>

@@ -12,15 +12,12 @@ interface IGradientViewProps {
 
 export default class GradientView extends React.Component<IGradientViewProps> {
     render() {
-        const {
-            color1,
-            color2,
-            color3,
-            children,
-            style,
-        } = this.props;
+        const { color1, color2, color3, children, style } = this.props;
 
-        const colors = color1 && color2 ? [color1, color2] : Colors.gradientView.fallbackColor;
+        const colors =
+            color1 && color2
+                ? [color1, color2]
+                : Colors.gradientView.fallbackColor;
 
         if (color3) {
             colors.push(color3);

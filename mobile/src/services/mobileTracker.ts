@@ -1,4 +1,8 @@
-import { ClientTracker, TrackerFactory, ClientTrackerConfig } from 'common/services/analytics/clientTracker';
+import {
+    ClientTracker,
+    TrackerFactory,
+    ClientTrackerConfig,
+} from 'common/services/analytics/clientTracker';
 import Env from 'src/constants/env';
 import { v4 as uuid4 } from 'uuid';
 
@@ -13,9 +17,8 @@ const CID_KEY = 'CLIENT_ID_KEY';
 let ClientId: string;
 const TRACK_KEY: string = 'TRACK_KEY';
 
-const expoPostfix = ExpoConstants.appOwnership === AppOwnership.Expo
-    ? '_expo'
-    : '';
+const expoPostfix =
+    ExpoConstants.appOwnership === AppOwnership.Expo ? '_expo' : '';
 const AppName = 'MasloCoach_' + Platform.OS + expoPostfix;
 
 const dimensions = Dimensions.get('screen');
@@ -51,10 +54,15 @@ function getViewportSize() {
 }
 
 export class MobileClientTracker extends ClientTracker {
-
-    get currentTitle() { return null; }
-    get currentScreenName() { return `${Platform.OS}`; }
-    get isHidden() { return false; }
+    get currentTitle() {
+        return null;
+    }
+    get currentScreenName() {
+        return `${Platform.OS}`;
+    }
+    get isHidden() {
+        return false;
+    }
 
     protected async getConfig(): Promise<ClientTrackerConfig> {
         return {
@@ -82,6 +90,8 @@ export class MobileClientTracker extends ClientTracker {
     }
 }
 
-const MobileClientTrackerFactory = new TrackerFactory<MobileClientTracker>(MobileClientTracker);
+const MobileClientTrackerFactory = new TrackerFactory<MobileClientTracker>(
+    MobileClientTracker,
+);
 
 export default MobileClientTrackerFactory;

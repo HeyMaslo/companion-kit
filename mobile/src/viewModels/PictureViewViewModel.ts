@@ -138,24 +138,28 @@ export default class PictureViewViewModel {
     public askCameraRollPermissions = async () => {
         const permission = await Permissions.getAsync(Permissions.CAMERA_ROLL);
         if (permission.status !== 'granted') {
-            const newPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+            const newPermission = await Permissions.askAsync(
+                Permissions.CAMERA_ROLL,
+            );
             this._cameraRollPermission = newPermission.status === 'granted';
         } else if (permission.status === 'granted') {
             this._cameraRollPermission = true;
         }
-    }
+    };
 
     public askCameraPermissions = async () => {
         const permission = await Permissions.getAsync(Permissions.CAMERA);
         let finalStatus = permission.status;
         if (finalStatus !== 'granted') {
-            const newPermission = await Permissions.askAsync(Permissions.CAMERA);
+            const newPermission = await Permissions.askAsync(
+                Permissions.CAMERA,
+            );
             finalStatus = newPermission.status;
         }
 
         this._cameraPermission = finalStatus === 'granted';
         return this._cameraPermission;
-    }
+    };
 
     public pickImage = async (options?: ImagePicker.ImagePickerOptions) => {
         await this.askCameraRollPermissions();
@@ -174,7 +178,8 @@ export default class PictureViewViewModel {
                         },
                         style: 'default',
                     },
-                ]);
+                ],
+            );
             return false;
         }
 
@@ -184,33 +189,44 @@ export default class PictureViewViewModel {
             return false;
         }
 
-        const fileInfo = await FileSystem.getInfoAsync(result.uri, { size: true });
+        const fileInfo = await FileSystem.getInfoAsync(result.uri, {
+            size: true,
+        });
         if (!fileInfo.exists) {
             return false;
         }
         if (fileInfo.size > maxFileSizeToMB) {
-            Alert.alert('Sorry', `Unfortunately we can\'t process file more than ${maxFileSize} MB. Please crop it or compress in your OS.`);
+            Alert.alert(
+                'Sorry',
+                `Unfortunately we can\'t process file more than ${maxFileSize} MB. Please crop it or compress in your OS.`,
+            );
             return false;
         }
 
         const pic = await this.resizePic(result, true);
 
         return pic;
-    }
+    };
 
-    public savePicture = async (picture: CameraCapturedPicture, afterShot?: (picture: CameraCapturedPicture) => void) => {
+    public savePicture = async (
+        picture: CameraCapturedPicture,
+        afterShot?: (picture: CameraCapturedPicture) => void,
+    ) => {
         this._picture = await this.resizePic(picture, true);
 
         if (this.cameraRollPermission) {
             await MediaLibrary.createAssetAsync(this.picture.uri);
         }
 
-        if (!!afterShot) {
+        if (afterShot) {
             afterShot(this._picture);
         }
-    }
+    };
 
-    public openCameraRoll = async (options?: ImagePicker.ImagePickerOptions, afterShot?: (picture: CameraCapturedPicture) => void) => {
+    public openCameraRoll = async (
+        options?: ImagePicker.ImagePickerOptions,
+        afterShot?: (picture: CameraCapturedPicture) => void,
+    ) => {
         const result = await this.pickImage(options);
         if (!result) {
             return;
@@ -218,10 +234,10 @@ export default class PictureViewViewModel {
 
         this._picture = result;
 
-        if (!!afterShot) {
+        if (afterShot) {
             afterShot(this._picture);
         }
-    }
+    };
 
     public toggleCameraType = () => {
         if (this.cameraType === Camera.Constants.Type.back) {
@@ -229,7 +245,7 @@ export default class PictureViewViewModel {
         } else {
             this._cameraType = Camera.Constants.Type.back;
         }
-    }
+    };
 
     public getLastCameraRollPicture = async () => {
         await this.askCameraRollPermissions();
@@ -240,7 +256,9 @@ export default class PictureViewViewModel {
         }
 
         if (isAndroid) {
-            const totalCount = (await MediaLibrary.getAssetsAsync({mediaType: ['photo']})).totalCount;
+            const totalCount = (
+                await MediaLibrary.getAssetsAsync({ mediaType: ['photo'] })
+            ).totalCount;
 
             const libRes = await MediaLibrary.getAssetsAsync({
                 mediaType: ['photo'],
@@ -257,9 +275,12 @@ export default class PictureViewViewModel {
         });
 
         return libraryRes.assets[0];
-    }
+    };
 
-    public resizePic = async (picture: CameraCapturedPicture, fromGallery?: boolean) => {
+    public resizePic = async (
+        picture: CameraCapturedPicture,
+        fromGallery?: boolean,
+    ) => {
         const uri = picture.uri;
         const picWidth = picture.width;
         const picHeight = picture.height;
@@ -284,10 +305,10 @@ export default class PictureViewViewModel {
                 Device.brand === 'htc'
             ) {
                 console.log('>>>>>>>exceptions<<<<<<<<');
-                return [ { resize: { width: newW, height: newH } }];
+                return [{ resize: { width: newW, height: newH } }];
             }
 
-            return [ { resize: { width: newH, height: newW } }];
+            return [{ resize: { width: newH, height: newW } }];
         };
 
         const resizedPic = await ImageManipulator.manipulateAsync(
@@ -297,11 +318,11 @@ export default class PictureViewViewModel {
         );
 
         return resizedPic;
-    }
+    };
 
     public reset = () => {
         this._picture = null;
         this.capturing = false;
         this._cameraType = Camera.Constants.Type.back;
-    }
+    };
 }

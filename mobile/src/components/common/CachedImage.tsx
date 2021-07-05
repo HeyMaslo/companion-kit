@@ -1,13 +1,20 @@
 // based on https://github.com/lane-c-wagner/react-native-expo-cached-image
 
 import React, { PropsWithChildren } from 'react';
-import { Image, ImageBackground, ImageProps, ImageURISource } from 'react-native';
+import {
+    Image,
+    ImageBackground,
+    ImageProps,
+    ImageURISource,
+} from 'react-native';
 import * as FileSystem from 'expo-file-system';
 import * as Crypto from 'expo-crypto';
 
-export type CachedImageProps = PropsWithChildren<ImageProps & {
-    isBackground?: boolean,
-}>;
+export type CachedImageProps = PropsWithChildren<
+    ImageProps & {
+        isBackground?: boolean;
+    }
+>;
 
 async function getImageFilesystemKey(this: void, remoteURI: string) {
     const hashed = await Crypto.digestStringAsync(
@@ -19,15 +26,17 @@ async function getImageFilesystemKey(this: void, remoteURI: string) {
 }
 
 export function CachedImage(this: void, props: CachedImageProps) {
-
     const [imgURI, setImgURI] = React.useState('');
     const state = React.useMemo(() => ({ loading: false, mounted: false }), []);
 
-    const safeCall = React.useCallback((cb: () => any) => {
-        if (state.mounted) {
-            cb();
-        }
-    }, [state]);
+    const safeCall = React.useCallback(
+        (cb: () => any) => {
+            if (state.mounted) {
+                cb();
+            }
+        },
+        [state],
+    );
 
     const loadImage = async (filesystemURI: string, remoteURI: string) => {
         try {
@@ -66,7 +75,6 @@ export function CachedImage(this: void, props: CachedImageProps) {
         return () => {
             state.mounted = false;
         };
-
     }, [(props.source as ImageURISource).uri]);
 
     let source: ImageProps['source'] = imgURI ? { uri: imgURI } : null;
@@ -76,19 +84,11 @@ export function CachedImage(this: void, props: CachedImageProps) {
 
     if (props.isBackground) {
         return (
-            <ImageBackground
-                {...props}
-                source={source}
-            >
+            <ImageBackground {...props} source={source}>
                 {props.children}
             </ImageBackground>
         );
     } else {
-        return (
-            <Image
-                {...props}
-                source={source}
-            />
-        );
+        return <Image {...props} source={source} />;
     }
 }

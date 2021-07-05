@@ -6,7 +6,11 @@ import { ScenarioTriggers } from '../abstractions';
 import FormView, { FormViewProps } from 'src/screens/components/FormView';
 import { AssessmentItem } from 'src/viewModels/AssessmentItemViewModel';
 import OnboardingView from 'src/screens/components/OnboardingView';
-import { AssessmentType, IntakeFormTypes, ClientIntakeFormIded } from 'common/models';
+import {
+    AssessmentType,
+    IntakeFormTypes,
+    ClientIntakeFormIded,
+} from 'common/models';
 
 type State = {
     isWelcome: boolean;
@@ -14,13 +18,14 @@ type State = {
 };
 
 export type IntakeFormParams = {
-    forceAssessment?: AssessmentType,
-    showResult?: ClientIntakeFormIded,
+    forceAssessment?: AssessmentType;
+    showResult?: ClientIntakeFormIded;
 };
 
 const DefaultWelcomeMessage: IntakeFormTypes.OnboardQuestion = {
     title: 'Welcome',
-    text: 'We\'re happy you\'re here! First, we need to gather some information on how you\'re feeling.',
+    text:
+        "We're happy you're here! First, we need to gather some information on how you're feeling.",
     action: 'I’m ready',
 };
 
@@ -53,7 +58,7 @@ export class IntakeFormView extends ViewState<State> {
         if (result) {
             this.trigger(trigger);
         }
-    }
+    };
 
     private _setPersona = () => {
         if (this.state.isWelcome) {
@@ -67,7 +72,7 @@ export class IntakeFormView extends ViewState<State> {
                 this.persona.state = PersonaStates.Tap;
             }
         }
-    }
+    };
 
     private _showJumpInQuestion = () => {
         if (!this.model.jumpInQuestion) {
@@ -75,51 +80,61 @@ export class IntakeFormView extends ViewState<State> {
             return;
         }
 
-        this.setState({
-            isWelcome: false,
-            jumpInQuestion: true,
-        }, this._setPersona);
-    }
+        this.setState(
+            {
+                isWelcome: false,
+                jumpInQuestion: true,
+            },
+            this._setPersona,
+        );
+    };
 
     private _showTest = () => {
-        this.setState({ isWelcome: false, jumpInQuestion: false }, this._setPersona);
-    }
+        this.setState(
+            { isWelcome: false, jumpInQuestion: false },
+            this._setPersona,
+        );
+    };
 
     private _nextStep = (index, route) => {
         this.model.nextStep(index, route);
         this._setPersona();
-    }
+    };
 
     private _prevStep = () => {
-        if (!!this.model.step) {
+        if (this.model.step) {
             this.model.previousStep();
         } else {
             this._showJumpInQuestion();
         }
-    }
+    };
 
-    private _onFormClose = (): void | Promise<void> => this.runLongOperation(async () => {
-        this.showModal({
-            title: 'Are you sure?',
-            message: 'If you stop the assessment now, you will have to start over',
-            primaryButton: {
-                text: 'No, Go Back',
-                action: () => {
-                    this.hideModal();
+    private _onFormClose = (): void | Promise<void> =>
+        this.runLongOperation(async () => {
+            this.showModal({
+                title: 'Are you sure?',
+                message:
+                    'If you stop the assessment now, you will have to start over',
+                primaryButton: {
+                    text: 'No, Go Back',
+                    action: () => {
+                        this.hideModal();
+                    },
                 },
-            },
-            secondaryButton: {
-                text: 'Yes, Delete',
-                action: () => {
-                    this.trigger(ScenarioTriggers.Cancel);
+                secondaryButton: {
+                    text: 'Yes, Delete',
+                    action: () => {
+                        this.trigger(ScenarioTriggers.Cancel);
+                    },
                 },
-            },
+            });
         });
-    })
 
-    private getOverrideFinalScreen = (type: AssessmentType): (() => JSX.Element) => {
+    private getOverrideFinalScreen = (
+        type: AssessmentType,
+    ): (() => JSX.Element) => {
         return null;
-    }
+    };
 
     renderContent() {
         if (!this.model?.questions) {
@@ -129,20 +144,28 @@ export class IntakeFormView extends ViewState<State> {
         if (this.state.isWelcome) {
             const message = this.model.welcomeMessage || DefaultWelcomeMessage;
 
-            return <OnboardingView content={{
-                title: message.title || DefaultWelcomeMessage.title,
-                description: message.text || DefaultWelcomeMessage.text,
-                primaryButton: {
-                    title: message.action || DefaultWelcomeMessage.action,
-                    action: this._showJumpInQuestion,
-                },
-                secondaryButton: message.rejectAction
-                    ? {
-                        action: () => this.trigger(ScenarioTriggers.Cancel),
-                        title: message.rejectAction,
-                    } : null,
-                onClose: this._onFormClose,
-            }} personaViewContext={this.persona} />;
+            return (
+                <OnboardingView
+                    content={{
+                        title: message.title || DefaultWelcomeMessage.title,
+                        description: message.text || DefaultWelcomeMessage.text,
+                        primaryButton: {
+                            title:
+                                message.action || DefaultWelcomeMessage.action,
+                            action: this._showJumpInQuestion,
+                        },
+                        secondaryButton: message.rejectAction
+                            ? {
+                                  action: () =>
+                                      this.trigger(ScenarioTriggers.Cancel),
+                                  title: message.rejectAction,
+                              }
+                            : null,
+                        onClose: this._onFormClose,
+                    }}
+                    personaViewContext={this.persona}
+                />
+            );
         }
 
         if (this.state.jumpInQuestion) {
@@ -164,7 +187,14 @@ export class IntakeFormView extends ViewState<State> {
             );
         }
 
-        const { step, questionsLength, stepAnswers, questionText, isFinalScreen, intermission } = this.model;
+        const {
+            step,
+            questionsLength,
+            stepAnswers,
+            questionText,
+            isFinalScreen,
+            intermission,
+        } = this.model;
 
         if (isFinalScreen) {
             const override = this.getOverrideFinalScreen(this.model.formType);

@@ -1,14 +1,15 @@
 import AppController from 'src/controllers';
 
 export class RewardsViewModel {
-
-    private get controller() { return AppController.Instance.User.rewards; }
+    private get controller() {
+        return AppController.Instance.User.rewards;
+    }
 
     get currentCheckInsCount() {
         return this.controller.currentCheckInsCount;
     }
 
-    get streak () {
+    get streak() {
         return this.controller.streak;
     }
 

@@ -1,4 +1,3 @@
-
 declare module window {
     export const navigator: { sendBeacon?: any } = null;
 

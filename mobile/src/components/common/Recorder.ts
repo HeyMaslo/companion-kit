@@ -48,7 +48,8 @@ export default class Recorder {
 
     private _status: Audio.RecordingStatus;
 
-    static askForPermissionAsync = () => Permissions.askAsync(Permissions.AUDIO_RECORDING);
+    static askForPermissionAsync = () =>
+        Permissions.askAsync(Permissions.AUDIO_RECORDING);
 
     private async updateStatus() {
         this._status = await this._recording.getStatusAsync();
@@ -70,11 +71,15 @@ export default class Recorder {
         } catch (error) {
             await this._recording.stopAndUnloadAsync();
 
-            alert(`An error occured during recording audio: ${JSON.stringify(error.message)} /==/ ${JSON.stringify(error)}`);
+            alert(
+                `An error occured during recording audio: ${JSON.stringify(
+                    error.message,
+                )} /==/ ${JSON.stringify(error)}`,
+            );
             logger.warn('startRecordingAsync ERROR:', error);
             throw error;
         }
-    }
+    };
 
     public async unloadRecord() {
         if (this._status.isRecording || this._status.isDoneRecording) {
@@ -95,7 +100,7 @@ export default class Recorder {
 
         this._record = res.sound;
         this._uri = this._recording.getURI();
-    }
+    };
 
     public togglePlayingAsync = async () => {
         const status = await this._record.getStatusAsync();
@@ -112,8 +117,7 @@ export default class Recorder {
 
             await this._record.playAsync();
         }
-
-    }
+    };
 
     get record() {
         return this._record;
@@ -123,24 +127,30 @@ export default class Recorder {
         return this._uri;
     }
 
-    get duration() { return this._duration; }
+    get duration() {
+        return this._duration;
+    }
 
-    get encoding(): AudioFormat { return Platform.OS === 'ios' ? 'PCM' : 'MP3'; }
-    get sampleRate() { return 16000; }
+    get encoding(): AudioFormat {
+        return Platform.OS === 'ios' ? 'PCM' : 'MP3';
+    }
+    get sampleRate() {
+        return 16000;
+    }
 
     public clear = async () => {
         this._record = null;
-    }
+    };
 
     public pauseAsync = async () => {
         await this._recording.pauseAsync();
         deactivateKeepAwake();
-    }
+    };
 
     public resumeAsync = async () => {
         await this._recording.startAsync();
         activateKeepAwake();
-    }
+    };
 
     getStatusAsync = () => this._recording.getStatusAsync();
 }

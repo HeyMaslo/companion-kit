@@ -6,8 +6,8 @@ import { ModalProps } from '../modalView';
 import { safeCall } from 'common/utils/functions';
 
 export type MagicLinkOptions = {
-    title?: string,
-    afterOpen?: () => any,
+    title?: string;
+    afterOpen?: () => any;
 };
 
 export function magicLinkModal(
@@ -25,14 +25,15 @@ export function magicLinkModal(
             },
         },
         secondaryButton: {
-            customRender: () => ButtonContext({
-                text: 'Didn’t get the message?',
-                buttonText: 'Try Again',
-                onPress: () => {
-                    view.hideModal();
-                    safeCall(tryAgain);
-                },
-            }),
+            customRender: () =>
+                ButtonContext({
+                    text: 'Didn’t get the message?',
+                    buttonText: 'Try Again',
+                    onPress: () => {
+                        view.hideModal();
+                        safeCall(tryAgain);
+                    },
+                }),
         },
     };
 }

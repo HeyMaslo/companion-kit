@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-    TouchableOpacity,
-    Keyboard,
-} from 'react-native';
+import { TouchableOpacity, Keyboard } from 'react-native';
 
 import Dots from '../Dots';
 import BaseStyles from 'src/styles/BaseStyles';
@@ -61,7 +58,9 @@ export default function MasloPageExtended(props: MasloPageExtendedProps) {
 
     return (
         <PageBase style={[BaseStyles.page, style]}>
-            {withDots ? <Dots length={dotLength || 0} active={activeDot || 0} /> : null}
+            {withDots ? (
+                <Dots length={dotLength || 0} active={activeDot || 0} />
+            ) : null}
             {_onBack ? (
                 <TouchableOpacity style={[BaseStyles.back]} onPress={_onBack}>
                     <Images.backIcon width={28} height={14} />
@@ -73,12 +72,7 @@ export default function MasloPageExtended(props: MasloPageExtendedProps) {
                 </TouchableOpacity>
             ) : null}
 
-            {withContainer ? (
-                <Container>
-                    {children}
-                </Container>
-            ) : children}
-
+            {withContainer ? <Container>{children}</Container> : children}
         </PageBase>
     );
 }

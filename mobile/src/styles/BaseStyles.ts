@@ -2,7 +2,11 @@ import { StyleSheet, Platform } from 'react-native';
 import Colors from 'src/constants/colors';
 import { hasNotch } from 'src/constants/devices';
 import Layout from 'src/constants/Layout';
-import TextStylesBase, { mainFontLight, mainFontMedium, mainFontThin } from './TextStyles';
+import TextStylesBase, {
+    mainFontLight,
+    mainFontMedium,
+    mainFontThin,
+} from './TextStyles';
 
 export const TextStyles = TextStylesBase;
 export const notch = hasNotch();

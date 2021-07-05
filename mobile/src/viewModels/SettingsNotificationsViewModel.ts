@@ -8,7 +8,6 @@ import * as Links from 'src/constants/links';
 const logger = createLogger('[SettingsNotificationsViewModel]');
 
 export class SettingsNotificationsViewModel {
-
     @observable
     private _toggleInProgress = false;
 
@@ -17,14 +16,24 @@ export class SettingsNotificationsViewModel {
 
     private _unsubscribe: () => void = null;
 
-    private get originalIsEnabled() { return !!AppController.Instance.User?.notifications.enabled; }
+    private get originalIsEnabled() {
+        return !!AppController.Instance.User?.notifications.enabled;
+    }
 
-    get isEnabled() { return this._isEnabled; }
-    get isToggleInProgress() { return this._toggleInProgress; }
+    get isEnabled() {
+        return this._isEnabled;
+    }
+    get isToggleInProgress() {
+        return this._toggleInProgress;
+    }
 
-    get schedule() { return AppController.Instance.User.notifications.schedule; }
+    get schedule() {
+        return AppController.Instance.User.notifications.schedule;
+    }
 
-    get settingsSynced() { return AppController.Instance.User.localSettings.synced; }
+    get settingsSynced() {
+        return AppController.Instance.User.localSettings.synced;
+    }
 
     @computed
     get scheduleTimeString() {
@@ -35,17 +44,18 @@ export class SettingsNotificationsViewModel {
         }
 
         const keys = Object.keys(ntfTime) as NotificationTime[];
-        const strings = keys.map(time => {
-            const val = time === NotificationTime.ExactTime
-                ? ntfTime[time] && ntfTime[time].active
-                : ntfTime[time];
+        const strings = keys.map((time) => {
+            const val =
+                time === NotificationTime.ExactTime
+                    ? ntfTime[time] && ntfTime[time].active
+                    : ntfTime[time];
 
             const res = val ? timeToString(time) : '';
 
             return res;
         });
 
-        const filtered = strings.filter(v => !!v);
+        const filtered = strings.filter((v) => !!v);
         const result = filtered.join(', ');
 
         return result && result.length !== 0 ? result : 'Not specified';
@@ -53,7 +63,7 @@ export class SettingsNotificationsViewModel {
 
     updateEnabledState = () => {
         this._isEnabled = this.originalIsEnabled;
-    }
+    };
 
     toggleEnabledState = async () => {
         if (this.isToggleInProgress) {
@@ -64,7 +74,6 @@ export class SettingsNotificationsViewModel {
 
         this._toggleInProgress = true;
         try {
-
             this._isEnabled = !this._isEnabled;
 
             if (!AppController.Instance.User.notifications.enabled) {
@@ -72,7 +81,6 @@ export class SettingsNotificationsViewModel {
             } else {
                 await AppController.Instance.User.notifications.disableNotifications();
             }
-
         } finally {
             this.updateEnabledState();
 
@@ -91,29 +99,43 @@ export class SettingsNotificationsViewModel {
                             },
                             style: 'default',
                         },
-                    ]);
+                    ],
+                );
             }
 
             this._toggleInProgress = false;
         }
-    }
+    };
 
     toggleTime = (time: NotificationTime, value?: number) => {
         return time === NotificationTime.ExactTime
             ? AppController.Instance.User.notifications.toggleTime(time, value)
             : AppController.Instance.User.notifications.toggleTime(time);
-    }
+    };
 
     init() {
         this.updateEnabledState();
-        logger.log('init this.originalIsEnabled =', this.originalIsEnabled, 'this.isEnabled =', this.isEnabled);
-        this._unsubscribe = reaction(() => this.originalIsEnabled, enabled => {
-            logger.log('originalIsEnabled CHANGED:', enabled, ', this.isEnabled =', this.isEnabled);
-            if (this._toggleInProgress) {
-                return;
-            }
-            this.updateEnabledState();
-        });
+        logger.log(
+            'init this.originalIsEnabled =',
+            this.originalIsEnabled,
+            'this.isEnabled =',
+            this.isEnabled,
+        );
+        this._unsubscribe = reaction(
+            () => this.originalIsEnabled,
+            (enabled) => {
+                logger.log(
+                    'originalIsEnabled CHANGED:',
+                    enabled,
+                    ', this.isEnabled =',
+                    this.isEnabled,
+                );
+                if (this._toggleInProgress) {
+                    return;
+                }
+                this.updateEnabledState();
+            },
+        );
     }
 
     dispose() {

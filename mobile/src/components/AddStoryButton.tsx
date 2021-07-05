@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-    TouchableHighlight,
-    StyleSheet,
-    View,
-} from 'react-native';
+import { TouchableHighlight, StyleSheet, View } from 'react-native';
 
 import Images from 'src/constants/images';
 
@@ -15,28 +11,29 @@ interface AddStoryButtonProps {
     height: number;
 }
 
-export default class AddStoryButton extends React.Component<AddStoryButtonProps> {
-
+export default class AddStoryButton extends React.Component<
+    AddStoryButtonProps
+> {
     private _onPressHandler = () => {
         const { onPress } = this.props;
 
         if (onPress) {
             onPress();
         }
-    }
+    };
 
     render() {
         const { disabled, style, width, height } = this.props;
 
         return (
             <TouchableHighlight
-                style={[ styles.button, style ]}
+                style={[styles.button, style]}
                 onPress={this._onPressHandler}
                 underlayColor="transparent"
                 activeOpacity={1}
-                disabled={disabled}
-            >
-                <View style={[styles.bgImage, { width: width, height: height }]}>
+                disabled={disabled}>
+                <View
+                    style={[styles.bgImage, { width: width, height: height }]}>
                     <Images.bottomAddNewStory width={55} height={55} />
                 </View>
             </TouchableHighlight>
@@ -51,7 +48,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
-
     },
     bgImage: {
         position: 'relative',

@@ -4,10 +4,10 @@ import { TextStyles } from 'src/styles/BaseStyles';
 import Colors from 'src/constants/colors';
 
 type Props = {
-    text: string,
-    buttonText: string,
-    onPress: () => any,
-    theme?: 'dark' | 'light',
+    text: string;
+    buttonText: string;
+    onPress: () => any;
+    theme?: 'dark' | 'light';
 };
 
 export default function ButtonContext(props: Props) {
@@ -17,10 +17,7 @@ export default function ButtonContext(props: Props) {
     return (
         <Text style={TextStyles.p4}>
             {text}
-            <Text
-                onPress={onPress}
-                style={{ color: Colors.linkDefault }}
-            >
+            <Text onPress={onPress} style={{ color: Colors.linkDefault }}>
                 &nbsp;{buttonText}
             </Text>
         </Text>

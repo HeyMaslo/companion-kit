@@ -22,18 +22,24 @@ export default class AudioPlayerViewModel {
 
     public setup = async () => {
         if (this._url) {
-            const playbackStatus = await this._sound.loadAsync({ uri: this._url }, {}, false);
+            const playbackStatus = await this._sound.loadAsync(
+                { uri: this._url },
+                {},
+                false,
+            );
             await this._sound.setOnPlaybackStatusUpdate(this._setSoundStatus);
 
             this._setSoundStatus(playbackStatus);
         }
-    }
+    };
 
     private _setSoundStatus = async (playbackStatus?: AVPlaybackStatus) => {
-        this._soundStatus = playbackStatus || await this._sound.getStatusAsync();
+        this._soundStatus =
+            playbackStatus || (await this._sound.getStatusAsync());
 
         this._isLoaded = this._soundStatus.isLoaded;
-        const playingStatus = this._soundStatus.isLoaded && this._soundStatus.isPlaying;
+        const playingStatus =
+            this._soundStatus.isLoaded && this._soundStatus.isPlaying;
 
         // Playing just started
         if (!this._isPlaying && playingStatus) {
@@ -45,7 +51,7 @@ export default class AudioPlayerViewModel {
         if (this._soundStatus.isLoaded && this._soundStatus.didJustFinish) {
             this.onStop();
         }
-    }
+    };
 
     public startPlayAsync = async () => {
         if (this._isLoaded) {
@@ -53,7 +59,7 @@ export default class AudioPlayerViewModel {
 
             await this._sound.playAsync();
         }
-    }
+    };
 
     public pausePlayAsync = async () => {
         if (this._isPlaying) {
@@ -61,7 +67,7 @@ export default class AudioPlayerViewModel {
 
             await this._sound.pauseAsync();
         }
-    }
+    };
 
     public onRewinding = async (value: number) => {
         if (this._isPlaying) {
@@ -70,7 +76,7 @@ export default class AudioPlayerViewModel {
         this._setSoundStatus();
         this._sound.setPositionAsync(value);
         this._elapsedMS = value;
-    }
+    };
 
     private _getMMSSFromMillis(millis: number = 0) {
         if (!millis) {
@@ -80,7 +86,7 @@ export default class AudioPlayerViewModel {
         const totalSeconds = millis / 1000;
         const sec_num = parseInt(totalSeconds.toFixed(0), 10);
         const minutes = Math.floor(sec_num / 60);
-        const seconds = sec_num - (minutes * 60);
+        const seconds = sec_num - minutes * 60;
 
         const padWithZero = (num: number = 0) => {
             const str = num.toString();
@@ -111,23 +117,37 @@ export default class AudioPlayerViewModel {
         this._timeStartMS = null;
 
         this.onStop();
-    }
+    };
 
-    get url() { return this._url; }
+    get url() {
+        return this._url;
+    }
 
     set url(val: string) {
         this._url = val;
     }
 
-    get isPlaying() { return this._isPlaying; }
+    get isPlaying() {
+        return this._isPlaying;
+    }
 
-    get isLoaded() { return this._isLoaded; }
+    get isLoaded() {
+        return this._isLoaded;
+    }
 
-    get elapsed() { return this._elapsedMS; }
+    get elapsed() {
+        return this._elapsedMS;
+    }
 
-    get duration() { return this._soundStatus?.isLoaded && this._soundStatus.durationMillis; }
+    get duration() {
+        return this._soundStatus?.isLoaded && this._soundStatus.durationMillis;
+    }
 
-    get progressFormated() { return this._getMMSSFromMillis(this._soundStatus?.isLoaded && this._soundStatus.positionMillis); }
+    get progressFormated() {
+        return this._getMMSSFromMillis(
+            this._soundStatus?.isLoaded && this._soundStatus.positionMillis,
+        );
+    }
 
     get timeLeftFormated() {
         const timeLeft = this.duration - this.elapsed;
@@ -144,7 +164,7 @@ export default class AudioPlayerViewModel {
         if (this._isPlaying || forceStart) {
             requestAnimationFrame(() => this.tick());
         }
-    }
+    };
 
     private onStart() {
         this._timeStartMS = new Date().getTime() - this._elapsedMS;

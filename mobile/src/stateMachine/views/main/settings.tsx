@@ -24,7 +24,9 @@ export class SettingsView extends ViewState {
         this._contentHeight = this.persona.setupContainerHeightForceScroll();
     }
 
-    protected get unbreakable() { return false; }
+    protected get unbreakable() {
+        return false;
+    }
 
     async start() {
         this.model.notifications.init();
@@ -52,25 +54,29 @@ export class SettingsView extends ViewState {
                 action: null,
             },
         });
-    }
+    };
 
     private onPasswordChange = () => {
         this.trigger(ScenarioTriggers.Submit);
-    }
+    };
 
     private onEmailChange = () => {
         // this.trigger(ScenarioTriggers.Primary);
-    }
+    };
 
     private onNotificationsChange = () => {
         this.trigger(ScenarioTriggers.Primary);
-    }
+    };
 
     private renderLinksFooter() {
-        const { feedback, terms, privacy } = Localization.Current.MobileProject.links;
+        const {
+            feedback,
+            terms,
+            privacy,
+        } = Localization.Current.MobileProject.links;
         return (
             <Text style={this.textStyles.p4}>
-                { !!feedback ? (
+                {feedback ? (
                     <>
                         Send
                         <Link link={feedback}> Feedback, </Link>
@@ -79,9 +85,16 @@ export class SettingsView extends ViewState {
                 <Text style={feedback ? null : { textTransform: 'capitalize' }}>
                     read
                 </Text>
-                { !!terms ? (
+                {terms ? (
                     <>
-                        <Link link={terms}> Terms <Text style={{ textTransform: 'lowercase' }}>of</Text> Service </Link>
+                        <Link link={terms}>
+                            {' '}
+                            Terms{' '}
+                            <Text style={{ textTransform: 'lowercase' }}>
+                                of
+                            </Text>{' '}
+                            Service{' '}
+                        </Link>
                         or
                     </>
                 ) : (
@@ -93,65 +106,96 @@ export class SettingsView extends ViewState {
     }
 
     renderContent() {
-        const authProviderIcon = this.model.authProvider === 'google'
-            ? Images.googleIcon
-            : Images.envelopeIcon;
+        const authProviderIcon =
+            this.model.authProvider === 'google'
+                ? Images.googleIcon
+                : Images.envelopeIcon;
 
-        const notificationsEnabled = this.model.notifications.isEnabled && !this.model.notifications.isToggleInProgress && this.model.notifications.schedule;
+        const notificationsEnabled =
+            this.model.notifications.isEnabled &&
+            !this.model.notifications.isToggleInProgress &&
+            this.model.notifications.schedule;
 
         return (
             <MasloPage style={this.baseStyles.page}>
                 <Container style={styles.topBarWrapWrap}>
                     <PersonaScrollMask />
-                    {!process.appFeatures.GOALS_ENABLED &&
+                    {!process.appFeatures.GOALS_ENABLED && (
                         <View style={styles.topBarWrap}>
-                            <Button style={styles.backBtn} underlayColor="transparent" onPress={() => this.trigger(ScenarioTriggers.Back)}>
+                            <Button
+                                style={styles.backBtn}
+                                underlayColor="transparent"
+                                onPress={() =>
+                                    this.trigger(ScenarioTriggers.Back)
+                                }>
                                 <Images.backIcon width={28} height={14} />
                             </Button>
                         </View>
-                    }
+                    )}
                 </Container>
                 <ScrollView style={[{ zIndex: 0, elevation: 0 }]}>
-                    <Container style={[this.baseStyles.container, styles.container]}>
-                        <Text style={[this.textStyles.h1, styles.title]}>What do you need help with?</Text>
-                        { AppController.Instance.version.hasNext ? (
+                    <Container
+                        style={[this.baseStyles.container, styles.container]}>
+                        <Text style={[this.textStyles.h1, styles.title]}>
+                            What do you need help with?
+                        </Text>
+                        {AppController.Instance.version.hasNext ? (
                             <Button
                                 style={styles.updateButton}
-                                onPress={AppController.Instance.version.update}
-                            >
-                                <Images.darkRefreshIcon style={styles.refreshIcon} />
-                                <Text style={[this.textStyles.labelMedium, styles.updateText]}>Update Available</Text>
+                                onPress={AppController.Instance.version.update}>
+                                <Images.darkRefreshIcon
+                                    style={styles.refreshIcon}
+                                />
+                                <Text
+                                    style={[
+                                        this.textStyles.labelMedium,
+                                        styles.updateText,
+                                    ]}>
+                                    Update Available
+                                </Text>
                             </Button>
                         ) : null}
                         <View style={styles.cardsWrap}>
                             <Card
                                 title={'Email'}
-                                description={AppController.Instance.User?.user?.email}
+                                description={
+                                    AppController.Instance.User?.user?.email
+                                }
                                 Image={authProviderIcon}
-                                onPress={this.onEmailChange}
-                            >
+                                onPress={this.onEmailChange}>
                                 {/* <Images.arrowRight width={8} height={8} /> */}
                             </Card>
-                            { this.model.disablePassword ? null : (
+                            {this.model.disablePassword ? null : (
                                 <Card
                                     title={'Password'}
-                                    description={this.model.needsCreatePassword ? 'Create password' : 'Change your password'}
+                                    description={
+                                        this.model.needsCreatePassword
+                                            ? 'Create password'
+                                            : 'Change your password'
+                                    }
                                     Image={Images.keyIcon}
-                                    onPress={this.onPasswordChange}
-                                >
+                                    onPress={this.onPasswordChange}>
                                     <Images.arrowRight width={8} height={8} />
                                 </Card>
                             )}
                             <Card
                                 title={'Notifications'}
-                                description={notificationsEnabled ? this.model.notifications.scheduleTimeString : 'Off'}
+                                description={
+                                    notificationsEnabled
+                                        ? this.model.notifications
+                                              .scheduleTimeString
+                                        : 'Off'
+                                }
                                 Image={Images.bellIcon}
-                                onPress={this.onNotificationsChange}
-                            >
+                                onPress={this.onNotificationsChange}>
                                 <Images.arrowRight width={8} height={8} />
                             </Card>
                         </View>
-                        <View style={[this.baseStyles.flexCenterBottom, styles.bottomBlock]}>
+                        <View
+                            style={[
+                                this.baseStyles.flexCenterBottom,
+                                styles.bottomBlock,
+                            ]}>
                             <Button
                                 title="logout"
                                 withBorder
@@ -163,7 +207,9 @@ export class SettingsView extends ViewState {
                         </View>
                     </Container>
                 </ScrollView>
-                {process.appFeatures.GOALS_ENABLED && <BottomBar screen={'settings'} />}
+                {process.appFeatures.GOALS_ENABLED && (
+                    <BottomBar screen={'settings'} />
+                )}
             </MasloPage>
         );
     }
@@ -173,11 +219,12 @@ function AppVersionView(this: void) {
     const [toggle, setToggle] = React.useState(false);
 
     return (
-        <Text style={[TextStyles.p4, styles.version]} onPress={() => setToggle(!toggle)}>
+        <Text
+            style={[TextStyles.p4, styles.version]}
+            onPress={() => setToggle(!toggle)}>
             {toggle
                 ? ExpoConstants.installationId
-                : AppController.Instance.version.fullVersion
-            }
+                : AppController.Instance.version.fullVersion}
         </Text>
     );
 }

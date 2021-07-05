@@ -11,17 +11,20 @@ const Texts: ProjectSpecificLocalization = {
         contactEmail: '<your email>',
         contactUsLink: 'mailto:<your email>',
 
-        missingAccountTitle: 'Companion kit is invitation only by your therapist.',
+        missingAccountTitle:
+            'Companion kit is invitation only by your therapist.',
         missingAccountDescription: 'We cannot find an account for this email.',
         disabledClientAccount: 'Your account has been disabled by therapist',
 
         links: {
-            privacy: process.env.APP_ENV === 'production'
-                ? '<your app prodution privacy here>'
-                : '<your app staging privacy here>',
-            terms: process.env.APP_ENV === 'production'
-                ? '<your app prodution terms here>'
-                : '<your app staging terms here>',
+            privacy:
+                process.env.APP_ENV === 'production'
+                    ? '<your app prodution privacy here>'
+                    : '<your app staging privacy here>',
+            terms:
+                process.env.APP_ENV === 'production'
+                    ? '<your app prodution terms here>'
+                    : '<your app staging terms here>',
             feedback: '',
         },
 

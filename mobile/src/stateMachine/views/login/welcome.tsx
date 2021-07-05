@@ -1,6 +1,13 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, View, Text, Platform, Image, Animated } from 'react-native';
+import {
+    StyleSheet,
+    View,
+    Text,
+    Platform,
+    Image,
+    Animated,
+} from 'react-native';
 import { ViewState } from '../base';
 import AppController from 'src/controllers';
 import Colors from 'src/constants/colors';
@@ -21,7 +28,10 @@ const minContentHeight = 344;
 export class WelcomeView extends ViewState {
     constructor(props) {
         super(props);
-        this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: 405 });
+        this._contentHeight = this.persona.setupContainerHeight(
+            minContentHeight,
+            { rotation: 405 },
+        );
         this.persona.qolArmMagnitudes = PersonaArmState.createEmptyArmState();
     }
 
@@ -29,11 +39,23 @@ export class WelcomeView extends ViewState {
         opacity: new Animated.Value(0),
     };
 
-    get enableAppleButton() { return SignInViewModel.Instance.enableAppleButton; }
-    get appleSignIn() { return SignInViewModel.Instance.appleSignIn; }
+    get enableAppleButton() {
+        return SignInViewModel.Instance.enableAppleButton;
+    }
+    get appleSignIn() {
+        return SignInViewModel.Instance.appleSignIn;
+    }
 
-    get globalLoading() { return super.globalLoading || SignInViewModel.Instance.inProgress || !!AppController.Instance.User.user?.client; }
-    get enableGlobalProgressTracking() { return true; }
+    get globalLoading() {
+        return (
+            super.globalLoading ||
+            SignInViewModel.Instance.inProgress ||
+            !!AppController.Instance.User.user?.client
+        );
+    }
+    get enableGlobalProgressTracking() {
+        return true;
+    }
 
     get legalBlock() {
         const { terms, privacy } = Localization.Current.MobileProject.links;
@@ -41,9 +63,17 @@ export class WelcomeView extends ViewState {
         return (
             <Text style={[this.textStyles.p4, styles.privacy]}>
                 By creating a new account or signing in you agree to our
-                { terms && (
+                {terms && (
                     <>
-                        <Link link={terms}> Terms <Text style={{ textTransform: 'lowercase' }}>of</Text> Service</Link> and
+                        <Link link={terms}>
+                            {' '}
+                            Terms{' '}
+                            <Text style={{ textTransform: 'lowercase' }}>
+                                of
+                            </Text>{' '}
+                            Service
+                        </Link>{' '}
+                        and
                     </>
                 )}
                 <Link link={privacy}> Privacy Policy</Link>
@@ -53,7 +83,9 @@ export class WelcomeView extends ViewState {
 
     async start() {
         Animated.timing(this.state.opacity, {
-            toValue: 1, delay: 500, duration: 500,
+            toValue: 1,
+            delay: 500,
+            duration: 500,
             useNativeDriver: true,
         }).start();
     }
@@ -62,13 +94,13 @@ export class WelcomeView extends ViewState {
         if (!this.globalLoading) {
             this.trigger(ScenarioTriggers.Secondary);
         }
-    }
+    };
 
     googleSignIn = () => {
         if (!this.globalLoading) {
             SignInViewModel.Instance.googleSignIn();
         }
-    }
+    };
 
     renderContent() {
         const googleIcon = Images.signInWithGoogle;
@@ -81,24 +113,37 @@ export class WelcomeView extends ViewState {
                     style={[
                         this.baseStyles.container,
                         styles.container,
-                        { opacity: this.state.opacity, height: this._contentHeight },
-                    ]}
-                >
+                        {
+                            opacity: this.state.opacity,
+                            height: this._contentHeight,
+                        },
+                    ]}>
                     <View style={styles.textBlock}>
-                        <Text style={[this.textStyles.h1, styles.title]}>Hi there! I’m {texts.personaName}.{'\n'}And you are?</Text>
+                        <Text style={[this.textStyles.h1, styles.title]}>
+                            Hi there! I’m {texts.personaName}.{'\n'}And you are?
+                        </Text>
                     </View>
                     <View style={{ width: '100%' }}>
                         <Button
                             style={styles.button}
-                            onPress={this.googleSignIn}
-                        >
+                            onPress={this.googleSignIn}>
                             <Image style={styles.gIcon} source={googleIcon} />
-                            <Text style={this.textStyles.btnTitle}>sign in with google</Text>
+                            <Text style={this.textStyles.btnTitle}>
+                                sign in with google
+                            </Text>
                         </Button>
-                        { Platform.OS === 'ios' && Features.Mobile.SignIn.Apple && this.enableAppleButton ? (
+                        {Platform.OS === 'ios' &&
+                        Features.Mobile.SignIn.Apple &&
+                        this.enableAppleButton ? (
                             <AppleAuthentication.AppleAuthenticationButton
-                                buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-                                buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.WHITE}
+                                buttonType={
+                                    AppleAuthentication
+                                        .AppleAuthenticationButtonType.SIGN_IN
+                                }
+                                buttonStyle={
+                                    AppleAuthentication
+                                        .AppleAuthenticationButtonStyle.WHITE
+                                }
                                 cornerRadius={5}
                                 style={styles.button}
                                 onPress={this.appleSignIn}
@@ -115,10 +160,20 @@ export class WelcomeView extends ViewState {
                         <View style={styles.footer}>
                             {this.legalBlock}
                             <Text style={[this.textStyles.p4, styles.version]}>
-                                v{AppController.Instance.version.current}{AppController.Instance.version.build}
-                                { AppController.Instance.version.hasNext ? (
-                                    <Text onPress={AppController.Instance.version.update} > (new version available)</Text>
-                                ) : ''}
+                                v{AppController.Instance.version.current}
+                                {AppController.Instance.version.build}
+                                {AppController.Instance.version.hasNext ? (
+                                    <Text
+                                        onPress={
+                                            AppController.Instance.version
+                                                .update
+                                        }>
+                                        {' '}
+                                        (new version available)
+                                    </Text>
+                                ) : (
+                                    ''
+                                )}
                             </Text>
                         </View>
                     </View>

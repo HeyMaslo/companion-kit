@@ -11,7 +11,10 @@ const StorageAsync: IStorage = {
             throw new Error('[StorageAsync] key must be not empty! got:' + key);
         }
         if (!value) {
-            throw new Error('[StorageAsync] value must be not null! use \'remove\' instead. Got: ' + `${key} | ${value}` );
+            throw new Error(
+                "[StorageAsync] value must be not null! use 'remove' instead. Got: " +
+                    `${key} | ${value}`,
+            );
         }
 
         return AsyncStorage.setItem(key, value);

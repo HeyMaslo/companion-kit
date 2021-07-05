@@ -12,18 +12,26 @@ interface DotsProps {
 let styles;
 
 export default function Dots(props: DotsProps) {
-
     const dots: React.ReactElement[] = [];
 
     for (let i = 0; i < props.length; i++) {
         const active = i === props.active;
         const last = i === props.length - 1;
 
-        dots.push(<View key={i} style={[styles.dot, active && styles.dotActive, last && styles.mr0]}></View>);
+        dots.push(
+            <View
+                key={i}
+                style={[
+                    styles.dot,
+                    active && styles.dotActive,
+                    last && styles.mr0,
+                ]}
+            />,
+        );
     }
 
     return (
-        <View style={[styles.dots, props.styles ? props.styles : null ]}>
+        <View style={[styles.dots, props.styles ? props.styles : null]}>
             {dots}
         </View>
     );
@@ -51,5 +59,4 @@ styles = StyleSheet.create({
     mr0: {
         marginRight: 0,
     },
-
 });

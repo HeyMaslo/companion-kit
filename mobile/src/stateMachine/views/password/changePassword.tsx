@@ -10,7 +10,6 @@ import { MagicLinkRequestReasons } from 'common/models/dtos/auth';
 
 @observer
 export class ChangePasswordView extends PasswordBase {
-
     @observable
     private _confirmOldPassword = false;
 
@@ -20,11 +19,13 @@ export class ChangePasswordView extends PasswordBase {
             : 'Please, create a password to secure your account';
     }
 
-    protected get useOptions() { return this._confirmOldPassword ? 'magicLink' : false; }
+    protected get useOptions() {
+        return this._confirmOldPassword ? 'magicLink' : false;
+    }
 
     protected onClose = () => {
         this.trigger(ScenarioTriggers.Back);
-    }
+    };
 
     protected onGoBack = () => {
         if (this._confirmOldPassword) {
@@ -33,47 +34,58 @@ export class ChangePasswordView extends PasswordBase {
         } else {
             this.trigger(ScenarioTriggers.Back);
         }
-    }
+    };
 
     end() {
         this.viewModel.reset();
     }
 
-    protected useMagicLink = () => this.runLongOperation(async () => {
-        Keyboard.dismiss();
+    protected useMagicLink = () =>
+        this.runLongOperation(async () => {
+            Keyboard.dismiss();
 
-        try {
-            await AppController.Instance.Auth.signInWithEmailLink(AppController.Instance.Auth.authUser.email, MagicLinkRequestReasons.PasswordChange);
+            try {
+                await AppController.Instance.Auth.signInWithEmailLink(
+                    AppController.Instance.Auth.authUser.email,
+                    MagicLinkRequestReasons.PasswordChange,
+                );
 
-            this.waitForMagicLink(MagicLinkRequestReasons.PasswordChange, this.submit);
+                this.waitForMagicLink(
+                    MagicLinkRequestReasons.PasswordChange,
+                    this.submit,
+                );
 
-            await this.showModal(magicLinkModal(this));
-        } catch (err) {
-            this.logger.warn('Failed to send magic link');
-        }
-    })
+                await this.showModal(magicLinkModal(this));
+            } catch (err) {
+                this.logger.warn('Failed to send magic link');
+            }
+        });
 
-    protected submit = () => this.runLongOperation(async () => {
-        Keyboard.dismiss();
+    protected submit = () =>
+        this.runLongOperation(async () => {
+            Keyboard.dismiss();
 
-        this.logger.log('SUBMITTING');
-        const result = await this.viewModel.updatePassword();
+            this.logger.log('SUBMITTING');
+            const result = await this.viewModel.updatePassword();
 
-        if (result === 'magicLink') {
-            this.waitForMagicLink(MagicLinkRequestReasons.PasswordChange, this.submit);
+            if (result === 'magicLink') {
+                this.waitForMagicLink(
+                    MagicLinkRequestReasons.PasswordChange,
+                    this.submit,
+                );
 
-            await this.showModal(magicLinkModal(this));
-            return;
-        }
+                await this.showModal(magicLinkModal(this));
+                return;
+            }
 
-        if (result === 'oldPassword') {
-            this._confirmOldPassword = true;
-            return;
-        }
+            if (result === 'oldPassword') {
+                this._confirmOldPassword = true;
+                return;
+            }
 
-        if (result) {
-            PushToast({ text: 'Your Password has been changed' });
-            this.trigger(ScenarioTriggers.Primary);
-        }
-    })
+            if (result) {
+                PushToast({ text: 'Your Password has been changed' });
+                this.trigger(ScenarioTriggers.Primary);
+            }
+        });
 }

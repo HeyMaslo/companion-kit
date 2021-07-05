@@ -4,7 +4,9 @@ import { getNumberSuffix } from 'common/utils/mathx';
 import { Container } from 'src/components';
 import TextStyles from 'src/styles/TextStyles';
 import { RewardsViewModel } from 'src/viewModels/RewardsViewModel';
-import ConcentricCircles, { ConcentricCirclesStyles } from './ConcentricCircles';
+import ConcentricCircles, {
+    ConcentricCirclesStyles,
+} from './ConcentricCircles';
 
 import FireIcon from 'src/assets/images/app/fire-icon.svg';
 import { observer } from 'mobx-react';
@@ -19,7 +21,10 @@ export const RewardsInfoBlock = observer((props: Props) => {
     const { level, streak } = model;
 
     const levelStr = `${level}${getNumberSuffix(level)} level`;
-    const checkisCountStr = model.nextLevelCount >= model.currentCheckInsCount ? `${model.currentCheckInsCount}/${model.nextLevelCount} check-ins` : `${model.currentCheckInsCount} check-ins`;
+    const checkisCountStr =
+        model.nextLevelCount >= model.currentCheckInsCount
+            ? `${model.currentCheckInsCount}/${model.nextLevelCount} check-ins`
+            : `${model.currentCheckInsCount} check-ins`;
 
     return (
         <Container style={styles.rewardInfoWrap}>
@@ -29,14 +34,22 @@ export const RewardsInfoBlock = observer((props: Props) => {
                     model={model}
                 />
                 <View>
-                    <Text style={[TextStyles.p1, styles.checkinsNumber]}>{checkisCountStr}</Text>
-                    <Text style={[TextStyles.p3, styles.level]}>{levelStr}</Text>
-                    {streak ?
+                    <Text style={[TextStyles.p1, styles.checkinsNumber]}>
+                        {checkisCountStr}
+                    </Text>
+                    <Text style={[TextStyles.p3, styles.level]}>
+                        {levelStr}
+                    </Text>
+                    {streak ? (
                         <View style={styles.streakWrap}>
-                            <Text style={[TextStyles.labelMedium, styles.streak]}>{`${streak} day streak`}</Text>
+                            <Text
+                                style={[
+                                    TextStyles.labelMedium,
+                                    styles.streak,
+                                ]}>{`${streak} day streak`}</Text>
                             <FireIcon style={styles.fireIcon} />
                         </View>
-                    : null}
+                    ) : null}
                 </View>
             </View>
         </Container>

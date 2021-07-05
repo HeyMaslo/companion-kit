@@ -17,7 +17,10 @@ interface IAnimatedGradientState {
     tweener: Animated.Value;
 }
 
-export default class AnimatedGradient extends React.Component<IAnimatedGradientProps, IAnimatedGradientState> {
+export default class AnimatedGradient extends React.Component<
+    IAnimatedGradientProps,
+    IAnimatedGradientState
+> {
     constructor(props) {
         super(props);
 
@@ -71,8 +74,7 @@ export default class AnimatedGradient extends React.Component<IAnimatedGradientP
             <GradientViewWrapper
                 style={[style, styles.container]}
                 color1={color1Interp}
-                color2={color2Interp}
-            >
+                color2={color2Interp}>
                 {children}
             </GradientViewWrapper>
         );

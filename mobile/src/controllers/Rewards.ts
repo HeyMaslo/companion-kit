@@ -9,7 +9,21 @@ import type { ProgressData } from 'src/helpers/progressData';
 const EmptyArr: number[] = [];
 
 const checkinsToLevel = [
-    1, 5, 10, 20, 30, 40, 55, 70, 85, 100, 120, 140, 160, 180, 200,
+    1,
+    5,
+    10,
+    20,
+    30,
+    40,
+    55,
+    70,
+    85,
+    100,
+    120,
+    140,
+    160,
+    180,
+    200,
 ];
 
 const GRADE_LEVELS_COUNT = 5;
@@ -18,9 +32,9 @@ export class RewardsController {
     constructor(
         private readonly _historyGetter: () => number[],
         private readonly _activeAccountGetter: () => string,
-    ) { }
+    ) {}
 
-    private get history () {
+    private get history() {
         return this._historyGetter() || EmptyArr;
     }
 
@@ -30,13 +44,16 @@ export class RewardsController {
 
     @computed
     get level() {
-        const index = findIndexLeast(this.currentCheckInsCount, checkinsToLevel);
+        const index = findIndexLeast(
+            this.currentCheckInsCount,
+            checkinsToLevel,
+        );
         const levelExist = index >= 0;
         return levelExist ? index + 1 : checkinsToLevel.length + 1;
     }
 
     @computed
-    get streak () {
+    get streak() {
         return getDaysStreak(this.history, true);
     }
 
@@ -72,7 +89,8 @@ export class RewardsController {
             const start = prevMax;
             const end = currentMax;
             const count = end - start;
-            const newGradeJustAchieved = totalCheckIns === start && index === levelOffset;
+            const newGradeJustAchieved =
+                totalCheckIns === start && index === levelOffset;
 
             // console.log('totalCheckIns', totalCheckIns, '\n start', '\n end', end, start, '\n index', index, '\n levelOffset', levelOffset, '\n count', count);
 
@@ -115,7 +133,8 @@ export class RewardsController {
             streakLength: this.streak,
         };
 
-        await Firebase.Instance.getFunction(UsersFunctions.ShareRewardWithTherapist)
-            .execute({ accountId: this._activeAccountGetter(), info });
-    }
+        await Firebase.Instance.getFunction(
+            UsersFunctions.ShareRewardWithTherapist,
+        ).execute({ accountId: this._activeAccountGetter(), info });
+    };
 }

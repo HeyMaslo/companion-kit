@@ -6,8 +6,10 @@ import * as Features from 'common/constants/features';
 
 const AdditionalGoodJobMessage = '';
 
-export abstract class CheckInViewBase<CState = {}, CParams = any> extends ViewState<CState, CParams> {
-
+export abstract class CheckInViewBase<
+    CState = {},
+    CParams = any
+> extends ViewState<CState, CParams> {
     public get viewModel() {
         return AppViewModel.Instance.CreateCheckIn;
     }
@@ -23,26 +25,27 @@ export abstract class CheckInViewBase<CState = {}, CParams = any> extends ViewSt
     cancel = () => {
         this.viewModel.cancel();
         this.trigger(ScenarioTriggers.Cancel);
-    }
+    };
 
-    onClose = (): void | Promise<void> => this.runLongOperation(async () => {
-        this.showModal({
-            title: `Do you really want to delete this check-in entry?`,
-            primaryButton: {
-                text: 'yes, delete',
-                action: this.cancel,
-            },
-            secondaryButton: {
-                text: 'no, go back',
-                action: this.hideModal,
-            },
+    onClose = (): void | Promise<void> =>
+        this.runLongOperation(async () => {
+            this.showModal({
+                title: 'Do you really want to delete this check-in entry?',
+                primaryButton: {
+                    text: 'yes, delete',
+                    action: this.cancel,
+                },
+                secondaryButton: {
+                    text: 'no, go back',
+                    action: this.hideModal,
+                },
+            });
         });
-    })
 
     protected async finishEntrySubmit() {
         if (!Features.Mobile.CheckIns.AskUserAboutPrivateness) {
             this.showModal({
-                title: `Good Job!`,
+                title: 'Good Job!',
                 message: `Thanks for sharing your thoughts with me. ${AdditionalGoodJobMessage}`,
                 primaryButton: {
                     text: 'Continue',

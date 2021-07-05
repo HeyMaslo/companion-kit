@@ -3,15 +3,15 @@ import Lazy from 'common/utils/lazy';
 import SettingsViewModel from './SettingsViewModel';
 import { GoalsViewModel } from './GoalsViewModel';
 import QOLSurveyViewModel from './QoLViewModel';
-import ChooseDomainViewModel from './ChooseDomainViewModel'
-import ChooseStrategyViewModel from './ChooseStrategyViewModel'
+import ChooseDomainViewModel from './ChooseDomainViewModel';
+import ChooseStrategyViewModel from './ChooseStrategyViewModel';
 
 export interface IAppViewModel {
     CreateCheckIn: CreateCheckInViewModel;
     Settings: SettingsViewModel;
     Goals?: GoalsViewModel;
     QOL: QOLSurveyViewModel;
-    ChooseDomain: ChooseDomainViewModel
+    ChooseDomain: ChooseDomainViewModel;
     ChooseStrategy: ChooseStrategyViewModel;
 }
 
@@ -23,10 +23,16 @@ export default class AppViewModel implements IAppViewModel {
     readonly QOL = new QOLSurveyViewModel();
     readonly ChooseDomain = new ChooseDomainViewModel();
     readonly ChooseStrategy = new ChooseStrategyViewModel();
-    readonly Goals = process.appFeatures.GOALS_ENABLED === true ? new GoalsViewModel() : null;
-    
+    readonly Goals =
+        process.appFeatures.GOALS_ENABLED === true
+            ? new GoalsViewModel()
+            : null;
 
-    static get Instance(): IAppViewModel { return instance.value; }
+    static get Instance(): IAppViewModel {
+        return instance.value;
+    }
 
-    static init() { instance.prewarm(); }
+    static init() {
+        instance.prewarm();
+    }
 }

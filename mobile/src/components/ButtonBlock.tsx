@@ -7,17 +7,25 @@ import { Props as ActivityButtonProps } from 'src/components/ActivityButton';
 import BaseStyles from 'src/styles/BaseStyles';
 
 type Props = {
-    onOk: () => void,
-    onCancel: () => void,
-    nextDisabled?: boolean,
-    containerStyles?: StyleProp<ViewStyle>,
-    okTitle?: string,
-    cancelTitle?: string,
-    loading?: ActivityButtonProps['loading'],
+    onOk: () => void;
+    onCancel: () => void;
+    nextDisabled?: boolean;
+    containerStyles?: StyleProp<ViewStyle>;
+    okTitle?: string;
+    cancelTitle?: string;
+    loading?: ActivityButtonProps['loading'];
 };
 
 export default function ButtonBlock(props: Props) {
-    const { containerStyles, onOk, onCancel, okTitle, cancelTitle, nextDisabled, loading } = props;
+    const {
+        containerStyles,
+        onOk,
+        onCancel,
+        okTitle,
+        cancelTitle,
+        nextDisabled,
+        loading,
+    } = props;
 
     return (
         <Container style={[BaseStyles.buttonsBlock, containerStyles]}>

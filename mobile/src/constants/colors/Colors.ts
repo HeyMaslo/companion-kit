@@ -14,7 +14,7 @@ const Colors: ProjectColorsSchema = {
         '#3F3C44',
     ],
 
-// ========== TYPOGRAPHY ==============
+    // ========== TYPOGRAPHY ==============
 
     typography: {
         h1: '#3F3C44',
@@ -305,7 +305,6 @@ const Colors: ProjectColorsSchema = {
         btnBackgroundColor: '#F5F5FA',
         btnFontColor: '#3E3C43',
     },
-
 };
 
 export default Colors;

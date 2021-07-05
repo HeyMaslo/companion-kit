@@ -20,22 +20,24 @@ export class NotificationsPermissionView extends ViewState {
         });
     }
 
-    askNtfPermissions = () => this.runLongOperation(async () => {
-        const enabled = await AppController.Instance.User.notifications.askPermission();
+    askNtfPermissions = () =>
+        this.runLongOperation(async () => {
+            const enabled = await AppController.Instance.User.notifications.askPermission();
 
-        if (enabled) {
-            await AppController.Instance.User.notifications.enableNotifications();
-        } else {
+            if (enabled) {
+                await AppController.Instance.User.notifications.enableNotifications();
+            } else {
+                await AppController.Instance.User.notifications.disableNotifications();
+            }
+
+            this.trigger(ScenarioTriggers.Submit);
+        });
+
+    onSkip = (): void | Promise<void> =>
+        this.runLongOperation(async () => {
             await AppController.Instance.User.notifications.disableNotifications();
-        }
-
-        this.trigger(ScenarioTriggers.Submit);
-    })
-
-    onSkip = (): void | Promise<void> => this.runLongOperation(async () => {
-        await AppController.Instance.User.notifications.disableNotifications();
-        this.trigger(ScenarioTriggers.Submit);
-    })
+            this.trigger(ScenarioTriggers.Submit);
+        });
 
     renderContent() {
         return null;

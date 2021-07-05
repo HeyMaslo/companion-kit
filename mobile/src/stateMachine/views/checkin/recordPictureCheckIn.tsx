@@ -18,7 +18,9 @@ import BackIcon from 'src/assets/images/app/back-arrow-white.png';
 
 @observer
 export class RecordPitureCheckinView extends CheckInViewBase {
-    private get pictureViewVM() { return this.viewModel.pictureViewVM; }
+    private get pictureViewVM() {
+        return this.viewModel.pictureViewVM;
+    }
 
     async start() {
         super.start();
@@ -33,7 +35,7 @@ export class RecordPitureCheckinView extends CheckInViewBase {
     private _onBack = () => {
         if (this.pictureViewVM.picture) {
             this.showModal({
-                title: `Do you really want to delete this picture?`,
+                title: 'Do you really want to delete this picture?',
                 primaryButton: {
                     text: 'yes, delete',
                     action: () => {
@@ -50,7 +52,7 @@ export class RecordPitureCheckinView extends CheckInViewBase {
             this.pictureViewVM.reset();
             this.trigger(ScenarioTriggers.Back);
         }
-    }
+    };
 
     private _savePicture = async () => {
         await this.runLongOperation(this.viewModel.submitImage);
@@ -58,7 +60,7 @@ export class RecordPitureCheckinView extends CheckInViewBase {
         await this.finishEntrySubmit();
 
         this.pictureViewVM.reset();
-    }
+    };
 
     renderContent() {
         const { picture, capturing } = this.pictureViewVM;
@@ -66,21 +68,41 @@ export class RecordPitureCheckinView extends CheckInViewBase {
 
         return (
             <MasloPage style={this.baseStyles.page}>
-                {(picture && !capturing) ? (
+                {picture && !capturing ? (
                     <>
-                        <TouchableOpacity onPress={this._onBack} style={[this.baseStyles.back]}>
-                            <Image source={BackIcon} style={{ width: 34, height: 24 }} />
+                        <TouchableOpacity
+                            onPress={this._onBack}
+                            style={[this.baseStyles.back]}>
+                            <Image
+                                source={BackIcon}
+                                style={{ width: 34, height: 24 }}
+                            />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={this.onClose} style={this.baseStyles.close}>
-                            <Image source={CloseIcon} style={{ width: 22, height: 22 }} />
+                        <TouchableOpacity
+                            onPress={this.onClose}
+                            style={this.baseStyles.close}>
+                            <Image
+                                source={CloseIcon}
+                                style={{ width: 22, height: 22 }}
+                            />
                         </TouchableOpacity>
-                        <View style={[this.baseStyles.flexCenter, styles.capturedImageWrap]}>
-                            <Image style={styles.capturedImage} source={pic} resizeMode={'contain'} />
+                        <View
+                            style={[
+                                this.baseStyles.flexCenter,
+                                styles.capturedImageWrap,
+                            ]}>
+                            <Image
+                                style={styles.capturedImage}
+                                source={pic}
+                                resizeMode={'contain'}
+                            />
                             <TouchableOpacity
-                                style={[this.baseStyles.flexCenter, styles.submitBtn]}
+                                style={[
+                                    this.baseStyles.flexCenter,
+                                    styles.submitBtn,
+                                ]}
                                 onPress={this._savePicture}
-                                activeOpacity={0.7}
-                            >
+                                activeOpacity={0.7}>
                                 <SubmitArrow width={12} height={16} />
                             </TouchableOpacity>
                         </View>

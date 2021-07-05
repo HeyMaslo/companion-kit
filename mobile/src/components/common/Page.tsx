@@ -16,9 +16,7 @@ export default class Page<T> extends React.Component<PageProps & T> {
         const { style } = this.props;
 
         return (
-            <View style={[styles.container, style]}>
-                {this.getContent()}
-            </View>
+            <View style={[styles.container, style]}>{this.getContent()}</View>
         );
     }
 }

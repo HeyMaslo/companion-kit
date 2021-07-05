@@ -5,7 +5,7 @@ import { ILogger, createLogger } from 'common/logger';
 
 export namespace Conditions {
     export type ObservableBoolean = {
-        condition: () => boolean,
+        condition: () => boolean;
     };
     export namespace ObservableBoolean {
         export function guard(c: General): c is ObservableBoolean {
@@ -14,17 +14,20 @@ export namespace Conditions {
     }
 
     export type Trigger<T extends number = number> = {
-        trigger: number | number[],
+        trigger: number | number[];
     };
     export namespace Trigger {
         export function guard(c: General): c is Trigger {
             return (c as Trigger).trigger != null;
         }
 
-        export function matches<T extends number>(condition: Trigger<T>, trigger: T) {
+        export function matches<T extends number>(
+            condition: Trigger<T>,
+            trigger: T,
+        ) {
             return Array.isArray(condition.trigger)
                 ? condition.trigger.includes(trigger)
-                : (condition.trigger === trigger);
+                : condition.trigger === trigger;
         }
     }
 
@@ -35,12 +38,17 @@ export namespace Conditions {
         }
     }
 
-    export type Compositional = ObservableBoolean & Trigger & {
-        compose: 'and' | 'or',
-    };
+    export type Compositional = ObservableBoolean &
+        Trigger & {
+            compose: 'and' | 'or';
+        };
     export namespace Compositional {
         export function guard(c: General): c is Compositional {
-            return ObservableBoolean.guard(c) && Trigger.guard(c) && (c as Compositional).compose != null;
+            return (
+                ObservableBoolean.guard(c) &&
+                Trigger.guard(c) &&
+                (c as Compositional).compose != null
+            );
         }
     }
 
@@ -56,14 +64,20 @@ export class ConditionObserver {
     private _boolObserver: TransitionObserver<boolean> = null;
     private _lastTriggerResult = null;
 
-    public get satisfied(): IEvent { return this._satisfied; }
+    public get satisfied(): IEvent {
+        return this._satisfied;
+    }
 
-    constructor(private readonly condition: Readonly<Conditions.General>, name?: string) {
+    constructor(
+        private readonly condition: Readonly<Conditions.General>,
+        name?: string,
+    ) {
         this.logger = createLogger(name, !name);
 
         if (Conditions.ObservableBoolean.guard(condition)) {
-            this._boolObserver = new TransitionObserver(condition.condition)
-                .cb(this._compute);
+            this._boolObserver = new TransitionObserver(condition.condition).cb(
+                this._compute,
+            );
             this._unsubscriber.add(this._boolObserver.dispose);
         }
     }
@@ -74,32 +88,45 @@ export class ConditionObserver {
 
     trigger(trigger: number) {
         if (Conditions.Trigger.guard(this.condition)) {
-            this._lastTriggerResult = Conditions.Trigger.matches(this.condition, trigger);
+            this._lastTriggerResult = Conditions.Trigger.matches(
+                this.condition,
+                trigger,
+            );
             return this._compute();
         }
         return false;
     }
 
     private _compute = () => {
-        this.logger.log('====> COMPUTE', this._boolObserver?.currentValue, this.condition['compose'] || '', this._lastTriggerResult || '<none>');
+        this.logger.log(
+            '====> COMPUTE',
+            this._boolObserver?.currentValue,
+            this.condition.compose || '',
+            this._lastTriggerResult || '<none>',
+        );
 
         let final: boolean;
         if (Conditions.Compositional.guard(this.condition)) {
             if (this.condition.compose === 'and') {
-                final = this._boolObserver?.currentValue && this._lastTriggerResult;
+                final =
+                    this._boolObserver?.currentValue && this._lastTriggerResult;
             } else if (this.condition.compose === 'or') {
-                final = this._boolObserver?.currentValue || this._lastTriggerResult;
+                final =
+                    this._boolObserver?.currentValue || this._lastTriggerResult;
             }
         } else {
             final = this._boolObserver?.currentValue || this._lastTriggerResult;
         }
 
         if (final) {
-            this.logger.log('====== TRIGGERING, listeners =', this._satisfied.subscribersCount);
+            this.logger.log(
+                '====== TRIGGERING, listeners =',
+                this._satisfied.subscribersCount,
+            );
             this._satisfied.trigger();
             return true;
         }
-    }
+    };
 
     dispose() {
         this._satisfied.reset();

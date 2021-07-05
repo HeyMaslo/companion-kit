@@ -13,9 +13,12 @@ type RadioButtonsGroupProps = {
 const RadioButtonGroup = observer((props: RadioButtonsGroupProps) => {
     const { model, style } = props;
 
-    const onRadioClick = React.useCallback((index: number) => {
-        model.index = index;
-    }, [model]);
+    const onRadioClick = React.useCallback(
+        (index: number) => {
+            model.index = index;
+        },
+        [model],
+    );
 
     const renderRadioButtons = (radioButtons: string[]) => {
         return radioButtons.map((label, index) => {
@@ -32,9 +35,7 @@ const RadioButtonGroup = observer((props: RadioButtonsGroupProps) => {
     };
 
     return (
-        <Container style={style}>
-            {renderRadioButtons(model.values)}
-        </Container>
+        <Container style={style}>{renderRadioButtons(model.values)}</Container>
     );
 });
 

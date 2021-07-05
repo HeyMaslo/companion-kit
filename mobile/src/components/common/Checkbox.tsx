@@ -11,7 +11,10 @@ type Props = {
 export default function Checkbox(props: Props) {
     const { checked, onChange } = props;
     return (
-        <TouchableOpacity style={[styles.wrap, checked && styles.checked]} activeOpacity={1} onPress={onChange}>
+        <TouchableOpacity
+            style={[styles.wrap, checked && styles.checked]}
+            activeOpacity={1}
+            onPress={onChange}>
             {checked && <CheckMark />}
         </TouchableOpacity>
     );

@@ -1,7 +1,12 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
-import { MasloPage, Container, RadioButtonGroup, ActivityButton } from 'src/components';
+import {
+    MasloPage,
+    Container,
+    RadioButtonGroup,
+    ActivityButton,
+} from 'src/components';
 import { ViewState } from '../base';
 import * as ViewModels from 'common/viewModels';
 import Layout from 'src/constants/Layout';
@@ -35,19 +40,24 @@ const rules = {
 export class ConsentView extends ViewState {
     constructor(props) {
         super(props);
-        this._contentHeight = this.persona.setupContainerHeightForceScroll({ rotation: 45 });
+        this._contentHeight = this.persona.setupContainerHeightForceScroll({
+            rotation: 45,
+        });
     }
 
     start() {
         this._showMessage();
     }
 
-    private readonly _userType = new ViewModels.SelectString(ConsentOptions, null);
+    private readonly _userType = new ViewModels.SelectString(
+        ConsentOptions,
+        null,
+    );
 
     private _showMessage = () => {
         const { projectName } = Localization.Current.MobileProject;
         this.showModal({
-            title: `User Agreement`,
+            title: 'User Agreement',
             message: `Before you use ${projectName} you must agree to the Privacy Policy and Terms of Use. If you are under 13 years old, your parent or guardian needs to read these and agree to let you use this app.`,
             primaryButton: {
                 text: 'OK',
@@ -55,34 +65,59 @@ export class ConsentView extends ViewState {
             },
             contentHeight: 373,
         });
-    }
+    };
 
     private submit = async () => {
-        const result = await AppController.Instance.User.acceptConsent(ConsentOptions[this._userType.index]);
+        const result = await AppController.Instance.User.acceptConsent(
+            ConsentOptions[this._userType.index],
+        );
         if (result) {
             this.trigger(ScenarioTriggers.Submit);
         }
-    }
+    };
 
     renderContent() {
         return (
             <MasloPage style={this.baseStyles.page}>
-                <Container style={[this.baseStyles.container, this.baseStyles.flexBetween, { height: this._contentHeight } ]}>
+                <Container
+                    style={[
+                        this.baseStyles.container,
+                        this.baseStyles.flexBetween,
+                        { height: this._contentHeight },
+                    ]}>
                     <View style={styles.textBlockWrapper}>
                         <ScrollView style={styles.textBlock}>
-                            <Markdown style={styles} rules={rules}>{Terms}</Markdown>
-                            <View style={styles.divider}></View>
-                            <Markdown style={styles} rules={rules}>{PrivacyPolicy}</Markdown>
+                            <Markdown style={styles} rules={rules}>
+                                {Terms}
+                            </Markdown>
+                            <View style={styles.divider} />
+                            <Markdown style={styles} rules={rules}>
+                                {PrivacyPolicy}
+                            </Markdown>
                         </ScrollView>
                     </View>
-                    <RadioButtonGroup model={this._userType} style={styles.radioButtonsWrap} />
+                    <RadioButtonGroup
+                        model={this._userType}
+                        style={styles.radioButtonsWrap}
+                    />
                     <ActivityButton
                         disabled={this._userType.index == null}
                         onPress={this.submit}
                         title="Continue"
                         loading="promise"
-                        style={this._userType.index == null ? { backgroundColor: Colors.consent.buttonDisabledBg } : null}
-                        titleStyles={this._userType.index == null ? { color: Colors.consent.buttonDisabledText } : null}
+                        style={
+                            this._userType.index == null
+                                ? {
+                                      backgroundColor:
+                                          Colors.consent.buttonDisabledBg,
+                                  }
+                                : null
+                        }
+                        titleStyles={
+                            this._userType.index == null
+                                ? { color: Colors.consent.buttonDisabledText }
+                                : null
+                        }
                     />
                 </Container>
             </MasloPage>
@@ -115,9 +150,9 @@ const styles = StyleSheet.create({
         marginBottom: 3,
     },
     heading1: {
-      ...TextStyles.h1,
-      fontWeight: '300',
-      marginBottom: 12,
+        ...TextStyles.h1,
+        fontWeight: '300',
+        marginBottom: 12,
     },
     heading2: {
         ...TextStyles.p1,

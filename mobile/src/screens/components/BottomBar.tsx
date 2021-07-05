@@ -42,46 +42,70 @@ type Props = {
 export default function BottomBar(props: Props) {
     const { screen } = props;
     const backgroundColor = screen === 'home' ? Colors.home.bg : Colors.pageBg;
-    const showIndicator = process.appFeatures.GOALS_ENABLED && AppViewModel.Instance.Goals.activeGoals.length > 0;
+    const showIndicator =
+        process.appFeatures.GOALS_ENABLED &&
+        AppViewModel.Instance.Goals.activeGoals.length > 0;
 
     const getGoalsIcon = () => {
         const goalsScreen = screen === 'goals';
         if (showIndicator) {
-            return goalsScreen ? Images.goalsIndicatorActive : Images.goalsIndicator;
+            return goalsScreen
+                ? Images.goalsIndicatorActive
+                : Images.goalsIndicator;
         }
         return goalsScreen ? Images.goalsActive : Images.goals;
     };
 
-    const ArchiveIcon: React.ComponentClass<SvgProps, any> = screen === 'home' ? Images.activeArchiveIcon : Images.archiveIcon;
-    const ProfileIcon: React.ComponentClass<SvgProps, any> = screen === 'profile' ? Images.activeProfileIcon : Images.profileIcon;
-    const SettingsIcon: React.ComponentClass<SvgProps, any> = screen === 'settings' ? Images.settingsIconActive : Images.settingsIcon;
+    const ArchiveIcon: React.ComponentClass<SvgProps, any> =
+        screen === 'home' ? Images.activeArchiveIcon : Images.archiveIcon;
+    const ProfileIcon: React.ComponentClass<SvgProps, any> =
+        screen === 'profile' ? Images.activeProfileIcon : Images.profileIcon;
+    const SettingsIcon: React.ComponentClass<SvgProps, any> =
+        screen === 'settings' ? Images.settingsIconActive : Images.settingsIcon;
     const GoalsIcon: React.ComponentClass<SvgProps, any> = getGoalsIcon();
 
     const iconSize = process.appFeatures.GOALS_ENABLED ? 32 : 28;
 
     return (
-        <View style={[BaseStyles.container, styles.container, { backgroundColor: backgroundColor }]}>
-            <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Home)}>
-                <ArchiveIcon width={iconSize} height={iconSize} color={'#000000'} />
+        <View
+            style={[
+                BaseStyles.container,
+                styles.container,
+                { backgroundColor: backgroundColor },
+            ]}>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => GlobalTrigger(GlobalTriggers.Home)}>
+                <ArchiveIcon
+                    width={iconSize}
+                    height={iconSize}
+                    color={'#000000'}
+                />
             </TouchableOpacity>
-            {process.appFeatures.GOALS_ENABLED ?
-                <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Goals)}>
+            {process.appFeatures.GOALS_ENABLED ? (
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => GlobalTrigger(GlobalTriggers.Goals)}>
                     <GoalsIcon width={iconSize} height={iconSize} />
                 </TouchableOpacity>
-            : null}
+            ) : null}
             <AddStoryButton
                 width={55}
                 height={55}
                 onPress={() => GlobalTrigger(GlobalTriggers.CreateStory)}
             />
-            <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Profile)}>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => GlobalTrigger(GlobalTriggers.Profile)}>
                 <ProfileIcon width={iconSize} height={iconSize} />
             </TouchableOpacity>
-            {process.appFeatures.GOALS_ENABLED ?
-                <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Settings)}>
+            {process.appFeatures.GOALS_ENABLED ? (
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => GlobalTrigger(GlobalTriggers.Settings)}>
                     <SettingsIcon width={iconSize} height={iconSize} />
                 </TouchableOpacity>
-            : null}
+            ) : null}
         </View>
     );
 }

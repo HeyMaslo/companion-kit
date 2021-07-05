@@ -1,7 +1,14 @@
 import React from 'react';
 import { ViewState } from '../base';
 import { ScenarioTriggers } from '../../abstractions';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import {
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    TouchableOpacity,
+    ScrollView,
+} from 'react-native';
 import { observer } from 'mobx-react';
 import TextStyles from 'src/styles/TextStyles';
 import Colors from 'src/constants/colors';
@@ -35,21 +42,33 @@ function StatisticItem(props: StatProps) {
     return (
         <View style={styles.itemWrapper}>
             <Text style={TextStyles.h1}>{props.value}</Text>
-            <Text style={[TextStyles.labelMedium, styles.subTextPrimary, { textTransform: 'uppercase' }]}>{props.name}</Text>
+            <Text
+                style={[
+                    TextStyles.labelMedium,
+                    styles.subTextPrimary,
+                    { textTransform: 'uppercase' },
+                ]}>
+                {props.name}
+            </Text>
         </View>
     );
 }
 
 const UseAvatarMask = true;
 
-const concentricCirclesStyles: ConcentricCirclesStyles = { diameter: 112, strokeBgColor: '#232685' };
+const concentricCirclesStyles: ConcentricCirclesStyles = {
+    diameter: 112,
+    strokeBgColor: '#232685',
+};
 
 @observer
 export class ProfileView extends ViewState {
     constructor(props) {
         super(props);
 
-        this._contentHeight = this.persona.setupContainerHeightForceScroll({ rotation: 180 });
+        this._contentHeight = this.persona.setupContainerHeightForceScroll({
+            rotation: 180,
+        });
     }
 
     // state = {
@@ -78,8 +97,12 @@ export class ProfileView extends ViewState {
         return (
             <View style={styles.placeholder}>
                 <Images.noStatistics width={258} height={145} />
-                <Text style={[this.textStyles.h1, styles.placeholderHeading]}>No statistics yet</Text>
-                <Text style={[this.textStyles.p1, styles.placeholderSubtitle]}>{`You haven’t created any check-ins recently.`}</Text>
+                <Text style={[this.textStyles.h1, styles.placeholderHeading]}>
+                    No statistics yet
+                </Text>
+                <Text style={[this.textStyles.p1, styles.placeholderSubtitle]}>
+                    {'You haven’t created any check-ins recently.'}
+                </Text>
             </View>
         );
     }
@@ -87,8 +110,10 @@ export class ProfileView extends ViewState {
     renderContent() {
         const { model } = this;
 
-        const noData = (model.totalJournals + model.totalSessions) === 0
-            || (!model.gradientChart?.length && (!model.wordsWeekly || model.wordsWeekly.length === 0));
+        const noData =
+            model.totalJournals + model.totalSessions === 0 ||
+            (!model.gradientChart?.length &&
+                (!model.wordsWeekly || model.wordsWeekly.length === 0));
 
         const statsDividerMargin = model.totalSessions > 0 ? 25 : 50;
 
@@ -107,99 +132,196 @@ export class ProfileView extends ViewState {
                         afterShot={this.saveAvatar}
                     />
                 ) : ( */}
-                    <>
-                        <Container style={styles.topBarWrapWrap}>
-                            <PersonaScrollMask />
-                            {!process.appFeatures.GOALS_ENABLED &&
-                                <View style={styles.topBarWrap}>
-                                    <TouchableOpacity onPress={() => this.trigger(ScenarioTriggers.Primary)} style={styles.settings}>
-                                        <Images.settingsIcon width={16} height={16} />
+                <>
+                    <Container style={styles.topBarWrapWrap}>
+                        <PersonaScrollMask />
+                        {!process.appFeatures.GOALS_ENABLED && (
+                            <View style={styles.topBarWrap}>
+                                <TouchableOpacity
+                                    onPress={() =>
+                                        this.trigger(ScenarioTriggers.Primary)
+                                    }
+                                    style={styles.settings}>
+                                    <Images.settingsIcon
+                                        width={16}
+                                        height={16}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                        )}
+                    </Container>
+                    <ScrollView
+                        contentContainerStyle={styles.contentScrollView}>
+                        {/* TOP BLOCK */}
+                        <Container style={styles.contentContainer}>
+                            <View style={styles.topBlock}>
+                                <View style={styles.avatarWrap}>
+                                    {model.avatarURL ? (
+                                        <CachedImage
+                                            source={{ uri: model.avatarURL }}
+                                            style={styles.avatar}
+                                        />
+                                    ) : (
+                                        <Images.defaultAvatar
+                                            style={[
+                                                styles.avatar,
+                                                styles.defaultAvatar,
+                                            ]}
+                                        />
+                                    )}
+                                    {UseAvatarMask && (
+                                        <Images.avatarMask
+                                            width={80}
+                                            height={80}
+                                        />
+                                    )}
+                                    <TouchableOpacity
+                                        style={styles.changePhoto}
+                                        onPress={() =>
+                                            this.runLongOperation(
+                                                this.model.saveImage,
+                                            )
+                                        }>
+                                        <Images.cameraIcon
+                                            width={12}
+                                            height={10}
+                                        />
                                     </TouchableOpacity>
                                 </View>
-                            }
-                        </Container>
-                        <ScrollView contentContainerStyle={styles.contentScrollView}>
-                            {/* TOP BLOCK */}
-                            <Container style={styles.contentContainer}>
-                                <View style={styles.topBlock}>
-                                    <View style={styles.avatarWrap}>
-                                        {model.avatarURL ? (
-                                            <CachedImage source={{ uri: model.avatarURL }} style={styles.avatar} />
-                                        ) : (
-                                            <Images.defaultAvatar style={[styles.avatar, styles.defaultAvatar]} />
-                                        )}
-                                        {UseAvatarMask && <Images.avatarMask width={80} height={80}/>}
-                                        <TouchableOpacity style={styles.changePhoto} onPress={() => this.runLongOperation(this.model.saveImage)}>
-                                            <Images.cameraIcon width={12} height={10} />
-                                        </TouchableOpacity>
-                                    </View>
-                                    <View>
-                                        <Text numberOfLines={2} style={[this.textStyles.h3, styles.name]}>{model.name}</Text>
-                                    </View>
+                                <View>
+                                    <Text
+                                        numberOfLines={2}
+                                        style={[
+                                            this.textStyles.h3,
+                                            styles.name,
+                                        ]}>
+                                        {model.name}
+                                    </Text>
                                 </View>
+                            </View>
 
-                                <View style={styles.stats}>
-                                    <StatisticItem name="CHECK-INS" value={model.totalJournals} />
-                                    <View style={[styles.divider, { marginHorizontal: statsDividerMargin }]} />
-                                    <StatisticItem name="WORDS" value={model.totalWordsLength} />
-                                    {model.totalSessions > 0 && (
-                                        <>
-                                            <View style={[styles.divider, { marginHorizontal: statsDividerMargin }]} />
-                                            <StatisticItem name="SESSIONS" value={model.totalSessions} />
-                                        </>
+                            <View style={styles.stats}>
+                                <StatisticItem
+                                    name="CHECK-INS"
+                                    value={model.totalJournals}
+                                />
+                                <View
+                                    style={[
+                                        styles.divider,
+                                        {
+                                            marginHorizontal: statsDividerMargin,
+                                        },
+                                    ]}
+                                />
+                                <StatisticItem
+                                    name="WORDS"
+                                    value={model.totalWordsLength}
+                                />
+                                {model.totalSessions > 0 && (
+                                    <>
+                                        <View
+                                            style={[
+                                                styles.divider,
+                                                {
+                                                    marginHorizontal: statsDividerMargin,
+                                                },
+                                            ]}
+                                        />
+                                        <StatisticItem
+                                            name="SESSIONS"
+                                            value={model.totalSessions}
+                                        />
+                                    </>
+                                )}
+                            </View>
+                        </Container>
+
+                        {process.appFeatures.CLIENT_REWARDS_ENABLED && (
+                            <RewardsInfoBlock
+                                model={model.rewardInfoBlockVM}
+                                concentricCirclesStyles={
+                                    concentricCirclesStyles
+                                }
+                            />
+                        )}
+
+                        {noData ? (
+                            this.getPlaceholder()
+                        ) : (
+                            <>
+                                {!model.gradientChart?.length ? null : (
+                                    <GradientChartBlock
+                                        gradientChart={model.gradientChart}
+                                    />
+                                )}
+                                {/* BUBBLE CHART */}
+                                {model.wordsWeekly &&
+                                model.wordsWeekly.length > 0 ? (
+                                    <Container style={styles.bubbleChartWrap}>
+                                        <Text
+                                            style={[
+                                                this.textStyles.h3,
+                                                styles.mb20,
+                                                styles.subTextPrimary,
+                                            ]}>
+                                            What is going on{' '}
+                                            <Text
+                                                style={styles.subTextSecondary}>
+                                                this week
+                                            </Text>
+                                        </Text>
+                                        <BubbleChart
+                                            data={model.wordsWeekly}
+                                            height={305}
+                                            theme={Themes.dark}
+                                        />
+                                    </Container>
+                                ) : null}
+                            </>
+                        )}
+                        {!process.appFeatures.MOBILE_STANDALONE && (
+                            <Container>
+                                <View style={styles.coachBlock}>
+                                    {model.coachAvatarUrl ? (
+                                        <CachedImage
+                                            source={{
+                                                uri: model.coachAvatarUrl,
+                                            }}
+                                            style={styles.coachBlockAvatar}
+                                        />
+                                    ) : (
+                                        <Images.defaultAvatar
+                                            style={styles.coachBlockAvatar}
+                                        />
                                     )}
+                                    <View style={styles.coachBlockText}>
+                                        <Text
+                                            style={[
+                                                this.textStyles.labelSmall,
+                                                styles.transformUppercase,
+                                                styles.subTextPrimary,
+                                            ]}>
+                                            Your{' '}
+                                            {
+                                                Localization.Current
+                                                    .MobileProject
+                                                    .dashboardEssence
+                                            }
+                                        </Text>
+                                        <Text
+                                            style={[
+                                                this.textStyles.labelSmall,
+                                                styles.transformUppercase,
+                                            ]}>
+                                            {model.coachName}
+                                        </Text>
+                                    </View>
                                 </View>
                             </Container>
-
-                            {process.appFeatures.CLIENT_REWARDS_ENABLED &&
-                                <RewardsInfoBlock
-                                    model={model.rewardInfoBlockVM}
-                                    concentricCirclesStyles={concentricCirclesStyles}
-                                />
-                            }
-
-                            { noData ? (
-                                this.getPlaceholder()
-                            ) : (
-                                <>
-                                    { !model.gradientChart?.length ? null : <GradientChartBlock gradientChart={model.gradientChart} />}
-                                    {/* BUBBLE CHART */}
-                                    {model.wordsWeekly && model.wordsWeekly.length > 0 ? (
-                                        <Container style={styles.bubbleChartWrap}>
-                                            <Text style={[this.textStyles.h3, styles.mb20, styles.subTextPrimary]}>
-                                                What is going on <Text style={styles.subTextSecondary}>this week</Text>
-                                            </Text>
-                                            <BubbleChart
-                                                data={model.wordsWeekly}
-                                                height={305}
-                                                theme={Themes.dark}
-                                            />
-                                        </Container>
-                                    ) : null}
-                                </>
-                            )}
-                            {!process.appFeatures.MOBILE_STANDALONE && (
-                                <Container>
-                                    <View style={styles.coachBlock}>
-                                        {model.coachAvatarUrl ? (
-                                            <CachedImage source={{ uri: model.coachAvatarUrl }} style={styles.coachBlockAvatar} />
-                                        ) : (
-                                            <Images.defaultAvatar style={styles.coachBlockAvatar} />
-                                        )}
-                                        <View style={styles.coachBlockText}>
-                                            <Text style={[this.textStyles.labelSmall, styles.transformUppercase, styles.subTextPrimary]}>
-                                                Your {Localization.Current.MobileProject.dashboardEssence}
-                                            </Text>
-                                            <Text style={[this.textStyles.labelSmall, styles.transformUppercase]}>
-                                                {model.coachName}
-                                            </Text>
-                                        </View>
-                                    </View>
-                                </Container>
-                            )}
-                        </ScrollView>
-                        <BottomBar screen={'profile'} />
-                    </>
+                        )}
+                    </ScrollView>
+                    <BottomBar screen={'profile'} />
+                </>
                 {/* )} */}
             </MasloPage>
         );

@@ -7,7 +7,14 @@ import TextStyles from 'src/styles/TextStyles';
 import Layout from 'src/constants/Layout';
 import Colors from 'src/constants/colors';
 
-import { MasloPage, Container, AnimatedContainer, ProgressBarHaflCircle, Button, ActivityButton } from 'src/components';
+import {
+    MasloPage,
+    Container,
+    AnimatedContainer,
+    ProgressBarHaflCircle,
+    Button,
+    ActivityButton,
+} from 'src/components';
 import BaseStyles from 'src/styles/BaseStyles';
 import { GradColor } from 'src/components/ProgressBarCircle';
 import { IPersonaViewContext } from 'src/stateMachine/abstractions';
@@ -24,7 +31,7 @@ export type FormViewProps = {
     nextStep: (answerIndex: number, route?: number) => void;
     previousStep: () => void;
     addResponse: () => Promise<void>;
-    personaViewContext?: IPersonaViewContext,
+    personaViewContext?: IPersonaViewContext;
 };
 
 const progressBarDiameter = Layout.getViewWidth(63);
@@ -39,7 +46,10 @@ const gradColors: GradColor[] = [
     { title: Colors.ProgressBarCircle.gradColor5, offset: 0.90206 },
 ];
 
-function getContainerHeight(ctx: IPersonaViewContext, withoutScroll: boolean = false) {
+function getContainerHeight(
+    ctx: IPersonaViewContext,
+    withoutScroll: boolean = false,
+) {
     return withoutScroll
         ? ctx.setupContainerHeight(minContentHeight)
         : ctx.setupContainerHeightForceScroll();
@@ -64,12 +74,17 @@ export default function FormView(props: FormViewProps) {
         return null;
     }
 
-    const progress01 = totalCount ? (stepIndex / totalCount) : null;
+    const progress01 = totalCount ? stepIndex / totalCount : null;
 
-    const [contentHeight, setContentHeight] = React.useState(() => getContainerHeight(personaViewContext));
+    const [contentHeight, setContentHeight] = React.useState(() =>
+        getContainerHeight(personaViewContext),
+    );
 
     React.useEffect(() => {
-        const ch = getContainerHeight(personaViewContext, isFinalScreen || !!intermission);
+        const ch = getContainerHeight(
+            personaViewContext,
+            isFinalScreen || !!intermission,
+        );
         setContentHeight(ch);
     }, [isFinalScreen, !!intermission]);
 
@@ -88,10 +103,26 @@ export default function FormView(props: FormViewProps) {
 
     if (isFinalScreen) {
         content = (
-            <AnimatedContainer style={[BaseStyles.container, BaseStyles.flexBetween, styles.finalContainer, { opacity: opacity, height: contentHeight }]}>
+            <AnimatedContainer
+                style={[
+                    BaseStyles.container,
+                    BaseStyles.flexBetween,
+                    styles.finalContainer,
+                    { opacity: opacity, height: contentHeight },
+                ]}>
                 <View style={BaseStyles.textBlock}>
-                    <Text style={[TextStyles.h1, styles.title]}>You're done!</Text>
-                    <Text style={[TextStyles.p1, BaseStyles.textCenter, { color: Colors.secondarySubtitle }]}>Please submit so that your therapist can review your results.</Text>
+                    <Text style={[TextStyles.h1, styles.title]}>
+                        You're done!
+                    </Text>
+                    <Text
+                        style={[
+                            TextStyles.p1,
+                            BaseStyles.textCenter,
+                            { color: Colors.secondarySubtitle },
+                        ]}>
+                        Please submit so that your therapist can review your
+                        results.
+                    </Text>
                 </View>
                 <ActivityButton
                     title={'Submit'}
@@ -102,41 +133,63 @@ export default function FormView(props: FormViewProps) {
         );
     } else if (intermission) {
         content = (
-            <Container style={[BaseStyles.container, BaseStyles.flexBetween, styles.finalContainer, { opacity: 1, height: contentHeight }]}>
+            <Container
+                style={[
+                    BaseStyles.container,
+                    BaseStyles.flexBetween,
+                    styles.finalContainer,
+                    { opacity: 1, height: contentHeight },
+                ]}>
                 <View style={BaseStyles.textBlock}>
-                    <Text style={[TextStyles.h1, styles.title]}>{intermission.title}</Text>
-                    <Text style={[TextStyles.p1, BaseStyles.textCenter, { color: Colors.secondarySubtitle }]}>{intermission.text}</Text>
+                    <Text style={[TextStyles.h1, styles.title]}>
+                        {intermission.title}
+                    </Text>
+                    <Text
+                        style={[
+                            TextStyles.p1,
+                            BaseStyles.textCenter,
+                            { color: Colors.secondarySubtitle },
+                        ]}>
+                        {intermission.text}
+                    </Text>
                 </View>
                 <View style={{ width: '100%' }}>
-                    <Button
-                        title="Continue"
-                        onPress={() => nextStep(null)}
-                    />
+                    <Button title="Continue" onPress={() => nextStep(null)} />
                 </View>
             </Container>
         );
     } else {
         content = (
             <ScrollView contentContainerStyle={[styles.formScrollWrapper]}>
-                <Container style={[BaseStyles.container, BaseStyles.flexBetween, styles.scrollableContainer]}>
+                <Container
+                    style={[
+                        BaseStyles.container,
+                        BaseStyles.flexBetween,
+                        styles.scrollableContainer,
+                    ]}>
                     <View style={[BaseStyles.textBlock, styles.textBlock]}>
-                        <Text style={[
-                            {...TextStyles.h2, fontSize: 22, lineHeight: 30 },
-                            styles.questionTitle,
-                        ]}>{text}</Text>
+                        <Text
+                            style={[
+                                {
+                                    ...TextStyles.h2,
+                                    fontSize: 22,
+                                    lineHeight: 30,
+                                },
+                                styles.questionTitle,
+                            ]}>
+                            {text}
+                        </Text>
                     </View>
                     <View style={styles.buttonsWrap}>
-                        {answers.map((answer, index) =>
+                        {answers.map((answer, index) => (
                             <Button
                                 key={`${answer.text}_${index}`}
                                 buttonForm
                                 title={answer.text}
-                                style={[
-                                    styles.button,
-                                ]}
+                                style={[styles.button]}
                                 onPress={() => nextStep(index, answer.route)}
-                            />,
-                        )}
+                            />
+                        ))}
                     </View>
                 </Container>
             </ScrollView>
@@ -144,19 +197,29 @@ export default function FormView(props: FormViewProps) {
     }
 
     return (
-        <MasloPage onClose={onClose} onBack={previousStep} style={BaseStyles.page}>
+        <MasloPage
+            onClose={onClose}
+            onBack={previousStep}
+            style={BaseStyles.page}>
             <PersonaScrollMask />
-            {!!totalCount &&
+            {!!totalCount && (
                 <ProgressBarHaflCircle
-                    title={!isFinalScreen ? `${stepIndex + 1} OF ${totalCount}` : 'DONE'}
+                    title={
+                        !isFinalScreen
+                            ? `${stepIndex + 1} OF ${totalCount}`
+                            : 'DONE'
+                    }
                     animationStep={1 / totalCount}
                     progress={progress01}
                     diameter={progressBarDiameter}
-                    style={[styles.progressBar, { opacity: (isFinalScreen || intermission) ? 0 : 1 }]}
+                    style={[
+                        styles.progressBar,
+                        { opacity: isFinalScreen || intermission ? 0 : 1 },
+                    ]}
                     titleStyle={styles.progressBarTitle}
                     gradient={gradColors}
                 />
-            }
+            )}
             {content}
         </MasloPage>
     );

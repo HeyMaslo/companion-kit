@@ -1,18 +1,27 @@
 import { computed } from 'mobx';
-import { AssessmentType, IntakeForms, ClientIntakeFormIded } from 'common/models';
+import {
+    AssessmentType,
+    IntakeForms,
+    ClientIntakeFormIded,
+} from 'common/models';
 import AppController from 'src/controllers';
 import { arrayCompareG } from 'common/utils/mathx';
 
 export class LastAssessmentResultVieModel {
-
     constructor(readonly type: AssessmentType) {
         if (!AppController.Instance.User.assessments.responses) {
             throw new Error('Assessments responses are required');
         }
     }
 
-    private get forms() { return AppController.Instance.User.assessments.responses?.forms[this.type]; }
-    private get formData() { return this.type ? IntakeForms[this.type] : null; }
+    private get forms() {
+        return AppController.Instance.User.assessments.responses?.forms[
+            this.type
+        ];
+    }
+    private get formData() {
+        return this.type ? IntakeForms[this.type] : null;
+    }
 
     @computed
     public get result() {
@@ -42,6 +51,9 @@ export class LastAssessmentResultVieModel {
     }
 
     public get canRetake() {
-        return AppController.Instance.User.assessments.isActive(this.type) || !!this.formData.AllowClientRetake;
+        return (
+            AppController.Instance.User.assessments.isActive(this.type) ||
+            !!this.formData.AllowClientRetake
+        );
     }
 }

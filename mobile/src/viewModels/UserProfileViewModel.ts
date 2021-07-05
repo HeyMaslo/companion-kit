@@ -7,11 +7,13 @@ export class UserProfileViewModel {
             return;
         }
 
-        const publicProfile = await AppController.Instance.User.getUserPublicInfo(this.userId);
+        const publicProfile = await AppController.Instance.User.getUserPublicInfo(
+            this.userId,
+        );
         return publicProfile;
     });
 
-    constructor(readonly userId: string) { }
+    constructor(readonly userId: string) {}
 
     get value() {
         return this._coachProfileFetcher.get();

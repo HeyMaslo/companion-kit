@@ -23,8 +23,7 @@ export default function Link(this: void, props: LinkProps) {
     return (
         <Text
             style={[TextStyles.p4, styles.link, style]}
-            onPress={onPressHandler}
-        >
+            onPress={onPressHandler}>
             {children}
         </Text>
     );

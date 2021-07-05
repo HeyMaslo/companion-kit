@@ -14,7 +14,7 @@ type State = {
 export default class ActivityButton extends React.Component<Props, State> {
     private _mounted = false;
 
-    state: State = { };
+    state: State = {};
 
     onPress = async () => {
         this.setState({ loading: true });
@@ -27,7 +27,7 @@ export default class ActivityButton extends React.Component<Props, State> {
                 this.setState({ loading: false });
             }
         }
-    }
+    };
 
     componentDidMount() {
         this._mounted = true;
@@ -38,24 +38,27 @@ export default class ActivityButton extends React.Component<Props, State> {
     }
 
     render() {
+        const loading =
+            this.props.loading === 'promise'
+                ? this.state.loading || false
+                : this.props.loading;
 
-        const loading = this.props.loading === 'promise'
-            ? (this.state.loading || false)
-            : this.props.loading;
-
-        const content = loading
-            ? (React.isValidElement(this.props.activity)
-                ? this.props.activity
-                : <ActivityIndicator size="small" {...this.props.activity} />)
-            : this.props.children;
+        const content = loading ? (
+            React.isValidElement(this.props.activity) ? (
+                this.props.activity
+            ) : (
+                <ActivityIndicator size="small" {...this.props.activity} />
+            )
+        ) : (
+            this.props.children
+        );
 
         return (
             <Button
                 {...this.props}
                 onPress={this.onPress}
                 title={loading ? null : this.props.title}
-                disabled={loading || this.props.disabled}
-            >
+                disabled={loading || this.props.disabled}>
                 {content}
             </Button>
         );

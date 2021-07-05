@@ -2,7 +2,13 @@ import { ViewState } from '../base';
 import React from 'react';
 import { observer } from 'mobx-react';
 import { StyleSheet, Text, KeyboardAvoidingView, View } from 'react-native';
-import { MasloPage, Container, BackArrow, Button, TextInput } from 'src/components';
+import {
+    MasloPage,
+    Container,
+    BackArrow,
+    Button,
+    TextInput,
+} from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import SettingsEmailViewModel from 'src/viewModels/SettingsEmailViewModel';
 import { magicLinkModal } from '../login/magicLink';
@@ -10,7 +16,6 @@ import TextStyles, { mainFontThin } from 'src/styles/TextStyles';
 
 @observer
 export class EmailSettingsView extends ViewState {
-
     private readonly model = new SettingsEmailViewModel();
 
     start() {
@@ -18,19 +23,28 @@ export class EmailSettingsView extends ViewState {
     }
 
     onSave = () => {
-        this.showModal(magicLinkModal(this, this.onSave, {
-            title: 'Check your email for an activation link',
-        }));
-    }
+        this.showModal(
+            magicLinkModal(this, this.onSave, {
+                title: 'Check your email for an activation link',
+            }),
+        );
+    };
 
     renderContent() {
-
         return (
             <KeyboardAvoidingView behavior="padding" style={{ height: '100%' }}>
                 <MasloPage>
                     <Container>
-                        <BackArrow onPress={() => this.trigger(ScenarioTriggers.Back)} />
-                        <Text style={{...TextStyles.h1, fontFamily: mainFontThin }}>Email</Text>
+                        <BackArrow
+                            onPress={() => this.trigger(ScenarioTriggers.Back)}
+                        />
+                        <Text
+                            style={{
+                                ...TextStyles.h1,
+                                fontFamily: mainFontThin,
+                            }}>
+                            Email
+                        </Text>
                     </Container>
                     <View style={{ flex: 1 }}>
                         <TextInput
@@ -44,7 +58,10 @@ export class EmailSettingsView extends ViewState {
                             autoCapitalize="none"
                             label="New Email"
                             styleWrap={styles.inputWrap}
-                            styleInput={[this.baseStyles.cardTitle, styles.input]}
+                            styleInput={[
+                                this.baseStyles.cardTitle,
+                                styles.input,
+                            ]}
                             // styleError={styles.errorMsg}
                             styleLabel={styles.inputLabel}
                         />

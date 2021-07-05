@@ -6,11 +6,21 @@ export default class MoodSliderViewModel {
     @observable
     private _value: number = Moods.Default;
 
-    get minValue(): number { return Moods.Min; }
-    get maxValue(): number { return Moods.Max; }
+    get minValue(): number {
+        return Moods.Min;
+    }
+    get maxValue(): number {
+        return Moods.Max;
+    }
 
-    get value() { return this._value; }
-    get currentMood() { return this._value != null ? Moods.findNearest(this._value) : Moods.VeryPositive; }
+    get value() {
+        return this._value;
+    }
+    get currentMood() {
+        return this._value != null
+            ? Moods.findNearest(this._value)
+            : Moods.VeryPositive;
+    }
 
     set value(value: number) {
         if (value != null) {
@@ -20,5 +30,5 @@ export default class MoodSliderViewModel {
 
     public reset = () => {
         this._value = Moods.Default;
-    }
+    };
 }

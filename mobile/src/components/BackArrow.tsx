@@ -1,5 +1,10 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, ViewStyle, StyleProp } from 'react-native';
+import {
+    StyleSheet,
+    TouchableOpacity,
+    ViewStyle,
+    StyleProp,
+} from 'react-native';
 import Images from 'src/constants/images';
 
 const styles = StyleSheet.create({
@@ -25,7 +30,9 @@ export default function BackButton(props: Props) {
     const onPress = props.onPress;
 
     return (
-        <TouchableOpacity style={[styles.backBtn, props.style]} onPress={onPress}>
+        <TouchableOpacity
+            style={[styles.backBtn, props.style]}
+            onPress={onPress}>
             <Images.backIcon width={28} height={14} />
         </TouchableOpacity>
     );

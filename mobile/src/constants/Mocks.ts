@@ -39,19 +39,23 @@ export const QuestionsMock = [
         answers: AnswersMock,
     },
     {
-        text: 'Feeling bad about yourself or that you are a failure of have let yourself or your family down',
+        text:
+            'Feeling bad about yourself or that you are a failure of have let yourself or your family down',
         answers: AnswersMock,
     },
     {
-        text: 'Trouble concentrating on things, such as reading the newspaper or watching television',
+        text:
+            'Trouble concentrating on things, such as reading the newspaper or watching television',
         answers: AnswersMock,
     },
     {
-        text: 'Moving or speaking so slowly that other people could have noticed. Or the opposite - being so fidgety or restless that you have been moving around a lot more than usual',
+        text:
+            'Moving or speaking so slowly that other people could have noticed. Or the opposite - being so fidgety or restless that you have been moving around a lot more than usual',
         answers: AnswersMock,
     },
     {
-        text: 'Thoughts that you would be better off dead, or of hurting yourself',
+        text:
+            'Thoughts that you would be better off dead, or of hurting yourself',
         answers: AnswersMock,
     },
 ];

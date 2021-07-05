@@ -53,8 +53,7 @@ export default class GradientChartBlock extends React.Component<Props> {
                     horizontal
                     style={[styles.gradientChartContainer]}
                     contentContainerStyle={{ overflow: 'visible' }}
-                    automaticallyAdjustContentInsets={false}
-                >
+                    automaticallyAdjustContentInsets={false}>
                     <GradientChart model={gradientChart} />
                 </ScrollView>
             </>
