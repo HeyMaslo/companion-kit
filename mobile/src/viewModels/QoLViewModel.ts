@@ -102,7 +102,6 @@ export default class QOLSurveyViewModel {
         if (qolArmMagnitudes === null) {
             res = await AppController.Instance.User.qol.sendPartialQol(null);
             this.isUnfinished = false;
-
         } else {
             const now = new Date().getTime();
             this.questionCompletionDates = this.questionCompletionDates || [];
