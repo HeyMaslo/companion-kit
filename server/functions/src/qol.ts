@@ -1,4 +1,4 @@
-import { DomainScope, Domain } from '../../../mobile/src/constants/QoL';
+import { DomainScope, Domain } from '../../../mobile/src/constants/Domain';
 import { Repo } from './services/db';
 import { Identify } from 'common/models';
 import { QoL as QoLFunctions } from 'common/abstractions/functions';

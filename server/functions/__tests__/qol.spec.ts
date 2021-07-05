@@ -10,7 +10,7 @@ import clientConfig from './mocks/client/config';
 
 import { createDomain, createQuestion, getDomains, getQuestions } from 'server/qol';
 import { QoLActionTypes } from 'common/models/dtos/qol';
-import { DomainScope } from '../../../mobile/src/constants/QoL';
+import { DomainScope } from '../../../mobile/src/constants/Domain';
 
 const test = firebase.init('qol-test');
 
