@@ -129,17 +129,11 @@ export class UserController extends UserControllerBase implements IUserControlle
 
     private readonly _domain = new Lazy(() => {
         const dc = new DomainController();
-        // if (this.user && this.activeAccount) {
-        //     bk.setUser(this.user.id);
-        // }
         return dc;
     });
 
     private readonly _strategy = new Lazy(() => {
         const sc = new StrategyController();
-        // if (this.user && this.activeAccount) {
-        //     bk.setUser(this.user.id);
-        // }
         return sc;
     });
 
@@ -160,7 +154,6 @@ export class UserController extends UserControllerBase implements IUserControlle
 
         this.disposer.add(auth.onPreProcessUser.on(u => this.onPreProcessAuthUser(u)), 'onPreProcessAuthUser');
 
-        // TODO: Make prettier
         this.disposer.add(autorun(() => {
             const userId = this.user?.id;
             const acccountId = (this._activeAccount && this._activeAccount.id) || null;
@@ -196,8 +189,8 @@ export class UserController extends UserControllerBase implements IUserControlle
     }
 
     get qol() { return this._qol.value; };
-    get domain() { return this.domain.value; };
-    get strategy() { return this.strategy.value; };
+    get domain() { return this._domain.value; };
+    get strategy() { return this._strategy.value; };
 
     get firstName() { return this.user?.firstName; }
     get lastName() { return this.user?.lastName; }
@@ -309,8 +302,6 @@ export class UserController extends UserControllerBase implements IUserControlle
             this._assessments?.initialize(this._activeAccount, userUid);
 
             this._documents?.setAccount(this._activeAccount.coachId, this._activeAccount.id);
-
-            // logger.log(' ===================== \r\n\r\n ASSESSMENT STATUS', this._activeAccount.assessments);
         } else {
             id = 'null';
         }
