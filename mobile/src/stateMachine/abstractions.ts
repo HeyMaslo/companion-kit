@@ -15,8 +15,7 @@ export enum ScenarioTriggers {
     Tertiary,
     Next,
     Quaternary,
-    // MK-TODO For TESTING ONLY to be removed
-    _TESTING_,
+    TESTING,
 }
 
 export enum NavigationStates {
@@ -24,10 +23,10 @@ export enum NavigationStates {
 }
 
 export interface IPersonaViewContext extends IPersonaContext {
-    getContainerHeight(minHeight: number): { height: number, view: PersonaViewState };
+    getContainerHeight(minHeight: number, baseView?: Partial<PersonaViewState>, boxHeight?: number): { height: number, view: PersonaViewState };
     getScrollContainerHeight(): { height: number, view: PersonaViewState };
 
-    setupContainerHeight(minHeight: number, view?: Partial<PersonaViewState>): number;
+    setupContainerHeight(minHeight: number, baseView?: Partial<PersonaViewState>, boxHeight?: number);
     setupContainerHeightForceScroll(view?: Partial<PersonaViewState>): number;
     setupContainerHeightForceScrollDown(view?: Partial<PersonaViewState>): number;
 }

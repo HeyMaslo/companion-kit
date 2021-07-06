@@ -51,11 +51,11 @@ export const PersonaViewPresets: { [name: string]: PersonaViewState } = {
     },
 };
 
-const PersonaScale = 0.5 * 2 / 3;
+export const PersonaScale = 1 / 3;
+
 const { height, width } = Dimensions.get('window');
 
 export function getPersonaRadius(scale?: number): number {
-    console.log('devicePixelRatio, ', devicePixelRatio)
     return ((scale || PersonaScale) * Math.min(width, height) / 2) / (devicePixelRatio +1);
 } 
 

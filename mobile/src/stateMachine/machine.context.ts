@@ -20,24 +20,27 @@ class PersonaViewContext implements IPersonaViewContext {
     public currentSettings: CurrentPersonaSettings = null;
 
     private get personaRadius() { return (this.currentSettings?.radius || 123) * (this.currentSettings?.resultScale || 1); }
-    private get personaBoxHeight() {
-        if (Layout.window.width < 710) {
-            return Layout.window.width * 0.7;
-        } else if (Layout.window.width < 800) {
-            return Layout.window.width * 0.8;
-        } else {
-            return Layout.window.width;
-        }
-    }
 
-    getContainerHeight(minHeight: number, baseView?: Partial<PersonaViewState>): { height: number, view: PersonaViewState } {
+    getContainerHeight(minHeight: number, baseView?: Partial<PersonaViewState>, boxHeight: number = null): { height: number, view: PersonaViewState } {
         const pixelRatio = PixelRatio.get();
-        const windowHeight = Layout.window.height;
-        const boxSize = this.personaBoxHeight;
-        const notEnoughSpace = (minHeight + boxSize) > windowHeight;
-        const offset = windowHeight - boxSize - minHeight;
         const personaRadius = this.personaRadius;
-        const limit = boxSize * 0.38;
+        let personaBoxHeight = 0;
+
+        if (boxHeight !== null) { 
+            personaBoxHeight = boxHeight + (personaRadius/pixelRatio);
+        } else if (Layout.window.width < 710) {
+            personaBoxHeight = Layout.window.width * 0.7;
+        } else if (Layout.window.width < 800) {
+            personaBoxHeight = Layout.window.width * 0.8;
+        } else {
+            personaBoxHeight = Layout.window.width;
+        }
+
+        const windowHeight = Layout.window.height;
+        const notEnoughSpace = (minHeight + personaBoxHeight) > windowHeight;
+        const offset = windowHeight - personaBoxHeight - minHeight;
+
+        const limit = personaBoxHeight * 0.38;
 
         // default view state
         const view: PersonaViewState = {
@@ -64,7 +67,7 @@ class PersonaViewContext implements IPersonaViewContext {
                 availableHeight = minHeight;
             }
         } else {
-            view.position.y = (windowHeight / 2 - boxSize) * pixelRatio;
+            view.position.y = (windowHeight / 2 - personaBoxHeight) * pixelRatio;
             view.anchorPoint.y = 1;
             view.debugName = 'SETUP_FULL_SIZE';
 
@@ -133,8 +136,8 @@ class PersonaViewContext implements IPersonaViewContext {
         };
     }
 
-    setupContainerHeight(minHeight: number, baseView?: Partial<PersonaViewState>) {
-        const res = this.getContainerHeight(minHeight, baseView);
+    setupContainerHeight(minHeight: number, baseView?: Partial<PersonaViewState>, boxHeight: number = null) {
+        const res = this.getContainerHeight(minHeight, baseView, boxHeight);
         this.view = res.view;
         return res.height;
     }

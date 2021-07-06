@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native';
-import Colors from 'src/constants/colors';;
+import { View, StyleSheet, StyleProp, ViewStyle, LayoutChangeEvent } from 'react-native';
+import Colors from 'src/constants/colors';
 import Images from 'src/constants/images';
 
 /**
@@ -8,10 +8,11 @@ import Images from 'src/constants/images';
  * @param highlightedIndices index 0 is located at 3 o'clock on the circle and continues clockwise from there. eg. 5 is at 8 o'clock
  */
 type IconsOnCircleProps = {
-  style: StyleProp<ViewStyle>,
+  style?: StyleProp<ViewStyle>,
   circleRaius: number,
   symbolSize: number,
   highlightedIndices?: Array<number>,
+  onLayout?: (event: LayoutChangeEvent) => void,
 }
 
 type CircleState = {x0: number, y0: number, x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number, x5: number, y5: number, x6: number, y6: number, x7: number, y7: number, x8: number, y8: number, x9: number, y11:number, y9: number, x10: number, y10: number, x11: number}
@@ -73,7 +74,7 @@ private getIconColor(index: number): string {
   
   render() {
     return (
-      <View style={[this.props.style, { justifyContent:'center', alignItems:'center' }]}>
+      <View style={[this.props.style, { justifyContent:'center', alignItems:'center' }]} onLayout={this.props.onLayout}>
         <View style={{backgroundColor: 'transparent', width: this.size, height: this.size, borderRadius: this.radius, marginTop: this.symbolRadius, marginBottom: this.symbolRadius}}>
 
        <Images.leisureIcon
