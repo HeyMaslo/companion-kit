@@ -329,7 +329,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
                     <View style={{flexDirection:'row'}}>
-                    {/* Domains button used for development only and will be removed eventually */}
+                    {/* MK-TODO buttons below used for development only and will be removed */}
                     <Button title="WorkingView" style={styles.qolButton} onPress={() => this.onStartDomains('b')}/>
                     <Button title="WorkView 2" style={styles.qolButton} onPress={() => this.onStartDomains('c')}/>
                     <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains('domains')}/>
