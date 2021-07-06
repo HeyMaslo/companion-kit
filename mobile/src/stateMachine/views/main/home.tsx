@@ -146,7 +146,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         } else if (str == 'b') {
             this.trigger(ScenarioTriggers.Next);
         } else {
-            // this.trigger(ScenarioTriggers._TESTING_);
+            this.trigger(ScenarioTriggers._TESTING_);
         }
     }
 
