@@ -9,7 +9,11 @@ type Props = TextProps & {
 
 const TextObservable = (props: Props) => {
     const value = props.model && props.model.value;
-    return <Text {...props}>{value}</Text>;
+    return (
+        <Text {...props} >
+            {value}
+        </Text>
+    );
 };
 
 export default observer(TextObservable);

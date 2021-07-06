@@ -1,9 +1,8 @@
 import { ViewState } from './base';
 
 export class EmptyView extends ViewState {
-    start() {
-        /* */
-    }
+
+    start() { /* */ }
 
     renderContent() {
         return null;

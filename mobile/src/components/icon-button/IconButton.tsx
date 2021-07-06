@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-    View,
-    StyleSheet,
-    TouchableHighlight,
-    Text,
-    Image,
-} from 'react-native';
+import { View, StyleSheet, TouchableHighlight, Text, Image } from 'react-native';
 import TextStyles from 'src/styles/TextStyles';
 
 // TODO: implement svg usage
@@ -20,6 +14,7 @@ interface IIconButtonProps {
 }
 
 export default class IconButton extends React.Component<IIconButtonProps> {
+
     private _getIconPath(type) {
         switch (type) {
             case 'edit':
@@ -36,7 +31,7 @@ export default class IconButton extends React.Component<IIconButtonProps> {
         if (onPress) {
             onPress();
         }
-    };
+    }
 
     render() {
         const { type, style, title } = this.props;
@@ -45,20 +40,15 @@ export default class IconButton extends React.Component<IIconButtonProps> {
         // TODO: implement svg usage
         return (
             <TouchableHighlight
-                style={[styles.container, style]}
+                style={[styles.container, style ]}
                 underlayColor="transparent"
-                onPress={this._onPressHandler}>
+                onPress={this._onPressHandler}
+            >
                 <>
                     <View style={styles.iconWrap}>
                         <Image style={styles.icon} source={icon} />
                     </View>
-                    <Text
-                        style={[
-                            TextStyles.labelSmall,
-                            { textTransform: 'uppercase' },
-                        ]}>
-                        {title}
-                    </Text>
+                    <Text style={[TextStyles.labelSmall, { textTransform: 'uppercase' }]}>{title}</Text>
                 </>
             </TouchableHighlight>
         );

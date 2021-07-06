@@ -7,19 +7,16 @@ export enum NotificationTime {
     ExactTime = 'exact',
 }
 
-type GeneralNotificationTime =
-    | NotificationTime.Morning
-    | NotificationTime.Midday
-    | NotificationTime.Evening;
+type GeneralNotificationTime = NotificationTime.Morning | NotificationTime.Midday | NotificationTime.Evening;
 
 export type Schedule = {
-    [NotificationTime.Morning]: boolean;
-    [NotificationTime.Midday]: boolean;
-    [NotificationTime.Evening]: boolean;
+    [NotificationTime.Morning]: boolean,
+    [NotificationTime.Midday]: boolean,
+    [NotificationTime.Evening]: boolean,
     [NotificationTime.ExactTime]: {
-        active: boolean;
-        value: number;
-    };
+        active: boolean,
+        value: number,
+    },
 };
 
 export function getDefaultSchedule(): Schedule {
@@ -53,19 +50,13 @@ export function timeToString(time: NotificationTime): string {
     }
 }
 
-export function isTimeActive(
-    selectedTime: Schedule,
-    time: NotificationTime,
-): boolean {
+export function isTimeActive(selectedTime: Schedule, time: NotificationTime): boolean {
     if (!selectedTime || !time) {
         return false;
     }
 
     if (time === NotificationTime.ExactTime) {
-        return (
-            !!selectedTime[NotificationTime.ExactTime] &&
-            selectedTime[NotificationTime.ExactTime].active
-        );
+        return !!selectedTime[NotificationTime.ExactTime] && selectedTime[NotificationTime.ExactTime].active;
     }
 
     return selectedTime[time];

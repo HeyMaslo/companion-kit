@@ -1,17 +1,8 @@
 import { observable } from 'mobx';
 import { Keyboard, PixelRatio } from 'react-native';
 import Layout from 'src/constants/Layout';
-import {
-    IPersonaViewContext,
-    IStateViewContext,
-    KeyboardState,
-} from './abstractions';
-import {
-    PersonaViewPresets,
-    PersonaStates,
-    PersonaViewState,
-    CurrentPersonaSettings,
-} from './persona';
+import { IPersonaViewContext, IStateViewContext, KeyboardState } from './abstractions';
+import { PersonaViewPresets, PersonaStates, PersonaViewState, CurrentPersonaSettings } from './persona';
 import logger from 'common/logger';
 import { PersonaArmState } from 'dependencies/persona/lib';
 
@@ -28,12 +19,7 @@ class PersonaViewContext implements IPersonaViewContext {
     // will be set outside
     public currentSettings: CurrentPersonaSettings = null;
 
-    private get personaRadius() {
-        return (
-            (this.currentSettings?.radius || 123) *
-            (this.currentSettings?.resultScale || 1)
-        );
-    }
+    private get personaRadius() { return (this.currentSettings?.radius || 123) * (this.currentSettings?.resultScale || 1); }
     private get personaBoxHeight() {
         if (Layout.window.width < 710) {
             return Layout.window.width * 0.7;
@@ -44,14 +30,11 @@ class PersonaViewContext implements IPersonaViewContext {
         }
     }
 
-    getContainerHeight(
-        minHeight: number,
-        baseView?: Partial<PersonaViewState>,
-    ): { height: number; view: PersonaViewState } {
+    getContainerHeight(minHeight: number, baseView?: Partial<PersonaViewState>): { height: number, view: PersonaViewState } {
         const pixelRatio = PixelRatio.get();
         const dh = Layout.window.height;
         const boxSize = this.personaBoxHeight;
-        const notEnoughSpace = minHeight + boxSize > dh;
+        const notEnoughSpace = (minHeight + boxSize) > dh;
         const offset = dh - boxSize - minHeight;
         const personaRadius = this.personaRadius;
         const limit = boxSize * 0.38;
@@ -69,7 +52,7 @@ class PersonaViewContext implements IPersonaViewContext {
         if (notEnoughSpace) {
             // logger.log('not enough space. move persona up.');
             if (Math.abs(offset) > limit) {
-                view.position.y = (dh * pixelRatio) / 2;
+                view.position.y = dh * pixelRatio / 2;
                 view.debugName = 'SETUP_HALF_OUT';
 
                 availableHeight = dh - personaRadius / pixelRatio;
@@ -89,15 +72,7 @@ class PersonaViewContext implements IPersonaViewContext {
             availableHeight = minHeight + offset;
         }
 
-        logger.log('[PersonaViewContext] getContainerHeight', {
-            personaRadius,
-            notEnoughSpace,
-            minHeight,
-            offset,
-            limit,
-            availableHeight,
-            pixelRatio,
-        });
+        logger.log('[PersonaViewContext] getContainerHeight', { personaRadius, notEnoughSpace, minHeight, offset, limit, availableHeight, pixelRatio });
 
         return {
             height: availableHeight,
@@ -105,9 +80,7 @@ class PersonaViewContext implements IPersonaViewContext {
         };
     }
 
-    getScrollContainerHeight(
-        baseView?: Partial<PersonaViewState>,
-    ): { height: number; view: PersonaViewState } {
+    getScrollContainerHeight(baseView?: Partial<PersonaViewState>): { height: number, view: PersonaViewState } {
         const dh = Layout.window.height;
         const personaRadius = this.personaRadius;
         const pixelRatio = PixelRatio.get();
@@ -118,7 +91,7 @@ class PersonaViewContext implements IPersonaViewContext {
             ...baseView,
             position: {
                 x: 0,
-                y: (dh * pixelRatio) / 2,
+                y: dh * pixelRatio / 2,
             },
             anchorPoint: { x: 0, y: 0 },
             debugName: 'SETUP_SCROLL',
@@ -126,20 +99,14 @@ class PersonaViewContext implements IPersonaViewContext {
 
         const availableHeight = dh - personaRadius / pixelRatio;
 
-        logger.log('[PersonaViewContext] getScrollContainerHeight', {
-            personaRadius,
-            availableHeight,
-            pixelRatio,
-        });
+        logger.log('[PersonaViewContext] getScrollContainerHeight', { personaRadius, availableHeight, pixelRatio });
 
         return {
             height: availableHeight,
             view: view,
         };
     }
-    getScrollContainerHeightDown(
-        baseView?: Partial<PersonaViewState>,
-    ): { height: number; view: PersonaViewState } {
+    getScrollContainerHeightDown(baseView?: Partial<PersonaViewState>): { height: number, view: PersonaViewState } {
         const dh = Layout.window.height;
         const personaRadius = this.personaRadius;
         const pixelRatio = PixelRatio.get();
@@ -150,7 +117,7 @@ class PersonaViewContext implements IPersonaViewContext {
             ...baseView,
             position: {
                 x: 0,
-                y: -((dh * pixelRatio) / 2),
+                y: -(dh * pixelRatio / 2),
             },
             anchorPoint: { x: 0, y: 0 },
             debugName: 'SETUP_SCROLL',
@@ -158,11 +125,7 @@ class PersonaViewContext implements IPersonaViewContext {
 
         const availableHeight = dh - personaRadius / pixelRatio;
 
-        logger.log('[PersonaViewContext] getScrollContainerHeight', {
-            personaRadius,
-            availableHeight,
-            pixelRatio,
-        });
+        logger.log('[PersonaViewContext] getScrollContainerHeight', { personaRadius, availableHeight, pixelRatio });
 
         return {
             height: availableHeight,
@@ -170,10 +133,7 @@ class PersonaViewContext implements IPersonaViewContext {
         };
     }
 
-    setupContainerHeight(
-        minHeight: number,
-        baseView?: Partial<PersonaViewState>,
-    ) {
+    setupContainerHeight(minHeight: number, baseView?: Partial<PersonaViewState>) {
         const res = this.getContainerHeight(minHeight, baseView);
         this.view = res.view;
         return res.height;
@@ -197,9 +157,7 @@ export class ViewContext implements IStateViewContext {
     @observable.ref
     private _keyboardProps: KeyboardState;
 
-    get keyboard(): Readonly<KeyboardState> {
-        return this._keyboardProps;
-    }
+    get keyboard(): Readonly<KeyboardState> { return this._keyboardProps; }
 
     constructor() {
         this.initKeyboardEvents();
@@ -208,19 +166,11 @@ export class ViewContext implements IStateViewContext {
     initKeyboardEvents() {
         Keyboard.addListener(
             'keyboardDidHide',
-            (event) =>
-                (this._keyboardProps = {
-                    ...event.endCoordinates,
-                    isOpened: false,
-                }),
+            event => this._keyboardProps = { ...event.endCoordinates, isOpened: false },
         );
         Keyboard.addListener(
             'keyboardDidShow',
-            (event) =>
-                (this._keyboardProps = {
-                    ...event.endCoordinates,
-                    isOpened: true,
-                }),
+            event => this._keyboardProps = { ...event.endCoordinates, isOpened: true },
         );
     }
 }

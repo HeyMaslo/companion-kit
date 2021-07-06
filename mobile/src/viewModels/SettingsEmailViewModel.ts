@@ -6,6 +6,7 @@ import { observable } from 'mobx';
 const { TextInputVM } = ViewModels;
 
 export default class SettingsEmailViewModel {
+
     @observable
     private _error: string = null;
 
@@ -17,11 +18,9 @@ export default class SettingsEmailViewModel {
         },
     });
 
-    get error() {
-        return this._error;
-    }
+    get error() { return this._error; }
 
     public submit = async (): Promise<boolean> => {
         return false;
-    };
+    }
 }

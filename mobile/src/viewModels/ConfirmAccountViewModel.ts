@@ -2,11 +2,7 @@ import { observable } from 'mobx';
 import * as Validations from 'common/utils/validation';
 import { PhoneValidator } from 'common/utils/validation/phoneNumber';
 import Localization from '../services/localization';
-import {
-    TextInputVM,
-    ValidatableViewModel,
-    IValidatable,
-} from 'common/viewModels';
+import { TextInputVM, ValidatableViewModel, IValidatable } from 'common/viewModels';
 import AppController from 'src/controllers';
 import { createLogger } from 'common/logger';
 
@@ -18,11 +14,7 @@ export enum FieldTypes {
     PhoneNumber,
 }
 
-const AllFields = [
-    FieldTypes.FullName,
-    FieldTypes.Zipcode,
-    FieldTypes.PhoneNumber,
-];
+const AllFields = [FieldTypes.FullName, FieldTypes.Zipcode, FieldTypes.PhoneNumber];
 
 export default class ConfirmAccountViewModel {
     @observable
@@ -37,44 +29,36 @@ export default class ConfirmAccountViewModel {
         },
     });
 
-    readonly zipcode = false
-        ? new TextInputVM({
-              name: 'zip code',
-              value: '',
-              validation: {
-                  validator: Validations.Validators.zipcode,
-                  errors: Localization.ValidationErrors,
-              },
-          })
+    readonly zipcode = false ? new TextInputVM({
+        name: 'zip code',
+        value: '',
+        validation: {
+            validator: Validations.Validators.zipcode,
+            errors: Localization.ValidationErrors,
+        },
+    }) : null;
+
+    private readonly _phoneValidator = false
+        ? new PhoneValidator()
         : null;
 
-    private readonly _phoneValidator = false ? new PhoneValidator() : null;
+    readonly phoneNumber = false ? new TextInputVM({
+        name: 'phone number',
+        value: '',
+        validation: {
+            validator: this._phoneValidator.validator,
+            errors: Localization.ValidationErrors,
+        },
+        formatterHook: s => this._phoneValidator.setValue(s),
+    }) : null;
 
-    readonly phoneNumber = false
-        ? new TextInputVM({
-              name: 'phone number',
-              value: '',
-              validation: {
-                  validator: this._phoneValidator.validator,
-                  errors: Localization.ValidationErrors,
-              },
-              formatterHook: (s) => this._phoneValidator.setValue(s),
-          })
-        : null;
+    get inProgress() { return this._inProgress; }
 
-    get inProgress() {
-        return this._inProgress;
-    }
-
-    get user() {
-        return AppController.Instance.User.user;
-    }
+    get user() { return AppController.Instance.User.user; }
 
     get fullName() {
         const user = AppController.Instance.User.user;
-        return (
-            user && (user.displayName || `${user.firstName} ${user.lastName}`)
-        );
+        return user && (user.displayName || `${user.firstName} ${user.lastName}`);
     }
 
     getModelByType(type: FieldTypes) {
@@ -107,11 +91,7 @@ export default class ConfirmAccountViewModel {
             const res = await cb();
             return res;
         } catch (err) {
-            logger.warn(
-                'An error occurder during execution of',
-                debugName,
-                err,
-            );
+            logger.warn('An error occurder during execution of', debugName, err);
         } finally {
             this._inProgress = false;
         }
@@ -119,25 +99,21 @@ export default class ConfirmAccountViewModel {
 
     public decline = () => {
         return AppController.Instance.Auth.signOut();
-    };
+    }
 
-    public submit = (fieldsToSubmit: FieldTypes[] = AllFields) =>
-        this.doSafe(async () => {
-            const validatables: IValidatable[] = fieldsToSubmit.map((ft) =>
-                this.getModelByType(ft),
-            );
-            if (await ValidatableViewModel.IsSomeInvalid(validatables)) {
-                return false;
-            }
+    public submit = (fieldsToSubmit: FieldTypes[] = AllFields) => this.doSafe(async () => {
+        const validatables: IValidatable[] = fieldsToSubmit.map(ft => this.getModelByType(ft));
+        if (await ValidatableViewModel.IsSomeInvalid(validatables)) {
+            return false;
+        }
 
-            const needs = (ft: FieldTypes, vm: TextInputVM) =>
-                vm && fieldsToSubmit.includes(ft) ? vm.value : undefined;
+        const needs = (ft: FieldTypes, vm: TextInputVM) => vm && fieldsToSubmit.includes(ft) ? vm.value : undefined;
 
-            await AppController.Instance.User.finishOnBoarding({
-                displayName: needs(FieldTypes.FullName, this.name),
-                zipcode: needs(FieldTypes.Zipcode, this.zipcode),
-                phone: needs(FieldTypes.PhoneNumber, this.phoneNumber),
-            });
-            return true;
-        }, 'submit');
+        await AppController.Instance.User.finishOnBoarding({
+            displayName: needs(FieldTypes.FullName, this.name),
+            zipcode: needs(FieldTypes.Zipcode, this.zipcode),
+            phone: needs(FieldTypes.PhoneNumber, this.phoneNumber),
+        });
+        return true;
+    }, 'submit')
 }

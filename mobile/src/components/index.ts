@@ -14,10 +14,7 @@ import GradientChart from './GradientChart';
 import BubbleChart from './BubbleChart';
 import BackArrow from './BackArrow';
 import ProgressButton from './ProgressButton';
-import {
-    ProgressBarCircle,
-    ProgressBarCircleGradient,
-} from './ProgressBarCircle';
+import { ProgressBarCircle, ProgressBarCircleGradient } from './ProgressBarCircle';
 import ButtonBlock from './ButtonBlock';
 import Checkbox from './common/Checkbox';
 import Card from './Card';

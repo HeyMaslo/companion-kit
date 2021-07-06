@@ -18,17 +18,8 @@ const minContentHeight = 1000;
 export class ChooseDomainEndView extends ViewState {
     constructor(props) {
         super(props);
-        this._contentHeight = this.persona.setupContainerHeight(
-            minContentHeight,
-            { transition: { duration: 2.2 } },
-        );
-        this.persona.view = {
-            ...this.persona.view,
-            position: {
-                x: this.persona.view.position.x,
-                y: Layout.window.height * 0.18,
-            },
-        };
+        this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { transition: { duration: 2.2 }});
+        this.persona.view = {...this.persona.view, position: { x: this.persona.view.position.x, y: Layout.window.height*0.18} };
     }
 
     public get viewModel() {
@@ -39,54 +30,26 @@ export class ChooseDomainEndView extends ViewState {
 
     private cancel = () => {
         this.trigger(ScenarioTriggers.Cancel);
-    };
+    }
 
     async onThreeSelected() {
         let possibleStrategies = await AppController.Instance.User.strategy.getPossibleStrategies();
-        AppViewModel.Instance.ChooseStrategy.setAvailableStrategies(
-            possibleStrategies,
-        );
-        this.trigger(ScenarioTriggers.Submit);
+        AppViewModel.Instance.ChooseStrategy.setAvailableStrategies(possibleStrategies);
+        this.trigger(ScenarioTriggers.Submit)
     }
 
     renderContent() {
-        const [l, mainDomain, r, i] = this.viewModel.getDomainDisplay();
+        const [l,mainDomain,r,i] = this.viewModel.getDomainDisplay();
         const selectedDomains = this.viewModel.selectedDomains;
         logger.log('MY_SELECTL', selectedDomains.length);
 
         return (
-            <MasloPage
-                style={this.baseStyles.page}
-                onClose={() => this.cancel()}
-                onBack={() => this.cancel()}>
-                <Container
-                    style={[
-                        styles.flexContainer,
-                        {
-                            height: this._contentHeight,
-                            justifyContent: 'space-between',
-                        },
-                    ]}>
-                    <Text style={[this.textStyles.h1, styles.title]}>
-                        Next, you'll choose strategies for your focus domains{' '}
-                    </Text>
-                    <View
-                        style={{
-                            width: '90%',
-                            flex: 0,
-                            alignItems: 'center',
-                            justifyContent: 'space-around',
-                            marginBottom: 15,
-                        }}>
-                        <Text style={[this.textStyles.p3, styles.message]}>
-                            You can choose up to 4 strategies and update them
-                            weekly
-                        </Text>
-                        <Button
-                            title="View Strategies"
-                            style={styles.continueButton}
-                            onPress={() => this.onThreeSelected()}
-                        />
+            <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()}>
+                <Container style={[styles.flexContainer, { height: this._contentHeight, justifyContent: 'space-between',}]}>
+                    <Text style={[this.textStyles.h1, styles.title]}>Next, you'll choose strategies for your focus domains </Text>
+                    <View style ={{width: '90%', flex: 0, alignItems: 'center', justifyContent: 'space-around', marginBottom: 15}}>
+                        <Text style={[this.textStyles.p3, styles.message]}>You can choose up to 4 strategies and update them weekly</Text>
+                        <Button title='View Strategies' style={styles.continueButton} onPress={() => this.onThreeSelected()}/>
                     </View>
                 </Container>
             </MasloPage>
@@ -116,7 +79,7 @@ const styles = StyleSheet.create({
     },
     readyButton: {
         width: '40%',
-        height: 50,
+        height: 50, 
         margin: 5,
     },
     continueButton: {
@@ -124,4 +87,5 @@ const styles = StyleSheet.create({
         height: 50,
         margin: 5,
     },
+    
 });

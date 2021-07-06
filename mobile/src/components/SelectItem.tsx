@@ -19,24 +19,11 @@ export default function SelectItem(props: Props) {
 
     return (
         <TouchableHighlight
-            style={[
-                styles.selectItem,
-                isActive
-                    ? {
-                          borderColor: Colors.selectItem.activeBorder,
-                          backgroundColor: Colors.selectItem.activeBg,
-                      }
-                    : null,
-            ]}
+            style={[styles.selectItem, isActive ? { borderColor: Colors.selectItem.activeBorder , backgroundColor: Colors.selectItem.activeBg } : null]}
             onPress={onSelectClick}
-            underlayColor={'transparent'}>
-            <Text
-                style={[
-                    TextStyles.p2,
-                    isActive ? { color: Colors.selectItem.activeText } : null,
-                ]}>
-                {title}
-            </Text>
+            underlayColor={'transparent'}
+        >
+            <Text style={[TextStyles.p2, isActive ? { color: Colors.selectItem.activeText } : null]}>{title}</Text>
         </TouchableHighlight>
     );
 }

@@ -11,14 +11,13 @@ import * as Haptics from 'src/services/haptics';
 
 interface MoodSliderProps {
     style?: any;
-    model: MoodSliderViewModel;
+    model: MoodSliderViewModel,
 }
 
 @observer
 export default class MoodSlider extends React.Component<MoodSliderProps> {
-    get model() {
-        return this.props.model;
-    }
+
+    get model() { return this.props.model; }
 
     private _onChange = (v: number) => {
         const cm = this.model.currentMood;
@@ -26,7 +25,7 @@ export default class MoodSlider extends React.Component<MoodSliderProps> {
         if (cm !== this.model.currentMood) {
             Haptics.selection();
         }
-    };
+    }
 
     render() {
         const { style } = this.props;
@@ -36,21 +35,15 @@ export default class MoodSlider extends React.Component<MoodSliderProps> {
         const mood = this.model.currentMood;
         const title = Moods.getTitle(mood) || 'Select your mood';
 
-        const CurrentIcon = mood
-            ? MoodImages[mood]
-            : MoodImages[Moods.Positive];
+        const CurrentIcon = mood ? MoodImages[mood] : MoodImages[Moods.Positive];
 
         if (!CurrentIcon) {
-            throw new Error(
-                `Mood icon was not set for the following mood: ${mood} (${title})`,
-            );
+            throw new Error(`Mood icon was not set for the following mood: ${mood} (${title})`);
         }
 
-        const sliderValue =
-            this.model.value != null
-                ? this.model.value
-                : this.model.minValue +
-                  (this.model.maxValue - this.model.minValue) / 2;
+        const sliderValue = this.model.value != null
+            ? this.model.value
+            : this.model.minValue + (this.model.maxValue - this.model.minValue) / 2;
 
         return (
             <View style={[styles.container, style]}>
@@ -74,20 +67,8 @@ export default class MoodSlider extends React.Component<MoodSliderProps> {
                     value={sliderValue}
                 />
                 <View style={styles.sliderScale}>
-                    <Text
-                        style={[
-                            TextStyles.p2,
-                            { textTransform: 'capitalize' },
-                        ]}>
-                        {Moods.getTitle(Moods.Min)}
-                    </Text>
-                    <Text
-                        style={[
-                            TextStyles.p2,
-                            { textTransform: 'capitalize' },
-                        ]}>
-                        {Moods.getTitle(Moods.Max)}
-                    </Text>
+                    <Text style={[TextStyles.p2, { textTransform: 'capitalize' }]}>{Moods.getTitle(Moods.Min)}</Text>
+                    <Text style={[TextStyles.p2, { textTransform: 'capitalize' }]}>{Moods.getTitle(Moods.Max)}</Text>
                 </View>
             </View>
         );

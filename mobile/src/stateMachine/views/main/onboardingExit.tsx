@@ -17,6 +17,7 @@ type State = {
 
 @observer
 export class OnboardingExit extends ViewState<State> {
+
     state: State = {
         content: null,
     };
@@ -26,13 +27,9 @@ export class OnboardingExit extends ViewState<State> {
     }
 
     start() {
-        const stepIndex = this.checkInViewModel.beforeSubmitState
-            ?.onboardingIndex;
+        const stepIndex = this.checkInViewModel.beforeSubmitState?.onboardingIndex;
 
-        if (
-            stepIndex == null ||
-            !process.appFeatures.MOBILE_ONBOARDING_ENABLED
-        ) {
+        if (stepIndex == null || !process.appFeatures.MOBILE_ONBOARDING_ENABLED) {
             this.trigger(ScenarioTriggers.Cancel);
             return;
         }
@@ -46,9 +43,7 @@ export class OnboardingExit extends ViewState<State> {
             });
             this.setState({ content });
         } else {
-            logger.log(
-                `[OnboardingEnterState] No onboaring preset found for stepIndex: ${stepIndex}.`,
-            );
+            logger.log(`[OnboardingEnterState] No onboaring preset found for stepIndex: ${stepIndex}.`);
             this.trigger(ScenarioTriggers.Back);
             return;
         }
@@ -57,19 +52,18 @@ export class OnboardingExit extends ViewState<State> {
         this.persona.state = PersonaStates.Joy;
     }
 
-    askNtfPermissions = () =>
-        this.runLongOperation(async () => {
-            const enabled = await AppController.Instance.User.notifications.askPermission();
-            logger.log('Asked permissions, result =', enabled);
+    askNtfPermissions = () => this.runLongOperation(async () => {
+        const enabled = await AppController.Instance.User.notifications.askPermission();
+        logger.log('Asked permissions, result =', enabled);
 
-            if (enabled) {
-                await AppController.Instance.User.notifications.enableNotifications();
-                logger.log('Firing GlobalTriggers.NotifictaionSettings');
-                GlobalTrigger(GlobalTriggers.NotifictaionSettings);
-            } else {
-                this.trigger(ScenarioTriggers.Cancel);
-            }
-        });
+        if (enabled) {
+            await AppController.Instance.User.notifications.enableNotifications();
+            logger.log('Firing GlobalTriggers.NotifictaionSettings');
+            GlobalTrigger(GlobalTriggers.NotifictaionSettings);
+        } else {
+            this.trigger(ScenarioTriggers.Cancel);
+        }
+    })
 
     protected end() {
         this.checkInViewModel.clearBeforeSubmitState('onboardingIndex');
@@ -83,8 +77,6 @@ export class OnboardingExit extends ViewState<State> {
             return null;
         }
 
-        return (
-            <Onboarding content={content} personaViewContext={this.persona} />
-        );
+        return <Onboarding content={content} personaViewContext={this.persona} />;
     }
 }

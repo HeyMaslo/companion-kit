@@ -9,19 +9,14 @@ import { sha256 } from 'js-sha256';
 
 import Firebase from 'common/services/firebase';
 import StorageAsync from 'src/services/StorageAsync';
-import {
-    IAuthController as IAuthControllerBase,
-    AuthProviders,
-} from 'common/abstractions/controlllers/IAuthController';
+import { IAuthController as IAuthControllerBase, AuthProviders } from 'common/abstractions/controlllers/IAuthController';
 import AuthControllerBase, { logger } from 'common/controllers/AuthController';
 import { UserRoles } from 'common/models';
 import { Users as UsersFunctions } from 'common/abstractions/functions';
 import Env from 'src/constants/env';
 import MobileTracker from 'src/services/mobileTracker';
 import * as Events from 'src/services/mobileTracker.events';
-import AppQueryService, {
-    AppQueryParameters,
-} from 'src/services/AppQueryService';
+import AppQueryService, { AppQueryParameters } from 'src/services/AppQueryService';
 import { MagicLinkRequestReasons } from 'common/models/dtos/auth';
 import * as Features from 'common/constants/features';
 
@@ -33,9 +28,8 @@ export interface IAuthController extends IAuthControllerBase {
 
 const UseNativeGoogle = AppOwnership.Standalone;
 
-export class AuthController
-    extends AuthControllerBase
-    implements IAuthController {
+export class AuthController extends AuthControllerBase implements IAuthController {
+
     private _locationUrl: string = '';
     private readonly _appleSignInSupported = Features.Mobile.SignIn.Apple
         ? asyncComputed(false, 0, () => AppleAuthentication.isAvailableAsync())
@@ -48,11 +42,7 @@ export class AuthController
 
         reaction(
             () => AppQueryService.Instance.currentUrl,
-            () =>
-                this.updateLocationUrl(
-                    AppQueryService.Instance.currentUrl,
-                    AppQueryService.Instance.query,
-                ),
+            () => this.updateLocationUrl(AppQueryService.Instance.currentUrl, AppQueryService.Instance.query),
             { fireImmediately: true, delay: 100 },
         );
     }
@@ -61,21 +51,12 @@ export class AuthController
         // return false;
         return this._appleSignInSupported && this._appleSignInSupported.get();
     }
-    get targetRole() {
-        return UserRoles.Client;
-    }
-    get locationUrl() {
-        return this._locationUrl;
-    }
+    get targetRole() { return UserRoles.Client; }
+    get locationUrl() { return this._locationUrl; }
 
-    get Storage() {
-        return StorageAsync;
-    }
+    get Storage() { return StorageAsync; }
 
-    async signInWithEmailLink(
-        email: string,
-        reason: MagicLinkRequestReasons,
-    ): Promise<void> {
+    async signInWithEmailLink(email: string, reason: MagicLinkRequestReasons): Promise<void> {
         // this._locationUrl = process.appLinks.authMagicLink;
 
         const res = await this.sendMagicLinkRequest(email, reason);
@@ -89,23 +70,19 @@ export class AuthController
         }
     }
 
-    private updateLocationUrl = async (
-        url: string,
-        parsed: AppQueryParameters,
-    ): Promise<boolean> => {
+    private updateLocationUrl = async (url: string, parsed: AppQueryParameters): Promise<boolean> => {
         if (!url) {
             return;
         }
 
         this._locationUrl = url;
 
-        const showInvalidAuthAlert = (str?: string) =>
-            Alert.alert(
-                'Warning',
-                'There was a problem during sign in with a Magic Link.\r\n' +
-                    "Please try again but make sure you're using a link from the freshest email we will send you.\r\n" +
-                    (str ? '\r\nError details: ' + str : ''),
-            );
+        const showInvalidAuthAlert = (str?: string) => Alert.alert(
+            'Warning',
+            'There was a problem during sign in with a Magic Link.\r\n' +
+            'Please try again but make sure you\'re using a link from the freshest email we will send you.\r\n' +
+                (str ? ('\r\nError details: ' + str) : ''),
+        );
 
         await this.doInitialization(async () => {
             const res = await this.processEmailLink();
@@ -124,40 +101,27 @@ export class AuthController
             }
 
             if (res.error) {
-                showInvalidAuthAlert(
-                    `[${res.email || '?'}]: ${JSON.stringify(
-                        res.error.message,
-                    )}`,
-                );
+                showInvalidAuthAlert(`[${res.email || '?'}]: ${JSON.stringify(res.error.message)}`);
                 return false;
             }
         });
-    };
+    }
 
     private async checkForInviteSignIn() {
-        const { e: email, k: key } =
-            AppQueryService.Instance.query?.appParams || {};
+        const { e: email, k: key } = AppQueryService.Instance.query?.appParams || {};
         logger.log('checkForInviteSignIn email =', email, '; key =', key);
         if (email && key) {
-            const data = await Firebase.Instance.getFunction(
-                UsersFunctions.CheckInvite,
-            ).execute({ email: email, key: key, role: this.targetRole });
+            const data = await Firebase.Instance.getFunction(UsersFunctions.CheckInvite)
+                .execute({ email: email, key: key, role: this.targetRole });
 
             if (data.result && data.token) {
-                logger.log(
-                    'checkForInviteSignIn: signing in with generated token...',
-                );
+                logger.log('checkForInviteSignIn: signing in with generated token...');
                 try {
                     this.setNextProvider(AuthProviders.EmailLink);
-                    await Firebase.Instance.auth.signInWithCustomToken(
-                        data.token,
-                    );
+                    await Firebase.Instance.auth.signInWithCustomToken(data.token);
                 } catch (err) {
                     this.setNextProvider(null);
-                    logger.log(
-                        'checkForInviteSignIn: failed to sign in with generated token, error:',
-                        err,
-                    );
+                    logger.log('checkForInviteSignIn: failed to sign in with generated token, error:', err);
                 }
             }
         }
@@ -168,18 +132,14 @@ export class AuthController
             try {
                 await GoogleSignInNative.initAsync();
             } catch (err) {
-                logger.error(
-                    'Failed to initialize GoogleSignIn:',
-                    err.message,
-                    err,
-                );
+                logger.error('Failed to initialize GoogleSignIn:', err.message, err);
             }
         }
     }
 
     protected async doGoogleSignIn() {
-        let result: { idToken: string; accessToken: string };
-        if (UseNativeGoogle) {
+        let result: { idToken: string, accessToken: string };
+        if (UseNativeGoogle) { 
             await GoogleSignInNative.askForPlayServicesAsync();
             const res = await GoogleSignInNative.signInAsync();
             if (res.type === 'success') {
@@ -189,11 +149,7 @@ export class AuthController
                 };
             }
         } else {
-            logger.log(
-                'Sign in with Google, client id = ',
-                Env.Google.ExpoClientIdIOS,
-                Env.Google.ExpoClientIdAndroid,
-            );
+            logger.log('Sign in with Google, client id = ', Env.Google.ExpoClientIdIOS, Env.Google.ExpoClientIdAndroid);
             const res = await GoogleExpo.logInAsync({
                 iosClientId: Env.Google.ExpoClientIdIOS,
                 androidClientId: Env.Google.ExpoClientIdAndroid,
@@ -211,13 +167,8 @@ export class AuthController
             return null;
         }
 
-        const creds = Firebase.Instance.GoogleProvider.credential(
-            result.idToken,
-            result.accessToken,
-        );
-        const authResult = await Firebase.Instance.auth.signInWithCredential(
-            creds,
-        );
+        const creds = Firebase.Instance.GoogleProvider.credential(result.idToken, result.accessToken);
+        const authResult = await Firebase.Instance.auth.signInWithCredential(creds);
 
         MobileTracker.Instance?.trackEvent(Events.Login);
 
@@ -238,17 +189,14 @@ export class AuthController
                     nonce: sha256(rawNonce),
                 });
 
-                const authCredential = new Firebase.Instance.FirebaseAuth.OAuthProvider(
-                    'apple.com',
-                ).credential({
-                    idToken: credential.identityToken,
-                    rawNonce: rawNonce,
-                });
+                const authCredential = new Firebase.Instance.FirebaseAuth.OAuthProvider('apple.com')
+                    .credential({
+                        idToken: credential.identityToken,
+                        rawNonce: rawNonce,
+                    });
 
                 try {
-                    await Firebase.Instance.auth.signInWithCredential(
-                        authCredential,
-                    );
+                    await Firebase.Instance.auth.signInWithCredential(authCredential);
                 } catch (e) {
                     logger.error(e);
                     throw e;

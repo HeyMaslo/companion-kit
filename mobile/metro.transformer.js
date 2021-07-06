@@ -3,7 +3,8 @@ const upstreamTransformer = require('metro-react-native-babel-transformer');
 const typescriptTransformer = require('react-native-typescript-transformer');
 const svgTransformer = require('react-native-svg-transformer');
 
-module.exports.transform = function ({ src, filename, options }) {
+module.exports.transform = function({ src, filename, options }) {
+
     /** @type {(arg: { src: string, filename: string, options: any }) => any} */
     let transformer;
     let name = null;
@@ -20,10 +21,7 @@ module.exports.transform = function ({ src, filename, options }) {
     }
 
     if (name) {
-        console.log(
-            `[Metro.Transformer] '${name}' transformer has been used for file:`,
-            filename,
-        );
+        console.log(`[Metro.Transformer] '${name}' transformer has been used for file:`, filename);
     }
     return transformer({ src, filename, options });
 };

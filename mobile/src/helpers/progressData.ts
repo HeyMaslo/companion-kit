@@ -1,5 +1,6 @@
+
 export type ProgressData = {
-    current: number;
-    max: number;
-    progress: number;
+    current: number,
+    max: number,
+    progress: number,
 };

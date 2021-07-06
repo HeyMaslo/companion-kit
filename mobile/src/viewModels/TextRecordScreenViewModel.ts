@@ -6,6 +6,7 @@ import Localization from '../services/localization';
 const { TextInputVM } = ViewModels;
 
 export default class TextRecordScreenViewModel {
+
     @observable
     private _isEditable: boolean;
 
@@ -17,9 +18,7 @@ export default class TextRecordScreenViewModel {
         },
     });
 
-    get isEditable() {
-        return this._isEditable;
-    }
+    get isEditable() { return this._isEditable; }
 
     set isEditable(val: boolean) {
         this._isEditable = val;
@@ -27,5 +26,5 @@ export default class TextRecordScreenViewModel {
 
     public reset = () => {
         this.textRecord.reset();
-    };
+    }
 }

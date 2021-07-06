@@ -16,10 +16,15 @@ type ContainerProps = {
 };
 
 export default class Container extends React.Component<ContainerProps> {
+
     render() {
         const { children, style } = this.props;
 
-        return <View style={[styles.container, style]}>{children}</View>;
+        return (
+            <View style={[styles.container, style]}>
+                {children}
+            </View>
+        );
     }
 }
 

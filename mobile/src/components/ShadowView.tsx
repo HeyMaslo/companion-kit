@@ -6,24 +6,21 @@ interface IShadowViewProps {
     style?: any;
     children?: any;
     shadowSettings: {
-        color: string;
-        border: number;
-        radius: number;
-        opacity: number;
-        x: number;
-        y: number;
-    };
+        color: string,
+        border: number,
+        radius: number,
+        opacity: number,
+        x: number,
+        y: number,
+    }
 }
 
 interface IShadowViewState {
-    shadowParentSizes: { width: number; height: number };
+    shadowParentSizes: { width: number, height: number };
     fadeAnim: any;
 }
 
-export default class ShadowView extends React.Component<
-    IShadowViewProps,
-    IShadowViewState
-> {
+export default class ShadowView extends React.Component<IShadowViewProps, IShadowViewState> {
     constructor(props) {
         super(props);
         this.state = {
@@ -44,15 +41,18 @@ export default class ShadowView extends React.Component<
         });
 
         this._showCard();
-    };
+    }
 
     private _showCard() {
         const { fadeAnim } = this.state;
 
-        Animated.timing(fadeAnim, {
-            toValue: 1,
-            duration: 600,
-        }).start();
+        Animated.timing(
+            fadeAnim,
+            {
+                toValue: 1,
+                duration: 600,
+            },
+        ).start();
     }
 
     render() {
@@ -69,8 +69,11 @@ export default class ShadowView extends React.Component<
         return (
             <Animated.View
                 style={[styles.container, style, { opacity: fadeAnim }]}
-                onLayout={this._onLayout}>
-                <BoxShadow setting={shadowOptions}>{children}</BoxShadow>
+                onLayout={this._onLayout}
+            >
+                <BoxShadow setting={shadowOptions}>
+                    {children}
+                </BoxShadow>
             </Animated.View>
         );
     }

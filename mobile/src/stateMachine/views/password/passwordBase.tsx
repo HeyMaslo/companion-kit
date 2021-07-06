@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-    Text,
-    TouchableOpacity,
-    StyleSheet,
-    View,
-    KeyboardAvoidingView,
-    Platform,
-    Keyboard,
-} from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, View, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { ViewState } from '../base';
 import TextStyles from 'src/styles/TextStyles';
 import Colors from 'src/constants/colors';
@@ -35,9 +27,7 @@ export abstract class PasswordBase extends ViewState {
 
     protected abstract submit: () => any;
 
-    protected get enableGlobalProgressTracking() {
-        return true;
-    }
+    protected get enableGlobalProgressTracking() { return true; }
 
     constructor(props, ctx) {
         super(props, ctx);
@@ -49,9 +39,7 @@ export abstract class PasswordBase extends ViewState {
     }
 
     protected async start() {
-        const obsv = new TransitionObserver(
-            () => AppQueryService.Instance.query,
-        )
+        const obsv = new TransitionObserver(() => AppQueryService.Instance.query)
             .fireOnce()
             .cb(this.onAppQueryChanged);
         this.disposer.add(obsv);
@@ -61,64 +49,50 @@ export abstract class PasswordBase extends ViewState {
         return SignInViewModel.Instance;
     }
 
-    private get inProgress() {
-        return this.viewModel.inProgress;
-    }
+    private get inProgress() { return this.viewModel.inProgress; }
 
     protected abstract get useOptions(): boolean | 'magicLink';
 
-    protected useMagicLink = () =>
-        this.runLongOperation(async () => {
-            Keyboard.dismiss();
+    protected useMagicLink = () => this.runLongOperation(async () => {
+        Keyboard.dismiss();
 
-            // try to send magic link
-            const result = await this.viewModel.signInWithMagicLink(true);
-            if (!result) {
-                return;
-            }
+        // try to send magic link
+        const result = await this.viewModel.signInWithMagicLink(true);
+        if (!result) {
+            return;
+        }
 
-            await this.showModal(magicLinkModal(this, this.onGoBack));
-        });
+        await this.showModal(magicLinkModal(this, this.onGoBack));
+    })
 
-    protected forgotPassword = () =>
-        this.runLongOperation(async () => {
-            Keyboard.dismiss();
+    protected forgotPassword = () => this.runLongOperation(async () => {
+        Keyboard.dismiss();
 
-            const result:
-                | boolean
-                | { result: boolean }
-                | 'noInvitation' = await this.viewModel.forgotPassword();
+        const result: boolean | { result: boolean } | "noInvitation" = await this.viewModel.forgotPassword();
 
-            if (!result) {
-                return;
-            }
+        if (!result) {
+            return;
+        }
 
-            if (process.appFeatures.USE_MAGIC_LINK) {
-                // show modal with magic link stuff
-                await this.showModal(
-                    magicLinkModal(this, this.onGoBack, {
-                        title: 'Check your email for a password reset link',
-                    }),
-                );
-                return;
-            }
+        if (process.appFeatures.USE_MAGIC_LINK) {
+            // show modal with magic link stuff
+            await this.showModal(magicLinkModal(this, this.onGoBack, { title: 'Check your email for a password reset link' }));
+            return;
+        }
 
-            this.trigger(ScenarioTriggers.Secondary);
-        });
+        this.trigger(ScenarioTriggers.Secondary);
+    })
 
     protected onAppQueryChanged = () => {
         Keyboard.dismiss();
         this.hideModal();
-    };
+    }
 
-    protected waitForMagicLink(
-        reason: MagicLinkRequestReasons,
-        onReceive: () => any,
-    ) {
+    protected waitForMagicLink(reason: MagicLinkRequestReasons, onReceive: () => any) {
         const id = 'magicLink';
         this.disposer.execute(id);
 
-        const unsub = AppController.Instance.Auth.magicLinkSucceeded.on((r) => {
+        const unsub = AppController.Instance.Auth.magicLinkSucceeded.on(r => {
             this.hideModal();
 
             this.logger.log('Magic link has been succeeded with reason: ', r);
@@ -134,11 +108,9 @@ export abstract class PasswordBase extends ViewState {
 
     renderContent() {
         const { keyboard } = this.props.context;
-        const containerPadding =
-            Layout.window.height - this._contentHeight + 20;
+        const containerPadding = Layout.window.height - this._contentHeight + 20;
         const containerHeight = keyboard?.isOpened ? keyboard?.screenY : '100%';
-        const scaleDownTitle =
-            this.layout.isSmallDevice || this.layout.window.width < 365;
+        const scaleDownTitle = this.layout.isSmallDevice || this.layout.window.width < 365;
 
         const inputMargin = () => {
             if (this.useOptions) {
@@ -157,40 +129,14 @@ export abstract class PasswordBase extends ViewState {
                     onClose={this.onClose}
                     onBack={this.onGoBack}
                     inProgress={this.inProgress}
-                    style={[
-                        this.baseStyles.page,
-                        { justifyContent: 'flex-start', position: 'relative' },
+                    style={[this.baseStyles.page, { justifyContent: 'flex-start', position: 'relative' }]}
+                >
+                    <Container style={[
+                        keyboard?.isOpened ? this.baseStyles.flexCenterBottom : this.baseStyles.flexStart,
+                        { height: containerHeight, paddingTop: containerPadding },
                     ]}>
-                    <Container
-                        style={[
-                            keyboard?.isOpened
-                                ? this.baseStyles.flexCenterBottom
-                                : this.baseStyles.flexStart,
-                            {
-                                height: containerHeight,
-                                paddingTop: containerPadding,
-                            },
-                        ]}>
-                        <View
-                            style={[
-                                this.baseStyles.textBlock,
-                                styles.textBlock,
-                                keyboard?.isOpened
-                                    ? {
-                                          position: 'absolute',
-                                          top: containerPadding,
-                                      }
-                                    : null,
-                            ]}>
-                            <Text
-                                style={[
-                                    scaleDownTitle
-                                        ? this.textStyles.h3
-                                        : this.textStyles.h1,
-                                    styles.title,
-                                ]}>
-                                {this.title}
-                            </Text>
+                        <View style={[this.baseStyles.textBlock, styles.textBlock, keyboard?.isOpened ? { position: 'absolute', top: containerPadding } : null]}>
+                            <Text style={[scaleDownTitle ? this.textStyles.h3 : this.textStyles.h1, styles.title]}>{this.title}</Text>
                         </View>
                         <TextInput
                             onSubmit={this.submit}
@@ -206,39 +152,21 @@ export abstract class PasswordBase extends ViewState {
                             styleWrap={{ marginBottom: inputMargin() }}
                         />
                         {this.useOptions && (
-                            <View
-                                style={[
-                                    styles.buttons,
-                                    { marginBottom: isAndroid ? 76 : 16 },
-                                ]}>
-                                {process.appFeatures.USE_MAGIC_LINK && (
-                                    <>
-                                        <TouchableOpacity
-                                            style={styles.linkWrap}
-                                            onPress={this.useMagicLink}>
-                                            <Text
-                                                style={[
-                                                    TextStyles.p4,
-                                                    styles.link,
-                                                ]}>
-                                                Use Magic Link
-                                            </Text>
-                                        </TouchableOpacity>
-                                        <View style={styles.separator} />
-                                    </>
-                                )}
+                            <View style={[styles.buttons, { marginBottom: isAndroid ? 76 : 16 }]}>
+                                {
+                                    process.appFeatures.USE_MAGIC_LINK && (
+                                        <>
+                                            <TouchableOpacity style={styles.linkWrap} onPress={this.useMagicLink}>
+                                                <Text style={[TextStyles.p4, styles.link]}>Use Magic Link</Text>
+                                            </TouchableOpacity>
+                                            <View style={styles.separator} />
+                                        </>
+                                    )
+                                }
 
-                                {this.useOptions !== 'magicLink' ? (
-                                    <TouchableOpacity
-                                        style={styles.linkWrap}
-                                        onPress={this.forgotPassword}>
-                                        <Text
-                                            style={[
-                                                TextStyles.p4,
-                                                styles.link,
-                                            ]}>
-                                            Forgot Password?
-                                        </Text>
+                                { this.useOptions !== 'magicLink' ? (
+                                    <TouchableOpacity style={styles.linkWrap} onPress={this.forgotPassword}>
+                                        <Text style={[TextStyles.p4, styles.link]}>Forgot Password?</Text>
                                     </TouchableOpacity>
                                 ) : null}
                             </View>

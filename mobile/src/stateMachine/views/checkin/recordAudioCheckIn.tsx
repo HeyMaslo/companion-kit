@@ -4,14 +4,7 @@ import TextStyles from 'src/styles/TextStyles';
 import Colors from 'src/constants/colors';
 import Layout from 'src/constants/Layout';
 import { States as RecordingStates } from 'src/viewModels/RecordScreenViewModel';
-import {
-    Container,
-    Button,
-    MasloPage,
-    ActivityButton,
-    ButtonBlock,
-    AudioPlayer,
-} from 'src/components';
+import { Container, Button, MasloPage, ActivityButton, ButtonBlock, AudioPlayer } from 'src/components';
 import { observer } from 'mobx-react';
 import AppController from 'src/controllers';
 import { formatMS } from 'common/utils/dateHelpers';
@@ -24,7 +17,7 @@ import BaseStyles from 'src/styles/BaseStyles';
 type ControlProps = {
     onPress: () => void;
     Icon: React.ComponentClass<SvgProps, any>;
-    title: string;
+    title: string,
 };
 
 function ControlButton(props: ControlProps) {
@@ -35,16 +28,15 @@ function ControlButton(props: ControlProps) {
             loading="promise"
             style={styles.controlsButton}
             withBorder
-            isTransparent>
+            isTransparent
+        >
             <Icon />
-            <Text style={[TextStyles.btnTitle, styles.controlsButtonText]}>
-                {title}
-            </Text>
+            <Text style={[TextStyles.btnTitle, styles.controlsButtonText]}>{title}</Text>
         </ActivityButton>
     );
 }
 
-const formatTime = (n: number) => (n < 10 ? `0${n}` : `${n}`);
+const formatTime = (n: number) => n < 10 ? `0${n}` : `${n}`;
 
 const minContentHeight = 483;
 
@@ -53,9 +45,7 @@ export class RecordView extends CheckInViewBase {
     constructor(props) {
         super(props);
         const smallHeight = this.layout.window.height < 800;
-        this._contentHeight = smallHeight
-            ? this.persona.setupContainerHeightForceScroll()
-            : this.persona.setupContainerHeight(minContentHeight);
+        this._contentHeight = smallHeight ? this.persona.setupContainerHeightForceScroll() : this.persona.setupContainerHeight(minContentHeight);
     }
 
     async start() {
@@ -63,20 +53,18 @@ export class RecordView extends CheckInViewBase {
         this.recorder.startCountdown(3);
     }
 
-    get recorder() {
-        return this.viewModel.recording;
-    }
+    get recorder() { return this.viewModel.recording; }
 
     public cancelCountdown = () => {
         this.recorder.cancelCountdown();
         this.trigger(ScenarioTriggers.Back);
-    };
+    }
 
     tryToSubmit = async () => {
         await this.runLongOperation(this.viewModel.submit);
 
         await this.finishEntrySubmit();
-    };
+    }
 
     pause = async () => {
         if (this.recorder.state === RecordingStates.recording) {
@@ -86,7 +74,7 @@ export class RecordView extends CheckInViewBase {
         if (this.recorder.playing) {
             await this.recorder.pausePlayAsync();
         }
-    };
+    }
 
     tryClose = async () => {
         if (this.recorder.state === RecordingStates.recording) {
@@ -103,7 +91,7 @@ export class RecordView extends CheckInViewBase {
         }
 
         await this.onClose();
-    };
+    }
 
     onDelete = async () => {
         await this.pause();
@@ -122,7 +110,7 @@ export class RecordView extends CheckInViewBase {
                 action: this.hideModal,
             },
         });
-    };
+    }
 
     getPlayProgress() {
         const { durationSec, playElapsedMS } = this.recorder;
@@ -148,7 +136,7 @@ export class RecordView extends CheckInViewBase {
         }
 
         return fz;
-    };
+    }
 
     renderContent() {
         if (!AppController.Instance.isAppActive) {
@@ -158,43 +146,17 @@ export class RecordView extends CheckInViewBase {
         const formatted = (secs: number, formatMins?: boolean) => {
             const sec_num = parseInt(secs.toFixed(0), 10);
             const minutes = Math.floor(sec_num / 60);
-            const seconds = sec_num - minutes * 60;
+            const seconds = sec_num - (minutes * 60);
 
-            return `${formatMins ? formatTime(minutes) : minutes}:${formatTime(
-                seconds,
-            )}`;
+            return `${formatMins ? formatTime(minutes) : minutes}:${formatTime(seconds)}`;
         };
 
         return (
-            <MasloPage
-                withDots
-                dotLength={3}
-                activeDot={2}
-                onClose={this.tryClose}
-                style={this.baseStyles.page}>
-                <Container
-                    style={[
-                        this.baseStyles.container,
-                        this.baseStyles.flexBetween,
-                        { height: this._contentHeight },
-                    ]}>
+            <MasloPage withDots dotLength={3} activeDot={2} onClose={this.tryClose} style={this.baseStyles.page}>
+                <Container style={[this.baseStyles.container, this.baseStyles.flexBetween, { height: this._contentHeight }]}>
                     {/* HEADER ==== */}
                     <View style={[this.baseStyles.textBlock, styles.textBlock]}>
-                        <Text
-                            style={[
-                                this.textStyles.h1,
-                                this.baseStyles.textCenter,
-                                {
-                                    fontSize: this._questionFontSize(
-                                        this.textStyles.h1.fontSize,
-                                        this.layout.isSmallDevice ? 20 : 23,
-                                    ),
-                                    lineHeight: this._questionFontSize(
-                                        this.textStyles.h1.lineHeight,
-                                        27,
-                                    ),
-                                },
-                            ]}>
+                        <Text style={[this.textStyles.h1, this.baseStyles.textCenter, { fontSize: this._questionFontSize(this.textStyles.h1.fontSize, this.layout.isSmallDevice ? 20 : 23), lineHeight: this._questionFontSize(this.textStyles.h1.lineHeight, 27) }]}>
                             {this.viewModel.question}
                         </Text>
                     </View>
@@ -206,32 +168,15 @@ export class RecordView extends CheckInViewBase {
                         {this.recorder.state === RecordingStates.countDown && (
                             <View style={styles.countDown}>
                                 <Text style={this.textStyles.h2}>Ready?</Text>
-                                <Text
-                                    style={[
-                                        { ...this.textStyles.p2 },
-                                        this.baseStyles.textCenter,
-                                        styles.desc,
-                                    ]}>
-                                    {!!this.recorder.counter &&
-                                        `${this.recorder.counter}...`}{' '}
-                                </Text>
+                                <Text style={[{...this.textStyles.p2}, this.baseStyles.textCenter, styles.desc]}>{!!this.recorder.counter && `${this.recorder.counter}...`} </Text>
                             </View>
                         )}
 
                         {/* RECORDING */}
                         {this.recorder.active && (
                             <View style={styles.recordWrap}>
-                                <Text style={this.textStyles.h2}>
-                                    {formatted(this.recorder.diffSec, true)}
-                                </Text>
-                                <Text
-                                    style={[
-                                        this.textStyles.p2,
-                                        this.baseStyles.textCenter,
-                                        styles.desc,
-                                    ]}>{`out of ${formatted(
-                                    this.recorder.maxDuration,
-                                )} min`}</Text>
+                                <Text style={this.textStyles.h2}>{formatted(this.recorder.diffSec, true)}</Text>
+                                <Text style={[this.textStyles.p2, this.baseStyles.textCenter, styles.desc]}>{`out of ${formatted(this.recorder.maxDuration)} min`}</Text>
                             </View>
                         )}
 
@@ -262,26 +207,12 @@ export class RecordView extends CheckInViewBase {
                         {/* RECORDING */}
                         {this.recorder.active && (
                             <View style={styles.controls}>
-                                {this.recorder.state ===
-                                RecordingStates.recording ? (
-                                    <ControlButton
-                                        onPress={this.recorder.pauseAsync}
-                                        title="PAUSE"
-                                        Icon={Images.pauseIcon}
-                                    />
-                                ) : (
-                                    <ControlButton
-                                        onPress={this.recorder.resumeAsync}
-                                        title="RESUME"
-                                        Icon={Images.resumeIcon}
-                                    />
-                                )}
+                                {this.recorder.state === RecordingStates.recording
+                                    ? <ControlButton onPress={this.recorder.pauseAsync} title="PAUSE" Icon={Images.pauseIcon} />
+                                    : <ControlButton onPress={this.recorder.resumeAsync} title="RESUME" Icon={Images.resumeIcon} />
+                                }
 
-                                <ControlButton
-                                    onPress={this.recorder.stopRecodringAsync}
-                                    title="STOP"
-                                    Icon={Images.stopIcon}
-                                />
+                                <ControlButton onPress={this.recorder.stopRecodringAsync} title="STOP" Icon={Images.stopIcon} />
                             </View>
                         )}
 

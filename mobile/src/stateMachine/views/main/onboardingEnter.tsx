@@ -11,11 +11,12 @@ import { ScenarioTriggers } from '../../abstractions';
 import logger from 'common/logger';
 
 type State = {
-    content: OnboardingSettings;
-    stepIndex: number;
+    content: OnboardingSettings,
+    stepIndex: number,
 };
 
 export class OnboardingEnter extends ViewState<State> {
+
     state: State = {
         content: null,
         stepIndex: null,
@@ -28,12 +29,7 @@ export class OnboardingEnter extends ViewState<State> {
     async start() {
         const stepIndex = AppContorller.Instance.User.onboardingDayIndex;
         const step = getOnboardingStep(stepIndex);
-        logger.log(
-            '[OnboardingEnter] stepIndex =',
-            stepIndex,
-            ', step != null: ',
-            step != null,
-        );
+        logger.log('[OnboardingEnter] stepIndex =', stepIndex, ', step != null: ', step != null);
 
         if (stepIndex == null || step == null) {
             this.cancel();
@@ -52,7 +48,7 @@ export class OnboardingEnter extends ViewState<State> {
 
     private cancel = () => {
         this.trigger(ScenarioTriggers.Cancel);
-    };
+    }
 
     private async initPersona() {
         this.persona.view = {
@@ -71,13 +67,6 @@ export class OnboardingEnter extends ViewState<State> {
             return null;
         }
 
-        return (
-            <Onboarding
-                content={content}
-                stepIndex={stepIndex + 1}
-                totalCount={StepsCount}
-                personaViewContext={this.persona}
-            />
-        );
+        return <Onboarding content={content} stepIndex={stepIndex + 1} totalCount={StepsCount} personaViewContext={this.persona} />;
     }
 }

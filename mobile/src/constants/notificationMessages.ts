@@ -42,10 +42,7 @@ const texts = {
     [NotificationTime.Evening]: evening,
 };
 
-function spliceRandomMessage(
-    messages: string[],
-    settings?: { [x: string]: string },
-) {
+function spliceRandomMessage(messages: string[], settings?: {[x: string]: string}) {
     if (!messages) {
         logger.warn('[get notificatin message error: Invalid parameter time');
         return '';
@@ -56,12 +53,12 @@ function spliceRandomMessage(
     let message = splice && splice[0];
 
     /*
-     * find and replace all settings items
-     * 'Hi [name], any thoughts you want to record now?', { name: 'Andrew' } => 'Hi Andrew, any thoughts you want to record now?'
-     */
+    * find and replace all settings items
+    * 'Hi [name], any thoughts you want to record now?', { name: 'Andrew' } => 'Hi Andrew, any thoughts you want to record now?'
+    */
     if (settings) {
         const keys = Object.keys(settings);
-        keys.forEach((key) => {
+        keys.forEach(key => {
             const search = `[${key}]`;
             const replacement = settings[key];
             message = replace(message, search, replacement);
@@ -77,11 +74,7 @@ const intervals = {
     evening: { from: 20, to: 4 },
 };
 
-export function getMessagesForExactTime(
-    dateMS: number,
-    count: number,
-    settings?: { [x: string]: string },
-) {
+export function getMessagesForExactTime(dateMS: number, count: number, settings?: {[x: string]: string}) {
     const res: string[] = [];
     const hours = new Date(dateMS).getHours();
     let messagesCopy: string[];
@@ -90,10 +83,7 @@ export function getMessagesForExactTime(
         messagesCopy = [...morning];
     } else if (hours >= intervals.midday.from && hours < intervals.midday.to) {
         messagesCopy = [...midday];
-    } else if (
-        hours >= intervals.evening.from ||
-        hours < intervals.morning.to
-    ) {
+    } else if (hours >= intervals.evening.from || hours < intervals.morning.to) {
         messagesCopy = [...evening];
     }
 
@@ -105,16 +95,11 @@ export function getMessagesForExactTime(
     return res;
 }
 
-export function getRandomUniqMessages(
-    time: NotificationTime,
-    count: number,
-    settings?: { [x: string]: string },
-) {
+export function getRandomUniqMessages(time: NotificationTime, count: number, settings?: {[x: string]: string}) {
     const res: string[] = [];
-    const messagesCopy =
-        time === NotificationTime.ExactTime
-            ? [...morning, ...midday, ...evening]
-            : [...(texts[time] || [])];
+    const messagesCopy = time === NotificationTime.ExactTime
+        ? [...morning, ...midday, ...evening]
+        : [...(texts[time] || [])];
 
     for (let i = 0; i < count; i++) {
         const message = spliceRandomMessage(messagesCopy, settings);

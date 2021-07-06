@@ -7,13 +7,7 @@ import { CachedImage as Image } from 'src/components/common/CachedImage';
 import Switch from 'dependencies/react-native-switch-pro';
 import TextStyles, { mainFontThin } from 'src/styles/TextStyles';
 import Colors from 'src/constants/colors';
-import {
-    MasloPage,
-    Container,
-    Button,
-    AudioPlayer,
-    ActivityButton,
-} from 'src/components';
+import { MasloPage, Container, Button, AudioPlayer, ActivityButton } from 'src/components';
 import BubbleChart, { Themes } from 'src/components/BubbleChart';
 import BottomBar from 'src/screens/components/BottomBar';
 import { MoodImages } from 'src/helpers/mood';
@@ -31,9 +25,9 @@ import Locked from 'src/assets/images/lock-icon.svg';
 import Unlocked from 'src/assets/images/unlock-icon.svg';
 
 type CardProps = {
-    title: string;
-    label: string;
-    icon: JSX.Element;
+    title: string,
+    label: string,
+    icon: JSX.Element,
     numberOfLines?: number;
     titleStyle?: any;
 };
@@ -45,20 +39,16 @@ function Card(props: CardProps) {
     return (
         <View style={styles.card}>
             <Container style={styles.cardContainer}>
-                <View style={styles.cardIcon}>{icon}</View>
+                <View style={styles.cardIcon}>
+                    {icon}
+                </View>
                 <View>
-                    <Text style={[TextStyles.labelMedium, styles.cardLabel]}>
-                        {label}
-                    </Text>
+                    <Text style={[TextStyles.labelMedium, styles.cardLabel]}>{label}</Text>
                     <Text
                         lineBreakMode="tail"
                         numberOfLines={numberOfLines || 1}
-                        style={[
-                            TextStyles.h1,
-                            styles.cardTitle,
-                            !numberOfLines && { textTransform: 'capitalize' },
-                            titleStyle || null,
-                        ]}>
+                        style={[TextStyles.h1, styles.cardTitle, !numberOfLines && { textTransform: 'capitalize' }, titleStyle || null]}
+                    >
                         {title}
                     </Text>
                 </View>
@@ -68,23 +58,22 @@ function Card(props: CardProps) {
 }
 
 export type CheckInDetailsParams = {
-    id: string;
+    id: string,
 };
 
 type State = {
-    transcriptionIsOpened: boolean;
-    showButton: boolean;
-};
+    transcriptionIsOpened: boolean,
+    showButton: boolean,
+  };
 
 @observer
 export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
+
     private readonly model = new CheckInViewModel();
 
     constructor(props) {
         super(props);
-        this._contentHeight = this.persona.setupContainerHeightForceScroll({
-            rotation: 405,
-        });
+        this._contentHeight = this.persona.setupContainerHeightForceScroll({ rotation: 405 });
     }
 
     state = {
@@ -96,7 +85,8 @@ export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
         const id = this.params?.id;
         this.logger.log('Opening check in details view, id =', id);
 
-        this.model.setCheckInId(id).updateAudioUrl();
+        this.model.setCheckInId(id)
+            .updateAudioUrl();
     }
 
     protected end() {
@@ -107,7 +97,7 @@ export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
     private _onBackBtnPress = () => {
         this.model.audioPlayer.reset();
         this.trigger(ScenarioTriggers.Back);
-    };
+    }
 
     private _onDeleteBtnPress = () => {
         if (this.model.audioPlayer.isPlaying) {
@@ -128,13 +118,13 @@ export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
                 action: null,
             },
         });
-    };
+    }
 
     private _onExtendBtnPress = () => {
         this.setState({
             transcriptionIsOpened: !this.state.transcriptionIsOpened,
         });
-    };
+    }
 
     private _measureTextHeight(event) {
         const threshold = 10;
@@ -149,24 +139,11 @@ export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
     }
 
     renderContent() {
-        const {
-            location,
-            mood,
-            date,
-            question,
-            transcription,
-            audioPlayer,
-            audioUrl,
-            feelings,
-            recommendedTips,
-        } = this.model;
+        const { location, mood, date, question, transcription, audioPlayer, audioUrl, feelings, recommendedTips } = this.model;
         const { transcriptionIsOpened, showButton } = this.state;
         const MoodIcon = MoodImages[mood];
 
-        const pictureUrl =
-            process.appFeatures.PICTURE_CHECKINS_ENABLED === true
-                ? this.model.imageUrl?.url
-                : null;
+        const pictureUrl = process.appFeatures.PICTURE_CHECKINS_ENABLED === true ? this.model.imageUrl?.url : null;
 
         const moodTitle = Moods.getTitle(mood);
 
@@ -175,37 +152,21 @@ export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
                 <Container style={styles.topBarWrapWrap}>
                     <PersonaScrollMask />
                     <View style={styles.topBarWrap}>
-                        <Button
-                            style={styles.backBtn}
-                            underlayColor="transparent"
-                            onPress={this._onBackBtnPress}>
+                        <Button style={styles.backBtn} underlayColor="transparent" onPress={this._onBackBtnPress}>
                             <Images.backIcon width={28} height={14} />
                         </Button>
-                        {Features.Mobile.CheckIns.AllowCheckinDelete && (
-                            <Button
-                                style={styles.deleteBtn}
-                                onPress={this._onDeleteBtnPress}>
+                        {Features.Mobile.CheckIns.AllowCheckinDelete &&
+                            <Button style={styles.deleteBtn} onPress={this._onDeleteBtnPress}>
                                 <DeleteIcon width={15} height={19} />
                             </Button>
-                        )}
+                        }
                     </View>
                 </Container>
-                <ScrollView
-                    style={[
-                        {
-                            zIndex: 0,
-                            elevation: 0,
-                            height: this._contentHeight,
-                        },
-                    ]}>
+                <ScrollView style={[{ zIndex: 0, elevation: 0, height: this._contentHeight }]}>
                     <Container style={styles.headingContainer}>
                         <View style={styles.date}>
                             <Images.clockIcon2 width={16} height={16} />
-                            <Text
-                                style={[
-                                    this.textStyles.labelMedium,
-                                    styles.dateText,
-                                ]}>
+                            <Text style={[this.textStyles.labelMedium, styles.dateText]}>
                                 {date}
                             </Text>
                         </View>
@@ -220,45 +181,25 @@ export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
                                 </View>
                             </View>
                         ) : (
-                            <Text style={this.textStyles.p1}>{question}</Text>
+                            <Text style={this.textStyles.p1}>
+                                {question}
+                            </Text>
                         )}
                     </Container>
                     <View style={[styles.cardsWrap]}>
                         <View style={styles.separator} />
-                        <Card
-                            title={moodTitle}
-                            label="your mood was ..."
-                            icon={
-                                MoodIcon && <MoodIcon height={24} width={24} />
-                            }
-                        />
+                        <Card title={moodTitle} label="your mood was ..." icon={MoodIcon && <MoodIcon height={24} width={24} />} />
                         <View style={styles.separator} />
-                        {Features.Mobile.CheckIns.AskCheckinLocation && (
+                        {Features.Mobile.CheckIns.AskCheckinLocation &&
                             <>
-                                <Card
-                                    title={location}
-                                    label="you were ..."
-                                    icon={
-                                        <Images.pinIcon2
-                                            height={24}
-                                            width={24}
-                                        />
-                                    }
-                                />
+                                <Card title={location} label="you were ..." icon={<Images.pinIcon2 height={24} width={24} />} />
                                 <View style={styles.separator} />
                             </>
-                        )}
+                        }
                         {audioUrl ? (
                             <View style={styles.card}>
                                 <Container>
-                                    <Text
-                                        style={[
-                                            this.textStyles.labelMedium,
-                                            styles.cardLabel,
-                                            styles.audioSubtitle,
-                                        ]}>
-                                        you describe it as ...
-                                    </Text>
+                                    <Text style={[this.textStyles.labelMedium, styles.cardLabel, styles.audioSubtitle]}>you describe it as ...</Text>
                                     <AudioPlayer
                                         style={styles.audioPlayer}
                                         model={audioPlayer}
@@ -272,102 +213,42 @@ export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
                                 <View style={styles.card}>
                                     <Container style={styles.cardContainer}>
                                         <View style={styles.cardIcon}>
-                                            <Images.describeIcon
-                                                height={24}
-                                                width={24}
-                                            />
+                                            <Images.describeIcon height={24} width={24} />
                                         </View>
                                         <View>
+                                            <Text style={[TextStyles.labelMedium, styles.cardLabel]}>{'you describe it as ...'}</Text>
                                             <Text
-                                                style={[
-                                                    TextStyles.labelMedium,
-                                                    styles.cardLabel,
-                                                ]}>
-                                                {'you describe it as ...'}
-                                            </Text>
-                                            <Text
-                                                onLayout={(event) =>
-                                                    this._measureTextHeight(
-                                                        event,
-                                                    )
-                                                }
+                                                onLayout={event =>  this._measureTextHeight(event)}
                                                 lineBreakMode="tail"
-                                                numberOfLines={
-                                                    transcriptionIsOpened
-                                                        ? null
-                                                        : 7
-                                                }
-                                                style={[
-                                                    this.textStyles.p2,
-                                                    styles.cardTitle,
-                                                ]}>
+                                                numberOfLines={transcriptionIsOpened ? null : 7}
+                                                style={[this.textStyles.p2, styles.cardTitle]}
+                                            >
                                                 {transcription}
                                             </Text>
                                         </View>
-                                        {showButton && (
-                                            <Button
-                                                onPress={this._onExtendBtnPress}
-                                                style={styles.extendButton}
-                                                underlayColor={'transparent'}>
-                                                <Text
-                                                    style={[
-                                                        this.textStyles
-                                                            .labelMedium,
-                                                        styles.extendButtonText,
-                                                    ]}>{`show ${
-                                                    transcriptionIsOpened
-                                                        ? 'less'
-                                                        : 'more'
-                                                }`}</Text>
-                                                <Images.buttonTriangle
-                                                    width={8}
-                                                    height={4}
-                                                    style={{
-                                                        transform: transcriptionIsOpened
-                                                            ? [
-                                                                  {
-                                                                      rotate:
-                                                                          '180deg',
-                                                                  },
-                                                              ]
-                                                            : [],
-                                                    }}
-                                                />
-                                            </Button>
-                                        )}
+                                        {showButton && <Button
+                                            onPress={this._onExtendBtnPress}
+                                            style={styles.extendButton}
+                                            underlayColor={'transparent'}
+                                        >
+                                            <Text style={[this.textStyles.labelMedium, styles.extendButtonText]}>{`show ${transcriptionIsOpened ? 'less' : 'more'}`}</Text>
+                                            <Images.buttonTriangle width={8} height={4} style={{ transform: transcriptionIsOpened ? [{ rotate: '180deg'}] : [] }} />
+                                        </Button>}
                                     </Container>
                                 </View>
                                 <View style={styles.separator} />
                             </>
                         ) : null}
-                        {feelings?.length > 0 && (
+                        {feelings?.length > 0 &&
                             <>
                                 <View style={styles.card}>
                                     <Container style={{ paddingLeft: 64 }}>
-                                        <Text
-                                            style={[
-                                                this.textStyles.labelMedium,
-                                                styles.cardLabel,
-                                            ]}>
-                                            You felt ...
-                                        </Text>
+                                        <Text style={[this.textStyles.labelMedium, styles.cardLabel]}>You felt ...</Text>
                                         <View style={styles.list}>
-                                            {feelings.map((feeling, i) => (
-                                                <View
-                                                    key={`${feeling}_${i}`}
-                                                    style={styles.listItem}>
-                                                    <Images.checkedIcon
-                                                        style={
-                                                            styles.listItemIcon
-                                                        }
-                                                    />
-                                                    <Text
-                                                        style={[
-                                                            this.textStyles.p2,
-                                                            styles.listItemText,
-                                                        ]}>
-                                                        {feeling}
-                                                    </Text>
+                                            {feelings.map((feeling, i) =>  (
+                                                <View key={`${feeling}_${i}`} style={styles.listItem}>
+                                                    <Images.checkedIcon style={styles.listItemIcon} />
+                                                    <Text style={[this.textStyles.p2, styles.listItemText]}>{feeling}</Text>
                                                 </View>
                                             ))}
                                         </View>
@@ -375,35 +256,17 @@ export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
                                 </View>
                                 <View style={styles.separator} />
                             </>
-                        )}
-                        {recommendedTips?.length > 0 && (
+                        }
+                        {recommendedTips?.length > 0 &&
                             <>
                                 <View style={styles.card}>
                                     <Container style={{ paddingLeft: 64 }}>
-                                        <Text
-                                            style={[
-                                                this.textStyles.labelMedium,
-                                                styles.cardLabel,
-                                            ]}>
-                                            I recommended you ...
-                                        </Text>
+                                        <Text style={[this.textStyles.labelMedium, styles.cardLabel]}>I recommended you ...</Text>
                                         <View style={styles.list}>
-                                            {recommendedTips.map((tip, i) => (
-                                                <View
-                                                    key={`${tip.text}_${i}`}
-                                                    style={styles.listItem}>
-                                                    <Images.checkedIcon
-                                                        style={
-                                                            styles.listItemIcon
-                                                        }
-                                                    />
-                                                    <Text
-                                                        style={[
-                                                            this.textStyles.p2,
-                                                            styles.listItemText,
-                                                        ]}>
-                                                        {tip.text}
-                                                    </Text>
+                                            {recommendedTips.map((tip, i) =>  (
+                                                <View key={`${tip.text}_${i}`} style={styles.listItem}>
+                                                    <Images.checkedIcon style={styles.listItemIcon} />
+                                                    <Text style={[this.textStyles.p2, styles.listItemText]}>{tip.text}</Text>
                                                 </View>
                                             ))}
                                         </View>
@@ -411,9 +274,9 @@ export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
                                 </View>
                                 <View style={styles.separator} />
                             </>
-                        )}
+                        }
 
-                        {EnvConstants.AllowManualProcessing && (
+                        { EnvConstants.AllowManualProcessing && (
                             <React.Fragment>
                                 <View style={styles.separator} />
                                 <ActivityButton
@@ -422,13 +285,15 @@ export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
                                     loading="promise"
                                 />
 
-                                {this.model.processResultDebug && (
-                                    <Text>{this.model.processResultDebug}</Text>
+                                { this.model.processResultDebug && (
+                                    <Text>
+                                        {this.model.processResultDebug}
+                                    </Text>
                                 )}
                             </React.Fragment>
                         )}
 
-                        {this.model.recordEntities && (
+                        { this.model.recordEntities && (
                             <Container style={styles.chart}>
                                 <BubbleChart
                                     data={this.model.recordEntities}
@@ -516,7 +381,9 @@ const styles = StyleSheet.create({
         top: 24,
         left: 24,
     },
-    cardsWrap: {},
+    cardsWrap: {
+
+    },
     audioPlayer: {
         marginBottom: 10,
     },

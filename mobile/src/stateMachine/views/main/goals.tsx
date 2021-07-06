@@ -15,9 +15,8 @@ import Colors from 'src/constants/colors';
 
 @observer
 export class GoalsView extends ViewState {
-    get model() {
-        return AppViewModel.Instance.Goals;
-    }
+
+    get model() { return AppViewModel.Instance.Goals; }
 
     constructor(props) {
         super(props);
@@ -32,18 +31,14 @@ export class GoalsView extends ViewState {
         return (
             <View style={styles.placeholder}>
                 <Images.noStatistics width={258} height={145} />
-                <Text style={[this.textStyles.h1, styles.placeholderHeading]}>
-                    No goals yet
-                </Text>
-                <Text style={[this.textStyles.p1, styles.placeholderSubtitle]}>
-                    You and your therapist have not created any goals for you
-                    yet.
-                </Text>
+                <Text style={[this.textStyles.h1, styles.placeholderHeading]}>No goals yet</Text>
+                <Text style={[this.textStyles.p1, styles.placeholderSubtitle]}>You and your therapist have not created any goals for you yet.</Text>
             </View>
         );
     }
 
     renderContent() {
+
         const activeCount = this.model.activeGoals.length;
         const completedCount = this.model.achievedGoals.length;
         const totalCount = activeCount + completedCount;
@@ -51,31 +46,12 @@ export class GoalsView extends ViewState {
         return (
             <MasloPage style={[this.baseStyles.page, styles.page]}>
                 <Container style={styles.topBar}>
-                    <PersonaScrollMask
-                        height={
-                            notch
-                                ? Layout.getViewHeight(22)
-                                : Layout.getViewHeight(25)
-                        }
-                    />
+                    <PersonaScrollMask height={notch ? Layout.getViewHeight(22) : Layout.getViewHeight(25)} />
                 </Container>
                 {totalCount > 0 ? (
                     <ScrollView style={styles.scrollView}>
-                        <Container
-                            style={[
-                                this.baseStyles.container,
-                                styles.container,
-                            ]}>
-                            <Text
-                                style={[
-                                    this.textStyles.labelMedium,
-                                    styles.overline,
-                                ]}>
-                                <Text style={{ color: '#F0F1FF' }}>
-                                    My goals
-                                </Text>{' '}
-                                {activeCount}
-                            </Text>
+                        <Container style={[this.baseStyles.container, styles.container]}>
+                            <Text style={[this.textStyles.labelMedium, styles.overline]}><Text style={{ color: '#F0F1FF' }}>My goals</Text> {activeCount}</Text>
                             {this.model.activeGoals.map((g, i) => (
                                 <GoalCard
                                     key={i}
@@ -83,19 +59,10 @@ export class GoalsView extends ViewState {
                                     checked={false}
                                     onPress={g.toggleComplete}
                                 />
-                            ))}
+                            ) )}
                             {this.model.achievedGoals.length > 0 && (
                                 <>
-                                    <Text
-                                        style={[
-                                            this.textStyles.labelMedium,
-                                            styles.overline,
-                                        ]}>
-                                        <Text style={{ color: '#F0F1FF' }}>
-                                            Done
-                                        </Text>{' '}
-                                        {completedCount}
-                                    </Text>
+                                    <Text style={[this.textStyles.labelMedium, styles.overline]}><Text style={{ color: '#F0F1FF' }}>Done</Text> {completedCount}</Text>
                                     {this.model.achievedGoals.map((g, i) => (
                                         <GoalCard
                                             key={i}
@@ -108,9 +75,7 @@ export class GoalsView extends ViewState {
                             )}
                         </Container>
                     </ScrollView>
-                ) : (
-                    this.getPlaceholder()
-                )}
+                ) : this.getPlaceholder()}
                 <BottomBar screen={'goals'} />
             </MasloPage>
         );
@@ -139,7 +104,7 @@ const styles = StyleSheet.create({
     placeholder: {
         width: '100%',
         paddingHorizontal: 24,
-        height: '100%',
+        height: '100%' ,
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',

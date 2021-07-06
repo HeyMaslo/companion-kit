@@ -6,9 +6,8 @@ import { PersonaViewPresets } from '../../persona';
 import { MasloPage } from 'src/components';
 
 export class StartView extends ViewState {
-    protected get unbreakable() {
-        return true;
-    }
+
+    protected get unbreakable() { return true; }
 
     async start() {
         this.persona.view = PersonaViewPresets.Default;

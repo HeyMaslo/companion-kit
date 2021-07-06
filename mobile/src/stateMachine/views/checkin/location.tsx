@@ -36,9 +36,7 @@ const minContentHeight = 412;
 export class LocationView extends CheckInViewBase {
     constructor(props) {
         super(props);
-        this._contentHeight = this.persona.setupContainerHeight(
-            minContentHeight,
-        );
+        this._contentHeight = this.persona.setupContainerHeight(minContentHeight);
     }
 
     start() {
@@ -52,37 +50,21 @@ export class LocationView extends CheckInViewBase {
         } else {
             this.trigger(ScenarioTriggers.Back);
         }
-    };
+    }
 
     next = () => {
         this.trigger(ScenarioTriggers.Primary);
-    };
+    }
 
     renderContent() {
         const { viewModel } = this;
         const { locationSelect, isLocationSelected } = viewModel;
 
         return (
-            <MasloPage
-                withDots
-                dotLength={3}
-                activeDot={1}
-                onClose={this.onClose}
-                style={this.baseStyles.page}>
-                <Container
-                    style={[
-                        this.baseStyles.container,
-                        this.baseStyles.flexBetween,
-                        { height: this._contentHeight },
-                    ]}>
+            <MasloPage withDots dotLength={3} activeDot={1} onClose={this.onClose} style={this.baseStyles.page}>
+                <Container style={[this.baseStyles.container, this.baseStyles.flexBetween, { height: this._contentHeight }]}>
                     <View style={[this.baseStyles.textBlock, styles.textBlock]}>
-                        <Text
-                            style={[
-                                this.textStyles.h1,
-                                this.baseStyles.textCenter,
-                            ]}>
-                            {'And where are you \n right now?'}
-                        </Text>
+                        <Text style={[this.textStyles.h1, this.baseStyles.textCenter]}>{`And where are you \n right now?`}</Text>
                     </View>
                     <View style={styles.locationSelect}>
                         <LocationsSelect model={locationSelect} />

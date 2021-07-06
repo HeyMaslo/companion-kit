@@ -46,17 +46,18 @@ interface ITextInputProps {
 
 @observer
 export default class Input extends React.Component<ITextInputProps> {
+
     _onChange = (v: string) => {
         if (this.props.model) {
             this.props.model.value = v;
         }
-    };
+    }
 
     _onFocus = () => {
         if (this.props.model) {
             this.props.model.focused = true;
         }
-    };
+    }
 
     _onBlur = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
         const { model, onBlur } = this.props;
@@ -68,13 +69,13 @@ export default class Input extends React.Component<ITextInputProps> {
         if (onBlur) {
             onBlur(e);
         }
-    };
+    }
 
     _onSubmit = () => {
         if (this.props.onSubmit) {
             this.props.onSubmit();
         }
-    };
+    }
 
     render() {
         const {
@@ -125,9 +126,7 @@ export default class Input extends React.Component<ITextInputProps> {
                     autoCompleteType={autoCompleteType}
                     keyboardType={keyboardType}
                     numberOfLines={numberOfLines}
-                    placeholderTextColor={
-                        placeholderTextColor || Colors.inputPlaceholder
-                    }
+                    placeholderTextColor={placeholderTextColor || Colors.inputPlaceholder}
                     style={[
                         styles.default,
                         TextStyles.h2,
@@ -139,26 +138,8 @@ export default class Input extends React.Component<ITextInputProps> {
                     onTouchStart={onTouchStart}
                     textContentType={textContentType}
                 />
-                {label && (
-                    <Text
-                        style={[
-                            TextStyles.labelMedium,
-                            styles.label,
-                            styleLabel,
-                        ]}>
-                        {label}
-                    </Text>
-                )}
-                {!!errorText && (
-                    <Text
-                        style={[
-                            TextStyles.labelMedium,
-                            styles.errorText,
-                            styleError,
-                        ]}>
-                        {errorText}
-                    </Text>
-                )}
+                {label && <Text style={[TextStyles.labelMedium, styles.label, styleLabel]}>{label}</Text>}
+                {!!errorText && <Text style={[TextStyles.labelMedium, styles.errorText, styleError]}>{errorText}</Text>}
             </View>
         );
     }

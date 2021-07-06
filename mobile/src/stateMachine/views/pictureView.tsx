@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-    StyleSheet,
-    TouchableOpacity,
-    Animated,
-    Image,
-    View,
-    Platform,
-    ActivityIndicator,
-} from 'react-native';
+import { StyleSheet, TouchableOpacity, Animated, Image, View, Platform, ActivityIndicator } from 'react-native';
 import { Container, MasloPage } from 'src/components';
 import { observer } from 'mobx-react';
 import BaseStyles from 'src/styles/BaseStyles';
@@ -33,10 +25,7 @@ type PictureViewProps = {
 
 const isAndroid = Platform.OS === 'android';
 
-export const PictureView = observer(function (
-    this: void,
-    props: PictureViewProps,
-) {
+export const PictureView = observer(function (this: void, props: PictureViewProps) {
     const camera = React.useRef<Camera>();
     const unmounted = React.useRef(false);
     const [cameraReady, setCameraReady] = React.useState(false);
@@ -65,7 +54,7 @@ export const PictureView = observer(function (
                     toValue: 1,
                     duration: 100,
                 }),
-            ]).start(() => (model.capturing = true));
+            ]).start(() => model.capturing = true);
 
             try {
                 const pic = await camera.current.takePictureAsync({
@@ -74,14 +63,12 @@ export const PictureView = observer(function (
                 });
                 await model.savePicture(pic, afterShot);
             } catch (err) {
-                console.log(
-                    'Something went wrong in _capturePictureAsync',
-                    err,
-                );
+                console.log('Something went wrong in _capturePictureAsync', err);
             } finally {
                 model.capturing = false;
                 // model.toggleMotionSubscription();
             }
+
         }
     };
 
@@ -113,21 +100,14 @@ export const PictureView = observer(function (
             <TouchableOpacity onPress={onClose} style={BaseStyles.close}>
                 <Image source={CloseIcon} style={{ width: 22, height: 22 }} />
             </TouchableOpacity>
-            <Container
-                style={[
-                    BaseStyles.container,
-                    BaseStyles.flexRowBetween,
-                    styles.container,
-                ]}>
+            <Container style={[BaseStyles.container, BaseStyles.flexRowBetween,  styles.container]}>
                 <TouchableOpacity
                     style={[BaseStyles.flexCenter, styles.cameraRoll]}
                     onPress={() => openCameraRoll(pictureOptions, afterShot)}
-                    activeOpacity={0.7}>
+                    activeOpacity={0.7}
+                >
                     {cameraRollImageSrc ? (
-                        <Image
-                            style={styles.cameraRollImage}
-                            source={cameraRollImageSrc}
-                        />
+                        <Image style={styles.cameraRollImage} source={cameraRollImageSrc} />
                     ) : (
                         <PhotoIcon width={28} height={28} />
                     )}
@@ -135,7 +115,8 @@ export const PictureView = observer(function (
                 <TouchableOpacity
                     style={[BaseStyles.flexCenter, styles.shutter]}
                     onPress={_capturePictureAsync}
-                    activeOpacity={0.7}>
+                    activeOpacity={0.7}
+                >
                     <Animated.View
                         style={[
                             styles.shutterCircle,
@@ -146,7 +127,8 @@ export const PictureView = observer(function (
                 <TouchableOpacity
                     style={[BaseStyles.flexCenter, styles.cameraToggle]}
                     onPress={toggleCameraType}
-                    activeOpacity={0.7}>
+                    activeOpacity={0.7}
+                >
                     <Images.refreshIcon width={24} height={24} />
                 </TouchableOpacity>
             </Container>
@@ -165,25 +147,19 @@ export const PictureView = observer(function (
         <MasloPage style={BaseStyles.page}>
             {renderCamera ? (
                 <>
-                    <View
-                        style={[
-                            styles.activityIndicator,
-                            { opacity: model.capturing ? 1 : 0 },
-                        ]}
-                        pointerEvents="none">
-                        <ActivityIndicator
-                            size={'large'}
-                            color={Colors.linkDefault}
-                            style={styles.activityIndicator}
-                        />
+                    <View style={[styles.activityIndicator, { opacity: model.capturing ? 1 : 0 }]} pointerEvents="none">
+                        <ActivityIndicator size={'large'} color={Colors.linkDefault} style={styles.activityIndicator} />
                     </View>
                     <Camera
                         ref={camera}
                         style={[BaseStyles.flexCenter, styles.cameraView]}
                         type={cameraType}
                         ratio={isAndroid ? '16:9' : null}
-                        onCameraReady={() => setCameraReady(true)}>
-                        {cameraReady ? InterfaceView() : null}
+                        onCameraReady={() => setCameraReady(true)}
+                    >
+                        {cameraReady ? (
+                            InterfaceView()
+                        ) : null}
                     </Camera>
                 </>
             ) : (

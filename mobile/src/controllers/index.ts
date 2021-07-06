@@ -4,10 +4,7 @@ import * as ExpoUpdates from 'expo-updates';
 import Lazy from 'common/utils/lazy';
 import { IAuthController, AuthController } from './Auth';
 import { IUserController, UserController } from './User';
-import {
-    IStorageController,
-    StorageController,
-} from 'common/controllers/StorageController';
+import { IStorageController, StorageController } from 'common/controllers/StorageController';
 import PromptModalViewModel from 'common/viewModels/PromptModalViewModel';
 import { AppVersion } from './AppVersion';
 import Analytics from 'common/services/analytics/analytics';
@@ -33,12 +30,11 @@ export interface IAppController {
 const logger = createLogger('[AppController]');
 const _instance = new Lazy(() => new AppController());
 
-addGlobalLoggerErrorHook((e) => AppController.captureError(e, false));
+addGlobalLoggerErrorHook(e => AppController.captureError(e, false));
 
 export default class AppController implements IAppController {
-    static get Instance(): IAppController {
-        return _instance.value;
-    }
+
+    static get Instance(): IAppController { return _instance.value; }
 
     readonly auth = new AuthController();
     readonly user = new Lazy(() => new UserController(this.auth));
@@ -53,22 +49,12 @@ export default class AppController implements IAppController {
         this.auth.onSignOut.on(this.onSignOut);
     }
 
-    get Auth(): IAuthController {
-        return this.auth;
-    }
-    get User(): IUserController {
-        return this.user.value;
-    }
-    get Storage(): IStorageController {
-        return StorageController.Instance;
-    }
-    get PromptModal(): PromptModalViewModel {
-        return this.promptModal.value;
-    }
+    get Auth(): IAuthController { return this.auth; }
+    get User(): IUserController { return this.user.value; }
+    get Storage(): IStorageController { return StorageController.Instance; }
+    get PromptModal(): PromptModalViewModel { return this.promptModal.value; }
 
-    get loading() {
-        return this.auth.initializing || this.user.value.initializing;
-    }
+    get loading() { return this.auth.initializing || this.user.value.initializing; }
 
     private onSignOut = async () => {
         logger.log('SIGN OUT: invalidating token...');
@@ -82,7 +68,7 @@ export default class AppController implements IAppController {
         // incl. unsubscribe all DB listeners
         logger.log('SIGN OUT: Disposing Controllers...');
         this.dispose();
-    };
+    }
 
     private dispose = () => {
         transaction(() => {
@@ -90,11 +76,9 @@ export default class AppController implements IAppController {
             this.user.reset();
             this.user.prewarm();
         });
-    };
-
-    get isAppActive() {
-        return this._isAppActive;
     }
+
+    get isAppActive() { return this._isAppActive; }
 
     public setAppActive(value: boolean) {
         if (this._isAppActive === value) {
@@ -136,10 +120,8 @@ export default class AppController implements IAppController {
         Analytics.Current?.trackError(e);
 
         if (fatal) {
-            Alert.alert(
-                'Unknown error',
-                `Something went wrong. Please send the screenshot of this screen to ${Localization.Current.MobileProject.contactEmail}.\r\n` +
-                    e,
+            Alert.alert('Unknown error', `Something went wrong. Please send the screenshot of this screen to ${Localization.Current.MobileProject.contactEmail}.\r\n`
+                + e,
                 // + Object.keys(e).map(k => `${k} => ${e[k]}`).join('\r\n')
                 [{ text: 'OK', onPress: ExpoUpdates.reloadAsync }],
             );

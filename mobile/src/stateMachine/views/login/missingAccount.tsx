@@ -14,6 +14,7 @@ import Localization from 'src/services/localization';
 
 @observer
 export class MissingAccountView extends ViewState {
+
     private readonly model = new NoProfileViewModel();
 
     start() {
@@ -27,41 +28,27 @@ export class MissingAccountView extends ViewState {
                     action: this.model.logout,
                 },
                 secondaryButton: {
-                    customRender: () =>
-                        ButtonContext({
-                            text: Localization.Current.ThinkItsAMistake,
-                            buttonText: Localization.Current.ContactUs,
-                            onPress: () =>
-                                Links.tryOpenLink(
-                                    Localization.Current.MobileProject
-                                        .contactUsLink,
-                                    false,
-                                ),
-                        }),
+                    customRender: () => ButtonContext({
+                        text: Localization.Current.ThinkItsAMistake,
+                        buttonText: Localization.Current.ContactUs,
+                        onPress: () => Links.tryOpenLink(Localization.Current.MobileProject.contactUsLink, false),
+                    }),
                 },
             });
         } else {
             this.showModal({
                 title: Localization.Current.MobileProject.missingAccountTitle,
-                message:
-                    Localization.Current.MobileProject
-                        .missingAccountDescription,
+                message: Localization.Current.MobileProject.missingAccountDescription,
                 primaryButton: {
                     text: Localization.Current.TryAgain,
                     action: this.model.logout,
                 },
                 secondaryButton: {
-                    customRender: () =>
-                        ButtonContext({
-                            text: Localization.Current.ThinkItsAMistake,
-                            buttonText: Localization.Current.ContactUs,
-                            onPress: () =>
-                                Links.tryOpenLink(
-                                    Localization.Current.MobileProject
-                                        .contactUsLink,
-                                    false,
-                                ),
-                        }),
+                    customRender: () => ButtonContext({
+                        text: Localization.Current.ThinkItsAMistake,
+                        buttonText: Localization.Current.ContactUs,
+                        onPress: () => Links.tryOpenLink(Localization.Current.MobileProject.contactUsLink, false),
+                    }),
                 },
             });
         }
