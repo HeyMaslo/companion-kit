@@ -7,17 +7,24 @@ import Colors from '../constants/colors/Colors';
 
 const { width } = Dimensions.get('window');
 
-interface IStrategyCardProps {
+type IStrategyCardProps = {
     item: DisplayStrategyIded,
     onLearnMorePress: ((strategyId: string) => void),
     onSelectStrategy?: ((strategyId: string) => void),
     hideCheckbox?: boolean,
+    isSmallCard?: boolean,
 }
 
-export default class StrategyCard extends React.Component<IStrategyCardProps> {
+type StrategyCardState= { isPressable: boolean }
+
+export default class StrategyCard extends React.Component<IStrategyCardProps, StrategyCardState> {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      isPressable: !!this.props.onSelectStrategy,
+    }
 }
 
 private iconForDomain(d: string): JSX.Element {
@@ -35,18 +42,21 @@ private iconForDomain(d: string): JSX.Element {
 
 render() {
     return(
-      <Pressable onPress={()=>this.props.onSelectStrategy(this.props.item.id)} disabled={this.props.hideCheckbox}>
+      <Pressable onPress={()=>this.props.onSelectStrategy(this.props.item.id)} disabled={!this.state.isPressable}>
         <View style={styles.listItem}>
-        <View style={{flexDirection: "row", justifyContent: 'space-between', alignItems: 'center'}}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
           <Text style={[TextStyles.p1, {display: 'flex', maxWidth: width - size - 70}]}>{this.props.item.title}</Text>
           {!this.props.hideCheckbox && 
             <View style={[styles.checkbox, this.props.item.isChecked && styles.checkboxChecked, {display: 'flex'}]}>
               {this.props.item.isChecked && <Images.radioChecked width={8} height={6} />}
             </View>}
         </View>
-        <Text style={[TextStyles.p2, {paddingLeft: 7, paddingTop: 7}]}>{this.props.item.details}</Text>
-        <View style={{flexDirection: "row", justifyContent: 'space-between', marginTop: 10}}>
-        <View style={{display: 'flex', flexDirection: "row", justifyContent: 'flex-start'}}>
+        {this.props.isSmallCard ?
+        null
+        : <Text style={[TextStyles.p2, {paddingLeft: 7, paddingTop: 7}]}>{this.props.item.details}</Text>
+      }
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 10}}>
+        <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-start'}}>
           {this.props.item.associatedDomainNames.map((slug) => {
             return this.iconForDomain(slug);
           })}

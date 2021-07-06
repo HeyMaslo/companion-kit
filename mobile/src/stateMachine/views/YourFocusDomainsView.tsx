@@ -87,9 +87,13 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
       }
   }
 
-  onTapPersona() {
+  onLifeAreasPress = () => {
     this.trigger(ScenarioTriggers.Next)
   }
+
+  // onTapPersona() {
+  //   this.trigger(ScenarioTriggers.Next)
+  // }
 
   onLayoutIconCircle(event: LayoutChangeEvent) {
     const { height } = event.nativeEvent.layout;
@@ -99,7 +103,7 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
   }
 
     renderListItem = ({ item }) => (
-      <StrategyCard item={item} onLearnMorePress={this.onLearnMorePress}/>
+      <StrategyCard item={item} onLearnMorePress={this.onLearnMorePress} hideCheckbox={true} isSmallCard={true}/>
     );
 
     renderContent() {
@@ -121,7 +125,7 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
                         title={'View Life Areas'}
                         style={[styles.button]}
                         titleStyles={styles.buttonTitle}
-                        onPress={() => null}
+                        onPress={() => this.onLifeAreasPress}
                         isTransparent
                     />
                     <Text style={[TextStyles.labelMedium, styles.otherLabel]}>Your Focus Strategies:</Text>
@@ -164,7 +168,7 @@ button: {
 buttonTitle: {
   borderWidth: 1,
   borderRadius: 5,
-  color: 'black',
+  // color: 'black',
   fontSize: 10,
   padding: 10,
 },
@@ -175,7 +179,6 @@ otherLabel: {
 list: {
   marginTop: 10,
   width: '100%',
-  backgroundColor: 'grey'
 },
 listItem: {
   borderWidth: 1,
