@@ -3,12 +3,11 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native';
 import { Container, MasloPage } from 'src/components';
-import Images from 'src/constants/images';
-import Colors from 'src/constants/colors/Colors';
 import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
+import { iconForDomain } from 'src/constants/Domain';
 
 @observer
 export class StrategyDetailsView extends ViewState {
@@ -41,24 +40,10 @@ export class StrategyDetailsView extends ViewState {
 
     renderIconItem = ({ item }) => (
         <View style={[styles.listItem, {flexDirection: "row", justifyContent: 'center'}]}>
-          {this.iconForDomain(item)}
+          {iconForDomain(item, {display: 'flex', marginRight: 20})}
           <Text style={[TextStyles.h2, styles.strategy, {display: 'flex'}]}>{this.capitalizeFirstLetter(item)}</Text>
         </View>
     );
-
-    private iconForDomain(d: string): JSX.Element {
-      switch (d.toLowerCase()) {
-        case 'sleep':
-          return <Images.sleepIcon color={Colors.typography.h1} width={30} height={30} style={{display: 'flex', marginRight: 20}}/>;
-        case 'physical':
-          return <Images.physicalIcon color={Colors.typography.h1} width={30} height={30} style={{display: 'flex', marginRight: 20}}/>;
-        case 'mood':
-          return <Images.selfEsteemIcon color={Colors.typography.h1} width={30} height={30} style={{display: 'flex', marginRight: 20}}/>;
-        case 'cognition':
-          return <Images.leisureIcon color={Colors.typography.h1} width={30} height={30} style={{display: 'flex', marginRight: 20}}/>;
-      }
-    }
-
 
     renderContent() {
         return (

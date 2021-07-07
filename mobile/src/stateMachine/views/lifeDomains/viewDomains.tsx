@@ -6,6 +6,7 @@ import { ViewDomainsBase } from './viewDomainsBase';
 import React from 'react';
 import { View } from 'react-native';
 import Images from 'src/constants/images';
+import { iconForDomain } from 'src/constants/Domain';
 
 @observer
 export class ViewDomainsView extends ViewDomainsBase {
@@ -17,7 +18,7 @@ export class ViewDomainsView extends ViewDomainsBase {
     private viewModel = new ChooseDomainViewModel();
 
     async start() {
-        let possibleDomains = await AppController.Instance.User.backend.getPossibleDomains();
+        let possibleDomains = await AppController.Instance.User.domain.getPossibleDomains();
         this.viewModel.setAvailableDomains(possibleDomains);
         this.forceUpdate();
     }
@@ -37,7 +38,7 @@ export class ViewDomainsView extends ViewDomainsBase {
     public getCenterElement(): JSX.Element {
       return(
         <View style={{justifyContent: 'center', marginLeft: 'auto', marginRight: 'auto', marginTop: 50, marginBottom: 50}}>
-            <Images.leisureIcon/>
+            {iconForDomain(this.getDomainDisplay()[1], null, null, 60, 60)}
         </View>
         );
   }
