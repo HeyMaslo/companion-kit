@@ -3,6 +3,9 @@ import AppController from 'src/controllers';
 import { ScenarioTriggers } from '../../abstractions';
 import ChooseDomainViewModel from 'src/viewModels/ChooseDomainViewModel';
 import { ViewDomainsBase } from './viewDomainsBase';
+import React from 'react';
+import { View } from 'react-native';
+import Images from 'src/constants/images';
 
 @observer
 export class ViewDomainsView extends ViewDomainsBase {
@@ -30,6 +33,14 @@ export class ViewDomainsView extends ViewDomainsBase {
     public goToLeft = () => {
       this.viewModel.getNextDomain(-1);
     }
+
+    public getCenterElement(): JSX.Element {
+      return(
+        <View style={{justifyContent: 'center', marginLeft: 'auto', marginRight: 'auto', marginTop: 50, marginBottom: 50}}>
+            <Images.leisureIcon/>
+        </View>
+        );
+  }
 
     onDetails = () => {
         this.trigger(ScenarioTriggers.Submit);

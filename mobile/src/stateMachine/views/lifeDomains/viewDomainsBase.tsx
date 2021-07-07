@@ -96,7 +96,7 @@ export abstract class ViewDomainsBase extends ViewState {
 
     public abstract goToLeft = () => {}
 
-    public getSelectButtonElement(): JSX.Element {
+    public getCenterElement(): JSX.Element {
       return(<></>);
   }
 
@@ -189,7 +189,7 @@ export abstract class ViewDomainsBase extends ViewState {
 
                                 </View>
                     </View>
-                    {this.getSelectButtonElement()}
+                    {this.getCenterElement()}
                     <View 
                      style={{
                          flexDirection: 'row', 

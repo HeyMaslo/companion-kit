@@ -41,7 +41,7 @@ export class ChooseDomainView extends ViewDomainsBase {
         this.trigger(ScenarioTriggers.Submit);
     }
 
-    public getSelectButtonElement(): JSX.Element {
+    public getCenterElement(): JSX.Element {
         const [lDomain, domain, rDomain, importance] = this.getDomainDisplay();
         return(
             <View style={{justifyContent: 'center', marginLeft: 'auto', marginRight: 'auto', marginTop: 50, marginBottom: 50}}>
