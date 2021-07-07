@@ -1,7 +1,7 @@
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View, LayoutChangeEvent } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View, LayoutChangeEvent, GestureResponderEvent, PixelRatio } from 'react-native';
 import { Button, Container, MasloPage, StrategyCard } from 'src/components';
 import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
@@ -10,7 +10,7 @@ import { ScenarioTriggers } from '../abstractions';
 import { ViewState } from './base';
 import { months } from 'common/utils/dateHelpers';
 import Layout from 'src/constants/Layout';
-import { getPersonaRadius } from '../persona';
+import { getPersonaRadius, PersonaScale } from '../persona';
 import AppController from 'src/controllers';
 import IconsOnCircle from './IconsOnCircle';
 import { PersonaArmState } from 'dependencies/persona/lib';
@@ -18,6 +18,8 @@ import { PersonaArmState } from 'dependencies/persona/lib';
 const date = new Date();
 const today = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 
+const pixelRatio = PixelRatio.get();
+const personaScale = PersonaScale;
 const containerMarginBottom = Layout.isSmallDevice ? 0 : 25;
 const containerMarginTop = 15;
 
@@ -42,6 +44,7 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
         this.domainsTitle = this.getDomainsTitle();
         this.onLearnMorePress = this.onLearnMorePress.bind(this);
         this.onLayoutIconCircle = this.onLayoutIconCircle.bind(this);
+        this.onTapOrb = this.onTapOrb.bind(this);
         this.persona.setupContainerHeight(0, null, this.layout.window.height / 2 - 80/2);
         this._contentHeight = this.layout.window.height - containerMarginTop;
 
@@ -91,9 +94,22 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
     this.trigger(ScenarioTriggers.Next)
   }
 
-  // onTapPersona() {
-  //   this.trigger(ScenarioTriggers.Next)
-  // }
+  onTapOrb(event: GestureResponderEvent){
+    // console.log(event.nativeEvent.locationX, event.nativeEvent.locationY)
+    const scaledOrbRadius = this.ordRadius / personaScale * pixelRatio;
+    let orbLowerX = this.persona.view.position.x as number;
+    let orbUpperX = orbLowerX + (scaledOrbRadius * 2);
+
+    let orbLowerY = this.persona.view.position.y as number;
+    let orbUpperY = orbLowerY + (scaledOrbRadius * 2);
+
+    if (event.nativeEvent.locationX >= orbLowerX && event.nativeEvent.locationX <= orbUpperX) {
+      if (event.nativeEvent.locationY >= orbLowerY && event.nativeEvent.locationY <= orbUpperY) {
+        console.log("VALID touch")
+        // this.trigger(ScenarioTriggers.Next)
+      }
+    }
+  }
 
   onLayoutIconCircle(event: LayoutChangeEvent) {
     const { height } = event.nativeEvent.layout;
@@ -117,7 +133,7 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
                       <Text style={[TextStyles.labelLarge, styles.labelLarge]}>{'Your Focus Domain'}{this.domains.length == 1 ? ':' : 's:'}</Text>
                       <Text style={[TextStyles.h2, styles.title]}>{this.domainsTitle}</Text>
                     </View>
-                    <View style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 80, justifyContent: 'center', alignItems: 'center'}}>
+                    <View onTouchStart={this.onTapOrb} style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 80, justifyContent: 'center', alignItems: 'center'}}>
                       <IconsOnCircle circleRaius={this.ordRadius * 6} symbolSize={40} highlightedIndices={[1,8]} onLayout={this.onLayoutIconCircle}/>
                     </View>
                     <View style={[styles.bottomWrapper, {top: this.state.strategylistTop}]}>
