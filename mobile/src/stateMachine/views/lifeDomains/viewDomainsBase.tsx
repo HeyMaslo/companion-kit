@@ -1,5 +1,4 @@
 import { months } from 'common/utils/dateHelpers';
-import { observer } from 'mobx-react';
 import React from 'react';
 import { Animated, Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button, Container, MasloPage } from 'src/components';
@@ -15,8 +14,7 @@ const date = new Date();
 const today = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 
 
-@observer
-export class ViewDomainsBase extends ViewState {
+export abstract class ViewDomainsBase extends ViewState {
 
     constructor(props) {
         super(props);
@@ -88,21 +86,15 @@ export class ViewDomainsBase extends ViewState {
         });
     })
 
-    public getDomainDisplay = (): string[] => {
+    public abstract getDomainDisplay = (): string[] => {
       return [];
     }
 
-    public onDetails = () => {
+    public abstract onDetails = () => {}
 
-    }
+    public abstract goToRight = () => {}
 
-    public goToRight = () => {
-
-    }
-
-    public goToLeft = () => {
-
-    }
+    public abstract goToLeft = () => {}
 
     public getSelectButtonElement(): JSX.Element {
       return(<></>);

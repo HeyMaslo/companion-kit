@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react';
 import React from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { Button } from 'src/components'
@@ -7,6 +8,7 @@ import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewDomainsBase } from './viewDomainsBase';
 
+@observer
 export class ChooseDomainView extends ViewDomainsBase {
     constructor(props) {
         super(props);
