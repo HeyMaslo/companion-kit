@@ -105,8 +105,7 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
 
     if (event.nativeEvent.locationX >= orbLowerX && event.nativeEvent.locationX <= orbUpperX) {
       if (event.nativeEvent.locationY >= orbLowerY && event.nativeEvent.locationY <= orbUpperY) {
-        console.log("VALID touch")
-        // this.trigger(ScenarioTriggers.Next)
+        this.trigger(ScenarioTriggers.Next)
       }
     }
   }

@@ -65,6 +65,7 @@ export enum States {
     Select_Domain,
     Three_Selected,
     Choose_end,
+    View_Domains,
 
     // Strategies block
     Choose_Strategies,

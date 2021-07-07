@@ -39,6 +39,7 @@ import { DomainDetailsView } from './views/lifeDomains/domainDetails';
 import { SelectDomainView } from './views/lifeDomains/selectDomain';
 import { ThreeDomainView } from './views/lifeDomains/threeDomains';
 import { ChooseDomainEndView } from './views/lifeDomains/chooseDomainEnd';
+import { ViewDomainsView } from './views/lifeDomains/viewDomains';
 
 import { ChooseStrategiesView } from './views/strategies/ChooseStrategiesView';
 import { FocusStrategiesView } from './views/strategies/FocusStrategiesView';
@@ -475,7 +476,16 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { target: States.Home, trigger: [Triggers.Cancel] },
             { target: States.Strategy_Details3, trigger: [Triggers.Tertiary] },
-            { target: States.Choose_Strategies, trigger: [Triggers.Next] },
+            { target: States.View_Domains, trigger: [Triggers.Next] },
+        ]
+    },
+
+    [States.View_Domains]: {
+        view: ViewDomainsView,
+        exit: [
+            { target: States.Home, trigger: [Triggers.Cancel] },
+            { target: States.Focus_Domains, trigger: [Triggers.Back] },
+            // { target: States.Strategy_Details, trigger: [Triggers.Tertiary] },
         ]
     },
 
