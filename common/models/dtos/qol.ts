@@ -1,4 +1,5 @@
-import { Domain, Question } from '../../../mobile/src/constants/QoL';
+import { Question } from '../../../mobile/src/constants/QoL';
+import { Domain } from '../../../mobile/src/constants/Domain';
 
 export enum QoLActionTypes {
     CreateDomain = 'createDomain',

@@ -2,8 +2,6 @@ import { IQoLController } from 'common/abstractions/controlllers/IQoLController'
 import {
     QolSurveyResults,
     PartialQol,
-    DomainIded,
-    StrategyIded,
 } from '../../mobile/src/constants/QoL';
 import RepoFactory from 'common/controllers/RepoFactory';
 import { UserState } from 'common/models/userState';
@@ -70,14 +68,6 @@ export default class QoLControllerBase implements IQoLController {
 
     public setUser(userId: string) {
         this._userId = userId;
-    }
-
-    public async getPossibleDomains(): Promise<DomainIded[]> {
-        return await RepoFactory.Instance.qolDomains.get();
-    }
-
-    public async getPossibleStrategies(): Promise<StrategyIded[]> {
-        return await RepoFactory.Instance.strategies.get();
     }
 
     public async setUserStateProperty(propertyName: keyof UserState, parameter: UserState[keyof UserState]): Promise<void> {
