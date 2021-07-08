@@ -1,4 +1,4 @@
-import { DomainScope, Domain } from '../../../mobile/src/constants/Domain';
+import { DomainScope, Domain, DomainName } from '../../../mobile/src/constants/Domain';
 import { Repo } from './services/db';
 import { Identify } from 'common/models';
 import { QoL as QoLFunctions } from 'common/abstractions/functions';
@@ -39,7 +39,7 @@ export async function createDomain(args: CreateDomainRequest)
         await Repo.Domains.create({
             scope:      args.scope as DomainScope,
             position:   args.position,
-            name:       args.name,
+            name:       DomainName[args.name],
             slug:       args.slug,
             importance: args.importance,
         });

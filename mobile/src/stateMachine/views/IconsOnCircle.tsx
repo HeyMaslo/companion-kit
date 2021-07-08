@@ -1,17 +1,15 @@
 import React from 'react';
 import { View, StyleSheet, StyleProp, ViewStyle, LayoutChangeEvent } from 'react-native';
 import Colors from 'src/constants/colors';
+import { DomainName } from 'src/constants/Domain';
 import Images from 'src/constants/images';
+import { iconForDomain } from 'src/helpers/DomainHelper';
 
-/**
- * 
- * @param highlightedIndices index 0 is located at 3 o'clock (0 rad) on the circle and continues clockwise from there. eg. 5 is at 8 o'clock
- */
 type IconsOnCircleProps = {
   style?: StyleProp<ViewStyle>,
   circleRaius: number,
   symbolSize: number,
-  highlightedIndices?: Array<number>,
+  highlightedDomains?: Array<DomainName>,
   onLayout?: (event: LayoutChangeEvent) => void,
 }
 
@@ -64,136 +62,49 @@ private setupWithIndex(index: number) {
   this.setState({... obj})
 }
 
-private getIconColor(index: number): string {
-  if (this.props.highlightedIndices.includes(index)) {
+private getIconColor(domainName: DomainName): string {
+  if (this.props.highlightedDomains.includes(domainName)) {
     return Colors.typography.h1;
   }
   return Colors.typography.labelMedium;
 }
-  
+
   render() {
+    const style0 = {
+      position:'absolute',
+      left: this.state.x0,
+      top: this.state.y0 }
+      
     return (
       <View style={[this.props.style, { justifyContent:'center', alignItems:'center'}]} onLayout={this.props.onLayout}>
         <View style={{backgroundColor: 'transparent', width: this.size, height: this.size, borderRadius: this.radius, marginTop: this.symbolRadius, marginBottom: this.symbolRadius}}>
 
-       <Images.moodIcon
-       color={this.getIconColor(0)}
-       width={this.symbolSize}
-       height={this.symbolSize}
-        style={[styles.icon, {
-          left: this.state.x0,
-          top: this.state.y0}]}
-      />
+       {iconForDomain(DomainName.MOOD, { position:'absolute', left: this.state.x0, top: this.state.y0 }, this.getIconColor(DomainName.MOOD), this.symbolSize, this.symbolSize )}
 
-       <Images.physicalIcon
-       color={this.getIconColor(1)}
-       width={this.symbolSize}
-       height={this.symbolSize}
-        style={[styles.icon, {
-          left: this.state.x1,
-          top: this.state.y1}]}
-      />
+       {iconForDomain(DomainName.PHYSICAL, { position:'absolute', left: this.state.x1, top: this.state.y1 }, this.getIconColor(DomainName.PHYSICAL), this.symbolSize, this.symbolSize )}
 
-       <Images.sleepIcon
-       color={this.getIconColor(2)}
-       width={this.symbolSize}
-       height={this.symbolSize}
-        style={[styles.icon, {
-          left: this.state.x2,
-          top: this.state.y2}]}
-      />
+       {iconForDomain(DomainName.SLEEP, { position:'absolute', left: this.state.x2, top: this.state.y2 }, this.getIconColor(DomainName.SLEEP), this.symbolSize, this.symbolSize )}
 
-       <Images.thinkingIcon
-       color={this.getIconColor(3)}
-       width={this.symbolSize}
-       height={this.symbolSize}
-        style={[styles.icon, {
-          left: this.state.x3,
-          top: this.state.y3}]}
-      />
+       {iconForDomain(DomainName.THINKING, { position:'absolute', left: this.state.x3, top: this.state.y3 }, this.getIconColor(DomainName.THINKING), this.symbolSize, this.symbolSize )}
 
-      <Images.identityIcon
-       color={this.getIconColor(4)}
-       width={this.symbolSize}
-       height={this.symbolSize}
-        style={[styles.icon, {
-            left: this.state.x4,
-            top: this.state.y4,
-            width: this.symbolSize,
-            height: this.symbolSize}]}
-      />
+       {iconForDomain(DomainName.IDENTITY, { position:'absolute', left: this.state.x4, top: this.state.y4 }, this.getIconColor(DomainName.IDENTITY), this.symbolSize, this.symbolSize )}
 
-      <Images.leisureIcon
-      color={this.getIconColor(5)}
-       width={this.symbolSize}
-       height={this.symbolSize}
-        style={[styles.icon, {
-          left: this.state.x5,
-          top: this.state.y5}]}
-      />
+       {iconForDomain(DomainName.LEISURE, { position:'absolute', left: this.state.x5, top: this.state.y5 }, this.getIconColor(DomainName.LEISURE), this.symbolSize, this.symbolSize )}
 
-       <Images.independenceIcon
-       color={this.getIconColor(6)}
-       width={this.symbolSize}
-       height={this.symbolSize}
-        style={[styles.icon, {
-          left: this.state.x6,
-          top: this.state.y6}]}
-      />
+       {iconForDomain(DomainName.INDEPENDENCE, { position:'absolute', left: this.state.x6, top: this.state.y6 }, this.getIconColor(DomainName.INDEPENDENCE), this.symbolSize, this.symbolSize )}
 
-       <Images.selfEsteemIcon
-       color={this.getIconColor(7)}
-       width={this.symbolSize}
-       height={this.symbolSize}
-        style={[styles.icon, {
-          left: this.state.x7,
-          top: this.state.y7}]}
-      />
+       {iconForDomain(DomainName.SELFESTEEM, { position:'absolute', left: this.state.x7, top: this.state.y7 }, this.getIconColor(DomainName.SELFESTEEM), this.symbolSize, this.symbolSize )}
 
-      <Images.homeDomainIcon
-      color={this.getIconColor(8)}
-       width={this.symbolSize}
-       height={this.symbolSize}
-        style={[styles.icon, {
-          left: this.state.x8,
-          top: this.state.y8}]}
-      />
+       {iconForDomain(DomainName.HOME, { position:'absolute', left: this.state.x8, top: this.state.y8 }, this.getIconColor(DomainName.HOME), this.symbolSize, this.symbolSize )}
 
-       <Images.moneyIcon
-       color={this.getIconColor(9)}
-       width={this.symbolSize}
-       height={this.symbolSize}
-        style={[styles.icon, {
-          left: this.state.x9,
-          top: this.state.y9}]}
-      />
+       {iconForDomain(DomainName.MONEY, { position:'absolute', left: this.state.x9, top: this.state.y9 }, this.getIconColor(DomainName.MONEY), this.symbolSize, this.symbolSize )}
 
-       <Images.spirtualIcon
-       color={this.getIconColor(10)}
-       width={this.symbolSize}
-       height={this.symbolSize}
-        style={[styles.icon, {
-          left: this.state.x10,
-          top: this.state.y10}]}
-      />
+       {iconForDomain(DomainName.SPIRITUAL, { position:'absolute', left: this.state.x10, top: this.state.y10 }, this.getIconColor(DomainName.SPIRITUAL), this.symbolSize, this.symbolSize )}
 
-        <Images.relationshipsIcon
-        color={this.getIconColor(11)}
-       width={this.symbolSize}
-       height={this.symbolSize}
-        style={[styles.icon, {
-          left: this.state.x11,
-          top: this.state.y11}]}
-      />
+       {iconForDomain(DomainName.RELATIONSHIPS, { position:'absolute', left: this.state.x11, top: this.state.y11 }, this.getIconColor(DomainName.RELATIONSHIPS), this.symbolSize, this.symbolSize )}
       
     </View>
       </View>
     );
   }
 } 
-
-const styles = StyleSheet.create({
-  icon: {
-    position:'absolute',
-  },
-});
