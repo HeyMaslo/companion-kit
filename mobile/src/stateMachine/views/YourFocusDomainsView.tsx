@@ -74,12 +74,13 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
   }
 
   onLayoutIconCircle(event: LayoutChangeEvent) {
-    const { height } = event.nativeEvent.layout;
-    this.persona.setupContainerHeight(0, null, 0);
+    const { layout } = event.nativeEvent;
+    const scaledOrbRadius = this.ordRadius / PersonaScale;
+    this.persona.setupContainerHeight(0, null, (containerMarginTop - containerMarginBottom) + layout.height/2);
 
     const bottomWrapperMarginTop = 20;
     this.setState({
-      bottomWrapperTop: height + bottomWrapperMarginTop,
+      bottomWrapperTop: layout.height + bottomWrapperMarginTop,
     })
   }
 
@@ -91,9 +92,7 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
                 <Container style={[{height: this._contentHeight, marginTop: containerMarginTop, marginBottom: containerMarginBottom}]}>
-                    <View pointerEvents={'box-none'} style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center'}}>
-                      <IconsOnCircle circleRaius={this.ordRadius * 6} symbolSize={40} highlightedIndices={[1,8]} onLayout={this.onLayoutIconCircle}/>
-                    </View>
+                    <IconsOnCircle circleRaius={this.ordRadius * 6} symbolSize={40} highlightedIndices={[1,8]} onLayout={this.onLayoutIconCircle}/>
                     <View pointerEvents={'box-none'} style={[styles.bottomWrapper, {top: this.state.bottomWrapperTop}]}>
                     <Button
                         title={'View All Life Areas'}

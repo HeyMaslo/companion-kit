@@ -5,7 +5,7 @@ import Images from 'src/constants/images';
 
 /**
  * 
- * @param highlightedIndices index 0 is located at 3 o'clock on the circle and continues clockwise from there. eg. 5 is at 8 o'clock
+ * @param highlightedIndices index 0 is located at 3 o'clock (0 rad) on the circle and continues clockwise from there. eg. 5 is at 8 o'clock
  */
 type IconsOnCircleProps = {
   style?: StyleProp<ViewStyle>,
@@ -61,7 +61,6 @@ private setupWithIndex(index: number) {
   var obj = {};
   obj[xKey] = x;
   obj[yKey] = y;
-  console.log(obj)
   this.setState({... obj})
 }
 
@@ -74,7 +73,7 @@ private getIconColor(index: number): string {
   
   render() {
     return (
-      <View style={[this.props.style, { justifyContent:'center', alignItems:'center', backgroundColor:'green'}]} onLayout={this.props.onLayout}>
+      <View style={[this.props.style, { justifyContent:'center', alignItems:'center'}]} onLayout={this.props.onLayout}>
         <View style={{backgroundColor: 'transparent', width: this.size, height: this.size, borderRadius: this.radius, marginTop: this.symbolRadius, marginBottom: this.symbolRadius}}>
 
        <Images.leisureIcon
