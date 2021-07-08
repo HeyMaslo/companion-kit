@@ -1,10 +1,10 @@
 import { observable} from 'mobx';
 import { StrategyIded, DisplayStrategyIded } from '../../../mobile/src/constants/Strategy';
-import { DomainIded } from '../../../mobile/src/constants/Domain';
+import { DomainIded, DomainName } from '../../../mobile/src/constants/Domain';
 
 export default class ChooseStrategyViewModel {
 
-  private _selectedDomains: string[];
+  private _selectedDomains: DomainIded[];
   private _allStrategies: DisplayStrategyIded[];
 
   @observable
@@ -16,8 +16,8 @@ export default class ChooseStrategyViewModel {
   @observable
   public learnMoreStrategy: StrategyIded;
 
-  get selectedDomains(): string[] {
-    return this._selectedDomains;
+  get selectedDomains(): DomainName[] {
+    return this._selectedDomains.map((d) => d.name);
   }
 
   constructor() {
@@ -27,7 +27,7 @@ export default class ChooseStrategyViewModel {
 
   public setSelectedDomains(domains: DomainIded[]) {
     if (domains) {
-      this._selectedDomains = domains.map((d) => d.slug);
+      this._selectedDomains = domains;
     }
   }
 
@@ -43,7 +43,7 @@ export default class ChooseStrategyViewModel {
             } as DisplayStrategyIded
       });
       // Only include strategies from the selectedDomains
-      this.availableStrategies = this.availableStrategies.filter((s) => s.associatedDomainNames.some(r => this._selectedDomains.includes(r)))
+      this.availableStrategies = this.availableStrategies.filter((s) => s.associatedDomainNames.some(r => this._selectedDomains.map(s => s.slug).includes(r)))
       this._allStrategies = this.availableStrategies;
     }
   }

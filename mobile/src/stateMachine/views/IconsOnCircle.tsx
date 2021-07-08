@@ -76,7 +76,7 @@ private getIconColor(index: number): string {
       <View style={[this.props.style, { justifyContent:'center', alignItems:'center'}]} onLayout={this.props.onLayout}>
         <View style={{backgroundColor: 'transparent', width: this.size, height: this.size, borderRadius: this.radius, marginTop: this.symbolRadius, marginBottom: this.symbolRadius}}>
 
-       <Images.leisureIcon
+       <Images.moodIcon
        color={this.getIconColor(0)}
        width={this.symbolSize}
        height={this.symbolSize}
@@ -94,7 +94,7 @@ private getIconColor(index: number): string {
           top: this.state.y1}]}
       />
 
-       <Images.selfEsteemIcon
+       <Images.sleepIcon
        color={this.getIconColor(2)}
        width={this.symbolSize}
        height={this.symbolSize}
@@ -103,7 +103,7 @@ private getIconColor(index: number): string {
           top: this.state.y2}]}
       />
 
-       <Images.sleepIcon
+       <Images.thinkingIcon
        color={this.getIconColor(3)}
        width={this.symbolSize}
        height={this.symbolSize}
@@ -112,7 +112,7 @@ private getIconColor(index: number): string {
           top: this.state.y3}]}
       />
 
-      <Images.moneyIcon
+      <Images.identityIcon
        color={this.getIconColor(4)}
        width={this.symbolSize}
        height={this.symbolSize}
@@ -123,7 +123,7 @@ private getIconColor(index: number): string {
             height: this.symbolSize}]}
       />
 
-      <Images.physicalIcon
+      <Images.leisureIcon
       color={this.getIconColor(5)}
        width={this.symbolSize}
        height={this.symbolSize}
@@ -132,7 +132,7 @@ private getIconColor(index: number): string {
           top: this.state.y5}]}
       />
 
-       <Images.sleepIcon
+       <Images.independenceIcon
        color={this.getIconColor(6)}
        width={this.symbolSize}
        height={this.symbolSize}
@@ -141,7 +141,7 @@ private getIconColor(index: number): string {
           top: this.state.y6}]}
       />
 
-       <Images.moneyIcon
+       <Images.selfEsteemIcon
        color={this.getIconColor(7)}
        width={this.symbolSize}
        height={this.symbolSize}
@@ -150,7 +150,7 @@ private getIconColor(index: number): string {
           top: this.state.y7}]}
       />
 
-      <Images.leisureIcon
+      <Images.homeDomainIcon
       color={this.getIconColor(8)}
        width={this.symbolSize}
        height={this.symbolSize}
@@ -159,7 +159,7 @@ private getIconColor(index: number): string {
           top: this.state.y8}]}
       />
 
-       <Images.selfEsteemIcon
+       <Images.moneyIcon
        color={this.getIconColor(9)}
        width={this.symbolSize}
        height={this.symbolSize}
@@ -168,7 +168,7 @@ private getIconColor(index: number): string {
           top: this.state.y9}]}
       />
 
-       <Images.moneyIcon
+       <Images.spirtualIcon
        color={this.getIconColor(10)}
        width={this.symbolSize}
        height={this.symbolSize}
@@ -177,7 +177,7 @@ private getIconColor(index: number): string {
           top: this.state.y10}]}
       />
 
-        <Images.sleepIcon
+        <Images.relationshipsIcon
         color={this.getIconColor(11)}
        width={this.symbolSize}
        height={this.symbolSize}

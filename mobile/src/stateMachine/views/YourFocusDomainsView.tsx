@@ -15,6 +15,7 @@ import AppController from 'src/controllers';
 import IconsOnCircle from './IconsOnCircle';
 import { PersonaArmState } from 'dependencies/persona/lib';
 import { hasNotch } from 'src/constants/devices';
+import { DomainName } from 'src/constants/Domain';
 
 const date = new Date();
 const today = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
@@ -30,7 +31,7 @@ type YourFocusDomainsViewState = {
 @observer
 export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
 
-  private domains: string[] = [];
+  private domains: DomainName[] = [];
   private ordRadius = getPersonaRadius();
 
     constructor(props) {
@@ -38,7 +39,7 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
         // for testing
         this.persona.qolArmMagnitudes = PersonaArmState.createEmptyArmState();
         //
-        this.domains = this.viewModel.selectedDomains || ['mood', 'physical'];
+        this.domains = this.viewModel.selectedDomains || [];
         this.onLearnMorePress = this.onLearnMorePress.bind(this);
         this.onLayoutIconCircle = this.onLayoutIconCircle.bind(this);
         this._contentHeight = this.layout.window.height - containerMarginTop;
@@ -53,6 +54,52 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
     }
 
     async start() {}
+
+    private getIndicesFromSelectedDomains(): Array<number> {
+      let result: Array<number> = [];
+      this.domains.forEach((domain) => {
+        switch (domain) {
+          case DomainName.MOOD:    
+            result.push(0);
+            break;
+          case DomainName.PHYSICAL:
+            result.push(1);
+            break;
+          case DomainName.SLEEP:
+            result.push(2);
+            break;
+          case DomainName.THINKING:
+            result.push(3);
+            break;
+          case DomainName.IDENTITY:
+            result.push(4);
+            break;
+          case DomainName.LEISURE:
+            result.push(5);
+            break;
+          case DomainName.INDEPENDENCE:
+            result.push(6);
+            break;
+          case DomainName.SELFESTEEM:
+            result.push(7);
+            break;
+          case DomainName.HOME:
+            result.push(8);
+            break;
+          case DomainName.MONEY:
+            result.push(9);
+            break;
+          case DomainName.SPIRITUAL:
+            result.push(10);
+            break;
+          case DomainName.RELATIONSHIPS:
+            result.push(11);
+            break;
+        }
+      })
+      console.log(result)
+      return result;
+    }
 
 
     onClose = () => {
@@ -92,7 +139,7 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
                 <Container style={[{height: this._contentHeight, marginTop: containerMarginTop, marginBottom: containerMarginBottom}]}>
-                    <IconsOnCircle circleRaius={this.ordRadius * 6} symbolSize={40} highlightedIndices={[1,8]} onLayout={this.onLayoutIconCircle}/>
+                    <IconsOnCircle circleRaius={this.ordRadius * 6} symbolSize={40} highlightedIndices={this.getIndicesFromSelectedDomains()} onLayout={this.onLayoutIconCircle}/>
                     <View pointerEvents={'box-none'} style={[styles.bottomWrapper, {top: this.state.bottomWrapperTop}]}>
                     <Button
                         title={'View All Life Areas'}

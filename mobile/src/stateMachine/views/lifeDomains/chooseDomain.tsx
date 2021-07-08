@@ -53,7 +53,7 @@ export class ChooseDomainView extends ViewDomainsBase {
         const [lDomain, domain, rDomain, importance] = this.getDomainDisplay();
         return(
                 <Button
-                    title={this.viewModel.selectedDomains.map((s) => s.name).includes(domain) && this.viewModel.selectedDomains.length > 1 ? 'Choose Strategies' : 'Select Life Area'}
+                    title={this.viewModel.selectedDomains.map((s) => s.slug).includes(domain) && this.viewModel.selectedDomains.length > 1 ? 'Choose Strategies' : 'Select Life Area'}
                     style={styles.domain}
                     onPress={() => this.onSelectDomain(domain)}
                     isTransparent
