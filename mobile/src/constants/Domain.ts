@@ -18,7 +18,7 @@ export enum DomainName {
   HOME            = 'Home',
   MONEY           = 'Money',
   SPIRITUAL       = 'Spiritual',
-  RELATIONSHIPS   = 'Relationships'
+  RELATIONSHIPS   = 'Relationships',
 }
 
 export type Domain = {
