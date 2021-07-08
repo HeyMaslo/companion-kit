@@ -7,7 +7,7 @@ import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
-import { iconForDomain } from 'src/constants/Domain';
+import { iconForDomain } from 'src/helpers/DomainHelper';
 
 @observer
 export class StrategyDetailsView extends ViewState {

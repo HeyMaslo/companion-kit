@@ -5,7 +5,7 @@ import ChooseDomainViewModel from 'src/viewModels/ChooseDomainViewModel';
 import { ViewDomainsBase } from './viewDomainsBase';
 import React from 'react';
 import { View } from 'react-native';
-import { iconForDomain } from 'src/constants/Domain';
+import { iconForDomain } from 'src/helpers/DomainHelper';
 import { TextStyles } from 'src/styles/BaseStyles';
 
 @observer

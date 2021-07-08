@@ -4,7 +4,7 @@ import { Dimensions, Pressable, StyleSheet, Text, TouchableOpacity, View } from 
 import Images from 'src/constants/images';
 import TextStyles from 'src/styles/TextStyles';
 import Colors from '../constants/colors/Colors';
-import { iconForDomain } from 'src/constants/Domain';
+import { iconForDomain } from 'src/helpers/DomainHelper';
 
 const { width } = Dimensions.get('window');
 const darkColor = TextStyles.h1.color;
