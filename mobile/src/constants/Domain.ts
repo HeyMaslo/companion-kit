@@ -1,6 +1,5 @@
 import { Identify } from 'common/models';
 
-
 export enum DomainScope {
   GENERAL = 'GENERAL',
   WORK = 'WORK',
