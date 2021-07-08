@@ -74,7 +74,7 @@ private getIconColor(index: number): string {
   
   render() {
     return (
-      <View style={[this.props.style, { justifyContent:'center', alignItems:'center' }]} onLayout={this.props.onLayout}>
+      <View style={[this.props.style, { justifyContent:'center', alignItems:'center', backgroundColor:'green'}]} onLayout={this.props.onLayout}>
         <View style={{backgroundColor: 'transparent', width: this.size, height: this.size, borderRadius: this.radius, marginTop: this.symbolRadius, marginBottom: this.symbolRadius}}>
 
        <Images.leisureIcon

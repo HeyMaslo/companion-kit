@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, ScrollView, ActivityIndicator, View, Animated } from 'react-native';
+import { StyleSheet, Text, ScrollView, ActivityIndicator, View, Animated, GestureResponderEvent } from 'react-native';
 import TextStyles from 'src/styles/TextStyles';
 import Colors from 'src/constants/colors';
 import { Container, MasloPage, Placeholder, Button } from 'src/components';
@@ -19,11 +19,11 @@ import { TransitionObserver } from 'common/utils/transitionObserver';
 import { UserProfileName } from 'src/screens/components/UserProfileName';
 import AppViewModel from 'src/viewModels';
 import { QolSurveyType } from 'src/constants/QoL';
-import ChooseDomainViewModel from 'src/viewModels/ChooseDomainViewModel';
-import ChooseStrategyViewModel from 'src/viewModels/ChooseStrategyViewModel';
+import { getPersonaRadius, PersonaScale } from 'src/stateMachine/persona';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
+const personaScale = PersonaScale;
 
 let isFirstLaunch = true;
 
@@ -31,7 +31,8 @@ let isFirstLaunch = true;
 export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQol: boolean }> {
 
     private _linkDocModalShown = true;
-
+    private ordRadius = getPersonaRadius();
+    private orbTapContainerHeight = 0;
     state = {
         opacity: new Animated.Value(0),
         isUnfinishedQol: null,
@@ -39,12 +40,13 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
     constructor(props, ctx) {
         super(props, ctx);
-
+        this.onTapOrb = this.onTapOrb.bind(this);
         const smallHeight = this.layout.window.height < 800;
         this.persona.state = PersonaStates.Idle;
         this._contentHeight = smallHeight
             ? this.persona.setupContainerHeightForceScroll({ rotation: 120 , transition: {duration: 1.5}})
             : this.persona.setupContainerHeight(minContentHeight, { rotation: 120 , transition: {duration: 1.5}});
+        this.orbTapContainerHeight = Layout.window.height - this._contentHeight;
     }
 
     get viewModel() { return HomeViewModel.Instance; }
@@ -320,6 +322,21 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         );
     }
 
+    private onTapOrb(event: GestureResponderEvent) {
+        const scaledOrbRadius = this.ordRadius / personaScale;
+        let orbLowerX = (Layout.window.width / 2) - scaledOrbRadius
+        let orbUpperX = orbLowerX + (2 * scaledOrbRadius);
+    
+        let orbUpperY = this.orbTapContainerHeight;
+        let orbLowerY = orbUpperY - (scaledOrbRadius * 2);
+    
+        if (event.nativeEvent.locationX >= orbLowerX && event.nativeEvent.locationX <= orbUpperX) {
+          if (event.nativeEvent.locationY >= orbLowerY && event.nativeEvent.locationY <= orbUpperY) {
+            this.trigger(ScenarioTriggers.Next)
+          }
+        }
+      }
+
     renderContent() {
         const {
             loading,
@@ -328,9 +345,10 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
+                <View onTouchStart={this.onTapOrb} style={{position: 'absolute', top: -(this.orbTapContainerHeight), left: 0, right: 0, height: this.orbTapContainerHeight}}/>
                     <View style={{flexDirection:'row'}}>
                     {/* MK-TODO buttons below used for development only and will be removed */}
-                    <Button title="WorkingView" style={styles.qolButton} onPress={() => this.onStartDomains('b')}/>
+                    {/* <Button title="WorkingView" style={styles.qolButton} onPress={() => this.onStartDomains('b')}/> */}
                     <Button title="WorkView 2" style={styles.qolButton} onPress={() => this.onStartDomains('c')}/>
                     <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains('domains')}/>
                     </View>

@@ -14,26 +14,24 @@ import { getPersonaRadius, PersonaScale } from '../persona';
 import AppController from 'src/controllers';
 import IconsOnCircle from './IconsOnCircle';
 import { PersonaArmState } from 'dependencies/persona/lib';
+import { hasNotch } from 'src/constants/devices';
 
 const date = new Date();
 const today = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 
 const pixelRatio = PixelRatio.get();
-const personaScale = PersonaScale;
 const containerMarginBottom = Layout.isSmallDevice ? 0 : 25;
-const containerMarginTop = 15;
+const containerMarginTop = hasNotch ? 75 : 25;
 
 type YourFocusDomainsViewState = {
-  strategylistTop: number,
+  bottomWrapperTop: number,
 }
 
 @observer
 export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
 
   private domains: string[] = [];
-  private domainsTitle: string = '';
   private ordRadius = getPersonaRadius();
-  
 
     constructor(props) {
         super(props);
@@ -41,15 +39,12 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
         this.persona.qolArmMagnitudes = PersonaArmState.createEmptyArmState();
         //
         this.domains = this.viewModel.selectedDomains || ['mood', 'physical'];
-        this.domainsTitle = this.getDomainsTitle();
         this.onLearnMorePress = this.onLearnMorePress.bind(this);
         this.onLayoutIconCircle = this.onLayoutIconCircle.bind(this);
-        this.onTapOrb = this.onTapOrb.bind(this);
-        this.persona.setupContainerHeight(0, null, this.layout.window.height / 2 - 80/2);
         this._contentHeight = this.layout.window.height - containerMarginTop;
 
         this.state = {
-          strategylistTop: 0,
+          bottomWrapperTop: 0,
         }
     }
 
@@ -59,22 +54,6 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
 
     async start() {}
 
-    private getDomainsTitle(): string {
-      switch (this.domains.length) {
-        case 1:
-          return this.capitalizeFirstLetter(this.domains[0])
-        case 2:
-          return this.capitalizeFirstLetter(this.domains[0])  + ' & ' + this.capitalizeFirstLetter(this.domains[1]);
-        case 3:
-          return this.capitalizeFirstLetter(this.domains[0])  + ', ' + this.capitalizeFirstLetter(this.domains[1])+ ' & ' + this.capitalizeFirstLetter(this.domains[2]);
-        default:
-          return 'INVALID number of domains'
-      }
-    }
-
-    private capitalizeFirstLetter(str): string {
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    }
 
     onClose = () => {
       this.trigger(ScenarioTriggers.Cancel)
@@ -91,29 +70,17 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
   }
 
   onLifeAreasPress = () => {
+    console.log("HEREEE")
     this.trigger(ScenarioTriggers.Next)
-  }
-
-  onTapOrb(event: GestureResponderEvent){
-    // console.log(event.nativeEvent.locationX, event.nativeEvent.locationY)
-    const scaledOrbRadius = this.ordRadius / personaScale * pixelRatio;
-    let orbLowerX = this.persona.view.position.x as number;
-    let orbUpperX = orbLowerX + (scaledOrbRadius * 2);
-
-    let orbLowerY = this.persona.view.position.y as number;
-    let orbUpperY = orbLowerY + (scaledOrbRadius * 2);
-
-    if (event.nativeEvent.locationX >= orbLowerX && event.nativeEvent.locationX <= orbUpperX) {
-      if (event.nativeEvent.locationY >= orbLowerY && event.nativeEvent.locationY <= orbUpperY) {
-        this.trigger(ScenarioTriggers.Next)
-      }
-    }
   }
 
   onLayoutIconCircle(event: LayoutChangeEvent) {
     const { height } = event.nativeEvent.layout;
+    this.persona.setupContainerHeight(0, null, 0);
+
+    const bottomWrapperMarginTop = 20;
     this.setState({
-      strategylistTop: (this.layout.window.height / 2 - 40) + height / 2,
+      bottomWrapperTop: height + bottomWrapperMarginTop,
     })
   }
 
@@ -125,25 +92,16 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
                 <Container style={[{height: this._contentHeight, marginTop: containerMarginTop, marginBottom: containerMarginBottom}]}>
-
-                    {/* Title */}
-                    <View style={[styles.titleContainer]}>
-                      <Text style={[TextStyles.labelMedium, styles.date]}>{today}</Text>
-                      <Text style={[TextStyles.labelLarge, styles.labelLarge]}>{'Your Focus Domain'}{this.domains.length == 1 ? ':' : 's:'}</Text>
-                      <Text style={[TextStyles.h2, styles.title]}>{this.domainsTitle}</Text>
-                    </View>
-                    <View onTouchStart={this.onTapOrb} style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 80, justifyContent: 'center', alignItems: 'center'}}>
+                    <View pointerEvents={'box-none'} style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center'}}>
                       <IconsOnCircle circleRaius={this.ordRadius * 6} symbolSize={40} highlightedIndices={[1,8]} onLayout={this.onLayoutIconCircle}/>
                     </View>
-                    <View style={[styles.bottomWrapper, {top: this.state.strategylistTop}]}>
+                    <View pointerEvents={'box-none'} style={[styles.bottomWrapper, {top: this.state.bottomWrapperTop}]}>
                     <Button
-                        title={'View Life Areas'}
-                        style={[styles.button]}
-                        titleStyles={styles.buttonTitle}
-                        onPress={() => this.onLifeAreasPress}
-                        isTransparent
+                        title={'View All Life Areas'}
+                        style={[styles.viewAllButton]}
+                        onPress={this.onLifeAreasPress}
                     />
-                    <Text style={[TextStyles.labelMedium, styles.otherLabel]}>Your Focus Strategies:</Text>
+                    <Text style={[TextStyles.labelLarge, styles.focusStrategies]}>Your Focus Strategies:</Text>
                     <FlatList style={[styles.list]}
                               data={this.viewModel.selectedStrategies}
                               renderItem={this.renderListItem}
@@ -156,43 +114,24 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
 }
 
 const styles = StyleSheet.create({ 
-  titleContainer: {
-    alignItems: 'center',
-    flexDirection: 'column',
-  },
-  title: {
-    textAlign: 'center',
-  },
-  date: {
-    textTransform: 'uppercase',
-    marginBottom: 25,
-  },
-  labelLarge: {
-    marginBottom: 10,
-},
 bottomWrapper: {
   position: 'absolute',
   left: 20,
   right: 20,
   bottom: 0,
 },
-button: {
-  fontWeight: '500',
-  letterSpacing: 1.79,
+viewAllButton: {
+  alignSelf: 'center',
+  width: '90%',
+  height: 50,
+  margin: 5,
 },
-buttonTitle: {
-  borderWidth: 1,
-  borderRadius: 5,
-  // color: 'black',
-  fontSize: 10,
-  padding: 10,
-},
-otherLabel: {
-  marginTop: 10,
+focusStrategies: {
+  marginTop: 35,
   textAlign: 'center',
 },
 list: {
-  marginTop: 10,
+  marginTop: 25,
   width: '100%',
 },
 listItem: {
