@@ -45,12 +45,4 @@ export class ViewDomainsView extends ViewDomainsBase {
       this.viewModel.getNextDomain(-1);
     }
 
-    getCenterElement(): JSX.Element {
-      return(
-        <View style={{justifyContent: 'center', marginLeft: 'auto', marginRight: 'auto', marginTop: 50, marginBottom: 50}}>
-            {iconForDomain(this.getDomainDisplay()[1], null, TextStyles.h1.color, 60, 60)}
-        </View>
-        );
-  }
-
 }

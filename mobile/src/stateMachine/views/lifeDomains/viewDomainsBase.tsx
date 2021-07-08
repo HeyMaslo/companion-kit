@@ -8,6 +8,8 @@ import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
 import { AlertExitWithoutSave } from 'src/constants/alerts';
+import Layout from 'src/constants/Layout';
+import { iconForDomain } from 'src/helpers/DomainHelper';
 
 const { width } = Dimensions.get('window');
 const date = new Date();
@@ -97,14 +99,13 @@ export abstract class ViewDomainsBase extends ViewState {
                         <Text style={[TextStyles.p1, styles.domain]}>{domain}</Text>
                         <Text style={[TextStyles.labelMedium, styles.date]}>{today}</Text>
                     </View>
-                    <View style={{borderWidth: 1, borderRadius: 10, height: 350, justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={{borderWidth: 1, borderColor: '#CBC8CD', borderRadius: 10, height: Layout.window.height / 2.657, justifyContent: 'center', alignItems: 'center'}}>
                             <View style={{
                                 flexDirection: 'row', 
                                 margin: 10,
                                 height: 36,
                                 position: 'relative',
                                 borderRadius: 4,
-                                borderColor: 'green'
                             }}>
                                 <TouchableOpacity
                                 style={[styles.tabs,{
@@ -175,7 +176,10 @@ export abstract class ViewDomainsBase extends ViewState {
 
                                 </View>
                     </View>
-                    {this.getCenterElement()}
+                    <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 50, marginBottom: 50}}>
+                         {iconForDomain(this.getDomainDisplay()[1], null, TextStyles.h1.color, 60, 60)}
+                        {this.getCenterElement()}
+                    </View>
                     <View 
                      style={{
                          flexDirection: 'row', 

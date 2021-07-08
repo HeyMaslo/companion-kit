@@ -52,15 +52,12 @@ export class ChooseDomainView extends ViewDomainsBase {
     public getCenterElement(): JSX.Element {
         const [lDomain, domain, rDomain, importance] = this.getDomainDisplay();
         return(
-            <View style={{justifyContent: 'center', marginLeft: 'auto', marginRight: 'auto', marginTop: 50, marginBottom: 50}}>
                 <Button
-                    title={this.viewModel.selectedDomains.map((s) => s.name).includes(domain) && this.viewModel.selectedDomains.length > 1 ? 'Choose Strategies' : 'Select Focus Domain'}
+                    title={this.viewModel.selectedDomains.map((s) => s.name).includes(domain) && this.viewModel.selectedDomains.length > 1 ? 'Choose Strategies' : 'Select Life Area'}
                     style={styles.domain}
-                    titleStyles={styles.selectDomain}
                     onPress={() => this.onSelectDomain(domain)}
                     isTransparent
                 />
-            </View>
             );
     }
 
@@ -98,15 +95,11 @@ export class ChooseDomainView extends ViewDomainsBase {
 
 const styles = StyleSheet.create({ 
     domain: {
-        fontWeight: '500',
-        letterSpacing: 1.79,
-        fontFamily: mainFontMedium,
-    },
-    selectDomain: {
+        height: 50,
         borderWidth: 1,
         borderRadius: 5,
-        color: 'black',
-        fontSize: 10,
-        padding: 10,
-    }
+        borderColor: 'rgb(120,120,120)',
+        width: '90%',
+        marginTop: 50,
+    },
 });
