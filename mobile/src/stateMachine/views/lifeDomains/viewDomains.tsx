@@ -31,7 +31,7 @@ export class ViewDomainsView extends ViewDomainsBase {
 
     onDetails = () => {
       this.trigger(ScenarioTriggers.Tertiary);
-  }
+    }
 
     getDomainDisplay = (): string[] => {
       return this.viewModel.getDomainDisplay();

@@ -39,11 +39,11 @@ export class ChooseDomainView extends ViewDomainsBase {
 
     onBack = () => {
         this.trigger(ScenarioTriggers.Back);
-      }
+    }
   
-      onCancel = () => {
+    onCancel = () => {
         this.trigger(ScenarioTriggers.Cancel);
-      }
+    }
 
     onDetails = () => {
         this.trigger(ScenarioTriggers.Submit);
