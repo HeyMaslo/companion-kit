@@ -25,17 +25,25 @@ export class ChooseDomainView extends ViewDomainsBase {
         this.forceUpdate();
     }
 
-    public getDomainDisplay = (): string[] => {
+    getDomainDisplay = (): string[] => {
         return this.viewModel.getDomainDisplay();
       }
 
-    public goToRight = () => {
+    goToRight = () => {
         this.viewModel.getNextDomain(1);
     }
 
-    public goToLeft = () => {
+    goToLeft = () => {
         this.viewModel.getNextDomain(-1);
     }
+
+    onBack = () => {
+        this.trigger(ScenarioTriggers.Back);
+      }
+  
+      onCancel = () => {
+        this.trigger(ScenarioTriggers.Cancel);
+      }
 
     onDetails = () => {
         this.trigger(ScenarioTriggers.Submit);

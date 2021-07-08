@@ -68,29 +68,15 @@ export abstract class ViewDomainsBase extends ViewState {
     async start() {
     }
 
-    private cancel = () => {
-        this.trigger(ScenarioTriggers.Cancel);
-    }
+    public abstract onCancel? = () => {}
 
-    onClose = (): void | Promise<void> => this.runLongOperation(async () => {
-        this.showModal({
-            title: AlertExitWithoutSave,
-            primaryButton: {
-                text: 'yes, stop',
-                action: this.cancel,
-            },
-            secondaryButton: {
-                text: 'no, go back',
-                action: this.hideModal,
-            }
-        });
-    })
-
-    public abstract getDomainDisplay = (): string[] => {
-      return [];
-    }
+    public abstract onBack? = () => {}
 
     public abstract onDetails = () => {}
+
+    public abstract getDomainDisplay = (): string[] => {
+        return [];
+      }
 
     public abstract goToRight = () => {}
 
@@ -105,7 +91,7 @@ export abstract class ViewDomainsBase extends ViewState {
         const [lDomain, domain, rDomain, importance] = this.getDomainDisplay();
 
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()}>
+            <MasloPage style={this.baseStyles.page} onClose={this.onCancel} onBack={this.onBack}>
                 <Container style={[{height: this._contentHeight, paddingTop: 10, paddingBottom: 10}]}>
                     <View style={{justifyContent: 'space-between', flexDirection: 'row', marginBottom: 20}}>
                         <Text style={[TextStyles.p1, styles.domain]}>{domain}</Text>

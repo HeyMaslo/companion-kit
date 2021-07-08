@@ -23,19 +23,29 @@ export class ViewDomainsView extends ViewDomainsBase {
         this.forceUpdate();
     }
 
-    public getDomainDisplay = (): string[] => {
+    onBack = () => {
+      this.trigger(ScenarioTriggers.Back);
+    }
+
+    onCancel = null;
+
+    onDetails = () => {
+      this.trigger(ScenarioTriggers.Tertiary);
+  }
+
+    getDomainDisplay = (): string[] => {
       return this.viewModel.getDomainDisplay();
     }
 
-    public goToRight = () => {
+    goToRight = () => {
       this.viewModel.getNextDomain(1);
     }
 
-    public goToLeft = () => {
+    goToLeft = () => {
       this.viewModel.getNextDomain(-1);
     }
 
-    public getCenterElement(): JSX.Element {
+    getCenterElement(): JSX.Element {
       return(
         <View style={{justifyContent: 'center', marginLeft: 'auto', marginRight: 'auto', marginTop: 50, marginBottom: 50}}>
             {iconForDomain(this.getDomainDisplay()[1], null, TextStyles.h1.color, 60, 60)}
@@ -43,7 +53,4 @@ export class ViewDomainsView extends ViewDomainsBase {
         );
   }
 
-    onDetails = () => {
-        this.trigger(ScenarioTriggers.Submit);
-    }
 }
