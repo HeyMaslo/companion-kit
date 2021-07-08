@@ -70,7 +70,6 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
   }
 
   onLifeAreasPress = () => {
-    console.log("HEREEE")
     this.trigger(ScenarioTriggers.Next)
   }
 

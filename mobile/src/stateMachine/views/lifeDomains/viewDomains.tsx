@@ -5,8 +5,8 @@ import ChooseDomainViewModel from 'src/viewModels/ChooseDomainViewModel';
 import { ViewDomainsBase } from './viewDomainsBase';
 import React from 'react';
 import { View } from 'react-native';
-import Images from 'src/constants/images';
 import { iconForDomain } from 'src/constants/Domain';
+import { TextStyles } from 'src/styles/BaseStyles';
 
 @observer
 export class ViewDomainsView extends ViewDomainsBase {
@@ -38,7 +38,7 @@ export class ViewDomainsView extends ViewDomainsBase {
     public getCenterElement(): JSX.Element {
       return(
         <View style={{justifyContent: 'center', marginLeft: 'auto', marginRight: 'auto', marginTop: 50, marginBottom: 50}}>
-            {iconForDomain(this.getDomainDisplay()[1], null, null, 60, 60)}
+            {iconForDomain(this.getDomainDisplay()[1], null, TextStyles.h1.color, 60, 60)}
         </View>
         );
   }
