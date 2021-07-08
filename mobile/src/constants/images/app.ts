@@ -60,8 +60,8 @@ import MoodIconSVG from 'src/assets/images/app/moodIcon.svg';
 import ThinkingIconSVG from 'src/assets/images/app/thinking.svg';
 import IdentityIconSVG from 'src/assets/images/app/sleep.svg';
 import IndependenceIconSVG from 'src/assets/images/app/IndependenceIcon.svg';
-import SpirtualIconSVG from 'src/assets/images/app/SpirtualIcon.svg';
-import RelationshipsIconSVG from 'src/assets/images/app/RelationshipsIcon.svg';
+import SpirtualIconSVG from 'src/assets/images/app/SpiritualIcon.svg';
+import RelationshipsIconSVG from 'src/assets/images/app/RelationshipIcon.svg';
 
 export default {
     signInWithGoogle: GoogleIconPng,
