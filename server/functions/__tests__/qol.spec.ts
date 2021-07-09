@@ -10,7 +10,7 @@ import clientConfig from './mocks/client/config';
 
 import { createDomain, createQuestion, getDomains, getQuestions } from 'server/qol';
 import { QoLActionTypes } from 'common/models/dtos/qol';
-import { DomainScope } from '../../../mobile/src/constants/Domain';
+import { DomainName, DomainScope } from '../../../mobile/src/constants/Domain';
 
 const test = firebase.init('qol-test');
 
@@ -32,7 +32,7 @@ describe('QoL', () => {
                     type: QoLActionTypes.CreateDomain,
                     scope: DomainScope.GENERAL,
                     position: 1,
-                    name: 'Physical',
+                    name: DomainName.PHYSICAL,
                     slug: 'physical',
                     importance: 'SLEEP = Sleeeeepz Sleeeeepz Sleeeeepz Sleeeeepz incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
                 });
@@ -43,7 +43,7 @@ describe('QoL', () => {
                     type: QoLActionTypes.CreateDomain,
                     scope: 'NOT_A_VALID_SCOPE',
                     position: 1,
-                    name: 'Physical',
+                    name: DomainName.PHYSICAL,
                     slug: 'physical',
                     importance: 'PHYSICAL = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
                 });
@@ -62,7 +62,7 @@ describe('QoL', () => {
                     type: QoLActionTypes.CreateDomain,
                     scope: 'GENERAL',
                     position: 1,
-                    name: 'Physical',
+                    name: DomainName.PHYSICAL,
                     slug: 'physical',
                     importance: '',
                 });
@@ -88,7 +88,7 @@ describe('QoL', () => {
                 type: QoLActionTypes.CreateDomain,
                 scope: 'GENERAL',
                 position: 1,
-                name: 'Physical',
+                name: DomainName.PHYSICAL,
                 slug: 'physical',
                 importance: '',
             });
