@@ -6,31 +6,31 @@ type NotchDevice = {
     [key: string]: string;
 };
 
-let notch: boolean;
+// let notch: boolean;
 
-export function hasNotch() {
-    if (notch == null) {
-        const { ios } = Constants.platform;
-        const androidDeviceModel: string = Constants.deviceName;
-        const _model = ios ? ios.model : androidDeviceModel;
+// export function hasNotch() {
+//     if (notch == null) {
+//         const { ios } = Constants.platform;
+//         const androidDeviceModel: string = Constants.deviceName;
+//         const _model = ios ? ios.model : androidDeviceModel;
 
-        if (!_model) {
-            return false;
-        }
+//         if (!_model) {
+//             return false;
+//         }
 
-        if (ios) {
-            const notchDeviceIndex = devicesWithNotch.findIndex(item => item.model.toLowerCase() === _model.toLowerCase());
-            notch = notchDeviceIndex !== -1;
-        } else {
-            const otherModel = _model.toLowerCase();
-            notch = devicesWithNotch.some(item => {
-                const itemModel = item.model.toLowerCase();
-                return otherModel.indexOf(itemModel) !== -1;
-            });
-        }
-    }
-    return notch;
-}
+//         if (ios) {
+//             const notchDeviceIndex = devicesWithNotch.findIndex(item => item.model.toLowerCase() === _model.toLowerCase());
+//             notch = notchDeviceIndex !== -1;
+//         } else {
+//             const otherModel = _model.toLowerCase();
+//             notch = devicesWithNotch.some(item => {
+//                 const itemModel = item.model.toLowerCase();
+//                 return otherModel.indexOf(itemModel) !== -1;
+//             });
+//         }
+//     }
+//     return notch;
+// }
 
 const devicesWithNotch: Array<NotchDevice> = [
     {

@@ -5,7 +5,7 @@ import * as Animatable from 'react-native-animatable';
 import { ViewStateProps, ScenarioTriggers, IStateView, IPersonaViewContext } from '../abstractions';
 import ModalView, { ModalProps, isModalButton } from './modalView';
 import { PersonaViewPresets, PersonaStates, PersonaViewState } from '../persona';
-import BaseStyles, { TextStyles, layout, notch } from 'src/styles/BaseStyles';
+import BaseStyles, { TextStyles, layout } from 'src/styles/BaseStyles';
 import { PromiseWrapper } from 'common/utils/promiseWrapper';
 import { createLogger } from 'common/logger';
 import { safeCall } from 'common/utils/functions';
@@ -53,7 +53,7 @@ export abstract class ViewState<CState = {}, CParams = any> extends React.Compon
     get baseStyles() { return BaseStyles; }
     get textStyles() { return TextStyles; }
     get layout() { return layout; }
-    get hasNotch() { return notch; }
+    // get hasNotch() { return notch; }
 
     componentDidMount() {
         this.start();

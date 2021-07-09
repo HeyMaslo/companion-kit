@@ -14,7 +14,6 @@ import { getPersonaRadius, PersonaScale } from '../persona';
 import AppController from 'src/controllers';
 import IconsOnCircle from './IconsOnCircle';
 import { PersonaArmState } from 'dependencies/persona/lib';
-import { hasNotch } from 'src/constants/devices';
 import { DomainName } from 'src/constants/Domain';
 
 const date = new Date();
@@ -22,7 +21,7 @@ const today = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear(
 
 const pixelRatio = PixelRatio.get();
 const containerMarginBottom = Layout.isSmallDevice ? 0 : 25;
-const containerMarginTop = hasNotch ? 75 : 25;
+const containerMarginTop = Layout.isSmallDevice ? 25 : 75;
 
 type YourFocusDomainsViewState = {
   bottomWrapperTop: number,
