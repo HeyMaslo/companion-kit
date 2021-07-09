@@ -90,6 +90,8 @@ export abstract class ViewDomainsBase extends ViewState {
     renderContent() {
         let {xTabOne, xTabTwo, active, translateX, translateXTabTwo, translateXTabOne, translateY, xDomain} = this.state
         const [lDomain, domain, rDomain, importance] = this.getDomainDisplay();
+        const centerDomainName = domain as DomainName
+        console.log('DomainName iden', DomainName.IDENTITY);
 
         return (
             <MasloPage style={this.baseStyles.page} onClose={this.onCancel} onBack={this.onBack}>
@@ -98,7 +100,7 @@ export abstract class ViewDomainsBase extends ViewState {
                         <Text style={[TextStyles.p1, styles.domain]}>{domain}</Text>
                         <Text style={[TextStyles.labelMedium, styles.date]}>{today}</Text>
                     </View>
-                    <View style={{borderWidth: 1, borderColor: '#CBC8CD', borderRadius: 10, height: Layout.window.height / 2.657, justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={{borderWidth: 1, borderColor: '#CBC8CD', borderRadius: 10, height: Layout.window.height * 0.37, justifyContent: 'center', alignItems: 'center'}}>
                             <View style={{
                                 flexDirection: 'row', 
                                 margin: 10,
@@ -175,8 +177,8 @@ export abstract class ViewDomainsBase extends ViewState {
 
                                 </View>
                     </View>
-                    <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 50, marginBottom: 50}}>
-                         {iconForDomain(DomainName[this.getDomainDisplay()[1]], null, TextStyles.h1.color, 60, 60)}
+                    <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', height: Layout.window.height * 0.25, marginBottom: 10}}>
+                         {iconForDomain(centerDomainName, {flex: 1}, TextStyles.h1.color, 60, 60)}
                         {this.getCenterElement()}
                     </View>
                     <View 

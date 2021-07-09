@@ -100,6 +100,5 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderColor: 'rgb(120,120,120)',
         width: '90%',
-        marginTop: 50,
     },
 });
