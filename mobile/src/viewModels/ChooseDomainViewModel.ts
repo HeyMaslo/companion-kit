@@ -53,7 +53,7 @@ export default class ChooseDomainViewModel {
     }
 
     //  Iterates through the domains as user clicks the next or back button, (-1) going back, (1) going forward through the list of domains
-    public getNextDomain(dir:number): void {
+    public getNextDomain(dir: number): void {
         if (dir > 0){
             if (this._rightDomain < this.domainCount) {
                 this._rightDomain++;
