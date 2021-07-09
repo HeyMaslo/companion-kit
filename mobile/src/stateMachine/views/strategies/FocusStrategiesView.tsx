@@ -81,7 +81,7 @@ export class FocusStrategiesView extends ViewState {
     renderContent() {
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} onBack={this.onBack}>
-                <Container style={[{height: this._contentHeight, paddingTop: 10, paddingBottom: 10}]}>
+                <Container style={[{height: this._contentHeight, paddingTop: 10}]}>
                   {this.renderInnerContent('Here are your focus strategies.')}
                   <Button title='CONTINUE' style={styles.selectButton} onPress={this.nextPage}/>
                 </Container>
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   selectButton: {
-    marginBottom: 30,
+    marginBottom: 20,
   },
   icon: {
     display: 'flex',
