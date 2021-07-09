@@ -43,12 +43,12 @@ export default class ChooseStrategyViewModel {
             } as DisplayStrategyIded
       });
       // Only include strategies from the selectedDomains
-      this.availableStrategies = this.availableStrategies.filter((s) => s.associatedDomainNames.some(r => this._selectedDomains.map(s => s.slug).includes(r)))
+      this.availableStrategies = this.availableStrategies.filter((s) => s.associatedDomainNames.some(r => this._selectedDomains.map(sd => sd.name).includes(r)))
       this._allStrategies = this.availableStrategies;
     }
   }
 
-  public filterAvailableStrategies(strategyDomain: string) {
+  public filterAvailableStrategies(strategyDomain: DomainName) {
     if (strategyDomain == null) {
       this.availableStrategies = this._allStrategies;
     } else {

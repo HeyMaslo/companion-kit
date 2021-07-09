@@ -1,9 +1,10 @@
 import { Identify } from 'common/models';
+import { DomainName } from './Domain';
 
 export type Strategy = {
   title:                    string,
   details:                  string,
-  associatedDomainNames:    string[],
+  associatedDomainNames:    DomainName[],
 };
 
 export type StrategyIded = Identify<Strategy>;
