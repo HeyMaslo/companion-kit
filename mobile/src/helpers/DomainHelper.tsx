@@ -9,40 +9,40 @@ export function iconForDomain(domainName: DomainName, style?: StyleProp<ViewStyl
 
     switch (domainName) {
       case DomainName.MOOD:    
-      return <Images.moodIcon color={color} width={width} height={height} style={style}/>;
+      return <Images.moodIcon key={DomainName.MOOD} color={color} width={width} height={height} style={style}/>;
         break;
       case DomainName.PHYSICAL:
-        return <Images.physicalIcon color={color} width={width} height={height} style={style}/>;
+        return <Images.physicalIcon key={DomainName.PHYSICAL} color={color} width={width} height={height} style={style}/>;
         break;
       case DomainName.SLEEP:
-        return <Images.sleepIcon color={color} width={width} height={height} style={style}/>;
+        return <Images.sleepIcon key={DomainName.SLEEP} color={color} width={width} height={height} style={style}/>;
         break;
       case DomainName.THINKING:
-        return <Images.thinkingIcon color={color} width={width} height={height} style={style}/>;
+        return <Images.thinkingIcon key={DomainName.THINKING} color={color} width={width} height={height} style={style}/>;
         break;
       case DomainName.IDENTITY:
-        return <Images.identityIcon color={color} width={width} height={height} style={style}/>;
+        return <Images.identityIcon key={DomainName.IDENTITY} color={color} width={width} height={height} style={style}/>;
         break;
       case DomainName.LEISURE:
-        return <Images.leisureIcon color={color} width={width} height={height} style={style}/>;
+        return <Images.leisureIcon key={DomainName.LEISURE} color={color} width={width} height={height} style={style}/>;
         break;
       case DomainName.INDEPENDENCE:
-        return <Images.independenceIcon color={color} width={width} height={height} style={style}/>;
+        return <Images.independenceIcon key={DomainName.INDEPENDENCE} color={color} width={width} height={height} style={style}/>;
         break;
       case DomainName.SELFESTEEM:
-        return <Images.selfEsteemIcon color={color} width={width} height={height} style={style}/>;
+        return <Images.selfEsteemIcon key={DomainName.SELFESTEEM} color={color} width={width} height={height} style={style}/>;
         break;
       case DomainName.HOME:
-        return <Images.homeDomainIcon color={color} width={width} height={height} style={style}/>;
+        return <Images.homeDomainIcon key={DomainName.HOME} color={color} width={width} height={height} style={style}/>;
         break;
       case DomainName.MONEY:
-        return <Images.moneyIcon color={color} width={width} height={height} style={style}/>;
+        return <Images.moneyIcon key={DomainName.MONEY} color={color} width={width} height={height} style={style}/>;
         break;
       case DomainName.SPIRITUAL:
-        return <Images.spirtualIcon color={color} width={width} height={height} style={style}/>;
+        return <Images.spirtualIcon key={DomainName.SPIRITUAL} color={color} width={width} height={height} style={style}/>;
         break;
       case DomainName.RELATIONSHIPS:
-        return <Images.relationshipsIcon color={color} width={width} height={height} style={style}/>;
+        return <Images.relationshipsIcon key={DomainName.RELATIONSHIPS} color={color} width={width} height={height} style={style}/>;
         break;
     }
 }
