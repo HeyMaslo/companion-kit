@@ -5,11 +5,10 @@ import { Button, Container, MasloPage } from 'src/components';
 import Colors from 'src/constants/colors';
 import Images from 'src/constants/images';
 import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
-import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
-import { AlertExitWithoutSave } from 'src/constants/alerts';
 import Layout from 'src/constants/Layout';
 import { iconForDomain } from 'src/helpers/DomainHelper';
+import { DomainName } from 'src/constants/Domain';
 
 const { width } = Dimensions.get('window');
 const date = new Date();
@@ -177,7 +176,7 @@ export abstract class ViewDomainsBase extends ViewState {
                                 </View>
                     </View>
                     <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 50, marginBottom: 50}}>
-                         {iconForDomain(this.getDomainDisplay()[1], null, TextStyles.h1.color, 60, 60)}
+                         {iconForDomain(DomainName[this.getDomainDisplay()[1]], null, TextStyles.h1.color, 60, 60)}
                         {this.getCenterElement()}
                     </View>
                     <View 
