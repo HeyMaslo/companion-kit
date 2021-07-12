@@ -1,5 +1,3 @@
-import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native'
 import React, { ErrorInfo } from 'react';
 import {
     StatusBar, StyleSheet, View, AppState, AppStateStatus, Alert,
