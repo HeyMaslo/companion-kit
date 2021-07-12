@@ -2,6 +2,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { Button } from 'src/components'
+import { DomainName } from 'src/constants/Domain';
 import AppController from 'src/controllers';
 import { mainFontMedium } from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
@@ -37,9 +38,7 @@ export class ChooseDomainView extends ViewDomainsBase {
         this.viewModel.getNextDomain(-1);
     }
 
-    onBack = () => {
-        this.trigger(ScenarioTriggers.Back);
-    }
+    onBack = null;
   
     onCancel = () => {
         this.trigger(ScenarioTriggers.Cancel);
@@ -53,7 +52,7 @@ export class ChooseDomainView extends ViewDomainsBase {
         const [lDomain, domain, rDomain, importance] = this.getDomainDisplay();
         return(
                 <Button
-                    title={this.viewModel.selectedDomains.map((s) => s.slug).includes(domain) && this.viewModel.selectedDomains.length > 1 ? 'Choose Strategies' : 'Select Life Area'}
+                    title={this.viewModel.selectedDomains.map((s) => s.name).includes(domain as DomainName) && this.viewModel.selectedDomains.length > 0 ? 'Choose Strategies' : 'Select Life Area'}
                     style={styles.domain}
                     onPress={() => this.onSelectDomain(domain)}
                     isTransparent
@@ -68,20 +67,20 @@ export class ChooseDomainView extends ViewDomainsBase {
         if (hasThreeSelected) {
             Alert.alert(
                 'Too Many',
-                'Looks like you have already selected three domains.',
+                'Looks like you have already selected three life areas.',
                 [
                     { text: 'Deselct all', onPress: this.clearDomains, style: 'destructive'},
                     { text: 'OK' },
                 ]);
-        } else if ((hasTwoSelected || hasThreeSelected) && !this.viewModel.selectDomain(this.viewModel.getDomainByName(n))) {
-            this.trigger(ScenarioTriggers.Tertiary);
         } else if (this.viewModel.selectDomain(this.viewModel.getDomainByName(n))) {
             AppController.Instance.User.qol.setUserStateProperty('focusDomains', this.viewModel.selectedDomains.map(d => d.id));
             hasTwoSelected ? this.trigger(ScenarioTriggers.Next) : this.trigger(ScenarioTriggers.Tertiary);
+        } else if (!this.viewModel.selectDomain(this.viewModel.getDomainByName(n))) {
+            this.trigger(ScenarioTriggers.Tertiary);
         } else {
             Alert.alert(
                 'Oops',
-                'Looks like you have already selected that domain.',
+                'There was an error selecting that life area.',
                 [
                     { text: 'OK' },
                 ]);

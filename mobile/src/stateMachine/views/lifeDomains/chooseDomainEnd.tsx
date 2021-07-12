@@ -32,6 +32,10 @@ export class ChooseDomainEndView extends ViewState {
         this.trigger(ScenarioTriggers.Cancel);
     }
 
+    private onBack = () => {
+        this.trigger(ScenarioTriggers.Back);
+    }
+
     async onThreeSelected() {
         let possibleStrategies = await AppController.Instance.User.strategy.getPossibleStrategies();
         AppViewModel.Instance.ChooseStrategy.setAvailableStrategies(possibleStrategies);
@@ -44,7 +48,7 @@ export class ChooseDomainEndView extends ViewState {
         logger.log('MY_SELECTL', selectedDomains.length);
 
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()}>
+            <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.onBack()}>
                 <Container style={[styles.flexContainer, { height: this._contentHeight, justifyContent: 'space-between',}]}>
                     <Text style={[this.textStyles.h1, styles.title]}>Next, you'll choose strategies for your focus domains </Text>
                     <View style ={{width: '90%', flex: 0, alignItems: 'center', justifyContent: 'space-around', marginBottom: 15}}>

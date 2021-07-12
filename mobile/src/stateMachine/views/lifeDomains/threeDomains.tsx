@@ -24,6 +24,10 @@ export class ThreeDomainView extends ViewState {
         this.trigger(ScenarioTriggers.Cancel);
     }
 
+    private onBack = () => {
+        this.trigger(ScenarioTriggers.Back);
+    }
+
     private onStartSurvey = () => {
         this.trigger(ScenarioTriggers.Submit);
     }
@@ -36,12 +40,12 @@ export class ThreeDomainView extends ViewState {
         const selectedDomains = this.viewModel.selectedDomains;
 
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()}>
+            <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.onBack()}>
                 <Container style={[styles.flexContainer, { height: this._contentHeight, paddingTop: '20%', width: '100%', justifyContent: 'space-between' }]}>
                     <View style={styles.flexContainer}>
                         {/* Titles */}
-                        <Text style={[this.textStyles.h1, styles.title]}>Choosing more than two focus domains is not recommended</Text>
-                        <Text style={styles.message}> For Optimal Effect, choose 1-2 per month - 3 Domains is Maximum</Text>
+                        <Text style={[this.textStyles.h1, styles.title]}>Choosing more than two targeted life areas is not recommended. </Text>
+                        <Text style={styles.message}> For Optimal Effect, choose 1-2 per month - 3 Domains is maximum</Text>
                     </View>
                     <View style={[styles.flexContainer, {marginBottom: 15}]}>
                         {/* Buttons */}

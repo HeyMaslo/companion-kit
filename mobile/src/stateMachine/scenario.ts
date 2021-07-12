@@ -418,6 +418,7 @@ export const MasloScenario: GlobalScenario<States> = {
         view: ThreeDomainView,
         exit: [
             { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
+            { target: States.Select_Domain, trigger: [Triggers.Back] },
             { target: States.Choose_end, trigger: [Triggers.Submit] },
         ]
     },
@@ -425,6 +426,7 @@ export const MasloScenario: GlobalScenario<States> = {
         view: ChooseDomainEndView,
         exit: [
             { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
+            { target: States.Select_Domain, trigger: [Triggers.Back] },
             { target: States.Choose_Strategies, trigger: [Triggers.Submit] },
         ]
     },
