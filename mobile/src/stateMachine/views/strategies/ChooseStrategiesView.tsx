@@ -1,3 +1,5 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React from 'react';
@@ -11,6 +13,9 @@ import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
 import { AlertExitWithoutSave } from 'src/constants/alerts';
 import { DomainName } from 'src/constants/Domain';
+import { StrategyDetailsView } from './StrategyDetailsView';
+
+const Stack = createStackNavigator();
 
 @observer
 export class ChooseStrategiesView extends ViewState {
@@ -20,11 +25,18 @@ export class ChooseStrategiesView extends ViewState {
   private domainNames: DomainName[] = [];
   private currentFilter: DomainName = null;
 
+  private navigation: any;
+  @observable
+  private showClose = true;
+
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0} });
         this.hidePersona();
         this.domainNames = this.viewModel.selectedDomains;
+
+        this.screen = this.screen.bind(this);
+        this.Details = this.Details.bind(this);
 
         this.onLearnMorePress = this.onLearnMorePress.bind(this);
         this.onSelectStrategy = this.onSelectStrategy.bind(this);
@@ -63,7 +75,8 @@ export class ChooseStrategiesView extends ViewState {
       const found = this.viewModel.getStrategyById(id);
       if (found) {
         this.viewModel.learnMoreStrategy = found;
-        this.trigger(ScenarioTriggers.Tertiary);
+        // this.trigger(ScenarioTriggers.Tertiary);
+        this.navigation.navigate('Details')
       }
   }
 
@@ -95,47 +108,69 @@ export class ChooseStrategiesView extends ViewState {
       <StrategyCard item={item} onSelectStrategy={this.onSelectStrategy} onLearnMorePress={this.onLearnMorePress}/>
     );
 
+    private screen({ navigation }) {
+      this.navigation = navigation;
+      this.showClose = true;
+      return (
+        <Container style={[{height: this._contentHeight, paddingTop: 10}]}>
+
+        {/* Title */}
+        <View style={{justifyContent: 'center', flexDirection: 'row', marginBottom: 20}}>
+            <Text style={[TextStyles.h2, styles.strategy]}>{'Choose up to 4 focus strategies below.'}</Text>
+        </View>
+
+        <View>
+        {this.domainNames.length < 3 ? 
+          <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+            {/* Sort Row of Three Buttons */}
+            <TouchableOpacity onPress={() => this.changeFilterPressed(null)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == null ? {textDecorationLine: 'underline'} : null]}>{'Show All'}</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => this.changeFilterPressed(this.domainNames[0])}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.domainNames[0] ? {textDecorationLine: 'underline'} : null]}>{this.domainNames[0]}</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => this.changeFilterPressed(this.domainNames[1])}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.domainNames[1] ? {textDecorationLine: 'underline'} : null]}>{this.domainNames[1]}</Text></TouchableOpacity>
+          </View>
+        :
+          <View>
+          {/* Sort Drop Down Button */}
+            <Button titleStyles={[styles.sortButtonTitle, this.currentFilter == null ? {textDecorationLine: 'underline'} : null]} title='SHOW ALL' style={styles.sortButton} onPress={this.dropDown}/>
+            {this.dropDownIsExtended ? 
+             <FlatList style={styles.dropDownlist}    
+                       data={this.domainNames}
+                       renderItem={this.renderDropDownListItem}
+                       keyExtractor={item => item}
+                       scrollEnabled={false}/>
+            : null}
+          </View>
+          }
+          </View>
+
+        {/* List of Strategies */}
+        <FlatList style={styles.list}    
+                  data={this.viewModel.availableStrategies}
+                  renderItem={this.renderListItem}
+                  keyExtractor={item => item.id}/>
+        <Button title='SELECT THESE STRATEGIES' style={styles.selectButton} onPress={this.onSubmit} disabled={this.viewModel.selectedStrategies.length < 1}/>
+    </Container>
+      );
+    }
+
+    private Details(props): JSX.Element {
+      console.log('details(props)', props)
+      this.showClose = false;
+      const detsView = new StrategyDetailsView(props.extraData);
+      return detsView.renderContent();
+    }
+
     renderContent() {
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} onBack={() => this.onBack()}>
-                <Container style={[{height: this._contentHeight, paddingTop: 10}]}>
-
-                    {/* Title */}
-                    <View style={{justifyContent: 'center', flexDirection: 'row', marginBottom: 20}}>
-                        <Text style={[TextStyles.h2, styles.strategy]}>{'Choose up to 4 focus strategies below.'}</Text>
-                    </View>
-
-                    <View>
-                    {this.domainNames.length < 3 ? 
-                      <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                        {/* Sort Row of Three Buttons */}
-                        <TouchableOpacity onPress={() => this.changeFilterPressed(null)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == null ? {textDecorationLine: 'underline'} : null]}>{'Show All'}</Text></TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.changeFilterPressed(this.domainNames[0])}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.domainNames[0] ? {textDecorationLine: 'underline'} : null]}>{this.domainNames[0]}</Text></TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.changeFilterPressed(this.domainNames[1])}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.domainNames[1] ? {textDecorationLine: 'underline'} : null]}>{this.domainNames[1]}</Text></TouchableOpacity>
-                      </View>
-                    :
-                      <View>
-                      {/* Sort Drop Down Button */}
-                        <Button titleStyles={[styles.sortButtonTitle, this.currentFilter == null ? {textDecorationLine: 'underline'} : null]} title='SHOW ALL' style={styles.sortButton} onPress={this.dropDown}/>
-                        {this.dropDownIsExtended ? 
-                         <FlatList style={styles.dropDownlist}    
-                                   data={this.domainNames}
-                                   renderItem={this.renderDropDownListItem}
-                                   keyExtractor={item => item}
-                                   scrollEnabled={false}/>
-                        : null}
-                      </View>
-                      }
-                      </View>
-
-                    {/* List of Strategies */}
-                    <FlatList style={styles.list}    
-                              data={this.viewModel.availableStrategies}
-                              renderItem={this.renderListItem}
-                              keyExtractor={item => item.id}/>
-                    <Button title='SELECT THESE STRATEGIES' style={styles.selectButton} onPress={this.onSubmit} disabled={this.viewModel.selectedStrategies.length < 1}/>
-                </Container>
-            </MasloPage>
+          <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} onBack={this.showClose ? () => this.onBack(): null}>
+            <NavigationContainer independent={true}>
+              <Stack.Navigator headerMode={'none'}>
+                 <Stack.Screen name="Home" component={this.screen} />
+                 <Stack.Screen name="Details">
+                 {props => <this.Details {...props} extraData={this.props} />}
+                 </Stack.Screen>
+              </Stack.Navigator>
+            </NavigationContainer>
+          </MasloPage>
         );
     }
 }
