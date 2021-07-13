@@ -38,7 +38,6 @@ export async function createDomain(args: CreateDomainRequest)
     if (args.scope in DomainScope) {
         await Repo.Domains.create({
             scope:      args.scope as DomainScope,
-            position:   args.position,
             name:       args.name,
             slug:       args.slug,
             importance: args.importance,
