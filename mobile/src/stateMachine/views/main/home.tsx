@@ -140,16 +140,10 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     private onStartQOL = () => {
         this.trigger(ScenarioTriggers.Tertiary);
     }
-    private onStartDomains(str: string) {
-        if (str == 'domains') {
-            // AppViewModel.Instance.ChooseDomain.resetDomains();
-            // AppViewModel.Instance.ChooseStrategy.resetStrategies();
-            this.trigger(ScenarioTriggers.Back);
-        } else if (str == 'b') {
-            this.trigger(ScenarioTriggers.Next);
-        } else {
-            this.trigger(ScenarioTriggers._TESTING_);
-        }
+    private onStartDomains() {
+        // AppViewModel.Instance.ChooseDomain.resetDomains();
+        // AppViewModel.Instance.ChooseStrategy.resetStrategies();
+        this.trigger(ScenarioTriggers.Back);
     }
 
     private openStoryDetails = (jid: string) => {
@@ -347,10 +341,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
                 <View onTouchStart={this.onTapOrb} style={{position: 'absolute', top: -(this.orbTapContainerHeight), left: 0, right: 0, height: this.orbTapContainerHeight}}/>
                     <View style={{flexDirection:'row'}}>
-                    {/* MK-TODO buttons below used for development only and will be removed */}
-                    {/* <Button title="WorkingView" style={styles.qolButton} onPress={() => this.onStartDomains('b')}/> */}
-                    {/* <Button title="WorkView 2" style={styles.qolButton} onPress={() => this.onStartDomains('c')}/> */}
-                    <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains('domains')}/>
+                    <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains()}/>
                     </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
                     { loading

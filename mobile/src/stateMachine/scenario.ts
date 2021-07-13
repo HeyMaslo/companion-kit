@@ -204,11 +204,8 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.StartQol, trigger: Triggers.Tertiary },
             { target: States.Journal_SelectMood, trigger: Triggers.Submit },
             { target: States.QolQuestion, trigger: Triggers.Quaternary },
-            // MK-TODO temp testing
             { target: States.Focus_Domains, trigger: Triggers.Next },
-            { target: States.Past_Strategies, trigger: Triggers._TESTING_ },
-            //
-            { target: States.Choose_Domain, trigger: Triggers.Back },
+            { target: States.Choose_Domain, trigger: Triggers.Quinary },
         ],
     },
 
