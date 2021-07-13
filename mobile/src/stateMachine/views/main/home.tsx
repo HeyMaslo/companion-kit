@@ -143,7 +143,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     private onStartDomains() {
         // AppViewModel.Instance.ChooseDomain.resetDomains();
         // AppViewModel.Instance.ChooseStrategy.resetStrategies();
-        this.trigger(ScenarioTriggers.Back);
+        this.trigger(ScenarioTriggers.Quinary);
     }
 
     private openStoryDetails = (jid: string) => {

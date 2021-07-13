@@ -19,7 +19,6 @@ import { DomainName } from 'src/constants/Domain';
 const date = new Date();
 const today = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 
-const pixelRatio = PixelRatio.get();
 const containerMarginBottom = Layout.isSmallDevice ? 0 : 25;
 const containerMarginTop = Layout.isSmallDevice ? 25 : 75;
 

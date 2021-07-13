@@ -10,20 +10,18 @@ import { ViewState } from '../base';
 
 export const logger = createLogger('[endQOL]');
 
-const minContentHeight = 1000;
-
+const containerMarginTop = Layout.isSmallDevice ? 50 : 75;
 @observer
 export class SelectDomainView extends ViewState {
     constructor(props) {
         super(props);
-        this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { transition: { duration: 2.2 }});
-        this.persona.view = {...this.persona.view, position: { x: this.persona.view.position.x, y: Layout.window.height*0.20} };
+        this._contentHeight = this.layout.window.height - containerMarginTop;
+        this.persona.setupContainerHeight(0, { transition: { duration: 2.2 }}, Layout.window.height * 0.58);
     }
 
     public get viewModel() {
         return AppViewModel.Instance.ChooseDomain;
     }
-    
 
     async start() {}
 

@@ -13,7 +13,8 @@ import { DomainName } from 'src/constants/Domain';
 const { width } = Dimensions.get('window');
 const date = new Date();
 const today = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
-
+const centerDomainFontSize = Layout.isSmallDevice ? 25 : 30;
+const sideDomainsFontSize = Layout.isSmallDevice ? 14 : 17;
 
 export abstract class ViewDomainsBase extends ViewState {
 
@@ -95,11 +96,7 @@ export abstract class ViewDomainsBase extends ViewState {
 
         return (
             <MasloPage style={this.baseStyles.page} onClose={this.onCancel} onBack={this.onBack}>
-                <Container style={[{height: this._contentHeight, paddingTop: 10, paddingBottom: 10}]}>
-                    <View style={{justifyContent: 'space-between', flexDirection: 'row', marginBottom: 20}}>
-                        <Text style={[TextStyles.p1, styles.domain]}>{domain}</Text>
-                        <Text style={[TextStyles.labelMedium, styles.date]}>{today}</Text>
-                    </View>
+                <Container style={[{height: this._contentHeight}]}>
                     <View style={{borderWidth: 1, borderColor: '#CBC8CD', borderRadius: 10, height: Layout.window.height * 0.37, justifyContent: 'center', alignItems: 'center'}}>
                             <View style={{
                                 flexDirection: 'row', 
@@ -168,7 +165,7 @@ export abstract class ViewDomainsBase extends ViewState {
                                     paddingBottom: 10,
                                 }]}>
                                     <Button
-                                        title= {active === 0 ? 'View Details' : 'Calendar'}
+                                        title= {active === 0 ? 'Learn More' : 'Calendar'}
                                         style={styles.buttonDetails}
                                         titleStyles={styles.mailButtonTitle}
                                         onPress={active === 0 ? () => this.onDetails() : null}
@@ -178,29 +175,29 @@ export abstract class ViewDomainsBase extends ViewState {
                                 </View>
                     </View>
                     <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', height: Layout.window.height * 0.25, marginBottom: 10}}>
-                         {iconForDomain(centerDomainName, {flex: 1}, TextStyles.h1.color, 60, 60)}
                         {this.getCenterElement()}
+                        {iconForDomain(centerDomainName, {flex: 1}, TextStyles.h1.color, 60, 60)}
                     </View>
                     <View 
                      style={{
                          flexDirection: 'row', 
                          justifyContent: 'space-between', 
-                         marginBottom: 50,
+                         marginBottom: 20,
                          }}>
                          <TouchableOpacity onPress = {this.goToLeft}>
                             <Images.backIcon width={20} height={20} />
                          </TouchableOpacity>
-                         <Text style={[TextStyles.p1, styles.domain, {fontSize: 30}]}>{domain}</Text>
+                         <Text style={[TextStyles.p1, styles.domain, {fontSize: centerDomainFontSize}]}>{domain}</Text>
                          <TouchableOpacity onPress = {this.goToRight}>
                             <Images.backIcon width={20} height={20} style={{transform: [{ rotate: '180deg' }]}}/>
                          </TouchableOpacity>
                     </View>
                      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                         <TouchableOpacity onPress = {this.goToLeft}>
-                            <Text style={[TextStyles.labelMedium, styles.domain, {fontSize: 17}]}>{lDomain}</Text>
+                            <Text style={[TextStyles.labelMedium, styles.domain, {fontSize: sideDomainsFontSize}]}>{lDomain}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress = {this.goToRight}>
-                            <Text style={[TextStyles.labelMedium, styles.domain, {fontSize: 17}]}>{rDomain}</Text>
+                            <Text style={[TextStyles.labelMedium, styles.domain, {fontSize: sideDomainsFontSize}]}>{rDomain}</Text>
                         </TouchableOpacity>
                      </View>
                 </Container>
