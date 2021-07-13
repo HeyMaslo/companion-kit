@@ -10,8 +10,7 @@ export enum QoLActionTypes {
 
 type CreateDomainArgs = {
     scope:      string,
-    position:   number,
-    name:       DomainName,
+    name:       string,
     slug:       string,
     importance: string,
 };

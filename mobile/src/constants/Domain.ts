@@ -23,8 +23,7 @@ export enum DomainName {
 
 export type Domain = {
   scope:      DomainScope,
-  position:   number,
-  name:       DomainName,
+  name:       string,
   slug:       string,
   importance: string,     // description of why the domain is important
 };

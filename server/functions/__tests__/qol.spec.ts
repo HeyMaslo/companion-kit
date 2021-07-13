@@ -31,8 +31,7 @@ describe('QoL', () => {
                 const result = await createDomain({
                     type: QoLActionTypes.CreateDomain,
                     scope: DomainScope.GENERAL,
-                    position: 1,
-                    name: DomainName.PHYSICAL,
+                    name: 'Physical',
                     slug: 'physical',
                     importance: 'SLEEP = Sleeeeepz Sleeeeepz Sleeeeepz Sleeeeepz incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
                 });
@@ -42,8 +41,7 @@ describe('QoL', () => {
                 const result = await createDomain({
                     type: QoLActionTypes.CreateDomain,
                     scope: 'NOT_A_VALID_SCOPE',
-                    position: 1,
-                    name: DomainName.PHYSICAL,
+                    name: 'Physical',
                     slug: 'physical',
                     importance: 'PHYSICAL = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
                 });
@@ -61,8 +59,7 @@ describe('QoL', () => {
                 await createDomain({
                     type: QoLActionTypes.CreateDomain,
                     scope: 'GENERAL',
-                    position: 1,
-                    name: DomainName.PHYSICAL,
+                    name: 'Physical',
                     slug: 'physical',
                     importance: '',
                 });
@@ -87,8 +84,7 @@ describe('QoL', () => {
             await createDomain({
                 type: QoLActionTypes.CreateDomain,
                 scope: 'GENERAL',
-                position: 1,
-                name: DomainName.PHYSICAL,
+                name: 'Physical',
                 slug: 'physical',
                 importance: '',
             });
