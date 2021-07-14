@@ -11,9 +11,6 @@ import { AlertExitWithoutSave } from 'src/constants/alerts';
 
 @observer
 export class ReviewStrategiesView extends ViewState {
-
-  private showButton = true;
-
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0} });
@@ -65,8 +62,7 @@ export class ReviewStrategiesView extends ViewState {
       <StrategyCard item={item} onSelectStrategy={(()=>(null))} onLearnMorePress={this.onLearnMorePress} hideCheckbox={true}/>
     );
     
-    public renderInnerContent(titleText: string, showButton: boolean): JSX.Element {
-      this.showButton = showButton;
+    public renderInnerContent(titleText: string): JSX.Element {
       return (
             <>
             {/* Title */}
@@ -86,8 +82,8 @@ export class ReviewStrategiesView extends ViewState {
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} onBack={this.onBack}>
                 <Container style={[{height: this._contentHeight, paddingTop: 10}]}>
-                  {this.renderInnerContent('Here are your focus strategies.', true)}
-                  {this. showButton && <Button title='CONTINUE' style={styles.selectButton} onPress={this.nextPage}/>}
+                  {this.renderInnerContent('Here are your focus strategies.')}
+                  <Button title='CONTINUE' style={styles.selectButton} onPress={this.nextPage}/>
                 </Container>
             </MasloPage>
         );

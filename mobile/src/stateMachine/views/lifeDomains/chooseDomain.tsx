@@ -24,6 +24,8 @@ export class ChooseDomainView extends ViewDomainsBase {
         let possibleDomains = await AppController.Instance.User.domain.getPossibleDomains();
         this.viewModel.setAvailableDomains(possibleDomains);
         this.forceUpdate();
+        let possibleStrategies = await AppController.Instance.User.strategy.getPossibleStrategies();
+        AppViewModel.Instance.ChooseStrategy.setAvailableStrategies(possibleStrategies);
     }
 
     getDomainDisplay = (): string[] => {

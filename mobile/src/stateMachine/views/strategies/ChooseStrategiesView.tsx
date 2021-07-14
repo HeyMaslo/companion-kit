@@ -132,7 +132,7 @@ export class ChooseStrategiesView extends ViewState {
                               data={this.viewModel.availableStrategies}
                               renderItem={this.renderListItem}
                               keyExtractor={item => item.id}/>
-                    <Button title={'SELECT ' +( this.viewModel.selectedStrategies.length < 1 ? 'STRATEGIES' : (this.viewModel.selectedStrategies.length == 1 ? 'THIS STRATEGY' : 'THESE STRATEGIES'))} style={styles.selectButton} onPress={this.onSubmit} disabled={this.viewModel.selectedStrategies.length < 1}/>
+                    <Button title='SELECT THESE STRATEGIES' style={styles.selectButton} onPress={this.onSubmit} disabled={this.viewModel.selectedStrategies.length < 1}/>
                 </Container>
             </MasloPage>
         );

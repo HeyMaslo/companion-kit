@@ -5,7 +5,6 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { Container, MasloPage, StrategyCard, Button } from 'src/components';
 import { DomainName } from 'src/constants/Domain';
 import { StrategyIded } from 'src/constants/Strategy';
-import AppController from 'src/controllers';
 import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
@@ -22,10 +21,7 @@ export class DomainDetailsView extends ViewState {
         this._contentHeight = this.persona.setupContainerHeightForceScroll({ rotation: -15, transition: { duration: 1 }, scale: 0.8 });
     }
 
-    async start() {
-        let possibleStrategies = await AppController.Instance.User.strategy.getPossibleStrategies();
-        this.strategiesViewModel.setAvailableStrategies(possibleStrategies);
-    }
+    async start() {}
 
     private get viewModel() {
         return AppViewModel.Instance.ChooseDomain;

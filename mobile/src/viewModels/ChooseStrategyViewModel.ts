@@ -4,14 +4,14 @@ import { DomainIded, DomainName } from '../../../mobile/src/constants/Domain';
 
 export default class ChooseStrategyViewModel {
 
-  private _selectedDomains: DomainIded[] = []
-  private _allStrategies: DisplayStrategyIded[] = []
+  private _selectedDomains: DomainIded[];
+  private _allStrategies: DisplayStrategyIded[];
 
   @observable
-  public availableStrategies: DisplayStrategyIded[] = []
+  public availableStrategies: DisplayStrategyIded[];
 
   @observable
-  public selectedStrategies: StrategyIded[] = []
+  public selectedStrategies: StrategyIded[];
 
   @observable
   public learnMoreStrategy: StrategyIded;
@@ -20,8 +20,13 @@ export default class ChooseStrategyViewModel {
     return this._selectedDomains.map((d) => d.name as DomainName);
   }
 
+  constructor() {
+
+      this._selectedDomains, this._allStrategies, this.availableStrategies, this.selectedStrategies = [];
+  }
+
   public setSelectedDomains(domains: DomainIded[]) {
-    if (domains !== undefined || domains !== null) {
+    if (domains) {
       this._selectedDomains = domains;
     }
   }

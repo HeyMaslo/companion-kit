@@ -7,7 +7,6 @@ import React from 'react';
 import { View } from 'react-native';
 import { iconForDomain } from 'src/helpers/DomainHelper';
 import { TextStyles } from 'src/styles/BaseStyles';
-import AppViewModel from 'src/viewModels';
 
 @observer
 export class ViewDomainsView extends ViewDomainsBase {
@@ -16,9 +15,7 @@ export class ViewDomainsView extends ViewDomainsBase {
         this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ rotation: -15, transition: { duration: 1}, scale: 1.2});
     }
 
-    private get viewModel() {
-      return AppViewModel.Instance.ChooseDomain;
-  }
+    private viewModel = new ChooseDomainViewModel();
 
     async start() {
         let possibleDomains = await AppController.Instance.User.domain.getPossibleDomains();
