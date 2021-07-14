@@ -395,6 +395,8 @@ export const MasloScenario: GlobalScenario<States> = {
         view: DomainDetailsView,
         exit: [
             { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
+            { target: States.Past_Strategies, trigger: [Triggers.Next] },
+            { target: States.Strategy_Details4, trigger: [Triggers.Tertiary] },
         ]
     },
     [States.Domain_Details_after_ViewDomains]: {
@@ -466,6 +468,13 @@ export const MasloScenario: GlobalScenario<States> = {
         view: StrategyDetailsView,
         exit: [
             { target: States.Focus_Domains, trigger: [Triggers.Back] },
+        ]
+    },
+
+    [States.Strategy_Details4]: {
+        view: StrategyDetailsView,
+        exit: [
+            { target: States.Domain_Details, trigger: [Triggers.Back] },
         ]
     },
 

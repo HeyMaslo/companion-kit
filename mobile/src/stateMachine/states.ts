@@ -74,6 +74,7 @@ export enum States {
     Strategy_Details,
     Strategy_Details2,
     Strategy_Details3,
+    Strategy_Details4,
 
     Past_Strategies,
 

@@ -92,7 +92,6 @@ export abstract class ViewDomainsBase extends ViewState {
         let {xTabOne, xTabTwo, active, translateX, translateXTabTwo, translateXTabOne, translateY, xDomain} = this.state
         const [lDomain, domain, rDomain, importance] = this.getDomainDisplay();
         const centerDomainName = domain as DomainName
-        console.log('DomainName iden', DomainName.IDENTITY);
 
         return (
             <MasloPage style={this.baseStyles.page} onClose={this.onCancel} onBack={this.onBack}>

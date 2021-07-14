@@ -117,13 +117,12 @@ export class ChooseStrategiesView extends ViewState {
                       <View>
                       {/* Sort Drop Down Button */}
                         <Button titleStyles={[styles.sortButtonTitle, this.currentFilter == null ? {textDecorationLine: 'underline'} : null]} title='SHOW ALL' style={styles.sortButton} onPress={this.dropDown}/>
-                        {this.dropDownIsExtended ? 
+                        {this.dropDownIsExtended && 
                          <FlatList style={styles.dropDownlist}    
                                    data={this.domainNames}
                                    renderItem={this.renderDropDownListItem}
                                    keyExtractor={item => item}
-                                   scrollEnabled={false}/>
-                        : null}
+                                   scrollEnabled={false}/>}
                       </View>
                       }
                       </View>

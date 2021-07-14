@@ -17,7 +17,7 @@ export default class ChooseStrategyViewModel {
   public learnMoreStrategy: StrategyIded;
 
   get selectedDomains(): DomainName[] {
-    return this._selectedDomains.map((d) => d.name);
+    return this._selectedDomains.map((d) => d.name as DomainName);
   }
 
   constructor() {

@@ -63,6 +63,15 @@ export const TextStyles = StyleSheet.create({
         textTransform: 'uppercase',
         color: Colors.typography.btnTitle,
     },
+    labelExtraLarge: {
+        fontFamily: mainFontMedium,
+        fontWeight: '500',
+        fontSize: 20,
+        lineHeight: 21,
+        letterSpacing: 1.79,
+        color: Colors.typography.h1,
+        textTransform: 'uppercase',
+    },
     labelLarge: {
         fontFamily: mainFontMedium,
         fontWeight: '500',
