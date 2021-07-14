@@ -20,6 +20,7 @@ import { UserProfileName } from 'src/screens/components/UserProfileName';
 import AppViewModel from 'src/viewModels';
 import { QolSurveyType } from 'src/constants/QoL';
 import { getPersonaRadius, PersonaScale } from 'src/stateMachine/persona';
+import AppController from 'src/controllers';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -140,9 +141,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     private onStartQOL = () => {
         this.trigger(ScenarioTriggers.Tertiary);
     }
-    private onStartDomains() {
+    private async onStartDomains() {
         // AppViewModel.Instance.ChooseDomain.resetDomains();
         // AppViewModel.Instance.ChooseStrategy.resetStrategies();
+        let possibleStrategies = await AppController.Instance.User.strategy.getPossibleStrategies();
+        AppViewModel.Instance.ChooseStrategy.setAllStrategies(possibleStrategies);
         this.trigger(ScenarioTriggers.Quinary);
     }
 

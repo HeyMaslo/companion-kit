@@ -4,14 +4,15 @@ import { DomainIded, DomainName } from '../../../mobile/src/constants/Domain';
 
 export default class ChooseStrategyViewModel {
 
-  private _selectedDomains: DomainIded[];
-  private _allStrategies: DisplayStrategyIded[];
+  private _selectedDomains: DomainIded[] = [];
+  private _allStrategies: DisplayStrategyIded[] = [];
+  private _availableStrategies: DisplayStrategyIded[] = [];
 
   @observable
-  public availableStrategies: DisplayStrategyIded[];
+  public availableStrategies: DisplayStrategyIded[] = [];
 
   @observable
-  public selectedStrategies: StrategyIded[];
+  public selectedStrategies: StrategyIded[] = [];
 
   @observable
   public learnMoreStrategy: StrategyIded;
@@ -22,7 +23,11 @@ export default class ChooseStrategyViewModel {
 
   constructor() {
 
-      this._selectedDomains, this._allStrategies, this.availableStrategies, this.selectedStrategies = [];
+
+  }
+
+  public getAllStrategies() {
+    return this._allStrategies;
   }
 
   public setSelectedDomains(domains: DomainIded[]) {
@@ -31,9 +36,9 @@ export default class ChooseStrategyViewModel {
     }
   }
 
-  public setAvailableStrategies(strats: StrategyIded[]) {
+  public setAllStrategies(strats: StrategyIded[]) {
     if (strats) {
-      this.availableStrategies = strats.map( (s) => {
+      this._allStrategies = strats.map( (s) => {
             return  {
                 id: s.id,
                 title: s.title,
@@ -42,17 +47,20 @@ export default class ChooseStrategyViewModel {
                 isChecked: false,
             } as DisplayStrategyIded
       });
-      // Only include strategies from the selectedDomains
-      this.availableStrategies = this.availableStrategies.filter((s) => s.associatedDomainNames.some(r => this._selectedDomains.map(sd => sd.name).includes(r)))
-      this._allStrategies = this.availableStrategies;
     }
+  }
+
+  public updateAvailableStrategies() {
+          // Only include strategies from the selectedDomains
+          this.availableStrategies = this._allStrategies.filter((s) => s.associatedDomainNames.some(r => this._selectedDomains.map(sd => sd.name).includes(r)))
+          this._availableStrategies = this.availableStrategies;
   }
 
   public filterAvailableStrategies(strategyDomain: DomainName) {
     if (strategyDomain == null) {
-      this.availableStrategies = this._allStrategies;
+      this.availableStrategies = this._availableStrategies;
     } else {
-      this.availableStrategies = this._allStrategies.filter((s) => s.associatedDomainNames.includes(strategyDomain))
+      this.availableStrategies = this._availableStrategies.filter((s) => s.associatedDomainNames.includes(strategyDomain))
     }
   }
 

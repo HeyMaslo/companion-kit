@@ -42,7 +42,9 @@ export class DomainDetailsView extends ViewState {
     private strategiesForListInOrder(domain: DomainName): StrategyIded[] {
         const numberOfStrategiesToShow = 5;
         const selected = this.strategiesViewModel.selectedStrategies.filter((s) => s.associatedDomainNames.includes(domain));
-        const remianing = this.strategiesViewModel.availableStrategies.filter((s) => s.associatedDomainNames.includes(domain) && !selected.includes(s)) as StrategyIded[];
+
+        const ids = selected.map((x) => x.id);
+        const remianing = this.strategiesViewModel.getAllStrategies().filter((s) => s.associatedDomainNames.includes(domain) && !ids.includes(s.id)) as StrategyIded[];
 
         const amountToAppend = Math.max(0, numberOfStrategiesToShow - selected.length);
         this.numberOfRemainingStrategies = remianing.length - amountToAppend;

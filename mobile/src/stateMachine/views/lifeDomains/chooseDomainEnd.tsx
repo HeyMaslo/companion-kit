@@ -38,6 +38,7 @@ export class ChooseDomainEndView extends ViewState {
 
     async onThreeSelected() {
         this.trigger(ScenarioTriggers.Submit)
+        AppViewModel.Instance.ChooseStrategy.updateAvailableStrategies();
     }
 
     renderContent() {
