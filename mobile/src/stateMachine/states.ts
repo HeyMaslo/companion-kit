@@ -60,6 +60,8 @@ export enum States {
     NotificationsSettings,
 
     // LIFE DOMAINS block
+    Focus_Domains,
+
     Choose_Domain,
     Domain_Details,
     Select_Domain,
@@ -76,10 +78,8 @@ export enum States {
     Strategy_Details3,
     Strategy_Details4,
     Strategy_Details5,
-
-    Past_Strategies,
-
-    Focus_Domains,
+    All_Strategies,
+    All_Strategies_after_ViewDomains,
 
     // QoL Block
     qol_Question,
