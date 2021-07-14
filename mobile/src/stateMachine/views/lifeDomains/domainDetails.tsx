@@ -10,7 +10,6 @@ import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
 
-
 @observer
 export class DomainDetailsView extends ViewState {
 
@@ -41,11 +40,14 @@ export class DomainDetailsView extends ViewState {
     }
 
     private strategiesForListInOrder(domain: DomainName): StrategyIded[] {
-        const numberOfStrategiesShown = 5;
+        const numberOfStrategiesToShow = 5;
         const selected = this.strategiesViewModel.selectedStrategies.filter((s) => s.associatedDomainNames.includes(domain));
         const remianing = this.strategiesViewModel.availableStrategies.filter((s) => s.associatedDomainNames.includes(domain) && !selected.includes(s)) as StrategyIded[];
-        this.numberOfRemainingStrategies = remianing.length - (numberOfStrategiesShown - selected.length);
-        return selected.concat(remianing.slice(0, Math.max(0, numberOfStrategiesShown - selected.length)));
+
+        const amountToAppend = Math.max(0, numberOfStrategiesToShow - selected.length);
+        this.numberOfRemainingStrategies = remianing.length - amountToAppend;
+
+        return selected.concat(remianing).slice(0, numberOfStrategiesToShow);
     }
 
     onLearnMorePress(id: string) {

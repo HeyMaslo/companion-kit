@@ -10,7 +10,7 @@ import { ViewState } from '../base';
 import { AlertExitWithoutSave } from 'src/constants/alerts';
 
 @observer
-export class FocusStrategiesView extends ViewState {
+export class ReviewStrategiesView extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0} });

@@ -6,14 +6,14 @@ import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import Colors from '../../../constants/colors/Colors';
 import { ScenarioTriggers } from '../../abstractions';
-import { FocusStrategiesView } from './FocusStrategiesView';
+import { ReviewStrategiesView } from './ReviewStrategiesView';
 import { months } from 'common/utils/dateHelpers';
 
 const date = new Date();
 const currentMonth = `${months[date.getMonth()]} ${date.getFullYear()}`;
 
 
-export class PastWeekStrategiesView extends FocusStrategiesView {
+export class PastWeekStrategiesView extends ReviewStrategiesView {
 
   private weekNum = 1;
 

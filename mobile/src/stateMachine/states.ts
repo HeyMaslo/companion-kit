@@ -70,11 +70,12 @@ export enum States {
 
     // Strategies block
     Choose_Strategies,
-    Focus_Strategies,
+    Review_Strategies,
     Strategy_Details,
     Strategy_Details2,
     Strategy_Details3,
     Strategy_Details4,
+    Strategy_Details5,
 
     Past_Strategies,
 
