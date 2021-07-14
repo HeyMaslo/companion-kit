@@ -44,6 +44,7 @@ import { ViewDomainsView } from './views/lifeDomains/viewDomains';
 import { ChooseStrategiesView } from './views/strategies/ChooseStrategiesView';
 import { ReviewStrategiesView } from './views/strategies/ReviewStrategiesView';
 import { StrategyDetailsView } from './views/strategies/StrategyDetailsView';
+import { AllStrategiesView } from './views/strategies/AllStrategiesView';
 
 import { YourFocusDomainsView } from './views/YourFocusDomainsView';
 
@@ -55,7 +56,6 @@ import Triggers = ScenarioTriggers;
 import { VerificationCodeView } from './views/login/verificationCode';
 import { NoInvitationView } from './views/login/noInvitation';
 import { ResetPasswordView } from './views/password/resetPassword';
-import { PastWeekStrategiesView } from './views/strategies/PastWeekStrategies';
 
 const CreateJournalCancelTransition: StateTransition<States> = {
     target: States.Home,
@@ -395,7 +395,7 @@ export const MasloScenario: GlobalScenario<States> = {
         view: DomainDetailsView,
         exit: [
             { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
-            // { target: States.Past_Strategies, trigger: [Triggers.Next] },
+            { target: States.All_Strategies, trigger: [Triggers.Next] },
             { target: States.Strategy_Details4, trigger: [Triggers.Tertiary] },
         ]
     },
@@ -403,7 +403,7 @@ export const MasloScenario: GlobalScenario<States> = {
         view: DomainDetailsView,
         exit: [
             { target: States.View_Domains, trigger: [Triggers.Cancel] },
-            // { target: States.Past_Strategies, trigger: [Triggers.Next] },
+            { target: States.All_Strategies_after_ViewDomains, trigger: [Triggers.Next] },
             { target: States.Strategy_Details5, trigger: [Triggers.Tertiary] },
         ]
     },
@@ -487,10 +487,17 @@ export const MasloScenario: GlobalScenario<States> = {
         ]
     },
 
-    [States.Past_Strategies]: {
-        view: PastWeekStrategiesView,
+    [States.All_Strategies]: {
+        view: AllStrategiesView,
         exit: [
-            { target: States.Home, trigger: [Triggers.Cancel] },
+            { target: States.Domain_Details, trigger: [Triggers.Cancel] },
+        ]
+    },
+
+    [States.All_Strategies_after_ViewDomains]: {
+        view: AllStrategiesView,
+        exit: [
+            { target: States.Domain_Details_after_ViewDomains, trigger: [Triggers.Cancel] },
         ]
     },
 
