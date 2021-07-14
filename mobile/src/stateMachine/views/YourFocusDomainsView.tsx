@@ -34,10 +34,6 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
 
     constructor(props) {
         super(props);
-        // for testing
-        this.persona.qolArmMagnitudes = PersonaArmState.createEmptyArmState();
-        //
-        this.domains = this.viewModel.selectedDomains || [];
         this.onLearnMorePress = this.onLearnMorePress.bind(this);
         this.onLayoutIconCircle = this.onLayoutIconCircle.bind(this);
         this._contentHeight = this.layout.window.height - containerMarginTop;
@@ -73,7 +69,6 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
 
   onLayoutIconCircle(event: LayoutChangeEvent) {
     const { layout } = event.nativeEvent;
-    const scaledOrbRadius = this.ordRadius / PersonaScale;
     this.persona.setupContainerHeight(0, null, (containerMarginTop - containerMarginBottom) + layout.height/2);
 
     const bottomWrapperMarginTop = 20;
