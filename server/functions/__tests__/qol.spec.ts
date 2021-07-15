@@ -34,6 +34,7 @@ describe('QoL', () => {
                     name: 'Physical',
                     slug: 'physical',
                     importance: 'SLEEP = Sleeeeepz Sleeeeepz Sleeeeepz Sleeeeepz incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
+                    bullets: ['bullet 1', 'bullet 2'],
                 });
                 assert.isNull(result.error);
             });
@@ -44,6 +45,7 @@ describe('QoL', () => {
                     name: 'Physical',
                     slug: 'physical',
                     importance: 'PHYSICAL = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
+                    bullets: ['bullet 1', 'bullet 2'],
                 });
                 assert.isNotNull(result.error);
             });
@@ -62,6 +64,7 @@ describe('QoL', () => {
                     name: 'Physical',
                     slug: 'physical',
                     importance: '',
+                    bullets: ['bullet 1', 'bullet 2'],
                 });
                 const result = await getDomains();
                 assert.isNull(result.error);
@@ -87,6 +90,7 @@ describe('QoL', () => {
                 name: 'Physical',
                 slug: 'physical',
                 importance: '',
+                bullets: ['bullet 1', 'bullet 2'],
             });
             const createResult = await createQuestion({
                 type: QoLActionTypes.CreateQuestion,
