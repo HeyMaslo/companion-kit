@@ -1,12 +1,11 @@
 import { StyleSheet, Platform } from 'react-native';
 import Colors from 'src/constants/colors';
-// import { hasNotch } from 'src/constants/devices';
+import { hasNotch } from 'src/constants/devices';
 import Layout from 'src/constants/Layout';
 import TextStylesBase, { mainFontLight, mainFontMedium, mainFontThin } from './TextStyles';
 
 export const TextStyles = TextStylesBase;
-// export const notch = hasNotch();
-const notch = true;
+export const notch = hasNotch(); // doesnt seem to work?
 export const layout = Layout;
 const android = Platform.OS === 'android';
 

@@ -28,7 +28,15 @@ export class ChooseDomainView extends ViewDomainsBase {
 
     getDomainDisplay = (): string[] => {
         return this.viewModel.getDomainDisplay();
-      }
+    }
+
+    getDomainImportanceBullets = (): string[] => {
+        const [lDomain, domain, rDomain, importance] = this.getDomainDisplay();
+        if (domain) {
+            return this.viewModel.getDomainByName(domain as DomainName).bullets;
+        }
+        return [];
+    }
 
     goToRight = () => {
         this.viewModel.getNextDomain(1);
@@ -72,10 +80,10 @@ export class ChooseDomainView extends ViewDomainsBase {
                     { text: 'Deselct all', onPress: this.clearDomains, style: 'destructive'},
                     { text: 'OK' },
                 ]);
-        } else if (this.viewModel.selectDomain(this.viewModel.getDomainByName(n))) {
+        } else if (this.viewModel.selectDomain(this.viewModel.getDomainByName(n as DomainName))) {
             AppController.Instance.User.qol.setUserStateProperty('focusDomains', this.viewModel.selectedDomains.map(d => d.id));
             hasTwoSelected ? this.trigger(ScenarioTriggers.Next) : this.trigger(ScenarioTriggers.Tertiary);
-        } else if (!this.viewModel.selectDomain(this.viewModel.getDomainByName(n))) {
+        } else if (!this.viewModel.selectDomain(this.viewModel.getDomainByName(n as DomainName))) {
             this.trigger(ScenarioTriggers.Tertiary);
         } else {
             Alert.alert(

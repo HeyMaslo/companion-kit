@@ -9,6 +9,7 @@ import { ViewState } from '../base';
 import Layout from 'src/constants/Layout';
 import { iconForDomain } from 'src/helpers/DomainHelper';
 import { DomainName } from 'src/constants/Domain';
+import { getUniqueID } from 'react-native-markdown-renderer';
 
 const { width } = Dimensions.get('window');
 const date = new Date();
@@ -67,8 +68,7 @@ export abstract class ViewDomainsBase extends ViewState {
 
     }
 
-    async start() {
-    }
+    async start() {}
 
     public abstract onCancel? = () => {}
 
@@ -80,12 +80,25 @@ export abstract class ViewDomainsBase extends ViewState {
         return [];
       }
 
+    public abstract getDomainImportanceBullets = (): string[] => {
+        return [];
+    }
+
     public abstract goToRight = () => {}
 
     public abstract goToLeft = () => {}
 
     public getCenterElement(): JSX.Element {
       return(<></>);
+  }
+
+  renderBulletPoint(str: string) {
+    return (
+      <View key={getUniqueID()}style={{flexDirection: 'row'}}>
+        <Text style={this.textStyles.p2}>{'\u2022'}</Text>
+        <Text style={[this.textStyles.p2, {flex: 1, paddingLeft: 5}]}>{str}</Text>
+      </View>
+    );
   }
 
     renderContent() {
@@ -139,9 +152,7 @@ export abstract class ViewDomainsBase extends ViewState {
                                 }}
                                 onLayout = {event => this.setState({translateY: event.nativeEvent.layout.height})}
                                 >
-                                    <Text style={this.textStyles.p2}>
-                                        {importance}
-                                    </Text>
+                                {this.getDomainImportanceBullets().map((b) => this.renderBulletPoint(b))}
                                 </Animated.View>
                                 <Animated.View style={{
                                     justifyContent: 'center',

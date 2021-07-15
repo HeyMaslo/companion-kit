@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react';
 import React from 'react';
 import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { getUniqueID } from 'react-native-markdown-renderer';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { Container, MasloPage, StrategyCard, Button } from 'src/components';
 import { DomainName } from 'src/constants/Domain';
@@ -41,13 +42,13 @@ export class DomainDetailsView extends ViewState {
 
     private strategiesForListInOrder(domain: DomainName): StrategyIded[] {
         const numberOfStrategiesToShow = 5;
+        
         const selected = this.strategiesViewModel.selectedStrategies.filter((s) => s.associatedDomainNames.includes(domain));
-
         const ids = selected.map((x) => x.id);
-        const remianing = this.strategiesViewModel.getAllStrategies().filter((s) => s.associatedDomainNames.includes(domain) && !ids.includes(s.id)) as StrategyIded[];
+        const remianing = this.strategiesViewModel.allStrategies.filter((s) => s.associatedDomainNames.includes(domain) && !ids.includes(s.id)) as StrategyIded[];
 
-        const amountToAppend = Math.max(0, numberOfStrategiesToShow - selected.length);
-        this.numberOfRemainingStrategies = remianing.length - amountToAppend;
+        const difference = Math.max(0, numberOfStrategiesToShow - selected.length);
+        this.numberOfRemainingStrategies = remianing.length - difference;
 
         return selected.concat(remianing).slice(0, numberOfStrategiesToShow);
     }
@@ -61,6 +62,15 @@ export class DomainDetailsView extends ViewState {
         <StrategyCard item={item} onSelectStrategy={(()=>(null))} onLearnMorePress={this.onLearnMorePress} hideCheckbox={true}/>
       );
 
+    renderBulletPoint(str: string) {
+      return (
+        <View key={getUniqueID()}style={{flexDirection: 'row'}}>
+          <Text>{'\u2022'}</Text>
+          <Text style={{flex: 1, paddingLeft: 5}}>{str}</Text>
+        </View>
+      );
+    }
+
     renderContent() {
         const [leftName, mainName, rightName, mainImportance] = this.viewModel.getDomainDisplay();
 
@@ -71,7 +81,7 @@ export class DomainDetailsView extends ViewState {
 
                     <View style={styles.content}>
                         <Text style={[this.textStyles.labelExtraLarge, {marginBottom: 10}]}>What to know:</Text>
-                        <Text>bullet points here and here</Text>
+                        {this.viewModel.getDomainByName(mainName as DomainName).bullets.map((b) => this.renderBulletPoint(b))}
                     </View>
                     <ScrollView>
                         <Text>{mainImportance}</Text>

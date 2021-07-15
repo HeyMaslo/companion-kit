@@ -1,6 +1,6 @@
 import { observable} from 'mobx';
 import { createLogger } from 'common/logger';
-import { DomainIded } from '../../../mobile/src/constants/Domain';
+import { DomainIded, DomainName } from '../../../mobile/src/constants/Domain';
 import AppViewModel from 'src/viewModels';
 
 const logger = createLogger('[ChooseDomainViewModel]');
@@ -88,7 +88,7 @@ export default class ChooseDomainViewModel {
         AppViewModel.Instance.ChooseStrategy.setSelectedDomains(this._selectedDomains);
     }
 
-    public getDomainByName(name: string): DomainIded {
+    public getDomainByName(name: DomainName): DomainIded {
         let dom: DomainIded = null;
         this._availableDomains.forEach(d => {
             if (d.name === name) {
