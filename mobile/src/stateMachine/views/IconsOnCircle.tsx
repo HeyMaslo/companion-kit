@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, StyleProp, ViewStyle, LayoutChangeEvent } from 'react-native';
+import { View, StyleSheet, StyleProp, ViewStyle, LayoutChangeEvent, GestureResponderEvent } from 'react-native';
 import Colors from 'src/constants/colors';
 import { DomainName } from 'src/constants/Domain';
 import Images from 'src/constants/images';
@@ -69,6 +69,10 @@ private getIconColor(domainName: DomainName): string {
   return Colors.typography.labelMedium;
 }
 
+private onIconTap = (key: string) => (event: GestureResponderEvent) => {
+  console.log('key tapped', key) 
+}
+
   render() {
     const style0 = {
       position:'absolute',
@@ -79,29 +83,29 @@ private getIconColor(domainName: DomainName): string {
       <View style={[this.props.style, { justifyContent:'center', alignItems:'center'}]} onLayout={this.props.onLayout}>
         <View style={{backgroundColor: 'transparent', width: this.size, height: this.size, borderRadius: this.radius, marginTop: this.symbolRadius, marginBottom: this.symbolRadius}}>
 
-       {iconForDomain(DomainName.MOOD, { position:'absolute', left: this.state.x0, top: this.state.y0 }, this.getIconColor(DomainName.MOOD), this.symbolSize, this.symbolSize )}
+       {iconForDomain(DomainName.MOOD, { position:'absolute', left: this.state.x0, top: this.state.y0 }, this.getIconColor(DomainName.MOOD), this.symbolSize, this.symbolSize, this.onIconTap )}
 
-       {iconForDomain(DomainName.PHYSICAL, { position:'absolute', left: this.state.x1, top: this.state.y1 }, this.getIconColor(DomainName.PHYSICAL), this.symbolSize, this.symbolSize )}
+       {iconForDomain(DomainName.PHYSICAL, { position:'absolute', left: this.state.x1, top: this.state.y1 }, this.getIconColor(DomainName.PHYSICAL), this.symbolSize, this.symbolSize, this.onIconTap )}
 
-       {iconForDomain(DomainName.SLEEP, { position:'absolute', left: this.state.x2, top: this.state.y2 }, this.getIconColor(DomainName.SLEEP), this.symbolSize, this.symbolSize )}
+       {iconForDomain(DomainName.SLEEP, { position:'absolute', left: this.state.x2, top: this.state.y2 }, this.getIconColor(DomainName.SLEEP), this.symbolSize, this.symbolSize, this.onIconTap )}
 
-       {iconForDomain(DomainName.THINKING, { position:'absolute', left: this.state.x3, top: this.state.y3 }, this.getIconColor(DomainName.THINKING), this.symbolSize, this.symbolSize )}
+       {iconForDomain(DomainName.THINKING, { position:'absolute', left: this.state.x3, top: this.state.y3 }, this.getIconColor(DomainName.THINKING), this.symbolSize, this.symbolSize, this.onIconTap )}
 
-       {iconForDomain(DomainName.IDENTITY, { position:'absolute', left: this.state.x4, top: this.state.y4 }, this.getIconColor(DomainName.IDENTITY), this.symbolSize, this.symbolSize )}
+       {iconForDomain(DomainName.IDENTITY, { position:'absolute', left: this.state.x4, top: this.state.y4 }, this.getIconColor(DomainName.IDENTITY), this.symbolSize, this.symbolSize, this.onIconTap )}
 
-       {iconForDomain(DomainName.LEISURE, { position:'absolute', left: this.state.x5, top: this.state.y5 }, this.getIconColor(DomainName.LEISURE), this.symbolSize, this.symbolSize )}
+       {iconForDomain(DomainName.LEISURE, { position:'absolute', left: this.state.x5, top: this.state.y5 }, this.getIconColor(DomainName.LEISURE), this.symbolSize, this.symbolSize, this.onIconTap )}
 
-       {iconForDomain(DomainName.INDEPENDENCE, { position:'absolute', left: this.state.x6, top: this.state.y6 }, this.getIconColor(DomainName.INDEPENDENCE), this.symbolSize, this.symbolSize )}
+       {iconForDomain(DomainName.INDEPENDENCE, { position:'absolute', left: this.state.x6, top: this.state.y6 }, this.getIconColor(DomainName.INDEPENDENCE), this.symbolSize, this.symbolSize, this.onIconTap )}
 
-       {iconForDomain(DomainName.SELFESTEEM, { position:'absolute', left: this.state.x7, top: this.state.y7 }, this.getIconColor(DomainName.SELFESTEEM), this.symbolSize, this.symbolSize )}
+       {iconForDomain(DomainName.SELFESTEEM, { position:'absolute', left: this.state.x7, top: this.state.y7 }, this.getIconColor(DomainName.SELFESTEEM), this.symbolSize, this.symbolSize, this.onIconTap )}
 
-       {iconForDomain(DomainName.HOME, { position:'absolute', left: this.state.x8, top: this.state.y8 }, this.getIconColor(DomainName.HOME), this.symbolSize, this.symbolSize )}
+       {iconForDomain(DomainName.HOME, { position:'absolute', left: this.state.x8, top: this.state.y8 }, this.getIconColor(DomainName.HOME), this.symbolSize, this.symbolSize, this.onIconTap )}
 
-       {iconForDomain(DomainName.MONEY, { position:'absolute', left: this.state.x9, top: this.state.y9 }, this.getIconColor(DomainName.MONEY), this.symbolSize, this.symbolSize )}
+       {iconForDomain(DomainName.MONEY, { position:'absolute', left: this.state.x9, top: this.state.y9 }, this.getIconColor(DomainName.MONEY), this.symbolSize, this.symbolSize, this.onIconTap )}
 
-       {iconForDomain(DomainName.SPIRITUAL, { position:'absolute', left: this.state.x10, top: this.state.y10 }, this.getIconColor(DomainName.SPIRITUAL), this.symbolSize, this.symbolSize )}
+       {iconForDomain(DomainName.SPIRITUAL, { position:'absolute', left: this.state.x10, top: this.state.y10 }, this.getIconColor(DomainName.SPIRITUAL), this.symbolSize, this.symbolSize, this.onIconTap )}
 
-       {iconForDomain(DomainName.RELATIONSHIPS, { position:'absolute', left: this.state.x11, top: this.state.y11 }, this.getIconColor(DomainName.RELATIONSHIPS), this.symbolSize, this.symbolSize )}
+       {iconForDomain(DomainName.RELATIONSHIPS, { position:'absolute', left: this.state.x11, top: this.state.y11 }, this.getIconColor(DomainName.RELATIONSHIPS), this.symbolSize, this.symbolSize, this.onIconTap )}
       
     </View>
       </View>
