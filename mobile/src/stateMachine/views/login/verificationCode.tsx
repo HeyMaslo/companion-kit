@@ -42,7 +42,9 @@ export class VerificationCodeView extends ViewState {
                 if (this.viewModel.errorMsg) this.viewModel.errorMsg = null;
                 this.viewModel.verificationCodeValue[index] = '';
             }
-            index !== 0 ? this.viewModel.inputRefArray[index - 1].focus() : null;
+            if (index !== 0) {
+                this.viewModel.inputRefArray[index - 1].focus();
+            }
         }
     }
 
