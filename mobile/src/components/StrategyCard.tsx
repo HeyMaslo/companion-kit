@@ -44,8 +44,8 @@ render() {
       }
           <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 10}}>
             <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-start'}}>
-              {this.props.item.associatedDomainNames.map((slug) => {
-                return iconForDomain(slug, null, darkColor, 22, 22);
+              {this.props.item.associatedDomainNames.map((name) => {
+                return iconForDomain(name, null, darkColor, 22, 22);
               })}
             </View>
             <TouchableOpacity onPress={() => this.props.onLearnMorePress(this.props.item.id)} hitSlop={{top: 10, left: 10, right: 10, bottom: 10}}>

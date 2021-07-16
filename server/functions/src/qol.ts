@@ -39,7 +39,6 @@ export async function createDomain(args: CreateDomainRequest)
         await Repo.Domains.create({
             scope:      args.scope as DomainScope,
             name:       args.name as DomainName,
-            slug:       args.slug,
             importance: args.importance,
             bullets:    args.bullets,
         });
@@ -62,10 +61,10 @@ export async function getDomains(): Promise<GetDomainsResponse> {
 
 export async function createQuestion(args: CreateQuestionRequest)
     : Promise<CreateQuestionResponse> {
-    const dom: Maybe<Domain> = await Repo.Domains.getBySlug(args.domainSlug);
+    const dom: Maybe<Domain> = await Repo.Domains.getByName(args.domainName);
     return await wrapAsync<Domain, CreateQuestionResponse>(dom, async () => {
         await Repo.Questions.create({
-            domainId: dom.slug,
+            domainId: dom.name,
             text: args.text,
             position: args.position,
         });
@@ -74,7 +73,7 @@ export async function createQuestion(args: CreateQuestionRequest)
         };
     }, async () => {
         return {
-            error: 'Domain with slug does not exist',
+            error: 'Domain with name does not exist',
         };
     });
 }

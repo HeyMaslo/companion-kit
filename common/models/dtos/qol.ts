@@ -10,8 +10,7 @@ export enum QoLActionTypes {
 
 type CreateDomainArgs = {
     scope:      string,
-    name:       string,
-    slug:       string,
+    name:       DomainName,
     importance: string,
     bullets:    string[],
 };
@@ -20,7 +19,7 @@ type GetDomainsArgs = {};
 
 type CreateQuestionArgs = {
     text: string,
-    domainSlug: string,
+    domainName: DomainName,
     position: number,
 };
 

@@ -24,7 +24,6 @@ export enum DomainName {
 export type Domain = {
   scope:      DomainScope,
   name:       DomainName,
-  slug:       string,
   importance: string,     // description of why the domain is important
   bullets:    string[],   // the key points of domain importance
 };
