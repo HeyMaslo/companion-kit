@@ -24,7 +24,7 @@ export class ChooseStrategiesView extends ViewState {
         super(props);
         this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0} });
         this.hidePersona();
-        this.domainNames = this.viewModel.selectedDomains;
+        this.domainNames = AppViewModel.Instance.ChooseDomain.selectedDomains.map((d) => d.name);
 
         this.onLearnMorePress = this.onLearnMorePress.bind(this);
         this.onSelectStrategy = this.onSelectStrategy.bind(this);

@@ -17,12 +17,8 @@ export default class ChooseStrategyViewModel {
   @observable
   public learnMoreStrategy: StrategyIded;
 
-  public get allStrategies() {
+  public get allStrategies(): DisplayStrategyIded[] {
     return this._allStrategies;
-  }
-
-  get selectedDomains(): DomainName[] {
-    return this._selectedDomains.map((d) => d.name as DomainName);
   }
 
   public setSelectedDomains(domains: DomainIded[]) {
@@ -46,7 +42,7 @@ export default class ChooseStrategyViewModel {
   }
 
   // Only include strategies from the selectedDomains
-  public updateAvailableStrategies() {
+  public updateAvailableStrategiesForSelectedDomains() {
     this.availableStrategies = this._allStrategies.filter((s) => s.associatedDomainNames.some(r => this._selectedDomains.map(sd => sd.name).includes(r)))
     this._availableStrategies = this.availableStrategies;
   }

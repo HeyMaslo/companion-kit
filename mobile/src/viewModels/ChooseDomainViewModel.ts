@@ -35,7 +35,9 @@ export default class ChooseDomainViewModel {
         this.domainCount = doms.length;
     }
 
-    get selectedDomains(): DomainIded[] { return this._selectedDomains };
+    public get selectedDomains(): DomainIded[] {
+        return this._selectedDomains
+    };
 
     //  Returns the three domains displayed on the choose domain screen, main(center donain), ldomain(domain on left side), rdomain(domain on right side)
     public getDomainDisplay(): string[] {

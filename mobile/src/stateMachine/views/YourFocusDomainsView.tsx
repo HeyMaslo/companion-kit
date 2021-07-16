@@ -29,7 +29,7 @@ type YourFocusDomainsViewState = {
 @observer
 export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
 
-  private domains: DomainName[] = [];
+  private selectedDomains: DomainName[] = [];
   private ordRadius = getPersonaRadius();
 
     constructor(props) {
@@ -37,13 +37,14 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
         this.onLearnMorePress = this.onLearnMorePress.bind(this);
         this.onLayoutIconCircle = this.onLayoutIconCircle.bind(this);
         this._contentHeight = this.layout.window.height - containerMarginTop;
+        this.selectedDomains = AppViewModel.Instance.ChooseDomain.selectedDomains.map((d) => d.name);
 
         this.state = {
           bottomWrapperTop: 0,
         }
     }
 
-    public get viewModel() {
+    private get viewModel() {
         return AppViewModel.Instance.ChooseStrategy;
     }
 
@@ -85,7 +86,7 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
                 <Container style={[{height: this._contentHeight, marginTop: containerMarginTop, marginBottom: containerMarginBottom}]}>
-                    <IconsOnCircle circleRaius={this.ordRadius * 6} symbolSize={40} highlightedDomains={this.viewModel.selectedDomains} onLayout={this.onLayoutIconCircle}/>
+                    <IconsOnCircle circleRaius={this.ordRadius * 6} symbolSize={40} highlightedDomains={this.selectedDomains} onLayout={this.onLayoutIconCircle}/>
                     <View pointerEvents={'box-none'} style={[styles.bottomWrapper, {top: this.state.bottomWrapperTop}]}>
                     <Button
                         title={'View All Life Areas'}
