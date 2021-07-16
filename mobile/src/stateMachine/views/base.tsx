@@ -44,7 +44,7 @@ export abstract class ViewState<CState = {}, CParams = any> extends React.Compon
      * Indicates wheather the balloon animation is on or not.
      */
     @observable
-    private _balloonText: string = "";
+    private _balloonText: string = '';
 
     /**
      * Represents the first dot opacity animation view.
@@ -262,11 +262,11 @@ export abstract class ViewState<CState = {}, CParams = any> extends React.Compon
     /**
      * Returns the balloon animation composite.
      */
-    private balloonAnimation = () : Animated.CompositeAnimation => {
+    private balloonAnimation = (): Animated.CompositeAnimation => {
         const config = {
             delay: 300,
             duration: 800,
-            useNativeDriver: false
+            useNativeDriver: false,
         };
         const animation = Animated.loop(Animated.stagger(500,
             [
@@ -276,21 +276,21 @@ export abstract class ViewState<CState = {}, CParams = any> extends React.Compon
                 Animated.timing(this._firstDotOpacity, {...config, toValue: 0}),
                 Animated.timing(this._secondDotOpacity, {...config, toValue: 0}),
                 Animated.timing(this._thirdDotOpacity, {...config, toValue: 0}),
-            ]
+            ],
         ));
         return animation;
     }
 
     /**
      * Runs long operation with ballon animation.
-     * @param worker 
+     * @param worker
      * @param withBalloonAnimation Enable balloon animation. Default is off.
      * @param andTextBallon Ballon text.
      */
     protected runLongOperation = async <T extends any>(
         worker: () => Promise<T>,
         withBalloonAnimation: boolean = false,
-        andTextBallon: string = "Hold tight! This may take a little while.") => {
+        andTextBallon: string = 'Hold tight! This may take a little while.') => {
         if (this._personaStates.longOperation) {
             this.logger.log('WARNING: Runnig another long operation while previous hasn\'t been finished yet!');
         }
@@ -337,11 +337,11 @@ export abstract class ViewState<CState = {}, CParams = any> extends React.Compon
                     <Animatable.View animation={progressAnimation} duration={800} delay={400} style={[styles.longOperationView]}>
                         <View style={[styles.topViewBalloon, styles.shadowBalloon]}>
                             <Animated.View
-                                style={[styles.dotView, { backgroundColor: Colors.personaColors[Colors.personaColors.length-3], opacity: this._firstDotOpacity }]}/>
+                                style={[styles.dotView, { backgroundColor: Colors.personaColors[Colors.personaColors.length - 3], opacity: this._firstDotOpacity }]}/>
                             <Animated.View
-                                style={[styles.dotView, { backgroundColor: Colors.personaColors[Colors.personaColors.length-2], opacity: this._secondDotOpacity }]}/>
+                                style={[styles.dotView, { backgroundColor: Colors.personaColors[Colors.personaColors.length - 2], opacity: this._secondDotOpacity }]}/>
                             <Animated.View
-                                style={[styles.dotView, { backgroundColor: Colors.personaColors[Colors.personaColors.length-1], opacity: this._thirdDotOpacity }]}/>
+                                style={[styles.dotView, { backgroundColor: Colors.personaColors[Colors.personaColors.length - 1], opacity: this._thirdDotOpacity }]}/>
                         </View>
                         <View style={[styles.bottomViewBalloon, styles.shadowBalloon]}>
                             <Text style={[this.textStyles.p1]}>{this._balloonText}</Text>
@@ -386,8 +386,8 @@ const styles = StyleSheet.create({
     },
     topViewBalloon: {
         flexDirection: 'row',
-        justifyContent: "space-around",
-        alignItems: "center",
+        justifyContent: 'space-around',
+        alignItems: 'center',
         backgroundColor: Colors.pageBg,
         padding: 6,
         borderRadius: 20,
@@ -398,7 +398,7 @@ const styles = StyleSheet.create({
     dotView: {
         width: 8,
         height: 8,
-        borderRadius: 12
+        borderRadius: 12,
     },
     bottomViewBalloon: {
         backgroundColor: Colors.pageBg,

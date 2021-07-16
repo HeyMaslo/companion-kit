@@ -43,7 +43,7 @@ export class ResetPasswordView extends PasswordBase {
 
             if (res && res.result) {
                 PushToast({ text: 'Your Password has been set.' });
-                this.trigger(ScenarioTriggers.Secondary)
+                this.trigger(ScenarioTriggers.Secondary);
             }
         }
 
