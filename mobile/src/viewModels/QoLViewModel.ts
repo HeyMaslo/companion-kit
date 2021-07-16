@@ -1,5 +1,5 @@
 import { observable, computed, toJS } from 'mobx';
-import { SurveyQuestions, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT } from "../constants/QoLSurvey";
+import { SurveyQuestions, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT } from '../constants/QoLSurvey';
 import { PersonaDomains } from '../stateMachine/persona';
 import { createLogger } from 'common/logger';
 import AppController from 'src/controllers';
