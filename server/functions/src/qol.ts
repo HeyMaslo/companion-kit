@@ -35,11 +35,7 @@ export const QoLEndpoint = new FunctionFactory(QoLFunctions.QoLEndpoint)
 export async function createDomain(args: CreateDomainRequest)
     : Promise<CreateDomainResponse> {
 
-    if (!(args.name in DomainName)) {
-        return {
-            error: 'Invalid name',
-        };
-    } else if (args.scope in DomainScope) {
+    if (args.scope in DomainScope) {
         await Repo.Domains.create({
             scope:      args.scope as DomainScope,
             name:       args.name as DomainName,

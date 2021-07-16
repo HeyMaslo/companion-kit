@@ -47,16 +47,6 @@ describe('QoL', () => {
                 });
                 assert.isNotNull(result.error);
             });
-            it('Should not allow a domain to be created if the name is not valid', async () => {
-                const result = await createDomain({
-                    type: QoLActionTypes.CreateDomain,
-                    scope: DomainScope.GENERAL,
-                    name: 'NOT_A_VALID_NAME',
-                    importance: 'PHYSICAL = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
-                    bullets: ['bullet 1', 'bullet 2'],
-                });
-                assert.isNotNull(result.error);
-            });
         });
         describe('Domain List', () => {
             afterEach(fbCleanup);
