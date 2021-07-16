@@ -114,7 +114,7 @@ export class LocationCardM extends LocationCardS {
     }
 }
 
-let styles = StyleSheet.create({
+const styles = StyleSheet.create({
     card: {
         height: Layout.getViewWidth(21.875),
         // height: small ? 77 : 95,

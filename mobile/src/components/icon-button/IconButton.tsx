@@ -3,8 +3,8 @@ import { View, StyleSheet, TouchableHighlight, Text, Image } from 'react-native'
 import TextStyles from 'src/styles/TextStyles';
 
 // TODO: implement svg usage
-const editIcon = require('./assets/edit-icon.png');
-const addIcon = require('./assets/add-icon.svg');
+import editIcon from './assets/edit-icon.png';
+import addIcon from './assets/add-icon.svg';
 
 interface IIconButtonProps {
     style?: any;

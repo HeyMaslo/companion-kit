@@ -31,7 +31,6 @@ export class NoInvitationViewModel {
         },
     });
 
-
 }
 const instance = new Lazy(() => new NoInvitationViewModel());
 

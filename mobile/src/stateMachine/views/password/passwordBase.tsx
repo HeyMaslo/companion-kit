@@ -68,7 +68,7 @@ export abstract class PasswordBase extends ViewState {
     protected forgotPassword = () => this.runLongOperation(async () => {
         Keyboard.dismiss();
 
-        const result: boolean | { result: boolean } | "noInvitation" = await this.viewModel.forgotPassword();
+        const result: boolean | { result: boolean } | 'noInvitation' = await this.viewModel.forgotPassword();
 
         if (!result) {
             return;

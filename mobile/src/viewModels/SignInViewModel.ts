@@ -32,9 +32,9 @@ export class SignInViewModel extends SignInViewModelBase {
     get errorMsg() { return this._errorMsg; }
     set errorMsg(errorMsg: string) { this._errorMsg = errorMsg; }
     get inputRefArray() { return this._inputRefArray; }
-    set inputRefArray(inputRefArray: any[]) { this._inputRefArray = inputRefArray }
+    set inputRefArray(inputRefArray: any[]) { this._inputRefArray = inputRefArray; }
     get isPasting() { return this._isPasting; }
-    set isPasting(isPasting: boolean) { this._isPasting = isPasting }
+    set isPasting(isPasting: boolean) { this._isPasting = isPasting; }
 
     public appleSignIn = async () => {
         try {

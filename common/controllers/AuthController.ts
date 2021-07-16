@@ -202,7 +202,7 @@ export default abstract class AuthControllerBase implements IAuthController {
     async resetPassword(email: string, newPassword: string): Promise<{ result: boolean }> {
 
         const data = await Firebase.Instance.getFunction(UsersFunctions.ResetPassword)
-            .execute({ email, newPassword })
+            .execute({ email, newPassword });
 
         if (data.result) {
             const signInResult = await Firebase.Instance.auth.signInWithEmailAndPassword(email, newPassword);
@@ -226,7 +226,7 @@ export default abstract class AuthControllerBase implements IAuthController {
             } catch (err) {
                 this.setNextProvider(null);
                 logger.log('checkForInviteSignIn: failed to sign in with generated token, error:', err);
-                return { result: false }
+                return { result: false };
             }
         }
         return data;
@@ -264,11 +264,11 @@ export default abstract class AuthControllerBase implements IAuthController {
                 fullname: displayName,
             });
 
-        const actionCodeSettings = { 
+        const actionCodeSettings = {
             handleCodeInApp: true,
             url: res.magicLink,
             android: { packageName: ClientSettings.mobile.android, installApp: true },
-            iOS: { bundleId: ClientSettings.mobile.ios }
+            iOS: { bundleId: ClientSettings.mobile.ios },
         };
 
         await Firebase.Instance.auth.sendSignInLinkToEmail(email, actionCodeSettings);
