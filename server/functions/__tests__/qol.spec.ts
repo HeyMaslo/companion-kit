@@ -51,7 +51,7 @@ describe('QoL', () => {
                 const result = await createDomain({
                     type: QoLActionTypes.CreateDomain,
                     scope: DomainScope.GENERAL,
-                    name: 'NOT_A_VALID_NAME' as DomainName,
+                    name: 'NOT_A_VALID_NAME',
                     importance: 'PHYSICAL = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
                     bullets: ['bullet 1', 'bullet 2'],
                 });
