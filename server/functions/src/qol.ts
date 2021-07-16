@@ -35,7 +35,7 @@ export const QoLEndpoint = new FunctionFactory(QoLFunctions.QoLEndpoint)
 export async function createDomain(args: CreateDomainRequest)
     : Promise<CreateDomainResponse> {
 
-    if (!(args.name in DomainName)) {
+    if (!(args.name)) {
         return {
             error: 'Invalid name',
         };
