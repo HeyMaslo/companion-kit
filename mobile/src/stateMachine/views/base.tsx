@@ -34,7 +34,7 @@ export abstract class ViewState<CState = {}, CParams = any> extends React.Compon
 
     protected _contentHeight: number = 0;
 
-        /**
+    /**
      * Indicates wheather the balloon animation is on or not.
      */
     @observable
