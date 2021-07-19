@@ -5,7 +5,7 @@ import Layout from 'src/constants/Layout';
 import TextStylesBase, { mainFontLight, mainFontMedium, mainFontThin } from './TextStyles';
 
 export const TextStyles = TextStylesBase;
-export const notch = hasNotch(); // doesnt seem to work?
+export const notch = hasNotch();
 export const layout = Layout;
 const android = Platform.OS === 'android';
 
