@@ -149,6 +149,10 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         this.trigger(ScenarioTriggers.Quinary);
     }
 
+    onTESTINGButton() {
+        this.trigger(ScenarioTriggers.TESTING);
+    }
+
     private openStoryDetails = (jid: string) => {
         this.trigger<CheckInDetailsParams>(ScenarioTriggers.Primary, { id: jid });
     }
@@ -345,6 +349,9 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                 <View onTouchStart={this.onTapOrb} style={{position: 'absolute', top: -(this.orbTapContainerHeight), left: 0, right: 0, height: this.orbTapContainerHeight}}/>
                     <View style={{flexDirection:'row'}}>
                     <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains()}/>
+                    {/* MK-TODO buttons below used for development only and will be removed */}
+                    <Button title="WorkingView" style={styles.qolButton} onPress={() => this.onTESTINGButton()}/>
+                    {/* <Button title="WorkView 2" style={styles.qolButton} onPress={() => this.onStartDomains('c')}/> */}
                     </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
                     { loading

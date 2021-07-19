@@ -87,4 +87,6 @@ export enum States {
     StartQol,
     QolQuestion,
     EndQol,
+
+    QolHistory,
 }

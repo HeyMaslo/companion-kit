@@ -2,7 +2,7 @@ import { PartialQol, QolSurveyResults } from '../../../mobile/src/constants/QoL'
 import GenericUserRepo from './GenericUserRepo';
 import Collections from 'common/database/collections';
 
-type SurveyResults = {
+export type SurveyResults = {
     date: number,
     results: QolSurveyResults,
     startDate: number,
@@ -13,6 +13,10 @@ export default class SurveyResultsRepo extends GenericUserRepo<SurveyResults> {
 
     get collectionName() {
         return Collections.SurveyResults;
+    }
+
+    public async getAllResults(userId: string): Promise<SurveyResults[]> {
+        return await this.getData(userId);
     }
 
     public async getLatestResults(userId: string): Promise<QolSurveyResults> {

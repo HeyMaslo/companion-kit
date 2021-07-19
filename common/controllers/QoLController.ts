@@ -6,6 +6,7 @@ import {
 import RepoFactory from 'common/controllers/RepoFactory';
 import { UserState } from 'common/models/userState';
 import { createLogger } from 'common/logger';
+import { SurveyResults } from 'database/repositories/SurveyResultsRepo';
 
 const logger = createLogger('[QoLController]');
 
@@ -17,6 +18,11 @@ export default class QoLControllerBase implements IQoLController {
     public async getSurveyResults(): Promise<QolSurveyResults> {
         logger.log(`get qol results: userId = ${this._userId}`);
         return await RepoFactory.Instance.surveyResults.getLatestResults(this._userId);
+    }
+
+    public async getAllSurveyResults(): Promise<SurveyResults[]> {
+        logger.log(`get ALL qol results: userId = ${this._userId}`);
+        return await RepoFactory.Instance.surveyResults.getAllResults(this._userId);
     }
 
     // Submit new survey results
