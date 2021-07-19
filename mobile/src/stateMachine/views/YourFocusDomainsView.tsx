@@ -44,9 +44,9 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
         }
     }
 
-    private get viewModel() {
-        return AppViewModel.Instance.ChooseStrategy;
-    }
+    private get strategiesViewModel() {
+      return AppViewModel.Instance.ChooseStrategy;
+  }
 
     async start() {}
 
@@ -55,9 +55,9 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
    }
 
     onLearnMorePress(id: string) {
-      const found = this.viewModel.getStrategyById(id);
+      const found = this.strategiesViewModel.getStrategyById(id);
       if (found) {
-        this.viewModel.learnMoreStrategy = found;
+        this.strategiesViewModel.learnMoreStrategy = found;
         this.trigger(ScenarioTriggers.Tertiary);
       } else {
         console.log(`Strategy with id: ${id} NOT found`)
@@ -95,7 +95,7 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
                     />
                     <Text style={[TextStyles.labelLarge, styles.focusStrategies]}>Your Focus Strategies:</Text>
                     <FlatList style={[styles.list]}
-                              data={this.viewModel.selectedStrategies}
+                              data={this.strategiesViewModel.selectedStrategies}
                               renderItem={this.renderListItem}
                               keyExtractor={item => item.id}/>
                               </View>

@@ -16,13 +16,12 @@ export class ChooseDomainView extends ViewDomainsBase {
         this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ rotation: -15, transition: { duration: 1}, scale: 1.2});
     }
 
-    public get viewModel() {
+    private get viewModel() {
         return AppViewModel.Instance.ChooseDomain;
     }
 
     async start() {
-        let possibleDomains = await AppController.Instance.User.domain.getPossibleDomains();
-        this.viewModel.setAvailableDomains(possibleDomains);
+        this.viewModel.requestPossibleDomains();
         this.forceUpdate();
     }
 
@@ -76,22 +75,24 @@ export class ChooseDomainView extends ViewDomainsBase {
             Alert.alert(
                 'Too Many',
                 'Looks like you have already selected three life areas.',
-                [
-                    { text: 'Deselct all', onPress: this.clearDomains, style: 'destructive'},
-                    { text: 'OK' },
-                ]);
+                [{ text: 'Deselct all', onPress: this.clearDomains, style: 'destructive'},
+                 { text: 'OK' }]);
         } else if (this.viewModel.selectDomain(this.viewModel.getDomainByName(n as DomainName))) {
-            AppController.Instance.User.qol.setUserStateProperty('focusDomains', this.viewModel.selectedDomains.map(d => d.id));
-            hasTwoSelected ? this.trigger(ScenarioTriggers.Next) : this.trigger(ScenarioTriggers.Tertiary);
+
+            this.viewModel.postSelectedDomains();
+            if (hasTwoSelected) {
+                this.trigger(ScenarioTriggers.Next);
+            } else {
+                this.trigger(ScenarioTriggers.Tertiary);
+            }
+            
         } else if (!this.viewModel.selectDomain(this.viewModel.getDomainByName(n as DomainName))) {
             this.trigger(ScenarioTriggers.Tertiary);
         } else {
             Alert.alert(
                 'Oops',
                 'There was an error selecting that life area.',
-                [
-                    { text: 'OK' },
-                ]);
+                [{ text: 'OK' }]);
         }
     }
 

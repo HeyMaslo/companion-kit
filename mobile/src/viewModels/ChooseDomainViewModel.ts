@@ -2,6 +2,7 @@ import { observable} from 'mobx';
 import { createLogger } from 'common/logger';
 import { DomainIded, DomainName } from '../../../mobile/src/constants/Domain';
 import AppViewModel from 'src/viewModels';
+import AppController from 'src/controllers';
 
 const logger = createLogger('[ChooseDomainViewModel]');
 
@@ -30,14 +31,23 @@ export default class ChooseDomainViewModel {
         this.domainCount = 0;
     }
 
-    public setAvailableDomains(doms: DomainIded[]) {
+    public get selectedDomains(): DomainIded[] {
+        return this._selectedDomains
+    }
+
+    private setAvailableDomains(doms: DomainIded[]) {
         this._availableDomains = doms;
         this.domainCount = doms.length;
     }
 
-    public get selectedDomains(): DomainIded[] {
-        return this._selectedDomains
-    };
+    public async requestPossibleDomains() {
+        let possibleDomains = await AppController.Instance.User.domain.getPossibleDomains();
+        this.setAvailableDomains(possibleDomains);
+    }
+
+    public postSelectedDomains(): Promise<void> {
+        return AppController.Instance.User.qol.setUserStateProperty('focusDomains', this.selectedDomains.map(d => d.id));
+    }
 
     //  Returns the three domains displayed on the choose domain screen, main(center donain), ldomain(domain on left side), rdomain(domain on right side)
     public getDomainDisplay(): string[] {

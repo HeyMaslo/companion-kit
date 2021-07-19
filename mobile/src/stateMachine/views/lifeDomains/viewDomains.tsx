@@ -8,6 +8,7 @@ import { View } from 'react-native';
 import { iconForDomain } from 'src/helpers/DomainHelper';
 import { TextStyles } from 'src/styles/BaseStyles';
 import AppViewModel from 'src/viewModels';
+import { DomainName } from 'src/constants/Domain';
 
 @observer
 export class ViewDomainsView extends ViewDomainsBase {
@@ -21,8 +22,7 @@ export class ViewDomainsView extends ViewDomainsBase {
   }
 
     async start() {
-        let possibleDomains = await AppController.Instance.User.domain.getPossibleDomains();
-        this.viewModel.setAvailableDomains(possibleDomains);
+        this.viewModel.requestPossibleDomains();
         this.forceUpdate();
     }
 
@@ -39,6 +39,14 @@ export class ViewDomainsView extends ViewDomainsBase {
     getDomainDisplay = (): string[] => {
       return this.viewModel.getDomainDisplay();
     }
+
+    getDomainImportanceBullets = (): string[] => {
+      const [lDomain, domain, rDomain, importance] = this.getDomainDisplay();
+      if (domain) {
+          return this.viewModel.getDomainByName(domain as DomainName).bullets;
+      }
+      return [];
+  }
 
     goToRight = () => {
       this.viewModel.getNextDomain(1);

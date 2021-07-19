@@ -144,8 +144,8 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     private async onStartDomains() {
         // AppViewModel.Instance.ChooseDomain.resetDomains();
         // AppViewModel.Instance.ChooseStrategy.resetStrategies();
-        let possibleStrategies = await AppController.Instance.User.strategy.getPossibleStrategies();
-        AppViewModel.Instance.ChooseStrategy.setAllStrategies(possibleStrategies);
+        
+        AppViewModel.Instance.ChooseStrategy.requestPossibleStrategies();
         this.trigger(ScenarioTriggers.Quinary);
     }
 

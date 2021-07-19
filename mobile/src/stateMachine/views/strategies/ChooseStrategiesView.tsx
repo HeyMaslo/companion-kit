@@ -17,20 +17,20 @@ export class ChooseStrategiesView extends ViewState {
 
   @observable
   private dropDownIsExtended = false;
-  private domainNames: DomainName[] = [];
+  private selectedDomainNames: DomainName[] = [];
   private currentFilter: DomainName = null;
 
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0} });
         this.hidePersona();
-        this.domainNames = AppViewModel.Instance.ChooseDomain.selectedDomains.map((d) => d.name);
+        this.selectedDomainNames = AppViewModel.Instance.ChooseDomain.selectedDomains.map((d) => d.name);
 
         this.onLearnMorePress = this.onLearnMorePress.bind(this);
         this.onSelectStrategy = this.onSelectStrategy.bind(this);
     }
 
-    public get viewModel() {
+    private get viewModel() {
         return AppViewModel.Instance.ChooseStrategy;
     }
 
@@ -55,7 +55,7 @@ export class ChooseStrategiesView extends ViewState {
     })
 
     onSubmit = () => {
-      AppController.Instance.User.qol.setUserStateProperty('chosenStrategies', this.viewModel.selectedStrategies.map(s => s.id));
+      this.viewModel.postSelectedStrategies();
       this.trigger(ScenarioTriggers.Submit);
     }
 
@@ -106,12 +106,12 @@ export class ChooseStrategiesView extends ViewState {
                     </View>
 
                     <View>
-                    {this.domainNames.length < 3 ? 
+                    {this.selectedDomainNames.length < 3 ? 
                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                         {/* Sort Row of Three Buttons */}
                         <TouchableOpacity onPress={() => this.changeFilterPressed(null)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == null ? {textDecorationLine: 'underline'} : null]}>{'Show All'}</Text></TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.changeFilterPressed(this.domainNames[0])}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.domainNames[0] ? {textDecorationLine: 'underline'} : null]}>{this.domainNames[0]}</Text></TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.changeFilterPressed(this.domainNames[1])}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.domainNames[1] ? {textDecorationLine: 'underline'} : null]}>{this.domainNames[1]}</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainNames[0])}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainNames[0] ? {textDecorationLine: 'underline'} : null]}>{this.selectedDomainNames[0]}</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainNames[1])}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainNames[1] ? {textDecorationLine: 'underline'} : null]}>{this.selectedDomainNames[1]}</Text></TouchableOpacity>
                       </View>
                     :
                       <View>
@@ -119,7 +119,7 @@ export class ChooseStrategiesView extends ViewState {
                         <Button titleStyles={[styles.sortButtonTitle, this.currentFilter == null ? {textDecorationLine: 'underline'} : null]} title='SHOW ALL' style={styles.sortButton} onPress={this.dropDown}/>
                         {this.dropDownIsExtended && 
                          <FlatList style={styles.dropDownlist}    
-                                   data={this.domainNames}
+                                   data={this.selectedDomainNames}
                                    renderItem={this.renderDropDownListItem}
                                    keyExtractor={item => item}
                                    scrollEnabled={false}/>}

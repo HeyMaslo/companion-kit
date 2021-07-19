@@ -19,7 +19,7 @@ export class SelectDomainView extends ViewState {
         this.persona.setupContainerHeight(0, { transition: { duration: 2.2 }}, Layout.window.height * 0.58);
     }
 
-    public get viewModel() {
+    private get viewModel() {
         return AppViewModel.Instance.ChooseDomain;
     }
 

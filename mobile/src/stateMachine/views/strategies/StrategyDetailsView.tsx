@@ -21,7 +21,7 @@ export class StrategyDetailsView extends ViewState {
         this._learnMoreStrategy = this.viewModel.learnMoreStrategy;
     }
 
-    public get viewModel() {
+    private get viewModel() {
         return AppViewModel.Instance.ChooseStrategy;
     }
 
