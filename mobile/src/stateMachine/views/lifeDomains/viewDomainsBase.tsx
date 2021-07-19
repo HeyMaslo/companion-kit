@@ -194,19 +194,19 @@ export abstract class ViewDomainsBase extends ViewState {
                          justifyContent: 'space-between', 
                          marginBottom: 20,
                          }}>
-                         <TouchableOpacity onPress = {this.goToLeft}>
+                         <TouchableOpacity onPress = {this.goToLeft} hitSlop={{top: 10, left: 10, right: 10, bottom: 10}}>
                             <Images.backIcon width={20} height={20} />
                          </TouchableOpacity>
                          <Text style={[TextStyles.p1, styles.domain, {fontSize: centerDomainFontSize}]}>{domain}</Text>
-                         <TouchableOpacity onPress = {this.goToRight}>
+                         <TouchableOpacity onPress = {this.goToRight} hitSlop={{top: 10, left: 10, right: 10, bottom: 10}}>
                             <Images.backIcon width={20} height={20} style={{transform: [{ rotate: '180deg' }]}}/>
                          </TouchableOpacity>
                     </View>
                      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <TouchableOpacity onPress = {this.goToLeft}>
+                        <TouchableOpacity onPress = {this.goToLeft} hitSlop={{top: 10, left: 10, right: 10, bottom: 10}}>
                             <Text style={[TextStyles.labelMedium, styles.domain, {fontSize: sideDomainsFontSize}]}>{lDomain}</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress = {this.goToRight}>
+                        <TouchableOpacity onPress = {this.goToRight} hitSlop={{top: 10, left: 10, right: 10, bottom: 10}}>
                             <Text style={[TextStyles.labelMedium, styles.domain, {fontSize: sideDomainsFontSize}]}>{rDomain}</Text>
                         </TouchableOpacity>
                      </View>

@@ -32,6 +32,9 @@ export default class QOLSurveyViewModel {
 
     constructor() {
         this.initModel = AppController.Instance.User.qol.getPartialQol().then((partialQolState: PartialQol) => {
+            if (!this._settings.current?.qol?.seenQolOnboarding) {
+                this.updateQolOnboarding();
+            }
             if (partialQolState !== null) {
                 this._questionNum = partialQolState.questionNum;
                 this._domainNum = partialQolState.domainNum;

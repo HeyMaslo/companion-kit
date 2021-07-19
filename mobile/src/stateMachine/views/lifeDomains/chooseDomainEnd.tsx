@@ -22,8 +22,12 @@ export class ChooseDomainEndView extends ViewState {
         this.persona.view = {...this.persona.view, position: { x: this.persona.view.position.x, y: Layout.window.height*0.18} };
     }
 
-    public get viewModel() {
+    private get viewModel() {
         return AppViewModel.Instance.ChooseDomain;
+    }
+
+    private get strategiesViewModel() {
+        return AppViewModel.Instance.ChooseStrategy;
     }
 
     async start() {}
@@ -38,7 +42,7 @@ export class ChooseDomainEndView extends ViewState {
 
     async onThreeSelected() {
         this.trigger(ScenarioTriggers.Submit)
-        AppViewModel.Instance.ChooseStrategy.updateAvailableStrategiesForSelectedDomains();
+        this.strategiesViewModel.updateAvailableStrategiesForSelectedDomains();
     }
 
     renderContent() {

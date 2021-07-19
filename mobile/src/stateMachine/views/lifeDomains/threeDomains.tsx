@@ -32,7 +32,7 @@ export class ThreeDomainView extends ViewState {
         this.trigger(ScenarioTriggers.Submit);
     }
 
-    public get viewModel() {
+    private get viewModel() {
         return AppViewModel.Instance.ChooseDomain;
     }
 

@@ -8,7 +8,7 @@ type NotchDevice = {
 
 let notch: boolean;
 
-export function hasNotch() {
+export function hasNotch() { // doesn't seem to work on simulators, unsure about real device
     if (notch == null) {
         const { ios } = Constants.platform;
         const androidDeviceModel: string = Constants.deviceName;

@@ -56,8 +56,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
     async start() {
         await AppViewModel.Instance.QOL.init();
-        const mags = await this.viewModel.getArmMagnitudes();
-        this.persona.qolArmMagnitudes = mags;
+        this.persona.qolArmMagnitudes = await this.viewModel.getArmMagnitudes();
         this.setState({...this.state, isUnfinishedQol: AppViewModel.Instance.QOL.isUnfinished});
         Animated.timing(this.state.opacity, {
             toValue: 1,
@@ -144,8 +143,8 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     private async onStartDomains() {
         // AppViewModel.Instance.ChooseDomain.resetDomains();
         // AppViewModel.Instance.ChooseStrategy.resetStrategies();
-        let possibleStrategies = await AppController.Instance.User.strategy.getPossibleStrategies();
-        AppViewModel.Instance.ChooseStrategy.setAllStrategies(possibleStrategies);
+        
+        AppViewModel.Instance.ChooseStrategy.requestPossibleStrategies();
         this.trigger(ScenarioTriggers.Quinary);
     }
 

@@ -22,7 +22,7 @@ export class ReviewStrategiesView extends ViewState {
         this.onLearnMorePress = this.onLearnMorePress.bind(this);
     }
 
-    public get viewModel() {
+    private get viewModel() {
         return AppViewModel.Instance.ChooseStrategy;
     }
 

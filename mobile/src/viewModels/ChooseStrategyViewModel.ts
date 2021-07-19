@@ -1,6 +1,7 @@
 import { observable} from 'mobx';
 import { StrategyIded, DisplayStrategyIded } from '../../../mobile/src/constants/Strategy';
 import { DomainIded, DomainName } from '../../../mobile/src/constants/Domain';
+import AppController from 'src/controllers';
 
 export default class ChooseStrategyViewModel {
 
@@ -27,7 +28,7 @@ export default class ChooseStrategyViewModel {
     }
   }
 
-  public setAllStrategies(strats: StrategyIded[]) {
+  private setAllStrategies(strats: StrategyIded[]) {
     if (strats) {
       this._allStrategies = strats.map( (s) => {
             return  {
@@ -39,6 +40,15 @@ export default class ChooseStrategyViewModel {
             } as DisplayStrategyIded
       });
     }
+  }
+
+  public async requestPossibleStrategies() {
+    let possibleStrategies = await AppController.Instance.User.strategy.getPossibleStrategies();
+    this.setAllStrategies(possibleStrategies);
+  }
+
+  public postSelectedStrategies(): Promise<void> {
+    return AppController.Instance.User.qol.setUserStateProperty('chosenStrategies', this.selectedStrategies.map(s => s.id));
   }
 
   // Only include strategies from the selectedDomains
