@@ -86,7 +86,7 @@ export function PersonaView(this: void, props: Props) {
     }, { fireImmediately: true }));
 
     return (
-        <View key='111' style={styles.personaWrapper} pointerEvents={'none'}>
+        <View style={styles.personaWrapper} pointerEvents={'none'}>
             <MasloPersonaExpo
                 context={props.context}
                 disabled={props.disabled}
@@ -107,11 +107,5 @@ const styles = StyleSheet.create({
         top: 0,
         position: 'absolute',
         zIndex: 100,
-    },
-    // personaWrapper: {
-    //     width: Layout.window.width,
-    //     height: Layout.window.height,
-    //     zIndex: 100,
-    //     marginTop: -Layout.window.height,
-    // },
+    }
 });
