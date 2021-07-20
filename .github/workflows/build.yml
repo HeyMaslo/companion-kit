@@ -6,6 +6,8 @@ jobs:
     steps:
       - name: Check out
         uses: actions/checkout@v2
+        with:
+          - submodules: true
       - name: Create environment file
         run: cp test.env .env
       - name: Use correct node version
@@ -13,7 +15,7 @@ jobs:
         with:
           node-version: '10'
       - name: Initialize project
-        run: ./bin/setup.bash -y -p 0 -f 1 -s 1
+        run: ./bin/setup.bash -y -p 0 -f 1 # submodules enabled in checkout
       - name: Show firebase dependencies (root)
         run: yarn list | grep firebase
       - name: Show firebase dependencies (server)
