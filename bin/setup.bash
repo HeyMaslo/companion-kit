@@ -2,7 +2,8 @@
 pods=1
 yes=0
 submodules=1
-functions=0
+functions=1
+dashboard=1
 while getopts ":ydp:s:f:" opt; do
   case ${opt} in
 	d ) pods=0
@@ -22,21 +23,40 @@ while getopts ":ydp:s:f:" opt; do
       ;;
   esac
 done
-echo "Checking node version:"
-node --version
-if [[ $? != 0 ]]; then
-    echo "Node not installed!"
-    exit 1
-else
-    if [ $yes == 0 ]; then
-        read -r -p "Is this okay? [Y/n] " confirm
-        if [[ ! $confirm =~ ^[Yy]$ ]] ; then	
-            echo "exiting."
-            exit 0
-        fi
+export NVM_DIR=".nvm"
+if [ ! -d "$NVM_DIR" ]; then
+    read -r -p "NVM Needed. Install it now? [Y/n] " confirm
+    if [[ ! "$confirm" =~ ^[Yy]$ ]] ; then	
+        echo "exiting."
+        exit 0
     fi
+	echo "Installing NVM"
+	mkdir "$NVM_DIR"
+	git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
+	cd "$NVM_DIR"
+	git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
+	cd ..
+	#curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+else
+	echo "NVM Installation found at $NVM_DIR"
 fi
-yarn
+source "$NVM_DIR/nvm.sh"
+echo "NVM Version:"
+nvm --version
+if [ $? != 0 ]; then
+	echo "Error setting up NVM" && exit 1
+fi
+echo "Installing required node versions"
+#nvm install 10
+#nvm install 12
+dir () {
+	echo "Changing to working directory: $1"
+	cd $1 || exit 1
+	nvm install
+	nvm use
+}
+dir .
+yarn || exit 1
 if [ ! -f ".env" ]; then
     echo "No env file installed!"
     if [ $yes == 0 ]; then
@@ -47,9 +67,8 @@ if [ ! -f ".env" ]; then
         fi
     fi
 fi
-yarn env:clean
-yarn env:set
-mkdir mobile/dependencies
+yarn env:clean || exit 1 
+yarn env:set || exit 1
 if [ $submodules == 1 ]; then
 	cd mobile/dependencies || exit 1
 	git clone -b bipolarbridges-persona https://github.com/bipolarbridges/maslo-persona.git persona
@@ -57,13 +76,18 @@ if [ $submodules == 1 ]; then
 	cd ../..
 fi
 if [ $functions == 1 ]; then
-	cd server/functions || exit 1
-	yarn
+	dir server/functions
+	yarn || exit 1 
 	cd ../..
 fi
+if [ $dashboard == 1 ]; then
+	dir dashboard
+	yarn || exit 1
+	cd ..
+fi
 if [ $pods == 1 ]; then
-	yarn all
-    cd mobile/ios || exit 1
+    dir mobile/ios
+	yarn
     pod install --repo-update
     cd ../..
 fi

@@ -10,6 +10,8 @@ temp/
 yarn-error.log
 **/.DS_Store
 
+.nvm
+
 ## Configs
 common/models/ClientCard.ts
 /server/functions/api_key.json
