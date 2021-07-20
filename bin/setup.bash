@@ -8,7 +8,7 @@ while getopts ":ydp:s:f:" opt; do
   case ${opt} in
 	d ) pods=0
 		yes=1
-		submodules=0
+		submodules=1
 		functions=1
 	  ;;
     p ) pods=$OPTARG
