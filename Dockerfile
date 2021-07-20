@@ -1,7 +1,8 @@
 FROM polarusapp/firebase-tools:node10
 USER root
 RUN apk --no-cache add git
-RUN apk --no-cache add curl
+RUN apk add curl
+RUN apk add ssh
 WORKDIR /home/node
 COPY . .
 COPY .docker.env .env
