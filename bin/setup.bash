@@ -34,11 +34,7 @@ if [ ! -d "$NVM_DIR" ]; then
 	fi
 	echo "Installing NVM"
 	mkdir "$NVM_DIR"
-	git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
-	cd "$NVM_DIR"
-	git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
-	cd ..
-	#curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
 else
 	echo "NVM Installation found at $NVM_DIR"
 fi
