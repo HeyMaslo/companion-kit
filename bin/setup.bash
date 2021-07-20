@@ -26,10 +26,12 @@ done
 export NVM_DIR=".nvm"
 if [ ! -d "$NVM_DIR" ]; then
     read -r -p "NVM Needed. Install it now? [Y/n] " confirm
-    if [[ ! "$confirm" =~ ^[Yy]$ ]] ; then	
-        echo "exiting."
-        exit 0
-    fi
+    if [ $yes == 0 ]; then
+    	if [[ ! "$confirm" =~ ^[Yy]$ ]] ; then	
+        	echo "exiting."
+        	exit 0
+    	fi
+	fi
 	echo "Installing NVM"
 	mkdir "$NVM_DIR"
 	git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
