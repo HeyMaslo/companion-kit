@@ -5,7 +5,7 @@ export interface IQoLController {
 
     getSurveyResults(): Promise<QolSurveyResults>;
 
-    sendSurveyResults(results: QolSurveyResults, startDate: number, questionCompletionDates: number[]): Promise<boolean>;
+    sendSurveyResults(results: QolSurveyResults, aggregateScore: number, startDate: number, questionCompletionDates: number[]): Promise<boolean>;
 
     sendPartialQol(qol: PartialQol): Promise<boolean>;
 

@@ -26,9 +26,9 @@ export default class QoLControllerBase implements IQoLController {
     }
 
     // Submit new survey results
-    public async sendSurveyResults(results: QolSurveyResults, startDate: number, questionCompletionDates: number[]): Promise<boolean> {
+    public async sendSurveyResults(results: QolSurveyResults, aggregateScore: number, startDate: number, questionCompletionDates: number[]): Promise<boolean> {
         logger.log(`add qol results: userId = ${this._userId}`);
-        await RepoFactory.Instance.surveyResults.addResults(this._userId, results, startDate, questionCompletionDates);
+        await RepoFactory.Instance.surveyResults.addResults(this._userId, results, aggregateScore, startDate, questionCompletionDates);
         return true;
     }
 

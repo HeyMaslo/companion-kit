@@ -5,6 +5,7 @@ import Collections from 'common/database/collections';
 export type SurveyResults = {
     date: number,
     results: QolSurveyResults,
+    aggregateScore: number,
     startDate: number,
     questionCompletionDates: number[],
 };
@@ -28,8 +29,8 @@ export default class SurveyResultsRepo extends GenericUserRepo<SurveyResults> {
         }
     }
 
-    public async addResults(userId: string, results: QolSurveyResults, startDate: number, questionCompletionDates: number[]) {
-        await this.createUserData(userId, { date: Date.now(), results, startDate, questionCompletionDates });
+    public async addResults(userId: string, results: QolSurveyResults, aggregateScore: number, startDate: number, questionCompletionDates: number[]) {
+        await this.createUserData(userId, { date: Date.now(), results, aggregateScore, startDate, questionCompletionDates });
     }
 
     private async _getLatestResults(userId: string): Promise<SurveyResults> {

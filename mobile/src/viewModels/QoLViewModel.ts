@@ -129,7 +129,13 @@ export default class QOLSurveyViewModel {
     }
 
     public sendSurveyResults = async () => {
-        const res: boolean = await AppController.Instance.User.qol.sendSurveyResults(this._surveyResponses, this.startDate, this.questionCompletionDates);
+        let aggregateScore = 0;
+        const entries = Object.entries(this._surveyResponses)
+        for (const [key, value] of entries) {
+            aggregateScore += value;
+          }
+          aggregateScore /= entries.length
+        const res: boolean = await AppController.Instance.User.qol.sendSurveyResults(this._surveyResponses, aggregateScore, this.startDate, this.questionCompletionDates);
         return res;
     }
 
