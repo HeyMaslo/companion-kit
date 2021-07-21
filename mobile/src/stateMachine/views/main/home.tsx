@@ -350,7 +350,6 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                     <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains()}/>
                     {/* MK-TODO buttons below used for development only and will be removed */}
                     <Button title="WorkingView" style={styles.qolButton} onPress={() => this.onTESTINGButton()}/>
-                    {/* <Button title="WorkView 2" style={styles.qolButton} onPress={() => this.onStartDomains('c')}/> */}
                     </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
                     { loading

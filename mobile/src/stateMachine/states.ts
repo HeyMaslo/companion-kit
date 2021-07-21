@@ -89,4 +89,5 @@ export enum States {
     EndQol,
 
     QolHistory,
+    QolHistoryTimline,
 }

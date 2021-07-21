@@ -94,7 +94,7 @@ export abstract class ViewDomainsBase extends ViewState {
 
   renderBulletPoint(str: string) {
     return (
-      <View key={getUniqueID()}style={{flexDirection: 'row'}}>
+      <View key={getUniqueID()} style={{flexDirection: 'row'}}>
         <Text style={this.textStyles.p2}>{'\u2022'}</Text>
         <Text style={[this.textStyles.p2, {flex: 1, paddingLeft: 5}]}>{str}</Text>
       </View>

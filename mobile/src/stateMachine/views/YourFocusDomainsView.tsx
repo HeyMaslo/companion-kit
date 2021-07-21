@@ -1,23 +1,15 @@
-import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View, LayoutChangeEvent, GestureResponderEvent, PixelRatio } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View, LayoutChangeEvent } from 'react-native';
 import { Button, Container, MasloPage, StrategyCard } from 'src/components';
 import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
-import Colors from '../../constants/colors/Colors';
 import { ScenarioTriggers } from '../abstractions';
 import { ViewState } from './base';
-import { months } from 'common/utils/dateHelpers';
 import Layout from 'src/constants/Layout';
-import { getPersonaRadius, PersonaScale } from '../persona';
-import AppController from 'src/controllers';
+import { getPersonaRadius } from '../persona';
 import IconsOnCircle from './IconsOnCircle';
-import { PersonaArmState } from 'dependencies/persona/lib';
 import { DomainName } from 'src/constants/Domain';
-
-const date = new Date();
-const today = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 
 const containerMarginBottom = Layout.isSmallDevice ? 0 : 25;
 const containerMarginTop = Layout.isSmallDevice ? 25 : 75;
@@ -88,17 +80,17 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
                 <Container style={[{height: this._contentHeight, marginTop: containerMarginTop, marginBottom: containerMarginBottom}]}>
                     <IconsOnCircle circleRaius={this.ordRadius * 6} symbolSize={40} highlightedDomains={this.selectedDomains} onLayout={this.onLayoutIconCircle}/>
                     <View pointerEvents={'box-none'} style={[styles.bottomWrapper, {top: this.state.bottomWrapperTop}]}>
-                    <Button
-                        title={'View All Life Areas'}
-                        style={[styles.viewAllButton]}
-                        onPress={this.onLifeAreasPress}
-                    />
-                    <Text style={[TextStyles.labelLarge, styles.focusStrategies]}>Your Focus Strategies:</Text>
-                    <FlatList style={[styles.list]}
-                              data={this.strategiesViewModel.selectedStrategies}
-                              renderItem={this.renderListItem}
-                              keyExtractor={item => item.id}/>
-                              </View>
+                      <Button
+                          title={'View All Life Areas'}
+                          style={[styles.viewAllButton]}
+                          onPress={this.onLifeAreasPress}
+                      />
+                      <Text style={[TextStyles.labelLarge, styles.focusStrategies]}>Your Focus Strategies:</Text>
+                      <FlatList style={[styles.list]}
+                                data={this.strategiesViewModel.selectedStrategies}
+                                renderItem={this.renderListItem}
+                                keyExtractor={item => item.id}/>
+                    </View>
                 </Container>
             </MasloPage>
         );

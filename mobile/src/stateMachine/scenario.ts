@@ -57,6 +57,7 @@ import { VerificationCodeView } from './views/login/verificationCode';
 import { NoInvitationView } from './views/login/noInvitation';
 import { ResetPasswordView } from './views/password/resetPassword';
 import { QolHistoryMainView } from './views/qol/history/qolHistoryMain';
+import { QolTimelineView } from './views/qol/history/qolTimeline';
 
 const CreateJournalCancelTransition: StateTransition<States> = {
     target: States.Home,
@@ -548,6 +549,15 @@ export const MasloScenario: GlobalScenario<States> = {
         view: QolHistoryMainView,
         exit: [
             { target: States.Home, trigger: [Triggers.Cancel] },
+            { target: States.QolHistoryTimline, trigger: [Triggers.Submit] },
+        ]
+    },
+
+    [States.QolHistoryTimline]: {
+        view: QolTimelineView,
+        exit: [
+            { target: States.QolHistory, trigger: [Triggers.Cancel] },
+            // { target: States., trigger: [Triggers.Secondary] }, // View strategies
         ]
     },
 };
