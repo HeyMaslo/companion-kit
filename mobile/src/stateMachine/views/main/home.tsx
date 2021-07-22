@@ -51,7 +51,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     }
 
     get viewModel() { return HomeViewModel.Instance; }
-    get viewQolModel() { return AppViewModel.Instance.QOL; }
+    get qolViewModel() { return AppViewModel.Instance.QOL; }
     
 
     async start() {
@@ -133,7 +133,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     }
 
     private onFullQol = () => {
-        this.viewQolModel.setQolSurveyType = QolSurveyType.Full;
+        this.qolViewModel.QolSurveyType = QolSurveyType.Full;
         this.trigger(ScenarioTriggers.Tertiary);
     }
 
