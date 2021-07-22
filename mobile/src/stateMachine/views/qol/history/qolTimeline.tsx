@@ -15,6 +15,7 @@ import { DomainName } from 'src/constants/Domain';
 import { SurveyResults } from 'common/database/repositories/SurveyResultsRepo';
 import CubicBezierCurve from '../../CubicBezierCurve';
 import { getUniqueID } from 'react-native-markdown-renderer';
+import { QolSurveyType } from 'src/constants/QoL';
 
 const date = new Date();
 const today = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
@@ -38,12 +39,13 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   private ordRadius = getPersonaRadius();
   @observable
   private historyEntries: SurveyResults[];
+  @observable
   private selectedEntry: SurveyResults;
 
     constructor(props) {
         super(props);
         this.onLayoutIconCircle = this.onLayoutIconCircle.bind(this);
-        this.onLayoutGraph = this.onLayoutGraph.bind(this);
+        this.onLayoutGraphList = this.onLayoutGraphList.bind(this);
         this._contentHeight = this.layout.window.height - containerMarginTop;
         this.selectedDomains = AppViewModel.Instance.ChooseDomain.selectedDomains.map((d) => d.name);
         this.historyEntries = this.viewModel.historyEntries;
@@ -61,7 +63,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
 
     async start() {
       this.historyEntries = this.viewModel.historyEntries;
-      console.log('this.historyEntries', this.historyEntries)
+      this.selectedEntry = this.viewModel.selectedEntry;
     }
 
     onClose = () => {
@@ -82,7 +84,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
       })
     }
 
-    onLayoutGraph(event: LayoutChangeEvent) {
+    onLayoutGraphList(event: LayoutChangeEvent) {
       const { layout } = event.nativeEvent;
       this.setState({
         graphHeight: layout.height,
@@ -95,7 +97,11 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
     }
 
     renderListItem = ({ item }) => (
-      <View style={[styles.scoreCircle, {top: this.topForScoreCircle(item.aggregateScore), marginHorizontal: this.state.graphWidth / 8}]}><Text>{item.aggregateScore}</Text></View>
+      <View style={[styles.scoreCircle,
+                    item.surveyType == QolSurveyType.Full ? {borderWidth: styles.scoreCircle.borderWidth * 2.2} : {borderWidth: styles.scoreCircle.borderWidth},
+                    {top: this.topForScoreCircle(item.aggregateScore), marginHorizontal: this.state.graphWidth / 8}]}>
+        <Text>{item.aggregateScore}</Text>
+      </View>
     );
 
     renderContent() {
@@ -121,7 +127,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
                               data={this.historyEntries}
                               renderItem={this.renderListItem}
                               keyExtractor={item => getUniqueID()}
-                              onLayout={this.onLayoutGraph}/>
+                              onLayout={this.onLayoutGraphList}/>
 
                   {/* Score Graph */}
                     {/* <View style={styles.graph} onLayout={this.onLayoutGraph}>
