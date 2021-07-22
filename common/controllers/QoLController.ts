@@ -2,6 +2,7 @@ import { IQoLController } from 'common/abstractions/controlllers/IQoLController'
 import {
     QolSurveyResults,
     PartialQol,
+    QolSurveyType,
 } from '../../mobile/src/constants/QoL';
 import RepoFactory from 'common/controllers/RepoFactory';
 import { UserState } from 'common/models/userState';
@@ -26,9 +27,9 @@ export default class QoLControllerBase implements IQoLController {
     }
 
     // Submit new survey results
-    public async sendSurveyResults(results: QolSurveyResults, aggregateScore: number, startDate: number, questionCompletionDates: number[]): Promise<boolean> {
+    public async sendSurveyResults(results: QolSurveyResults, aggregateScore: number, surveyType: QolSurveyType, startDate: number, questionCompletionDates: number[]): Promise<boolean> {
         logger.log(`add qol results: userId = ${this._userId}`);
-        await RepoFactory.Instance.surveyResults.addResults(this._userId, results, aggregateScore, startDate, questionCompletionDates);
+        await RepoFactory.Instance.surveyResults.addResults(this._userId, results, aggregateScore, surveyType, startDate, questionCompletionDates);
         return true;
     }
 

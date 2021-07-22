@@ -1,4 +1,4 @@
-import { PartialQol, QolSurveyResults } from '../../../mobile/src/constants/QoL';
+import { PartialQol, QolSurveyResults, QolSurveyType } from '../../../mobile/src/constants/QoL';
 import GenericUserRepo from './GenericUserRepo';
 import Collections from 'common/database/collections';
 
@@ -6,6 +6,7 @@ export type SurveyResults = {
     date: number,
     results: QolSurveyResults,
     aggregateScore: number,
+    surveyType: QolSurveyType,
     startDate: number,
     questionCompletionDates: number[],
 };
@@ -29,8 +30,8 @@ export default class SurveyResultsRepo extends GenericUserRepo<SurveyResults> {
         }
     }
 
-    public async addResults(userId: string, results: QolSurveyResults, aggregateScore: number, startDate: number, questionCompletionDates: number[]) {
-        await this.createUserData(userId, { date: Date.now(), results, aggregateScore, startDate, questionCompletionDates });
+    public async addResults(userId: string, results: QolSurveyResults, aggregateScore: number, surveyType: QolSurveyType, startDate: number, questionCompletionDates: number[]) {
+        await this.createUserData(userId, { date: Date.now(), results, aggregateScore, surveyType, startDate, questionCompletionDates });
     }
 
     private async _getLatestResults(userId: string): Promise<SurveyResults> {

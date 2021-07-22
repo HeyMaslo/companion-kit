@@ -135,7 +135,7 @@ export default class QOLSurveyViewModel {
             aggregateScore += value;
           }
           aggregateScore /= entries.length
-        const res: boolean = await AppController.Instance.User.qol.sendSurveyResults(this._surveyResponses, aggregateScore, this.startDate, this.questionCompletionDates);
+        const res: boolean = await AppController.Instance.User.qol.sendSurveyResults(this._surveyResponses, aggregateScore, this.QolSurveyType, this.startDate, this.questionCompletionDates);
         return res;
     }
 
