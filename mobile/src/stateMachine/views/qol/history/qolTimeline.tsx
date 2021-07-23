@@ -214,7 +214,6 @@ smallCircleText: {
 list: {
   height: '55%',
   marginBottom: '5%',
-  backgroundColor: 'green',
 },
 graph: {
   flexDirection: 'row',
