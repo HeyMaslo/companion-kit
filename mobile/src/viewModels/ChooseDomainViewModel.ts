@@ -15,7 +15,7 @@ export default class ChooseDomainViewModel {
     @observable
     private _rightDomain: number;
     
-    public _availableDomains: DomainIded[];
+    private _availableDomains: DomainIded[];
     private _selectedDomains: DomainIded[];
 
     public domainCount: number;
@@ -38,6 +38,10 @@ export default class ChooseDomainViewModel {
     private setAvailableDomains(doms: DomainIded[]) {
         this._availableDomains = doms;
         this.domainCount = doms.length;
+    }
+
+    public get availableDomains(): DomainIded[] {
+        return this._availableDomains;
     }
 
     public async requestPossibleDomains() {
