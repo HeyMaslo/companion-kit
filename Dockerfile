@@ -5,6 +5,7 @@ RUN apk --no-cache add git
 RUN apk add curl
 RUN apk add openssh
 RUN ssh-keygen -f /root/.ssh/id_rsa
+RUN ssh-keyscan -t rsa github.com > /root/.ssh/known_hosts
 WORKDIR /home/node
 COPY . .
 COPY .docker.env .env
