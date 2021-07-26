@@ -147,11 +147,11 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
               <Text style={[TextStyles.labelLarge]}>{formatDateMonthYear(this.selectedEntry.date)}</Text>
               <View style={styles.header}>
 
-                <TouchableOpacity onPress={this.dropDown} style={{flexDirection: 'row', alignItems: 'center'}}>
+                <TouchableOpacity onPress={this.dropDown} style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Text style={[TextStyles.labelLarge, this.domainSort && { textDecorationLine: 'underline' }]}>{this.domainSort || `Quality of\nlife score`}</Text>
-                  <Images.caretDown width={14} height={8} color={TextStyles.labelLarge.color} style={[{marginLeft: 7}, this.dropDownIsExtended && { transform: [{ rotate: '180deg' }] }]} />
+                  <Images.caretDown width={14} height={8} color={TextStyles.labelLarge.color} style={[{ marginLeft: 7 }, this.dropDownIsExtended && { transform: [{ rotate: '180deg' }] }]} />
                 </TouchableOpacity>
-                
+
                 <View style={styles.smallCircle}>
                   <Text style={[TextStyles.labelLarge, styles.smallCircleText]}>14</Text>
                 </View>
@@ -165,7 +165,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
               keyExtractor={item => getUniqueID()}
               onLayout={this.onLayoutGraphList}
               getItemLayout={(data, index) => (
-                {length: scoreCircleDiameter + 2 * scoreCircleMarginHoriz, offset: (scoreCircleDiameter + 2 * scoreCircleMarginHoriz) * index, index}
+                { length: scoreCircleDiameter + 2 * scoreCircleMarginHoriz, offset: (scoreCircleDiameter + 2 * scoreCircleMarginHoriz) * index, index }
               )} />
 
             {/* Score Graph */}
@@ -205,7 +205,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
               style={[styles.viewAllButton]}
               onPress={this.onViewStrategies}
               isTransparent={true}
-              disabled={this.dropDownIsExtended}/>
+              disabled={this.dropDownIsExtended} />
             {this.dropDownIsExtended &&
               <FlatList style={[styles.dropDownlist, { marginTop: this.state.headerHeight }]}
                 data={this.allDomains}
