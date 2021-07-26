@@ -149,7 +149,8 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         this.trigger(ScenarioTriggers.Quinary);
     }
 
-    onTESTINGButton() {
+    async onTESTINGButton() {
+        await AppViewModel.Instance.QoLHistory.init();
         this.trigger(ScenarioTriggers.TESTING);
     }
 

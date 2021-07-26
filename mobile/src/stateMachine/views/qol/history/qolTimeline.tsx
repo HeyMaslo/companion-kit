@@ -18,17 +18,18 @@ import { getUniqueID } from 'react-native-markdown-renderer';
 import { QolSurveyType } from 'src/constants/QoL';
 import Colors from '../../../../constants/colors/Colors';
 import Images from 'src/constants/images';
+import { containerStyles } from 'src/components/Container';
 
 const containerMarginBottom = Layout.isSmallDevice ? 0 : 25;
 const containerMarginTop = Layout.isSmallDevice ? 25 : 75;
 
 const scoreCircleDiameter = 50;
 const scoreCircleRadius = scoreCircleDiameter / 2;
+const scoreCircleMarginHoriz = ((Layout.window.width - containerStyles.container.paddingLeft - containerStyles.container.paddingRight) - 4 * scoreCircleDiameter) / 8
 
 type QolTimelineViewState = {
   bottomWrapperTop: number,
   graphHeight: number,
-  graphWidth: number,
   headerHeight: number,
 }
 
@@ -44,6 +45,8 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   @observable
   private selectedEntry: SurveyResults;
   @observable
+  private selectedEntryIndex = 0
+  @observable
   private dropDownIsExtended = false;
 
   constructor(props) {
@@ -57,7 +60,6 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
     this.state = {
       bottomWrapperTop: 0,
       graphHeight: 0,
-      graphWidth: 0,
       headerHeight: 0,
     }
   }
@@ -68,7 +70,8 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
 
   async start() {
     this.historyEntries = this.viewModel.historyEntries;
-    this.selectedEntry = this.viewModel.selectedEntry;
+    this.selectedEntryIndex = Math.max(0, this.historyEntries.map((entry) => entry.startDate).indexOf(this.selectedEntry.startDate)); // using startDate here as indexOf() is not working when comparing the whole object. startDate will be unique
+    console.log('this.selectedEntryIndex', this.selectedEntryIndex)
     this.selectedDomains = AppViewModel.Instance.ChooseDomain.selectedDomains.map((d) => d.name);
     this.allDomains = AppViewModel.Instance.ChooseDomain.availableDomains.map((d) => d.name);
     this.allDomains.unshift('Show All');
@@ -96,7 +99,6 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
     const { layout } = event.nativeEvent;
     this.setState({
       graphHeight: layout.height,
-      graphWidth: layout.width - 4 * scoreCircleDiameter,
     })
   }
 
@@ -129,8 +131,8 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   renderListItem = ({ item }) => (
     <View style={[styles.scoreCircle,
     item.surveyType == QolSurveyType.Full ? { borderWidth: styles.scoreCircle.borderWidth * 2.2 } : { borderWidth: styles.scoreCircle.borderWidth },
-    { top: this.topForScoreCircle(item.aggregateScore), marginHorizontal: this.state.graphWidth / 8 }]}>
-      <Text>{item.aggregateScore}</Text>
+    { top: this.topForScoreCircle(Math.round(item.aggregateScore)), marginHorizontal: ((Layout.window.width - 40) - 4 * scoreCircleDiameter) / 8 }]}>
+      <Text>{Math.round(item.aggregateScore)}</Text>
     </View>
   );
 
@@ -157,11 +159,14 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
             </View>
             <FlatList style={styles.list}
               horizontal={true}
-              contentOffset={{ x: 1200, y: 0 }} // MK-TODO calculate this offste based on week #
+              initialScrollIndex={this.selectedEntryIndex}
               data={this.historyEntries}
               renderItem={this.renderListItem}
               keyExtractor={item => getUniqueID()}
-              onLayout={this.onLayoutGraphList} />
+              onLayout={this.onLayoutGraphList}
+              getItemLayout={(data, index) => (
+                {length: scoreCircleDiameter + 2 * scoreCircleMarginHoriz, offset: (scoreCircleDiameter + 2 * scoreCircleMarginHoriz) * index, index}
+              )} />
 
             {/* Score Graph */}
             {/* <View style={styles.graph} onLayout={this.onLayoutGraph}>
@@ -199,7 +204,8 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
               title={`View Week ${'_x_'} Strategies`}
               style={[styles.viewAllButton]}
               onPress={this.onViewStrategies}
-              isTransparent={true}/>
+              isTransparent={true}
+              disabled={this.dropDownIsExtended}/>
             {this.dropDownIsExtended &&
               <FlatList style={[styles.dropDownlist, { marginTop: this.state.headerHeight }]}
                 data={this.allDomains}
