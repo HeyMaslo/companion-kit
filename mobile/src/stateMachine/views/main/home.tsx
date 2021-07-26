@@ -65,6 +65,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
             useNativeDriver: true
         }).start(this.checkNewLinkDoc);
         isFirstLaunch = false;
+        AppViewModel.Instance.ChooseDomain.requestPossibleDomains();
     }
 
     private checkNewLinkDoc = () => {
