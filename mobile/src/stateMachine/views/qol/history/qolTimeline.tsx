@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import React from 'react';
-import { StyleSheet, Text, View, LayoutChangeEvent, FlatList } from 'react-native';
+import { StyleSheet, Text, View, LayoutChangeEvent, FlatList, TouchableOpacity } from 'react-native';
 import { Button, Container, MasloPage, StrategyCard } from 'src/components';
 import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
@@ -9,16 +9,15 @@ import { ScenarioTriggers } from '../../../abstractions';
 import { ViewState } from '../../base';
 import { formatDateMonthYear, months } from 'common/utils/dateHelpers';
 import Layout from 'src/constants/Layout';
-import { getPersonaRadius, PersonaScale } from '../../../persona';
+import { getPersonaRadius } from '../../../persona';
 import IconsOnCircle from '../../IconsOnCircle';
 import { DomainName } from 'src/constants/Domain';
 import { SurveyResults } from 'common/database/repositories/SurveyResultsRepo';
 import CubicBezierCurve from '../../CubicBezierCurve';
 import { getUniqueID } from 'react-native-markdown-renderer';
 import { QolSurveyType } from 'src/constants/QoL';
-
-const date = new Date();
-const today = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+import Colors from '../../../../constants/colors/Colors';
+import Images from 'src/constants/images';
 
 const containerMarginBottom = Layout.isSmallDevice ? 0 : 25;
 const containerMarginTop = Layout.isSmallDevice ? 25 : 75;
@@ -30,107 +29,140 @@ type QolTimelineViewState = {
   bottomWrapperTop: number,
   graphHeight: number,
   graphWidth: number,
+  headerHeight: number,
 }
 
 @observer
 export class QolTimelineView extends ViewState<QolTimelineViewState> {
 
   private selectedDomains: DomainName[] = [];
+  private allDomains: string[] = [];
+  private domainSort: DomainName = null;
   private ordRadius = getPersonaRadius();
   @observable
-  private historyEntries: SurveyResults[];
+  private historyEntries: SurveyResults[] = [];
   @observable
   private selectedEntry: SurveyResults;
+  @observable
+  private dropDownIsExtended = false;
 
-    constructor(props) {
-        super(props);
-        this.onLayoutIconCircle = this.onLayoutIconCircle.bind(this);
-        this.onLayoutGraphList = this.onLayoutGraphList.bind(this);
-        this._contentHeight = this.layout.window.height - containerMarginTop;
-        this.selectedDomains = AppViewModel.Instance.ChooseDomain.selectedDomains.map((d) => d.name);
-        this.historyEntries = this.viewModel.historyEntries;
-        this.selectedEntry = this.viewModel.selectedEntry;
-        this.state = {
-          bottomWrapperTop: 0,
-          graphHeight: 0,
-          graphWidth: 0,
-        }
+  constructor(props) {
+    super(props);
+    this.onLayoutIconCircle = this.onLayoutIconCircle.bind(this);
+    this.onLayoutGraphList = this.onLayoutGraphList.bind(this);
+    this._contentHeight = this.layout.window.height - containerMarginTop;
+
+    this.historyEntries = this.viewModel.historyEntries;
+    this.selectedEntry = this.viewModel.selectedEntry;
+    this.state = {
+      bottomWrapperTop: 0,
+      graphHeight: 0,
+      graphWidth: 0,
+      headerHeight: 0,
+    }
+  }
+
+  private get viewModel() {
+    return AppViewModel.Instance.QoLHistory;
+  }
+
+  async start() {
+    this.historyEntries = this.viewModel.historyEntries;
+    this.selectedEntry = this.viewModel.selectedEntry;
+    this.selectedDomains = AppViewModel.Instance.ChooseDomain.selectedDomains.map((d) => d.name);
+    this.allDomains = AppViewModel.Instance.ChooseDomain.availableDomains.map((d) => d.name);
+    this.allDomains.unshift('Show All');
+  }
+
+  onClose = () => {
+    this.trigger(ScenarioTriggers.Cancel)
+  }
+
+  onViewStrategies = () => {
+    this.trigger(ScenarioTriggers.Secondary)
+  }
+
+  onLayoutIconCircle(event: LayoutChangeEvent) {
+    const { layout } = event.nativeEvent;
+    this.persona.setupContainerHeight(0, null, (containerMarginTop - containerMarginBottom) + layout.height / 2);
+
+    const bottomWrapperMarginTop = 20;
+    this.setState({
+      bottomWrapperTop: layout.height + bottomWrapperMarginTop,
+    })
+  }
+
+  onLayoutGraphList(event: LayoutChangeEvent) {
+    const { layout } = event.nativeEvent;
+    this.setState({
+      graphHeight: layout.height,
+      graphWidth: layout.width - 4 * scoreCircleDiameter,
+    })
+  }
+
+  private topForScoreCircle(score: number): number {
+    return (this.state.graphHeight - scoreCircleDiameter) * (1 - score / 20)
+  }
+
+  changeFilterPressed = (selection: string) => {
+    if (selection == 'Show All') {
+      this.domainSort = null;
+    } else {
+      this.domainSort = selection as DomainName;
     }
 
-    private get viewModel() {
-      return AppViewModel.Instance.QoLHistory;
-    }
+    this.dropDown();
+  }
 
-    async start() {
-      this.historyEntries = this.viewModel.historyEntries;
-      this.selectedEntry = this.viewModel.selectedEntry;
-    }
+  dropDown = () => {
+    this.dropDownIsExtended = !this.dropDownIsExtended;
+  }
 
-    onClose = () => {
-      this.trigger(ScenarioTriggers.Cancel)
-    }
-
-    onViewStrategies = () => {
-      this.trigger(ScenarioTriggers.Secondary)
-    }
-
-    onLayoutIconCircle(event: LayoutChangeEvent) {
-      const { layout } = event.nativeEvent;
-      this.persona.setupContainerHeight(0, null, (containerMarginTop - containerMarginBottom) + layout.height/2);
-
-      const bottomWrapperMarginTop = 20;
-      this.setState({
-        bottomWrapperTop: layout.height + bottomWrapperMarginTop,
-      })
-    }
-
-    onLayoutGraphList(event: LayoutChangeEvent) {
-      const { layout } = event.nativeEvent;
-      this.setState({
-        graphHeight: layout.height,
-        graphWidth: layout.width - 4 * scoreCircleDiameter,
-      })
-    }
-
-    private topForScoreCircle(score: number): number {
-      return (this.state.graphHeight - scoreCircleDiameter) * (1 - score / 20)
-    }
-
-    renderListItem = ({ item }) => (
-      <View style={[styles.scoreCircle,
-                    item.surveyType == QolSurveyType.Full ? {borderWidth: styles.scoreCircle.borderWidth * 2.2} : {borderWidth: styles.scoreCircle.borderWidth},
-                    {top: this.topForScoreCircle(item.aggregateScore), marginHorizontal: this.state.graphWidth / 8}]}>
-        <Text>{item.aggregateScore}</Text>
+  renderDropDownListItem = ({ item }) => (
+    <TouchableOpacity onPress={() => this.changeFilterPressed(item)}>
+      <View style={styles.dropDownlistItem}>
+        <Text style={[TextStyles.btnTitle, { display: 'flex', color: Colors.button.buttonForm.text }]}>{item}</Text>
       </View>
-    );
+    </TouchableOpacity>
+  );
 
-    renderContent() {
-        return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
-                <Container style={[{height: this._contentHeight, marginTop: containerMarginTop, marginBottom: containerMarginBottom}]}>
-                    <IconsOnCircle circleRaius={this.ordRadius * 6} symbolSize={40} highlightedDomains={this.selectedDomains} onLayout={this.onLayoutIconCircle}/>
-                    <View pointerEvents={'box-none'} style={[styles.bottomWrapper, {top: this.state.bottomWrapperTop}]}>
+  renderListItem = ({ item }) => (
+    <View style={[styles.scoreCircle,
+    item.surveyType == QolSurveyType.Full ? { borderWidth: styles.scoreCircle.borderWidth * 2.2 } : { borderWidth: styles.scoreCircle.borderWidth },
+    { top: this.topForScoreCircle(item.aggregateScore), marginHorizontal: this.state.graphWidth / 8 }]}>
+      <Text>{item.aggregateScore}</Text>
+    </View>
+  );
 
-                    <View style={styles.header}>
-                      <Text style={[TextStyles.labelLarge]}>{formatDateMonthYear(this.selectedEntry.date)}</Text>
-                      <View style={styles.header}>
-                        <Text style={[TextStyles.labelLarge]}>Quality of{'\n'}life score</Text>
-                        <View style={styles.smallCircle}>
-                          <Text style={[TextStyles.labelLarge, styles.smallCircleText]}>14</Text>
-                        </View>
-                      </View>
-                    </View>
+  renderContent() {
+    return (
+      <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
+        <Container style={[{ height: this._contentHeight, marginTop: containerMarginTop, marginBottom: containerMarginBottom }]}>
+          <IconsOnCircle circleRaius={this.ordRadius * 6} symbolSize={40} highlightedDomains={this.selectedDomains} onLayout={this.onLayoutIconCircle} />
+          <View pointerEvents={'box-none'} style={[styles.bottomWrapper, { top: this.state.bottomWrapperTop }]}>
 
-                    <FlatList style={styles.list}
-                              horizontal={true}
-                              contentOffset={{ x: 1200, y: 0 }} // MK-TODO calculate this offste based on week #
-                              data={this.historyEntries}
-                              renderItem={this.renderListItem}
-                              keyExtractor={item => getUniqueID()}
-                              onLayout={this.onLayoutGraphList}/>
+            <View style={styles.header} onLayout={(event) => this.setState({ headerHeight: event.nativeEvent.layout.height })}>
+              <Text style={[TextStyles.labelLarge]}>{formatDateMonthYear(this.selectedEntry.date)}</Text>
+              <View style={styles.header}>
+                <TouchableOpacity onPress={this.dropDown}>
+                  <Images.caretDown width={14} height={8} color={TextStyles.labelLarge.color} style={this.dropDownIsExtended && { transform: [{ rotate: '180deg' }] }} />
+                  <Text style={[TextStyles.labelLarge, this.domainSort && { textDecorationLine: 'underline' }]}>{this.domainSort || `Quality of\nlife score`}</Text>
+                </TouchableOpacity>
+                <View style={styles.smallCircle}>
+                  <Text style={[TextStyles.labelLarge, styles.smallCircleText]}>14</Text>
+                </View>
+              </View>
+            </View>
+            <FlatList style={styles.list}
+              horizontal={true}
+              contentOffset={{ x: 1200, y: 0 }} // MK-TODO calculate this offste based on week #
+              data={this.historyEntries}
+              renderItem={this.renderListItem}
+              keyExtractor={item => getUniqueID()}
+              onLayout={this.onLayoutGraphList} />
 
-                  {/* Score Graph */}
-                    {/* <View style={styles.graph} onLayout={this.onLayoutGraph}>
+            {/* Score Graph */}
+            {/* <View style={styles.graph} onLayout={this.onLayoutGraph}>
                       <View style={[styles.scoreCircle, {top: firstWeekTop}]}><Text>{monthResults.firstWeek}</Text></View>
                       <CubicBezierCurve style={[styles.curve, {height: this.state.graphHeight, width: curveWidth, left: scoreCircleRadius,}]} 
                                         viewBox={`0 0 ${curveWidth} ${this.state.graphHeight}`} 
@@ -161,79 +193,99 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
                       <View style={[styles.scoreCircle, {top: fourthWeekTop}]}><Text>{monthResults.fourthWeek}</Text></View>
                     </View> */}
 
-                      <Button
-                          title={`View Week ${'_x_'} Strategies`}
-                          style={[styles.viewAllButton]}
-                          onPress={this.onViewStrategies}
-                          isTransparent={true}
-                      />
-                    </View>
-                </Container>
-            </MasloPage>
-        );
-    }
+            <Button
+              title={`View Week ${'_x_'} Strategies`}
+              style={[styles.viewAllButton]}
+              onPress={this.onViewStrategies}
+              isTransparent={true}/>
+            {this.dropDownIsExtended &&
+              <FlatList style={[styles.dropDownlist, { marginTop: this.state.headerHeight }]}
+                data={this.allDomains}
+                renderItem={this.renderDropDownListItem}
+                keyExtractor={item => item} />}
+          </View>
+        </Container>
+      </MasloPage>
+    );
+  }
 }
 
-const styles = StyleSheet.create({ 
-bottomWrapper: {
-  position: 'absolute',
-  left: 20,
-  right: 20,
-  bottom: 0,
-},
-viewAllButton: {
-  alignSelf: 'center',
-  width: '70%',
-  height: 50,
-  margin: 5,
-  borderWidth: 1,
-  borderColor: TextStyles.labelLarge.color,
-},
-header: {
-  marginVertical: '5%',
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-},
-smallCircle: {
-  marginLeft: 15,
-  width: 40,
-  height: 40,
-  borderRadius: 40 / 2,
-  backgroundColor: 'transparent',
-  borderColor: TextStyles.labelLarge.color,
-  borderWidth: 2,
-  justifyContent: 'center',
-  alignItems: 'center',
-  textAlign: 'center',
-},
-smallCircleText: {
-  marginLeft: TextStyles.labelLarge.letterSpacing * 2,
-  marginTop: TextStyles.labelLarge.lineHeight / 6
-},
-list: {
-  height: '55%',
-  marginBottom: '5%',
-},
-graph: {
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  height: '55%',
-  marginBottom: '5%',
-},
-scoreCircle: {
-  width: scoreCircleDiameter,
-  height: scoreCircleDiameter,
-  borderRadius: scoreCircleRadius,
-  borderColor: TextStyles.labelMedium.color,
-  borderWidth: 2,
-  justifyContent: 'center',
-  alignItems: 'center',
-  textAlign: 'center',
-  zIndex: 999,
-},
-curve: {
-  position: 'absolute',
-  top: 0, 
-}
+const styles = StyleSheet.create({
+  bottomWrapper: {
+    position: 'absolute',
+    left: 20,
+    right: 20,
+    bottom: 0,
+  },
+  viewAllButton: {
+    alignSelf: 'center',
+    width: '70%',
+    height: 50,
+    margin: 5,
+    borderWidth: 1,
+    borderColor: TextStyles.labelLarge.color,
+  },
+  header: {
+    marginVertical: '5%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  smallCircle: {
+    marginLeft: 15,
+    width: 40,
+    height: 40,
+    borderRadius: 40 / 2,
+    backgroundColor: 'transparent',
+    borderColor: TextStyles.labelLarge.color,
+    borderWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+  },
+  smallCircleText: {
+    marginLeft: TextStyles.labelLarge.letterSpacing * 2,
+    marginTop: TextStyles.labelLarge.lineHeight / 6
+  },
+  list: {
+    height: '55%',
+    marginBottom: '5%',
+  },
+  graph: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    height: '55%',
+    marginBottom: '5%',
+  },
+  scoreCircle: {
+    width: scoreCircleDiameter,
+    height: scoreCircleDiameter,
+    borderRadius: scoreCircleRadius,
+    borderColor: TextStyles.labelMedium.color,
+    borderWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+  },
+  curve: {
+    position: 'absolute',
+    top: 0,
+  },
+  dropDownlist: {
+    position: 'absolute',
+    top: '5%',
+    right: 40 + 15, // smallScoreCircleDiameter + smallScoreCircleDiameter.paddingLeft
+    height: '65%',
+    display: 'flex',
+    flexGrow: 0,
+    borderWidth: 1,
+    borderRadius: 7,
+    borderColor: '#CBC8CD',
+    backgroundColor: 'white',
+  },
+  dropDownlistItem: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    padding: 20,
+  },
 });

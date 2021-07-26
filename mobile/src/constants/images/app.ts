@@ -16,6 +16,7 @@ import CameraIconSVG from 'src/assets/images/app/camera-icon.svg';
 import RefreshIconSVG from 'src/assets/images/app/refresh-icon.svg';
 import DarkRefreshIconSVG from 'src/assets/images/app/refresh-icon-dark.svg';
 import ArrowRightSVG from 'src/assets/images/app/arrow-right.svg';
+import CaretDownSVG from 'src/assets/images/app/caret-down.svg';
 import EnvelopeIconSVG from 'src/assets/images/app/envelope-icon.svg';
 import BellIconSVG from 'src/assets/images/app/bell-icon.svg';
 import KeyIconSVG from 'src/assets/images/app/key-icon.svg';
@@ -82,6 +83,7 @@ export default {
     refreshIcon: RefreshIconSVG,
     darkRefreshIcon: DarkRefreshIconSVG,
     arrowRight: ArrowRightSVG,
+    caretDown: CaretDownSVG,
     envelopeIcon: EnvelopeIconSVG,
     bellIcon: BellIconSVG,
     keyIcon: KeyIconSVG,
