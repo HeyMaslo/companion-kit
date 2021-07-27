@@ -11,6 +11,7 @@ yarn-error.log
 **/.DS_Store
 
 .nvm
+.ssh
 
 ## Configs
 common/models/ClientCard.ts
