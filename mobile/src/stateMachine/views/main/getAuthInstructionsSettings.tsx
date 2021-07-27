@@ -34,8 +34,6 @@ export class GetAuthInstructSettingsView extends ViewState {
         return AppViewModel.Instance.Settings;
     }
 
-    private readonly profileVM = new ProfileViewModel();
-
     componentWillUnmount() {
         this.model.notifications.dispose();
     }
@@ -80,12 +78,6 @@ export class GetAuthInstructSettingsView extends ViewState {
 }
 
     renderContent() {
-        const authProviderIcon = this.model.authProvider === 'google'
-            ? Images.googleIcon
-            : Images.envelopeIcon;
-
-        const notificationsEnabled = this.model.notifications.isEnabled && !this.model.notifications.isToggleInProgress && this.model.notifications.schedule;
-        const healthAuthEnabled = this.model.healthAuth.isEnabled;
         return (
             <MasloPage style={this.baseStyles.page}>
                 <Container style={styles.topBarWrapWrap}>
@@ -207,7 +199,6 @@ const styles = StyleSheet.create({
   updateText: {
       color: Colors.settings.updateText,
       letterSpacing: 1.6,
-      // marginTop: 4,
   },
   version: {
       marginTop: 20,
