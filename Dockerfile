@@ -10,11 +10,12 @@ WORKDIR /home/node
 COPY . .
 COPY .docker.env .env
 COPY ./server/functions/.docker.env ./server/functions/.env
+RUN cp .docker.sshconfig ./.ssh/config
 RUN chown -R node:node .
 USER node
 RUN git config --global user.name $submodule_user
 RUN git config --global user.email $submodule_email
-RUN cat ~/.ssh/id_rsa.pub
+RUN cat .ssh/id_ed25519.pub
 RUN ssh-keyscan -t rsa github.com > ~/.ssh/known_hosts
 RUN ./bin/setup.bash -d -y
 RUN yarn build:server
