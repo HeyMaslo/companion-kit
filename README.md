@@ -10,12 +10,9 @@ The steps below are required to set up a local instance of this project. The sub
 
 Clone the respository and ensure you have the requirements below:
 
- * React Native CLI development environment for both iOS and Android (Needed for running mobile apps. Xcode and Android studio must be installed in order to run iOS and android apps, respectively.)  
- Instructions: [https://reactnative.dev/docs/environment-setup](https://reactnative.dev/docs/environment-setup)
+ * Bash (Any *nix OS or WSL setup should work)
 
- * Node.js 10 and 12 ([`nvm`](https://github.com/nvm-sh/nvm) is preferable)
- The project contains `.nvmrc` files that indicate the correct node version to use (10 for the server and dashboard, 12 for the mobile application)
- To switch to the correct version using `nvm`, run ```nvm use``` in a given directory.
+ * React Native CLI development environment for both iOS and Android (Needed for running mobile apps. Xcode and Android studio must be installed in order to run iOS and android apps, respectively.)  
  
  * Expo CLI  
  To install: ```npm i -g expo-cli```
@@ -54,6 +51,13 @@ bash bin/migrate-project.bash <path-to-old-project> <path-to-new-project>
 ```
 
 ## Running and Deploying the App
+
+### Using the Correct Node Version
+After running the script above, the project instance will contain a local copy of NVM, which can be loaded with the following command:
+```
+source ./.nvm/nvm.sh
+```
+The project contains `.nvmrc` files that indicate the correct node version to use. To switch to the correct version, run ```nvm use``` in a given directory.
 
 ### Run Mobile Apps Locally on a Simulator
 
