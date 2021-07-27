@@ -4,7 +4,8 @@ yes=0
 submodules=1
 functions=1
 dashboard=1
-while getopts ":yp:s:f:" opt; do
+mobile=1
+while getopts ":yp:s:f:d:m:" opt; do
   case ${opt} in
     p ) pods=$OPTARG
       ;;
@@ -14,7 +15,11 @@ while getopts ":yp:s:f:" opt; do
       ;;
     y ) yes=1
       ;;
-    \? ) echo "Usage: setup [-y] [-p <val>] [-s <val>] [-f <val>]"
+    d ) dashboard=$OPTARG
+      ;;
+    m ) mobile=$OPTARG
+      ;;
+    \? ) echo "Usage: setup [-y] [-p <val>] [-s <val>] [-f <val>] [-d <val>] [-m <val>]"
       ;;
   esac
 done
@@ -75,10 +80,12 @@ if [ $dashboard == 1 ]; then
 	yarn || exit 1
 	cd ..
 fi
-if [ $pods == 1 ]; then
+if [ $mobile == 1 ]; then
     dir mobile/ios
     yarn
-    pod install --repo-update
+    if [ $pods == 1 ]; then
+        pod install --repo-update
+    fi
     cd ../..
 fi
 echo "Done."
