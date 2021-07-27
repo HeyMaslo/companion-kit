@@ -19,12 +19,10 @@ import TextStyles from 'src/styles/TextStyles';
 export class HealthScopesView extends ViewState {
     constructor(props) {
         super(props);
-        // this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: 405 });
         this._contentHeight = this.persona.setupContainerHeightForceScroll();
     }
 
     state = {
-        // opacity: new Animated.Value(0),
     };
 
     private readonly model = new HealthPermissionsViewModel();

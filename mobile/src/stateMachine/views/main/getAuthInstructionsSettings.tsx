@@ -40,11 +40,6 @@ export class GetAuthInstructSettingsView extends ViewState {
         this.model.notifications.dispose();
     }
 
-    goToAppleHealthSettings() {
-      //pop up to the settings
-
-    }
-
     private renderLinksFooter() {
       const { feedback, terms, privacy } = Localization.Current.MobileProject.links;
       return (
@@ -144,12 +139,6 @@ export class GetAuthInstructSettingsView extends ViewState {
                             >
                             </Card>
                         <View style={[this.baseStyles.flexCenterBottom, styles.bottomBlock]}>
-                            <Button
-                                title="Go To Apple Health Settings"
-                                withBorder
-                                isTransparent
-                                onPress={this.goToAppleHealthSettings}
-                            />
                             <this.AppVersionView />
                             {this.renderLinksFooter()}
                         </View>
