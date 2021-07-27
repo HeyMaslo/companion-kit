@@ -12,6 +12,8 @@ Clone the respository and ensure you have the requirements below:
 
  * Bash (Any *nix OS or WSL setup should work)
 
+ * Curl (suffices to have `curl` command available in bash shell)
+
  * React Native CLI development environment for both iOS and Android (Needed for running mobile apps. Xcode and Android studio must be installed in order to run iOS and android apps, respectively.)  
  
  * Expo CLI  
