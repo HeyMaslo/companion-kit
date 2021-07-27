@@ -1,6 +1,4 @@
 FROM polarusapp/firebase-tools:node10
-ARG submodule_user
-ARG submodule_email
 USER root
 RUN apk update
 RUN apk --no-cache add git
@@ -10,12 +8,7 @@ WORKDIR /home/node
 COPY . .
 COPY .docker.env .env
 COPY ./server/functions/.docker.env ./server/functions/.env
-RUN cp .docker.sshconfig ./.ssh/config
 RUN chown -R node:node .
 USER node
-RUN git config --global user.name $submodule_user
-RUN git config --global user.email $submodule_email
-RUN cat .ssh/id_ed25519.pub
-RUN ssh-keyscan -t rsa github.com > ~/.ssh/known_hosts
-RUN ./bin/setup.bash -d -y
+RUN ./bin/setup.bash -p 0 -s 0 -f 1 -y
 RUN yarn build:server

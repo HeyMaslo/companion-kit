@@ -1,11 +1,7 @@
 version: '3'
 services:
   server:
-    build:
-      context: .
-      args:
-        - submodule_user=${DOCKER_SUBMODULE_USER}
-        - submodule_email=${DOCKER_SUBMODULE_EMAIL}
+    build: .
     tty: true
     stdin_open: true
     command: sh -c "cd server/functions && yarn serve"

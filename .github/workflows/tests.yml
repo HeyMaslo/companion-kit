@@ -8,6 +8,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: companion-app
+          submodules: true
       - name: Check out external services
         uses: actions/checkout@v2
         with:
