@@ -1,13 +1,11 @@
-FROM polarusapp/firebase-tools:node10
+FROM ubuntu:latest
 USER root
-RUN apk update
-RUN apk --no-cache add git
-RUN apk add curl
-WORKDIR /home/node
+RUN apt update
+RUN apt install -y git
+RUN apt install -y curl
+WORKDIR /app
 COPY . .
 COPY .docker.env .env
 COPY ./server/functions/.docker.env ./server/functions/.env
-RUN chown -R node:node .
-USER node
-RUN ./bin/setup.bash -p 0 -s 0 -f 1 -y
+RUN ./bin/setup.bash -f 1 -d 0 -m 0 -s 0 -y
 RUN yarn build:server

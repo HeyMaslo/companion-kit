@@ -49,6 +49,7 @@ dir () {
 	cd $1 || exit 1
 	nvm install
 	nvm use
+	npm install --global yarn
 }
 dir .
 yarn || exit 1
