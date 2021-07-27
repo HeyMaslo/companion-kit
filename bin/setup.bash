@@ -22,11 +22,11 @@ export NVM_DIR=".nvm"
 if [ ! -d "$NVM_DIR" ]; then
     read -r -p "NVM Needed. Install it now? [Y/n] " confirm
     if [ $yes == 0 ]; then
-    	if [[ ! "$confirm" =~ ^[Yy]$ ]] ; then	
-        	echo "exiting."
-        	exit 0
-    	fi
-	fi
+        if [[ ! "$confirm" =~ ^[Yy]$ ]] ; then	
+            echo "exiting."
+            exit 0
+        fi
+    fi
 	echo "Installing NVM"
 	mkdir "$NVM_DIR"
 	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
@@ -39,9 +39,6 @@ nvm --version
 if [ $? != 0 ]; then
 	echo "Error setting up NVM" && exit 1
 fi
-echo "Installing required node versions"
-#nvm install 10
-#nvm install 12
 dir () {
 	echo "Changing to working directory: $1"
 	cd $1 || exit 1
@@ -80,7 +77,7 @@ if [ $dashboard == 1 ]; then
 fi
 if [ $pods == 1 ]; then
     dir mobile/ios
-	yarn
+    yarn
     pod install --repo-update
     cd ../..
 fi
