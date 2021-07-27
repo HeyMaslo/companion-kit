@@ -14,7 +14,7 @@ export class HealthPermissionsController implements IDisposable {
     private _enabledByUser: boolean;
 
     @observable
-    private _enabledByUserOG: boolean;
+    private _enabledByUserOriginal: boolean;
 
     private readonly _syncThrottle = new ThrottleAction<Promise<void>>(1000);
 
@@ -23,7 +23,7 @@ export class HealthPermissionsController implements IDisposable {
 
     public get enabled() { return this._enabledByUser; }
     
-    public get enabledOG() { return this._enabledByUserOG; }
+    public get enabledOG() { return this._enabledByUserOriginal; }
 
     public get permissionsGranted() { return this._enabledByUser; }
 
@@ -45,10 +45,10 @@ export class HealthPermissionsController implements IDisposable {
 
         if (Platform.OS == 'ios'){
             const dob = await getDOB();
-            this._enabledByUserOG = dob;
+            this._enabledByUserOriginal = dob;
         }
         if (Platform.OS == 'android'){ 
-            this._enabledByUserOG = authorized;
+            this._enabledByUserOriginal = authorized;
         }
         this._enabledByUser = authorized;
 
