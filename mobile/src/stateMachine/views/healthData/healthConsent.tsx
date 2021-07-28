@@ -16,7 +16,7 @@ export class HealthConsentView extends ViewState {
                 action: this.askNtfPermissions,
             },
             secondaryButton: {
-                text: 'Skip for now',
+                text: 'Skip',
                 action: this.skip,
             },
         });
@@ -28,8 +28,8 @@ export class HealthConsentView extends ViewState {
       this.trigger(ScenarioTriggers.Primary);
   })
 
-    skip () {
-      this.trigger(ScenarioTriggers.Submit);
+    skip = () => {
+        this.trigger(ScenarioTriggers.Submit);
     }
 
   renderContent() {
