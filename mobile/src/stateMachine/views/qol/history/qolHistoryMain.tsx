@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import { FlatList, GestureResponderEvent, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button, Container, MasloPage } from 'src/components';
-import TextStyles from 'src/styles/TextStyles';
+import TextStyles, { mainFontLight, mainFontMedium, mainFontThin } from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import Colors from '../../../../constants/colors/Colors';
 import { ScenarioTriggers } from '../../../abstractions';
@@ -61,7 +61,7 @@ export class QolHistoryMainView extends ViewState {
           {iconForDomain(DomainName.INDEPENDENCE, { display: 'flex', marginRight: 0 })}
         </View>
         <View style={styles.smallCircle}>
-          <Text style={[TextStyles.labelLarge, styles.smallCircleText]}>{Math.round(item.aggregateScore)}</Text>
+          <Text style={styles.smallCircleText}>{Math.round(item.aggregateScore)}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -126,18 +126,18 @@ const styles = StyleSheet.create({
   smallCircle: {
     display: 'flex',
     marginLeft: 15,
-    height: 34,
-    width: 34,
-    borderRadius: 17,
+    height: 36,
+    width: 36,
+    borderRadius: 18,
     backgroundColor: 'transparent',
-    borderColor: TextStyles.labelLarge.color,
-    borderWidth: 2,
+    borderColor: TextStyles.labelMedium.color,
+    borderWidth: 1.4,
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
   },
   smallCircleText: {
-    marginLeft: TextStyles.labelLarge.letterSpacing * 2,
-    marginTop: TextStyles.labelLarge.lineHeight / 6
+    color: TextStyles.labelMedium.color,
+    fontSize: 15,
   },
 });
