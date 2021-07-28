@@ -7,5 +7,5 @@ WORKDIR /app
 COPY . .
 COPY .docker.env .env
 COPY ./server/functions/.docker.env ./server/functions/.env
-RUN ./bin/setup.bash -f 1 -d 0 -m 0 -s 0 -y
-RUN yarn build:server
+RUN bash bin/setup.bash -f 1 -d 0 -m 0 -s 0 -y
+RUN bash -i -c "yarn build:server"

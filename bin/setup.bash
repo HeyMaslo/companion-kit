@@ -5,7 +5,8 @@ submodules=1
 functions=1
 dashboard=1
 mobile=1
-while getopts ":yp:s:f:d:m:" opt; do
+nvm_only=0
+while getopts ":yp:s:f:d:m:n" opt; do
   case ${opt} in
     p ) pods=$OPTARG
       ;;
@@ -19,11 +20,13 @@ while getopts ":yp:s:f:d:m:" opt; do
       ;;
     m ) mobile=$OPTARG
       ;;
-    \? ) echo "Usage: setup [-y] [-p <val>] [-s <val>] [-f <val>] [-d <val>] [-m <val>]"
+    n ) nvm_only=1
+      ;;
+    \? ) echo "Usage: setup [-y] [-p <val>] [-s <val>] [-f <val>] [-d <val>] [-m <val>] [-n]"
       ;;
   esac
 done
-export NVM_DIR=".nvm"
+export NVM_DIR="$(pwd)/.nvm"
 if [ ! -d "$NVM_DIR" ]; then
     read -r -p "NVM Needed. Install it now? [Y/n] " confirm
     if [ $yes == 0 ]; then
@@ -44,13 +47,20 @@ nvm --version
 if [ $? != 0 ]; then
 	echo "Error setting up NVM" && exit 1
 fi
+echo "Installing required node versions..."
+nvm install 10 && nvm use 10
+npm install --global yarn
+nvm install 12 && nvm use 12
+npm install --global yarn
 dir () {
 	echo "Changing to working directory: $1"
 	cd $1 || exit 1
 	nvm install
 	nvm use
-	npm install --global yarn
 }
+if [ $nvm_only == 1 ]; then
+    exit 0
+fi
 dir .
 yarn || exit 1
 if [ ! -f ".env" ]; then
