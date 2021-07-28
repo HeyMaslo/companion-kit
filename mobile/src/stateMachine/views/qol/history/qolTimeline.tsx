@@ -1,19 +1,19 @@
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import React from 'react';
-import { StyleSheet, Text, View, LayoutChangeEvent, FlatList, TouchableOpacity } from 'react-native';
-import { Button, Container, MasloPage, StrategyCard } from 'src/components';
+import { StyleSheet, Text, View, LayoutChangeEvent, FlatList, TouchableOpacity, ScrollView } from 'react-native';
+import { Button, Container, MasloPage } from 'src/components';
 import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../../abstractions';
 import { ViewState } from '../../base';
-import { formatDateMonthYear, months } from 'common/utils/dateHelpers';
+import { formatDateMonthYear } from 'common/utils/dateHelpers';
 import Layout from 'src/constants/Layout';
 import { getPersonaRadius } from '../../../persona';
 import IconsOnCircle from '../../IconsOnCircle';
 import { DomainName } from 'src/constants/Domain';
 import { SurveyResults } from 'common/database/repositories/SurveyResultsRepo';
-import CubicBezierCurve from '../../CubicBezierCurve';
+import SplineThroughPoints, { cartesianCoordinate } from '../../SplineThroughPoints';
 import { getUniqueID } from 'react-native-markdown-renderer';
 import { QolSurveyType } from 'src/constants/QoL';
 import Colors from '../../../../constants/colors/Colors';
@@ -25,11 +25,10 @@ const containerMarginTop = Layout.isSmallDevice ? 25 : 75;
 
 const scoreCircleDiameter = 50;
 const scoreCircleRadius = scoreCircleDiameter / 2;
-const scoreCircleMarginHoriz = ((Layout.window.width - containerStyles.container.paddingLeft - containerStyles.container.paddingRight) - 4 * scoreCircleDiameter) / 8
+const scoreCircleMarginHoriz = ((Layout.window.width - containerStyles.container.paddingLeft - containerStyles.container.paddingRight) - 4 * scoreCircleDiameter) / 8;
 
 type QolTimelineViewState = {
   bottomWrapperTop: number,
-  graphHeight: number,
   headerHeight: number,
 }
 
@@ -42,6 +41,10 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   private ordRadius = getPersonaRadius();
   @observable
   private historyEntries: SurveyResults[] = [];
+  @observable
+  private entryCoordinates: cartesianCoordinate[] = [];
+  @observable
+  private graphHeight = 10;
   @observable
   private selectedEntry: SurveyResults;
   @observable
@@ -59,7 +62,6 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
     this.selectedEntry = this.viewModel.selectedEntry;
     this.state = {
       bottomWrapperTop: 0,
-      graphHeight: 0,
       headerHeight: 0,
     }
   }
@@ -97,13 +99,16 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
 
   onLayoutGraphList(event: LayoutChangeEvent) {
     const { layout } = event.nativeEvent;
-    this.setState({
-      graphHeight: layout.height,
-    })
+    this.graphHeight = layout.height;
+    this.entryCoordinates = this.historyEntries.map((entry, index) => [index * (scoreCircleDiameter + scoreCircleMarginHoriz * 2), this.topForScoreCircle(Math.round(entry.aggregateScore)) + scoreCircleRadius]);
   }
 
   private topForScoreCircle(score: number): number {
-    return (this.state.graphHeight - scoreCircleDiameter) * (1 - score / 20)
+    let res = score;
+    if (score == null || Number.isNaN(score)) {
+      res = 7;
+    }
+    return (this.graphHeight - scoreCircleDiameter) * (1 - res / 20)
   }
 
   changeFilterPressed = (selection: string) => {
@@ -128,13 +133,19 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
     </TouchableOpacity>
   );
 
-  renderListItem = ({ item }) => (
-    <View style={[styles.scoreCircle,
-    item.surveyType == QolSurveyType.Full ? { borderWidth: styles.scoreCircle.borderWidth * 2.2 } : { borderWidth: styles.scoreCircle.borderWidth },
-    { top: this.topForScoreCircle(Math.round(item.aggregateScore)), marginHorizontal: ((Layout.window.width - 40) - 4 * scoreCircleDiameter) / 8 }]}>
-      <Text>{Math.round(item.aggregateScore)}</Text>
-    </View>
-  );
+  private renderListItem(item: SurveyResults): JSX.Element {
+    let aggScore = item.aggregateScore;
+    if (aggScore == null || Number.isNaN(aggScore)) {
+      aggScore = 7;
+    }
+    return (
+      <View style={[styles.scoreCircle,
+      item.surveyType == QolSurveyType.Full ? { borderWidth: styles.scoreCircle.borderWidth * 2.2 } : { borderWidth: styles.scoreCircle.borderWidth },
+      { top: this.topForScoreCircle(Math.round(aggScore)), left: 0, marginHorizontal: ((Layout.window.width - 40) - 4 * scoreCircleDiameter) / 8 }]}>
+        <Text>{Math.round(aggScore)}</Text>
+      </View>
+    );
+  }
 
   renderContent() {
     return (
@@ -153,59 +164,33 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
                 </TouchableOpacity>
 
                 <View style={styles.smallCircle}>
-                  <Text style={[TextStyles.labelLarge, styles.smallCircleText]}>14</Text>
+                  <Text style={[TextStyles.labelLarge, styles.smallCircleText]}>{this.selectedEntry.aggregateScore}</Text>
                 </View>
               </View>
             </View>
-            <FlatList style={styles.list}
+
+            {/* Horizontaly Scrolling Graph */}
+            <ScrollView style={styles.list}
               horizontal={true}
-              initialScrollIndex={this.selectedEntryIndex}
-              data={this.historyEntries}
-              renderItem={this.renderListItem}
-              keyExtractor={item => getUniqueID()}
-              onLayout={this.onLayoutGraphList}
-              getItemLayout={(data, index) => (
-                { length: scoreCircleDiameter + 2 * scoreCircleMarginHoriz, offset: (scoreCircleDiameter + 2 * scoreCircleMarginHoriz) * index, index }
-              )} />
+              onLayout={this.onLayoutGraphList}>
 
-            {/* Score Graph */}
-            {/* <View style={styles.graph} onLayout={this.onLayoutGraph}>
-                      <View style={[styles.scoreCircle, {top: firstWeekTop}]}><Text>{monthResults.firstWeek}</Text></View>
-                      <CubicBezierCurve style={[styles.curve, {height: this.state.graphHeight, width: curveWidth, left: scoreCircleRadius,}]} 
-                                        viewBox={`0 0 ${curveWidth} ${this.state.graphHeight}`} 
-                                        startPoint={[0, this.state.graphHeight - scoreCircleRadius]} 
-                                        controlPointFirst={[curveWidth / 3, this.state.graphHeight - scoreCircleRadius]} 
-                                        controlPointSecond={[curveWidth * 2/3, secondWeekTop + scoreCircleRadius]} 
-                                        endPoint={[curveWidth, secondWeekTop + scoreCircleRadius]} 
-                                        strokeColor={TextStyles.labelMedium.color}/>
+              <SplineThroughPoints style={[styles.curve, { width: this.historyEntries.length * (scoreCircleDiameter + scoreCircleMarginHoriz * 2), height: this.graphHeight }]}
+                viewBox={`0 0 ${this.historyEntries.length * (scoreCircleDiameter + scoreCircleMarginHoriz * 2)} ${this.graphHeight}`}
+                controlPoints={this.entryCoordinates}
+                strokeColor={TextStyles.labelMedium.color}
+                strokeWidth={5} />
+              {this.historyEntries.map((entry) => this.renderListItem(entry))}
 
-                      <View style={[styles.scoreCircle, {top: secondWeekTop}]}><Text>{monthResults.secondWeek}</Text></View>
-                      <CubicBezierCurve style={[styles.curve, {height: this.state.graphHeight, width: curveWidth, left: scoreCircleRadius + curveWidth}]} 
-                                        viewBox={`0 0 ${curveWidth} ${this.state.graphHeight}`} 
-                                        startPoint={[0, secondWeekTop + scoreCircleRadius]} 
-                                        controlPointFirst={[curveWidth / 3, secondWeekTop + scoreCircleRadius]} 
-                                        controlPointSecond={[curveWidth * 2/3, thirdWeekTop + scoreCircleRadius]} 
-                                        endPoint={[curveWidth, thirdWeekTop + scoreCircleRadius]} 
-                                        strokeColor={TextStyles.labelMedium.color}/>
-
-                      <View style={[styles.scoreCircle, {top: thirdWeekTop}]}><Text>{monthResults.thirdWeek}</Text></View>
-                      <CubicBezierCurve style={[styles.curve, {height: this.state.graphHeight, width: curveWidth, left: scoreCircleRadius + this.state.graphWidth * 2/3}]} 
-                                        viewBox={`0 0 ${curveWidth} ${this.state.graphHeight}`} 
-                                        startPoint={[0, thirdWeekTop + scoreCircleRadius]} 
-                                        controlPointFirst={[curveWidth / 3, thirdWeekTop + scoreCircleRadius]}
-                                        controlPointSecond={[curveWidth * 2/3, fourthWeekTop + scoreCircleRadius]}
-                                        endPoint={[curveWidth, fourthWeekTop + scoreCircleRadius]} 
-                                        strokeColor={TextStyles.labelMedium.color}/>
-
-                      <View style={[styles.scoreCircle, {top: fourthWeekTop}]}><Text>{monthResults.fourthWeek}</Text></View>
-                    </View> */}
+            </ScrollView>
 
             <Button
-              title={`View Week ${'_x_'} Strategies`}
+              title={`View Week ${this.selectedEntryIndex + 1} Strategies`}
               style={[styles.viewAllButton]}
               onPress={this.onViewStrategies}
               isTransparent={true}
               disabled={this.dropDownIsExtended} />
+
+            {/* Dropdown list is here so it renders on top of everything */}
             {this.dropDownIsExtended &&
               <FlatList style={[styles.dropDownlist, { marginTop: this.state.headerHeight }]}
                 data={this.allDomains}
@@ -259,12 +244,6 @@ const styles = StyleSheet.create({
     height: '55%',
     marginBottom: '5%',
   },
-  graph: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    height: '55%',
-    marginBottom: '5%',
-  },
   scoreCircle: {
     width: scoreCircleDiameter,
     height: scoreCircleDiameter,
@@ -274,10 +253,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
+    backgroundColor: 'white',
   },
   curve: {
     position: 'absolute',
-    top: 0,
+    left: scoreCircleMarginHoriz + scoreCircleRadius,
   },
   dropDownlist: {
     position: 'absolute',
