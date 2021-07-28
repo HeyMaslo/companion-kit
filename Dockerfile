@@ -1,4 +1,5 @@
-FROM ubuntu:latest
+# Basic Setup and Build
+FROM ubuntu:latest as setup
 USER root
 RUN apt update
 RUN apt install -y git
@@ -9,3 +10,8 @@ COPY .docker.env .env
 COPY ./server/functions/.docker.env ./server/functions/.env
 RUN bash bin/setup.bash -f 1 -d 0 -m 0 -s 0 -y
 RUN bash -i -c "yarn build:server"
+
+# Firebase Tools Layer
+FROM polarusapp/firebase-tools:node10
+USER root
+COPY --from=setup /app .
