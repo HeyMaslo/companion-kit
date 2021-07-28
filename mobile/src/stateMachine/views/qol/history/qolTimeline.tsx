@@ -14,7 +14,6 @@ import IconsOnCircle from '../../IconsOnCircle';
 import { DomainName } from 'src/constants/Domain';
 import { SurveyResults } from 'common/database/repositories/SurveyResultsRepo';
 import SplineThroughPoints, { cartesianCoordinate } from '../../SplineThroughPoints';
-import { getUniqueID } from 'react-native-markdown-renderer';
 import { QolSurveyType } from 'src/constants/QoL';
 import Colors from '../../../../constants/colors/Colors';
 import Images from 'src/constants/images';
