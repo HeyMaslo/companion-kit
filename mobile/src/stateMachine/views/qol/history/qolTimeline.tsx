@@ -57,8 +57,6 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
     this.onLayoutGraphList = this.onLayoutGraphList.bind(this);
     this._contentHeight = this.layout.window.height - containerMarginTop;
 
-    this.historyEntries = this.viewModel.historyEntries;
-    this.selectedEntry = this.viewModel.selectedEntry;
     this.state = {
       bottomWrapperTop: 0,
       headerHeight: 0,
@@ -71,8 +69,9 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
 
   async start() {
     this.historyEntries = this.viewModel.historyEntries;
+    this.selectedEntry = this.viewModel.selectedEntry;
     this.selectedEntryIndex = Math.max(0, this.historyEntries.map((entry) => entry.startDate).indexOf(this.selectedEntry.startDate)); // using startDate here as indexOf() is not working when comparing the whole object. startDate will be unique
-    console.log('this.selectedEntryIndex', this.selectedEntryIndex)
+
     this.selectedDomains = AppViewModel.Instance.ChooseDomain.selectedDomains.map((d) => d.name);
     this.allDomains = AppViewModel.Instance.ChooseDomain.availableDomains.map((d) => d.name);
     this.allDomains.unshift('Show All');
@@ -104,9 +103,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
 
   private topForWeekCircle(score: number): number {
     let res = score;
-    if (score == null || Number.isNaN(score)) {
-      res = 7;
-    }
+    if (score == null || Number.isNaN(score)) { res = 7; } // MK-TODO: remove once the DB is full updated
     return (this.graphHeight - weekCircleDiameter) * (1 - res / 20)
   }
 
@@ -122,6 +119,13 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
 
   dropDown = () => {
     this.dropDownIsExtended = !this.dropDownIsExtended;
+  }
+
+  private scoreToDisplay(sort: DomainName): number {
+    if (sort == null) {
+      return Math.round(this.selectedEntry.aggregateScore);
+    }
+    return Math.round(this.selectedEntry.results[sort]);
   }
 
   renderDropDownListItem = ({ item }) => (
@@ -169,7 +173,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
                 </TouchableOpacity>
 
                 <View style={styles.scoreCircle}>
-                  <Text style={[TextStyles.labelLarge, styles.scoreCircleText]}>{Math.round(this.selectedEntry.aggregateScore)}</Text>
+                  <Text style={[TextStyles.labelLarge, styles.scoreCircleText]}>{this.scoreToDisplay(this.domainSort)}</Text>
                 </View>
               </View>
             </View>
