@@ -169,7 +169,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
                 </TouchableOpacity>
 
                 <View style={styles.scoreCircle}>
-                  <Text style={[TextStyles.labelLarge, styles.scoreCircleText]}>{this.selectedEntry.aggregateScore}</Text>
+                  <Text style={[TextStyles.labelLarge, styles.scoreCircleText]}>{Math.round(this.selectedEntry.aggregateScore)}</Text>
                 </View>
               </View>
             </View>
