@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import React from 'react';
-import { StyleSheet, Text, View, LayoutChangeEvent, FlatList, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, LayoutChangeEvent, FlatList, TouchableOpacity, ScrollView, Pressable } from 'react-native';
 import { Button, Container, MasloPage } from 'src/components';
 import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
@@ -138,12 +138,17 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
       aggScore = 7;
     }
     return (
-      <View style={[styles.weekCircle,
-      item.surveyType == QolSurveyType.Full ? { borderWidth: styles.weekCircle.borderWidth * 2.2 } : { borderWidth: styles.weekCircle.borderWidth },
-      index == this.selectedEntryIndex ? { backgroundColor: TextStyles.labelMedium.color } : { backgroundColor: 'white' },
-      { top: this.topForWeekCircle(Math.round(aggScore)), left: 0, marginHorizontal: ((Layout.window.width - 40) - 4 * weekCircleDiameter) / 8 }]}>
-        <Text style={[styles.weekCircleText, index == this.selectedEntryIndex ? { color: 'white' } : { color: TextStyles.labelMedium.color },]}>W{index + 1}</Text>
-      </View>
+      <Pressable onPress={() => {
+        this.selectedEntry = item
+        this.selectedEntryIndex = index
+      }}>
+        <View style={[styles.weekCircle,
+        item.surveyType == QolSurveyType.Full ? { borderWidth: styles.weekCircle.borderWidth * 2.2 } : { borderWidth: styles.weekCircle.borderWidth },
+        index == this.selectedEntryIndex ? { backgroundColor: TextStyles.labelMedium.color } : { backgroundColor: 'white' },
+        { top: this.topForWeekCircle(Math.round(aggScore)), left: 0, marginHorizontal: ((Layout.window.width - 40) - 4 * weekCircleDiameter) / 8 }]}>
+          <Text style={[styles.weekCircleText, index == this.selectedEntryIndex ? { color: 'white' } : { color: TextStyles.labelMedium.color },]}>W{index + 1}</Text>
+        </View>
+      </Pressable>
     );
   }
 
