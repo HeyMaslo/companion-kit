@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import React from 'react';
-import { StyleSheet, Text, View, LayoutChangeEvent, FlatList, TouchableOpacity, ScrollView, Pressable } from 'react-native';
+import { StyleSheet, Text, View, LayoutChangeEvent, FlatList, TouchableOpacity, ScrollView, Pressable, PointPropType } from 'react-native';
 import { Button, Container, MasloPage } from 'src/components';
 import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
@@ -18,6 +18,7 @@ import { QolSurveyType } from 'src/constants/QoL';
 import Colors from '../../../../constants/colors/Colors';
 import Images from 'src/constants/images';
 import { containerStyles } from 'src/components/Container';
+import { getUniqueID } from 'react-native-markdown-renderer';
 
 const containerMarginBottom = Layout.isSmallDevice ? 0 : 25;
 const containerMarginTop = Layout.isSmallDevice ? 25 : 75;
@@ -46,8 +47,8 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   private graphHeight = 10;
   @observable
   private selectedEntry: SurveyResults;
-  @observable
   private selectedEntryIndex = 0
+  private scrollViewContentOffset: PointPropType = { x: 0, y: 0 };
   @observable
   private dropDownIsExtended = false;
 
@@ -56,6 +57,9 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
     this.onLayoutIconCircle = this.onLayoutIconCircle.bind(this);
     this.onLayoutGraphList = this.onLayoutGraphList.bind(this);
     this._contentHeight = this.layout.window.height - containerMarginTop;
+
+    this.historyEntries = this.viewModel.historyEntries;
+    this.selectedEntry = this.viewModel.selectedEntry;
 
     this.state = {
       bottomWrapperTop: 0,
@@ -71,6 +75,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
     this.historyEntries = this.viewModel.historyEntries;
     this.selectedEntry = this.viewModel.selectedEntry;
     this.selectedEntryIndex = Math.max(0, this.historyEntries.map((entry) => entry.startDate).indexOf(this.selectedEntry.startDate)); // using startDate here as indexOf() is not working when comparing the whole object. startDate will be unique
+    this.scrollViewContentOffset = { x: this.selectedEntryIndex * (weekCircleDiameter + weekCircleMarginLeft * 2), y: 0 };
 
     this.selectedDomains = AppViewModel.Instance.ChooseDomain.selectedDomains.map((d) => d.name);
     this.allDomains = AppViewModel.Instance.ChooseDomain.availableDomains.map((d) => d.name);
@@ -82,6 +87,8 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   }
 
   onViewStrategies = () => {
+    // MK-TODO: - get id from firebase collection
+    // AppViewModel.Instance.ChooseStrategy.selectedStrategies = AppViewModel.Instance.ChooseStrategy.availableStrategies.filter((strat) => this.selectedEntry.strategyIds.includes(strat.inernalId));
     this.trigger(ScenarioTriggers.Secondary)
   }
 
@@ -125,7 +132,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
     if (sort == null) {
       return Math.round(this.selectedEntry.aggregateScore);
     }
-    return Math.round(this.selectedEntry.results[sort]);
+    return Math.round(this.selectedEntry.results[sort.toLowerCase()]);
   }
 
   renderDropDownListItem = ({ item }) => (
@@ -142,7 +149,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
       aggScore = 7;
     }
     return (
-      <Pressable onPress={() => {
+      <Pressable key={getUniqueID()} onPress={() => {
         this.selectedEntry = item
         this.selectedEntryIndex = index
       }}>
@@ -181,13 +188,15 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
             {/* Horizontaly Scrolling Graph */}
             <ScrollView style={styles.list}
               horizontal={true}
-              onLayout={this.onLayoutGraphList}>
+              onLayout={this.onLayoutGraphList}
+              contentOffset={this.scrollViewContentOffset}>
 
               <SplineThroughPoints style={[styles.curve, { width: this.historyEntries.length * (weekCircleDiameter + weekCircleMarginLeft * 2), height: this.graphHeight }]}
                 viewBox={`0 0 ${this.historyEntries.length * (weekCircleDiameter + weekCircleMarginLeft * 2)} ${this.graphHeight}`}
                 controlPoints={this.entryCoordinates}
                 strokeColor={TextStyles.labelMedium.color}
                 strokeWidth={4} />
+
               {this.historyEntries.map((entry, index) => this.renderListItem(entry, index))}
 
             </ScrollView>
