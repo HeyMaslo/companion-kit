@@ -19,8 +19,10 @@ export default class SplineThroughPoints extends React.Component<SplineThroughPo
   private pathDetails: string[] = [];
 
   render() {
-    this.vertices = this.props.controlPoints;
-    this.updateSplines();
+    if (this.vertices !== this.props.controlPoints) {
+      this.vertices = this.props.controlPoints;
+      this.updateSplines();
+    }
 
     return (
       <View style={this.props.style}>
@@ -35,7 +37,8 @@ export default class SplineThroughPoints extends React.Component<SplineThroughPo
     );
   }
 
-  // Adapted from: 
+  // Following adapted from: 
+
   /* bezier-spline.js
    *
    * computes cubic bezier coefficients to generate a smooth
