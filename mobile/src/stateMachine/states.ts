@@ -78,8 +78,10 @@ export enum States {
     Strategy_Details3,
     Strategy_Details4,
     Strategy_Details5,
+    Strategy_Details6,
     All_Strategies,
     All_Strategies_after_ViewDomains,
+    QolHistory_Strategies,
 
     // QoL Block
     qol_Question,

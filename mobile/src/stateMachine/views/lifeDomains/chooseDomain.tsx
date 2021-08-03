@@ -3,8 +3,6 @@ import React from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { Button } from 'src/components'
 import { DomainName } from 'src/constants/Domain';
-import AppController from 'src/controllers';
-import { mainFontMedium } from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewDomainsBase } from './viewDomainsBase';
@@ -17,7 +15,7 @@ export class ChooseDomainView extends ViewDomainsBase {
     }
 
     private get viewModel() {
-        return AppViewModel.Instance.ChooseDomain;
+        return AppViewModel.Instance.Domain;
     }
 
     async start() {

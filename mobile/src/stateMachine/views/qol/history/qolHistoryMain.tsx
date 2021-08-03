@@ -12,7 +12,6 @@ import { DomainName } from 'src/constants/Domain';
 import { SurveyResults } from 'common/database/repositories/SurveyResultsRepo';
 import { formatDateMonthYear } from 'common/utils/dateHelpers';
 import { observable } from 'mobx';
-import { getUniqueID } from 'react-native-markdown-renderer';
 
 @observer
 export class QolHistoryMainView extends ViewState {
@@ -35,20 +34,13 @@ export class QolHistoryMainView extends ViewState {
     this.historyEntries = this.viewModel.historyEntries;
   }
 
-  private cancel = () => {
-    this.trigger(ScenarioTriggers.Cancel);
-  }
-
-  onClose = () => {
-    this.cancel();
-  }
-
   onBack = () => {
     this.trigger(ScenarioTriggers.Back);
   }
 
   onTapEntry = (item: SurveyResults) => (event: GestureResponderEvent) => {
-    this.viewModel.selectedEntry = item;
+    const index = Math.max(0, this.historyEntries.map((entry) => entry.startDate).indexOf(item.startDate)); // using startDate here as indexOf() is not working when comparing the whole object. startDate will be unique
+    this.viewModel.setSelectedEntry(item, index + 1);
     this.trigger(ScenarioTriggers.Submit);
   }
 
@@ -57,6 +49,7 @@ export class QolHistoryMainView extends ViewState {
       <View style={styles.listItem}>
         <Text style={{ display: 'flex' }}>{formatDateMonthYear(item.date)}</Text>
         <View style={{ display: 'flex', flexDirection: 'row' }}>
+          {/* MK-TODO - use focusedDomains to get matching icons */}
           {iconForDomain(DomainName.MONEY, { display: 'flex', marginRight: 20 })}
           {iconForDomain(DomainName.INDEPENDENCE, { display: 'flex', marginRight: 0 })}
         </View>
@@ -71,7 +64,7 @@ export class QolHistoryMainView extends ViewState {
 
   renderContent() {
     return (
-      <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} onBack={this.onBack}>
+      <MasloPage style={this.baseStyles.page} onBack={this.onBack}>
         <Container style={[{ height: this._contentHeight, paddingTop: 10 }]}>
           {/* Title */}
           <View style={{ justifyContent: 'center', marginBottom: 35 }}>
@@ -81,7 +74,7 @@ export class QolHistoryMainView extends ViewState {
           <FlatList style={styles.list}
             data={this.historyEntries}
             renderItem={this.renderListItem}
-            keyExtractor={item => getUniqueID()}
+            keyExtractor={item => `${item.date}`}
           />
         </Container>
       </MasloPage>

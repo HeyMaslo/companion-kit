@@ -1,12 +1,9 @@
 import React from 'react';
-import { Container, MasloPage, StrategyCard } from 'src/components';
+import { Container, MasloPage } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import { ReviewStrategiesView } from './ReviewStrategiesView';
 
-
 export class AllStrategiesView extends ReviewStrategiesView {
-
-  private weekNum = 1;
 
   constructor(props) {
     super(props);
@@ -19,11 +16,11 @@ export class AllStrategiesView extends ReviewStrategiesView {
   renderContent() {
     return (
       <MasloPage style={this.baseStyles.page} onBack={this.onBack}>
-        <Container style={[{height: this._contentHeight, paddingTop: 10, paddingBottom: 10, alignItems: 'center',}]}>
+        <Container style={[{ height: this._contentHeight, paddingTop: 10, paddingBottom: 10, alignItems: 'center', }]}>
           {super.renderInnerContent(`Heres how you can improve`, false)}
-       </Container>
+        </Container>
       </MasloPage>
-  );
+    );
   }
 
 }

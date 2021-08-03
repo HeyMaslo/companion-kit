@@ -23,7 +23,7 @@ export class ReviewStrategiesView extends ViewState {
     }
 
     private get viewModel() {
-        return AppViewModel.Instance.ChooseStrategy;
+        return AppViewModel.Instance.Strategy;
     }
 
     async start() {
@@ -36,6 +36,7 @@ export class ReviewStrategiesView extends ViewState {
 
     onLearnMorePress(id: string) {
       this.viewModel.learnMoreStrategy = this.viewModel.getStrategyById(id);
+      console.log('this.viewModel.learnMoreStrategy', this.viewModel.learnMoreStrategy)
       this.trigger(ScenarioTriggers.Tertiary);
   }
 
@@ -65,7 +66,7 @@ export class ReviewStrategiesView extends ViewState {
       <StrategyCard item={item} onSelectStrategy={(()=>(null))} onLearnMorePress={this.onLearnMorePress} hideCheckbox={true}/>
     );
     
-    public renderInnerContent(titleText: string, showButton: boolean): JSX.Element {
+    public renderInnerContent(titleText: string, showButton: boolean, listData?: any[]): JSX.Element {
       this.showButton = showButton;
       return (
             <>
@@ -75,9 +76,9 @@ export class ReviewStrategiesView extends ViewState {
             </View>
             {/* List of Strategies */}
             <FlatList style={styles.list}    
-            data={this.viewModel.selectedStrategies}
+            data={listData || this.viewModel.selectedStrategies}
             renderItem={this.renderListItem}
-            keyExtractor={item => item.id}/>
+            keyExtractor={item => item.internalId}/>
           </>
       );
     }

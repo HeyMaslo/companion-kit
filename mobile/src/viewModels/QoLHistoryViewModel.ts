@@ -9,10 +9,24 @@ export default class QoLHistoryViewModel {
   public initModel: Promise<void>;
 
   private _historyEntries: SurveyResults[];
-  public selectedEntry: SurveyResults;
+  private _selectedEntry: SurveyResults;
+  private _selctedEntryWeekNumebr: number = 1;
 
   public get historyEntries(): SurveyResults[] {
     return this._historyEntries;
+  }
+
+  public get selectedEntry() {
+    return this._selectedEntry;
+  }
+
+  public setSelectedEntry(entry: SurveyResults, weekNum: number) {
+    this._selectedEntry = entry;
+    this._selctedEntryWeekNumebr = weekNum;
+  }
+
+  public get selectedEntryWeekNumber() {
+    return this._selctedEntryWeekNumebr;
   }
 
   constructor() {

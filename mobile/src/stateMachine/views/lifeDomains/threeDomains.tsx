@@ -33,7 +33,7 @@ export class ThreeDomainView extends ViewState {
     }
 
     private get viewModel() {
-        return AppViewModel.Instance.ChooseDomain;
+        return AppViewModel.Instance.Domain;
     }
 
     renderContent() {

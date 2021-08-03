@@ -18,7 +18,6 @@ import { QolSurveyType } from 'src/constants/QoL';
 import Colors from '../../../../constants/colors/Colors';
 import Images from 'src/constants/images';
 import { containerStyles } from 'src/components/Container';
-import { getUniqueID } from 'react-native-markdown-renderer';
 
 const containerMarginBottom = Layout.isSmallDevice ? 0 : 25;
 const containerMarginTop = Layout.isSmallDevice ? 25 : 75;
@@ -35,10 +34,10 @@ type QolTimelineViewState = {
 @observer
 export class QolTimelineView extends ViewState<QolTimelineViewState> {
 
-  private selectedDomains: DomainName[] = [];
   private allDomains: string[] = [];
   private domainSort: DomainName = null;
-  private ordRadius = getPersonaRadius();
+  @observable
+  private dropDownIsExtended = false;
   @observable
   private historyEntries: SurveyResults[] = [];
   @observable
@@ -48,9 +47,10 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   @observable
   private selectedEntry: SurveyResults;
   private selectedEntryIndex = 0
-  private scrollViewContentOffset: PointPropType = { x: 0, y: 0 };
   @observable
-  private dropDownIsExtended = false;
+  private selectedDomains: DomainName[] = [];
+  private ordRadius = getPersonaRadius();
+  private scrollViewContentOffset: PointPropType = { x: 0, y: 0 };
 
   constructor(props) {
     super(props);
@@ -74,11 +74,11 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   async start() {
     this.historyEntries = this.viewModel.historyEntries;
     this.selectedEntry = this.viewModel.selectedEntry;
-    this.selectedEntryIndex = Math.max(0, this.historyEntries.map((entry) => entry.startDate).indexOf(this.selectedEntry.startDate)); // using startDate here as indexOf() is not working when comparing the whole object. startDate will be unique
+    this.selectedEntryIndex = this.viewModel.selectedEntryWeekNumber - 1;
+    this.selectedDomains = this.selectedEntry.focusDomains || [];
     this.scrollViewContentOffset = { x: this.selectedEntryIndex * (weekCircleDiameter + weekCircleMarginLeft * 2), y: 0 };
 
-    this.selectedDomains = AppViewModel.Instance.ChooseDomain.selectedDomains.map((d) => d.name);
-    this.allDomains = AppViewModel.Instance.ChooseDomain.availableDomains.map((d) => d.name);
+    this.allDomains = AppViewModel.Instance.Domain.allDomains.map((d) => d.name);
     this.allDomains.unshift('Show All');
   }
 
@@ -87,8 +87,8 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   }
 
   onViewStrategies = () => {
-    // MK-TODO: - get id from firebase collection
-    // AppViewModel.Instance.ChooseStrategy.selectedStrategies = AppViewModel.Instance.ChooseStrategy.availableStrategies.filter((strat) => this.selectedEntry.strategyIds.includes(strat.inernalId));
+    AppViewModel.Instance.Strategy.temporaryDisplay = AppViewModel.Instance.Strategy.allStrategies.filter((strat) => this.selectedEntry.strategyIds.includes(strat.internalId));
+    this.viewModel.setSelectedEntry(this.selectedEntry, this.selectedEntryIndex + 1);
     this.trigger(ScenarioTriggers.Secondary)
   }
 
@@ -149,9 +149,10 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
       aggScore = 7;
     }
     return (
-      <Pressable key={getUniqueID()} onPress={() => {
+      <Pressable key={`${item.date}`} onPress={() => {
         this.selectedEntry = item
         this.selectedEntryIndex = index
+        this.selectedDomains = this.selectedEntry.focusDomains || [];
       }}>
         <View style={[styles.weekCircle,
         item.surveyType == QolSurveyType.Full ? { borderWidth: styles.weekCircle.borderWidth * 2.2 } : { borderWidth: styles.weekCircle.borderWidth },
@@ -171,7 +172,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
           <View pointerEvents={'box-none'} style={[styles.bottomWrapper, { top: this.state.bottomWrapperTop }]}>
 
             <View style={styles.header} onLayout={(event) => this.setState({ headerHeight: event.nativeEvent.layout.height })}>
-              <Text style={[TextStyles.labelLarge]}>{formatDateMonthYear(this.selectedEntry.date)}</Text>
+              <Text style={[TextStyles.labelLarge]}>{this.selectedEntry.date && formatDateMonthYear(this.selectedEntry.date)}</Text>
               <View style={styles.header}>
 
                 <TouchableOpacity onPress={this.dropDown} style={{ flexDirection: 'row', alignItems: 'center' }}>

@@ -30,7 +30,7 @@ export default class SplineThroughPoints extends React.Component<SplineThroughPo
           viewBox={this.props.viewBox}
           style={[{ backgroundColor: 'transparent' }]}>
           {this.pathDetails.map((str) => {
-            return <Path d={str} fill={'none'} stroke={this.props.strokeColor} strokeWidth={this.props.strokeWidth} />
+            return <Path key={str} d={str} fill={'none'} stroke={this.props.strokeColor} strokeWidth={this.props.strokeWidth} />
           })}
         </Svg>
       </View>
@@ -71,7 +71,6 @@ export default class SplineThroughPoints extends React.Component<SplineThroughPo
     for (let j = 0; j < this.vertices.length - 1; j++) {
       this.pathDetails[j] = this.path(x[j], y[j], px.p1[j], py.p1[j], px.p2[j], py.p2[j], x[j + 1], y[j + 1]);
     }
-    console.log(this.pathDetails)
   }
 
   /*creates formated path string for SVG cubic path element*/

@@ -9,7 +9,6 @@ import { ViewState } from '../base';
 import Layout from 'src/constants/Layout';
 import { iconForDomain } from 'src/helpers/DomainHelper';
 import { DomainName } from 'src/constants/Domain';
-import { getUniqueID } from 'react-native-markdown-renderer';
 
 const { width } = Dimensions.get('window');
 const date = new Date();
@@ -94,7 +93,7 @@ export abstract class ViewDomainsBase extends ViewState {
 
   renderBulletPoint(str: string) {
     return (
-      <View key={getUniqueID()} style={{flexDirection: 'row'}}>
+      <View key={str} style={{flexDirection: 'row'}}>
         <Text style={this.textStyles.p2}>{'\u2022'}</Text>
         <Text style={[this.textStyles.p2, {flex: 1, paddingLeft: 5}]}>{str}</Text>
       </View>

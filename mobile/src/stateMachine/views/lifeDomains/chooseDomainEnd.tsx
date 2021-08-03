@@ -3,9 +3,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, Container, MasloPage } from 'src/components';
-// import { styles } from 'react-native-markdown-renderer';
 import Layout from 'src/constants/Layout';
-import AppController from 'src/controllers';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
@@ -23,11 +21,11 @@ export class ChooseDomainEndView extends ViewState {
     }
 
     private get viewModel() {
-        return AppViewModel.Instance.ChooseDomain;
+        return AppViewModel.Instance.Domain;
     }
 
     private get strategiesViewModel() {
-        return AppViewModel.Instance.ChooseStrategy;
+        return AppViewModel.Instance.Strategy;
     }
 
     async start() {}
@@ -46,10 +44,6 @@ export class ChooseDomainEndView extends ViewState {
     }
 
     renderContent() {
-        const [l,mainDomain,r,i] = this.viewModel.getDomainDisplay();
-        const selectedDomains = this.viewModel.selectedDomains;
-        logger.log('MY_SELECTL', selectedDomains.length);
-
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.onBack()}>
                 <Container style={[styles.flexContainer, { height: this._contentHeight, justifyContent: 'space-between',}]}>

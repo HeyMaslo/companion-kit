@@ -1,11 +1,9 @@
 import { observer } from 'mobx-react';
 import React from 'react';
 import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { getUniqueID } from 'react-native-markdown-renderer';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { Container, MasloPage, StrategyCard, Button } from 'src/components';
 import { DomainName } from 'src/constants/Domain';
-import { StrategyIded } from 'src/constants/Strategy';
+import { Strategy } from 'src/constants/Strategy';
 import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
@@ -25,11 +23,11 @@ export class DomainDetailsView extends ViewState {
     async start() {}
 
     private get viewModel() {
-        return AppViewModel.Instance.ChooseDomain;
+        return AppViewModel.Instance.Domain;
     }
 
     private get strategiesViewModel() {
-        return AppViewModel.Instance.ChooseStrategy;
+        return AppViewModel.Instance.Strategy;
     }
 
     private cancel = () => {
@@ -40,12 +38,13 @@ export class DomainDetailsView extends ViewState {
         this.trigger(ScenarioTriggers.Next);
     }
 
-    private strategiesForListInOrder(domain: DomainName): StrategyIded[] {
+    // selected strategies will be at the front of the list
+    private strategiesForListInOrder(domain: DomainName): Strategy[] {
         const numberOfStrategiesToShow = 5;
         
         const selected = this.strategiesViewModel.selectedStrategies.filter((s) => s.associatedDomainNames.includes(domain));
-        const ids = selected.map((x) => x.id);
-        const remianing = this.strategiesViewModel.allStrategies.filter((s) => s.associatedDomainNames.includes(domain) && !ids.includes(s.id)) as StrategyIded[];
+        const ids = selected.map((x) => x.internalId);
+        const remianing = this.strategiesViewModel.allStrategies.filter((s) => s.associatedDomainNames.includes(domain) && !ids.includes(s.internalId)) as Strategy[];
 
         const difference = Math.max(0, numberOfStrategiesToShow - selected.length);
         this.numberOfRemainingStrategies = remianing.length - difference;
@@ -64,7 +63,7 @@ export class DomainDetailsView extends ViewState {
 
     renderBulletPoint(str: string) {
       return (
-        <View key={getUniqueID()}style={{flexDirection: 'row'}}>
+        <View key={str}style={{flexDirection: 'row'}}>
           <Text>{'\u2022'}</Text>
           <Text style={{flex: 1, paddingLeft: 5}}>{str}</Text>
         </View>
@@ -90,7 +89,7 @@ export class DomainDetailsView extends ViewState {
                     <FlatList style={styles.list}    
                         data={this.strategiesForListInOrder(mainName as DomainName)}
                         renderItem={this.renderListItem}
-                        keyExtractor={item => item.id}/>
+                        keyExtractor={item => item.internalId}/>
                     {this.numberOfRemainingStrategies > 0 && <Button title='Load more strategies' style={styles.button} titleStyles={{ color: TextStyles.h1.color }} withBorder={false} onPress={this.loadMoreStrategies}/>}
                 </Container>
              </MasloPage>

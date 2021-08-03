@@ -8,6 +8,7 @@ import RepoFactory from 'common/controllers/RepoFactory';
 import { UserState } from 'common/models/userState';
 import { createLogger } from 'common/logger';
 import { SurveyResults } from 'database/repositories/SurveyResultsRepo';
+import { DomainName } from '../../mobile/src/constants/Domain';
 
 const logger = createLogger('[QoLController]');
 
@@ -29,7 +30,8 @@ export default class QoLControllerBase implements IQoLController {
     // Submit new survey results
     public async sendSurveyResults(results: QolSurveyResults, aggregateScore: number, surveyType: QolSurveyType, startDate: number, questionCompletionDates: number[]): Promise<boolean> {
         logger.log(`add qol results: userId = ${this._userId}`);
-        await RepoFactory.Instance.surveyResults.addResults(this._userId, results, aggregateScore, surveyType, startDate, questionCompletionDates);
+        let userState: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
+        await RepoFactory.Instance.surveyResults.addResults(this._userId, results, aggregateScore, surveyType, startDate, questionCompletionDates, userState.chosenStrategies, userState.focusedDomains);
         return true;
     }
 
@@ -48,7 +50,7 @@ export default class QoLControllerBase implements IQoLController {
             } else {
                 st = {
                     surveyState: qol,
-                    focusDomains: []
+                    focusedDomains: []
                 }
             }
             await RepoFactory.Instance.userState.setByUserId(this._userId, st);
@@ -84,8 +86,13 @@ export default class QoLControllerBase implements IQoLController {
                 [propertyName]: parameter,
                 surveyState: null
             }
-        } else if (propertyName !== 'surveyState' && Array.isArray(parameter)){
-            st[propertyName] = parameter;
+        } else if (propertyName !== 'surveyState' && Array.isArray(parameter)) {
+            let domainNames = parameter as DomainName[];
+            if (domainNames) {
+                st['focusedDomains'] = domainNames;
+            } else {
+                st['chosenStrategies'] = parameter as string[];
+            }
         }
         await RepoFactory.Instance.userState.setByUserId(this._userId, st);
     }

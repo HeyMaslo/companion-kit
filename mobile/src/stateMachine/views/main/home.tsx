@@ -20,7 +20,6 @@ import { UserProfileName } from 'src/screens/components/UserProfileName';
 import AppViewModel from 'src/viewModels';
 import { QolSurveyType } from 'src/constants/QoL';
 import { getPersonaRadius, PersonaScale } from 'src/stateMachine/persona';
-import AppController from 'src/controllers';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -45,19 +44,18 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         const smallHeight = this.layout.window.height < 800;
         this.persona.state = PersonaStates.Idle;
         this._contentHeight = smallHeight
-            ? this.persona.setupContainerHeightForceScroll({ rotation: 120 , transition: {duration: 1.5}})
-            : this.persona.setupContainerHeight(minContentHeight, { rotation: 120 , transition: {duration: 1.5}});
+            ? this.persona.setupContainerHeightForceScroll({ rotation: 120, transition: { duration: 1.5 } })
+            : this.persona.setupContainerHeight(minContentHeight, { rotation: 120, transition: { duration: 1.5 } });
         this.orbTapContainerHeight = Layout.window.height - this._contentHeight;
     }
 
     get viewModel() { return HomeViewModel.Instance; }
     get qolViewModel() { return AppViewModel.Instance.QOL; }
-    
 
     async start() {
         await AppViewModel.Instance.QOL.init();
         this.persona.qolArmMagnitudes = await this.viewModel.getArmMagnitudes();
-        this.setState({...this.state, isUnfinishedQol: AppViewModel.Instance.QOL.isUnfinished});
+        this.setState({ ...this.state, isUnfinishedQol: AppViewModel.Instance.QOL.isUnfinished });
         Animated.timing(this.state.opacity, {
             toValue: 1,
             delay: isFirstLaunch ? 1000 : 400,
@@ -65,7 +63,10 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
             useNativeDriver: true
         }).start(this.checkNewLinkDoc);
         isFirstLaunch = false;
-        AppViewModel.Instance.ChooseDomain.requestPossibleDomains();
+        // MK-TODO is this the best place to do this? Good now for testing
+        AppViewModel.Instance.Domain.requestPossibleDomains();
+        AppViewModel.Instance.Domain.requestSelectedDomains();
+        AppViewModel.Instance.Strategy.requestPossibleStrategies();
     }
 
     private checkNewLinkDoc = () => {
@@ -138,14 +139,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         this.trigger(ScenarioTriggers.Tertiary);
     }
 
-    private onStartQOL = () => {
-        this.trigger(ScenarioTriggers.Tertiary);
-    }
     private async onStartDomains() {
-        // AppViewModel.Instance.ChooseDomain.resetDomains();
-        // AppViewModel.Instance.ChooseStrategy.resetStrategies();
-        
-        AppViewModel.Instance.ChooseStrategy.requestPossibleStrategies();
         this.trigger(ScenarioTriggers.Quinary);
     }
 
@@ -317,7 +311,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                             model={s}
                             active={i === 0}
                             onPress={() => this.openStoryDetails(s.id)}
-                            />
+                        />
                     ))}
                 </ScrollView>
             )
@@ -328,16 +322,16 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         const scaledOrbRadius = this.ordRadius / personaScale;
         let orbLowerX = (Layout.window.width / 2) - scaledOrbRadius
         let orbUpperX = orbLowerX + (2 * scaledOrbRadius);
-    
+
         let orbUpperY = this.orbTapContainerHeight;
         let orbLowerY = orbUpperY - (scaledOrbRadius * 2);
-    
+
         if (event.nativeEvent.locationX >= orbLowerX && event.nativeEvent.locationX <= orbUpperX) {
-          if (event.nativeEvent.locationY >= orbLowerY && event.nativeEvent.locationY <= orbUpperY) {
-            this.trigger(ScenarioTriggers.Next)
-          }
+            if (event.nativeEvent.locationY >= orbLowerY && event.nativeEvent.locationY <= orbUpperY) {
+                this.trigger(ScenarioTriggers.Next)
+            }
         }
-      }
+    }
 
     renderContent() {
         const {
@@ -347,14 +341,14 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
-                <View onTouchStart={this.onTapOrb} style={{position: 'absolute', top: -(this.orbTapContainerHeight), left: 0, right: 0, height: this.orbTapContainerHeight}}/>
-                    <View style={{flexDirection:'row'}}>
-                    <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains()}/>
-                    {/* MK-TODO buttons below used for development only and will be removed */}
-                    <Button title="WorkingView" style={styles.qolButton} onPress={() => this.onTESTINGButton()}/>
+                    <View onTouchStart={this.onTapOrb} style={{ position: 'absolute', top: -(this.orbTapContainerHeight), left: 0, right: 0, height: this.orbTapContainerHeight }} />
+                    <View style={{ flexDirection: 'row' }}>
+                        <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains()} />
+                        {/* MK-TODO buttons below used for development only and will be removed */}
+                        <Button title="WorkingView" style={styles.qolButton} onPress={() => this.onTESTINGButton()} />
                     </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
-                    { loading
+                    {loading
                         ? <ActivityIndicator size="large" />
                         : this.getCheckinsList()
                     }

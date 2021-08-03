@@ -1,4 +1,4 @@
-import { DisplayStrategyIded } from '../../../mobile/src/constants/Strategy';
+import { DisplayStrategy } from '../../../mobile/src/constants/Strategy';
 import React from 'react';
 import { Dimensions, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Images from 'src/constants/images';
@@ -10,7 +10,7 @@ const { width } = Dimensions.get('window');
 const darkColor = TextStyles.h1.color;
 
 type IStrategyCardProps = {
-    item: DisplayStrategyIded,
+    item: DisplayStrategy,
     onLearnMorePress: ((strategyId: string) => void),
     onSelectStrategy?: ((strategyId: string) => void),
     hideCheckbox?: boolean,
@@ -31,7 +31,7 @@ export default class StrategyCard extends React.Component<IStrategyCardProps, St
 
 render() {
     return(
-      <Pressable onPress={()=>this.props.onSelectStrategy(this.props.item.id)} disabled={!this.state.isPressable}>
+      <Pressable onPress={()=>this.props.onSelectStrategy(this.props.item.internalId)} disabled={!this.state.isPressable}>
         <View style={[styles.listItem, this.props.item.isChecked && {borderColor: darkColor}]}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
             <Text style={[TextStyles.labelLarge, {display: 'flex', width: width - size - 70}]}>{this.props.item.title}</Text>
@@ -40,15 +40,14 @@ render() {
                 {this.props.item.isChecked && <Images.radioChecked width={8} height={6} />}
               </View>}
           </View>
-        {this.props.isSmallCard ? null : <Text style={[TextStyles.p2, {paddingLeft: 7, paddingTop: 7}]}>{this.props.item.details}</Text>
-      }
+        {this.props.isSmallCard && <Text style={[TextStyles.p2, {paddingLeft: 7, paddingTop: 7}]}>{this.props.item.details}</Text>}
           <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 10}}>
             <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-start'}}>
               {this.props.item.associatedDomainNames.map((name) => {
                 return iconForDomain(name, null, darkColor, 22, 22);
               })}
             </View>
-            <TouchableOpacity onPress={() => this.props.onLearnMorePress(this.props.item.id)} hitSlop={{top: 10, left: 10, right: 10, bottom: 10}}>
+            <TouchableOpacity onPress={() => this.props.onLearnMorePress(this.props.item.internalId)} hitSlop={{top: 10, left: 10, right: 10, bottom: 10}}>
               <Text style={[TextStyles.labelMedium, {color: darkColor, display: 'flex', paddingRight: 7}]}>{'Learn More >'}</Text>
             </TouchableOpacity>
           </View>

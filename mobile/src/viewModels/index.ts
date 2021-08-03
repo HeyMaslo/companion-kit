@@ -3,8 +3,8 @@ import Lazy from 'common/utils/lazy';
 import SettingsViewModel from './SettingsViewModel';
 import { GoalsViewModel } from './GoalsViewModel';
 import QOLSurveyViewModel from './QoLViewModel';
-import ChooseDomainViewModel from './ChooseDomainViewModel'
-import ChooseStrategyViewModel from './ChooseStrategyViewModel'
+import DomainViewModel from './DomainViewModel'
+import StrategyViewModel from './StrategyViewModel'
 import QoLHistoryViewModel from './QoLHistoryViewModel';
 
 export interface IAppViewModel {
@@ -13,8 +13,8 @@ export interface IAppViewModel {
     Goals?: GoalsViewModel;
     QOL: QOLSurveyViewModel;
     QoLHistory: QoLHistoryViewModel;
-    ChooseDomain: ChooseDomainViewModel
-    ChooseStrategy: ChooseStrategyViewModel;
+    Domain: DomainViewModel
+    Strategy: StrategyViewModel;
 }
 
 const instance = new Lazy(() => new AppViewModel());
@@ -24,8 +24,8 @@ export default class AppViewModel implements IAppViewModel {
     readonly Settings = new SettingsViewModel();
     readonly QOL = new QOLSurveyViewModel();
     readonly QoLHistory = new QoLHistoryViewModel();
-    readonly ChooseDomain = new ChooseDomainViewModel();
-    readonly ChooseStrategy = new ChooseStrategyViewModel();
+    readonly Domain = new DomainViewModel();
+    readonly Strategy = new StrategyViewModel();
     readonly Goals = process.appFeatures.GOALS_ENABLED === true ? new GoalsViewModel() : null;
     
 

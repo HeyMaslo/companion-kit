@@ -1,12 +1,6 @@
 import { observer } from 'mobx-react';
-import AppController from 'src/controllers';
 import { ScenarioTriggers } from '../../abstractions';
-import ChooseDomainViewModel from 'src/viewModels/ChooseDomainViewModel';
 import { ViewDomainsBase } from './viewDomainsBase';
-import React from 'react';
-import { View } from 'react-native';
-import { iconForDomain } from 'src/helpers/DomainHelper';
-import { TextStyles } from 'src/styles/BaseStyles';
 import AppViewModel from 'src/viewModels';
 import { DomainName } from 'src/constants/Domain';
 
@@ -18,7 +12,7 @@ export class ViewDomainsView extends ViewDomainsBase {
     }
 
     private get viewModel() {
-      return AppViewModel.Instance.ChooseDomain;
+      return AppViewModel.Instance.Domain;
   }
 
     async start() {

@@ -1,6 +1,7 @@
-import { PartialQol, QolSurveyResults, QolSurveyType } from '../../../mobile/src/constants/QoL';
+import { QolSurveyResults, QolSurveyType } from '../../../mobile/src/constants/QoL';
 import GenericUserRepo from './GenericUserRepo';
 import Collections from 'common/database/collections';
+import { DomainName } from '../../../mobile/src/constants/Domain';
 
 export type SurveyResults = {
     date: number,
@@ -9,6 +10,8 @@ export type SurveyResults = {
     surveyType: QolSurveyType,
     startDate: number,
     questionCompletionDates: number[],
+    strategyIds: string[],
+    focusDomains: DomainName[],
 };
 
 export default class SurveyResultsRepo extends GenericUserRepo<SurveyResults> {
@@ -30,8 +33,8 @@ export default class SurveyResultsRepo extends GenericUserRepo<SurveyResults> {
         }
     }
 
-    public async addResults(userId: string, results: QolSurveyResults, aggregateScore: number, surveyType: QolSurveyType, startDate: number, questionCompletionDates: number[]) {
-        await this.createUserData(userId, { date: Date.now(), results, aggregateScore, surveyType, startDate, questionCompletionDates });
+    public async addResults(userId: string, results: QolSurveyResults, aggregateScore: number, surveyType: QolSurveyType, startDate: number, questionCompletionDates: number[], strategyIds: string[], focusDomains: DomainName[],) {
+        await this.createUserData(userId, { date: Date.now(), results, aggregateScore, surveyType, startDate, questionCompletionDates, strategyIds, focusDomains });
     }
 
     private async _getLatestResults(userId: string): Promise<SurveyResults> {

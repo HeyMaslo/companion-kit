@@ -1,12 +1,12 @@
-import { observable} from 'mobx';
+import { observable } from 'mobx';
 import { createLogger } from 'common/logger';
-import { DomainIded, DomainName } from '../../../mobile/src/constants/Domain';
+import { DomainIded, DomainName } from '../constants/Domain';
 import AppViewModel from 'src/viewModels';
 import AppController from 'src/controllers';
 
-const logger = createLogger('[ChooseDomainViewModel]');
+const logger = createLogger('[DomainViewModel]');
 
-export default class ChooseDomainViewModel {
+export default class DomainViewModel {
 
     @observable
     private _mainDomain: number;
@@ -14,8 +14,8 @@ export default class ChooseDomainViewModel {
     private _leftDomain: number;
     @observable
     private _rightDomain: number;
-    
-    private _availableDomains: DomainIded[];
+
+    private _allDomains: DomainIded[]; // every domain in the domains collection
     private _selectedDomains: DomainIded[];
 
     public domainCount: number;
@@ -26,7 +26,7 @@ export default class ChooseDomainViewModel {
         this._mainDomain = 1;
         this._rightDomain = 2;
 
-        this._availableDomains = [];
+        this._allDomains = [];
         this._selectedDomains = [];
         this.domainCount = 0;
     }
@@ -35,13 +35,17 @@ export default class ChooseDomainViewModel {
         return this._selectedDomains
     }
 
-    private setAvailableDomains(doms: DomainIded[]) {
-        this._availableDomains = doms;
-        this.domainCount = doms.length;
+    public get allDomains(): DomainIded[] {
+        return this._allDomains;
     }
 
-    public get availableDomains(): DomainIded[] {
-        return this._availableDomains;
+    public async requestSelectedDomains() {
+        let focusedDomains = await AppController.Instance.User.domain.getFocusedDomains();
+        this._selectedDomains = focusedDomains.map((name) => this.getDomainByName(name));
+    }
+
+    public postSelectedDomains(): Promise<void> {
+        return AppController.Instance.User.qol.setUserStateProperty('focusedDomains', this.selectedDomains.map(d => d.name));
     }
 
     public async requestPossibleDomains() {
@@ -49,8 +53,9 @@ export default class ChooseDomainViewModel {
         this.setAvailableDomains(possibleDomains);
     }
 
-    public postSelectedDomains(): Promise<void> {
-        return AppController.Instance.User.qol.setUserStateProperty('focusDomains', this.selectedDomains.map(d => d.id));
+    private setAvailableDomains(doms: DomainIded[]) {
+        this._allDomains = doms;
+        this.domainCount = doms.length;
     }
 
     //  Returns the three domains displayed on the choose domain screen, main(center donain), ldomain(domain on left side), rdomain(domain on right side)
@@ -60,17 +65,17 @@ export default class ChooseDomainViewModel {
             return [null, null, null, null];
         }
 
-        const leftName = this._leftDomain > -1 ? this._availableDomains[this._leftDomain].name : '';
-        const rightName = this._rightDomain < this._availableDomains.length ? this._availableDomains[this._rightDomain].name : '';
-        const mainName = this._availableDomains[this._mainDomain].name;
-        const mainImportance = this._availableDomains[this._mainDomain].importance;
+        const leftName = this._leftDomain > -1 ? this._allDomains[this._leftDomain].name : '';
+        const rightName = this._rightDomain < this._allDomains.length ? this._allDomains[this._rightDomain].name : '';
+        const mainName = this._allDomains[this._mainDomain].name;
+        const mainImportance = this._allDomains[this._mainDomain].importance;
 
         return [leftName, mainName, rightName, mainImportance];
     }
 
     //  Iterates through the domains as user clicks the next or back button, (-1) going back, (1) going forward through the list of domains
     public getNextDomain(dir: number): void {
-        if (dir > 0){
+        if (dir > 0) {
             if (this._rightDomain < this.domainCount) {
                 this._rightDomain++;
                 this._mainDomain++;
@@ -78,7 +83,7 @@ export default class ChooseDomainViewModel {
             }
         }
 
-        if (dir < 0){
+        if (dir < 0) {
             if (this._leftDomain >= 0) {
                 this._rightDomain--;
                 this._mainDomain--;
@@ -88,25 +93,25 @@ export default class ChooseDomainViewModel {
         }
     }
 
-    // adds selected domains by user to the selected domains array, use this array to persist to backend
+    // adds selected domains by user to the selected domains array, use this array to persist to backend by calling postSelectedDomains
     // returns false if domain has already been selected
     public selectDomain(domain: DomainIded): Boolean {
         if (this._selectedDomains.map(d => d.id).includes(domain.id)) {
             return false;
         }
         this._selectedDomains.push(domain);
-        AppViewModel.Instance.ChooseStrategy.setSelectedDomains(this._selectedDomains);
+        AppViewModel.Instance.Strategy.setSelectedDomains(this._selectedDomains);
         return true;
     }
 
     public clearSelectedDomains() {
         this._selectedDomains = [];
-        AppViewModel.Instance.ChooseStrategy.setSelectedDomains(this._selectedDomains);
+        AppViewModel.Instance.Strategy.setSelectedDomains(this._selectedDomains);
     }
 
     public getDomainByName(name: DomainName): DomainIded {
         let dom: DomainIded = null;
-        this._availableDomains.forEach(d => {
+        this._allDomains.forEach(d => {
             if (d.name === name) {
                 dom = d;
             }

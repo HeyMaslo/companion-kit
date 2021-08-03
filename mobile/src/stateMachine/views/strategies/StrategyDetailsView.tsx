@@ -1,7 +1,7 @@
-import { StrategyIded } from '../../../../../mobile/src/constants/Strategy';
+import { Strategy } from '../../../../../mobile/src/constants/Strategy';
 import { observer } from 'mobx-react';
 import React from 'react';
-import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { Container, MasloPage } from 'src/components';
 import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
@@ -12,7 +12,7 @@ import { iconForDomain } from 'src/helpers/DomainHelper';
 @observer
 export class StrategyDetailsView extends ViewState {
 
-    private _learnMoreStrategy: StrategyIded;
+    private _learnMoreStrategy: Strategy;
 
     constructor(props) {
         super(props);
@@ -22,7 +22,7 @@ export class StrategyDetailsView extends ViewState {
     }
 
     private get viewModel() {
-        return AppViewModel.Instance.ChooseStrategy;
+        return AppViewModel.Instance.Strategy;
     }
 
     async start() {

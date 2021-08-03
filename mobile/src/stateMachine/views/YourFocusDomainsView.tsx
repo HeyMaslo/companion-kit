@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react';
+import { observable } from 'mobx';
 import React from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View, LayoutChangeEvent } from 'react-native';
+import { FlatList, StyleSheet, Text, View, LayoutChangeEvent } from 'react-native';
 import { Button, Container, MasloPage, StrategyCard } from 'src/components';
 import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
@@ -21,6 +22,7 @@ type YourFocusDomainsViewState = {
 @observer
 export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
 
+  @observable
   private selectedDomains: DomainName[] = [];
   private ordRadius = getPersonaRadius();
 
@@ -29,7 +31,7 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
         this.onLearnMorePress = this.onLearnMorePress.bind(this);
         this.onLayoutIconCircle = this.onLayoutIconCircle.bind(this);
         this._contentHeight = this.layout.window.height - containerMarginTop;
-        this.selectedDomains = AppViewModel.Instance.ChooseDomain.selectedDomains.map((d) => d.name);
+        this.selectedDomains = AppViewModel.Instance.Domain.selectedDomains.map((d) => d.name);
 
         this.state = {
           bottomWrapperTop: 0,
@@ -37,7 +39,7 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
     }
 
     private get strategiesViewModel() {
-      return AppViewModel.Instance.ChooseStrategy;
+      return AppViewModel.Instance.Strategy;
   }
 
     async start() {}
@@ -89,7 +91,7 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
                       <FlatList style={[styles.list]}
                                 data={this.strategiesViewModel.selectedStrategies}
                                 renderItem={this.renderListItem}
-                                keyExtractor={item => item.id}/>
+                                keyExtractor={item => item.internalId}/>
                     </View>
                 </Container>
             </MasloPage>

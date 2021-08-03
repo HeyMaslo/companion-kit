@@ -52,12 +52,14 @@ import { QolStartView } from './views/qol/startQOL';
 import { QolEndView } from './views/qol/endQOL';
 import { QolQuestion } from './views/qol/qolQuestion';
 
+import { QolHistoryMainView } from './views/qol/history/qolHistoryMain';
+import { QolTimelineView } from './views/qol/history/qolTimeline';
+import { QolHistoryStrategiesView } from './views/strategies/QolHistoryStrategiesView';
+
 import Triggers = ScenarioTriggers;
 import { VerificationCodeView } from './views/login/verificationCode';
 import { NoInvitationView } from './views/login/noInvitation';
 import { ResetPasswordView } from './views/password/resetPassword';
-import { QolHistoryMainView } from './views/qol/history/qolHistoryMain';
-import { QolTimelineView } from './views/qol/history/qolTimeline';
 
 const CreateJournalCancelTransition: StateTransition<States> = {
     target: States.Home,
@@ -490,6 +492,13 @@ export const MasloScenario: GlobalScenario<States> = {
         ]
     },
 
+    [States.Strategy_Details6]: {
+        view: StrategyDetailsView,
+        exit: [
+            { target: States.QolHistory_Strategies, trigger: [Triggers.Back] },
+        ]
+    },
+
     [States.All_Strategies]: {
         view: AllStrategiesView,
         exit: [
@@ -548,7 +557,7 @@ export const MasloScenario: GlobalScenario<States> = {
     [States.QolHistory]: {
         view: QolHistoryMainView,
         exit: [
-            { target: States.Home, trigger: [Triggers.Cancel] },
+            { target: States.Home, trigger: [Triggers.Back] },
             { target: States.QolHistoryTimline, trigger: [Triggers.Submit] },
         ]
     },
@@ -557,7 +566,15 @@ export const MasloScenario: GlobalScenario<States> = {
         view: QolTimelineView,
         exit: [
             { target: States.QolHistory, trigger: [Triggers.Cancel] },
-            // { target: States., trigger: [Triggers.Secondary] }, // View strategies
+            { target: States.QolHistory_Strategies, trigger: [Triggers.Secondary] },
+        ]
+    },
+
+    [States.QolHistory_Strategies]: {
+        view: QolHistoryStrategiesView,
+        exit: [
+            { target: States.QolHistoryTimline, trigger: [Triggers.Back] },
+            { target: States.Strategy_Details6, trigger: [Triggers.Tertiary] },
         ]
     },
 };

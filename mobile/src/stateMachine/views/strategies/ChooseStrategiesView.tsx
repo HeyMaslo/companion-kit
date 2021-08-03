@@ -3,7 +3,6 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button, Container, MasloPage, StrategyCard } from 'src/components';
-import AppController from 'src/controllers';
 import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import Colors from '../../../constants/colors/Colors';
@@ -24,14 +23,14 @@ export class ChooseStrategiesView extends ViewState {
         super(props);
         this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0} });
         this.hidePersona();
-        this.selectedDomainNames = AppViewModel.Instance.ChooseDomain.selectedDomains.map((d) => d.name);
+        this.selectedDomainNames = AppViewModel.Instance.Domain.selectedDomains.map((d) => d.name);
 
         this.onLearnMorePress = this.onLearnMorePress.bind(this);
         this.onSelectStrategy = this.onSelectStrategy.bind(this);
     }
 
     private get viewModel() {
-        return AppViewModel.Instance.ChooseStrategy;
+        return AppViewModel.Instance.Strategy;
     }
 
     async start() {}
@@ -131,7 +130,7 @@ export class ChooseStrategiesView extends ViewState {
                     <FlatList style={styles.list}    
                               data={this.viewModel.availableStrategies}
                               renderItem={this.renderListItem}
-                              keyExtractor={item => item.id}/>
+                              keyExtractor={item => item.internalId}/>
                     <Button title={'SELECT ' +( this.viewModel.selectedStrategies.length < 1 ? 'STRATEGIES' : (this.viewModel.selectedStrategies.length == 1 ? 'THIS STRATEGY' : 'THESE STRATEGIES'))} style={styles.selectButton} onPress={this.onSubmit} disabled={this.viewModel.selectedStrategies.length < 1}/>
                 </Container>
             </MasloPage>
