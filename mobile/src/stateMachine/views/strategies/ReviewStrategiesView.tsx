@@ -36,7 +36,6 @@ export class ReviewStrategiesView extends ViewState {
 
     onLearnMorePress(id: string) {
       this.viewModel.learnMoreStrategy = this.viewModel.getStrategyById(id);
-      console.log('this.viewModel.learnMoreStrategy', this.viewModel.learnMoreStrategy)
       this.trigger(ScenarioTriggers.Tertiary);
   }
 

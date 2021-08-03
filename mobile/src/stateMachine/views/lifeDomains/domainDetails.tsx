@@ -63,7 +63,7 @@ export class DomainDetailsView extends ViewState {
 
     renderBulletPoint(str: string) {
       return (
-        <View key={str}style={{flexDirection: 'row'}}>
+        <View key={str} style={{flexDirection: 'row'}}>
           <Text>{'\u2022'}</Text>
           <Text style={{flex: 1, paddingLeft: 5}}>{str}</Text>
         </View>
