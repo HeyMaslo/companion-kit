@@ -33,7 +33,7 @@ export default class SurveyResultsRepo extends GenericUserRepo<SurveyResults> {
         }
     }
 
-    public async addResults(userId: string, results: QolSurveyResults, aggregateScore: number, surveyType: QolSurveyType, startDate: number, questionCompletionDates: number[], strategyIds: string[], focusDomains: DomainName[],) {
+    public async addResults(userId: string, results: QolSurveyResults, aggregateScore: number, surveyType: QolSurveyType, startDate: number, questionCompletionDates: number[], strategyIds: string[], focusDomains: DomainName[]) {
         await this.createUserData(userId, { date: Date.now(), results, aggregateScore, surveyType, startDate, questionCompletionDates, strategyIds, focusDomains });
     }
 
