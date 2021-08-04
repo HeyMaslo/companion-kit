@@ -43,11 +43,11 @@ export class ViewDomainsView extends ViewDomainsBase {
   }
 
     goToRight = () => {
-      this.viewModel.getNextDomain(1);
+      this.viewModel.moveToNextDomain(1);
     }
 
     goToLeft = () => {
-      this.viewModel.getNextDomain(-1);
+      this.viewModel.moveToNextDomain(-1);
     }
 
 }

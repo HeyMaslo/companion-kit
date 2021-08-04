@@ -49,13 +49,14 @@ export default class StrategyViewModel {
     this.setAllStrategies(possibleStrategies);
   }
 
+  // must be called after requestPossibleStrategies
   public async requestSelectedStrategies() {
     let chosenStrategiesIds = await AppController.Instance.User.strategy.getChosenStrategiesIds();
     this.selectedStrategies = this.allStrategies.filter((strat) => chosenStrategiesIds.includes(strat.internalId));
   }
 
   public postSelectedStrategies(): Promise<void> {
-    return AppController.Instance.User.qol.setUserStateProperty('chosenStrategies', this.selectedStrategies.map(s => s.internalId));
+    return AppController.Instance.User.qol.setUserStateProperty('chosenStrategies', this.selectedStrategies.map(strat => strat.internalId));
   }
 
   // Only include strategies from the selectedDomains

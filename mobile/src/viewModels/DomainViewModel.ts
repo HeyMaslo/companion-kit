@@ -53,7 +53,7 @@ export default class DomainViewModel {
         this.domainCount = this._allDomains.length;
     }
 
-    //  Returns the three domains displayed on the choose domain screen, main(center donain), ldomain(domain on left side), rdomain(domain on right side)
+    //  Returns the three domain names displayed on the choose domain screen (main is center domain), along with the importance string of the main domain
     public getDomainDisplay(): string[] {
         if (this.domainCount < 3) {
             logger.log("Warning: not enough domains available!");
@@ -61,7 +61,7 @@ export default class DomainViewModel {
         }
 
         const leftName = this._leftDomain > -1 ? this._allDomains[this._leftDomain].name : '';
-        const rightName = this._rightDomain < this._allDomains.length ? this._allDomains[this._rightDomain].name : '';
+        const rightName = this._rightDomain < this.domainCount ? this._allDomains[this._rightDomain].name : '';
         const mainName = this._allDomains[this._mainDomain].name;
         const mainImportance = this._allDomains[this._mainDomain].importance;
 
@@ -69,7 +69,7 @@ export default class DomainViewModel {
     }
 
     //  Iterates through the domains as user clicks the next or back button, (-1) going back, (1) going forward through the list of domains
-    public getNextDomain(dir: number): void {
+    public moveToNextDomain(dir: number): void {
         if (dir > 0) {
             if (this._rightDomain < this.domainCount) {
                 this._rightDomain++;
@@ -84,14 +84,13 @@ export default class DomainViewModel {
                 this._mainDomain--;
                 this._leftDomain--;
             }
-
         }
     }
 
     // adds selected domains by user to the selected domains array, use this array to persist to backend by calling postSelectedDomains
     // returns false if domain has already been selected
     public selectDomain(domain: DomainIded): Boolean {
-        if (this._selectedDomains.map(d => d.id).includes(domain.id)) {
+        if (this._selectedDomains.map(dom => dom.id).includes(domain.id)) {
             return false;
         }
         this._selectedDomains.push(domain);
@@ -99,19 +98,19 @@ export default class DomainViewModel {
         return true;
     }
 
+    // to persist to backend call postSelectedDomains after calling this function
     public clearSelectedDomains() {
         this._selectedDomains = [];
-        AppViewModel.Instance.Strategy.setSelectedDomains(this._selectedDomains);
     }
 
     public getDomainByName(name: DomainName): DomainIded {
-        let dom: DomainIded = null;
-        this._allDomains.forEach(d => {
-            if (d.name === name) {
-                dom = d;
+        for (let i = 0; i < this._allDomains.length; i++) {
+            let domain = this._allDomains[i];
+            if (domain.name === name) {
+                return domain;
             }
-        });
-        return dom;
+        }
+        return null;
     }
 
 }

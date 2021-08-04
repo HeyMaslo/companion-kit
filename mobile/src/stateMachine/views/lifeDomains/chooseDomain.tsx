@@ -36,11 +36,11 @@ export class ChooseDomainView extends ViewDomainsBase {
     }
 
     goToRight = () => {
-        this.viewModel.getNextDomain(1);
+        this.viewModel.moveToNextDomain(1);
     }
 
     goToLeft = () => {
-        this.viewModel.getNextDomain(-1);
+        this.viewModel.moveToNextDomain(-1);
     }
 
     onBack = null;
@@ -96,6 +96,7 @@ export class ChooseDomainView extends ViewDomainsBase {
 
     private clearDomains = () => {
         this.viewModel.clearSelectedDomains();
+        AppViewModel.Instance.Strategy.setSelectedDomains([]);
     }
 }
 

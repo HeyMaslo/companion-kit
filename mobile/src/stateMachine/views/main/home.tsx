@@ -67,6 +67,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         AppViewModel.Instance.Domain.requestPossibleDomains();
         AppViewModel.Instance.Domain.requestSelectedDomains();
         AppViewModel.Instance.Strategy.requestPossibleStrategies();
+        AppViewModel.Instance.Strategy.requestSelectedStrategies();
     }
 
     private checkNewLinkDoc = () => {
