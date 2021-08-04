@@ -409,8 +409,4 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginBottom: 15
     },
-    domainView: {
-        flexDirection: 'row',
-        justifyContent: 'space-around'
-    }
 });
