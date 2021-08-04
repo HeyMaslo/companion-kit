@@ -16,7 +16,7 @@ export enum ScenarioTriggers {
     Quaternary,
     Quinary,
     Next,
-    TESTING
+    TESTING // used for development only and will be removed
 }
 
 export enum NavigationStates {
