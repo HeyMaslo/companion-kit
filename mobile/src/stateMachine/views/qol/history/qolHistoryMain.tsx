@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react';
 import React from 'react';
 import { FlatList, GestureResponderEvent, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Button, Container, MasloPage } from 'src/components';
-import TextStyles, { mainFontLight, mainFontMedium, mainFontThin } from 'src/styles/TextStyles';
+import { Container, MasloPage } from 'src/components';
+import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import Colors from '../../../../constants/colors/Colors';
 import { ScenarioTriggers } from '../../../abstractions';
@@ -49,9 +49,7 @@ export class QolHistoryMainView extends ViewState {
       <View style={styles.listItem}>
         <Text style={{ display: 'flex' }}>{formatDateMonthYear(item.date)}</Text>
         <View style={{ display: 'flex', flexDirection: 'row' }}>
-          {/* MK-TODO - use focusedDomains to get matching icons */}
-          {iconForDomain(DomainName.MONEY, { display: 'flex', marginRight: 20 })}
-          {iconForDomain(DomainName.INDEPENDENCE, { display: 'flex', marginRight: 0 })}
+          {item.focusDomains.map((domName: DomainName, index) => iconForDomain(domName, { display: 'flex', marginRight: index == item.focusDomains.length - 1 ? 0 : 20 }))}
         </View>
         <View style={styles.smallCircle}>
           <Text style={styles.smallCircleText}>{Math.round(item.aggregateScore)}</Text>
