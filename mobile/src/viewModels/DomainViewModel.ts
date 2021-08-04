@@ -49,13 +49,8 @@ export default class DomainViewModel {
     }
 
     public async requestPossibleDomains() {
-        let possibleDomains = await AppController.Instance.User.domain.getPossibleDomains();
-        this.setAvailableDomains(possibleDomains);
-    }
-
-    private setAvailableDomains(doms: DomainIded[]) {
-        this._allDomains = doms;
-        this.domainCount = doms.length;
+        this._allDomains = await AppController.Instance.User.domain.getPossibleDomains();
+        this.domainCount = this._allDomains.length;
     }
 
     //  Returns the three domains displayed on the choose domain screen, main(center donain), ldomain(domain on left side), rdomain(domain on right side)
