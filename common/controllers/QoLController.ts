@@ -84,15 +84,14 @@ export default class QoLControllerBase implements IQoLController {
         if (st === null) {
             st = {
                 [propertyName]: parameter,
-                surveyState: null
+                surveyState: null,
+                focusedDomains: [],
+                chosenStrategies: [],
             }
-        } else if (propertyName !== 'surveyState' && Array.isArray(parameter)) {
-            let domainNames = parameter as DomainName[];
-            if (domainNames) {
-                st['focusedDomains'] = domainNames;
-            } else {
-                st['chosenStrategies'] = parameter as string[];
-            }
+        } else if (propertyName == 'focusedDomains') {
+            st['focusedDomains'] = parameter as DomainName[];
+        } else if (propertyName == 'chosenStrategies') {
+            st['chosenStrategies'] = parameter as string[];
         }
         await RepoFactory.Instance.userState.setByUserId(this._userId, st);
     }
