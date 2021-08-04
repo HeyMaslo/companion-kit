@@ -16,12 +16,12 @@ export default class QoLControllerBase implements IQoLController {
 
     private _userId: string = null;
 
-    // Fetch the latests survey results (i.e. scores)
+    // Fetch the user's latest survey results (i.e. scores)
     public async getSurveyResults(): Promise<QolSurveyResults> {
         logger.log(`get qol results: userId = ${this._userId}`);
         return await RepoFactory.Instance.surveyResults.getLatestResults(this._userId);
     }
-
+    // Fetch the user's entire history of survey results
     public async getAllSurveyResults(): Promise<SurveyResults[]> {
         logger.log(`get ALL qol results: userId = ${this._userId}`);
         return await RepoFactory.Instance.surveyResults.getAllResults(this._userId);
