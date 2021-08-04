@@ -39,18 +39,18 @@ export default class DomainViewModel {
         return this._allDomains;
     }
 
-    public async requestSelectedDomains() {
+    public async fetchPossibleDomains() {
+        this._allDomains = await AppController.Instance.User.domain.getPossibleDomains();
+        this.domainCount = this._allDomains.length;
+    }
+
+    public async fetchSelectedDomains() {
         let focusedDomains = await AppController.Instance.User.domain.getFocusedDomains();
         this._selectedDomains = focusedDomains.map((name) => this.getDomainByName(name));
     }
 
     public postSelectedDomains(): Promise<void> {
         return AppController.Instance.User.qol.setUserStateProperty('focusedDomains', this.selectedDomains.map(d => d.name));
-    }
-
-    public async requestPossibleDomains() {
-        this._allDomains = await AppController.Instance.User.domain.getPossibleDomains();
-        this.domainCount = this._allDomains.length;
     }
 
     //  Returns the three domain names displayed on the choose domain screen (main is center domain), along with the importance string of the main domain

@@ -64,10 +64,10 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         }).start(this.checkNewLinkDoc);
         isFirstLaunch = false;
         // MK-TODO is this the best place to do this? Good now for testing
-        AppViewModel.Instance.Domain.requestPossibleDomains();
-        AppViewModel.Instance.Domain.requestSelectedDomains();
-        AppViewModel.Instance.Strategy.requestPossibleStrategies();
-        AppViewModel.Instance.Strategy.requestSelectedStrategies();
+        AppViewModel.Instance.Domain.fetchPossibleDomains();
+        AppViewModel.Instance.Domain.fetchSelectedDomains();
+        AppViewModel.Instance.Strategy.fetchPossibleStrategies();
+        AppViewModel.Instance.Strategy.fetchSelectedStrategies();
     }
 
     private checkNewLinkDoc = () => {

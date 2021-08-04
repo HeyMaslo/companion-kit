@@ -44,13 +44,13 @@ export default class StrategyViewModel {
     }
   }
 
-  public async requestPossibleStrategies() {
+  public async fetchPossibleStrategies() {
     let possibleStrategies = await AppController.Instance.User.strategy.getPossibleStrategies();
     this.setAllStrategies(possibleStrategies);
   }
 
-  // must be called after requestPossibleStrategies
-  public async requestSelectedStrategies() {
+  // must be called after fetchPossibleStrategies
+  public async fetchSelectedStrategies() {
     let chosenStrategiesIds = await AppController.Instance.User.strategy.getChosenStrategiesIds();
     this.selectedStrategies = this.allStrategies.filter((strat) => chosenStrategiesIds.includes(strat.internalId));
   }

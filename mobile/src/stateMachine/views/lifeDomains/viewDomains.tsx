@@ -16,7 +16,7 @@ export class ViewDomainsView extends ViewDomainsBase {
   }
 
     async start() {
-        this.viewModel.requestPossibleDomains();
+        this.viewModel.fetchPossibleDomains();
         this.forceUpdate();
     }
 

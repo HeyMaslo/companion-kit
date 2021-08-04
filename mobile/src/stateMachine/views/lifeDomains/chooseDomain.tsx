@@ -19,7 +19,7 @@ export class ChooseDomainView extends ViewDomainsBase {
     }
 
     async start() {
-        this.viewModel.requestPossibleDomains();
+        this.viewModel.fetchPossibleDomains();
         this.forceUpdate();
     }
 
