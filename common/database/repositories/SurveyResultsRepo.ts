@@ -4,14 +4,14 @@ import Collections from 'common/database/collections';
 import { DomainName } from '../../../mobile/src/constants/Domain';
 
 export type SurveyResults = {
-    date: number,
-    results: QolSurveyResults,
     aggregateScore: number,
-    surveyType: QolSurveyType,
-    startDate: number,
-    questionCompletionDates: number[],
-    strategyIds: string[],
+    date: number,
     focusDomains: DomainName[],
+    questionCompletionDates: number[],
+    results: QolSurveyResults,
+    startDate: number,
+    surveyType: QolSurveyType,
+    strategyIds: string[],
 };
 
 export default class SurveyResultsRepo extends GenericUserRepo<SurveyResults> {
