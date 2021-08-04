@@ -11,7 +11,7 @@ export default class DomainControllerBase implements IDomainController {
   }
 
   public async getPossibleDomains(): Promise<DomainIded[]> {
-    return await RepoFactory.Instance.qolDomains.get();
+    return await RepoFactory.Instance.domains.get();
   }
 
   public async getFocusedDomains(): Promise<DomainName[]> {
