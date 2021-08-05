@@ -21,8 +21,7 @@ export class QolHistoryMainView extends ViewState {
 
   constructor(props) {
     super(props);
-    this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0 } });
-    this.hidePersona();
+    this._contentHeight = this.persona.setupContainerHeightForceScroll({ rotation: 0 });
   }
 
   private get viewModel() {
@@ -63,7 +62,7 @@ export class QolHistoryMainView extends ViewState {
   renderContent() {
     return (
       <MasloPage style={this.baseStyles.page} onBack={this.onBack}>
-        <Container style={[{ height: this._contentHeight, paddingTop: 10 }]}>
+        <Container style={[{ height: this._contentHeight, paddingTop: 52 }]}>
           {/* Title */}
           <View style={{ justifyContent: 'center', marginBottom: 35 }}>
             <Text style={[TextStyles.h2, styles.title]}>Quailty of Life History</Text>
