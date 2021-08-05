@@ -140,18 +140,18 @@ fadeOut() {
       <View style={[this.props.style, { justifyContent:'center', alignItems:'center'}]} onLayout={this.props.onLayout}>
         <View style={{backgroundColor: 'transparent', width: this.size, height: this.size, borderRadius: this.radius, marginTop: this.symbolRadius, marginBottom: this.symbolRadius}}>
 
-          <TouchableOpacity onPress={this.onIconTap(DomainName.MOOD)}>{iconForDomain(DomainName.MOOD, {position:'absolute', left: this.state.x0, top: this.state.y0}, this.getIconColor(DomainName.MOOD), this.symbolSize, this.symbolSize )}</TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.PHYSICAL)}>{iconForDomain(DomainName.PHYSICAL, {position:'absolute', left: this.state.x1, top: this.state.y1 }, this.getIconColor(DomainName.PHYSICAL), this.symbolSize, this.symbolSize )}</TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.SLEEP)}>{iconForDomain(DomainName.SLEEP, {backgroundColor: 'transparent', position:'absolute', left: this.state.x2, top: this.state.y2 }, this.getIconColor(DomainName.SLEEP), this.symbolSize, this.symbolSize )}</TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.THINKING)}>{iconForDomain(DomainName.THINKING, {backgroundColor: 'transparent', position:'absolute', left: this.state.x3, top: this.state.y3 }, this.getIconColor(DomainName.THINKING), this.symbolSize, this.symbolSize )}</TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.IDENTITY)}>{iconForDomain(DomainName.IDENTITY, {backgroundColor: 'transparent', position:'absolute', left: this.state.x4, top: this.state.y4 }, this.getIconColor(DomainName.IDENTITY), this.symbolSize, this.symbolSize )}</TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.LEISURE)}>{iconForDomain(DomainName.LEISURE, {backgroundColor: 'transparent', position:'absolute', left: this.state.x5, top: this.state.y5 }, this.getIconColor(DomainName.LEISURE), this.symbolSize, this.symbolSize )}</TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.INDEPENDENCE)}>{iconForDomain(DomainName.INDEPENDENCE, {backgroundColor: 'transparent', position:'absolute', left: this.state.x6, top: this.state.y6 }, this.getIconColor(DomainName.INDEPENDENCE), this.symbolSize, this.symbolSize )}</TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.SELFESTEEM)}>{iconForDomain(DomainName.SELFESTEEM, {backgroundColor: 'transparent', position:'absolute', left: this.state.x7, top: this.state.y7 }, this.getIconColor(DomainName.SELFESTEEM), this.symbolSize, this.symbolSize )}</TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.HOME)}>{iconForDomain(DomainName.HOME, {backgroundColor: 'transparent', position:'absolute', left: this.state.x8, top: this.state.y8 }, this.getIconColor(DomainName.HOME), this.symbolSize, this.symbolSize )}</TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.MONEY)}>{iconForDomain(DomainName.MONEY, {backgroundColor: 'transparent', position:'absolute', left: this.state.x9, top: this.state.y9 }, this.getIconColor(DomainName.MONEY), this.symbolSize, this.symbolSize )}</TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.SPIRITUAL)}>{iconForDomain(DomainName.SPIRITUAL, {backgroundColor: 'transparent', position:'absolute', left: this.state.x10, top: this.state.y10 }, this.getIconColor(DomainName.SPIRITUAL), this.symbolSize, this.symbolSize )}</TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.RELATIONSHIPS)}>{iconForDomain(DomainName.RELATIONSHIPS, {backgroundColor: 'transparent', position:'absolute', left: this.state.x11, top: this.state.y11 }, this.getIconColor(DomainName.RELATIONSHIPS), this.symbolSize, this.symbolSize )}</TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.MOOD)}><View style={[styles.iconWrapper, {left: this.state.x0, top: this.state.y0, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.MOOD, {}, this.getIconColor(DomainName.MOOD), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.PHYSICAL)}><View style={[styles.iconWrapper, {left: this.state.x1, top: this.state.y1, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.PHYSICAL, {}, this.getIconColor(DomainName.PHYSICAL), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.SLEEP)}><View style={[styles.iconWrapper, {left: this.state.x2, top: this.state.y2, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.SLEEP, {}, this.getIconColor(DomainName.SLEEP), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.THINKING)}><View style={[styles.iconWrapper, {left: this.state.x3, top: this.state.y3, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.THINKING, {}, this.getIconColor(DomainName.THINKING), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.IDENTITY)}><View style={[styles.iconWrapper, {left: this.state.x4, top: this.state.y4, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.IDENTITY, {}, this.getIconColor(DomainName.IDENTITY), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.LEISURE)}><View style={[styles.iconWrapper, {left: this.state.x5, top: this.state.y5, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.LEISURE, {}, this.getIconColor(DomainName.LEISURE), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.INDEPENDENCE)}><View style={[styles.iconWrapper, {left: this.state.x6, top: this.state.y6, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.INDEPENDENCE, {}, this.getIconColor(DomainName.INDEPENDENCE), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.SELFESTEEM)}><View style={[styles.iconWrapper, {left: this.state.x7, top: this.state.y7, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.SELFESTEEM, {}, this.getIconColor(DomainName.SELFESTEEM), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.HOME)}><View style={[styles.iconWrapper, {left: this.state.x8, top: this.state.y8, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.HOME, {}, this.getIconColor(DomainName.HOME), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.MONEY)}><View style={[styles.iconWrapper, {left: this.state.x9, top: this.state.y9, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.MONEY, {}, this.getIconColor(DomainName.MONEY), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.SPIRITUAL)}><View style={[styles.iconWrapper, {left: this.state.x10, top: this.state.y10, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.SPIRITUAL, {}, this.getIconColor(DomainName.SPIRITUAL), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.RELATIONSHIPS)}><View style={[styles.iconWrapper, {left: this.state.x11, top: this.state.y11, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.RELATIONSHIPS, {}, this.getIconColor(DomainName.RELATIONSHIPS), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
 
           {this.state.currentCallout &&
           <Animated.View style={{opacity: this.state.fadeIn}}>
@@ -170,7 +170,11 @@ fadeOut() {
   }
 } 
 
-const styles = StyleSheet.create({ 
+const styles = StyleSheet.create({
+  iconWrapper: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+  },
   callout: {
     position: 'absolute',
     borderColor: 'black',
