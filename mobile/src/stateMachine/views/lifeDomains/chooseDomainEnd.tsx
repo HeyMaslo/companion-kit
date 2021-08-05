@@ -38,9 +38,10 @@ export class ChooseDomainEndView extends ViewState {
         this.trigger(ScenarioTriggers.Back);
     }
 
-    async onThreeSelected() {
-        this.trigger(ScenarioTriggers.Submit)
+    async onChooseStrategies() {
+        this.viewModel.postSelectedDomains();
         this.strategiesViewModel.updateAvailableStrategiesForSelectedDomains();
+        this.trigger(ScenarioTriggers.Submit)
     }
 
     renderContent() {
@@ -50,7 +51,7 @@ export class ChooseDomainEndView extends ViewState {
                     <Text style={[this.textStyles.h1, styles.title]}>Next, you'll choose strategies for your focus domains </Text>
                     <View style ={{width: '90%', flex: 0, alignItems: 'center', justifyContent: 'space-around', marginBottom: 15}}>
                         <Text style={[this.textStyles.p3, styles.message]}>You can choose up to 4 strategies and update them weekly</Text>
-                        <Button title='View Strategies' style={styles.continueButton} onPress={() => this.onThreeSelected()}/>
+                        <Button title='View Strategies' style={styles.continueButton} onPress={() => this.onChooseStrategies()}/>
                     </View>
                 </Container>
             </MasloPage>

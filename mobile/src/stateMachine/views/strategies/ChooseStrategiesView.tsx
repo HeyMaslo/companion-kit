@@ -33,7 +33,9 @@ export class ChooseStrategiesView extends ViewState {
         return AppViewModel.Instance.Strategy;
     }
 
-    async start() {}
+    async start() {
+      this.viewModel.selectedStrategies = [];
+    }
 
     onBack = () => {
         this.trigger(ScenarioTriggers.Back);
@@ -96,7 +98,7 @@ export class ChooseStrategiesView extends ViewState {
 
     renderContent() {
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} onBack={() => this.onBack()}>
+            <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()}>
                 <Container style={[{height: this._contentHeight, paddingTop: 10}]}>
 
                     {/* Title */}
@@ -131,7 +133,7 @@ export class ChooseStrategiesView extends ViewState {
                               data={this.viewModel.availableStrategies}
                               renderItem={this.renderListItem}
                               keyExtractor={item => item.internalId}/>
-                    <Button title={'SELECT ' +( this.viewModel.selectedStrategies.length < 1 ? 'STRATEGIES' : (this.viewModel.selectedStrategies.length == 1 ? 'THIS STRATEGY' : 'THESE STRATEGIES'))} style={styles.selectButton} onPress={this.onSubmit} disabled={this.viewModel.selectedStrategies.length < 1}/>
+                    <Button title={'SELECT ' + (this.viewModel.selectedStrategies.length < 1 ? 'STRATEGIES' : (this.viewModel.selectedStrategies.length == 1 ? 'THIS STRATEGY' : 'THESE STRATEGIES'))} style={styles.selectButton} onPress={this.onSubmit} disabled={this.viewModel.selectedStrategies.length < 1}/>
                 </Container>
             </MasloPage>
         );

@@ -11,7 +11,7 @@ import { ViewDomainsBase } from './viewDomainsBase';
 export class ChooseDomainView extends ViewDomainsBase {
     constructor(props) {
         super(props);
-        this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ rotation: -15, transition: { duration: 1}, scale: 1.2});
+        this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ rotation: -15, transition: { duration: 1 }, scale: 1.2 });
     }
 
     private get viewModel() {
@@ -44,8 +44,9 @@ export class ChooseDomainView extends ViewDomainsBase {
     }
 
     onBack = null;
-  
+
     onCancel = () => {
+        this.clearDomains();
         this.trigger(ScenarioTriggers.Cancel);
     }
 
@@ -55,36 +56,32 @@ export class ChooseDomainView extends ViewDomainsBase {
 
     public getCenterElement(): JSX.Element {
         const [lDomain, domain, rDomain, importance] = this.getDomainDisplay();
-        return(
-                <Button
-                    title={this.viewModel.selectedDomains.map((s) => s.name).includes(domain as DomainName) && this.viewModel.selectedDomains.length > 0 ? 'Choose Strategies' : 'Select Life Area'}
-                    style={styles.domain}
-                    onPress={() => this.onSelectDomain(domain)}
-                    isTransparent
-                />
-            );
+        return (
+            <Button
+                title={this.viewModel.selectedDomains.map((s) => s.name).includes(domain as DomainName) && this.viewModel.selectedDomains.length > 0 ? 'Choose Strategies' : 'Select Life Area'}
+                style={styles.domain}
+                onPress={() => this.onSelectDomain(domain)}
+                isTransparent
+            />
+        );
     }
 
     onSelectDomain = (n: string) => {
+        let domain = this.viewModel.getDomainByName(n as DomainName);
         let hasTwoSelected = this.viewModel.selectedDomains.length == 2;
         let hasThreeSelected = this.viewModel.selectedDomains.length == 3;
 
-        if (hasThreeSelected) {
-            Alert.alert(
-                'Too Many',
-                'Looks like you have already selected three life areas.',
-                [{ text: 'Deselct all', onPress: this.clearDomains, style: 'destructive'},
-                 { text: 'OK' }]);
-        } else if (this.viewModel.selectDomain(this.viewModel.getDomainByName(n as DomainName))) {
-
-            this.viewModel.postSelectedDomains();
+        if (hasThreeSelected && this.viewModel.selectedDomains.map((s) => s.name).includes(domain.name)) {
+            this.trigger(ScenarioTriggers.Next);
+        } else if (hasThreeSelected) {
+            Alert.alert('Too Many', 'Looks like you have already selected three life areas.', [{ text: 'Deselect all', onPress: () => this.clearDomains(), style: 'destructive' }, { text: 'OK' }]);
+        } else if (this.viewModel.selectDomain(domain)) {
             if (hasTwoSelected) {
                 this.trigger(ScenarioTriggers.Next);
             } else {
                 this.trigger(ScenarioTriggers.Tertiary);
             }
-            
-        } else if (!this.viewModel.selectDomain(this.viewModel.getDomainByName(n as DomainName))) {
+        } else if (!this.viewModel.selectDomain(domain)) {
             this.trigger(ScenarioTriggers.Tertiary);
         } else {
             Alert.alert(
@@ -100,7 +97,7 @@ export class ChooseDomainView extends ViewDomainsBase {
     }
 }
 
-const styles = StyleSheet.create({ 
+const styles = StyleSheet.create({
     domain: {
         height: 50,
         borderWidth: 1,

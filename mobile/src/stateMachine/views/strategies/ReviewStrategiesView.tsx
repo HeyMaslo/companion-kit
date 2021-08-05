@@ -84,7 +84,7 @@ export class ReviewStrategiesView extends ViewState {
 
     renderContent() {
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} onBack={this.onBack}>
+            <MasloPage style={this.baseStyles.page} onBack={this.onBack}>
                 <Container style={[{height: this._contentHeight, paddingTop: 10}]}>
                   {this.renderInnerContent('Here are your focus strategies.', true)}
                   {this. showButton && <Button title='CONTINUE' style={styles.selectButton} onPress={this.nextPage}/>}

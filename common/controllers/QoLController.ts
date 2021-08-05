@@ -50,7 +50,8 @@ export default class QoLControllerBase implements IQoLController {
             } else {
                 st = {
                     surveyState: qol,
-                    focusedDomains: []
+                    focusedDomains: [],
+                    chosenStrategies: [],
                 }
             }
             await RepoFactory.Instance.userState.setByUserId(this._userId, st);

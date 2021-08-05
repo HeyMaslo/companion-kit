@@ -49,7 +49,7 @@ export class QolHistoryMainView extends ViewState {
       <View style={styles.listItem}>
         <Text style={{ display: 'flex' }}>{formatDateMonthYear(item.date)}</Text>
         <View style={{ display: 'flex', flexDirection: 'row' }}>
-          {item.focusDomains.map((domName: DomainName, index) => iconForDomain(domName, { display: 'flex', marginRight: index == item.focusDomains.length - 1 ? 0 : 20 }))}
+          {item.focusDomains && item.focusDomains.map((domName: DomainName, index) => iconForDomain(domName, { display: 'flex', marginRight: index == item.focusDomains.length - 1 ? 0 : 20 }))}
         </View>
         <View style={styles.smallCircle}>
           <Text style={styles.smallCircleText}>{Math.round(item.aggregateScore)}</Text>
