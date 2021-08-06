@@ -28,8 +28,8 @@ while getopts ":yp:s:f:d:m:n" opt; do
 done
 export NVM_DIR="$(pwd)/.nvm"
 if [ ! -d "$NVM_DIR" ]; then
-    read -r -p "NVM Needed. Install it now? [Y/n] " confirm
     if [ $yes == 0 ]; then
+        read -r -p "NVM Needed. Install it now? [Y/n] " confirm
         if [[ ! "$confirm" =~ ^[Yy]$ ]] ; then	
             echo "exiting."
             exit 0
