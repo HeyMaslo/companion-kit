@@ -13,7 +13,7 @@ type IconsOnCircleProps = {
   onLayout?: (event: LayoutChangeEvent) => void,
 }
 
-type CircleState = {currentCallout?: DomainName, calloutLeft: number, calloutTop: number, iconCenterX: number, iconCenterY: number, fadeIn: Animated.Value, fadeOut: Animated.Value, x0: number, y0: number, x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number, x5: number, y5: number, x6: number, y6: number, x7: number, y7: number, x8: number, y8: number, x9: number, y11:number, y9: number, x10: number, y10: number, x11: number}
+type CircleState = { currentCallout?: DomainName, calloutLeft: number, calloutTop: number, iconCenterX: number, iconCenterY: number, fadeIn: Animated.Value, fadeOut: Animated.Value, x0: number, y0: number, x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number, x5: number, y5: number, x6: number, y6: number, x7: number, y7: number, x8: number, y8: number, x9: number, y11: number, y9: number, x10: number, y10: number, x11: number }
 
 // Circular layout logic adapted from https://stackoverflow.com/a/61118656
 
@@ -33,141 +33,139 @@ export default class IconsOnCircle extends React.Component<IconsOnCircleProps, C
     this.symbolRadius = this.symbolSize / 2;
     this.center = this.radius;
 
-    this.state = {calloutLeft: 0, calloutTop: 0, iconCenterX: 0, iconCenterY: 0, fadeIn: new Animated.Value(0), fadeOut: new Animated.Value(1), x0: 0, y0: 0, x1: 0, y1: 0, x2: 0, y2: 0, y4: 0, x3: 0, y3: 0, x4: 0, x5: 0, y5: 0, x6: 0, y6: 0, x7: 0, y7: 0, x8: 0, y8: 0, x9: 0, y9: 0, x10: 0, y10: 0, x11: 0, y11: 0}
+    this.state = { calloutLeft: 0, calloutTop: 0, iconCenterX: 0, iconCenterY: 0, fadeIn: new Animated.Value(0), fadeOut: new Animated.Value(1), x0: 0, y0: 0, x1: 0, y1: 0, x2: 0, y2: 0, y4: 0, x3: 0, y3: 0, x4: 0, x5: 0, y5: 0, x6: 0, y6: 0, x7: 0, y7: 0, x8: 0, y8: 0, x9: 0, y9: 0, x10: 0, y10: 0, x11: 0, y11: 0 }
   }
 
   componentDidMount() {
-    Array.from({length: 12}, (x, i) => i).forEach((index) => {
+    Array.from({ length: 12 }, (x, i) => i).forEach((index) => {
       this.setupWithIndex(index);
     })
   }
 
   private degToRad(deg: number) {
     return deg * Math.PI / 180;
-}
-
-  private angleToCoordinates(rad: number): {x: number, y: number} {
-    return {x: this.radius * Math.cos(rad) + this.center - this.symbolRadius, y: this.radius * Math.sin(rad) + this.center - this.symbolRadius};
   }
 
-private setupWithIndex(index: number) {
-  const angleRad = this.degToRad(index * 360 / 12);
-  const {x, y} = this.angleToCoordinates(angleRad);
-
-  const xKey = `x${index}`;
-  const yKey = `y${index}`;
-  var obj = {};
-  obj[xKey] = x;
-  obj[yKey] = y;
-  this.setState({... obj})
-}
-
-private getIconColor(domainName: DomainName): string {
-  if (this.props.highlightedDomains.includes(domainName)) {
-    return Colors.typography.h1;
+  private angleToCoordinates(rad: number): { x: number, y: number } {
+    return { x: this.radius * Math.cos(rad) + this.center - this.symbolRadius, y: this.radius * Math.sin(rad) + this.center - this.symbolRadius };
   }
-  return Colors.typography.labelMedium;
-}
 
-private onIconTap = (domainNameKey: DomainName) => (event: GestureResponderEvent) => {
-  console.log('key tapped', domainNameKey) 
-  const {x, y, iconCenterX, iconCenterY} = this.locationForCallout(domainNameKey);
-  this.setState({currentCallout: domainNameKey, calloutLeft: x, calloutTop: y, iconCenterX: iconCenterX, iconCenterY: iconCenterY});
-  this.fadeIn()
-}
+  private setupWithIndex(index: number) {
+    const angleRad = this.degToRad(index * 360 / 12);
+    const { x, y } = this.angleToCoordinates(angleRad);
 
-private locationForCallout(domainName: DomainName): {x: number, y: number, iconCenterX: number, iconCenterY: number} {
-  const offsetY = styles.calloutText.lineHeight + styles.callout.padding * 2 + 15;
-  const offsetX = 20;
-  const symbolRadius = this.symbolSize / 2;
-  switch (domainName) {
-    // Bottom Half
-    case DomainName.MOOD:    
-      return {x: this.state.x0 - offsetX, y: this.state.y0 - offsetY, iconCenterX: this.state.x0 , iconCenterY: this.state.y0 + symbolRadius};
-    case DomainName.PHYSICAL:
-      return {x: this.state.x1 - offsetX, y: this.state.y1 - offsetY, iconCenterX: this.state.x1 , iconCenterY: this.state.y1 + symbolRadius};
-    case DomainName.SLEEP:
-      return {x: this.state.x2 - offsetX, y: this.state.y2 - offsetY, iconCenterX: this.state.x2 , iconCenterY: this.state.y2 + symbolRadius};
-    case DomainName.THINKING:
-      return {x: this.state.x3 - offsetX, y: this.state.y3 - offsetY, iconCenterX: this.state.x3 , iconCenterY: this.state.y3 + symbolRadius};
-    case DomainName.IDENTITY:
-      return {x: this.state.x4 - offsetX, y: this.state.y4 - offsetY, iconCenterX: this.state.x4 , iconCenterY: this.state.y4 + symbolRadius};
-    case DomainName.LEISURE:
-      return {x: this.state.x5 - offsetX, y: this.state.y5 - offsetY, iconCenterX: this.state.x5 , iconCenterY: this.state.y5 + symbolRadius};
-    case DomainName.INDEPENDENCE:
-      return {x: this.state.x6 - offsetX, y: this.state.y6 - offsetY, iconCenterX: this.state.x6 , iconCenterY: this.state.y6 + symbolRadius};
-      // Top Half
-    case DomainName.SELFESTEEM:
-      return {x: this.state.x7 - offsetX, y: this.state.y7 - offsetY, iconCenterX: this.state.x7 , iconCenterY: this.state.y7 + symbolRadius};
-    case DomainName.HOME:
-      return {x: this.state.x8 - offsetX, y: this.state.y8 + offsetY + 10, iconCenterX: this.state.x8 , iconCenterY: this.state.y8 + symbolRadius};
-    case DomainName.MONEY:
-      return {x: this.state.x9 - offsetX, y: this.state.y9 + offsetY + 10, iconCenterX: this.state.x9 , iconCenterY: this.state.y9 + symbolRadius};
-    case DomainName.SPIRITUAL:
-      return {x: this.state.x10 - offsetX, y: this.state.y10 + offsetY + 10, iconCenterX: this.state.x10 , iconCenterY: this.state.y10 + symbolRadius};
-    case DomainName.RELATIONSHIPS:
-      return {x: this.state.x11 - offsetX - 10, y: this.state.y11 - offsetY, iconCenterX: this.state.x11 , iconCenterY: this.state.y11 + symbolRadius};
+    const xKey = `x${index}`;
+    const yKey = `y${index}`;
+    var obj = {};
+    obj[xKey] = x;
+    obj[yKey] = y;
+    this.setState({ ...obj })
   }
-}
 
-fadeIn() {
-  this.state.fadeIn.setValue(0)                  
-  Animated.timing(
-    this.state.fadeIn,           
-    {
-      toValue: 1,                   
-      duration: 200,       
-      useNativeDriver: true,       
+  private getIconColor(domainName: DomainName): string {
+    if (this.props.highlightedDomains.includes(domainName)) {
+      return Colors.typography.h1;
     }
-  ).start(() => this.fadeOut());                        
-}
+    return Colors.typography.labelMedium;
+  }
 
-fadeOut() {
-  Animated.timing(                  
-     this.state.fadeIn,            
-     {
-       delay: 1500,
-       toValue: 0,                   
-       duration: 500,
-       useNativeDriver: true,              
-     }
-  ).start();                        
-}
+  private onIconTap = (domainNameKey: DomainName) => (event: GestureResponderEvent) => {
+    const { x, y, iconCenterX, iconCenterY } = this.locationForCallout(domainNameKey);
+    this.setState({ currentCallout: domainNameKey, calloutLeft: x, calloutTop: y, iconCenterX: iconCenterX, iconCenterY: iconCenterY });
+    this.fadeIn()
+  }
+
+  private locationForCallout(domainName: DomainName): { x: number, y: number, iconCenterX: number, iconCenterY: number } {
+    const offsetY = styles.calloutText.lineHeight + styles.callout.padding * 2 + 15;
+    const offsetX = 20;
+    const symbolRadius = this.symbolSize / 2;
+    switch (domainName) {
+      // Bottom Half
+      case DomainName.MOOD:
+        return { x: this.state.x0 - offsetX, y: this.state.y0 - offsetY, iconCenterX: this.state.x0, iconCenterY: this.state.y0 + symbolRadius };
+      case DomainName.PHYSICAL:
+        return { x: this.state.x1 - offsetX, y: this.state.y1 - offsetY, iconCenterX: this.state.x1, iconCenterY: this.state.y1 + symbolRadius };
+      case DomainName.SLEEP:
+        return { x: this.state.x2 - offsetX, y: this.state.y2 - offsetY, iconCenterX: this.state.x2, iconCenterY: this.state.y2 + symbolRadius };
+      case DomainName.THINKING:
+        return { x: this.state.x3 - offsetX, y: this.state.y3 - offsetY, iconCenterX: this.state.x3, iconCenterY: this.state.y3 + symbolRadius };
+      case DomainName.IDENTITY:
+        return { x: this.state.x4 - offsetX, y: this.state.y4 - offsetY, iconCenterX: this.state.x4, iconCenterY: this.state.y4 + symbolRadius };
+      case DomainName.LEISURE:
+        return { x: this.state.x5 - offsetX, y: this.state.y5 - offsetY, iconCenterX: this.state.x5, iconCenterY: this.state.y5 + symbolRadius };
+      case DomainName.INDEPENDENCE:
+        return { x: this.state.x6 - offsetX, y: this.state.y6 - offsetY, iconCenterX: this.state.x6, iconCenterY: this.state.y6 + symbolRadius };
+      // Top Half
+      case DomainName.SELFESTEEM:
+        return { x: this.state.x7 - offsetX, y: this.state.y7 - offsetY, iconCenterX: this.state.x7, iconCenterY: this.state.y7 + symbolRadius };
+      case DomainName.HOME:
+        return { x: this.state.x8 - offsetX, y: this.state.y8 + offsetY + 10, iconCenterX: this.state.x8, iconCenterY: this.state.y8 + symbolRadius };
+      case DomainName.MONEY:
+        return { x: this.state.x9 - offsetX, y: this.state.y9 + offsetY + 10, iconCenterX: this.state.x9, iconCenterY: this.state.y9 + symbolRadius };
+      case DomainName.SPIRITUAL:
+        return { x: this.state.x10 - offsetX, y: this.state.y10 + offsetY + 10, iconCenterX: this.state.x10, iconCenterY: this.state.y10 + symbolRadius };
+      case DomainName.RELATIONSHIPS:
+        return { x: this.state.x11 - offsetX - 10, y: this.state.y11 - offsetY, iconCenterX: this.state.x11, iconCenterY: this.state.y11 + symbolRadius };
+    }
+  }
+
+  fadeIn() {
+    this.state.fadeIn.setValue(0)
+    Animated.timing(
+      this.state.fadeIn,
+      {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }
+    ).start(() => this.fadeOut());
+  }
+
+  fadeOut() {
+    Animated.timing(
+      this.state.fadeIn,
+      {
+        delay: 1500,
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }
+    ).start();
+  }
 
   render() {
     return (
-      <View style={[this.props.style, { justifyContent:'center', alignItems:'center'}]} onLayout={this.props.onLayout}>
-        <View style={{backgroundColor: 'transparent', width: this.size, height: this.size, borderRadius: this.radius, marginTop: this.symbolRadius, marginBottom: this.symbolRadius}}>
+      <View style={[this.props.style, { justifyContent: 'center', alignItems: 'center' }]} onLayout={this.props.onLayout}>
+        <View style={{ backgroundColor: 'transparent', width: this.size, height: this.size, borderRadius: this.radius, marginTop: this.symbolRadius, marginBottom: this.symbolRadius }}>
 
-          <TouchableOpacity onPress={this.onIconTap(DomainName.MOOD)}><View style={[styles.iconWrapper, {left: this.state.x0, top: this.state.y0, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.MOOD, {}, this.getIconColor(DomainName.MOOD), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.PHYSICAL)}><View style={[styles.iconWrapper, {left: this.state.x1, top: this.state.y1, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.PHYSICAL, {}, this.getIconColor(DomainName.PHYSICAL), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.SLEEP)}><View style={[styles.iconWrapper, {left: this.state.x2, top: this.state.y2, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.SLEEP, {}, this.getIconColor(DomainName.SLEEP), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.THINKING)}><View style={[styles.iconWrapper, {left: this.state.x3, top: this.state.y3, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.THINKING, {}, this.getIconColor(DomainName.THINKING), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.IDENTITY)}><View style={[styles.iconWrapper, {left: this.state.x4, top: this.state.y4, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.IDENTITY, {}, this.getIconColor(DomainName.IDENTITY), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.LEISURE)}><View style={[styles.iconWrapper, {left: this.state.x5, top: this.state.y5, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.LEISURE, {}, this.getIconColor(DomainName.LEISURE), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.INDEPENDENCE)}><View style={[styles.iconWrapper, {left: this.state.x6, top: this.state.y6, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.INDEPENDENCE, {}, this.getIconColor(DomainName.INDEPENDENCE), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.SELFESTEEM)}><View style={[styles.iconWrapper, {left: this.state.x7, top: this.state.y7, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.SELFESTEEM, {}, this.getIconColor(DomainName.SELFESTEEM), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.HOME)}><View style={[styles.iconWrapper, {left: this.state.x8, top: this.state.y8, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.HOME, {}, this.getIconColor(DomainName.HOME), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.MONEY)}><View style={[styles.iconWrapper, {left: this.state.x9, top: this.state.y9, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.MONEY, {}, this.getIconColor(DomainName.MONEY), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.SPIRITUAL)}><View style={[styles.iconWrapper, {left: this.state.x10, top: this.state.y10, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.SPIRITUAL, {}, this.getIconColor(DomainName.SPIRITUAL), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.RELATIONSHIPS)}><View style={[styles.iconWrapper, {left: this.state.x11, top: this.state.y11, width: this.symbolSize, height: this.symbolSize}]}>{iconForDomain(DomainName.RELATIONSHIPS, {}, this.getIconColor(DomainName.RELATIONSHIPS), this.symbolSize, this.symbolSize )}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.MOOD)}><View style={[styles.iconWrapper, { left: this.state.x0, top: this.state.y0, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.MOOD, {}, this.getIconColor(DomainName.MOOD), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.PHYSICAL)}><View style={[styles.iconWrapper, { left: this.state.x1, top: this.state.y1, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.PHYSICAL, {}, this.getIconColor(DomainName.PHYSICAL), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.SLEEP)}><View style={[styles.iconWrapper, { left: this.state.x2, top: this.state.y2, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.SLEEP, {}, this.getIconColor(DomainName.SLEEP), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.THINKING)}><View style={[styles.iconWrapper, { left: this.state.x3, top: this.state.y3, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.THINKING, {}, this.getIconColor(DomainName.THINKING), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.IDENTITY)}><View style={[styles.iconWrapper, { left: this.state.x4, top: this.state.y4, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.IDENTITY, {}, this.getIconColor(DomainName.IDENTITY), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.LEISURE)}><View style={[styles.iconWrapper, { left: this.state.x5, top: this.state.y5, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.LEISURE, {}, this.getIconColor(DomainName.LEISURE), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.INDEPENDENCE)}><View style={[styles.iconWrapper, { left: this.state.x6, top: this.state.y6, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.INDEPENDENCE, {}, this.getIconColor(DomainName.INDEPENDENCE), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.SELFESTEEM)}><View style={[styles.iconWrapper, { left: this.state.x7, top: this.state.y7, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.SELFESTEEM, {}, this.getIconColor(DomainName.SELFESTEEM), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.HOME)}><View style={[styles.iconWrapper, { left: this.state.x8, top: this.state.y8, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.HOME, {}, this.getIconColor(DomainName.HOME), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.MONEY)}><View style={[styles.iconWrapper, { left: this.state.x9, top: this.state.y9, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.MONEY, {}, this.getIconColor(DomainName.MONEY), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.SPIRITUAL)}><View style={[styles.iconWrapper, { left: this.state.x10, top: this.state.y10, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.SPIRITUAL, {}, this.getIconColor(DomainName.SPIRITUAL), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+          <TouchableOpacity onPress={this.onIconTap(DomainName.RELATIONSHIPS)}><View style={[styles.iconWrapper, { left: this.state.x11, top: this.state.y11, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.RELATIONSHIPS, {}, this.getIconColor(DomainName.RELATIONSHIPS), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
 
           {this.state.currentCallout &&
-          <Animated.View style={{opacity: this.state.fadeIn}}>
-            <View key='callout' style={[styles.callout, {left: this.state.calloutLeft, top: this.state.calloutTop}]}>
-              <Text style={[styles.calloutText]}>{this.state.currentCallout}</Text>
-            </View>
-            {this.state.currentCallout == DomainName.HOME || this.state.currentCallout == DomainName.SPIRITUAL || this.state.currentCallout == DomainName.MONEY ?
-            <View style={[styles.triangle, styles.arrowUp, {left: this.state.iconCenterX + 10, top: this.state.calloutTop - 10} ]}/> :
-            <View style={[styles.triangle, styles.arrowDown, {left: this.state.iconCenterX + 10, top: this.state.calloutTop + (styles.calloutText.lineHeight + styles.callout.padding * 2)} ]}/>
-          }
-          </Animated.View>}
+            <Animated.View style={{ opacity: this.state.fadeIn }}>
+              <View key='callout' style={[styles.callout, { left: this.state.calloutLeft, top: this.state.calloutTop }]}>
+                <Text style={[styles.calloutText]}>{this.state.currentCallout}</Text>
+              </View>
+              {this.state.currentCallout == DomainName.HOME || this.state.currentCallout == DomainName.SPIRITUAL || this.state.currentCallout == DomainName.MONEY ?
+                <View style={[styles.triangle, styles.arrowUp, { left: this.state.iconCenterX + 10, top: this.state.calloutTop - 10 }]} /> :
+                <View style={[styles.triangle, styles.arrowDown, { left: this.state.iconCenterX + 10, top: this.state.calloutTop + (styles.calloutText.lineHeight + styles.callout.padding * 2) }]} />}
+            </Animated.View>}
 
         </View>
       </View>
     );
   }
-} 
+}
 
 const styles = StyleSheet.create({
   iconWrapper: {
@@ -216,6 +214,6 @@ const styles = StyleSheet.create({
     borderRightColor: 'transparent',
     borderBottomColor: Colors.typography.labelMedium,
     borderLeftColor: 'transparent',
-},
+  },
 });
-  
+
