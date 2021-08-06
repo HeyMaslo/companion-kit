@@ -2,7 +2,6 @@ import React from 'react';
 import { View, StyleSheet, StyleProp, ViewStyle, LayoutChangeEvent, GestureResponderEvent, Text, TouchableOpacity, Animated } from 'react-native';
 import Colors from 'src/constants/colors';
 import { DomainName } from 'src/constants/Domain';
-import Images from 'src/constants/images';
 import { iconForDomain } from 'src/helpers/DomainHelper';
 import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
 
