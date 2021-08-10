@@ -7,7 +7,7 @@ import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
 import { Portal } from 'react-native-paper';
 import Layout from 'src/constants/Layout';
 
-const containerMarginTop = Layout.isSmallDevice ? 25 : 75;
+const effectiveContainerMarginTop = Layout.isSmallDevice ? 25 : 50; // (containerMarginTop == 75 but it is actually 50 pts from the top of the screen)
 
 type IconsOnCircleProps = {
   style?: StyleProp<ViewStyle>,
@@ -80,12 +80,14 @@ export default class IconsOnCircle extends React.Component<IconsOnCircleProps, C
   }
 
   private locationForCallout(domainName: DomainName): { x: number, y: number, iconCenterX: number, iconCenterY: number } {
+    const symbolRadius = this.symbolSize / 2;
+    
     const iconOffsetX = (Layout.window.width - this.size) / 2;
     const offsetX = iconOffsetX - 20;
     
-    const iconOffsetY = containerMarginTop - 5;
+    const iconOffsetY = effectiveContainerMarginTop + symbolRadius - 5;
     const offsetY = styles.calloutText.lineHeight + styles.callout.padding * 2 + 15;
-    const symbolRadius = this.symbolSize / 2;
+    
 
     switch (domainName) {
       // Bottom Half
@@ -107,11 +109,11 @@ export default class IconsOnCircle extends React.Component<IconsOnCircleProps, C
       case DomainName.SELFESTEEM:
         return { x: this.state.x7 + offsetX, y: this.state.y7 + iconOffsetY - offsetY, iconCenterX: this.state.x7 + iconOffsetX, iconCenterY: this.state.y7 + symbolRadius };
       case DomainName.HOME:
-        return { x: this.state.x8 + offsetX, y: this.state.y8 + iconOffsetY + offsetY + 10, iconCenterX: this.state.x8 + iconOffsetX, iconCenterY: this.state.y8 + symbolRadius };
+        return { x: this.state.x8 + offsetX, y: this.state.y8 + iconOffsetY + offsetY + 15, iconCenterX: this.state.x8 + iconOffsetX, iconCenterY: this.state.y8 + symbolRadius };
       case DomainName.MONEY:
-        return { x: this.state.x9 + offsetX, y: this.state.y9 + iconOffsetY + offsetY + 10, iconCenterX: this.state.x9 + iconOffsetX, iconCenterY: this.state.y9 + symbolRadius };
+        return { x: this.state.x9 + offsetX, y: this.state.y9 + iconOffsetY + offsetY + 15, iconCenterX: this.state.x9 + iconOffsetX, iconCenterY: this.state.y9 + symbolRadius };
       case DomainName.SPIRITUAL:
-        return { x: this.state.x10 + offsetX, y: this.state.y10 + iconOffsetY + offsetY + 10, iconCenterX: this.state.x10 + iconOffsetX, iconCenterY: this.state.y10 + symbolRadius };
+        return { x: this.state.x10 + offsetX, y: this.state.y10 + iconOffsetY + offsetY + 15, iconCenterX: this.state.x10 + iconOffsetX, iconCenterY: this.state.y10 + symbolRadius };
       case DomainName.RELATIONSHIPS:
         return { x: this.state.x11 + offsetX - 10, y: this.state.y11 + iconOffsetY - offsetY, iconCenterX: this.state.x11 + iconOffsetX, iconCenterY: this.state.y11 + symbolRadius };
     }

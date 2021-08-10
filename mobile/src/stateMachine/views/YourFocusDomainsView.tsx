@@ -12,8 +12,8 @@ import { getPersonaRadius } from '../persona';
 import IconsOnCircle from './IconsOnCircle';
 import { DomainName } from 'src/constants/Domain';
 
-const containerMarginBottom = Layout.isSmallDevice ? 0 : 25;
 const containerMarginTop = Layout.isSmallDevice ? 25 : 75;
+const containerMarginBottom = Layout.isSmallDevice ? 0 : 25;
 
 type YourFocusDomainsViewState = {
   bottomWrapperTop: number,
@@ -94,7 +94,7 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
     renderContent() {
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
-                <Container style={[{height: this._contentHeight, marginTop: containerMarginTop, marginBottom: containerMarginBottom}]}>
+                <Container style={[{backgroundColor: 'orange',}, {height: this._contentHeight, marginTop: containerMarginTop, marginBottom: containerMarginBottom}]}>
                     <IconsOnCircle circleRaius={this.ordRadius * 6} symbolSize={40} highlightedDomains={this.selectedDomains} onLayout={this.onLayoutIconCircle}/>
                     <View pointerEvents={'box-none'} style={[styles.bottomWrapper, {top: this.state.bottomWrapperTop}]}>
                       <Button
