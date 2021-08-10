@@ -23,6 +23,7 @@ import AudioManager from 'src/services/Audio';
 import AppQueryService from 'src/services/AppQueryService';
 import AnalyticsExpo from 'src/services/AnalyticsService';
 import { InitAnalytics } from 'common/services/analytics/analytics';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 // import {
 //     SiriShortcutsEvent,
@@ -89,7 +90,7 @@ export default class App extends React.Component<IAppProps> {
         this.processUnhandledError(error);
     }
 
-    handleSiriShortcut({userInfo, activityType}: any) {
+    handleSiriShortcut({ userInfo, activityType }: any) {
         this.setState({
             shortcutInfo: userInfo,
             shortcutActivityType: activityType,
@@ -114,7 +115,7 @@ export default class App extends React.Component<IAppProps> {
     // async updateShortcutList() {
     //     try {
     //       const shortcuts = await getShortcuts();
-    
+
     //       this.setState({
     //         shortcuts,
     //       });
@@ -157,12 +158,14 @@ export default class App extends React.Component<IAppProps> {
         }
 
         return (
-            <MobxProvider>
-                <View style={styles.container}>
-                    <StatusBar barStyle="light-content" hidden={true} />
-                    <AppRouter />
-                </View>
-            </MobxProvider>
+            <PaperProvider>
+                <MobxProvider>
+                    <View style={styles.container}>
+                        <StatusBar barStyle="light-content" hidden={true} />
+                        <AppRouter />
+                    </View>
+                </MobxProvider>
+            </PaperProvider>
         );
     }
 

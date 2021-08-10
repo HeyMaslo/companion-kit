@@ -4,6 +4,10 @@ import Colors from 'src/constants/colors';
 import { DomainName } from 'src/constants/Domain';
 import { iconForDomain } from 'src/helpers/DomainHelper';
 import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
+import { Portal } from 'react-native-paper';
+import Layout from 'src/constants/Layout';
+
+const containerMarginTop = Layout.isSmallDevice ? 25 : 75;
 
 type IconsOnCircleProps = {
   style?: StyleProp<ViewStyle>,
@@ -76,36 +80,40 @@ export default class IconsOnCircle extends React.Component<IconsOnCircleProps, C
   }
 
   private locationForCallout(domainName: DomainName): { x: number, y: number, iconCenterX: number, iconCenterY: number } {
+    const iconOffsetX = (Layout.window.width - this.size) / 2;
+    const offsetX = iconOffsetX - 20;
+    
+    const iconOffsetY = containerMarginTop - 5;
     const offsetY = styles.calloutText.lineHeight + styles.callout.padding * 2 + 15;
-    const offsetX = 20;
     const symbolRadius = this.symbolSize / 2;
+
     switch (domainName) {
       // Bottom Half
       case DomainName.MOOD:
-        return { x: this.state.x0 - offsetX, y: this.state.y0 - offsetY, iconCenterX: this.state.x0, iconCenterY: this.state.y0 + symbolRadius };
+        return { x: this.state.x0 + offsetX, y: this.state.y0 + iconOffsetY - offsetY, iconCenterX: this.state.x0 + iconOffsetX, iconCenterY: this.state.y0 + symbolRadius };
       case DomainName.PHYSICAL:
-        return { x: this.state.x1 - offsetX, y: this.state.y1 - offsetY, iconCenterX: this.state.x1, iconCenterY: this.state.y1 + symbolRadius };
+        return { x: this.state.x1 + offsetX, y: this.state.y1 + iconOffsetY - offsetY, iconCenterX: this.state.x1 + iconOffsetX, iconCenterY: this.state.y1 + symbolRadius };
       case DomainName.SLEEP:
-        return { x: this.state.x2 - offsetX, y: this.state.y2 - offsetY, iconCenterX: this.state.x2, iconCenterY: this.state.y2 + symbolRadius };
+        return { x: this.state.x2 + offsetX, y: this.state.y2 + iconOffsetY - offsetY, iconCenterX: this.state.x2 + iconOffsetX, iconCenterY: this.state.y2 + symbolRadius };
       case DomainName.THINKING:
-        return { x: this.state.x3 - offsetX, y: this.state.y3 - offsetY, iconCenterX: this.state.x3, iconCenterY: this.state.y3 + symbolRadius };
+        return { x: this.state.x3 + offsetX, y: this.state.y3 + iconOffsetY - offsetY, iconCenterX: this.state.x3 + iconOffsetX, iconCenterY: this.state.y3 + symbolRadius };
       case DomainName.IDENTITY:
-        return { x: this.state.x4 - offsetX, y: this.state.y4 - offsetY, iconCenterX: this.state.x4, iconCenterY: this.state.y4 + symbolRadius };
+        return { x: this.state.x4 + offsetX, y: this.state.y4 + iconOffsetY - offsetY, iconCenterX: this.state.x4 + iconOffsetX, iconCenterY: this.state.y4 + symbolRadius };
       case DomainName.LEISURE:
-        return { x: this.state.x5 - offsetX, y: this.state.y5 - offsetY, iconCenterX: this.state.x5, iconCenterY: this.state.y5 + symbolRadius };
+        return { x: this.state.x5 + offsetX, y: this.state.y5 + iconOffsetY - offsetY, iconCenterX: this.state.x5 + iconOffsetX, iconCenterY: this.state.y5 + symbolRadius };
       case DomainName.INDEPENDENCE:
-        return { x: this.state.x6 - offsetX, y: this.state.y6 - offsetY, iconCenterX: this.state.x6, iconCenterY: this.state.y6 + symbolRadius };
+        return { x: this.state.x6 + offsetX, y: this.state.y6 + iconOffsetY - offsetY, iconCenterX: this.state.x6 + iconOffsetX, iconCenterY: this.state.y6 + symbolRadius };
       // Top Half
       case DomainName.SELFESTEEM:
-        return { x: this.state.x7 - offsetX, y: this.state.y7 - offsetY, iconCenterX: this.state.x7, iconCenterY: this.state.y7 + symbolRadius };
+        return { x: this.state.x7 + offsetX, y: this.state.y7 + iconOffsetY - offsetY, iconCenterX: this.state.x7 + iconOffsetX, iconCenterY: this.state.y7 + symbolRadius };
       case DomainName.HOME:
-        return { x: this.state.x8 - offsetX, y: this.state.y8 + offsetY + 10, iconCenterX: this.state.x8, iconCenterY: this.state.y8 + symbolRadius };
+        return { x: this.state.x8 + offsetX, y: this.state.y8 + iconOffsetY + offsetY + 10, iconCenterX: this.state.x8 + iconOffsetX, iconCenterY: this.state.y8 + symbolRadius };
       case DomainName.MONEY:
-        return { x: this.state.x9 - offsetX, y: this.state.y9 + offsetY + 10, iconCenterX: this.state.x9, iconCenterY: this.state.y9 + symbolRadius };
+        return { x: this.state.x9 + offsetX, y: this.state.y9 + iconOffsetY + offsetY + 10, iconCenterX: this.state.x9 + iconOffsetX, iconCenterY: this.state.y9 + symbolRadius };
       case DomainName.SPIRITUAL:
-        return { x: this.state.x10 - offsetX, y: this.state.y10 + offsetY + 10, iconCenterX: this.state.x10, iconCenterY: this.state.y10 + symbolRadius };
+        return { x: this.state.x10 + offsetX, y: this.state.y10 + iconOffsetY + offsetY + 10, iconCenterX: this.state.x10 + iconOffsetX, iconCenterY: this.state.y10 + symbolRadius };
       case DomainName.RELATIONSHIPS:
-        return { x: this.state.x11 - offsetX - 10, y: this.state.y11 - offsetY, iconCenterX: this.state.x11, iconCenterY: this.state.y11 + symbolRadius };
+        return { x: this.state.x11 + offsetX - 10, y: this.state.y11 + iconOffsetY - offsetY, iconCenterX: this.state.x11 + iconOffsetX, iconCenterY: this.state.y11 + symbolRadius };
     }
   }
 
@@ -152,14 +160,16 @@ export default class IconsOnCircle extends React.Component<IconsOnCircleProps, C
           <TouchableOpacity onPress={this.onIconTap(DomainName.RELATIONSHIPS)}><View style={[styles.iconWrapper, { left: this.state.x11, top: this.state.y11, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.RELATIONSHIPS, {}, this.getIconColor(DomainName.RELATIONSHIPS), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
 
           {this.state.currentCallout &&
-            <Animated.View style={{ opacity: this.state.fadeIn }}>
-              <View key='callout' style={[styles.callout, { left: this.state.calloutLeft, top: this.state.calloutTop }]}>
-                <Text style={[styles.calloutText]}>{this.state.currentCallout}</Text>
-              </View>
-              {this.state.currentCallout == DomainName.HOME || this.state.currentCallout == DomainName.SPIRITUAL || this.state.currentCallout == DomainName.MONEY ?
-                <View style={[styles.triangle, styles.arrowUp, { left: this.state.iconCenterX + 10, top: this.state.calloutTop - 10 }]} /> :
-                <View style={[styles.triangle, styles.arrowDown, { left: this.state.iconCenterX + 10, top: this.state.calloutTop + (styles.calloutText.lineHeight + styles.callout.padding * 2) }]} />}
-            </Animated.View>}
+            <Portal>
+              <Animated.View style={{ opacity: this.state.fadeIn }}>
+                <View key='callout' style={[styles.callout, { left: this.state.calloutLeft, top: this.state.calloutTop }]}>
+                  <Text style={[styles.calloutText]}>{this.state.currentCallout}</Text>
+                </View>
+                {this.state.currentCallout == DomainName.HOME || this.state.currentCallout == DomainName.SPIRITUAL || this.state.currentCallout == DomainName.MONEY ?
+                  <View style={[styles.triangle, styles.arrowUp, { left: this.state.iconCenterX + 10, top: this.state.calloutTop - 10 }]} /> :
+                  <View style={[styles.triangle, styles.arrowDown, { left: this.state.iconCenterX + 10, top: this.state.calloutTop + (styles.calloutText.lineHeight + styles.callout.padding * 2) }]} />}
+              </Animated.View>
+            </Portal>}
 
         </View>
       </View>
