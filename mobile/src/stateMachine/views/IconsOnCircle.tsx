@@ -7,12 +7,12 @@ import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
 import { Portal } from 'react-native-paper';
 import Layout from 'src/constants/Layout';
 
-const effectiveContainerMarginTop = Layout.isSmallDevice ? 25 : 50; // (containerMarginTop == 75 but it is actually 50 pts from the top of the screen)
 
 type IconsOnCircleProps = {
   style?: StyleProp<ViewStyle>,
   circleRaius: number,
   symbolSize: number,
+  totalContainerMargin: number, // set equal to the <Container> (marginTop - marginBottom) for the callouts to have the correct y position
   highlightedDomains?: Array<DomainName>,
   onLayout?: (event: LayoutChangeEvent) => void,
 }
@@ -85,7 +85,7 @@ export default class IconsOnCircle extends React.Component<IconsOnCircleProps, C
     const iconOffsetX = (Layout.window.width - this.size) / 2;
     const offsetX = iconOffsetX - 20;
     
-    const iconOffsetY = effectiveContainerMarginTop + symbolRadius - 5;
+    const iconOffsetY = this.props.totalContainerMargin + symbolRadius - 5;
     const offsetY = styles.calloutText.lineHeight + styles.callout.padding * 2 + 15;
     
 
