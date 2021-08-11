@@ -170,6 +170,7 @@ export default class HomeViewModel {
 
     // returns true if it has been 28 calendar days since last Full QoL
     private isTimeForFullQol(): boolean {
+        return true;
         const lastFullQol: Date = new Date(AppController.Instance.User.localSettings?.current?.qol?.lastFullQol);
         let nextFullQol: Date = lastFullQol;
         nextFullQol.setDate(nextFullQol.getDate() + 28);

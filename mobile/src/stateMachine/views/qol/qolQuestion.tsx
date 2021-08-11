@@ -55,14 +55,14 @@ export class QolQuestion extends ViewState {
         return (currQuestion + 1) % (this.viewModel.domainQuestionCount) === 1 && (currQuestion !== 1);
     }
 
-    private animateDomainChange = () => {
+    private animateDomainChange(goBack?: boolean) {
         Animated.timing(this.labelState.opacity, {
             toValue: 0,
             delay: 0,
             duration: 20,
             useNativeDriver: true,
         }).start(() => {
-            this.viewModel.nextQuestion();
+            this.viewModel.nextQuestion(goBack);
             this.persona.view = { ...this.persona.view, rotation: (this.persona.view.rotation - 30), transition: { duration: 1 } };
             Animated.timing(this.labelState.opacity, {
                 toValue: 1,
@@ -100,6 +100,14 @@ export class QolQuestion extends ViewState {
         return oldMag + inc + booster;
     }
 
+    private onBack() {
+        if (this.isNextDomain(this.viewModel.questionNum)) {
+            this.animateDomainChange(true);
+        } else {
+            this.viewModel.nextQuestion(true);
+        }
+    }
+
     private onClose = (): void | Promise<void> => this.runLongOperation(async () => {
         this.showModal({
             title: `Do you really want to stop the survey? Your progress will be saved.`,
@@ -133,7 +141,7 @@ export class QolQuestion extends ViewState {
 
     renderContent() {
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
+            <MasloPage style={this.baseStyles.page} onBack={this.viewModel.questionNum == 0 ? null : () => this.onBack()} onClose={() => this.onClose()}>
                 <Container style={[styles.container, { height: this._contentHeight }]}>
                     <Animated.View style={{ opacity: this.labelState.opacity }}>
                         <Text style={styles.domainLabel}>{this.viewModel.domain.toUpperCase()}</Text>

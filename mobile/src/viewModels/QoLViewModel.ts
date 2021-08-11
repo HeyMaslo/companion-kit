@@ -1,4 +1,4 @@
-import { observable, computed, toJS } from 'mobx';
+import { observable, computed } from 'mobx';
 import { SurveyQuestions, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT } from '../constants/QoLSurvey';
 import { PersonaDomains } from '../stateMachine/persona';
 import { createLogger } from 'common/logger';
@@ -28,7 +28,7 @@ export default class QOLSurveyViewModel {
     public readonly numQuestions: number = QUESTIONS_COUNT;
     public readonly domainQuestionCount: number = DOMAIN_QUESTION_COUNT;
     private readonly _settings: ILocalSettingsController = AppController.Instance.User.localSettings;
-    
+
 
     constructor() {
         this.initModel = AppController.Instance.User.qol.getPartialQol().then((partialQolState: PartialQol) => {
@@ -84,8 +84,15 @@ export default class QOLSurveyViewModel {
 
     set setQolSurveyType(type: QolSurveyType) { this.QolSurveyType = type; }
 
-    public nextQuestion(): void {
-        if (!((this._questionNum + 1) > (QUESTIONS_COUNT - 1))) {
+    public nextQuestion(goBack?: boolean): void {
+        if (goBack) {
+            if (this._questionNum - 1 >= 0) {
+                this._questionNum--;
+                if ((this._questionNum + 1) % (DOMAIN_QUESTION_COUNT) === 0) {
+                    this._domainNum--;
+                }
+            }
+        } else if (this._questionNum + 1 <= QUESTIONS_COUNT - 1) {
             this._questionNum++;
             if ((this._questionNum + 1) % (DOMAIN_QUESTION_COUNT) === 1) {
                 this._domainNum++;
@@ -133,8 +140,8 @@ export default class QOLSurveyViewModel {
         const entries = Object.entries(this._surveyResponses)
         for (const [key, value] of entries) {
             aggregateScore += value;
-          }
-          aggregateScore /= entries.length
+        }
+        aggregateScore /= entries.length
         const res: boolean = await AppController.Instance.User.qol.sendSurveyResults(this._surveyResponses, aggregateScore, this.QolSurveyType, this.startDate, this.questionCompletionDates);
         return res;
     }
@@ -159,5 +166,5 @@ export default class QOLSurveyViewModel {
         }
         return currentArmMagnitudes;
     }
-    
+
 }
