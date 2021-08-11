@@ -30,6 +30,10 @@ export default class StrategyViewModel {
     }
   }
 
+  public clearSelectedDomains() {
+    this._selectedDomains = [];
+  }
+
   private setAllStrategies(strats: Strategy[]) {
     if (strats) {
       this._allStrategies = strats.map((s) => {
