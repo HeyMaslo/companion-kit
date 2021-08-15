@@ -1,6 +1,7 @@
 ## Compiled JavaScript files
 **/*.js
 **/*.js.map
+!jest.config.js
 
 # Typescript v1 declaration files
 typings/
@@ -8,3 +9,5 @@ typings/
 node_modules/
 
 .runtimeconfig.json
+src/services/config/app.ts
+api_key.json

@@ -2,9 +2,9 @@ import { observer } from 'mobx-react';
 import { PasswordBase } from './passwordBase';
 import { ScenarioTriggers } from 'src/stateMachine/abstractions';
 import AppController from 'src/controllers';
+import { PushToast } from 'src/stateMachine/toaster';
 import { magicLinkModal } from '../login/magicLink';
 import { MagicLinkRequestReasons } from 'common/models/dtos/auth';
-import { PushToast } from 'src/stateMachine/toaster';
 
 @observer
 export class SetPasswordView extends PasswordBase {
@@ -38,22 +38,31 @@ export class SetPasswordView extends PasswordBase {
             return;
         }
 
-        const res = await this.viewModel.updatePassword();
+        if (process.appFeatures.USE_MAGIC_LINK) {
 
-        if (res === 'magicLink') {
-            this.waitForMagicLink(MagicLinkRequestReasons.PasswordReset, this.submit);
-            this.logger.log('Magic link has been sent for re-authentication');
+            const res = await this.viewModel.updatePassword();
 
-            await this.showModal(magicLinkModal(this, this.submit));
-            return;
-        }
+            if (res === 'magicLink') {
+                this.waitForMagicLink(MagicLinkRequestReasons.PasswordReset, this.submit);
+                this.logger.log('Magic link has been sent for re-authentication');
 
-        if (res === 'oldPassword') {
-            this.onClose();
-        }
+                await this.showModal(magicLinkModal(this, this.submit));
+                return;
+            }
 
-        if (res === true) {
-            PushToast({ text: 'Your Password has been set.' });
+            if (res === 'oldPassword') {
+                this.onClose();
+            }
+
+            if (res === true) {
+                PushToast({ text: 'Your Password has been set.' });
+            }
+        } else {
+            const res = await this.viewModel.resetPassword();
+
+            if (res && res.result) {
+                PushToast({ text: 'Your Password has been set.' });
+            }
         }
     })
 }

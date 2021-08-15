@@ -12,15 +12,18 @@ export type FeaturesSettingsType = {
     ScheduleEvents: boolean,
     MobileStandalone: boolean,
     ExportToBQ: boolean,
+    ExportToDataServices: boolean,
     TimeTrackingEnabled: boolean,
     Goals?: boolean,
     SendSmsOnTriggerPhrases?: boolean;
     PicturesCheckInsEnabled?: boolean;
+    UseMagicLink?: boolean;
 };
 
 export type EmailSettingsType = {
     projectName: string,
     sendgridTemplateId: string,
+    sendgridVerificationCodeTemplateId: string,
     fromAddress: string,
     adminEmail: string,
 };
@@ -36,4 +39,11 @@ export type ClientsSettingsType = {
         ios: string,
         android: string,
     },
+};
+
+export type BackendSettingsType = {
+    prot: string,
+    addr: string,
+    port: number,
+    auth: string,
 };
