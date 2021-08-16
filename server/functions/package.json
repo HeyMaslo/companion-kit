@@ -5,7 +5,7 @@
     "lint": "tslint --project tsconfig.json",
     "build": "rm -rf ./lib && ttsc",
     "watch": "concurrently \"nodemon --exec \\\"yarn lint\\\" \" \"tsc --watch --noEmit\" ",
-    "serve": "env-cmd firebase emulators:start --only functions,firestore -P staging",
+    "serve": "env-cmd firebase emulators:start -P staging",
     "serve:functions": "env-cmd firebase emulators:start --only functions -P staging",
     "serve:functions:prod": "env-cmd firebase emulators:start --only functions -P production",
     "dev": "yarn build && concurrently \"nodemon --exec \\\"yarn lint && ttsc\\\" \" \"yarn serve\" ",

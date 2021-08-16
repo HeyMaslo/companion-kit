@@ -52,6 +52,8 @@ export interface IAuthController {
 
     signInWithGoogle(): Promise<boolean>;
 
+    getAuthToken(): Promise<GetTokenResult>
+
     signOut(): Promise<void>;
 
     updatePassword(password: string, oldPassword?: string): Promise<AuthResult>;
@@ -63,6 +65,8 @@ export interface IAuthController {
 }
 
 export type AuthResult = { result: true } | { result: false, error: AuthErrors, original: FirebaseError };
+
+export type GetTokenResult = (AuthResult & { token?: string });
 
 export enum AuthErrors {
     Unknown = 0,
