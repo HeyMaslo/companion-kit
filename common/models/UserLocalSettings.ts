@@ -7,6 +7,7 @@ export type UserLocalSettings = {
     deviceInfo?: DeviceInfo;
 
     notifications?: NotificationsSettings;
+    qol?: QolSettings;
 };
 
 export type NotificationsSettings = {
@@ -14,6 +15,12 @@ export type NotificationsSettings = {
     enabled?: boolean,
     token?: string,
     locals?: LocalNotificationsSchedule,
+};
+
+export type QolSettings = {
+    seenQolOnboarding?: boolean,
+    lastFullQol?: string,
+    pendingFullQol: boolean,
 };
 
 export type LocalNotificationsSchedule = {

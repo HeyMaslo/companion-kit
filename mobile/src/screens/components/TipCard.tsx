@@ -11,7 +11,9 @@ import ShareIcon from 'src/assets/images/share-icon.svg';
 function getTipIcon(type: TipTypes) {
     switch (type) {
         case 'check-in':
-        case 'assessment': {
+        case 'assessment':
+        case 'finish-qol':
+        case 'full-qol': {
             return <PlusIcon width={16} height={16} />;
         }
 

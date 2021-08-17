@@ -72,6 +72,10 @@ export const AuthEndpoint = new FunctionFactory(UsersFunctions.AuthEndpoint)
                 return hasAccount(data);
             }
 
+            case AuthActionTypes.ValidateToken: {
+                return validateToken(data);
+            }
+
             default: {
                 return {
                     error: 'Unknown action type',
@@ -105,6 +109,23 @@ async function generateToken(data: { email: string }): Promise<{ result: boolean
     }
 
     return { result: true, token };
+}
+
+export async function validateToken(data: { email: string, token: string}): Promise<{ result: boolean }> {
+    if (!data.email || !data.token) {
+        throw new Error('Missing email or token');
+    }
+    let result = false;
+    try {
+        const token = await admin.auth().verifyIdToken(data.token);
+        if (token.email && token.email === data.email) {
+            result = true;
+        }
+    } catch (e) {
+        console.log('Error decoding token: ', e);
+        result = false;
+    }
+    return { result };
 }
 
 async function resetPassword(data: { email: string, newPassword: string }): Promise<{ result: boolean }> {
