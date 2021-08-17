@@ -15,7 +15,7 @@ module.exports = {
     ],
 	moduleNameMapper: {
 		'^common/(.*)': '<rootDir>/../../common/$1',
-        '^server/(.*)': '<rootDir>/src/$1',
+		'^server/(.*)': '<rootDir>/src/$1',
 		// add mappings if needed
 	},
 	modulePaths: [
