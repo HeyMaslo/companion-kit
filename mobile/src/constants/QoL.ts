@@ -37,6 +37,7 @@ export type QolSurveyResults = {
 
 export enum QolSurveyType {
     Full = 'FULL',
+    Short = 'SHORT',
 }
 
 export type QoLSurveyTimestamp = number;
@@ -48,4 +49,5 @@ export type PartialQol = {
     isFirstTimeQol: boolean,
     startDate: QoLSurveyTimestamp,
     questionCompletionDates: QoLSurveyTimestamp[],
+    surveyType: QolSurveyType,
 };

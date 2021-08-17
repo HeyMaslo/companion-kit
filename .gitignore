@@ -13,3 +13,6 @@ yarn-error.log
 ## Configs
 common/models/ClientCard.ts
 /server/functions/api_key.json
+gradle/
+.gradle
+gen

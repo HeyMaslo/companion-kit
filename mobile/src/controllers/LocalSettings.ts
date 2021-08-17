@@ -9,6 +9,7 @@ import { ThrottleAction } from 'common/utils/throttle';
 import { IEvent, Event } from 'common/utils/event';
 import { AppVersion } from './AppVersion';
 import logger from 'common/logger';
+import { QolSurveyType } from 'src/constants/QoL';
 
 const DeviceId = ExpoConstants.installationId;
 
@@ -27,8 +28,9 @@ export interface ILocalSettingsController {
 
     updateNotifications(diff: Partial<NotificationsSettings>): void;
     updateQolOnboarding(diff: Partial<QolSettings>): void;
-    updateLastFullQol(diff: Partial<QolSettings>): void;
-    updatePendingFullQol(diff: Partial<QolSettings>): void;
+    updateLastQol(diff: Partial<QolSettings>, type: QolSurveyType): void;
+    updatePendingQol(diff: Partial<QolSettings>, type: QolSurveyType): void;
+    updateLastDailyCheckIn(diff: string): void;
 
     flushChanges(): Promise<void>;
 }
@@ -86,6 +88,7 @@ export class LocalSettingsController implements ILocalSettingsController {
     private submitChanges = async () => {
         const diff: Partial<UserLocalSettings> = {
             notifications: toJS(this._current.notifications),
+            lastDailyCheckIn: toJS(this._current.lastDailyCheckIn)
         };
 
         if (this._sameDevice && this._sameDevice.notifications) {
@@ -164,10 +167,22 @@ export class LocalSettingsController implements ILocalSettingsController {
         });
     }
 
-    updateLastFullQol(diff: Partial<QolSettings>) {
+    updateLastQol(diff: Partial<QolSettings>, type: QolSurveyType) {
         const qol = this.current.qol || { };
+        let toChange: keyof QolSettings;
+        switch (type) {
+            case QolSurveyType.Full:
+                toChange = 'lastFullQol';
+                break;
+            case QolSurveyType.Short:
+                toChange = 'lastShortQol';
+                break;
+            default:
+                console.log(`updateLastQol ERROR: ${type} not implemented in switch`)
+                return;
+        }
         transaction(() => {
-            let changed = transferChangedFields(diff, qol, 'lastFullQol');
+            let changed = transferChangedFields(diff, qol, toChange);
 
             if (changed) {
                 this.update({ qol });
@@ -175,13 +190,37 @@ export class LocalSettingsController implements ILocalSettingsController {
         });
     }
 
-    updatePendingFullQol(diff: Partial<QolSettings>) {
+    updatePendingQol(diff: Partial<QolSettings>, type: QolSurveyType) {
         const qol = this.current.qol || { };
+        let toChange: keyof QolSettings;
+        switch (type) {
+            case QolSurveyType.Full:
+                toChange = 'pendingFullQol';
+                break;
+            case QolSurveyType.Short:
+                toChange = 'pendingShortQol';
+                break;
+            default:
+                console.log(`updatePendingQol ERROR: ${type} not implemented in switch`)
+                return;
+        }
         transaction(() => {
-            let changed = transferChangedFields(diff, qol, 'pendingFullQol');
+            let changed = transferChangedFields(diff, qol, toChange);
 
             if (changed) {
                 this.update({ qol });
+            }
+        });
+    }
+
+    updateLastDailyCheckIn(diff: string) {
+        let lastDailyCheckIn = this.current.lastDailyCheckIn;
+        transaction(() => {
+            let changed = diff !== lastDailyCheckIn;
+
+            if (changed) {
+                lastDailyCheckIn = diff;
+                this.update({ lastDailyCheckIn });
             }
         });
     }
@@ -219,6 +258,5 @@ function getLocalsHash(locals: LocalNotificationsSchedule): string {
     }
 
     const res = prts.join('');
-    // console.log('============= HASH:', res);
     return res;
 }

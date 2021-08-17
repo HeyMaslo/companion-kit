@@ -7,7 +7,6 @@ import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import Colors from '../../../constants/colors';
 import TextStyles from '../../../../src/styles/TextStyles';
-import { QolSurveyType } from 'src/constants/QoL';
 
 const minContentHeight = 560;
 
@@ -46,9 +45,7 @@ export class QolQuestion extends ViewState {
         if (this.viewModel.isUnfinished) {
             await this.viewModel.saveSurveyProgress(null);
         }
-        if (this.viewModel.QolSurveyType === QolSurveyType.Full) {
-            this.viewModel.updatePendingFullQol();
-        }
+        this.viewModel.updatePendingQol();
     }
 
     private isNextDomain = (currQuestion: number) => {

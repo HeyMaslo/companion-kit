@@ -80,6 +80,16 @@ export default class QOLSurveyViewModel {
 
     set setQolSurveyType(type: QolSurveyType) { this.QolSurveyType = type; }
 
+    resetSurveyResults(): void {
+        const surveyResponses = {};
+
+        for (let domain of PersonaDomains) {
+            surveyResponses[domain] = 0;
+        }
+
+        this._surveyResponses = surveyResponses;
+    }
+
     public nextQuestion(): void {
         if (!((this._questionNum + 1) > (QUESTIONS_COUNT - 1))) {
             this._questionNum++;
@@ -118,6 +128,7 @@ export default class QOLSurveyViewModel {
                 isFirstTimeQol: this.showInterlude,
                 startDate: this.startDate,
                 questionCompletionDates: this.questionCompletionDates,
+                surveyType: this.QolSurveyType,
             }
             res = await AppController.Instance.User.backend.sendPartialQol(partialQol);
             this.isUnfinished = true;
@@ -135,8 +146,19 @@ export default class QOLSurveyViewModel {
         this.showInterlude = true;
     }
 
-    public updatePendingFullQol = () => {
-        this._settings.updatePendingFullQol({ pendingFullQol: false });
+    public updatePendingQol = () => {
+        switch (this.QolSurveyType) {
+            case QolSurveyType.Full:
+                this._settings.updatePendingQol({ pendingFullQol: false }, this.QolSurveyType);
+                break;
+            case QolSurveyType.Short:
+                this._settings.updatePendingQol({ pendingShortQol: false }, this.QolSurveyType);
+                break;
+            default:
+                console.log(`QoLViewModel: updatePendingQol ERROR: ${this.QolSurveyType} not implemented in switch`)
+                return;
+        }
+        
     }
 
     private getArmMagnitudes(scores: QolSurveyResults): PersonaArmState {

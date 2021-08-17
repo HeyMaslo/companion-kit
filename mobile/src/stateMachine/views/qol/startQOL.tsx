@@ -7,8 +7,6 @@ import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import AppController from 'src/controllers';
 import { QolSurveyType } from 'src/constants/QoL';
-
-import { styles } from 'react-native-markdown-renderer';
 import { PersonaArmState } from 'dependencies/persona/lib';
 
 const minContentHeight = 460;
@@ -18,13 +16,24 @@ export class QolStartView extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -15, transition: { duration: 1.5 } });
-        if (!AppController.Instance.User.localSettings?.current?.qol?.see) {
+        if (!AppController.Instance.User.localSettings?.current?.qol?.seenQolOnboarding) {
             this.viewModel.updateQolOnboarding();
         }
     }
 
     async start() {
         await this.viewModel.init();
+        const currentQolSettings = AppController.Instance.User.localSettings?.current.qol;
+
+        // If there is a short qol that is partialy complete submit it
+        if (currentQolSettings.pendingFullQol && currentQolSettings.pendingShortQol) {
+            await this.viewModel.sendSurveyResults();
+
+            if (this.viewModel.isUnfinished) {
+                await this.viewModel.saveSurveyProgress(null);
+            }
+            this.viewModel.QolSurveyType = QolSurveyType.Full;
+        }
     }
 
     public get viewModel() {

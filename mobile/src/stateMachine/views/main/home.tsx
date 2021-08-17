@@ -133,7 +133,8 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         this.trigger(ScenarioTriggers.Tertiary);
     }
 
-    private onStartQOL = () => {
+    private onShortQol = () => {
+        this.viewQolModel.setQolSurveyType = QolSurveyType.Short;
         this.trigger(ScenarioTriggers.Tertiary);
     }
 
@@ -235,6 +236,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
             case 'full-qol': {
                 this.onFullQol();
+                return;
+            }
+
+            case 'short-qol': {
+                this.onShortQol();
                 return;
             }
 
