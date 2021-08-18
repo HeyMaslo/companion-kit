@@ -81,13 +81,12 @@ export default class IconsOnCircle extends React.Component<IconsOnCircleProps, C
 
   private locationForCallout(domainName: DomainName): { x: number, y: number, iconCenterX: number, iconCenterY: number } {
     const symbolRadius = this.symbolSize / 2;
-    
+
     const iconOffsetX = (Layout.window.width - this.size) / 2;
     const offsetX = iconOffsetX - 20;
-    
+
     const iconOffsetY = this.props.totalContainerMargin + symbolRadius - 5;
     const offsetY = styles.calloutText.lineHeight + styles.callout.padding * 2 + 15;
-    
 
     switch (domainName) {
       // Bottom Half
@@ -146,20 +145,36 @@ export default class IconsOnCircle extends React.Component<IconsOnCircleProps, C
   render() {
     return (
       <View style={[this.props.style, { justifyContent: 'center', alignItems: 'center' }]} onLayout={this.props.onLayout}>
-        <View style={{ backgroundColor: 'transparent', width: this.size, height: this.size, borderRadius: this.radius, marginTop: this.symbolRadius, marginBottom: this.symbolRadius }}>
+        <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: 'transparent', width: this.size, height: this.size, borderRadius: this.radius, marginTop: this.symbolRadius, marginBottom: this.symbolRadius }}>
 
-          <TouchableOpacity onPress={this.onIconTap(DomainName.MOOD)}><View style={[styles.iconWrapper, { left: this.state.x0, top: this.state.y0, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.MOOD, {}, this.getIconColor(DomainName.MOOD), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.PHYSICAL)}><View style={[styles.iconWrapper, { left: this.state.x1, top: this.state.y1, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.PHYSICAL, {}, this.getIconColor(DomainName.PHYSICAL), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.SLEEP)}><View style={[styles.iconWrapper, { left: this.state.x2, top: this.state.y2, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.SLEEP, {}, this.getIconColor(DomainName.SLEEP), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.THINKING)}><View style={[styles.iconWrapper, { left: this.state.x3, top: this.state.y3, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.THINKING, {}, this.getIconColor(DomainName.THINKING), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.IDENTITY)}><View style={[styles.iconWrapper, { left: this.state.x4, top: this.state.y4, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.IDENTITY, {}, this.getIconColor(DomainName.IDENTITY), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.LEISURE)}><View style={[styles.iconWrapper, { left: this.state.x5, top: this.state.y5, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.LEISURE, {}, this.getIconColor(DomainName.LEISURE), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.INDEPENDENCE)}><View style={[styles.iconWrapper, { left: this.state.x6, top: this.state.y6, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.INDEPENDENCE, {}, this.getIconColor(DomainName.INDEPENDENCE), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.SELFESTEEM)}><View style={[styles.iconWrapper, { left: this.state.x7, top: this.state.y7, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.SELFESTEEM, {}, this.getIconColor(DomainName.SELFESTEEM), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.HOME)}><View style={[styles.iconWrapper, { left: this.state.x8, top: this.state.y8, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.HOME, {}, this.getIconColor(DomainName.HOME), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.MONEY)}><View style={[styles.iconWrapper, { left: this.state.x9, top: this.state.y9, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.MONEY, {}, this.getIconColor(DomainName.MONEY), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.SPIRITUAL)}><View style={[styles.iconWrapper, { left: this.state.x10, top: this.state.y10, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.SPIRITUAL, {}, this.getIconColor(DomainName.SPIRITUAL), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
-          <TouchableOpacity onPress={this.onIconTap(DomainName.RELATIONSHIPS)}><View style={[styles.iconWrapper, { left: this.state.x11, top: this.state.y11, width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.RELATIONSHIPS, {}, this.getIconColor(DomainName.RELATIONSHIPS), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+          <TouchableOpacity hitSlop={{ top: -this.state.y9 + 2, right: 2, bottom: 2, left: 2 }} onPress={this.onIconTap(DomainName.MONEY)} style={{ zIndex: 99 }}><View style={[{ width: this.symbolSize, height: this.symbolSize, marginTop: this.state.y9 }]}>{iconForDomain(DomainName.MONEY, {}, this.getIconColor(DomainName.MONEY), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+
+          <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: this.state.y10 - (this.symbolSize + this.state.y9) }}>
+            <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.HOME)} style={{ marginLeft: this.state.x4 }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.HOME, {}, this.getIconColor(DomainName.HOME), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+            <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.SPIRITUAL)} style={{ marginLeft: this.state.x2 - this.state.x4 - this.symbolSize }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.SPIRITUAL, {}, this.getIconColor(DomainName.SPIRITUAL), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+          </View>
+
+          <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: this.state.y11 - (this.symbolSize + this.state.y10) }}>
+            <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.SELFESTEEM)} style={{ marginLeft: this.state.x5 }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.SELFESTEEM, {}, this.getIconColor(DomainName.SELFESTEEM), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+            <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.RELATIONSHIPS)} style={{ marginLeft: this.state.x1 - this.state.x5 - this.symbolSize }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.RELATIONSHIPS, {}, this.getIconColor(DomainName.RELATIONSHIPS), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+          </View>
+
+          <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: this.state.y0 - (this.symbolSize + this.state.y11) }}>
+            <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.INDEPENDENCE)} style={{ marginLeft: this.state.x6 }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.INDEPENDENCE, {}, this.getIconColor(DomainName.INDEPENDENCE), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+            <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.MOOD)} style={{ marginLeft: this.state.x0 - this.state.x6 - this.symbolSize }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.MOOD, {}, this.getIconColor(DomainName.MOOD), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+          </View>
+
+          <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: this.state.y1 - (this.symbolSize + this.state.y0) }}>
+            <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.LEISURE)} style={{ marginLeft: this.state.x7 }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.LEISURE, {}, this.getIconColor(DomainName.LEISURE), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+            <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.PHYSICAL)} style={{ marginLeft: this.state.x11 - this.state.x7 - this.symbolSize }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.PHYSICAL, {}, this.getIconColor(DomainName.PHYSICAL), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+          </View>
+
+          <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: this.state.y2 - (this.symbolSize + this.state.y1) }}>
+            <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.IDENTITY)} style={{ marginLeft: this.state.x8 }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.IDENTITY, {}, this.getIconColor(DomainName.IDENTITY), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+            <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.SLEEP)} style={{ marginLeft: this.state.x10 - this.state.x8 - this.symbolSize }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.SLEEP, {}, this.getIconColor(DomainName.SLEEP), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+          </View>
+
+          <TouchableOpacity hitSlop={{ top: this.state.y2 + this.symbolSize - this.state.y3 + 2, right: 2, bottom: 2, left: 2 }} onPress={this.onIconTap(DomainName.THINKING)}><View style={[{ width: this.symbolSize, height: this.symbolSize, marginTop: -(this.state.y2 + this.symbolSize - this.state.y3) }]}>{iconForDomain(DomainName.THINKING, {}, this.getIconColor(DomainName.THINKING), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
 
           {this.state.currentCallout &&
             <Portal>
@@ -180,9 +195,11 @@ export default class IconsOnCircle extends React.Component<IconsOnCircleProps, C
 }
 
 const styles = StyleSheet.create({
-  iconWrapper: {
-    backgroundColor: 'transparent',
-    position: 'absolute',
+  iconTouchInsets: {
+    top: 2,
+    right: 2,
+    bottom: 2,
+    left: 2
   },
   callout: {
     position: 'absolute',
