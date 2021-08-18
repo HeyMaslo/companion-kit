@@ -149,27 +149,27 @@ export default class IconsOnCircle extends React.Component<IconsOnCircleProps, C
 
           <TouchableOpacity hitSlop={{ top: -this.state.y9 + 2, right: 2, bottom: 2, left: 2 }} onPress={this.onIconTap(DomainName.MONEY)} style={{ zIndex: 99 }}><View style={[{ width: this.symbolSize, height: this.symbolSize, marginTop: this.state.y9 }]}>{iconForDomain(DomainName.MONEY, {}, this.getIconColor(DomainName.MONEY), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
 
-          <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: this.state.y10 - (this.symbolSize + this.state.y9) }}>
+          <View style={[styles.iconWrapper, { marginTop: this.state.y10 - (this.symbolSize + this.state.y9) }]}>
             <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.HOME)} style={{ marginLeft: this.state.x4 }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.HOME, {}, this.getIconColor(DomainName.HOME), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
             <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.SPIRITUAL)} style={{ marginLeft: this.state.x2 - this.state.x4 - this.symbolSize }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.SPIRITUAL, {}, this.getIconColor(DomainName.SPIRITUAL), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
           </View>
 
-          <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: this.state.y11 - (this.symbolSize + this.state.y10) }}>
+          <View style={[styles.iconWrapper, { marginTop: this.state.y11 - (this.symbolSize + this.state.y10) }]}>
             <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.SELFESTEEM)} style={{ marginLeft: this.state.x5 }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.SELFESTEEM, {}, this.getIconColor(DomainName.SELFESTEEM), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
             <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.RELATIONSHIPS)} style={{ marginLeft: this.state.x1 - this.state.x5 - this.symbolSize }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.RELATIONSHIPS, {}, this.getIconColor(DomainName.RELATIONSHIPS), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
           </View>
 
-          <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: this.state.y0 - (this.symbolSize + this.state.y11) }}>
+          <View style={[styles.iconWrapper, { marginTop: this.state.y0 - (this.symbolSize + this.state.y11) }]}>
             <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.INDEPENDENCE)} style={{ marginLeft: this.state.x6 }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.INDEPENDENCE, {}, this.getIconColor(DomainName.INDEPENDENCE), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
             <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.MOOD)} style={{ marginLeft: this.state.x0 - this.state.x6 - this.symbolSize }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.MOOD, {}, this.getIconColor(DomainName.MOOD), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
           </View>
 
-          <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: this.state.y1 - (this.symbolSize + this.state.y0) }}>
+          <View style={[styles.iconWrapper, { marginTop: this.state.y1 - (this.symbolSize + this.state.y0) }]}>
             <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.LEISURE)} style={{ marginLeft: this.state.x7 }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.LEISURE, {}, this.getIconColor(DomainName.LEISURE), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
             <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.PHYSICAL)} style={{ marginLeft: this.state.x11 - this.state.x7 - this.symbolSize }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.PHYSICAL, {}, this.getIconColor(DomainName.PHYSICAL), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
           </View>
 
-          <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: this.state.y2 - (this.symbolSize + this.state.y1) }}>
+          <View style={[styles.iconWrapper, { marginTop: this.state.y2 - (this.symbolSize + this.state.y1) }]}>
             <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.IDENTITY)} style={{ marginLeft: this.state.x8 }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.IDENTITY, {}, this.getIconColor(DomainName.IDENTITY), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
             <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.SLEEP)} style={{ marginLeft: this.state.x10 - this.state.x8 - this.symbolSize }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.SLEEP, {}, this.getIconColor(DomainName.SLEEP), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
           </View>
@@ -195,6 +195,11 @@ export default class IconsOnCircle extends React.Component<IconsOnCircleProps, C
 }
 
 const styles = StyleSheet.create({
+  iconWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+  },
   iconTouchInsets: {
     top: 2,
     right: 2,
