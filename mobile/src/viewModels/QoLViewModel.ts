@@ -35,7 +35,7 @@ export default class QOLSurveyViewModel {
             if (!this._settings.current?.qol?.seenQolOnboarding) {
                 this.updateQolOnboarding();
             }
-            if (partialQolState !== null) {
+            if (partialQolState !== null && typeof(partialQolState) !== 'undefined') {
                 this._questionNum = partialQolState.questionNum;
                 this._domainNum = partialQolState.domainNum;
                 this._surveyResponses = partialQolState.scores;
@@ -49,9 +49,9 @@ export default class QOLSurveyViewModel {
                 this.startDate = new Date().getTime();
                 this._questionNum = 0;
                 this._domainNum = 0;
-                const surveyResponses = {};
+                const surveyResponses: QolSurveyResults = {};
                 for (let domain of PersonaDomains) {
-                    surveyResponses[domain] = 0;
+                    surveyResponses[domain] = [];
                 }
                 this._surveyResponses = surveyResponses;
                 this.questionCompletionDates = [];
@@ -102,7 +102,7 @@ export default class QOLSurveyViewModel {
 
     public savePrevResponse(prevResponse: number): void {
         const currDomain: string = this.domain;
-        this._surveyResponses[currDomain] += prevResponse;
+        this._surveyResponses[currDomain][this.questionNum % DOMAIN_QUESTION_COUNT] = prevResponse;
         this.saveSurveyProgress(this.qolArmMagnitudes);
     }
 
@@ -139,7 +139,7 @@ export default class QOLSurveyViewModel {
         let aggregateScore = 0;
         const entries = Object.entries(this._surveyResponses)
         for (const [key, value] of entries) {
-            aggregateScore += value;
+            aggregateScore += value.reduce((prev, curr) => prev + curr);
         }
         aggregateScore /= entries.length
         const res: boolean = await AppController.Instance.User.qol.sendSurveyResults(this._surveyResponses, aggregateScore, this.QolSurveyType, this.startDate, this.questionCompletionDates);
@@ -158,7 +158,10 @@ export default class QOLSurveyViewModel {
     private getArmMagnitudes(scores: QolSurveyResults): PersonaArmState {
         let currentArmMagnitudes: PersonaArmState = {};
         for (let domain of PersonaDomains) {
-            let score: number = scores[domain];
+            let score: number = 0;
+            scores[domain].forEach((val) => {
+                score += val;
+            })
             let mag: number;
             if (score === 0) { mag = 0.2; }
             else { mag = 0.4 + (score * 3 / 100); }

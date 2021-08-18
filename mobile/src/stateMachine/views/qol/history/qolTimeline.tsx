@@ -109,9 +109,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   }
 
   private topForWeekCircle(score: number): number {
-    let res = score;
-    if (score == null || Number.isNaN(score)) { res = 7; } // MK-TODO: remove once the DB is full updated
-    return (this.graphHeight - weekCircleDiameter) * (1 - res / 20)
+    return (this.graphHeight - weekCircleDiameter) * (1 - score / 20)
   }
 
   changeFilterPressed = (selection: string) => {
@@ -132,7 +130,11 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
     if (sort == null) {
       return Math.round(this.selectedEntry.aggregateScore);
     }
-    return Math.round(this.selectedEntry.results[sort.toLowerCase()]);
+    let totalScore = 0;
+    this.selectedEntry.results[sort.toLowerCase()].forEach((score) => {
+      totalScore += score;
+    })
+    return totalScore;
   }
 
   renderDropDownListItem = ({ item }) => (

@@ -16,7 +16,6 @@ import { QolSurveyResults } from 'src/constants/QoL';
 import { PersonaDomains } from 'src/stateMachine/persona';
 import { PersonaArmState } from 'dependencies/persona/lib';
 import { ILocalSettingsController } from 'src/controllers/LocalSettings';
-import logger from 'common/logger';
 
 const EmptyArr: any[] = [];
 
@@ -170,7 +169,6 @@ export default class HomeViewModel {
 
     // returns true if it has been 28 calendar days since last Full QoL
     private isTimeForFullQol(): boolean {
-        return true;
         const lastFullQol: Date = new Date(AppController.Instance.User.localSettings?.current?.qol?.lastFullQol);
         let nextFullQol: Date = lastFullQol;
         nextFullQol.setDate(nextFullQol.getDate() + 28);
@@ -191,7 +189,10 @@ export default class HomeViewModel {
         }
         let currentArmMagnitudes: PersonaArmState = {};
         for (let domain of PersonaDomains) {
-            let score: number = lastSurveyScores[domain];
+            let score: number = 0;
+            lastSurveyScores[domain].forEach((val) => {
+                score += val;
+              })
             let mag: number = 0.4 + (score * 3 / 100);
             currentArmMagnitudes[domain] = mag;
         }

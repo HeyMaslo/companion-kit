@@ -19,11 +19,12 @@ export type QuestionIded = Identify<Question>;
 // SURVEY STATE DATA
 
 export type QolSurveyResults = {
-    [dom: string]: number,
+    [dom: string]: number[],
 };
 
 export enum QolSurveyType {
     Full = 'FULL',
+    Short = 'SHORT',
 }
 
 export type QoLSurveyTimestamp = number;
