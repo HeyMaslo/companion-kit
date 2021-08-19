@@ -11,7 +11,7 @@ import Layout from 'src/constants/Layout';
 type IconsOnCircleProps = {
   style?: StyleProp<ViewStyle>,
   circleRaius: number,
-  symbolSize: number,
+  symbolSize: number, // Apple's HIG reccomends a min tap target size of 44 x 44 so this should not be smaller than 40 (note styles.iconTouchInsets of 2 hitSlop in each direction)
   totalContainerMargin: number, // set equal to the <Container> (marginTop - marginBottom) for the callouts to have the correct y position
   highlightedDomains?: Array<DomainName>,
   onLayout?: (event: LayoutChangeEvent) => void,
