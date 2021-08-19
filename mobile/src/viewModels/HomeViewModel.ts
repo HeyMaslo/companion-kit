@@ -174,7 +174,7 @@ export default class HomeViewModel {
         nextFullQol.setDate(nextFullQol.getDate() + 28);
         const today: Date = new Date();
         if (nextFullQol.getDay() === today.getDay() && nextFullQol.getMonth() === today.getMonth()
-        && nextFullQol.getFullYear() === today.getFullYear()) {
+            && nextFullQol.getFullYear() === today.getFullYear()) {
             this._settings.updateLastFullQol({ lastFullQol: Date() });
             this._settings.updatePendingFullQol({ pendingFullQol: true });
             return true;
@@ -192,7 +192,7 @@ export default class HomeViewModel {
             let score: number = 0;
             lastSurveyScores[domain].forEach((val) => {
                 score += val;
-              })
+            })
             let mag: number = 0.4 + (score * 3 / 100);
             currentArmMagnitudes[domain] = mag;
         }
