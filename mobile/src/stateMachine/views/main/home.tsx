@@ -18,7 +18,7 @@ import { InterventionTipsStatuses, Identify, DocumentLinkEntry } from 'common/mo
 import { TransitionObserver } from 'common/utils/transitionObserver';
 import { UserProfileName } from 'src/screens/components/UserProfileName';
 import AppViewModel from 'src/viewModels';
-import { QolSurveyType } from 'src/constants/QoL';
+import { QolSurveyResults, QolSurveyType } from 'src/constants/QoL';
 import { getPersonaRadius, PersonaScale } from 'src/stateMachine/persona';
 
 const minContentHeight = 535;
@@ -136,7 +136,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     }
 
     private onFullQol = () => {
-        this.qolViewModel.QolSurveyType = QolSurveyType.Full;
+        this.qolViewModel.qolSurveyType = QolSurveyType.Full;
         this.trigger(ScenarioTriggers.Tertiary);
     }
 
@@ -348,7 +348,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                     <View onTouchStart={this.onTapOrb} style={{ position: 'absolute', top: -(this.orbTapContainerHeight), left: 0, right: 0, height: this.orbTapContainerHeight }} />
                     <View style={{ flexDirection: 'row' }}>
                         <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains()} />
-                        {/* button below used for development only and will be removed */}
+                        {/* MK-TODO below buttons used for development/testing only and will be removed */}
                         <Button title="WorkingView" style={styles.qolButton} onPress={() => this.onTESTINGButton()} />
                     </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
