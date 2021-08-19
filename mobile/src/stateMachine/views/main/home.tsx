@@ -20,6 +20,7 @@ import { UserProfileName } from 'src/screens/components/UserProfileName';
 import AppViewModel from 'src/viewModels';
 import { QolSurveyResults, QolSurveyType } from 'src/constants/QoL';
 import { getPersonaRadius, PersonaScale } from 'src/stateMachine/persona';
+import AppController from 'src/controllers'; // MK-TODO used for testing only
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -150,6 +151,39 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     async onTESTINGButton() {
         await AppViewModel.Instance.QoLHistory.init();
         this.trigger(ScenarioTriggers.TESTING);
+    }
+
+    async onSetupButton() { // MK-TODO used for testing only
+        for (let i = 0; i < 10; i++) {
+            let responses: QolSurveyResults = {
+                'cognition': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 4) + 1),
+                'home': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 2) + 1),
+                'identity': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
+                'independence': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
+                'leisure': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 4) + 1),
+                'money': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
+                'mood': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
+                'physical': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 3) + 1),
+                'relationships': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
+                'self-esteem': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
+                'sleep': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 1) + 1),
+                'spiritual': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
+            };
+            let aggregateScore = 0;
+            const entries = Object.entries(responses)
+            for (const [key, value] of entries) {
+                aggregateScore += value.reduce((prev, curr) => prev + curr);
+            }
+            aggregateScore /= entries.length
+
+            let completionDates: number[] = [];
+            Array.from({ length: 48 }, (x, i) => i).forEach((index) => {
+                let date = new Date().getTime() - 10;
+                completionDates.push(date);
+            })
+
+            await AppController.Instance.User.qol.sendSurveyResults(responses, aggregateScore, i % 4 == 0 ? QolSurveyType.Full : QolSurveyType.Short, new Date().getTime() - 5000, completionDates);
+        }
     }
 
     private openStoryDetails = (jid: string) => {
@@ -350,6 +384,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                         <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains()} />
                         {/* MK-TODO below buttons used for development/testing only and will be removed */}
                         <Button title="WorkingView" style={styles.qolButton} onPress={() => this.onTESTINGButton()} />
+                        <Button title="SETUP History" style={styles.qolButton} onPress={() => this.onSetupButton()} />
                     </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
                     {loading
