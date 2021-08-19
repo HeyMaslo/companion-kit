@@ -5,7 +5,6 @@ import { observer } from 'mobx-react';
 import { StyleSheet, Text } from 'react-native';
 import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
-import AppController from 'src/controllers';
 import { QolSurveyType } from 'src/constants/QoL';
 import { PersonaArmState } from 'dependencies/persona/lib';
 
