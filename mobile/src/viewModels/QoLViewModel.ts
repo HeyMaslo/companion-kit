@@ -17,11 +17,11 @@ export default class QOLSurveyViewModel {
     private _domainNum: number;
     private _surveyResponses: QolSurveyResults;
     private _armMagnitudes: PersonaArmState;
+    private initModel: Promise<void>;
     public isUnfinished: boolean;
-    public initModel: Promise<void>;
     public originalArmMagnitudes: PersonaArmState;
     public showInterlude: boolean = false;
-    public QolSurveyType: QolSurveyType;
+    public qolSurveyType: QolSurveyType;
     public startDate: number;
     public questionCompletionDates: number[];
 
@@ -82,8 +82,6 @@ export default class QOLSurveyViewModel {
 
     get qolArmMagnitudes(): any { return this._armMagnitudes; }
 
-    set setQolSurveyType(type: QolSurveyType) { this.QolSurveyType = type; }
-
     public nextQuestion(goBack?: boolean): void {
         if (goBack) {
             if (this._questionNum - 1 >= 0) {
@@ -142,7 +140,7 @@ export default class QOLSurveyViewModel {
             aggregateScore += value.reduce((prev, curr) => prev + curr);
         }
         aggregateScore /= entries.length
-        const res: boolean = await AppController.Instance.User.qol.sendSurveyResults(this._surveyResponses, aggregateScore, this.QolSurveyType, this.startDate, this.questionCompletionDates);
+        const res: boolean = await AppController.Instance.User.qol.sendSurveyResults(this._surveyResponses, aggregateScore, this.qolSurveyType, this.startDate, this.questionCompletionDates);
         return res;
     }
 

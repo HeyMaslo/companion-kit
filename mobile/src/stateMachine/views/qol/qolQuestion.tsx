@@ -46,7 +46,7 @@ export class QolQuestion extends ViewState {
         if (this.viewModel.isUnfinished) {
             await this.viewModel.saveSurveyProgress(null);
         }
-        if (this.viewModel.QolSurveyType === QolSurveyType.Full) {
+        if (this.viewModel.qolSurveyType === QolSurveyType.Full) {
             this.viewModel.updatePendingFullQol();
         }
     }
