@@ -27,9 +27,7 @@ export interface ILocalSettingsController {
     readonly synced: IEvent;
 
     updateNotifications(diff: Partial<NotificationsSettings>): void;
-    updateQolOnboarding(diff: Partial<QolSettings>): void;
-    updateLastQol(diff: Partial<QolSettings>, type: QolSurveyType): void;
-    updatePendingQol(diff: Partial<QolSettings>, type: QolSurveyType): void;
+    updateQolSettings(diff: Partial<QolSettings>, changedField: keyof QolSettings): void;
     updateLastDailyCheckIn(diff: string): void;
 
     flushChanges(): Promise<void>;
@@ -156,56 +154,12 @@ export class LocalSettingsController implements ILocalSettingsController {
         });
     }
 
-    updateQolOnboarding(diff: Partial<QolSettings>) {
-        const qol = this.current.qol || { };
+    updateQolSettings(diff: Partial<QolSettings>, changedField: keyof QolSettings) {
+        const qol = this.current.qol;
+        if (!qol) { return; }
+        
         transaction(() => {
-            let changed = transferChangedFields(diff, qol, 'seenQolOnboarding', 'lastFullQol');
-
-            if (changed) {
-                this.update({ qol });
-            }
-        });
-    }
-
-    updateLastQol(diff: Partial<QolSettings>, type: QolSurveyType) {
-        const qol = this.current.qol || { };
-        let toChange: keyof QolSettings;
-        switch (type) {
-            case QolSurveyType.Full:
-                toChange = 'lastFullQol';
-                break;
-            case QolSurveyType.Short:
-                toChange = 'lastShortQol';
-                break;
-            default:
-                console.log(`updateLastQol ERROR: ${type} not implemented in switch`)
-                return;
-        }
-        transaction(() => {
-            let changed = transferChangedFields(diff, qol, toChange);
-
-            if (changed) {
-                this.update({ qol });
-            }
-        });
-    }
-
-    updatePendingQol(diff: Partial<QolSettings>, type: QolSurveyType) {
-        const qol = this.current.qol || { };
-        let toChange: keyof QolSettings;
-        switch (type) {
-            case QolSurveyType.Full:
-                toChange = 'pendingFullQol';
-                break;
-            case QolSurveyType.Short:
-                toChange = 'pendingShortQol';
-                break;
-            default:
-                console.log(`updatePendingQol ERROR: ${type} not implemented in switch`)
-                return;
-        }
-        transaction(() => {
-            let changed = transferChangedFields(diff, qol, toChange);
+            let changed = transferChangedFields(diff, qol, changedField);
 
             if (changed) {
                 this.update({ qol });

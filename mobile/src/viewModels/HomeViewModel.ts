@@ -180,7 +180,7 @@ export default class HomeViewModel {
 
     private submitPendingShortIfTimeForFull() {
         if (AppController.Instance.User.localSettings?.current?.qol?.pendingShortQol && this.isTimeForFullQol()) {
-            this._settings.updatePendingQol({ pendingShortQol: false }, QolSurveyType.Short);
+            this._settings.updateQolSettings({ pendingShortQol: false }, 'pendingShortQol');
         }
     }
 
@@ -194,8 +194,8 @@ export default class HomeViewModel {
 
         if (nextFullQol.getDay() === today.getDay() && nextFullQol.getMonth() === today.getMonth()
         && nextFullQol.getFullYear() === today.getFullYear()) {
-            this._settings.updateLastQol({ lastFullQol: Date() }, QolSurveyType.Full);
-            this._settings.updatePendingQol({ pendingFullQol: true }, QolSurveyType.Full);
+            this._settings.updateQolSettings({ lastFullQol: Date() }, 'lastFullQol');
+            this._settings.updateQolSettings({ pendingFullQol: false }, 'pendingFullQol');
             return true;
         } else if (AppController.Instance.User.localSettings?.current?.qol?.pendingFullQol) {
             return true; 
@@ -213,8 +213,8 @@ export default class HomeViewModel {
 
             if (nextShortQol.getDay() === today.getDay() && nextShortQol.getMonth() === today.getMonth()
             && nextShortQol.getFullYear() === today.getFullYear()) {
-                this._settings.updateLastQol({ lastShortQol: Date() }, QolSurveyType.Short);
-                this._settings.updatePendingQol({ pendingShortQol: true }, QolSurveyType.Short);
+                this._settings.updateQolSettings({ lastShortQol: Date() }, 'lastShortQol');
+                this._settings.updateQolSettings({ pendingShortQol: false }, 'pendingShortQol');
                 return true;
             } else if (AppController.Instance.User.localSettings?.current?.qol?.pendingShortQol) { 
                 return true; 

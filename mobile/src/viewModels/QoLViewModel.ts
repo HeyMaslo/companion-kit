@@ -141,22 +141,20 @@ export default class QOLSurveyViewModel {
         return res;
     }
 
-    public updateQolOnboarding = () => {
-        this._settings.updateQolOnboarding({ seenQolOnboarding: true, lastFullQol: Date() })
+    public updateQolOnboarding() {
+        this._settings.updateQolSettings({ seenQolOnboarding: true }, 'seenQolOnboarding');
+        this._settings.updateQolSettings({ lastFullQol: Date() }, 'lastFullQol');
         this.showInterlude = true;
     }
 
-    public updatePendingQol = () => {
+    public updatePendingQol() {
         switch (this.QolSurveyType) {
             case QolSurveyType.Full:
-                this._settings.updatePendingQol({ pendingFullQol: false }, this.QolSurveyType);
+                this._settings.updateQolSettings({ pendingFullQol: false }, 'pendingFullQol');
                 break;
             case QolSurveyType.Short:
-                this._settings.updatePendingQol({ pendingShortQol: false }, this.QolSurveyType);
+                this._settings.updateQolSettings({ pendingShortQol: false }, 'pendingShortQol');
                 break;
-            default:
-                console.log(`QoLViewModel: updatePendingQol ERROR: ${this.QolSurveyType} not implemented in switch`)
-                return;
         }
         
     }
