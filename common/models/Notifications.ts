@@ -7,6 +7,8 @@ export enum AndroidChannels {
 }
 
 export enum NotificationTypes {
+    Affirmation = 'affirmation',
+    TestAffirmation = 'affirmationTest',
     Retention = 'retention',
     CustomPrompt = 'prompt',
     Assessment = 'assessment',
@@ -45,12 +47,18 @@ export type NotificationDocLinkShareData = {
     docId: string,
 };
 
+export type NotificationAffirmationData = {
+    type: NotificationTypes.Affirmation,
+    docId: string,
+};
+
 export type NotificationData = NotificationRetentionData
     | NotificationAssessmentData
     | NotificationPromptData
     | NotificationNewGoalData
     | NotificationTriggerPhraseData
-    | NotificationDocLinkShareData;
+    | NotificationDocLinkShareData
+    | NotificationAffirmationData;
 
 export namespace NotificationData {
     export function guard(obj: any): obj is NotificationData {
@@ -64,7 +72,7 @@ export type NotificationSchedulingOptions = {
     intervalMs?: number | undefined;
 };
 
-export type NotificationResult = { body: string, date: string };
+export type NotificationResult = { body: string, date: string, id: string, affirmationId?: string };
 export type ScheduleResult = { [key: string]: NotificationResult[] };
 
 export type TokenInfo = { deviceId: string, value: string, isStandaloneDevice: boolean };

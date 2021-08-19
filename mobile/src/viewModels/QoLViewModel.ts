@@ -28,9 +28,10 @@ export default class QOLSurveyViewModel {
     public readonly numQuestions: number = QUESTIONS_COUNT;
     public readonly domainQuestionCount: number = DOMAIN_QUESTION_COUNT;
     private readonly _settings: ILocalSettingsController = AppController.Instance.User.localSettings;
+    
 
     constructor() {
-        this.initModel = AppController.Instance.User.backend.getPartialQol().then((partialQolState: PartialQol) => {
+        this.initModel = AppController.Instance.User.qol.getPartialQol().then((partialQolState: PartialQol) => {
             if (partialQolState !== null) {
                 this._questionNum = partialQolState.questionNum;
                 this._domainNum = partialQolState.domainNum;
@@ -99,9 +100,8 @@ export default class QOLSurveyViewModel {
         this._armMagnitudes = qolArmMagnitudes;
         let res: boolean;
         if (qolArmMagnitudes === null) {
-            res = await AppController.Instance.User.backend.sendPartialQol(null);
+            res = await AppController.Instance.User.qol.sendPartialQol(null);
             this.isUnfinished = false;
-
         } else {
             const now = new Date().getTime();
             this.questionCompletionDates = this.questionCompletionDates || [];
@@ -119,14 +119,14 @@ export default class QOLSurveyViewModel {
                 startDate: this.startDate,
                 questionCompletionDates: this.questionCompletionDates,
             }
-            res = await AppController.Instance.User.backend.sendPartialQol(partialQol);
+            res = await AppController.Instance.User.qol.sendPartialQol(partialQol);
             this.isUnfinished = true;
         }
         return res;
     }
 
     public sendSurveyResults = async () => {
-        const res: boolean = await AppController.Instance.User.backend.sendSurveyResults(this._surveyResponses, this.startDate, this.questionCompletionDates);
+        const res: boolean = await AppController.Instance.User.qol.sendSurveyResults(this._surveyResponses, this.startDate, this.questionCompletionDates);
         return res;
     }
 

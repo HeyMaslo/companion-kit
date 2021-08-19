@@ -11,10 +11,12 @@ enum Collections {
     LocalSettings = 'localSettings',
     ServiceJobs = 'serviceJobs',
     Generic = 'generic',
-    SurveyState = 'surveyState',
     SurveyResults = 'surveyResults',
     Domains = 'domains',
     Questions = 'questions',
+    UserState = 'userState',
+    Strategies = 'strategies',
+    Affirmations = 'affirmations',
 }
 
 namespace Collections {
@@ -39,6 +41,7 @@ namespace Collections {
     export const clientPromptsDoc = (coachId: string, clientUid: string) => `${promptsLibraryDoc(coachId)}/clientPrompts/${clientUid}`;
 
     export const userLocalSettings = (uid: string, deviceId?: string) => `${Collections.Users}/${uid}/${Collections.LocalSettings}` + (deviceId ? `/${deviceId}` : '');
+    export const affirmations = (id: string) => `${Collections.Affirmations}/${id}`;
 }
 
 export default Collections;

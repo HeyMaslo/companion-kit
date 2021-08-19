@@ -1,3 +1,4 @@
+import { NotificationResult } from '../models/Notifications';
 import {
     IBackendClient,
     IBackendController, RemoteCallResult,
@@ -60,6 +61,29 @@ export default abstract class BackendControllerBase implements IBackendControlle
                     error: `Error calling service: ${err}`,
                 };
             });
+    }
+
+    public logNotifications
+    (clientID: string, notifications: NotificationResult[]): Promise<RemoteCallResult>  {
+        return this.Client.post('/notifications', {
+            clientID,
+            notifications,
+        },
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': this.Authorization,
+            },
+        })
+        .then((res: any) => {
+            return { error: null } as RemoteCallResult;
+        })
+        .catch((err: any) => {
+            return {
+                msg: err?.message,
+                error: `Error calling service: ${err}`,
+            };
+        });
     }
 
 }

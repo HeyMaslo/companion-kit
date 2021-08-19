@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "^3.0.2",
@@ -71,7 +72,9 @@
     "babel-plugin-replace-dynamic-import-runtime": "^1.0.2",
     "babel-plugin-transform-define": "^2.0.0",
     "babel-plugin-ts-nameof": "^4.2.1",
-    "eslint": "^6.5.1",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "14.2.1",
+    "eslint-plugin-import": "^2.22.1",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
     "react-native-svg-transformer": "^0.14.3",

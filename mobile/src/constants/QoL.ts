@@ -1,4 +1,3 @@
-
 /*
     Types definitions for QoL (Quality of Life)
     survey data.
@@ -6,20 +5,14 @@
 
 import { Identify } from 'common/models';
 
-export enum DomainScope {
-    GENERAL = 'GENERAL',
-    WORK = 'WORK',
-    STUDENT = 'STUDENT',
-}
-
-export type Domain = {
-    scope: DomainScope,
-    position: number,
-    name: string,
-    slug: string,
+// AFFIRMATIONS
+export type Affirmation = {
+    id: string,
+    keywords: string[],
+    domains: string[],
+    text: string,
 };
-
-export type DomainIded = Identify<Domain>;
+// QUESTION
 
 export type Question = {
     domainId: string, // reference to single domain

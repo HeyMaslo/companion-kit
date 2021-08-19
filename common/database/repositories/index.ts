@@ -10,14 +10,14 @@ import StaticTipsRepo from './StaticTipsRepo';
 import ServiceJobs from './ServiceJobsRepo';
 import GenericRepo from './GenericRepo';
 import DomainRepo from './DomainRepo';
-import SurveyStateRepo from './SurveyStateRepo';
 import GenericUserRepo from './GenericUserRepo';
 import SurveyResultsRepo from './SurveyResultsRepo';
-
+import UserStateRepo from './UserStateRepo';
+import StrategyRepo from './StrategyRepo';
+import AffirmationRepo from './AffirmationRepo';
 export {
     DBProvider,
     RepoError,
-
     UserRepo,
     CoachRepo,
     ClientRepo,
@@ -29,6 +29,8 @@ export {
     GenericRepo,
     GenericUserRepo,
     DomainRepo,
-    SurveyStateRepo,
+    StrategyRepo,
     SurveyResultsRepo,
+    UserStateRepo,
+    AffirmationRepo,
 };
