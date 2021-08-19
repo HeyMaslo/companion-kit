@@ -6,7 +6,7 @@ export const logger = createLogger('[QOLModel]');
 
 export default class QoLHistoryViewModel {
 
-  public initModel: Promise<void>;
+  private initModel: Promise<void>;
 
   private _historyEntries: SurveyResults[];
   private _selectedEntry: SurveyResults;
