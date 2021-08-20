@@ -148,7 +148,7 @@ export default class HomeViewModel {
                 id: 'check-in',
                 type: 'check-in',
                 title: AppViewModel.Instance.CreateCheckIn.question || 'Create a new check-in!',
-            }] 
+            }]
             : result;
     }
 
@@ -196,29 +196,23 @@ export default class HomeViewModel {
             this._settings.updateQolSettings({ lastFullQol: Date() }, 'lastFullQol');
             this._settings.updateQolSettings({ pendingFullQol: true }, 'pendingFullQol');
             return true;
-        } else if (AppController.Instance.User.localSettings?.current?.qol?.pendingFullQol) {
-            return true; 
-        }
-        return false;
+        } else return AppController.Instance.User.localSettings?.current?.qol?.pendingFullQol;
     }
 
-        // returns true if it has been 7 calendar days since last Short QoL
-        // return true if there is a pending Short QoL
-        private isTimeForShortQol(): boolean {
-            const lastShortQol: Date = new Date(AppController.Instance.User.localSettings?.current?.qol?.lastShortQol);
-            let nextShortQol: Date = lastShortQol;
-            nextShortQol.setDate(nextShortQol.getDate() + 7);
-            const today: Date = new Date();
+    // returns true if it has been 7 calendar days since last Short QoL
+    // return true if there is a pending Short QoL
+    private isTimeForShortQol(): boolean {
+        const lastShortQol: Date = new Date(AppController.Instance.User.localSettings?.current?.qol?.lastShortQol);
+        let nextShortQol: Date = lastShortQol;
+        nextShortQol.setDate(nextShortQol.getDate() + 7);
+        const today: Date = new Date();
 
-            if (equalDateByDay(nextShortQol, today)) {
-                this._settings.updateQolSettings({ lastShortQol: Date() }, 'lastShortQol');
-                this._settings.updateQolSettings({ pendingShortQol: true }, 'pendingShortQol');
-                return true;
-            } else if (AppController.Instance.User.localSettings?.current?.qol?.pendingShortQol) { 
-                return true; 
-            }
-            return false;
-        }
+        if (equalDateByDay(nextShortQol, today)) {
+            this._settings.updateQolSettings({ lastShortQol: Date() }, 'lastShortQol');
+            this._settings.updateQolSettings({ pendingShortQol: true }, 'pendingShortQol');
+            return true;
+        } else return AppController.Instance.User.localSettings?.current?.qol?.pendingShortQol;
+    }
 
     private hasCompletedDailyCheckInToday(): boolean {
         const lastDailyCheckIn: Date = new Date(AppController.Instance.User.localSettings?.current?.lastDailyCheckIn);
