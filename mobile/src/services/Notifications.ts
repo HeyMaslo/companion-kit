@@ -285,10 +285,14 @@ export class NotificationsService {
     private async exportScheduled(
         clientID: string,
         notifs: NotificationResult[],
-    ): Promise<RemoteCallResult> {
+    ): Promise<RemoteCallResult[]> {
         console.log(notifs);
         const backend = new FunctionBackendController();
-        return backend.logNotifications(clientID, notifs);
+
+        const allNotifs: Promise<RemoteCallResult>[] = notifs.map((not) =>
+            backend.logNotification(clientID, not),
+        );
+        return Promise.all(allNotifs);
     }
 
     private async scheduleNotifications(

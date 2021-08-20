@@ -130,5 +130,6 @@ fns.affirmation = FeatureSettings.ExportToDataServices
                 const { error } = res;
                 return { error };
             });
-        })
+        });
+
 export const ExportFunctions = FeatureSettings.ExportToDataServices && fns;

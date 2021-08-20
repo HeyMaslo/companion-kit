@@ -63,11 +63,11 @@ export default abstract class BackendControllerBase implements IBackendControlle
             });
     }
 
-    public logNotifications
-    (clientID: string, notifications: NotificationResult[]): Promise<RemoteCallResult>  {
-        return this.Client.post('/notifications', {
+    public logNotification
+    (clientID: string, notif: NotificationResult): Promise<RemoteCallResult>  {
+        return this.Client.post('/notification', {
             clientID,
-            notifications,
+            data: notif,
         },
         {
             headers: {
