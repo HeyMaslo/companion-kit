@@ -21,6 +21,7 @@ import AppViewModel from 'src/viewModels';
 import { QolSurveyResults, QolSurveyType } from 'src/constants/QoL';
 import { getPersonaRadius, PersonaScale } from 'src/stateMachine/persona';
 import AppController from 'src/controllers'; // MK-TODO used for testing only
+import { sum } from 'src/helpers/DomainHelper';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -172,7 +173,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
             let aggregateScore = 0;
             const entries = Object.entries(responses)
             for (const [key, value] of entries) {
-                aggregateScore += value.reduce((prev, curr) => prev + curr);
+                aggregateScore += sum(value);
             }
             aggregateScore /= entries.length
 

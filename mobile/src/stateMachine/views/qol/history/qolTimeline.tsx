@@ -18,6 +18,7 @@ import { QolSurveyType } from 'src/constants/QoL';
 import Colors from '../../../../constants/colors/Colors';
 import Images from 'src/constants/images';
 import { containerStyles } from 'src/components/Container';
+import { sum } from 'src/helpers/DomainHelper';
 
 const containerMarginBottom = Layout.isSmallDevice ? 0 : 25;
 const containerMarginTop = Layout.isSmallDevice ? 25 : 75;
@@ -35,7 +36,7 @@ type QolTimelineViewState = {
 export class QolTimelineView extends ViewState<QolTimelineViewState> {
 
   private allDomains: string[] = [];
-  private domainSort: DomainName = null;
+  private domainSort: DomainName = null; // MK-TODO remove all domainSort.toLowerCase after fixing schema
   @observable
   private dropDownIsExtended = false;
   @observable
@@ -105,7 +106,15 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   onLayoutGraphList(event: LayoutChangeEvent) {
     const { layout } = event.nativeEvent;
     this.graphHeight = layout.height;
-    this.entryCoordinates = this.historyEntries.map((entry, index) => [index * (weekCircleDiameter + weekCircleMarginLeft * 2), this.topForWeekCircle(Math.round(entry.aggregateScore)) + weekCircleRadius]);
+    this.generateEntryCoordinates();
+  }
+
+  private generateEntryCoordinates() {
+    if (this.domainSort == null) {
+      this.entryCoordinates = this.historyEntries.map((entry, index) => [index * (weekCircleDiameter + weekCircleMarginLeft * 2), this.topForWeekCircle(Math.round(entry.aggregateScore)) + weekCircleRadius]);
+    } else {
+      this.entryCoordinates = this.historyEntries.map((entry, index) => [index * (weekCircleDiameter + weekCircleMarginLeft * 2), this.topForWeekCircle(Math.round(sum(entry.results[this.domainSort.toLowerCase()]))) + weekCircleRadius]);
+    }
   }
 
   private topForWeekCircle(score: number): number {
@@ -115,10 +124,12 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   changeFilterPressed = (selection: string) => {
     if (selection == 'Show All') {
       this.domainSort = null;
+      this.selectedDomains = this.selectedEntry.focusDomains;
     } else {
       this.domainSort = selection as DomainName;
+      this.selectedDomains = [this.domainSort];
     }
-
+    this.generateEntryCoordinates();
     this.dropDown();
   }
 
@@ -146,20 +157,27 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   );
 
   private renderListItem(item: SurveyResults, index: number): JSX.Element {
-    let aggScore = item.aggregateScore;
-    if (aggScore == null || Number.isNaN(aggScore)) {
-      aggScore = 7;
+    let score = 0;
+    if (this.domainSort == null) {
+      score = item.aggregateScore;
+    } else {
+      score = sum(item.results[this.domainSort.toLowerCase()]);
+    }
+    if (score == null || Number.isNaN(score)) {
+      score = 7;
     }
     return (
       <Pressable key={`${item.date}`} onPress={() => {
         this.selectedEntry = item
         this.selectedEntryIndex = index
-        this.selectedDomains = this.selectedEntry.focusDomains || [];
+        if (this.domainSort == null) {
+          this.selectedDomains = this.selectedEntry.focusDomains || [];
+        }
       }}>
         <View style={[styles.weekCircle,
         item.surveyType == QolSurveyType.Full ? { borderWidth: styles.weekCircle.borderWidth * 2.2 } : { borderWidth: styles.weekCircle.borderWidth },
         index == this.selectedEntryIndex ? { backgroundColor: TextStyles.labelMedium.color } : { backgroundColor: 'white' },
-        { top: this.topForWeekCircle(Math.round(aggScore)), left: 0, marginHorizontal: ((Layout.window.width - 40) - 4 * weekCircleDiameter) / 8 }]}>
+        { top: this.topForWeekCircle(Math.round(score)), left: 0, marginHorizontal: ((Layout.window.width - 40) - 4 * weekCircleDiameter) / 8 }]}>
           <Text style={[styles.weekCircleText, index == this.selectedEntryIndex ? { color: 'white' } : { color: TextStyles.labelMedium.color },]}>W{index + 1}</Text>
         </View>
       </Pressable>

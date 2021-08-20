@@ -6,6 +6,7 @@ import AppController from 'src/controllers';
 import { ILocalSettingsController } from 'src/controllers/LocalSettings';
 import { PartialQol, QolSurveyResults, QolSurveyType } from 'src/constants/QoL';
 import { PersonaArmState } from 'dependencies/persona/lib';
+import { sum } from 'src/helpers/DomainHelper';
 
 export const logger = createLogger('[QOLModel]');
 
@@ -137,7 +138,7 @@ export default class QOLSurveyViewModel {
         let aggregateScore = 0;
         const entries = Object.entries(this._surveyResponses)
         for (const [key, value] of entries) {
-            aggregateScore += value.reduce((prev, curr) => prev + curr);
+            aggregateScore += sum(value);
         }
         aggregateScore /= entries.length
         const res: boolean = await AppController.Instance.User.qol.sendSurveyResults(this._surveyResponses, aggregateScore, this.qolSurveyType, this.startDate, this.questionCompletionDates);
