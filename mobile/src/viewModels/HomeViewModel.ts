@@ -2,7 +2,7 @@ import AppController from 'src/controllers';
 import CheckInViewModel from './CheckInViewModel';
 import { computed } from 'mobx';
 import NamesHelper from 'common/utils/nameHelper';
-import { months } from 'common/utils/dateHelpers';
+import { equalDateByDay, months } from 'common/utils/dateHelpers';
 import { ITipItem, IStaticTipItem, ICheckInTipItem, IFinishQolTipItem, IFullQolTipItem, IShortQolTipItem, IAssessmentTipItem, IDocumentLinkTip } from './components/TipItemViewModel';
 import AppViewModel from './index';
 import InterventionTipsViewModel from 'src/viewModels/components/InterventionTipsViewModel';
@@ -192,8 +192,7 @@ export default class HomeViewModel {
         nextFullQol.setDate(nextFullQol.getDate() + 28);
         const today: Date = new Date();
 
-        if (nextFullQol.getDay() === today.getDay() && nextFullQol.getMonth() === today.getMonth()
-        && nextFullQol.getFullYear() === today.getFullYear()) {
+        if (equalDateByDay(nextFullQol, today)) {
             this._settings.updateQolSettings({ lastFullQol: Date() }, 'lastFullQol');
             this._settings.updateQolSettings({ pendingFullQol: true }, 'pendingFullQol');
             return true;
@@ -211,8 +210,7 @@ export default class HomeViewModel {
             nextShortQol.setDate(nextShortQol.getDate() + 7);
             const today: Date = new Date();
 
-            if (nextShortQol.getDay() === today.getDay() && nextShortQol.getMonth() === today.getMonth()
-            && nextShortQol.getFullYear() === today.getFullYear()) {
+            if (equalDateByDay(nextShortQol, today)) {
                 this._settings.updateQolSettings({ lastShortQol: Date() }, 'lastShortQol');
                 this._settings.updateQolSettings({ pendingShortQol: true }, 'pendingShortQol');
                 return true;
