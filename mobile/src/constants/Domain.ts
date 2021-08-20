@@ -14,7 +14,7 @@ export enum DomainName {
   IDENTITY        = 'Identity',
   LEISURE         = 'Leisure',
   INDEPENDENCE    = 'Independence',
-  SELFESTEEM      = 'Self-esteem',
+  SELFESTEEM      = 'Selfesteem',
   HOME            = 'Home',
   MONEY           = 'Money',
   SPIRITUAL       = 'Spiritual',

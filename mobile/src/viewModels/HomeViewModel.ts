@@ -13,9 +13,9 @@ import { Identify, DocumentLinkEntry, DocumentLinkShareStatuses } from 'common/m
 import { arraySplit } from 'common/utils/mathx';
 import { UserProfileViewModel } from './UserProfileViewModel';
 import { QolSurveyResults } from 'src/constants/QoL';
-import { PersonaDomains } from 'src/stateMachine/persona';
 import { PersonaArmState } from 'dependencies/persona/lib';
 import { ILocalSettingsController } from 'src/controllers/LocalSettings';
+import { DomainName } from 'src/constants/Domain';
 
 const EmptyArr: any[] = [];
 
@@ -188,7 +188,7 @@ export default class HomeViewModel {
             return PersonaArmState.createEmptyArmState();
         }
         let currentArmMagnitudes: PersonaArmState = {};
-        for (let domain of PersonaDomains) {
+        for (let domain of Object.values(DomainName)) {
             let score: number = 0;
             lastSurveyScores[domain].forEach((val) => {
                 score += val;

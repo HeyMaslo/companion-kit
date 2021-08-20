@@ -157,18 +157,18 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     async onSetupButton() { // MK-TODO used for testing only
         for (let i = 0; i < 10; i++) {
             let responses: QolSurveyResults = {
-                'cognition': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 4) + 1),
-                'home': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 2) + 1),
-                'identity': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
-                'independence': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
-                'leisure': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 4) + 1),
-                'money': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
-                'mood': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
-                'physical': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 3) + 1),
-                'relationships': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
-                'self-esteem': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
-                'sleep': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 1) + 1),
-                'spiritual': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
+                Thinking: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 4) + 1),
+                Home: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 2) + 1),
+                Identity: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
+                Independence: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
+                Leisure: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 4) + 1),
+                Money: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
+                Mood: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
+                Physical: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 3) + 1),
+                Relationships: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
+                Selfesteem: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
+                Sleep: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 1) + 1),
+                Spiritual: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
             };
             let aggregateScore = 0;
             const entries = Object.entries(responses)

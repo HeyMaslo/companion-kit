@@ -36,7 +36,7 @@ type QolTimelineViewState = {
 export class QolTimelineView extends ViewState<QolTimelineViewState> {
 
   private allDomains: string[] = [];
-  private domainSort: DomainName = null; // MK-TODO remove all domainSort.toLowerCase after fixing schema
+  private domainSort: DomainName = null;
   @observable
   private dropDownIsExtended = false;
   @observable
@@ -113,7 +113,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
     if (this.domainSort == null) {
       this.entryCoordinates = this.historyEntries.map((entry, index) => [index * (weekCircleDiameter + weekCircleMarginLeft * 2), this.topForWeekCircle(Math.round(entry.aggregateScore)) + weekCircleRadius]);
     } else {
-      this.entryCoordinates = this.historyEntries.map((entry, index) => [index * (weekCircleDiameter + weekCircleMarginLeft * 2), this.topForWeekCircle(Math.round(sum(entry.results[this.domainSort.toLowerCase()]))) + weekCircleRadius]);
+      this.entryCoordinates = this.historyEntries.map((entry, index) => [index * (weekCircleDiameter + weekCircleMarginLeft * 2), this.topForWeekCircle(Math.round(sum(entry.results[this.domainSort]))) + weekCircleRadius]);
     }
   }
 
@@ -142,7 +142,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
       return Math.round(this.selectedEntry.aggregateScore);
     }
     let totalScore = 0;
-    this.selectedEntry.results[sort.toLowerCase()].forEach((score) => {
+    this.selectedEntry.results[sort].forEach((score) => {
       totalScore += score;
     })
     return totalScore;
@@ -161,7 +161,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
     if (this.domainSort == null) {
       score = item.aggregateScore;
     } else {
-      score = sum(item.results[this.domainSort.toLowerCase()]);
+      score = sum(item.results[this.domainSort]);
     }
     if (score == null || Number.isNaN(score)) {
       score = 7;

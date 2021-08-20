@@ -1,12 +1,12 @@
 import { observable, computed } from 'mobx';
 import { SurveyQuestions, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT } from '../constants/QoLSurvey';
-import { PersonaDomains } from '../stateMachine/persona';
 import { createLogger } from 'common/logger';
 import AppController from 'src/controllers';
 import { ILocalSettingsController } from 'src/controllers/LocalSettings';
 import { PartialQol, QolSurveyResults, QolSurveyType } from 'src/constants/QoL';
 import { PersonaArmState } from 'dependencies/persona/lib';
 import { sum } from 'src/helpers/DomainHelper';
+import { DomainName } from 'src/constants/Domain';
 
 export const logger = createLogger('[QOLModel]');
 
@@ -50,11 +50,7 @@ export default class QOLSurveyViewModel {
                 this.startDate = new Date().getTime();
                 this._questionNum = 0;
                 this._domainNum = 0;
-                const surveyResponses: QolSurveyResults = {};
-                for (let domain of PersonaDomains) {
-                    surveyResponses[domain] = [];
-                }
-                this._surveyResponses = surveyResponses;
+                this._surveyResponses = QolSurveyResults.createEmptyResults();;
                 this.questionCompletionDates = [];
                 this._armMagnitudes = PersonaArmState.createEmptyArmState();
                 this.isUnfinished = false;
@@ -77,7 +73,7 @@ export default class QOLSurveyViewModel {
     get question(): string { return SurveyQuestions[this._questionNum]; }
 
     @computed
-    get domain(): string { return PersonaDomains[this._domainNum]; }
+    get domain(): string { return Object.values(DomainName)[this._domainNum]; }
 
     get surveyResponses(): any { return this._surveyResponses; }
 
@@ -155,8 +151,8 @@ export default class QOLSurveyViewModel {
     }
 
     private getArmMagnitudes(scores: QolSurveyResults): PersonaArmState {
-        let currentArmMagnitudes: PersonaArmState = {};
-        for (let domain of PersonaDomains) {
+        let currentArmMagnitudes: PersonaArmState = PersonaArmState.createZeroArmState();
+        for (let domain of Object.values(DomainName)) {
             let score: number = 0;
             scores[domain].forEach((val) => {
                 score += val;

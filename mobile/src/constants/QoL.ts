@@ -5,6 +5,7 @@
 */
 
 import { Identify } from 'common/models';
+import { DomainName } from './Domain';
 
 // QUESTION
 
@@ -19,8 +20,27 @@ export type QuestionIded = Identify<Question>;
 // SURVEY STATE DATA
 
 export type QolSurveyResults = {
-    [dom: string]: number[],
+    [key in DomainName]: number[]
 };
+
+export namespace QolSurveyResults {
+    export function createEmptyResults(): QolSurveyResults {
+        return {
+            Mood: [],
+            Physical: [],
+            Sleep: [],
+            Thinking: [],
+            Identity: [],
+            Leisure: [],
+            Independence: [],
+            Selfesteem: [],
+            Home: [],
+            Money: [],
+            Spiritual: [],
+            Relationships: [],
+        }
+    }
+}
 
 export enum QolSurveyType {
     Full = 'FULL',
