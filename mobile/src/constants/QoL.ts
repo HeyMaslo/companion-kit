@@ -38,7 +38,7 @@ export namespace QolSurveyResults {
             Money: [],
             Spiritual: [],
             Relationships: [],
-        }
+        };
     }
 }
 
