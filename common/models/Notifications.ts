@@ -72,7 +72,7 @@ export type NotificationSchedulingOptions = {
     intervalMs?: number | undefined;
 };
 
-export type NotificationResult = { body: string, date: string, id: string, affirmationId?: string };
+export type NotificationResult = { body: string, date: string, notifId: string, affirmationId?: string };
 export type ScheduleResult = { [key: string]: NotificationResult[] };
 
 export type TokenInfo = { deviceId: string, value: string, isStandaloneDevice: boolean };

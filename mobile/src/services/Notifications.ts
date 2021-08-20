@@ -206,7 +206,7 @@ export class NotificationsService {
             schedulingOptions.time,
         );
         const dateStr = new Date(schedulingOptions.time).toUTCString();
-        return { body: notification.body, id: notifId, date: dateStr };
+        return { body: notification.body, notifId, date: dateStr };
     }
 
     private async scheduleAffirmationMessage(
@@ -249,7 +249,7 @@ export class NotificationsService {
         const dateStr = new Date(schedulingOptions.time).toUTCString();
         return {
             body: notification.body,
-            id: notifId,
+            notifId,
             affirmationId: notification.data.id,
             date: dateStr,
         };
@@ -258,7 +258,7 @@ export class NotificationsService {
     private async scheduleMessages(
         messages: string[] | Affirmation[],
         startDateMS: number,
-        isAffirmation: boolean,
+        isAffir: boolean,
     ): Promise<NotificationResult[]> {
         let result: NotificationResult[] = await Promise.all(
             messages.map(
@@ -266,7 +266,7 @@ export class NotificationsService {
                     msg: string | Affirmation,
                     index: number,
                 ): Promise<NotificationResult> => {
-                    return isAffirmation
+                    return isAffir
                         ? await this.scheduleAffirmationMessage(
                               msg as Affirmation,
                               startDateMS,
@@ -282,7 +282,10 @@ export class NotificationsService {
         return result;
     }
 
-    private async exportScheduled(clientID: string, notifs: NotificationResult[]): Promise<RemoteCallResult> {
+    private async exportScheduled(
+        clientID: string,
+        notifs: NotificationResult[],
+    ): Promise<RemoteCallResult> {
         console.log(notifs);
         const backend = new FunctionBackendController();
         return backend.logNotifications(clientID, notifs);
@@ -291,7 +294,7 @@ export class NotificationsService {
     private async scheduleNotifications(
         time: NotificationTime,
         startDateMS: number,
-        isAffirmation: boolean,
+        isAffir: boolean,
         clientID: string,
     ): Promise<NotificationResult[]> {
         const settings = { name: this.user.firstName };
@@ -307,11 +310,8 @@ export class NotificationsService {
                       [NotificationTypes.Affirmation]: this.affirmations
                           ? this.affirmations
                           : null,
-                      [NotificationTypes.TestAffirmation]: getAffirmationForDomains(
-                          this.domains,
-                          1,
-                          settings,
-                      ),
+                      [NotificationTypes.TestAffirmation]:
+                          getAffirmationForDomains(this.domains, 1, settings),
                   }
                 : {
                       [NotificationTypes.Retention]: getRandomUniqMessages(
@@ -325,7 +325,7 @@ export class NotificationsService {
             ...(await this.scheduleMessages(
                 messages[NotificationTypes.Retention],
                 startDateMS,
-                isAffirmation,
+                isAffir,
             )),
         );
         // check for null, it is of type null when undefined or empty array is given
@@ -334,7 +334,7 @@ export class NotificationsService {
                 ...(await this.scheduleMessages(
                     messages[NotificationTypes.Affirmation],
                     startDateMS,
-                    isAffirmation,
+                    isAffir,
                 )),
             );
         }
@@ -342,7 +342,7 @@ export class NotificationsService {
             ...(await this.scheduleMessages(
                 messages[NotificationTypes.TestAffirmation],
                 startDateMS,
-                isAffirmation,
+                isAffir,
             )),
         );
         try {
@@ -401,7 +401,7 @@ export class NotificationsService {
                 startDateMS,
                 time === NotificationTime.ExactTime &&
                     schedule[time].isAffirmation,
-                clientID
+                clientID,
             );
             scheduleData[time] = res;
         }
@@ -415,11 +415,11 @@ export class NotificationsService {
         if (Platform.OS === 'android') {
             await this.deleteAndroidChannel();
         }
-    };
+    }
 
     public resetOpenedNotification(): void {
         this._openedNotification = null;
-    };
+    }
 
     async createAndroidChannel(): Promise<void> {
         await Notifications.createChannelAndroidAsync(AndroidChannels.Default, {

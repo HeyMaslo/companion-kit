@@ -114,4 +114,21 @@ fns.measurement = FeatureSettings.ExportToDataServices
             });
         });
 
+type AffirmationDoc = {
+    domains: string[],
+    keywords: string[],
+    text: string,
+};
+
+fns.affirmation = FeatureSettings.ExportToDataServices
+    && functions.firestore.document('/affirmations/{id}')
+        .onCreate(async (snap, context): Promise<ExportResult> => {
+            const data: AffirmationDoc = snap.data() as AffirmationDoc;
+            const backend = new FunctionBackendController();
+            return backend.logAffirmation(snap.id, data.text, data.domains, data.keywords)
+            .then((res: RemoteCallResult) => {
+                const { error } = res;
+                return { error };
+            });
+        })
 export const ExportFunctions = FeatureSettings.ExportToDataServices && fns;

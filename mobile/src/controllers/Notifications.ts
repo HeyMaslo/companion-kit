@@ -208,15 +208,15 @@ export class NotificationsController implements IDisposable {
         if (!this._userId) {
             throw new Error('no user id set');
         }
-        const userState: UserState = await RepoFactory.Instance.userState.getByUserId(
-            this._userId,
-        );
+        const userState: UserState =
+            await RepoFactory.Instance.userState.getByUserId(this._userId);
 
-        const affirmations: Affirmation[] = await RepoFactory.Instance.affirmations.getByDomain(
-            this.domains,
-            this.keywordFilter,
-            userState.lastSeenAffirmations,
-        );
+        const affirmations: Affirmation[] =
+            await RepoFactory.Instance.affirmations.getByDomain(
+                this.domains,
+                this.keywordFilter,
+                userState.lastSeenAffirmations,
+            );
 
         let scheduleResult: ScheduleResult | void;
         if (!onlyToken) {

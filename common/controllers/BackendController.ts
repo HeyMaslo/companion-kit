@@ -86,4 +86,29 @@ export default abstract class BackendControllerBase implements IBackendControlle
         });
     }
 
+    public logAffirmation(affirmationId: string, text: string, domains: string[], keywords: string[]): Promise<RemoteCallResult> {
+        return this.Client.post('/affirmation', {
+            affirmationId,
+            data: {
+                text,
+                domains,
+                keywords,
+            },            
+        },
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': this.Authorization,
+            },
+        })
+        .then((res: any) => {
+            return { error: null } as RemoteCallResult;
+        })
+        .catch((err: any) => {
+            return {
+                msg: err?.message,
+                error: `Error calling service: ${err}`,
+            };
+        });
+    }
 }

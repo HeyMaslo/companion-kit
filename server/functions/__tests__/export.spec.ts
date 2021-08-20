@@ -84,4 +84,18 @@ describe('Export Functions', () => {
         const result = await(handle(snap));
         assert.isNull(result.error);
       });
+    
+    it('Should export affirmations', async () => {
+        const handle = test.wrap(ExportFunctions.affirmation);
+        const affirmationId = 'affirmation1';
+        const snap = await test.firestore.makeDocumentSnapshot(
+            {
+                domains: ['physical', 'mood'],
+                keywords: ['testing'],
+                text: 'example affirmation',
+            },
+            `/affirmations/${affirmationId}`);
+        const result = await(handle(snap));
+        assert.isNull(result.error);
+    });
 });
