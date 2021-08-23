@@ -7,6 +7,7 @@ import * as clients from './clients';
 import * as coaches from './coaches';
 import * as ai from './ai';
 import * as billing from './billing';
+import * as qol from './qol';
 import {
     ScheduledFunctionCrontab,
     ExportFunctionCrontab,
@@ -25,6 +26,7 @@ const exp: any = {
     [FunctionDefinitions.Coaches.Namespace]: coaches.Functions,
     [FunctionDefinitions.AI.Namespace]: ai.Functions,
     [FunctionDefinitions.Billing.Namespace]: billing.Functions,
+    [FunctionDefinitions.QoL.Namespace]: qol.Functions,
     events: {},
 };
 

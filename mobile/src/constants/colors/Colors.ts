@@ -301,6 +301,11 @@ const Colors: ProjectColorsSchema = {
         nextPromptBg: '#F5F5FA',
     },
 
+    survey: {
+        btnBackgroundColor: '#F5F5FA',
+        btnFontColor: '#3E3C43',
+    },
+
 };
 
 export default Colors;

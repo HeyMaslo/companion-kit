@@ -2,7 +2,7 @@ import { Platform } from 'react-native';
 import ExpoConstants, { AppOwnership } from 'expo-constants';
 import * as Device from 'expo-device';
 import { observable, toJS, transaction } from 'mobx';
-import { UserLocalSettings, NotificationsSettings, DeviceInfo, LocalNotificationsSchedule } from 'common/models';
+import { UserLocalSettings, NotificationsSettings, DeviceInfo, LocalNotificationsSchedule, QolSettings } from 'common/models';
 import RepoFactory from 'common/controllers/RepoFactory';
 import { transferChangedFields } from 'common/utils/fields';
 import { ThrottleAction } from 'common/utils/throttle';
@@ -26,6 +26,9 @@ export interface ILocalSettingsController {
     readonly synced: IEvent;
 
     updateNotifications(diff: Partial<NotificationsSettings>): void;
+    updateQolOnboarding(diff: Partial<QolSettings>): void;
+    updateLastFullQol(diff: Partial<QolSettings>): void;
+    updatePendingFullQol(diff: Partial<QolSettings>): void;
 
     flushChanges(): Promise<void>;
 }
@@ -102,13 +105,31 @@ export class LocalSettingsController implements ILocalSettingsController {
         await this._synced.triggerAsync();
     }
 
+    private submitQolChanges = async () => {
+        const diff: Partial<UserLocalSettings> = {
+            qol: toJS(this._current.qol),
+        };
+
+        logger.log('[LocalSettingsController] submitting changes...', diff);
+        await RepoFactory.Instance.users.updateLocalSettings(
+            this._uid,
+            DeviceId,
+            diff,
+        );
+        await this._synced.triggerAsync();
+    }
+
     private update(diff: Partial<UserLocalSettings>) {
         if (!this._current) {
             throw new Error('LocalSettingsController.update: not initialized!');
         }
 
         Object.assign(this._current, diff);
-        this._syncThrottle.tryRun(this.submitChanges);
+        if (diff.qol !== undefined) {
+            this._syncThrottle.tryRun(this.submitQolChanges);
+        } else {
+            this._syncThrottle.tryRun(this.submitChanges);
+        }
     }
 
     public flushChanges() {
@@ -128,6 +149,39 @@ export class LocalSettingsController implements ILocalSettingsController {
             if (changed) {
                 // logger.log('UPDATE');
                 this.update({ notifications });
+            }
+        });
+    }
+
+    updateQolOnboarding(diff: Partial<QolSettings>) {
+        const qol = this.current.qol || { };
+        transaction(() => {
+            let changed = transferChangedFields(diff, qol, 'seenQolOnboarding', 'lastFullQol');
+
+            if (changed) {
+                this.update({ qol });
+            }
+        });
+    }
+
+    updateLastFullQol(diff: Partial<QolSettings>) {
+        const qol = this.current.qol || { };
+        transaction(() => {
+            let changed = transferChangedFields(diff, qol, 'lastFullQol');
+
+            if (changed) {
+                this.update({ qol });
+            }
+        });
+    }
+
+    updatePendingFullQol(diff: Partial<QolSettings>) {
+        const qol = this.current.qol || { };
+        transaction(() => {
+            let changed = transferChangedFields(diff, qol, 'pendingFullQol');
+
+            if (changed) {
+                this.update({ qol });
             }
         });
     }

@@ -52,7 +52,7 @@ yarn env:set
 mkdir mobile/dependencies
 if [ $submodules == 1 ]; then
 	cd mobile/dependencies || exit 1
-	git clone -b dev-ts https://github.com/HeyMaslo/maslo-persona.git persona
+	git clone -b bipolarbridges-persona https://github.com/bipolarbridges/maslo-persona.git persona
 	git clone https://github.com/HeyMaslo/react-native-switch-pro.git
 	cd ../..
 fi
