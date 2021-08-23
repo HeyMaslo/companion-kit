@@ -28,6 +28,8 @@ Clone the respository and ensure you have the requirements below:
 
 ### 2. Configure the Development Environment
 
+If you are setting up the project for the first time, follow the steps below. Otherwise, you may want to check out the instructions in the following section.
+
 1. Download the `GoogleService-Info.plist` file from the ios app on firebase. Place this file in `./mobile/configs/app`.
 2. Download the `google-services.json` file from the android app on firebase. Place this file in `./mobile/configs/app` and in `./mobile/android/app`.
 3. Copy the `.env-starter` file to `.env` in the root directory, and fill in each variable with the correct values. Alternatively, obtain an environment file from another developer on the team.
@@ -42,6 +44,14 @@ Clone the respository and ensure you have the requirements below:
 	(we will fill in the path in the next step)
 
 6. Go to the Google Cloud Platform [here](https://console.cloud.google.com/iam-admin/serviceaccounts?project=bipolarbridges). On the "App Engine default service account", click the three dots, select "Create key", and download the json file. Fill in the path to this downloaded file in the `.env` from the previous step.
+
+### 3. (Optional) Importing Environment from an Existing Project Instance
+
+If you have an already set-up clone of the project on your machine, and wish to copy the configuration over to a fresh clone - sometimes useful in cases of failed setup, broken dependencies etc.- you can run the provided script to automate the process, e.g.
+
+```sh
+bash bin/migrate-project.bash <path-to-old-project> <path-to-new-project>
+```
 
 ## Running and Deploying the App
 
