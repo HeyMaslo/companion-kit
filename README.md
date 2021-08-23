@@ -57,7 +57,7 @@ bash bin/migrate-project.bash <path-to-old-project> <path-to-new-project>
 ### Using the Correct Node Version
 After running the script above, the project instance will contain a local copy of NVM, which can be loaded with the following command:
 ```
-source ./.nvm/nvm.sh
+source ./bin/nvm.sh
 ```
 The project contains `.nvmrc` files that indicate the correct node version to use. To switch to the correct version, run ```nvm use``` in a given directory.
 
