@@ -76,6 +76,7 @@ fi
 yarn env:clean || exit 1 
 yarn env:set || exit 1
 if [ $submodules == 1 ]; then
+	mkdir mobile/dependencies
 	cd mobile/dependencies || exit 1
 	git clone -b bipolarbridges-persona https://github.com/bipolarbridges/maslo-persona.git persona
 	git clone https://github.com/HeyMaslo/react-native-switch-pro.git
