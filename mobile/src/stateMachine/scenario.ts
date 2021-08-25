@@ -41,6 +41,7 @@ import Triggers = ScenarioTriggers;
 import { VerificationCodeView } from './views/login/verificationCode';
 import { NoInvitationView } from './views/login/noInvitation';
 import { ResetPasswordView } from './views/password/resetPassword';
+import { Platform } from 'react-native';
 
 const CreateJournalCancelTransition: StateTransition<States> = {
     target: States.Home,
@@ -80,7 +81,7 @@ export const MasloScenario: GlobalScenario<States> = {
     [States.HealthConsent]: {
         view: HealthConsentView,
         exit: [
-            { target: States.HealthScopes, trigger: Triggers.Primary },
+            // { target: States.HealthScopes, trigger: Triggers.Primary },
             { target: States.Home, trigger: Triggers.Submit }, 
         ],
     },
@@ -179,7 +180,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { priority: 0, target: States.Consent, condition: VM.showConsent },
             { priority: 1, target: States.OnboardingEnter, condition: VM.hasActiveOnboarding },
             { priority: 2, target: States.AskNotificationsPermissions, condition: VM.askNotifyPermissions },
-            { priority: 3, target: States.HealthConsent, condition: VM.hasHeathPermissions },
+            { priority: 3, target: States.HealthConsent, condition: Platform.OS == 'ios' ? VM.needsHealthPromptIOS : VM.hasHealthPermissions },
             { priority: 4, target: States.IntakeForm, condition: VM.showAssessment },
             { priority: 10, target: States.Home, condition: () => true },
 

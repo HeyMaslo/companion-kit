@@ -55,6 +55,12 @@ import HealthScreen2 from 'src/assets/images/app/Authorization-Instructions-1.pn
 import HealthScreen3 from 'src/assets/images/app/Authorization-Instructions-3.png';
 import HealthScreen4 from 'src/assets/images/app/Authorization-Instructions-4.png';
 import HealthScreen5 from 'src/assets/images/app/Authorization-Instructions-5.png';
+import iOS_Settings from 'src/assets/images/ios_settings.png';
+import iOS_Privacy from 'src/assets/images/ios_privacy.png';
+import iOS_Health from 'src/assets/images/ios_health.png';
+import iOS_Switch from 'src/assets/images/ios_switch.png';
+import iOS_CompanionKit from 'src/assets/images/ios_companionkit.png';
+
 
 export default {
     signInWithGoogle: GoogleIconPng,
@@ -113,11 +119,10 @@ export default {
     pinIcon: PinIconSVG,
     homeIcon: HomeIconSVG,
     busIcon: BusIconSVG,
-    //health
-    screen1: HealthScreen1,
-    screen2: HealthScreen2,
-    screen3: HealthScreen3,
-    screen4: HealthScreen4,
-    screen5: HealthScreen5,
-
+    // ios health instructions
+    iOS_Settings: iOS_Settings,
+    iOS_Privacy: iOS_Privacy,
+    iOS_Health: iOS_Health,
+    iOS_CompanionKit: iOS_CompanionKit,
+    iOS_Switch: iOS_Switch,
 };

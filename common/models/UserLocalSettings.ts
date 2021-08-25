@@ -17,8 +17,8 @@ export type NotificationsSettings = {
     locals?: LocalNotificationsSchedule,
 };
 export type HealthPermissionsSettings = {
-    // currenty we use this only for locals
-    enabled?: boolean,
+    enabledAndroid?: boolean,
+    seenPermissionPromptIOS?: boolean,
 };
 export type LocalNotificationsSchedule = {
     current: ScheduleResult,

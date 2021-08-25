@@ -18,8 +18,6 @@ import { InterventionTipsStatuses, Identify, DocumentLinkEntry } from 'common/mo
 import { TransitionObserver } from 'common/utils/transitionObserver';
 import { UserProfileName } from 'src/screens/components/UserProfileName';
 import AppController from 'src/controllers';
-import Images from 'src/constants/images';
-import logger from 'common/logger';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -258,29 +256,9 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
         );
     }
 
-    private getHealthPerm(){
-        return Platform.OS == 'ios'? this.originalIsEnabledOG : this.originalIsEnabled
-    }
-    
-
-    private getHealth() {
-        return (
-            <>
-            {!this.getHealthPerm() && (
-                <TouchableOpacity style={styles.healthView} onPress={() => this.healthSettings()}>
-                <View style={{flexDirection:'row', justifyContent: 'space-around', paddingTop: 10}}>
-                        <Text style={this.textStyles.p1}>Polarus needs access to {"\n"} your health data</Text>
-                        <Image source={Images.screen5} height={10}/>
-                </View>
-                <View style={{flexDirection:'row', paddingLeft:20, paddingBottom:10, alignItems:'center'}}>
-                    <Images.settingsIcon />
-                    <Text style={this.textStyles.p3}> Manage Settings</Text>
-                </View>
-                </TouchableOpacity>
-            )}
-            </>
-        );
-    };
+    // private getHealthPerm() {
+    //     return Platform.OS == 'ios' ? this.originalIsEnabledOG : this.originalIsEnabled
+    // }
 
     private getCheckinsList() {
         const { checkIns } = this.viewModel;
@@ -301,7 +279,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
                             model={s}
                             active={i === 0}
                             onPress={() => this.openStoryDetails(s.id)}
-                            />
+                        />
                     ))}
                 </ScrollView>
             )
@@ -312,13 +290,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value }> {
         const {
             loading,
         } = this.viewModel;
-        const healthPerm = Platform.OS == 'ios'? this.originalIsEnabledOG : this.originalIsEnabled
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
-                    {this.getHealth() }
-                    { this.getTitle() }
-                    { loading
+                    {this.getTitle()}
+                    {loading
                         ? <ActivityIndicator size="large" />
                         : this.getCheckinsList()
                     }
@@ -382,13 +358,12 @@ const styles = StyleSheet.create({
     mailButtonTitle: {
         color: Colors.welcome.mailButton.title,
     },
-    healthView: {
-        width: '90%',
-        borderWidth: 3, 
-        marginBottom: 15, 
-        alignSelf: 'center', 
-        borderRadius:30, 
-        borderColor: 'red', 
-        backgroundColor:'white'
+    healthCard: {
+        borderRadius: 5,
+        backgroundColor: 'white',
+        width: '80%',
+        marginBottom: 20,
+        flexShrink: 0,
+        alignSelf: 'center',
     },
 });

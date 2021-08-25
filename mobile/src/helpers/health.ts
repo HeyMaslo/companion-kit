@@ -73,20 +73,20 @@ const permissions = {
   },
 };
 
-export const auth = async() => {
+export const auth = async () => {
   var isAuth;
 
-  return await GoogleFit.checkIsAuthorized().then (() => {
+  return await GoogleFit.checkIsAuthorized().then(() => {
     isAuth = GoogleFit.isAuthorized;
-    logger.log("GOOGLE_FIT_IS_AUTHORIZED?", isAuth)
-      isAuth = GoogleFit.authorize(runOptions)
+    logger.log('GOOGLE_FIT_IS_AUTHORIZED?', isAuth)
+    isAuth = GoogleFit.authorize(runOptions)
       .then(authResult => {
-        if(authResult.success) {
-          logger.log("GOOGLE_FIT_IS_AUTHORIZED", authResult.success);
+        if (authResult.success) {
+          logger.log('GOOGLE_FIT_IS_AUTHORIZED', authResult.success);
           return true;
-          
-        }else{
-          logger.log("GOOGLEFIT_AUTH_DENIED" + authResult);
+
+        } else {
+          logger.log('GOOGLEFIT_AUTH_DENIED' + authResult);
           return false;
         }
       })
@@ -97,16 +97,16 @@ export const auth = async() => {
   })
 }
 
-export const disconnectAndroid = () => { GoogleFit.disconnect()}
+export const disconnectAndroid = () => { GoogleFit.disconnect() }
 
 export const init = async (): Promise<boolean> => {
   return new Promise((resolve, reject) => {
     AppleHealthKit.initHealthKit(permissions, (err, results) => {
       if (err) {
-          console.log("error initializing Healthkit:", err);
-          resolve(false);
+        console.log('error initializing Healthkit:', err);
+        resolve(false);
       }
-      console.log("RESULTS FROM INIT HEALTHKIT", results);
+      console.log('RESULTS FROM INIT HEALTHKIT', results);
       resolve(true);
     });
   })
@@ -114,25 +114,25 @@ export const init = async (): Promise<boolean> => {
 
 export const getDOB = async (): Promise<boolean> => {
   return new Promise((resolve, reject) => {
-    AppleHealthKit.getDateOfBirth(null,(err, results) => {
+    AppleHealthKit.getDateOfBirth(null, (err, results) => {
       if (err) {
-          console.log("error initializing height:", err);
+        console.log('appleHealthKit.getDateOfBirth error:', err);
 
-          if (err.message == "No data available for the specified predicate.") {
-            resolve (true);
-          } else {
-            resolve(false);
-          }
-          return;
+        if (err == 'No data available for the specified predicate.') {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+        return;
       }
 
-      if (!results.value){
-        console.log("RESULTS FROM Height HEALTHKIT11", results.value);
-        console.log("RESULTS FROM Height HEALTHKIT11", results.age);
+      if (!results.value) {
+        console.log('RESULTS FROM HEALTHKIT11: value', results.value);
+        console.log('RESULTS FROM Height HEALTHKIT11: age', results.age);
         resolve(false);
         return;
       }
-      console.log("RESULTS FROM Height HEALTHKIT", results.value);
+      console.log('RESULTS FROM Height HEALTHKIT', results.value);
       resolve(true);
     });
   })
@@ -140,22 +140,20 @@ export const getDOB = async (): Promise<boolean> => {
 
 export const getAuthStatus = async (): Promise<boolean> => {
   return new Promise((resolve, reject) => {
-    AppleHealthKit.getAuthStatus(permissions,(err, results) => {
+    AppleHealthKit.getAuthStatus(permissions, (err, results) => {
       if (err) {
-          console.log("error loading permissions", err);
-
-          if (err.message == "No data available for the targeted permissions.") {
-            resolve (true);
-          } else {
-            resolve(false);
-          }
-          return;
-      } 
-      if (!results.permissions){
+        if (err == 'No data available for the targeted permissions.') {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+        return;
+      }
+      console.log('RESULTS FROM HEALTHKIT', results);
+      if (!results.permissions || results.permissions.read.includes(1)) {
         resolve(false);
         return;
       }
-      console.log("RESULTS FROM HEALTHKIT", results);
       resolve(true);
     });
   })

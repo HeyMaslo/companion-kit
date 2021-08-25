@@ -57,6 +57,7 @@ export class LocalSettingsController implements ILocalSettingsController {
 
         this._uid = uid;
         this._current = settings.find(s => s.deviceId === DeviceId);
+        console.log('DeviceId', DeviceId)
 
         let updateDiff: Partial<UserLocalSettings> = null;
         if (!this._current) {
@@ -91,7 +92,7 @@ export class LocalSettingsController implements ILocalSettingsController {
             await RepoFactory.Instance.users.updateLocalSettings(
                 this._uid,
                 this._sameDevice.deviceId,
-                { notifications: { ...this._sameDevice.notifications, token: null }},
+                { notifications: { ...this._sameDevice.notifications, token: null } },
             );
         }
 
@@ -103,6 +104,7 @@ export class LocalSettingsController implements ILocalSettingsController {
         );
         await this._synced.triggerAsync();
     }
+
     private submitChangesHealth = async () => {
         const diff: Partial<UserLocalSettings> = {
             health: toJS(this._current.health),
@@ -123,11 +125,11 @@ export class LocalSettingsController implements ILocalSettingsController {
         }
 
         Object.assign(this._current, diff);
-        if (this.current.health !== undefined){ 
+        if (this.current.health !== undefined) {
             this._syncThrottle.tryRun(this.submitChangesHealth);
         } else {
             this._syncThrottle.tryRun(this.submitChanges);
-        }      
+        }
     }
 
     public flushChanges() {
@@ -135,7 +137,7 @@ export class LocalSettingsController implements ILocalSettingsController {
     }
 
     updateNotifications(diff: Partial<NotificationsSettings>) {
-        const notifications = this.current.notifications || { };
+        const notifications = this.current.notifications || {};
         transaction(() => {
             let changed = transferChangedFields(diff, notifications, 'enabled', 'token');
 
@@ -152,12 +154,13 @@ export class LocalSettingsController implements ILocalSettingsController {
     }
 
     updateHealthPermissions(diff: Partial<HealthPermissionsSettings>) {
-        const health = this.current.health || { };
-        logger.log("Value of Health: ", health);
+        let health = this.current.health || {};
+        health.seenPermissionPromptIOS = true;
+        logger.log('Value of Health: ', health);
         transaction(() => {
-            let changed = transferChangedFields(diff, health, 'enabled');
-            logger.log("Value of changed: ", changed);
-            logger.log("Value of changed: ", diff);
+            let changed = transferChangedFields(diff, health, 'enabledAndroid', 'seenPermissionPromptIOS');
+            logger.log('Value of changed: ', changed);
+            logger.log('Value of changed: ', diff);
             if (changed) {
                 this.update({ health });
             }

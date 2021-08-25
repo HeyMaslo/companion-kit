@@ -23,6 +23,7 @@ import AudioManager from 'src/services/Audio';
 import AppQueryService from 'src/services/AppQueryService';
 import AnalyticsExpo from 'src/services/AnalyticsService';
 import { InitAnalytics } from 'common/services/analytics/analytics';
+import PromptModal from './components/PromptModal';
 
 // import {
 //     SiriShortcutsEvent,
@@ -89,7 +90,7 @@ export default class App extends React.Component<IAppProps> {
         this.processUnhandledError(error);
     }
 
-    handleSiriShortcut({userInfo, activityType}: any) {
+    handleSiriShortcut({ userInfo, activityType }: any) {
         this.setState({
             shortcutInfo: userInfo,
             shortcutActivityType: activityType,
@@ -114,7 +115,7 @@ export default class App extends React.Component<IAppProps> {
     // async updateShortcutList() {
     //     try {
     //       const shortcuts = await getShortcuts();
-    
+
     //       this.setState({
     //         shortcuts,
     //       });
@@ -161,6 +162,7 @@ export default class App extends React.Component<IAppProps> {
                 <View style={styles.container}>
                     <StatusBar barStyle="light-content" hidden={true} />
                     <AppRouter />
+                    <PromptModal model={AppController.Instance.PromptModal} />
                 </View>
             </MobxProvider>
         );

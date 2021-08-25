@@ -3,7 +3,7 @@ import { IUserNameProvider } from 'src/services/Notifications';
 import { ILocalSettingsController } from './LocalSettings';
 import { ThrottleAction } from 'common/utils/throttle';
 import { IDisposable } from 'common/utils/unsubscriber';
-import {auth, init, disconnectAndroid, getDOB, getAuthStatus} from 'src/helpers/health'
+import { auth, init, disconnectAndroid, getDOB, getAuthStatus } from 'src/helpers/health'
 import { Platform } from 'react-native';
 import logger, { createLogger } from 'common/logger';
 
@@ -22,7 +22,7 @@ export class HealthPermissionsController implements IDisposable {
     }
 
     public get enabled() { return this._enabledByUser; }
-    
+
     public get enabledOG() { return this._enabledByUserOriginal; }
 
     public get permissionsGranted() { return this._enabledByUser; }
@@ -31,54 +31,42 @@ export class HealthPermissionsController implements IDisposable {
 
     // Should be OK to call multiple times
     async initAsync() {
-        this._enabledByUser = this.settings.current.health?.enabled;
-
-        if (this.permissionsGranted){
-            this.askPermission();
-        }
+        this._enabledByUser = this.settings.current.health?.enabledAndroid;
     }
 
     public askPermission = async () => {
-
-        const authorized = Platform.OS == 'android'? await auth() : await init();
-        logger.log("PERMS", authorized);
-
-        if (Platform.OS == 'ios'){
-            const dob = await getDOB();
-            this._enabledByUserOriginal = dob;
-        }
-        if (Platform.OS == 'android'){ 
+        if (Platform.OS == 'ios') {
+            await init();
+            this.settings.updateHealthPermissions({
+                seenPermissionPromptIOS: true,
+                enabledAndroid: false,
+            });
+        } else if (Platform.OS == 'android') {
+            const authorized = await auth();
+            logger.log("PERMS", authorized);
             this._enabledByUserOriginal = authorized;
-        }
-        this._enabledByUser = authorized;
+            this._enabledByUser = authorized;
 
-        await this.sync();
+            await this.sync();
+        }
+
         return this.permissionsGranted;
-    }
-
-    // enableHealthPermissions
-    public enableHealthPermissions = async () => {
-        const enabled = await this.askPermission();
-        if (!enabled) {
-            return false;
-        }
-        return true;
     }
 
     public disableHealthPermissions = async () => {
         if (Platform.OS == 'android') {
             disconnectAndroid();
-            this._enabledByUser = false;
-            this._syncThrottle.tryRun(this.sync);
-            return;
         }
 
-        return false; 
+        this._enabledByUser = false;
+        this._syncThrottle.tryRun(this.sync);
+
+        return false;
     }
 
     private sync = async () => {
         this.settings.updateHealthPermissions({
-            enabled: this._enabledByUser,
+            enabledAndroid: this._enabledByUser,
         });
     }
 

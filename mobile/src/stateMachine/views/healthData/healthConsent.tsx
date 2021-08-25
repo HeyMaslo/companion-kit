@@ -2,8 +2,6 @@ import { observer } from 'mobx-react';
 import { ViewState } from '../base';
 import AppController from 'src/controllers';
 import { ScenarioTriggers } from '../../abstractions';
-import logger from 'common/logger';
-
 
 @observer
 export class HealthConsentView extends ViewState {
@@ -13,7 +11,7 @@ export class HealthConsentView extends ViewState {
             message: 'Would you like to grant permission?',
             primaryButton: {
                 text: 'Continue',
-                action: this.askNtfPermissions,
+                action: this.askHealthPermissions,
             },
             secondaryButton: {
                 text: 'Skip',
@@ -22,16 +20,16 @@ export class HealthConsentView extends ViewState {
         });
     }
 
-    askNtfPermissions = () => this.runLongOperation(async () => {
-    const enabled = await AppController.Instance.User.hasHealthDataPermissions.askPermission();
-      logger.log("in ASKNOTIFICATIONS : ", enabled);
-      this.trigger(ScenarioTriggers.Primary);
-  })
+    askHealthPermissions = () => this.runLongOperation(async () => {
+        await AppController.Instance.User.hasHealthDataPermissions.askPermission();
+        this.trigger(ScenarioTriggers.Submit);
+    })
 
     skip = () => {
         this.trigger(ScenarioTriggers.Submit);
     }
 
-  renderContent() {
-    return null;
-}}
+    renderContent() {
+        return null;
+    }
+}
