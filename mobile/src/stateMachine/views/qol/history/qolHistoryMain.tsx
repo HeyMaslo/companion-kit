@@ -68,10 +68,11 @@ export class QolHistoryMainView extends ViewState {
             <Text style={[TextStyles.h2, styles.title]}>Quailty of Life History</Text>
           </View>
           {/* List of History Entries */}
-          <FlatList style={styles.list}
+          <FlatList
             data={this.historyEntries}
             renderItem={this.renderListItem}
             keyExtractor={item => `${item.date}`}
+            indicatorStyle={'black'}
           />
         </Container>
       </MasloPage>
@@ -90,9 +91,6 @@ const styles = StyleSheet.create({
   sortButtonTitle: {
     textDecorationLine: 'underline',
     color: Colors.survey.btnFontColor,
-  },
-  list: {
-    marginBottom: 25,
   },
   listItem: {
     borderBottomWidth: 1,
