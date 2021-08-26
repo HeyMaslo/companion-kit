@@ -33,10 +33,12 @@ import { FeelingsView } from './views/checkin/feelings';
 import { GoalsView } from './views/main/goals';
 import { RewardsView } from './views/rewardsView';
 import { RecordPitureCheckinView } from './views/checkin/recordPictureCheckIn';
+import { QolStartView } from './views/qol/startQOL';
+import { QolEndView } from './views/qol/endQOL';
+import { QolQuestion } from './views/qol/qolQuestion';
 import { HealthConsentView } from './views/healthData/healthConsent';
 import { HealthScopesView } from './views/healthData/healthScopes';
 import { PermissionInstructionView } from './views/healthData/permInstructions';
-
 import Triggers = ScenarioTriggers;
 import { VerificationCodeView } from './views/login/verificationCode';
 import { NoInvitationView } from './views/login/noInvitation';
@@ -182,6 +184,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { priority: 2, target: States.AskNotificationsPermissions, condition: VM.askNotifyPermissions },
             { priority: 3, target: States.HealthConsent, condition: Platform.OS == 'ios' ? VM.needsHealthPromptIOS : VM.hasHealthPermissions },
             { priority: 4, target: States.IntakeForm, condition: VM.showAssessment },
+            { priority: 5, target: States.StartQol, condition: VM.showQol },
             { priority: 10, target: States.Home, condition: () => true },
 
         ],
@@ -209,8 +212,10 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { target: States.JournalDetail, trigger: Triggers.Primary },
             { target: States.IntakeForm, trigger: Triggers.Secondary },
+            { target: States.StartQol, trigger: Triggers.Tertiary },
             { target: States.Journal_SelectMood, trigger: Triggers.Submit },
-            { target: States.HealthScopes, trigger: Triggers.Tertiary },
+            { target: States.QolQuestion, trigger: Triggers.Quaternary },
+            { target: States.HealthScopes, trigger: Triggers.Quinary },
         ],
     },
 
@@ -387,5 +392,28 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { target: States.Settings, trigger: [Triggers.Back] },
         ],
+    },
+
+    [States.StartQol]: {
+        view: QolStartView,
+        exit: [
+            { target: States.Home, trigger: [Triggers.Cancel] },
+            { target: States.QolQuestion, trigger: [Triggers.Submit] },
+        ]
+    },
+
+    [States.QolQuestion]: {
+        view: QolQuestion,
+        exit: [
+            { target: States.Home, trigger: [Triggers.Cancel] },
+            { target: States.EndQol, trigger: [Triggers.Submit] },
+        ]
+    },
+
+    [States.EndQol]: {
+        view: QolEndView,
+        exit: [
+            { target: States.Home, trigger: [Triggers.Cancel] },
+        ]
     },
 };

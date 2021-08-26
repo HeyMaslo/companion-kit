@@ -58,6 +58,10 @@ export enum States {
     ChangePassword,
     NotificationsSettings,
 
+    // QOL Block
+    StartQol,
+    QolQuestion,
+    EndQol,
     // Health Block
     HealthConsent,
     HealthScopes,

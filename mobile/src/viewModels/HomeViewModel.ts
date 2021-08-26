@@ -3,7 +3,7 @@ import CheckInViewModel from './CheckInViewModel';
 import { computed } from 'mobx';
 import NamesHelper from 'common/utils/nameHelper';
 import { months } from 'common/utils/dateHelpers';
-import { ITipItem, IStaticTipItem, ICheckInTipItem, IAssessmentTipItem, IDocumentLinkTip } from './components/TipItemViewModel';
+import { ITipItem, IStaticTipItem, ICheckInTipItem, IFinishQolTipItem, IFullQolTipItem, IAssessmentTipItem, IDocumentLinkTip } from './components/TipItemViewModel';
 import AppViewModel from './index';
 import InterventionTipsViewModel from 'src/viewModels/components/InterventionTipsViewModel';
 import Localization from 'src/services/localization';
@@ -12,6 +12,11 @@ import { tryOpenLink } from 'src/constants/links';
 import { Identify, DocumentLinkEntry, DocumentLinkShareStatuses } from 'common/models';
 import { arraySplit } from 'common/utils/mathx';
 import { UserProfileViewModel } from './UserProfileViewModel';
+import { QolSurveyResults } from 'src/constants/QoL';
+import { PersonaDomains } from 'src/stateMachine/persona';
+import { PersonaArmState } from 'dependencies/persona/lib';
+import { ILocalSettingsController } from 'src/controllers/LocalSettings';
+import logger from 'common/logger';
 
 const EmptyArr: any[] = [];
 
@@ -19,6 +24,7 @@ export default class HomeViewModel {
 
     private static readonly _instance = createLazy(() => new HomeViewModel());
     public static get Instance() { return HomeViewModel._instance.value; }
+    private readonly _settings: ILocalSettingsController = AppController.Instance.User.localSettings;
 
     public readonly interventionTips = process.appFeatures.INTERVENTIONS_ENABLED ? new InterventionTipsViewModel() : null;
 
@@ -97,6 +103,36 @@ export default class HomeViewModel {
             })) || EmptyArr;
         }
 
+        if (AppViewModel.Instance.QOL.isUnfinished) {
+            return [
+                <IFinishQolTipItem>{
+                    id: 'finish-qol',
+                    type: 'finish-qol',
+                    title: 'Tap to continue your QoL Survey!',
+                },
+                <ICheckInTipItem>{
+                    id: 'check-in',
+                    type: 'check-in',
+                    title: AppViewModel.Instance.CreateCheckIn.question || 'Create a new check-in!',
+                },
+            ];
+        }
+
+        if (this.isTimeForFullQol()) {
+            return [
+                <IFullQolTipItem>{
+                    id: 'full-qol',
+                    type: 'full-qol',
+                    title: "It's time for your monthly check-in!",
+                },
+                <ICheckInTipItem>{
+                    id: 'check-in',
+                    type: 'check-in',
+                    title: AppViewModel.Instance.CreateCheckIn.question || 'Create a new check-in!',
+                },
+            ];
+        }
+
         return [
             <ICheckInTipItem>{
                 id: 'check-in',
@@ -130,6 +166,35 @@ export default class HomeViewModel {
             ...tips,
             ...openedLinks.map(docLinkToTip),
         ];
+    }
+
+    // returns true if it has been 28 calendar days since last Full QoL
+    private isTimeForFullQol(): boolean {
+        const lastFullQol: Date = new Date(AppController.Instance.User.localSettings?.current?.qol?.lastFullQol);
+        let nextFullQol: Date = lastFullQol;
+        nextFullQol.setDate(nextFullQol.getDate() + 28);
+        const today: Date = new Date();
+        if (nextFullQol.getDay() === today.getDay() && nextFullQol.getMonth() === today.getMonth()
+        && nextFullQol.getFullYear() === today.getFullYear()) {
+            this._settings.updateLastFullQol({ lastFullQol: Date() });
+            this._settings.updatePendingFullQol({ pendingFullQol: true });
+            return true;
+        } else if (AppController.Instance.User.localSettings?.current?.qol?.pendingFullQol) { return true; }
+        return false;
+    }
+
+    public getArmMagnitudes = async () => {
+        const lastSurveyScores: QolSurveyResults = await AppController.Instance.User.backend.getSurveyResults();
+        if (lastSurveyScores === null) {
+            return PersonaArmState.createEmptyArmState();
+        }
+        let currentArmMagnitudes: PersonaArmState = {};
+        for (let domain of PersonaDomains) {
+            let score: number = lastSurveyScores[domain];
+            let mag: number = 0.4 + (score * 3 / 100);
+            currentArmMagnitudes[domain] = mag;
+        }
+        return currentArmMagnitudes;
     }
 
     public markLinkDocumentAsSeen = (doc: Identify<DocumentLinkEntry>) => {

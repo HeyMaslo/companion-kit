@@ -4,11 +4,13 @@ import { reaction } from 'mobx';
 import {
     MasloPersonaExpo,
     PersonaViewState,
+    PersonaArmState,
     States as PersonaStates,
     IPersonaContext,
     PersonaSettings,
     CurrentPersonaSettings,
 } from 'dependencies/persona/expo';
+import { Domains as PersonaDomains } from 'dependencies/persona/lib/domains';
 import { IPersonaViewContext } from './abstractions';
 import Colors from 'src/constants/colors';
 import Layout from 'src/constants/Layout';
@@ -17,7 +19,7 @@ import * as Haptics from 'src/services/haptics';
 // FIREBASE & EXPO-THREE COMPATIBILITY HOTFIX
 (global as any).Image = undefined;
 
-export { PersonaStates, PersonaViewState, IPersonaContext, PersonaSettings, CurrentPersonaSettings };
+export { PersonaStates, PersonaViewState, PersonaArmState, IPersonaContext, PersonaSettings, CurrentPersonaSettings, PersonaDomains };
 
 export const PersonaViewPresets: { [name: string]: PersonaViewState } = {
     Default: {
@@ -49,7 +51,7 @@ export const PersonaViewPresets: { [name: string]: PersonaViewState } = {
     },
 };
 
-const PersonaScale = 0.8 * 2 / 3;
+const PersonaScale = 0.5 * 2 / 3;
 
 type Props = {
     context: IPersonaViewContext,

@@ -8,6 +8,7 @@ export type UserLocalSettings = {
 
     notifications?: NotificationsSettings;
     health?: HealthPermissionsSettings;
+    qol?: QolSettings;
 };
 
 export type NotificationsSettings = {
@@ -16,10 +17,18 @@ export type NotificationsSettings = {
     token?: string,
     locals?: LocalNotificationsSchedule,
 };
+
 export type HealthPermissionsSettings = {
     enabledAndroid?: boolean,
     seenPermissionPromptIOS?: boolean,
 };
+
+export type QolSettings = {
+    seenQolOnboarding?: boolean,
+    lastFullQol?: string,
+    pendingFullQol: boolean,
+};
+
 export type LocalNotificationsSchedule = {
     current: ScheduleResult,
     schedule: {

@@ -25,5 +25,8 @@
   "include": [
     "src/**/*",
     "__tests__/**/*"
+  ],
+  "exclude": [
+    "**/**/*template.ts"
   ]
 }
