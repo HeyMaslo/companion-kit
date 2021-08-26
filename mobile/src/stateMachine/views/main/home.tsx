@@ -51,7 +51,6 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     get viewModel() { return HomeViewModel.Instance; }
     get viewQolModel() { return AppViewModel.Instance.QOL; }
 
-
     async start() {
         await AppViewModel.Instance.QOL.init();
         const qolArmMagnitudes = await this.viewModel.getArmMagnitudes();
