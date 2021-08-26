@@ -65,5 +65,4 @@ export enum States {
     // Health Block
     HealthConsent,
     HealthScopes,
-    PermInstructions,
 }

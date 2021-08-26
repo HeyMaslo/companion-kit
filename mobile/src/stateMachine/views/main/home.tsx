@@ -17,7 +17,6 @@ import { IInterventionTipItem, ITipItem } from 'src/viewModels/components/TipIte
 import { InterventionTipsStatuses, Identify, DocumentLinkEntry } from 'common/models';
 import { TransitionObserver } from 'common/utils/transitionObserver';
 import { UserProfileName } from 'src/screens/components/UserProfileName';
-import AppController from 'src/controllers';
 import AppViewModel from 'src/viewModels';
 import { QolSurveyType } from 'src/constants/QoL';
 
@@ -46,8 +45,6 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
             : this.persona.setupContainerHeight(minContentHeight, { rotation: 120, transition: { duration: 1.5 } });
     }
 
-    private get originalIsEnabledOG() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabledOG; }
-    private get originalIsEnabled() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabled; }
     get viewModel() { return HomeViewModel.Instance; }
     get viewQolModel() { return AppViewModel.Instance.QOL; }
 
@@ -116,10 +113,6 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         if (this._linkDocModalShown) {
             this.hideModal();
         }
-    }
-
-    private healthSettings() {
-        this.trigger(ScenarioTriggers.Tertiary)
     }
 
     private onInTake = () => {

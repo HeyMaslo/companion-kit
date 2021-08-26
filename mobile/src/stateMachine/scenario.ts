@@ -38,7 +38,6 @@ import { QolEndView } from './views/qol/endQOL';
 import { QolQuestion } from './views/qol/qolQuestion';
 import { HealthConsentView } from './views/healthData/healthConsent';
 import { HealthScopesView } from './views/healthData/healthScopes';
-import { PermissionInstructionView } from './views/healthData/permInstructions';
 import Triggers = ScenarioTriggers;
 import { VerificationCodeView } from './views/login/verificationCode';
 import { NoInvitationView } from './views/login/noInvitation';
@@ -83,21 +82,13 @@ export const MasloScenario: GlobalScenario<States> = {
     [States.HealthConsent]: {
         view: HealthConsentView,
         exit: [
-            // { target: States.HealthScopes, trigger: Triggers.Primary },
             { target: States.Home, trigger: Triggers.Submit }, 
-        ],
-    },
-    [States.PermInstructions]: {
-        view: PermissionInstructionView,
-        exit: [
-            { target: States.HealthScopes, trigger: Triggers.Primary },
         ],
     },
     [States.HealthScopes]: {
         view: HealthScopesView,
         exit: [
             { target: States.Settings, trigger: Triggers.Back },
-            { target: States.PermInstructions, trigger: Triggers.Primary },
         ],
     },
     [States.SignInWithEmail]: {
@@ -215,7 +206,6 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.StartQol, trigger: Triggers.Tertiary },
             { target: States.Journal_SelectMood, trigger: Triggers.Submit },
             { target: States.QolQuestion, trigger: Triggers.Quaternary },
-            { target: States.HealthScopes, trigger: Triggers.Quinary },
         ],
     },
 
