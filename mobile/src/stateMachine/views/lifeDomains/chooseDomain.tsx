@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 import { Button } from 'src/components'
 import { DomainName } from 'src/constants/Domain';
 import AppViewModel from 'src/viewModels';
