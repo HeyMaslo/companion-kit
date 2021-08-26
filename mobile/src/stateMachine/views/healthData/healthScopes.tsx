@@ -66,7 +66,11 @@ export class HealthScopesView extends ViewState {
                 </View>,
             onConfirm: async () => {
                 AppController.Instance.PromptModal.closeModal();
-                await Links.tryOpenLink('app-settings:')
+                // Sub-optimal ways to open iOS settings
+                // const pathParts = ['HEALTH', '&path=', 'Privacy', ':', 'prefs', 'App-']; // Private API could get rejected (obscured here)
+                // const path = pathParts.reverse().join(''); 
+                const path = 'app-settings:'; // opens CompanionKit specific settings (not health) by using Public API
+                await Links.tryOpenLink(path);
             },
         });
 

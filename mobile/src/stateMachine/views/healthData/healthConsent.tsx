@@ -5,6 +5,7 @@ import { ScenarioTriggers } from '../../abstractions';
 
 @observer
 export class HealthConsentView extends ViewState {
+
     async start() {
         this.showModal({
             title: 'We need your health data to build a better personalized experience for you.',

@@ -54,7 +54,7 @@ import iOS_SettingsPNG from 'src/assets/images/ios_settings.png';
 import iOS_PrivacyPNG from 'src/assets/images/ios_privacy.png';
 import iOS_HealthPNG from 'src/assets/images/ios_health.png';
 import iOS_SwitchPNG from 'src/assets/images/ios_switch.png';
-import iOS_CompanionKitPNG from 'src/assets/images/ios_companionkit.png';
+import iOS_CompanionKitPNG from 'src/assets/images/ios_companionkit.png'; // TODO: This must be updated to match the app icon
 
 export default {
     signInWithGoogle: GoogleIconPNG,
