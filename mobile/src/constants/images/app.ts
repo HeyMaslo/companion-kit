@@ -1,6 +1,6 @@
-import GoogleIconPng from 'src/assets/images/app/google-icon.png';
-import AudioThumbPng from 'src/assets/images/app/audio-thumb.png';
-import AltAudioThumbPng from 'src/assets/images/app/alt-audio-thumb.png';
+import GoogleIconPNG from 'src/assets/images/app/google-icon.png';
+import AudioThumbPNG from 'src/assets/images/app/audio-thumb.png';
+import AltAudioThumbPNG from 'src/assets/images/app/alt-audio-thumb.png';
 import AddStoryButtonSVG from 'src/assets/images/app/add-btn-bg.svg';
 import BackIconSVG from 'src/assets/images/app/back-arrow.svg';
 import CloseIconSVG from 'src/assets/images/app/close-icon.svg';
@@ -50,17 +50,16 @@ import GoalsActiveSVG from 'src/assets/images/app/goals-icon-active.svg';
 import GoalsIndicatorSVG from 'src/assets/images/app/goals-icon-indicator.svg';
 import GoalsIndicatorActiveSVG from 'src/assets/images/app/goals-icon-indicator-active.svg';
 import SettingsIconActiveSVG from 'src/assets/images/app/settings-icon-active.svg';
-import iOS_Settings from 'src/assets/images/ios_settings.png';
-import iOS_Privacy from 'src/assets/images/ios_privacy.png';
-import iOS_Health from 'src/assets/images/ios_health.png';
-import iOS_Switch from 'src/assets/images/ios_switch.png';
-import iOS_CompanionKit from 'src/assets/images/ios_companionkit.png';
-
+import iOS_SettingsPNG from 'src/assets/images/ios_settings.png';
+import iOS_PrivacyPNG from 'src/assets/images/ios_privacy.png';
+import iOS_HealthPNG from 'src/assets/images/ios_health.png';
+import iOS_SwitchPNG from 'src/assets/images/ios_switch.png';
+import iOS_CompanionKitPNG from 'src/assets/images/ios_companionkit.png';
 
 export default {
-    signInWithGoogle: GoogleIconPng,
-    audioThumb: AudioThumbPng,
-    altAudioThumb: AltAudioThumbPng,
+    signInWithGoogle: GoogleIconPNG,
+    audioThumb: AudioThumbPNG,
+    altAudioThumb: AltAudioThumbPNG,
     bottomAddNewStory: AddStoryButtonSVG,
     closeIcon: CloseIconSVG,
     backIcon: BackIconSVG,
@@ -114,10 +113,10 @@ export default {
     pinIcon: PinIconSVG,
     homeIcon: HomeIconSVG,
     busIcon: BusIconSVG,
-    // ios health instructions
-    iOS_Settings: iOS_Settings,
-    iOS_Privacy: iOS_Privacy,
-    iOS_Health: iOS_Health,
-    iOS_CompanionKit: iOS_CompanionKit,
-    iOS_Switch: iOS_Switch,
+    // iOS health instructions
+    iOS_Settings: iOS_SettingsPNG,
+    iOS_Privacy: iOS_PrivacyPNG,
+    iOS_Health: iOS_HealthPNG,
+    iOS_CompanionKit: iOS_CompanionKitPNG,
+    iOS_Switch: iOS_SwitchPNG,
 };
