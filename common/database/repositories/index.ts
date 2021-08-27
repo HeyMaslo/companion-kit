@@ -8,6 +8,11 @@ import RecordRepo from './RecordRepo';
 import RepoError from './RepoError';
 import StaticTipsRepo from './StaticTipsRepo';
 import ServiceJobs from './ServiceJobsRepo';
+import GenericRepo from './GenericRepo';
+import DomainRepo from './DomainRepo';
+import SurveyStateRepo from './SurveyStateRepo';
+import GenericUserRepo from './GenericUserRepo';
+import SurveyResultsRepo from './SurveyResultsRepo';
 
 export {
     DBProvider,
@@ -21,4 +26,9 @@ export {
     RecordRepo,
     StaticTipsRepo,
     ServiceJobs,
+    GenericRepo,
+    GenericUserRepo,
+    DomainRepo,
+    SurveyStateRepo,
+    SurveyResultsRepo,
 };

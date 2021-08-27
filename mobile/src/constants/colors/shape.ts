@@ -288,4 +288,10 @@ export type ProjectColorsSchema = {
         nextPromptBg: string,
     },
 
+    // SurveyScreenView
+    survey: {
+        btnBackgroundColor: string;
+        btnFontColor: string;
+    },
+
 };
