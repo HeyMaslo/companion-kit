@@ -65,9 +65,13 @@ export default abstract class BackendControllerBase implements IBackendControlle
 
     public logNotification
     (clientID: string, notif: NotificationResult): Promise<RemoteCallResult>  {
-        return this.Client.post('/notification', {
-            clientID,
-            data: notif,
+        return this.Client.post('/affirmation/notif', {
+            id: notif.notifId,
+            data: {
+                affirmationId: notif.affirmationId,
+                userId: clientID,
+                date: notif.date,
+            },
         },
         {
             headers: {
@@ -86,11 +90,11 @@ export default abstract class BackendControllerBase implements IBackendControlle
         });
     }
 
-    public logAffirmation(affirmationId: string, text: string, domains: string[], keywords: string[]): Promise<RemoteCallResult> {
+    public logAffirmation(affirmationId: string, content: string, domains: string[], keywords: string[]): Promise<RemoteCallResult> {
         return this.Client.post('/affirmation', {
-            affirmationId,
+            id: affirmationId,
             data: {
-                text,
+                content,
                 domains,
                 keywords,
             },            
