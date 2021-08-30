@@ -1,5 +1,10 @@
 version: '3'
 services:
+  api:
+    build: server/functions/__tests__/mocks/api
+    ports:
+      - 8888:8888
+    command: "yarn start"
   server:
     build: .
     tty: true
