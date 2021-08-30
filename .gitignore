@@ -12,4 +12,6 @@ yarn-error.log
 
 ## Configs
 common/models/ClientCard.ts
+
+**/**/**/*.swp
 /server/functions/api_key.json
