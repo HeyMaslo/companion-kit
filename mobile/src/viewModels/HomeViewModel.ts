@@ -184,7 +184,7 @@ export default class HomeViewModel {
     }
 
     public getArmMagnitudes = async () => {
-        const lastSurveyScores: QolSurveyResults = await AppController.Instance.User.backend.getSurveyResults();
+        const lastSurveyScores: QolSurveyResults = await AppController.Instance.User.qol.getSurveyResults();
         if (lastSurveyScores === null) {
             return PersonaArmState.createEmptyArmState();
         }

@@ -33,15 +33,15 @@ export default abstract class BackendControllerBase implements IBackendControlle
     }
 
     public logMeasurement
-    (clientID: string, coachID: string, type: string, value: number, date: number)
+    (clientID: string, source: string, name: string, value: number, date: number)
     : Promise<RemoteCallResult> {
         return this.Client.post('/measurement',
             {
                 clientID,
-                coachID,
                 data: {
+                    source,
                     date,
-                    dataType: type,
+                    name,
                     value,
                 },
             },

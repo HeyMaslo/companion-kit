@@ -11,10 +11,11 @@ enum Collections {
     LocalSettings = 'localSettings',
     ServiceJobs = 'serviceJobs',
     Generic = 'generic',
-    SurveyState = 'surveyState',
     SurveyResults = 'surveyResults',
     Domains = 'domains',
     Questions = 'questions',
+    UserState = 'userState',
+    Strategies = 'strategies',
 }
 
 namespace Collections {

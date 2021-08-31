@@ -10,6 +10,7 @@ import clientConfig from './mocks/client/config';
 
 import { createDomain, createQuestion, getDomains, getQuestions } from 'server/qol';
 import { QoLActionTypes } from 'common/models/dtos/qol';
+import { DomainScope } from '../../../mobile/src/constants/Domain';
 
 const {test, app} = firebase.init('qol-test');
 
@@ -29,10 +30,10 @@ describe('QoL', () => {
             it('Should allow a domain to be created', async () => {
                 const result = await createDomain({
                     type: QoLActionTypes.CreateDomain,
-                    scope: 'GENERAL',
-                    position: 1,
+                    scope: DomainScope.GENERAL,
                     name: 'Physical',
                     slug: 'physical',
+                    importance: 'SLEEP = Sleeeeepz Sleeeeepz Sleeeeepz Sleeeeepz incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
                 });
                 assert.isNull(result.error);
             });
@@ -40,9 +41,9 @@ describe('QoL', () => {
                 const result = await createDomain({
                     type: QoLActionTypes.CreateDomain,
                     scope: 'NOT_A_VALID_SCOPE',
-                    position: 1,
                     name: 'Physical',
                     slug: 'physical',
+                    importance: 'PHYSICAL = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
                 });
                 assert.isNotNull(result.error);
             });
@@ -58,9 +59,9 @@ describe('QoL', () => {
                 await createDomain({
                     type: QoLActionTypes.CreateDomain,
                     scope: 'GENERAL',
-                    position: 1,
                     name: 'Physical',
                     slug: 'physical',
+                    importance: '',
                 });
                 const result = await getDomains();
                 assert.isNull(result.error);
@@ -83,9 +84,9 @@ describe('QoL', () => {
             await createDomain({
                 type: QoLActionTypes.CreateDomain,
                 scope: 'GENERAL',
-                position: 1,
                 name: 'Physical',
                 slug: 'physical',
+                importance: '',
             });
             const createResult = await createQuestion({
                 type: QoLActionTypes.CreateQuestion,
