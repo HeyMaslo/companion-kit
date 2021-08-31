@@ -1,16 +1,15 @@
-import { PartialQol } from '../../../mobile/src/constants/QoL';
 import GenericUserRepo from './GenericUserRepo';
-import { DocumentSnapshot, Query } from 'common/database/repositories/dbProvider';
+import { UserState } from 'common/models/userState';
 import Collections from 'common/database/collections';
 
-export default class SurveyStateRepo extends GenericUserRepo<PartialQol> {
+export default class UserStateRepo extends GenericUserRepo<UserState> {
 
     get collectionName() {
-        return Collections.SurveyState;
+        return Collections.UserState;
     }
 
-    async getByUserId(userId: string): Promise<PartialQol> {
-        const docs: PartialQol[] = await this.getData(userId);
+    async getByUserId(userId: string): Promise<UserState> {
+        const docs: UserState[] = await this.getData(userId);
         if (docs.length < 1) {
             return null;
         } else {
@@ -18,7 +17,7 @@ export default class SurveyStateRepo extends GenericUserRepo<PartialQol> {
         }
     }
 
-    async setByUserId(userId: string, state: PartialQol) {
+    async setByUserId(userId: string, state: UserState) {
         const docs = await this.getDocs(userId);
         const data = { userId, data: state };
         if (docs.length < 1) {

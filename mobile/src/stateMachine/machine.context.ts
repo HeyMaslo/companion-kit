@@ -106,6 +106,32 @@ class PersonaViewContext implements IPersonaViewContext {
             view: view,
         };
     }
+    getScrollContainerHeightDown(baseView?: Partial<PersonaViewState>): { height: number, view: PersonaViewState } {
+        const dh = Layout.window.height;
+        const personaRadius = this.personaRadius;
+        const pixelRatio = PixelRatio.get();
+
+        const view: PersonaViewState = {
+            scale: 1,
+            rotation: 45,
+            ...baseView,
+            position: {
+                x: 0,
+                y: -(dh * pixelRatio / 2),
+            },
+            anchorPoint: { x: 0, y: 0 },
+            debugName: 'SETUP_SCROLL',
+        };
+
+        const availableHeight = dh - personaRadius / pixelRatio;
+
+        logger.log('[PersonaViewContext] getScrollContainerHeight', { personaRadius, availableHeight, pixelRatio });
+
+        return {
+            height: availableHeight,
+            view: view,
+        };
+    }
 
     setupContainerHeight(minHeight: number, baseView?: Partial<PersonaViewState>) {
         const res = this.getContainerHeight(minHeight, baseView);
@@ -115,6 +141,11 @@ class PersonaViewContext implements IPersonaViewContext {
 
     setupContainerHeightForceScroll(baseView?: Partial<PersonaViewState>) {
         const res = this.getScrollContainerHeight(baseView);
+        this.view = res.view;
+        return res.height;
+    }
+    setupContainerHeightForceScrollDown(baseView?: Partial<PersonaViewState>) {
+        const res = this.getScrollContainerHeightDown(baseView);
         this.view = res.view;
         return res.height;
     }

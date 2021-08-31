@@ -53,7 +53,8 @@ export class WelcomeView extends ViewState {
 
     async start() {
         Animated.timing(this.state.opacity, {
-            toValue: 1, delay: 500, duration: 500, useNativeDriver: true
+            toValue: 1, delay: 500, duration: 500,
+            useNativeDriver: true,
         }).start();
     }
 

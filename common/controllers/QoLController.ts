@@ -4,6 +4,7 @@ import {
     PartialQol,
 } from '../../mobile/src/constants/QoL';
 import RepoFactory from 'common/controllers/RepoFactory';
+import { UserState } from 'common/models/userState';
 import { createLogger } from 'common/logger';
 
 const logger = createLogger('[QoLController]');
@@ -34,7 +35,16 @@ export default class QoLControllerBase implements IQoLController {
             return false;
         }
         try {
-            await RepoFactory.Instance.surveyState.setByUserId(this._userId, qol);
+            let st: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
+            if (st) {
+                st.surveyState = qol;
+            } else {
+                st = {
+                    surveyState: qol,
+                    focusDomains: []
+                }
+            }
+            await RepoFactory.Instance.userState.setByUserId(this._userId, st);
             return true;
         } catch (err) {
             logger.log(`sendPartialQol ERROR:  ${err}`);
@@ -47,13 +57,30 @@ export default class QoLControllerBase implements IQoLController {
     public async getPartialQol(): Promise<PartialQol> {
 
         logger.log(`get partial qol: userId = ${this._userId}`);
-        const result = await RepoFactory.Instance.surveyState.getByUserId(this._userId);
+        const state = await RepoFactory.Instance.userState.getByUserId(this._userId);
+        let result = null;
+        if (state) {
+            result = state.surveyState;
+        }
         logger.log(`get partial qol: result = ${JSON.stringify(result)}`);
         return result;
     }
 
     public setUser(userId: string) {
         this._userId = userId;
+    }
+
+    public async setUserStateProperty(propertyName: keyof UserState, parameter: UserState[keyof UserState]): Promise<void> {
+        let st: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
+        if (st === null) {
+            st = {
+                [propertyName]: parameter,
+                surveyState: null
+            }
+        } else if (propertyName !== 'surveyState' && Array.isArray(parameter)){
+            st[propertyName] = parameter;
+        }
+        await RepoFactory.Instance.userState.setByUserId(this._userId, st);
     }
 
 }
