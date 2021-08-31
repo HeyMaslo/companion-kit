@@ -89,6 +89,7 @@ export const MasloScenario: GlobalScenario<States> = {
         view: HealthScopesView,
         exit: [
             { target: States.Settings, trigger: Triggers.Back },
+            { target: States.Home, trigger: Triggers.Cancel },
         ],
     },
     [States.SignInWithEmail]: {
@@ -206,6 +207,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.StartQol, trigger: Triggers.Tertiary },
             { target: States.Journal_SelectMood, trigger: Triggers.Submit },
             { target: States.QolQuestion, trigger: Triggers.Quaternary },
+            { target: States.HealthScopes, trigger: Triggers.Quinary },
         ],
     },
 

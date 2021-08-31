@@ -82,14 +82,9 @@ export class HealthScopesView extends ViewState {
         const explaining = 'We are collecting your health data to build a better personalized experience for you in the app';
         const perm = this.model.getPermissions();
         return (
-            <MasloPage style={this.baseStyles.page}>
+            <MasloPage style={this.baseStyles.page} onBack={() => this.trigger(ScenarioTriggers.Back)} onClose={() => this.trigger(ScenarioTriggers.Cancel)}>
                 <Container style={styles.topBarWrapWrap}>
                     <PersonaScrollMask />
-                    <View style={styles.topBarWrap}>
-                        <Button style={styles.backBtn} underlayColor='transparent' onPress={() => this.trigger(ScenarioTriggers.Back)}>
-                            <Images.backIcon width={28} height={14} />
-                        </Button>
-                    </View>
                 </Container>
                 <ScrollView style={[{ zIndex: 0, elevation: 0 }]}>
                     <Container style={[this.baseStyles.container, styles.container]}>

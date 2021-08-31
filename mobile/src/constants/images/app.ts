@@ -50,6 +50,7 @@ import GoalsActiveSVG from 'src/assets/images/app/goals-icon-active.svg';
 import GoalsIndicatorSVG from 'src/assets/images/app/goals-icon-indicator.svg';
 import GoalsIndicatorActiveSVG from 'src/assets/images/app/goals-icon-indicator-active.svg';
 import SettingsIconActiveSVG from 'src/assets/images/app/settings-icon-active.svg';
+import HealthHeartSVG from 'src/assets/images/app/apple-health-heart.svg';
 import iOS_SettingsPNG from 'src/assets/images/ios_settings.png';
 import iOS_PrivacyPNG from 'src/assets/images/ios_privacy.png';
 import iOS_HealthPNG from 'src/assets/images/ios_health.png';
@@ -114,6 +115,7 @@ export default {
     homeIcon: HomeIconSVG,
     busIcon: BusIconSVG,
     // iOS health instructions
+    healthHeart: HealthHeartSVG,
     iOS_Settings: iOS_SettingsPNG,
     iOS_Privacy: iOS_PrivacyPNG,
     iOS_Health: iOS_HealthPNG,
