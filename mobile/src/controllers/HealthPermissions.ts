@@ -3,9 +3,9 @@ import { IUserNameProvider } from 'src/services/Notifications';
 import { ILocalSettingsController } from './LocalSettings';
 import { ThrottleAction } from 'common/utils/throttle';
 import { IDisposable } from 'common/utils/unsubscriber';
-import { auth, init, disconnectAndroid, getDOB, getAuthStatus } from 'src/helpers/health'
+import { auth, initHealthKit, disconnectAndroid, getDOB, getAuthStatus, checkForStepsData } from 'src/helpers/health'
 import { Platform } from 'react-native';
-import logger, { createLogger } from 'common/logger';
+import logger from 'common/logger';
 
 
 export class HealthPermissionsController implements IDisposable {
@@ -15,6 +15,8 @@ export class HealthPermissionsController implements IDisposable {
 
     @observable
     private _enabledByUserOriginal: boolean;
+
+    private _permissionsAsked: boolean = false;
 
     private readonly _syncThrottle = new ThrottleAction<Promise<void>>(1000);
 
@@ -27,20 +29,22 @@ export class HealthPermissionsController implements IDisposable {
 
     public get permissionsGranted() { return this._enabledByUser; }
 
-    public get permissionsAsked() { return this._enabledByUser != null; }
+    public get permissionsAsked() { return this._permissionsAsked; }
 
     // Should be OK to call multiple times
     async initAsync() {
-        this._enabledByUser = this.settings.current.health?.enabledAndroid;
+        this._permissionsAsked = !!this.settings.current.health?.seenPermissionPromptIOS;
+        this._enabledByUser = Platform.OS == 'ios' ? (this.permissionsAsked && await checkForStepsData()) : this.settings.current.health?.enabledAndroid;
     }
 
     public askPermission = async () => {
         if (Platform.OS == 'ios') {
-            await init();
+            await initHealthKit();
             this.settings.updateHealthPermissions({
                 seenPermissionPromptIOS: true,
                 enabledAndroid: false,
             });
+            await this.initAsync();
         } else if (Platform.OS == 'android') {
             const authorized = await auth();
             logger.log("PERMS", authorized);

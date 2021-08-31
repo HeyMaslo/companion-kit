@@ -20,6 +20,7 @@ import { UserProfileName } from 'src/screens/components/UserProfileName';
 import AppViewModel from 'src/viewModels';
 import { QolSurveyType } from 'src/constants/QoL';
 import Images from 'src/constants/images';
+import AppController from 'src/controllers';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -30,6 +31,8 @@ let isFirstLaunch = true;
 export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQol: boolean }> {
 
     private _linkDocModalShown = true;
+    private get healthPermissionsEnabled() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabled; };
+
 
     state = {
         opacity: new Animated.Value(0),
@@ -250,7 +253,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     }
 
     private getCenterElement() {
-        if (this.getHealthPerm()) {
+        if (this.showHealthPermissionCard()) {
             return this.getHealth();
         }
 
@@ -282,14 +285,14 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         );
     }
 
-    private getHealthPerm() {
-        return Platform.OS == 'ios'; //todo
+    private showHealthPermissionCard() {
+        return Platform.OS == 'ios' && !this.healthPermissionsEnabled;
     }
 
     private getHealth() {
         return (
             <>
-                {this.getHealthPerm() && (
+                {this.showHealthPermissionCard() && (
                     <TouchableOpacity style={styles.healthView} onPress={this.onHealthSettings}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingTop: 15 }}>
                             <Text style={this.textStyles.p1}>Polarus needs access to {"\n"}your health data.</Text>

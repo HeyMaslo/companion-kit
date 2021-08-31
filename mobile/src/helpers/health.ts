@@ -99,7 +99,7 @@ export const auth = async () => {
 
 export const disconnectAndroid = () => { GoogleFit.disconnect() }
 
-export const init = async (): Promise<boolean> => {
+export const initHealthKit = async (): Promise<boolean> => {
   return new Promise((resolve, reject) => {
     AppleHealthKit.initHealthKit(permissions, (err, results) => {
       if (err) {
@@ -108,6 +108,24 @@ export const init = async (): Promise<boolean> => {
       }
       console.log('RESULTS FROM INIT HEALTHKIT', results);
       resolve(true);
+    });
+  })
+}
+
+// returns true if there is walking/running distance data that is greater than 0
+export const checkForStepsData = async (): Promise<boolean> => {
+  return new Promise((resolve, reject) => {
+    AppleHealthKit.getDistanceWalkingRunning(null, (err, results) => {
+      if (err) {
+        console.log('appleHealthKit.getDistanceWalkingRunning error:', err);
+        resolve(false);
+        return;
+      }
+
+      console.log('Walking results FROM HEALTHKIT', results.value);
+      const res = results.value && results.value > 0;
+      resolve(res);
+      return;
     });
   })
 }

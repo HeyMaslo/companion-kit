@@ -24,7 +24,13 @@ export class HealthScopesView extends ViewState {
     }
 
     async start() {
-        // this.model.settingsSynced.on(this.onScheduleSynced);
+        if (!AppController.Instance.User.hasHealthDataPermissions.permissionsAsked) {
+            this.runLongOperation(async () => {
+                if (await AppController.Instance.User.hasHealthDataPermissions.askPermission()) {
+                    this.trigger(ScenarioTriggers.Cancel);
+                }
+            })
+        }
     }
 
     // componentWillUnmount() {
