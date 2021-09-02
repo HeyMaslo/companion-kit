@@ -112,17 +112,17 @@ export const initHealthKit = async (): Promise<boolean> => {
   })
 }
 
-// returns true if there is walking/running distance data that is greater than 0
+// returns true if there is step count data that is greater than 0
 export const checkForStepsData = async (): Promise<boolean> => {
   return new Promise((resolve, reject) => {
-    AppleHealthKit.getDistanceWalkingRunning(null, (err, results) => {
+    AppleHealthKit.getStepCount(null, (err, results) => {
       if (err) {
-        console.log('appleHealthKit.getDistanceWalkingRunning error:', err);
+        console.log('appleHealthKit.getStepCount error:', err);
         resolve(false);
         return;
       }
 
-      console.log('Walking results FROM HEALTHKIT', results.value);
+      console.log('Step Count results FROM HEALTHKIT', results.value);
       const res = results.value && results.value > 0;
       resolve(res);
       return;
