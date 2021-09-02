@@ -123,7 +123,7 @@ export const checkForStepsData = async (): Promise<boolean> => {
       }
 
       console.log('Step Count results FROM HEALTHKIT', results.value);
-      const res = results.value && results.value > 0;
+      const res: boolean = results.value && results.value > 0;
       resolve(res);
       return;
     });
