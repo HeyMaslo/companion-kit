@@ -56,6 +56,11 @@ import iOS_PrivacyPNG from 'src/assets/images/ios_privacy.png';
 import iOS_HealthPNG from 'src/assets/images/ios_health.png';
 import iOS_SwitchPNG from 'src/assets/images/ios_switch.png';
 import iOS_CompanionKitPNG from 'src/assets/images/ios_companionkit.png'; // TODO: This png must be updated to match the app icon
+import LeisureIconSVG from 'src/assets/images/app/leisure.svg';
+import MoneyIconSVG from 'src/assets/images/app/money.svg';
+import PhysicalIconSVG from 'src/assets/images/app/physical.svg';
+import SelfEsteemIconSVG from 'src/assets/images/app/selfesteem.svg';
+import SleepIconSVG from 'src/assets/images/app/sleep.svg';
 
 export default {
     signInWithGoogle: GoogleIconPNG,
@@ -121,4 +126,10 @@ export default {
     iOS_Health: iOS_HealthPNG,
     iOS_CompanionKit: iOS_CompanionKitPNG,
     iOS_Switch: iOS_SwitchPNG,
+    // Domain
+    leisureIcon: LeisureIconSVG,
+    moneyIcon: MoneyIconSVG,
+    physicalIcon: PhysicalIconSVG,
+    selfEsteemIcon: SelfEsteemIconSVG,
+    sleepIcon: SleepIconSVG,
 };

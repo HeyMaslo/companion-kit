@@ -27,6 +27,8 @@
     "__tests__/**/*"
   ],
   "exclude": [
+    "node_modules",
+    "__tests__/mocks/api",
     "**/**/*template.ts"
   ]
 }

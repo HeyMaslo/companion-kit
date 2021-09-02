@@ -21,6 +21,8 @@ import AppViewModel from 'src/viewModels';
 import { QolSurveyType } from 'src/constants/QoL';
 import Images from 'src/constants/images';
 import AppController from 'src/controllers';
+import ChooseDomainViewModel from 'src/viewModels/ChooseDomainViewModel';
+import ChooseStrategyViewModel from 'src/viewModels/ChooseStrategyViewModel';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -138,6 +140,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
     private onHealthSettings = () => {
         this.trigger(ScenarioTriggers.Quinary);
+    }
+    private onStartDomains = () => {
+        AppViewModel.Instance.ChooseDomain = new ChooseDomainViewModel();
+        AppViewModel.Instance.ChooseStrategy = new ChooseStrategyViewModel();
+        this.trigger(ScenarioTriggers.Next);
     }
 
     private openStoryDetails = (jid: string) => {
@@ -339,6 +346,10 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
+                    <View style={{flexDirection:'row'}}>
+                    {/* Domains button used for development only and will be removed eventually */}
+                    <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains()}/>
+                    </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getCenterElement()}
                     {loading
                         ? <ActivityIndicator size='large' />
@@ -413,4 +424,14 @@ const styles = StyleSheet.create({
         borderColor: 'red',
         backgroundColor: 'white'
     },
+    qolButton: {
+        width: '30%',
+        height: 30,
+        marginLeft: 20,
+        marginBottom: 15
+    },
+    domainView: {
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+    }
 });

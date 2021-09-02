@@ -15,6 +15,7 @@ export enum ScenarioTriggers {
     Tertiary,
     Quaternary,
     Quinary,
+    Next,
 }
 
 export enum NavigationStates {
@@ -27,6 +28,7 @@ export interface IPersonaViewContext extends IPersonaContext {
 
     setupContainerHeight(minHeight: number, view?: Partial<PersonaViewState>): number;
     setupContainerHeightForceScroll(view?: Partial<PersonaViewState>): number;
+    setupContainerHeightForceScrollDown(view?: Partial<PersonaViewState>): number;
 }
 
 export interface IStateContext {
