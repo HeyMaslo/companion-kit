@@ -346,9 +346,9 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
-                    <View style={{flexDirection:'row'}}>
-                    {/* Domains button used for development only and will be removed eventually */}
-                    <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains()}/>
+                    <View style={{ flexDirection: 'row' }}>
+                        {/* Domains button used for development only and will be removed eventually */}
+                        <Button title='Domains' style={styles.qolButton} onPress={() => this.onStartDomains()} />
                     </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getCenterElement()}
                     {loading
