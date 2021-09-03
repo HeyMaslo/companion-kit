@@ -46,7 +46,7 @@ export class HealthScopesView extends ViewState {
             typeModal: 'positive',
             title: 'Allow CompanionKit to access your health data',
             message: 'Please grant access from Settings.',
-            confirmText: 'Got it',
+            confirmText: 'Go to settings',
             customView:
                 <View>
                     {/* <View style={styles.imageNextToText}>
@@ -85,7 +85,7 @@ export class HealthScopesView extends ViewState {
         // const enabled = Platform.OS == 'ios' ? this.model.isEnabledOG : this.model.isEnabled;
         // const permissionsEnabled = enabled && !this.model.isToggleInProgress;
         const titleText = 'Health Data';
-        const explaining = 'We are collecting your health data to build a better personalized experience for you in the app';
+        const explaining = 'We are collecting your health data to build a better personalized experience for you in the app.';
         const perm = this.model.getPermissions();
         return (
             <MasloPage style={this.baseStyles.page} onBack={() => this.trigger(ScenarioTriggers.Back)} onClose={() => this.trigger(ScenarioTriggers.Cancel)}>
@@ -96,16 +96,16 @@ export class HealthScopesView extends ViewState {
                     <Container style={[this.baseStyles.container, styles.container]}>
                         <Text style={[this.textStyles.h1, styles.title]}>{titleText}</Text>
                         <Text style={[this.textStyles.p1, styles.subTitle]}>{explaining}</Text>
-                        <Card
+                        {/* <Card
                             title={`${Platform.OS == 'ios' ? 'HealthKit' : 'GoogleFit'} Data`}
                             description={'Change Authorization'}
                             style={{ marginBottom: 20 }}
                         >
-                        </Card>
+                        </Card> */}
                         {Platform.OS == 'ios' && (
                             <View style={styles.buttonView}>
                                 <Button
-                                    title='Settings'
+                                    title='Grant Permission'
                                     onPress={this.onSettings}
                                 />
                             </View>

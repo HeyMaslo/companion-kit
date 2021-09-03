@@ -22,9 +22,8 @@ const permissions = {
       AppleHealthKit.Constants.Permissions.Workout,
       // Mindfulness
       AppleHealthKit.Constants.Permissions.MindfulSession,
-      // Mobility
-      AppleHealthKit.Constants.Permissions.Carbohydrates,
       // Nutrition
+      AppleHealthKit.Constants.Permissions.Carbohydrates,
       AppleHealthKit.Constants.Permissions.Sugar,
       AppleHealthKit.Constants.Permissions.Thiamin,
       AppleHealthKit.Constants.Permissions.Biotin,
@@ -130,28 +129,35 @@ export const checkForStepsData = async (): Promise<boolean> => {
   })
 }
 
+// returns true if there is sleep data
+export const checkForSleepData = async (): Promise<boolean> => {
+  return new Promise((resolve, reject) => {
+    AppleHealthKit.getSleepSamples(null, (err, results) => {
+      if (err) {
+        console.log('appleHealthKit.getSleepSamples error:', err);
+        resolve(false);
+        return;
+      }
+
+      console.log('SleepData results FROM HEALTHKIT', results);
+      const res: boolean = results && results.length > 0;
+      resolve(res);
+      return;
+    });
+  })
+}
+
 export const getDOB = async (): Promise<boolean> => {
   return new Promise((resolve, reject) => {
     AppleHealthKit.getDateOfBirth(null, (err, results) => {
       if (err) {
-        console.log('appleHealthKit.getDateOfBirth error:', err);
-
-        if (err == 'No data available for the specified predicate.') {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-        return;
-      }
-
-      if (!results.value) {
-        console.log('RESULTS FROM HEALTHKIT11: value', results.value);
-        console.log('RESULTS FROM Height HEALTHKIT11: age', results.age);
         resolve(false);
         return;
       }
-      console.log('RESULTS FROM Height HEALTHKIT', results.value);
-      resolve(true);
+
+      console.log('getDateOfBirth FROM HEALTHKIT', results.value);
+      resolve(!!results.value);
+      return
     });
   })
 }
