@@ -1,6 +1,6 @@
 
 import { createLogger } from 'common/logger';
-import { ParsedURL } from 'expo/build/Linking/Linking.types';
+import { ParsedURL } from 'expo-linking';
 import { Linking } from 'expo';
 import { observable, transaction } from 'mobx';
 import Lazy from 'common/utils/lazy';
