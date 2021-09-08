@@ -60,7 +60,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
             toValue: 1,
             delay: isFirstLaunch ? 1000 : 400,
             duration: 500,
-            useNativeDriver: true
+            useNativeDriver: true,
         }).start(this.checkNewLinkDoc);
         isFirstLaunch = false;
     }
