@@ -51,7 +51,7 @@ export default class ShadowView extends React.Component<IShadowViewProps, IShado
             {
                 toValue: 1,
                 duration: 600,
-                useNativeDriver: true
+                useNativeDriver: true,
             },
         ).start();
     }

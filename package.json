@@ -17,6 +17,7 @@
         "build:dashboard:stage": "cross-env APP_ENV=staging yarn build:dashboard",
         "build:dashboard:prod": "cross-env APP_ENV=production yarn build:dashboard",
         "build:server": "cd server/functions && yarn build",
+        "build:android": "cd mobile/android && ./gradlew assembleDebug -Dorg.gradle.logging.level=info",
         "deploy:server:stage": "cd server/functions && yarn && yarn deploy:stage && cd ../..",
         "deploy:server:prod": "cd server/functions && yarn && yarn deploy:prod && cd ../..",
         "deploy:dashboard": "yarn build:dashboard && cd server/functions && yarn deploy:hosting:dashboard",
@@ -53,7 +54,7 @@
         "git-rev-sync": "^2.0.0",
         "ts-nameof": "^4.2.2",
         "ts-node": "^8.8.2",
-        "tslint": "^6.1.1",
+        "tslint": "^6.1.3",
         "ttypescript": "^1.5.10",
         "typescript": "^3.8.3"
     },

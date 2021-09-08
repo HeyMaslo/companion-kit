@@ -81,7 +81,7 @@ export default function FormView(props: FormViewProps) {
         Animated.timing(opacity, {
             toValue: +isFinalScreen,
             duration: 750,
-            useNativeDriver: true
+            useNativeDriver: true,
         }).start();
     }, [isFinalScreen]);
 

@@ -45,17 +45,17 @@ export const PictureView = observer(function (this: void, props: PictureViewProp
                 Animated.timing(shutterScale, {
                     toValue: 0.95,
                     duration: 100,
-                    useNativeDriver: true
+                    useNativeDriver: true,
                 }),
                 Animated.timing(shutterScale, {
                     toValue: 1,
                     duration: 100,
-                    useNativeDriver: true
+                    useNativeDriver: true,
                 }),
                 Animated.timing(shutterScale, {
                     toValue: 1,
                     duration: 100,
-                    useNativeDriver: true
+                    useNativeDriver: true,
                 }),
             ]).start(() => model.capturing = true);
 
