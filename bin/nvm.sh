@@ -4,11 +4,11 @@ if [ ! -f "$(pwd)/bin/setup.bash" ]; then
 	ok=0
 elif [ ! -d "./.nvm" ]; then
 	ok=0
-	bash ./bin/setup.bash -n
+	bash ./bin/setup.bash -n -y
 	ok=$?
 fi
 
-if [ $ok != 1 ]; then
+if [ $ok != 0 ]; then
 	echo "Sorry, this didn't work properly. Please try again."
 else
 	export NVM_DIR="$(pwd)/.nvm"
