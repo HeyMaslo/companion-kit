@@ -1,0 +1,11 @@
+name: 'Setup'
+description: 'Set up the project'
+runs:
+  using: "composite"
+  steps:
+      - name: Create environment file
+        run: cp test.env .env
+        shell: bash
+      - name: Initialize project
+        run: ./bin/setup.bash -y -p 0 -f 1 -s 1
+        shell: bash

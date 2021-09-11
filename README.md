@@ -24,7 +24,7 @@ Clone the respository and ensure you have the requirements below:
  To install: ```npm i -g react-native-cli```
  
  * Firebase Tools (Needed to test and deploy firebase functions, dashboard etc.)  
- To install: ```npm i -g react-native-cli```
+ To install: ```npm i -g firebase-tools```
 
 ### 2. Configure the Development Environment
 
