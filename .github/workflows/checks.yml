@@ -82,11 +82,11 @@ jobs:
         working-directory: data-services
         run: docker-compose up -d api
       - name: Await server
-         working-directory: data-services
-         run: sleep 5
+        working-directory: data-services
+        run: sleep 5
       - name: Show server logs
-         working-directory: data-services
-         run: docker-compose logs api
+        working-directory: data-services
+        run: docker-compose logs api
       - name: Build Server
         working-directory: companion-app/server/functions
         run: docker-compose build server
