@@ -8,6 +8,8 @@ mobile=1
 nvm_only=0
 while getopts ":yp:s:f:d:m:n" opt; do
   case ${opt} in
+    y ) yes=1
+       ;;
     p ) pods=$OPTARG
       ;;
     s ) submodules=$OPTARG
