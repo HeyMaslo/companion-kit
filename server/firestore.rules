@@ -93,13 +93,17 @@ service cloud.firestore {
 			allow delete: if request.auth.uid == resource.data.clientUid || request.auth.uid == resource.data.coachUid;
     }
 
-    match /surveyState/{id} {
+    match /surveyResults/{id} {
         allow read;
         allow write: if request.auth.uid == request.resource.data.userId;
     }
 
-    match /surveyResults/{id} {
+    match /domains/{id} {
         allow read;
+    }
+
+    match /userState/{id} {
+		allow read;
         allow write: if request.auth.uid == request.resource.data.userId;
     }
 

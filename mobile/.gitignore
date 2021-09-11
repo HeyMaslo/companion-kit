@@ -72,3 +72,4 @@ ios/CompanionKit.xcodeproj/project.pbxproj
 ios/CompanionKit/CompanionKit.entitlements
 ios/sentry.properties
 android/sentry.properties
+BasePackageList.java

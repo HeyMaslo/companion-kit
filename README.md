@@ -23,7 +23,7 @@ Clone the respository and ensure you have the requirements below:
  To install: ```npm i -g react-native-cli```
  
  * Firebase Tools (Needed to test and deploy firebase functions, dashboard etc.)  
- To install: ```npm i -g react-native-cli```
+ To install: ```npm i -g firebase-tools```
 
 ### 2. Configure the Development Environment
 
@@ -84,6 +84,7 @@ The project contains `.nvmrc` files that indicate the correct node version to us
 11. Run the app on your physical device through Xcode. When prompted, "CompanionKit" would like to find and connect to local devices on your network choose OK otherwise you will receive a bundle.js error and not be able to run. If you tapped Don't Allow delete CompanionKit from your iPhone and retry.
 
 **Android** (Mac Instructions):
+> Works with the same steps on Linux as well!
 
 1. Enable "DEVELOPER OPTIONS" by going to Settings > About phone > Software Information
 2. Scroll to the bottom and tap on "Build number" seven times (you will see a countdown to let you know when you get to 7)
@@ -91,6 +92,20 @@ The project contains `.nvmrc` files that indicate the correct node version to us
 4. Plug in your device via USB and run `adb devices` on your terminal (this verifies connection to the Android Debug Bridge)
 5. You should see "List of devices attached". Make sure your device is listed
 6. Run the app on your physical device by running `yarn android`
+
+### Export Firebase to data-service
+In order for firebase information to be exported out, we need Firebase Functions that will trigger based on a document event. 
+
+**How to create a export function:**
+1. Add a method to `BackendControllerBase` to make a HTTP request to the data-service in `common/controllers/BackendController.ts`.
+2. Add a new export function triggered by a firebase event (commonly `onCreate`) with `FunctionBackendController()` in `/server/functions/src/export.ts`
+
+**To test:**
+1. Add a new test case in `/server/functions/__tests__/export.spec.ts` for your new export function. 
+	> This uses an emulated Firebase functions to test. You can do this by wrapping your export function with `test.wrap(...)`. 
+2. If your new export cloud function requires a new endpoint on data-service, have no fear! You do not need to change the branch reference used in Github Actions. Instead, add the endpoint you require to the mock-backend located in `/server/functions/__tests__/mocks/api/index.ts`.
+
+**Note:** If data-service on master does not contain your endpoint, chances are the test with the real data-service will fail. This is expected behavior.
 
 
 ### Deploy Cloud Functionality

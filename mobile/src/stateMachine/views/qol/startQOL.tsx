@@ -7,8 +7,6 @@ import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import AppController from 'src/controllers';
 import { QolSurveyType } from 'src/constants/QoL';
-
-import { styles } from 'react-native-markdown-renderer';
 import { PersonaArmState } from 'dependencies/persona/lib';
 
 const minContentHeight = 460;
@@ -45,9 +43,9 @@ export class QolStartView extends ViewState {
 
     private onClose = (): void | Promise<void> => this.runLongOperation(async () => {
         this.showModal({
-            title: `Do you really want to stop the survey? Your progress will be saved.`,
+            title: `Are you sure you want to pause the survey?`,
             primaryButton: {
-                text: 'yes, stop',
+                text: 'yes',
                 action: this.saveProgress,
             },
             secondaryButton: {

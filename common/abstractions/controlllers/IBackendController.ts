@@ -9,8 +9,7 @@ export interface IBackendClient {
 
 export interface IBackendController {
 
-    logNewAccount
-    (clientID: string, coachID: string)
+    logNewAccount(id: string)
     : Promise<RemoteCallResult>;
 
     logMeasurement

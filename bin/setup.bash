@@ -14,7 +14,7 @@ while getopts ":yp:s:f:d:m:n" opt; do
       ;;
     f ) functions=$OPTARG
       ;;
-    y ) yes=1
+    m ) mobile=$OPTARG
       ;;
     d ) dashboard=$OPTARG
       ;;
