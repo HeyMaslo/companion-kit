@@ -9,7 +9,7 @@ services:
     build: .
     tty: true
     stdin_open: true
-    command: sh -c "cd server/functions && yarn serve"
+    command: bash -i -c "cd server/functions && yarn serve"
     ports:
       - 4000:4000
       - 5000:5000
