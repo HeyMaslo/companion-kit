@@ -19,4 +19,7 @@ export class ClientAuthController extends AuthControllerBase {
         throw new Error('Method not implemented.');
     }
 
+    protected async servicesSignOut() {
+        return;
+    }
 }

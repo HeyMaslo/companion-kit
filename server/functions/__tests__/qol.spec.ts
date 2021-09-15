@@ -11,7 +11,6 @@ import clientConfig from './mocks/client/config';
 import { createDomain, createQuestion, getDomains, getQuestions } from 'server/qol';
 import { QoLActionTypes } from 'common/models/dtos/qol';
 import { DomainName, DomainScope } from '../../../mobile/src/constants/Domain';
-
 const test = firebase.init('qol-test');
 
 async function fbCleanup() {
@@ -67,6 +66,38 @@ describe('QoL', () => {
                 assert.isNull(result.error);
                 assert.lengthOf(result.results, 1);
             });
+        });
+    });
+    describe('Question Creation', () => {
+        afterEach(fbCleanup);
+        it('Should not allow a question to be created if the domain slug is invalid', async () => {
+            const result = await createQuestion({
+                type: QoLActionTypes.CreateQuestion,
+                text: 'had plenty of energy',
+                domainSlug: 'not_a_valid_slug',
+                position: 1,
+            });
+            assert.isNotNull(result.error);
+        });
+        it('Should allow a question to be created referring to a domain', async () => {
+            await createDomain({
+                type: QoLActionTypes.CreateDomain,
+                scope: 'GENERAL',
+                name: 'Physical',
+                slug: 'physical',
+                importance: '',
+            });
+            const createResult = await createQuestion({
+                type: QoLActionTypes.CreateQuestion,
+                text: 'had plenty of energy',
+                domainSlug: 'physical',
+                position: 1,
+            });
+            assert.isNull(createResult.error);
+            const getResult = await getQuestions({
+                type: QoLActionTypes.GetQuestions,
+            });
+            assert.lengthOf(getResult.results, 1);
         });
     });
 });

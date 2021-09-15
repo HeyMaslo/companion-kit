@@ -2,7 +2,6 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { getUniqueID } from 'react-native-markdown-renderer';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { Container, MasloPage, StrategyCard, Button } from 'src/components';
 import { DomainName } from 'src/constants/Domain';
 import { StrategyIded } from 'src/constants/Strategy';

@@ -8,7 +8,11 @@ import * as coaches from './coaches';
 import * as ai from './ai';
 import * as billing from './billing';
 import * as qol from './qol';
-import { ScheduledFunctionCrontab, ExportFunctionCrontab, ImportFunctionCrontab } from './cron';
+import {
+    ScheduledFunctionCrontab,
+    ExportFunctionCrontab,
+    ImportFunctionCrontab } from './cron';
+import { ExportFunctions } from './export';
 
 import { StatsCallFunctions } from './adminStats';
 

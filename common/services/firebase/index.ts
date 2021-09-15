@@ -1,5 +1,6 @@
 import { createLazy } from 'common/utils/lazy.light';
 import firebase from 'firebase/app';
+import 'firebase/auth';
 
 import { FirebaseApp } from './firebase.lib';
 import { createLogger } from 'common/logger';
@@ -30,6 +31,7 @@ let configVariables: ConvertedRemoteConfig = null;
 const Settings = {
     functionsEmulatorUrl: '',
     firestoreEmulatorUrl: '',
+    authenticationEmulatorUrl: '',
 };
 
 export type FirebaseConfig = {
@@ -108,7 +110,17 @@ export async function initializeAsync(settings: FirebaseSettings) {
     _initialized.trigger();
 }
 
-const auth = createLazy(() => instance.auth());
+const auth = createLazy(() => {
+    const au = instance.auth();
+
+    const { authenticationEmulatorUrl } = Settings;
+    if (authenticationEmulatorUrl) {
+        logger.log('Firebase authentication Emulator =', authenticationEmulatorUrl);
+        au.useEmulator(authenticationEmulatorUrl);
+    }
+    return au;
+});
+
 const functions = createLazy(() => {
     const fns = instance.functions();
 
