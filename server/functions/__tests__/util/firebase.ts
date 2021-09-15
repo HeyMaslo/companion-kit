@@ -20,3 +20,7 @@ export async function clear() {
 export async function clear() {
     await clearFirestoreData({ projectId });
 }
+
+export async function clear() {
+    await clearFirestoreData({ projectId });
+}
