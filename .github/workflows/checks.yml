@@ -59,7 +59,7 @@ jobs:
         with:
           node-version: '10'
       - uses: ./.github/actions/setup
-      - run: yarn build:android
+      - run: cd mobile/android && ./gradlew clean && cd ../.. && yarn build:android
   tests:
     runs-on: ubuntu-latest
     steps:
