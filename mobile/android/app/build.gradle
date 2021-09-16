@@ -138,6 +138,7 @@ android {
         versionName "1.0"
         manifestPlaceholders = [
         appAuthRedirectScheme: 'io.identityserver.demo'
+        missingDimensionStrategy 'general'
       ]
     }
     splits {
