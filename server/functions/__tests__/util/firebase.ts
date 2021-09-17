@@ -9,16 +9,8 @@ export function init(name: string) {
         projectId: projectId,
     };
     const test = fbFuncTest(config);
-    admin.initializeApp(config, name);
-    return test;
-}
-
-export async function clear() {
-    await clearFirestoreData({ projectId });
-}
-
-export async function clear() {
-    await clearFirestoreData({ projectId });
+    const app = admin.initializeApp(config, name);
+    return { test: test, app: app };
 }
 
 export async function clear() {

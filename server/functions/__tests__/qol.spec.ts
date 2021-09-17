@@ -10,8 +10,9 @@ import clientConfig from './mocks/client/config';
 
 import { createDomain, createQuestion, getDomains, getQuestions } from 'server/qol';
 import { QoLActionTypes } from 'common/models/dtos/qol';
-import { DomainName, DomainScope } from '../../../mobile/src/constants/Domain';
-const test = firebase.init('qol-test');
+import { DomainScope } from '../../../mobile/src/constants/Domain';
+
+const {test, app} = firebase.init('qol-test');
 
 async function fbCleanup() {
     await firebase.clear();
@@ -30,9 +31,9 @@ describe('QoL', () => {
                 const result = await createDomain({
                     type: QoLActionTypes.CreateDomain,
                     scope: DomainScope.GENERAL,
-                    name: DomainName.PHYSICAL,
+                    name: 'Physical',
+                    slug: 'physical',
                     importance: 'SLEEP = Sleeeeepz Sleeeeepz Sleeeeepz Sleeeeepz incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
-                    bullets: ['bullet 1', 'bullet 2'],
                 });
                 assert.isNull(result.error);
             });
@@ -40,9 +41,9 @@ describe('QoL', () => {
                 const result = await createDomain({
                     type: QoLActionTypes.CreateDomain,
                     scope: 'NOT_A_VALID_SCOPE',
-                    name: DomainName.PHYSICAL,
+                    name: 'Physical',
+                    slug: 'physical',
                     importance: 'PHYSICAL = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
-                    bullets: ['bullet 1', 'bullet 2'],
                 });
                 assert.isNotNull(result.error);
             });
@@ -57,10 +58,10 @@ describe('QoL', () => {
             it('Should list domains that are added', async () => {
                 await createDomain({
                     type: QoLActionTypes.CreateDomain,
-                    scope: DomainScope.GENERAL,
-                    name: DomainName.PHYSICAL,
+                    scope: 'GENERAL',
+                    name: 'Physical',
+                    slug: 'physical',
                     importance: '',
-                    bullets: ['bullet 1', 'bullet 2'],
                 });
                 const result = await getDomains();
                 assert.isNull(result.error);
