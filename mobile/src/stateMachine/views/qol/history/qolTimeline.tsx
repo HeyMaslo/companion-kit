@@ -83,6 +83,10 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
     this.allDomains.unshift('Show All');
   }
 
+  onBack = () => {
+    this.trigger(ScenarioTriggers.Back)
+  }
+
   onClose = () => {
     this.trigger(ScenarioTriggers.Cancel)
   }
@@ -186,7 +190,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
 
   renderContent() {
     return (
-      <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
+      <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()} onClose={() => this.onClose()}>
         <Container style={[{ height: this._contentHeight, marginTop: containerMarginTop, marginBottom: containerMarginBottom }]}>
           <IconsOnCircle circleRaius={this.ordRadius * 6} symbolSize={40} totalContainerMargin={containerMarginTop - containerMarginBottom} highlightedDomains={this.selectedDomains} onLayout={this.onLayoutIconCircle} />
           <View pointerEvents={'box-none'} style={[styles.bottomWrapper, { top: this.state.bottomWrapperTop }]}>
