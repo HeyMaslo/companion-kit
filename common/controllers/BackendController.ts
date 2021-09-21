@@ -97,7 +97,7 @@ export default abstract class BackendControllerBase implements IBackendControlle
                 content,
                 domains,
                 keywords,
-            },            
+            },
         },
         {
             headers: {

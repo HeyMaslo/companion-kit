@@ -90,7 +90,7 @@ describe('Export Functions', () => {
         console.log('record export result', result);
         assert.isNull(result.error);
       });
-    
+
     it('Should export affirmations', async () => {
         const handle = test.wrap(ExportFunctions.affirmation);
         const affirmationId = 'affirmation1';
