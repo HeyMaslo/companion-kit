@@ -51,6 +51,10 @@ export namespace Users {
         a => ({ ...a, type: AuthDtos.AuthActionTypes.ValidateCode }),
     );
 
+    export const ValidateToken = AuthEndpoint.specify<AuthDtos.ValidateTokenRequest, { result: boolean }>(
+        a => ({ ...a, type: AuthDtos.AuthActionTypes.ValidateToken }),
+    );
+
     export const MagicLink = AuthEndpoint.specify<AuthDtos.MagicLinkRequest, AuthDtos.BaseResponse>(
         a => ({ ...a, type: AuthDtos.AuthActionTypes.MagicLinkSignIn }),
     );

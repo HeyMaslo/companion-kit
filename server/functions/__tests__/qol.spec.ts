@@ -12,7 +12,7 @@ import { createDomain, createQuestion, getDomains, getQuestions } from 'server/q
 import { QoLActionTypes } from 'common/models/dtos/qol';
 import { DomainName, DomainScope } from '../../../mobile/src/constants/Domain';
 
-const test = firebase.init('qol-test');
+const {test, app} = firebase.init('qol-test');
 
 async function fbCleanup() {
     await firebase.clear();
@@ -31,9 +31,9 @@ describe('QoL', () => {
                 const result = await createDomain({
                     type: QoLActionTypes.CreateDomain,
                     scope: DomainScope.GENERAL,
-                    name: DomainName.PHYSICAL,
+                    name: 'Physical',
                     importance: 'SLEEP = Sleeeeepz Sleeeeepz Sleeeeepz Sleeeeepz incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
-                    bullets: ['bullet 1', 'bullet 2'],
+                    bullets: [''],
                 });
                 assert.isNull(result.error);
             });
@@ -41,9 +41,9 @@ describe('QoL', () => {
                 const result = await createDomain({
                     type: QoLActionTypes.CreateDomain,
                     scope: 'NOT_A_VALID_SCOPE',
-                    name: DomainName.PHYSICAL,
+                    name: 'Physical',
                     importance: 'PHYSICAL = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
-                    bullets: ['bullet 1', 'bullet 2'],
+                    bullets: [''],
                 });
                 assert.isNotNull(result.error);
             });
@@ -58,15 +58,38 @@ describe('QoL', () => {
             it('Should list domains that are added', async () => {
                 await createDomain({
                     type: QoLActionTypes.CreateDomain,
-                    scope: DomainScope.GENERAL,
-                    name: DomainName.PHYSICAL,
+                    scope: 'GENERAL',
+                    name: 'Physical',
                     importance: '',
-                    bullets: ['bullet 1', 'bullet 2'],
+                    bullets: [''],
                 });
                 const result = await getDomains();
                 assert.isNull(result.error);
                 assert.lengthOf(result.results, 1);
             });
+        });
+    });
+    describe('Question Creation', () => {
+        afterEach(fbCleanup);
+        it('Should allow a question to be created referring to a domain', async () => {
+            await createDomain({
+                type: QoLActionTypes.CreateDomain,
+                scope: 'GENERAL',
+                name: 'Physical',
+                importance: '',
+                bullets: [''],
+            });
+            const createResult = await createQuestion({
+                type: QoLActionTypes.CreateQuestion,
+                text: 'had plenty of energy',
+                domainName: DomainName.PHYSICAL,
+                position: 1,
+            });
+            assert.isNull(createResult.error);
+            const getResult = await getQuestions({
+                type: QoLActionTypes.GetQuestions,
+            });
+            assert.lengthOf(getResult.results, 1);
         });
     });
 });

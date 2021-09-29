@@ -15,6 +15,9 @@ export class QolStartView extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -15, transition: { duration: 1.5 } });
+        if (!AppController.Instance.User.localSettings?.current?.qol?.seenQolOnboarding) {
+            this.viewModel.updateQolOnboarding();
+        }
     }
 
     async start() {

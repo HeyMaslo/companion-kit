@@ -12,64 +12,64 @@ import { iconForDomain } from 'src/helpers/DomainHelper';
 @observer
 export class StrategyDetailsView extends ViewState {
 
-    private _learnMoreStrategy: Strategy;
+  private _learnMoreStrategy: Strategy;
 
-    constructor(props) {
-        super(props);
-        this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0} });
-        this.hidePersona();
-        this._learnMoreStrategy = this.viewModel.learnMoreStrategy;
-    }
+  constructor(props) {
+    super(props);
+    this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0 } });
+    this.hidePersona();
+    this._learnMoreStrategy = this.viewModel.learnMoreStrategy;
+  }
 
-    private get viewModel() {
-        return AppViewModel.Instance.Strategy;
-    }
+  private get viewModel() {
+    return AppViewModel.Instance.Strategy;
+  }
 
-    async start() {
-        this._learnMoreStrategy = this.viewModel.learnMoreStrategy;
-        this.forceUpdate();
-    }
+  async start() {
+    this._learnMoreStrategy = this.viewModel.learnMoreStrategy;
+    this.forceUpdate();
+  }
 
-     onBack = () => {
-        this.trigger(ScenarioTriggers.Back);
-    }
+  onBack = () => {
+    this.trigger(ScenarioTriggers.Back);
+  }
 
-    private capitalizeFirstLetter(str: string) {
-      return str.charAt(0).toLocaleUpperCase() + str.slice(1).toLocaleLowerCase();
-    }
+  private capitalizeFirstLetter(str: string) {
+    return str.charAt(0).toLocaleUpperCase() + str.slice(1).toLocaleLowerCase();
+  }
 
-    renderIconItem = ({ item }) => (
-        <View style={[styles.listItem, {flexDirection: "row", justifyContent: 'center'}]}>
-          {iconForDomain(item, {display: 'flex', marginRight: 20})}
-          <Text style={[TextStyles.h2, styles.strategy, {display: 'flex'}]}>{this.capitalizeFirstLetter(item)}</Text>
-        </View>
+  renderIconItem = ({ item }) => (
+    <View style={[styles.listItem, { flexDirection: "row", justifyContent: 'center' }]}>
+      {iconForDomain(item, { display: 'flex', marginRight: 20 })}
+      <Text style={[TextStyles.h2, styles.strategy, { display: 'flex' }]}>{this.capitalizeFirstLetter(item)}</Text>
+    </View>
+  );
+
+  renderContent() {
+    return (
+      <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()}>
+        <Container style={[{ height: this._contentHeight, paddingTop: 10, paddingBottom: 10 }]}>
+          {/* Title */}
+          <View style={{ justifyContent: 'center', flexDirection: 'row', marginBottom: 20 }}>
+            <Text style={[TextStyles.h2, styles.strategy]}>{this._learnMoreStrategy.title}</Text>
+          </View>
+          {/* Subtitle */}
+          <Text style={[TextStyles.p2, styles.strategy]}>{'This strategy targets personal improvement in these life domains:'}</Text>
+          {/* Icon Container */}
+          <FlatList style={styles.list}
+            data={this.viewModel.learnMoreStrategy.associatedDomainNames}
+            renderItem={this.renderIconItem}
+            keyExtractor={item => item}
+            scrollEnabled={false} />
+          {/* Body */}
+          <Text style={[TextStyles.p1, styles.body]}>{this._learnMoreStrategy.details}</Text>
+        </Container>
+      </MasloPage>
     );
-
-    renderContent() {
-        return (
-            <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()}>
-                <Container style={[{height: this._contentHeight, paddingTop: 10, paddingBottom: 10}]}>
-                    {/* Title */}
-                    <View style={{justifyContent: 'center', flexDirection: 'row', marginBottom: 20}}>
-                        <Text style={[TextStyles.h2, styles.strategy]}>{this._learnMoreStrategy.title}</Text>
-                    </View>
-                    {/* Subtitle */}
-                    <Text style={[TextStyles.p2, styles.strategy]}>{'This strategy targets personal improvement in these life domains:'}</Text>
-                    {/* Icon Container */}
-                    <FlatList style={styles.list}    
-                    data={this.viewModel.learnMoreStrategy.associatedDomainNames}
-                    renderItem={this.renderIconItem}
-                    keyExtractor={item => item}
-                    scrollEnabled={false}/>
-                    {/* Body */}
-                    <Text style={[TextStyles.p1, styles.body]}>{this._learnMoreStrategy.details}</Text>
-                </Container>
-            </MasloPage>
-        );
-    }
+  }
 }
 
-const styles = StyleSheet.create({ 
+const styles = StyleSheet.create({
   list: {
     flexGrow: 0,
     marginTop: 50,

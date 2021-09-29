@@ -19,130 +19,130 @@ export class ChooseStrategiesView extends ViewState {
   private selectedDomainNames: DomainName[] = [];
   private currentFilter: DomainName = null;
 
-    constructor(props) {
-        super(props);
-        this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0} });
-        this.hidePersona();
-        this.selectedDomainNames = AppViewModel.Instance.Domain.selectedDomains.map((d) => d.name);
+  constructor(props) {
+    super(props);
+    this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0 } });
+    this.hidePersona();
+    this.selectedDomainNames = AppViewModel.Instance.Domain.selectedDomains.map((d) => d.name);
 
-        this.onLearnMorePress = this.onLearnMorePress.bind(this);
-        this.onSelectStrategy = this.onSelectStrategy.bind(this);
-    }
-
-    private get viewModel() {
-        return AppViewModel.Instance.Strategy;
-    }
-
-    async start() {
-      this.viewModel.selectedStrategies = [];
-    }
-
-    onBack = () => {
-        this.trigger(ScenarioTriggers.Back);
-    }
-
-    onClose = (): void | Promise<void> => this.runLongOperation(async () => {
-        this.showModal({
-            title: AlertExitWithoutSave,
-            primaryButton: {
-                text: 'yes, stop',
-                action:  () => this.trigger(ScenarioTriggers.Cancel),
-            },
-            secondaryButton: {
-                text: 'no, go back',
-                action: this.hideModal,
-            }
-        });
-    })
-
-    onSubmit = () => {
-      this.viewModel.postSelectedStrategies();
-      this.trigger(ScenarioTriggers.Submit);
-    }
-
-    onLearnMorePress(id: string) {
-      const found = this.viewModel.getStrategyById(id);
-      if (found) {
-        this.viewModel.learnMoreStrategy = found;
-        this.trigger(ScenarioTriggers.Tertiary);
-      }
+    this.onLearnMorePress = this.onLearnMorePress.bind(this);
+    this.onSelectStrategy = this.onSelectStrategy.bind(this);
   }
 
-    onSelectStrategy = (id: string) => {
-      this.viewModel.selectStrategy(this.viewModel.getStrategyById(id))
-    }
+  private get viewModel() {
+    return AppViewModel.Instance.Strategy;
+  }
 
-    changeFilterPressed = (strategyDomain: DomainName) => {
-      this.currentFilter = strategyDomain;
-      this.viewModel.filterAvailableStrategies(strategyDomain)
-    }
+  async start() {
+    this.viewModel.selectedStrategies = [];
+  }
 
-    dropDown = () => {
-      if (this.dropDownIsExtended) {
-        this.changeFilterPressed(null);
+  onBack = () => {
+    this.trigger(ScenarioTriggers.Back);
+  }
+
+  onClose = (): void | Promise<void> => this.runLongOperation(async () => {
+    this.showModal({
+      title: AlertExitWithoutSave,
+      primaryButton: {
+        text: 'yes, stop',
+        action: () => this.trigger(ScenarioTriggers.Cancel),
+      },
+      secondaryButton: {
+        text: 'no, go back',
+        action: this.hideModal,
       }
-      this.dropDownIsExtended = !this.dropDownIsExtended;
+    });
+  })
+
+  onSubmit = () => {
+    this.viewModel.postSelectedStrategies();
+    this.trigger(ScenarioTriggers.Submit);
+  }
+
+  onLearnMorePress(id: string) {
+    const found = this.viewModel.getStrategyById(id);
+    if (found) {
+      this.viewModel.learnMoreStrategy = found;
+      this.trigger(ScenarioTriggers.Tertiary);
     }
+  }
 
-    renderDropDownListItem = ({ item }) => (
-      <TouchableOpacity onPress={() => this.changeFilterPressed(item)}>
-        <View style={styles.dropDownlistItem}>
-          <Text style={[TextStyles.btnTitle, {display: 'flex', color: Colors.button.buttonForm.text}, this.currentFilter == item ? {textDecorationLine: 'underline'} : null]}>{item}</Text>
-        </View>
-      </TouchableOpacity>
-    );
+  onSelectStrategy = (id: string) => {
+    this.viewModel.selectStrategy(this.viewModel.getStrategyById(id))
+  }
 
-    renderListItem = ({ item }) => (
-      <StrategyCard item={item} onSelectStrategy={this.onSelectStrategy} onLearnMorePress={this.onLearnMorePress}/>
-    );
+  changeFilterPressed = (strategyDomain: DomainName) => {
+    this.currentFilter = strategyDomain;
+    this.viewModel.filterAvailableStrategies(strategyDomain)
+  }
 
-    renderContent() {
-        return (
-            <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()}>
-                <Container style={[{height: this._contentHeight, paddingTop: 10}]}>
-
-                    {/* Title */}
-                    <View style={{justifyContent: 'center', flexDirection: 'row', marginBottom: 20}}>
-                        <Text style={[TextStyles.h2, styles.strategy]}>{'Choose up to 4 focus strategies below.'}</Text>
-                    </View>
-
-                    <View>
-                    {this.selectedDomainNames.length < 3 ? 
-                      <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                        {/* Sort Row of Three Buttons */}
-                        <TouchableOpacity onPress={() => this.changeFilterPressed(null)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == null ? {textDecorationLine: 'underline'} : null]}>{'Show All'}</Text></TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainNames[0])}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainNames[0] ? {textDecorationLine: 'underline'} : null]}>{this.selectedDomainNames[0]}</Text></TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainNames[1])}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainNames[1] ? {textDecorationLine: 'underline'} : null]}>{this.selectedDomainNames[1]}</Text></TouchableOpacity>
-                      </View>
-                    :
-                      <View>
-                      {/* Sort Drop Down Button */}
-                        <Button titleStyles={[styles.sortButtonTitle, this.currentFilter == null ? {textDecorationLine: 'underline'} : null]} title='SHOW ALL' style={styles.sortButton} onPress={this.dropDown}/>
-                        {this.dropDownIsExtended && 
-                         <FlatList style={styles.dropDownlist}    
-                                   data={this.selectedDomainNames}
-                                   renderItem={this.renderDropDownListItem}
-                                   keyExtractor={item => item}
-                                   scrollEnabled={false}/>}
-                      </View>
-                      }
-                      </View>
-
-                    {/* List of Strategies */}
-                    <FlatList style={styles.list}    
-                              data={this.viewModel.availableStrategies}
-                              renderItem={this.renderListItem}
-                              keyExtractor={item => item.internalId}/>
-                    <Button title={'SELECT ' + (this.viewModel.selectedStrategies.length < 1 ? 'STRATEGIES' : (this.viewModel.selectedStrategies.length == 1 ? 'THIS STRATEGY' : 'THESE STRATEGIES'))} style={styles.selectButton} onPress={this.onSubmit} disabled={this.viewModel.selectedStrategies.length < 1}/>
-                </Container>
-            </MasloPage>
-        );
+  dropDown = () => {
+    if (this.dropDownIsExtended) {
+      this.changeFilterPressed(null);
     }
+    this.dropDownIsExtended = !this.dropDownIsExtended;
+  }
+
+  renderDropDownListItem = ({ item }) => (
+    <TouchableOpacity onPress={() => this.changeFilterPressed(item)}>
+      <View style={styles.dropDownlistItem}>
+        <Text style={[TextStyles.btnTitle, { display: 'flex', color: Colors.button.buttonForm.text }, this.currentFilter == item ? { textDecorationLine: 'underline' } : null]}>{item}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+
+  renderListItem = ({ item }) => (
+    <StrategyCard item={item} onSelectStrategy={this.onSelectStrategy} onLearnMorePress={this.onLearnMorePress} />
+  );
+
+  renderContent() {
+    return (
+      <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()}>
+        <Container style={[{ height: this._contentHeight, paddingTop: 10 }]}>
+
+          {/* Title */}
+          <View style={{ justifyContent: 'center', flexDirection: 'row', marginBottom: 20 }}>
+            <Text style={[TextStyles.h2, styles.strategy]}>{'Choose up to 4 focus strategies below.'}</Text>
+          </View>
+
+          <View>
+            {this.selectedDomainNames.length < 3 ?
+              <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                {/* Sort Row of Three Buttons */}
+                <TouchableOpacity onPress={() => this.changeFilterPressed(null)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == null ? { textDecorationLine: 'underline' } : null]}>{'Show All'}</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainNames[0])}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainNames[0] ? { textDecorationLine: 'underline' } : null]}>{this.selectedDomainNames[0]}</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainNames[1])}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainNames[1] ? { textDecorationLine: 'underline' } : null]}>{this.selectedDomainNames[1]}</Text></TouchableOpacity>
+              </View>
+              :
+              <View>
+                {/* Sort Drop Down Button */}
+                <Button titleStyles={[styles.sortButtonTitle, this.currentFilter == null ? { textDecorationLine: 'underline' } : null]} title='SHOW ALL' style={styles.sortButton} onPress={this.dropDown} />
+                {this.dropDownIsExtended &&
+                  <FlatList style={styles.dropDownlist}
+                    data={this.selectedDomainNames}
+                    renderItem={this.renderDropDownListItem}
+                    keyExtractor={item => item}
+                    scrollEnabled={false} />}
+              </View>
+            }
+          </View>
+
+          {/* List of Strategies */}
+          <FlatList style={styles.list}
+            data={this.viewModel.availableStrategies}
+            renderItem={this.renderListItem}
+            keyExtractor={item => item.internalId} />
+          <Button title={'SELECT ' + (this.viewModel.selectedStrategies.length < 1 ? 'STRATEGIES' : (this.viewModel.selectedStrategies.length == 1 ? 'THIS STRATEGY' : 'THESE STRATEGIES'))} style={styles.selectButton} onPress={this.onSubmit} disabled={this.viewModel.selectedStrategies.length < 1} />
+        </Container>
+      </MasloPage>
+    );
+  }
 }
 
 const size = 24;
 
-const styles = StyleSheet.create({ 
+const styles = StyleSheet.create({
   rowButton: {
     display: 'flex',
     color: Colors.survey.btnFontColor,
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     borderColor: '#CBC8CD',
   },
   dropDownlistItem: {
-    flexDirection: 'row', 
+    flexDirection: 'row',
     justifyContent: 'center',
     padding: 20,
   },
@@ -200,11 +200,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'transparent',
     flexShrink: 0,
-},
+  },
   checkboxChecked: {
     backgroundColor: Colors.radioButton.checkedBg,
     borderWidth: 0,
-},
+  },
   icon: {
     display: 'flex',
     marginRight: 5,

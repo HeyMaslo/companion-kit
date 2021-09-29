@@ -10,12 +10,11 @@ The steps below are required to set up a local instance of this project. The sub
 
 Clone the respository and ensure you have the requirements below:
 
- * React Native CLI development environment for both iOS and Android (Needed for running mobile apps. Xcode and Android studio must be installed in order to run iOS and android apps, respectively.)  
- Instructions: [https://reactnative.dev/docs/environment-setup](https://reactnative.dev/docs/environment-setup)
+ * Bash (Any *nix OS or WSL setup should work)
 
- * Node.js 10 ([`nvm`](https://github.com/nvm-sh/nvm) is preferable)  
- To install:  ```nvm install 10```	
- To switch to version 10:  ```nvm use 10```
+ * Curl (suffices to have `curl` command available in bash shell)
+
+ * React Native CLI development environment for both iOS and Android (Needed for running mobile apps. Xcode and Android studio must be installed in order to run iOS and android apps, respectively.)  
  
  * Expo CLI  
  To install: ```npm i -g expo-cli```
@@ -24,9 +23,11 @@ Clone the respository and ensure you have the requirements below:
  To install: ```npm i -g react-native-cli```
  
  * Firebase Tools (Needed to test and deploy firebase functions, dashboard etc.)  
- To install: ```npm i -g react-native-cli```
+ To install: ```npm i -g firebase-tools```
 
 ### 2. Configure the Development Environment
+
+If you are setting up the project for the first time, follow the steps below. Otherwise, you may want to check out the instructions in the following section.
 
 1. Download the `GoogleService-Info.plist` file from the ios app on firebase. Place this file in `./mobile/configs/app`.
 2. Download the `google-services.json` file from the android app on firebase. Place this file in `./mobile/configs/app` and in `./mobile/android/app`.
@@ -43,7 +44,22 @@ Clone the respository and ensure you have the requirements below:
 
 6. Go to the Google Cloud Platform [here](https://console.cloud.google.com/iam-admin/serviceaccounts?project=bipolarbridges). On the "App Engine default service account", click the three dots, select "Create key", and download the json file. Fill in the path to this downloaded file in the `.env` from the previous step.
 
+### 3. (Optional) Importing Environment from an Existing Project Instance
+
+If you have an already set-up clone of the project on your machine, and wish to copy the configuration over to a fresh clone - sometimes useful in cases of failed setup, broken dependencies etc.- you can run the provided script to automate the process, e.g.
+
+```sh
+bash bin/migrate-project.bash <path-to-old-project> <path-to-new-project>
+```
+
 ## Running and Deploying the App
+
+### Using the Correct Node Version
+After running the script above, the project instance will contain a local copy of NVM, which can be loaded with the following command:
+```
+source ./bin/nvm.sh
+```
+The project contains `.nvmrc` files that indicate the correct node version to use. To switch to the correct version, run ```nvm use``` in a given directory.
 
 ### Run Mobile Apps Locally on a Simulator
 
@@ -68,6 +84,7 @@ Clone the respository and ensure you have the requirements below:
 11. Run the app on your physical device through Xcode. When prompted, "CompanionKit" would like to find and connect to local devices on your network choose OK otherwise you will receive a bundle.js error and not be able to run. If you tapped Don't Allow delete CompanionKit from your iPhone and retry.
 
 **Android** (Mac Instructions):
+> Works with the same steps on Linux as well!
 
 1. Enable "DEVELOPER OPTIONS" by going to Settings > About phone > Software Information
 2. Scroll to the bottom and tap on "Build number" seven times (you will see a countdown to let you know when you get to 7)
@@ -75,6 +92,20 @@ Clone the respository and ensure you have the requirements below:
 4. Plug in your device via USB and run `adb devices` on your terminal (this verifies connection to the Android Debug Bridge)
 5. You should see "List of devices attached". Make sure your device is listed
 6. Run the app on your physical device by running `yarn android`
+
+### Export Firebase to data-service
+In order for firebase information to be exported out, we need Firebase Functions that will trigger based on a document event. 
+
+**How to create a export function:**
+1. Add a method to `BackendControllerBase` to make a HTTP request to the data-service in `common/controllers/BackendController.ts`.
+2. Add a new export function triggered by a firebase event (commonly `onCreate`) with `FunctionBackendController()` in `/server/functions/src/export.ts`
+
+**To test:**
+1. Add a new test case in `/server/functions/__tests__/export.spec.ts` for your new export function. 
+	> This uses an emulated Firebase functions to test. You can do this by wrapping your export function with `test.wrap(...)`. 
+2. If your new export cloud function requires a new endpoint on data-service, have no fear! You do not need to change the branch reference used in Github Actions. Instead, add the endpoint you require to the mock-backend located in `/server/functions/__tests__/mocks/api/index.ts`.
+
+**Note:** If data-service on master does not contain your endpoint, chances are the test with the real data-service will fail. This is expected behavior.
 
 
 ### Deploy Cloud Functionality

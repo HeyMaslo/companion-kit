@@ -133,7 +133,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         this.trigger(ScenarioTriggers.Submit);
     }
 
-    private onfinishQol = () => {
+    private onFinishQol = () => {
         this.trigger(ScenarioTriggers.Quaternary);
     }
 
@@ -279,7 +279,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
             }
 
             case 'finish-qol': {
-                this.onfinishQol();
+                this.onFinishQol();
                 return;
             }
 
