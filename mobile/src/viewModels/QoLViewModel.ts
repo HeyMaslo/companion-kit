@@ -151,7 +151,7 @@ export default class QOLSurveyViewModel {
     }
 
     private getArmMagnitudes(scores: QolSurveyResults): PersonaArmState {
-        let currentArmMagnitudes: PersonaArmState = PersonaArmState.createZeroArmState();
+        let currentArmMagnitudes: PersonaArmState = PersonaArmState.createEmptyArmState();
         for (let domain of Object.values(DomainName)) {
             let score: number = 0;
             scores[domain].forEach((val) => {
