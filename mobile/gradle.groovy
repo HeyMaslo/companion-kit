@@ -1,3 +1,9 @@
+// Oct 6, 2021
+//
+// This file is used to fix an issue with the getPath() function called in line 83
+// If this issue is fixed in a new version remove this file and cp step in setup.bash
+//
+
 import groovy.json.JsonSlurper
 import org.gradle.util.VersionNumber
 
