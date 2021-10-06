@@ -49,17 +49,6 @@ jobs:
       - uses: ./.github/actions/setup
       - run: yarn build:dashboard
   # TODO: add an ios build step
-  build-android:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '10'
-      - uses: ./.github/actions/setup
-      - run: yarn build:android
   tests:
     runs-on: ubuntu-latest
     steps:
