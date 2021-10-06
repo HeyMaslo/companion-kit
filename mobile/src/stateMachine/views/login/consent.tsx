@@ -54,6 +54,7 @@ export class ConsentView extends ViewState {
                 action: this.hideModal,
             },
             contentHeight: 373,
+            theme: this.theme,
         });
     }
 
@@ -66,7 +67,7 @@ export class ConsentView extends ViewState {
 
     renderContent() {
         return (
-            <MasloPage style={this.baseStyles.page}>
+            <MasloPage style={this.baseStyles.page} theme={this.theme}>
                 <Container style={[this.baseStyles.container, this.baseStyles.flexBetween, { height: this._contentHeight } ]}>
                     <View style={styles.textBlockWrapper}>
                         <ScrollView style={styles.textBlock}>
@@ -83,6 +84,7 @@ export class ConsentView extends ViewState {
                         loading="promise"
                         style={this._userType.index == null ? { backgroundColor: Colors.consent.buttonDisabledBg } : null}
                         titleStyles={this._userType.index == null ? { color: Colors.consent.buttonDisabledText } : null}
+                        theme={this.theme}
                     />
                 </Container>
             </MasloPage>

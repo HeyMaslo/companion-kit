@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import Colors from 'src/constants/colors';
 import AddStoryButton from 'src/components/AddStoryButton';
 import { GlobalTrigger, GlobalTriggers } from 'src/stateMachine/globalTriggers';
 import Images from 'src/constants/images';
@@ -8,6 +7,7 @@ import { SvgProps } from 'react-native-svg';
 import BaseStyles from 'src/styles/BaseStyles';
 import Layout from 'src/constants/Layout';
 import AppViewModel from 'src/viewModels';
+import { Theme } from 'src/constants/theme/PStheme';
 
 const HPadding = () => {
     if (process.appFeatures.GOALS_ENABLED) {
@@ -37,11 +37,12 @@ const styles = StyleSheet.create({
 
 type Props = {
     screen?: 'home' | 'goals' | 'profile' | 'settings';
+    theme: Theme;
 };
 
 export default function BottomBar(props: Props) {
-    const { screen } = props;
-    const backgroundColor = screen === 'home' ? Colors.home.bg : Colors.pageBg;
+    const { screen, theme } = props;
+    const backgroundColor = theme.colors.background;
     const showIndicator = process.appFeatures.GOALS_ENABLED && AppViewModel.Instance.Goals.activeGoals.length > 0;
 
     const getGoalsIcon = () => {
@@ -52,36 +53,36 @@ export default function BottomBar(props: Props) {
         return goalsScreen ? Images.goalsActive : Images.goals;
     };
 
-    const ArchiveIcon: React.ComponentClass<SvgProps, any> = screen === 'home' ? Images.activeArchiveIcon : Images.archiveIcon;
-    const ProfileIcon: React.ComponentClass<SvgProps, any> = screen === 'profile' ? Images.activeProfileIcon : Images.profileIcon;
+    const iconSize = process.appFeatures.GOALS_ENABLED ? 32 : 28;
+
+    const ArchiveIcon: JSX.Element = screen === 'home' ? <Images.activeArchiveIcon width={iconSize} height={iconSize} color={theme.colors.highlight} /> : <Images.archiveIcon width={iconSize} height={iconSize} color={theme.colors.foreground} />;
+    const ProfileIcon: JSX.Element = screen === 'profile' ? <Images.activeProfileIcon width={iconSize} height={iconSize} color={theme.colors.highlight} /> : <Images.profileIcon width={iconSize} height={iconSize} color={theme.colors.foreground} />;
     const SettingsIcon: React.ComponentClass<SvgProps, any> = screen === 'settings' ? Images.settingsIconActive : Images.settingsIcon;
     const GoalsIcon: React.ComponentClass<SvgProps, any> = getGoalsIcon();
-
-    const iconSize = process.appFeatures.GOALS_ENABLED ? 32 : 28;
 
     return (
         <View style={[BaseStyles.container, styles.container, { backgroundColor: backgroundColor }]}>
             <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Home)}>
-                <ArchiveIcon width={iconSize} height={iconSize} color={'#000000'} />
+                {ArchiveIcon}
             </TouchableOpacity>
             {process.appFeatures.GOALS_ENABLED ?
                 <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Goals)}>
-                    <GoalsIcon width={iconSize} height={iconSize} />
+                    <GoalsIcon width={iconSize} height={iconSize} color={'#000000'} />
                 </TouchableOpacity>
-            : null}
+                : null}
             <AddStoryButton
                 width={55}
                 height={55}
                 onPress={() => GlobalTrigger(GlobalTriggers.CreateStory)}
             />
             <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Profile)}>
-                <ProfileIcon width={iconSize} height={iconSize} />
+                {ProfileIcon}
             </TouchableOpacity>
             {process.appFeatures.GOALS_ENABLED ?
                 <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Settings)}>
                     <SettingsIcon width={iconSize} height={iconSize} />
                 </TouchableOpacity>
-            : null}
+                : null}
         </View>
     );
 }

@@ -5,7 +5,6 @@ import { observer } from 'mobx-react';
 import { StyleSheet, Text, View, Dimensions, Animated } from 'react-native';
 import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
-import Colors from '../../../constants/colors';
 import TextStyles from '../../../../src/styles/TextStyles';
 import { QolSurveyType } from 'src/constants/QoL';
 
@@ -111,6 +110,7 @@ export class QolQuestion extends ViewState {
                 text: 'no, go back',
                 action: this.hideModal,
             },
+            theme: this.theme,
         });
     })
 
@@ -123,34 +123,36 @@ export class QolQuestion extends ViewState {
     private showInterlude = (): void | Promise<void> => this.runLongOperation(async () => {
         this.showModal({
             title: `You're getting there!`,
-            message: "You're doing great! I have a couple more questions for you.",
+            message: `You're doing great! I have a couple more questions for you.`,
             primaryButton: {
                 text: 'CONTINUE',
                 action: this.hideModal,
             },
+            theme: this.theme,
         });
     })
 
     renderContent() {
+        const theme = this.theme;
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
+            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} theme={this.theme}>
                 <Container style={[styles.container, { height: this._contentHeight }]}>
                     <Animated.View style={{ opacity: this.labelState.opacity }}>
                         <Text style={styles.domainLabel}>{this.viewModel.domain.toUpperCase()}</Text>
                     </Animated.View>
                     <View style={styles.subText1}>
-                        <Text style={this.textStyles.p3}>{this.viewModel.questionNum + 1} of {this.viewModel.numQuestions}</Text>
+                        <Text style={{...this.textStyles.labelMedium, color: theme.colors.highlight}}>{this.viewModel.questionNum + 1} of {this.viewModel.numQuestions}</Text>
                     </View>
-                    <Text style={{ ...this.textStyles.p3, marginTop: '8%' }}>OVER THE LAST 7 DAYS I HAVE...</Text>
+                    <Text style={{ ...this.textStyles.labelMedium, color: theme.colors.highlight, marginTop: '8%'}}>OVER THE LAST 7 DAYS I HAVE...</Text>
                     <View style={styles.question}>
-                        <Text style={[this.textStyles.h2, styles.questionText]}>{this.viewModel.question}</Text>
+                        <Text style={[{...this.textStyles.h1, color: theme.colors.foreground}, styles.questionText]}>{this.viewModel.question}</Text>
                     </View>
                     <View style={styles.buttonContainer}>
-                        <Button title="STRONGLY AGREE" style={styles.buttons} titleStyles={{ color: Colors.survey.btnFontColor }} withBorder={true} onPress={() => this.nextQuestion(5)}></Button>
-                        <Button title="AGREE" style={styles.buttons} titleStyles={{ color: Colors.survey.btnFontColor }} withBorder={true} onPress={() => this.nextQuestion(4)}></Button>
-                        <Button title="NEUTRAL" style={styles.buttons} titleStyles={{ color: Colors.survey.btnFontColor }} withBorder={true} onPress={() => this.nextQuestion(3)}></Button>
-                        <Button title="DISAGREE" style={styles.buttons} titleStyles={{ color: Colors.survey.btnFontColor }} withBorder={true} onPress={() => this.nextQuestion(2)}></Button>
-                        <Button title="STRONGLY DISAGREE" style={styles.buttons} titleStyles={{ color: Colors.survey.btnFontColor }} withBorder={true} onPress={() => this.nextQuestion(1)}></Button>
+                        <Button title='STRONGLY AGREE' style={{ backgroundColor: theme.colors.tint }} titleStyles={{ color: theme.colors.foreground }} theme={theme} onPress={() => this.nextQuestion(5)}></Button>
+                        <Button title='AGREE' style={{ backgroundColor: theme.colors.tint }} titleStyles={{ color: theme.colors.foreground }} theme={theme} onPress={() => this.nextQuestion(4)}></Button>
+                        <Button title='NEUTRAL' style={{ backgroundColor: theme.colors.tint }} titleStyles={{ color: theme.colors.foreground }} theme={theme} onPress={() => this.nextQuestion(3)}></Button>
+                        <Button title='DISAGREE' style={{ backgroundColor: theme.colors.tint }} titleStyles={{ color: theme.colors.foreground }} theme={theme} onPress={() => this.nextQuestion(2)}></Button>
+                        <Button title='STRONGLY DISAGREE' style={{ backgroundColor: theme.colors.tint }} titleStyles={{ color: theme.colors.foreground }} theme={theme} onPress={() => this.nextQuestion(1)}></Button>
                     </View>
                 </Container>
             </MasloPage>
@@ -186,11 +188,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         position: 'absolute',
         bottom: 30,
-    },
-    buttons: {
-        height: 60,
-        width: '88%',
-        backgroundColor: Colors.survey.btnBackgroundColor,
     },
     question: {
         alignItems: 'center',

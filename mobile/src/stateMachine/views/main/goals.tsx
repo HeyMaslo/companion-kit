@@ -44,7 +44,7 @@ export class GoalsView extends ViewState {
         const totalCount = activeCount + completedCount;
 
         return (
-            <MasloPage style={[this.baseStyles.page, styles.page]}>
+            <MasloPage style={[this.baseStyles.page, styles.page]} theme={this.theme}>
                 <Container style={styles.topBar}>
                     <PersonaScrollMask height={notch ? Layout.getViewHeight(22) : Layout.getViewHeight(25)} />
                 </Container>
@@ -76,7 +76,7 @@ export class GoalsView extends ViewState {
                         </Container>
                     </ScrollView>
                 ) : this.getPlaceholder()}
-                <BottomBar screen={'goals'} />
+                <BottomBar screen={'goals'} theme={this.theme}/>
             </MasloPage>
         );
     }

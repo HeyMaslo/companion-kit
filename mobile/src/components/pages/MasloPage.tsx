@@ -10,7 +10,7 @@ import { safeCall } from 'common/utils/functions';
 import Images from 'src/constants/images';
 import PageBase, { PageProps } from '../common/Page';
 import Container from '../Container';
-// import Colors from 'src/constants/colors';
+import { Theme } from 'src/constants/theme/PStheme';
 
 export type MasloPageExtendedProps = PageProps & {
     withDots?: boolean;
@@ -18,9 +18,9 @@ export type MasloPageExtendedProps = PageProps & {
     dotLength?: number;
     inProgress?: boolean;
     withContainer?: boolean;
-    background?: 'dark' | 'light';
     onClose?: () => any;
     onBack?: () => any;
+    theme: Theme;
 };
 
 function wrapWithKeyboardDismiss(cb: () => any) {
@@ -49,18 +49,17 @@ export default function MasloPageExtended(props: MasloPageExtendedProps) {
         activeDot,
         dotLength,
         style,
-        background,
         withContainer,
         onBack,
         onClose,
+        theme,
     } = props;
 
     const _onClose = onClose && wrapWithKeyboardDismiss(onClose);
     const _onBack = onBack && wrapWithKeyboardDismiss(onBack);
-    // const backgroundColor = getBgColor(background);
 
     return (
-        <PageBase style={[BaseStyles.page, style]}>
+        <PageBase style={[BaseStyles.page, style, { backgroundColor: theme.colors.background, }]}>
             {withDots ? <Dots length={dotLength || 0} active={activeDot || 0} /> : null}
             {_onBack ? (
                 <TouchableOpacity style={[BaseStyles.back]} onPress={_onBack}>

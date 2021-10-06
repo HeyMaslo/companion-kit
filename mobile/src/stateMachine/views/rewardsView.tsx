@@ -32,7 +32,7 @@ export class RewardsView extends ViewState {
         const { currentCheckInsCount: count } = this.model.rewards;
 
         return (
-            <MasloPage style={BaseStyles.page} onClose={this.onClose}>
+            <MasloPage style={BaseStyles.page} onClose={this.onClose} theme={this.theme}>
                 <Container style={[BaseStyles.container, BaseStyles.flexBetween, { height: Layout.getViewHeight(91.7) }]}>
                     <ConcentricCircles styles={concentricCirclesStyles} model={this.model.rewards} />
                     <View style={styles.numberOfCheckins}>

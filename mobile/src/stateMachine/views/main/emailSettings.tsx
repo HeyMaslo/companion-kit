@@ -27,7 +27,7 @@ export class EmailSettingsView extends ViewState {
 
         return (
             <KeyboardAvoidingView behavior="padding" style={{ height: '100%' }}>
-                <MasloPage>
+                <MasloPage theme={this.theme}>
                     <Container>
                         <BackArrow onPress={() => this.trigger(ScenarioTriggers.Back)} />
                         <Text style={{...TextStyles.h1, fontFamily: mainFontThin }}>Email</Text>

@@ -137,6 +137,7 @@ export class ConfirmAccountView extends ViewState<State, ConfirmAccountParams> {
                     onBack={this.state.stepIndex > 0 ? this.onBack : null}
                     onClose={this.close}
                     style={[this.baseStyles.page, { justifyContent: 'flex-start' }]}
+                    theme={this.theme}
                 >
                     <AnimatedContainer
                         animation="fadeIn"

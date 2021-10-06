@@ -1,5 +1,5 @@
 import { Maybe } from 'common/abstractions/structures/monads';
-import { GenericRepo } from 'common/database/repositories';
+import GenericRepo from 'common/database/repositories/GenericRepo';
 import { Domain } from '../../../mobile/src/constants/QoL';
 import { DocumentSnapshot, Query } from 'common/database/repositories/dbProvider';
 import Collections from 'common/database/collections';

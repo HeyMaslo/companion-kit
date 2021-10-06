@@ -2,7 +2,6 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { StyleSheet, Text, ScrollView, ActivityIndicator, View, Animated } from 'react-native';
 import TextStyles from 'src/styles/TextStyles';
-import Colors from 'src/constants/colors';
 import { Container, MasloPage, Placeholder, Button } from 'src/components';
 import HomeViewModel from 'src/viewModels/HomeViewModel';
 import BottomBar from 'src/screens/components/BottomBar';
@@ -41,19 +40,19 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         const smallHeight = this.layout.window.height < 800;
         this.persona.state = PersonaStates.Idle;
         this._contentHeight = smallHeight
-            ? this.persona.setupContainerHeightForceScroll({ rotation: 120 , transition: {duration: 1.5}})
-            : this.persona.setupContainerHeight(minContentHeight, { rotation: 120 , transition: {duration: 1.5}});
+            ? this.persona.setupContainerHeightForceScroll({ rotation: 120, transition: { duration: 1.5 } })
+            : this.persona.setupContainerHeight(minContentHeight, { rotation: 120, transition: { duration: 1.5 } });
     }
 
     get viewModel() { return HomeViewModel.Instance; }
     get viewQolModel() { return AppViewModel.Instance.QOL; }
-    
+
 
     async start() {
         await AppViewModel.Instance.QOL.init();
         const qolArmMagnitudes = await this.viewModel.getArmMagnitudes();
         this.persona.qolArmMagnitudes = qolArmMagnitudes;
-        this.setState({...this.state, isUnfinishedQol: AppViewModel.Instance.QOL.isUnfinished});
+        this.setState({ ...this.state, isUnfinishedQol: AppViewModel.Instance.QOL.isUnfinished });
         Animated.timing(this.state.opacity, {
             toValue: 1,
             delay: isFirstLaunch ? 1000 : 400,
@@ -107,6 +106,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                 this.hideNewDocumentLinkeModal();
                 this.viewModel.markLinkDocumentAsSeen(doc);
             },
+            theme: this.theme,
         });
     }
 
@@ -203,6 +203,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                 this.hideModal();
                 t.actions.seen();
             },
+            theme: this.theme,
         });
     }
 
@@ -269,12 +270,13 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                                 key={s.id}
                                 item={s}
                                 onPress={() => this.onTipItemPress(s)}
+                                theme={this.theme}
                             />
                         ))}
                     </ScrollView>
                 ) : null}
                 <Container style={styles.heading}>
-                    <Text style={[TextStyles.labelMedium, styles.headingTitle]}>Your Check-ins</Text>
+                    <Text style={[TextStyles.labelMedium, { color: this.theme.colors.highlight }]}>Your Check-ins</Text>
                     <Text style={[TextStyles.labelMedium, styles.date]}>{today}</Text>
                 </Container>
             </>
@@ -300,7 +302,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                             model={s}
                             active={i === 0}
                             onPress={() => this.openStoryDetails(s.id)}
-                            />
+                        />
                     ))}
                 </ScrollView>
             )
@@ -313,14 +315,14 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         } = this.viewModel;
 
         return (
-            <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
+            <MasloPage style={this.baseStyles.page} theme={this.theme}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
-                    { loading
+                    {loading
                         ? <ActivityIndicator size="large" />
                         : this.getCheckinsList()
                     }
-                    <BottomBar screen={'home'} />
+                    <BottomBar screen={'home'} theme={this.theme} />
                 </Animated.View>
             </MasloPage>
         );
@@ -341,9 +343,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginTop: 32,
         marginBottom: 16,
-    },
-    headingTitle: {
-        color: Colors.home.headingTitle,
     },
     date: {
         textTransform: 'uppercase',

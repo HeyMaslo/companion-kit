@@ -5,7 +5,6 @@ import { StyleSheet, Text, Animated } from 'react-native';
 import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import { createLogger } from 'common/logger';
-import { styles } from 'react-native-markdown-renderer';
 import Layout from 'src/constants/Layout';
 import AppViewModel from 'src/viewModels';
 import QOLSurveyViewModel from '../../../viewModels/QoLViewModel';
@@ -53,11 +52,11 @@ export class QolEndView extends ViewState<{ opacity: Animated.Value }> {
     renderContent() {
 
         return (
-            <MasloPage style={this.baseStyles.page}>
+            <MasloPage style={this.baseStyles.page} theme={this.theme}>
                 <Animated.View style={[{ height: this._contentHeight, alignItems: 'center', opacity: this.state.opacity }]}>
                     <Text style={[this.textStyles.h1, styles.title]}>Great job! Here are your Quality of Life results.</Text>
                     <Text style={[this.textStyles.p1, styles.message]}>There are 12 different Life Domains within your overall Quality of Life.</Text>
-                    <Button title="CONTINUE" style={styles.readyButton} onPress={() => this.onEndSurvey()} />
+                    <Button title="CONTINUE" style={styles.readyButton} onPress={() => this.onEndSurvey()} theme={this.theme} />
                 </Animated.View>
             </MasloPage>
         );

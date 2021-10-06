@@ -8,7 +8,6 @@ import { ScenarioTriggers } from '../../abstractions';
 import AppController from 'src/controllers';
 import { QolSurveyType } from 'src/constants/QoL';
 
-import { styles } from 'react-native-markdown-renderer';
 import { PersonaArmState } from 'dependencies/persona/lib';
 
 const minContentHeight = 460;
@@ -31,7 +30,7 @@ export class QolStartView extends ViewState {
         return AppViewModel.Instance.QOL;
     }
 
-    private saveProgress = async() => {
+    private saveProgress = async () => {
         await this.viewModel.saveSurveyProgress(PersonaArmState.createEmptyArmState());
         this.cancel();
     }
@@ -53,28 +52,29 @@ export class QolStartView extends ViewState {
             secondaryButton: {
                 text: 'no, go back',
                 action: this.hideModal,
-            }
+            },
+            theme: this.theme,
         });
     })
 
     renderContent() {
 
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
+            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} theme={this.theme}>
                 <Container style={[styles.container, { height: this._contentHeight }]}>
-                    <Text style={[this.textStyles.h1, styles.title]}>Welcome{(this.viewModel.QolSurveyType === QolSurveyType.Full) ? " back":""}!</Text>
+                    <Text style={[this.textStyles.h1, styles.title]}>Welcome{(this.viewModel.QolSurveyType === QolSurveyType.Full) ? ' back' : ''}!</Text>
                     <Text style={[this.textStyles.p1, styles.message]}> {(this.viewModel.QolSurveyType === QolSurveyType.Full) ?
-                    "Welcome to your monthly check-in! We'll start with getting an update on your quality of life." :
-                    "I’m happy you’re here! First, I’ll need to gather some information about your current Quality of Life. Ready to begin?"}
+                        "Welcome to your monthly check-in! We'll start with getting an update on your quality of life." :
+                        'I’m happy you’re here! First, I’ll need to gather some information about your current Quality of Life. Ready to begin?'}
                     </Text>
-                    <Button title="I'M READY" style={styles.readyButton} onPress={() => this.onStartSurvey()}/>
+                    <Button title={`I'M READY`} style={styles.readyButton} onPress={() => this.onStartSurvey()} theme={this.theme} />
                 </Container>
             </MasloPage>
         );
     }
 }
 
-const styles = StyleSheet.create({ 
+const styles = StyleSheet.create({
     container: {
         paddingTop: '30%',
         alignItems: 'center'

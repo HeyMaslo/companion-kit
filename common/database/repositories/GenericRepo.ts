@@ -1,6 +1,6 @@
 import Collections from 'common/database/collections';
 import { Identify } from 'common/models';
-import { RepoError } from '.';
+import  RepoError  from 'common/database/repositories/RepoError';
 import DBProvider, { DocumentSnapshot, documentSnapshot, getIdentify, serverOnly } from './dbProvider';
 
 function Identify<T> (d: T, id: string): Identify<T> {
