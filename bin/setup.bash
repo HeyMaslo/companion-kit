@@ -98,5 +98,6 @@ if [ $mobile == 1 ]; then
         pod install --repo-update
     fi
     cd ../..
+    cp mobile/gradle.groovy mobile/node_modules/react-native-unimodules
 fi
 echo "Done."
