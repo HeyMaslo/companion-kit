@@ -2,11 +2,16 @@ import * as admin from 'firebase-admin';
 import { ExportFunctions } from '../src/export';
 import { init } from './util/firebase';
 import { assert } from 'chai';
+import * as firebase from './util/firebase';
 
 const {test, app} = init('example-test');
 
 describe('Export Functions', () => {
-    afterEach(test.cleanup);
+    afterEach(async () => {
+        await firebase.clear();
+        test.cleanup();
+        console.log('finished all');
+    });
 
     it('Should export new accounts', async () => {
         const clientId = 'client0';
@@ -82,6 +87,7 @@ describe('Export Functions', () => {
             },
             `/records/${recordId}`);
         const result = await(handle(snap));
+        console.log('record export result', result);
         assert.isNull(result.error);
       });
 });

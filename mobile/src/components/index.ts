@@ -25,6 +25,7 @@ import RadioButtonGroup from './RadioButtonGroup';
 import SelectItem from './SelectItem';
 import Placeholder from './Placeholder';
 import GoalCard from './GoalCard';
+import StrategyCard from './StrategyCard';
 
 export {
     GradientView,
@@ -56,4 +57,5 @@ export {
     SelectItem,
     Placeholder,
     GoalCard,
+    StrategyCard,
 };
