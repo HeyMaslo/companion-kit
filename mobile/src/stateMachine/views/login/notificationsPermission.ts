@@ -5,9 +5,9 @@ import { ScenarioTriggers } from '../../abstractions';
 
 @observer
 export class NotificationsPermissionView extends ViewState {
+
     async start() {
         const theme = this.theme;
-        console.log('NotificationsPermissionView theme', theme)
         this.showModal({
             title: 'I can help you make checking-in a daily habit.',
             message: 'Would you like to enable notifications?',
@@ -21,7 +21,6 @@ export class NotificationsPermissionView extends ViewState {
             },
             theme: theme,
         });
-        // this.onSkip();
     }
 
     askNtfPermissions = () => this.runLongOperation(async () => {

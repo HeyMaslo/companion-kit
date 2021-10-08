@@ -326,7 +326,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
                     <View style={{flexDirection:'row'}}>
                     {/* Domains button used for development only and will be removed eventually */}
-                    <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains()}/>
+                    <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains()} theme={this.theme}/>
                     </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
                     {loading
