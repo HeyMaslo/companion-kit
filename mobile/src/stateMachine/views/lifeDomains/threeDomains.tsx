@@ -18,7 +18,7 @@ export class ThreeDomainView extends ViewState {
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -15, transition: { duration: 1.5 } });
     }
 
-    async start() {}
+    async start() { }
 
     private cancel = () => {
         this.trigger(ScenarioTriggers.Cancel);
@@ -36,17 +36,17 @@ export class ThreeDomainView extends ViewState {
         const selectedDomains = this.viewModel.selectedDomains;
 
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()}>
+            <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()} theme={this.theme}>
                 <Container style={[styles.flexContainer, { height: this._contentHeight, paddingTop: '20%', width: '100%', justifyContent: 'space-between' }]}>
                     <View style={styles.flexContainer}>
                         {/* Titles */}
                         <Text style={[this.textStyles.h1, styles.title]}>Choosing more than two focus domains is not recommended</Text>
                         <Text style={styles.message}> For Optimal Effect, choose 1-2 per month - 3 Domains is Maximum</Text>
                     </View>
-                    <View style={[styles.flexContainer, {marginBottom: 15}]}>
+                    <View style={[styles.flexContainer, { marginBottom: 15 }]}>
                         {/* Buttons */}
-                        {selectedDomains.length < 3 && <Button title='Continue with two Domains' style={styles.readyButton} onPress={() => this.onStartSurvey()}/>}
-                        {selectedDomains.length < 3 && <Button title='Choose Another Domain' titleStyles={{color:'black'}} withBorder={true} style={styles.readyButtonNo} onPress={() => this.cancel()}/>}
+                        {selectedDomains.length < 3 && <Button title='Continue with two Domains' style={styles.readyButton} onPress={() => this.onStartSurvey()} theme={this.theme} />}
+                        {selectedDomains.length < 3 && <Button title='Choose Another Domain' titleStyles={{ color: 'black' }} withBorder={true} style={styles.readyButtonNo} onPress={() => this.cancel()} theme={this.theme} />}
                     </View>
                 </Container>
             </MasloPage>
@@ -54,7 +54,7 @@ export class ThreeDomainView extends ViewState {
     }
 }
 
-const styles = StyleSheet.create({ 
+const styles = StyleSheet.create({
     flexContainer: {
         flexDirection: 'column',
         flexWrap: 'nowrap',

@@ -49,6 +49,7 @@ export class RewardsView extends ViewState {
                         title={'Share with my Therapist'}
                         loading="promise"
                         style={styles.btn}
+                        theme={this.theme}
                     />
                 </Container>
             </MasloPage>

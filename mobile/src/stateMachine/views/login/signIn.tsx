@@ -143,6 +143,7 @@ export class SignInView extends ViewState {
                     onPress: () => Links.tryOpenLink(Localization.Current.MobileProject.contactUsLink, false),
                 }),
             },
+            theme: this.theme,
         });
     }
 

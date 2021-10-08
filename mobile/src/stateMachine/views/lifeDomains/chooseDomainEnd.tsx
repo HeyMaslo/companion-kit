@@ -44,12 +44,12 @@ export class ChooseDomainEndView extends ViewState {
         logger.log('MY_SELECTL', selectedDomains.length);
 
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()}>
+            <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()} theme={this.theme}>
                 <Container style={[styles.flexContainer, { height: this._contentHeight, justifyContent: 'space-between',}]}>
                     <Text style={[this.textStyles.h1, styles.title]}>Next, you'll choose strategies for your focus domains </Text>
                     <View style ={{width: '90%', flex: 0, alignItems: 'center', justifyContent: 'space-around', marginBottom: 15}}>
                         <Text style={[this.textStyles.p3, styles.message]}>You can choose up to 4 strategies and update them weekly</Text>
-                        <Button title='View Strategies' style={styles.continueButton} onPress={() => this.onThreeSelected()}/>
+                        <Button title='View Strategies' style={styles.continueButton} onPress={() => this.onThreeSelected()} theme={this.theme} />
                     </View>
                 </Container>
             </MasloPage>

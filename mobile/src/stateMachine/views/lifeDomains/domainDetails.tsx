@@ -29,7 +29,7 @@ export class DomainDetailsView extends ViewState {
         const [leftName, mainName, rightName, mainImportance] = this.viewModel.getDomainDisplay();
 
         return (
-            <MasloPage style={[this.baseStyles.page,{backgroundColor: '#E7E7F6'}]} onClose={() => this.cancel()}>
+            <MasloPage style={[this.baseStyles.page,{backgroundColor: '#E7E7F6'}]} onClose={() => this.cancel()} theme={this.theme}>
                 <Container style={[styles.container, {height: this._contentHeight}]}>
                     <View style={styles.header}>
                     <Text style={this.textStyles.h1}>Why {mainName} is important to your quality of life</Text>

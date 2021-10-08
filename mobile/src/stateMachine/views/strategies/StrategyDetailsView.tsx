@@ -61,7 +61,7 @@ export class StrategyDetailsView extends ViewState {
 
     renderContent() {
         return (
-            <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()}>
+            <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()} theme={this.theme}>
                 <Container style={[{height: this._contentHeight, paddingTop: 10, paddingBottom: 10}]}>
                     {/* Title */}
                     <View style={{justifyContent: 'center', flexDirection: 'row', marginBottom: 20}}>

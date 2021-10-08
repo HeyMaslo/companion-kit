@@ -15,7 +15,7 @@ const palette = {
   greyExtraLight: '#E4E4E7',
 
   black: '#0B0B0B',
-  white: '#F0F2F3',
+  white: '#FFFFFF', //'#F0F2F3',
 };
 
 

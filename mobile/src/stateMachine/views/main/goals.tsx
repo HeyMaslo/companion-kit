@@ -58,6 +58,7 @@ export class GoalsView extends ViewState {
                                     title={g.title}
                                     checked={false}
                                     onPress={g.toggleComplete}
+                                    theme={this.theme}
                                 />
                             ) )}
                             {this.model.achievedGoals.length > 0 && (
@@ -69,6 +70,7 @@ export class GoalsView extends ViewState {
                                             title={g.title}
                                             checked={true}
                                             onPress={g.toggleComplete}
+                                            theme={this.theme}
                                         />
                                     ))}
                                 </>

@@ -91,7 +91,8 @@ export class ChooseDomainView extends ViewState {
             secondaryButton: {
                 text: 'no, go back',
                 action: this.hideModal,
-            }
+            },
+            theme: this.theme,
         });
     })
 
@@ -135,7 +136,7 @@ export class ChooseDomainView extends ViewState {
         const [lDomain, domain, rDomain, importance] = this.viewModel.getDomainDisplay();
 
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()}>
+            <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()} theme={this.theme}>
                 <Container style={[{height: this._contentHeight, paddingTop: 10, paddingBottom: 10}]}>
                     <View style={{justifyContent: 'space-between', flexDirection: 'row', marginBottom: 20}}>
                         <Text style={[TextStyles.p1, styles.domain]}>{domain}</Text>
@@ -215,6 +216,7 @@ export class ChooseDomainView extends ViewState {
                                         titleStyles={styles.mailButtonTitle}
                                         onPress={active === 0 ? () => this.onDetails() : null}
                                         isTransparent
+                                        theme={this.theme}
                                      />
 
                                 </View>
@@ -226,6 +228,7 @@ export class ChooseDomainView extends ViewState {
                                     titleStyles={styles.selectDomain}
                                     onPress={() => this.onSelectDomain(domain)}
                                     isTransparent
+                                    theme={this.theme}
                                 />
                      </View>
                     <View 

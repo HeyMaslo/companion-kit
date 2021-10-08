@@ -55,6 +55,7 @@ export class EmailSettingsView extends ViewState {
                             isTransparent
                             title="Save"
                             onPress={this.onSave}
+                            theme={this.theme} 
                         />
                     </Container>
                 </MasloPage>

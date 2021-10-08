@@ -11,79 +11,80 @@ import { AlertExitWithoutSave } from 'src/constants/alerts';
 
 @observer
 export class FocusStrategiesView extends ViewState {
-    constructor(props) {
-        super(props);
-        this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0} });
-        this.hidePersona();
+  constructor(props) {
+    super(props);
+    this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0 } });
+    this.hidePersona();
 
-        this.onLearnMorePress = this.onLearnMorePress.bind(this);
-    }
-
-    public get viewModel() {
-        return AppViewModel.Instance.ChooseStrategy;
-    }
-
-    async start() {
-        this.forceUpdate();
-    }
-
-    private cancel = () => {
-        this.trigger(ScenarioTriggers.Cancel);
-    }
-
-    onLearnMorePress(id: string) {
-      this.viewModel.learnMoreStrategy = this.viewModel.getStrategyById(id);
-      this.trigger(ScenarioTriggers.Tertiary);
+    this.onLearnMorePress = this.onLearnMorePress.bind(this);
   }
 
-    onClose = (): void | Promise<void> => this.runLongOperation(async () => {
-        this.showModal({
-            title: AlertExitWithoutSave,
-            primaryButton: {
-                text: 'yes, stop',
-                action: this.cancel,
-            },
-            secondaryButton: {
-                text: 'no, go back',
-                action: this.hideModal,
-            }
-        });
-    })
+  public get viewModel() {
+    return AppViewModel.Instance.ChooseStrategy;
+  }
 
-    onBack = () => {
-      this.trigger(ScenarioTriggers.Back);
-    }
+  async start() {
+    this.forceUpdate();
+  }
 
-    nextPage = () => {
-      this.trigger(ScenarioTriggers.Submit);
-    }
+  private cancel = () => {
+    this.trigger(ScenarioTriggers.Cancel);
+  }
 
-    renderListItem = ({ item }) => (
-      <StrategyCard item={item} onSelectStrategy={(()=>(null))} onLearnMorePress={this.onLearnMorePress} hideCheckbox={true}/>
+  onLearnMorePress(id: string) {
+    this.viewModel.learnMoreStrategy = this.viewModel.getStrategyById(id);
+    this.trigger(ScenarioTriggers.Tertiary);
+  }
+
+  onClose = (): void | Promise<void> => this.runLongOperation(async () => {
+    this.showModal({
+      title: AlertExitWithoutSave,
+      primaryButton: {
+        text: 'yes, stop',
+        action: this.cancel,
+      },
+      secondaryButton: {
+        text: 'no, go back',
+        action: this.hideModal,
+      },
+      theme: this.theme,
+    });
+  })
+
+  onBack = () => {
+    this.trigger(ScenarioTriggers.Back);
+  }
+
+  nextPage = () => {
+    this.trigger(ScenarioTriggers.Submit);
+  }
+
+  renderListItem = ({ item }) => (
+    <StrategyCard item={item} onSelectStrategy={(() => (null))} onLearnMorePress={this.onLearnMorePress} hideCheckbox={true} />
+  );
+
+  renderContent() {
+    console.log('availableStrategies', this.viewModel.availableStrategies.length)
+    return (
+      <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} onBack={this.onBack} theme={this.theme}>
+        <Container style={[{ height: this._contentHeight, paddingTop: 10, paddingBottom: 10 }]}>
+          {/* Title */}
+          <View style={{ justifyContent: 'center', flexDirection: 'row', marginBottom: 20 }}>
+            <Text style={[TextStyles.h2, styles.strategy]}>{'Here are your focus strategies.'}</Text>
+          </View>
+          {/* List of Strategies */}
+          <FlatList style={styles.list}
+            data={this.viewModel.selectedStrategies}
+            renderItem={this.renderListItem}
+            keyExtractor={item => item.id} />
+          <Button title='CONTINUE' style={styles.selectButton} onPress={this.nextPage} theme={this.theme} />
+        </Container>
+      </MasloPage>
     );
-
-    renderContent() {
-      console.log('availableStrategies', this.viewModel.availableStrategies.length)
-        return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} onBack={this.onBack}>
-                <Container style={[{height: this._contentHeight, paddingTop: 10, paddingBottom: 10}]}>
-                    {/* Title */}
-                    <View style={{justifyContent: 'center', flexDirection: 'row', marginBottom: 20}}>
-                        <Text style={[TextStyles.h2, styles.strategy]}>{'Here are your focus strategies.'}</Text>
-                    </View>
-                    {/* List of Strategies */}
-                    <FlatList style={styles.list}    
-                    data={this.viewModel.selectedStrategies}
-                    renderItem={this.renderListItem}
-                    keyExtractor={item => item.id}/>
-                    <Button title='CONTINUE' style={styles.selectButton} onPress={this.nextPage}/>
-                </Container>
-            </MasloPage>
-        );
-    }
+  }
 }
 
-const styles = StyleSheet.create({ 
+const styles = StyleSheet.create({
   sortButton: {
     marginBottom: 30,
     borderWidth: 1,
