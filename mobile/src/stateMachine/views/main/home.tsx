@@ -20,6 +20,7 @@ import AppViewModel from 'src/viewModels';
 import { QolSurveyType } from 'src/constants/QoL';
 import ChooseDomainViewModel from 'src/viewModels/ChooseDomainViewModel';
 import ChooseStrategyViewModel from 'src/viewModels/ChooseStrategyViewModel';
+import { formatDateDayMonthYear } from 'common/utils/dateHelpers';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -323,10 +324,14 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
         return (
             <MasloPage style={this.baseStyles.page} theme={this.theme}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', position: 'absolute', top: 60, left: 0, right: 0 }}>
+                    <Text style={[this.textStyles.labelMedium, {color: this.theme.colors.midground}]}>{formatDateDayMonthYear(new Date())}</Text>
+                </View>
+                {/* Do we want this animated fade in every time, only on app open or not at all? */}
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
-                    <View style={{flexDirection:'row'}}>
-                    {/* Domains button used for development only and will be removed eventually */}
-                    <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains()} theme={this.theme}/>
+                    <View style={{ flexDirection: 'row' }}>
+                        {/* Domains button used for development only and will be removed eventually */}
+                        <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains()} theme={this.theme} />
                     </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
                     {loading

@@ -259,6 +259,16 @@ export function formatFullDate(date: Date | number, withYear: boolean = false): 
     return `${dayOfWeek}, ${day} ${month}`;
 }
 
+export function formatDateDayMonthYear(date: Date | number): string {
+    const d = getDate(date);
+    const day = d.getDate();
+    const month = months[d.getMonth()];
+    const dayOfWeek = weekDays[d.getDay()];
+    const year = d.getUTCFullYear();
+
+    return `${dayOfWeek}, ${month} ${day} ${year}`;
+}
+
 export function formatDate(date: Date | number): string {
     const d = getDate(date);
     const day = d.getDate();
