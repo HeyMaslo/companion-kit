@@ -78,7 +78,7 @@ export class GoalsView extends ViewState {
                         </Container>
                     </ScrollView>
                 ) : this.getPlaceholder()}
-                <BottomBar screen={'goals'} theme={this.theme}/>
+                {/* <BottomBar screen={'goals'} theme={this.theme}/> */}
             </MasloPage>
         );
     }

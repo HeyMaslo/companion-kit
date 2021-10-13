@@ -169,7 +169,6 @@ export class SettingsView extends ViewState {
                         </View>
                     </Container>
                 </ScrollView>
-                {process.appFeatures.GOALS_ENABLED && <BottomBar screen={'settings'} theme={this.theme} />}
             </MasloPage>
         );
     }

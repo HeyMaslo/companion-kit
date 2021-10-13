@@ -15,7 +15,7 @@ export default function GoalCard(props: GoalCardProps) {
     const { title, checked, onPress, theme } = props;
 
     return (
-        <TouchableOpacity style={[styles.goalCard, checked ? styles.cardChecked : null]} activeOpacity={0.7} onPress={onPress}>
+        <TouchableOpacity style={[styles.goalCard, checked && styles.checkboxChecked]} activeOpacity={0.7} onPress={onPress}>
             <Text style={[TextStyles.p2, styles.title]}>{title}</Text>
             <View style={[styles.checkbox, checked && { backgroundColor: theme.colors.highlight }]}>
                 {checked && <Images.radioChecked width={8} height={6} />}
