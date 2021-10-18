@@ -52,7 +52,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
 
     async start() {
-        this.persona.hiddenArms = false;
+        this.persona.armsHidden = false;
         await AppViewModel.Instance.QOL.init();
         const qolArmMagnitudes = await this.viewModel.getArmMagnitudes();
         this.persona.qolArmMagnitudes = qolArmMagnitudes;
