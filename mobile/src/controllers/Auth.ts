@@ -139,7 +139,7 @@ export class AuthController extends AuthControllerBase implements IAuthControlle
 
     protected async doGoogleSignIn() {
         let result: { idToken: string, accessToken: string };
-        if (UseNativeGoogle) { 
+        if (UseNativeGoogle) {
             await GoogleSignInNative.askForPlayServicesAsync();
             const res = await GoogleSignInNative.signInAsync();
             if (res.type === 'success') {
