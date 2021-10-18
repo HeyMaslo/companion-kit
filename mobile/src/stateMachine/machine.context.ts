@@ -8,6 +8,7 @@ import { PersonaArmState } from 'dependencies/persona/lib';
 import { getTheme, Theme, ThemeState } from 'src/constants/theme/PStheme';
 
 class PersonaViewContext implements IPersonaViewContext {
+    
     @observable
     public state: PersonaStates = PersonaStates.Init;
 
@@ -16,6 +17,9 @@ class PersonaViewContext implements IPersonaViewContext {
 
     @observable
     public qolArmMagnitudes: PersonaArmState = PersonaArmState.createEmptyArmState();
+
+    @observable
+    public hiddenArms: boolean = false;
 
     // will be set outside
     public currentSettings: CurrentPersonaSettings = null;

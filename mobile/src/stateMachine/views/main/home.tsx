@@ -5,7 +5,7 @@ import TextStyles from 'src/styles/TextStyles';
 import { Container, MasloPage, Placeholder, Button } from 'src/components';
 import HomeViewModel from 'src/viewModels/HomeViewModel';
 import BottomBar from 'src/screens/components/BottomBar';
-import CheckInCard from 'src/screens/components/CheckInCard';
+import ResourceCard from 'src/screens/components/ResourceCard';
 import TipItemCard from 'src/screens/components/TipCard';
 import { CheckInDetailsParams } from 'src/stateMachine/views/main/checkInDetails';
 import { ViewState } from '../base';
@@ -23,7 +23,7 @@ import ChooseStrategyViewModel from 'src/viewModels/ChooseStrategyViewModel';
 import { formatDateDayMonthYear } from 'common/utils/dateHelpers';
 
 const minContentHeight = 535;
-const MaxHeight = Layout.isSmallDevice ? 174 : 208;
+const MaxHeight = Layout.isSmallDevice ? 174 * 0.9 : 208 * 0.9;
 
 let isFirstLaunch = true;
 
@@ -52,14 +52,15 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
 
     async start() {
+        this.persona.hiddenArms = false;
         await AppViewModel.Instance.QOL.init();
         const qolArmMagnitudes = await this.viewModel.getArmMagnitudes();
         this.persona.qolArmMagnitudes = qolArmMagnitudes;
         this.setState({ ...this.state, isUnfinishedQol: AppViewModel.Instance.QOL.isUnfinished });
         Animated.timing(this.state.opacity, {
             toValue: 1,
-            delay: isFirstLaunch ? 1000 : 400,
-            duration: 500,
+            delay: isFirstLaunch ? 1000 : 50, // MK-TODO: - play with this delay and duration + see if instant render is possible
+            duration: isFirstLaunch ? 500 : 450,
             useNativeDriver: true,
         }).start(this.checkNewLinkDoc);
         isFirstLaunch = false;
@@ -145,8 +146,16 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         this.trigger(ScenarioTriggers.Next);
     }
 
-    private openStoryDetails = (jid: string) => {
+    private openResourceDetails = (jid: string) => {
         this.trigger<CheckInDetailsParams>(ScenarioTriggers.Primary, { id: jid });
+    }
+
+    private favoriteResource = (jid: string) => {
+        console.log('favoriteResource', jid);
+    }
+
+    private removeResource = (jid: string) => {
+        console.log('removeResource', jid);
     }
 
     private modalTextsByStatus = (status: InterventionTipsStatuses.StatusIds) => {
@@ -266,11 +275,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
         return (
             <>
-                {tips?.length ? (
+                {tips?.length && (
                     <ScrollView
                         showsHorizontalScrollIndicator={false}
                         horizontal
-                        style={{ maxHeight: Layout.isSmallDevice ? 112 : 132 }}
+                        style={{ maxHeight: Layout.isSmallDevice ? 112 : 132, marginBottom: 16 }}
                         contentContainerStyle={styles.tipsList}
                     >
                         {tips.map(s => (
@@ -282,21 +291,17 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                             />
                         ))}
                     </ScrollView>
-                ) : null}
-                <Container style={styles.heading}>
-                    <Text style={[TextStyles.labelMedium, { color: this.theme.colors.highlight }]}>Your Check-ins</Text>
-                    <Text style={[TextStyles.labelMedium, styles.date]}>{today}</Text>
-                </Container>
+                )}
             </>
         );
     }
 
-    private getCheckinsList() {
-        const { checkIns } = this.viewModel;
+    private getResourcesList() {
+        const { resources } = this.viewModel;
 
         return (
-            checkIns.length === 0 ? (
-                <Placeholder message={'You don’t have any check-ins yet'} />
+            resources.length === 0 ? (
+                <Placeholder message={'You don’t have any more resources'} />
             ) : (
                 <ScrollView
                     style={{ maxHeight: MaxHeight }}
@@ -304,12 +309,15 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                     horizontal
                     contentContainerStyle={styles.list}
                 >
-                    {checkIns.map((s, i) => (
-                        <CheckInCard
+                    {resources.map((s, i) => (
+                        <ResourceCard
                             key={s.id}
                             model={s}
                             active={i === 0}
-                            onPress={() => this.openStoryDetails(s.id)}
+                            onPress={() => this.openResourceDetails(s.id)}
+                            onHeart={() => this.favoriteResource(s.id)}
+                            onClose={() => this.removeResource(s.id)}
+                            theme={this.theme}
                         />
                     ))}
                 </ScrollView>
@@ -325,7 +333,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         return (
             <MasloPage style={this.baseStyles.page} theme={this.theme}>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', position: 'absolute', top: 60, left: 0, right: 0 }}>
-                    <Text style={[this.textStyles.labelMedium, {color: this.theme.colors.midground}]}>{formatDateDayMonthYear(new Date())}</Text>
+                    <Text style={[this.textStyles.labelMedium, { color: this.theme.colors.midground }]}>{formatDateDayMonthYear(new Date())}</Text>
                 </View>
                 {/* Do we want this animated fade in every time, only on app open or not at all? */}
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
@@ -336,7 +344,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
                     {loading
                         ? <ActivityIndicator size="large" />
-                        : this.getCheckinsList()
+                        : this.getResourcesList()
                     }
                     <BottomBar screen={'home'} theme={this.theme} />
                 </Animated.View>

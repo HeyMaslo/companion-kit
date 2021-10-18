@@ -73,7 +73,7 @@ export class FeelingsView extends CheckInViewBase {
                     <View style={styles.topBarWrap}>
                         <Dots length={3} active={0} styles={{ left: 0 }} />
                         <Button style={styles.closeBtn} underlayColor="transparent" onPress={this.onClose} theme={theme}>
-                            <Images.closeIcon width={28} height={14} />
+                            <Images.closeIcon width={28} height={14} color={'#BABFBF'} />
                         </Button>
                     </View>
                 </Container>
