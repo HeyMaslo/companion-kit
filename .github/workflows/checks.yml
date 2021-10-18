@@ -1,22 +1,55 @@
-name: tests
+name: checks
 on: push
+defaults:
+  run:
+    shell: bash
 jobs:
-  server-with-mock:
+  lint-server:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out
-        uses: actions/checkout@v2
-      - name: Create shared network
-        run: docker network create bb_default
-      - name: Create environment file
-        run: cp test.env .docker.env
-      - name: Start mock api service
-        run: docker-compose up -d api
-      - name: Build project
-        run: docker-compose build server
-      - name: Perform Tests
-        run: docker-compose run --rm server yarn test
-  server:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '10'
+      - uses: ./.github/actions/setup
+      - run: yarn lint:server
+#   TODO: Fix lint rules
+#   lint-mobile:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2
+#       - uses: actions/setup-node@v2
+#         with:
+#           node-version: '10'
+#       - uses: ./.github/actions/setup
+#       - run: yarn lint
+#         working-directory: mobile
+  build-server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '10'
+      - uses: ./.github/actions/setup
+      - run: yarn build:server
+  build-dashboard: 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '10'
+      - uses: ./.github/actions/setup
+      - run: yarn build:dashboard
+  # TODO: add an ios build step
+  tests:
     runs-on: ubuntu-latest
     steps:
       - name: Check out
@@ -52,9 +85,9 @@ jobs:
       - name: Show server logs
         working-directory: data-services
         run: docker-compose logs api
-      - name: Build project
+      - name: Build Server
         working-directory: companion-app/server/functions
         run: docker-compose build server
-      - name: Perform Tests
+      - name: Run Tests
         working-directory: companion-app/server/functions
         run: docker-compose run --rm server yarn test

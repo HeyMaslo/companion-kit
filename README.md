@@ -10,12 +10,11 @@ The steps below are required to set up a local instance of this project. The sub
 
 Clone the respository and ensure you have the requirements below:
 
- * React Native CLI development environment for both iOS and Android (Needed for running mobile apps. Xcode and Android studio must be installed in order to run iOS and android apps, respectively.)  
- Instructions: [https://reactnative.dev/docs/environment-setup](https://reactnative.dev/docs/environment-setup)
+ * Bash (Any *nix OS or WSL setup should work)
 
- * Node.js 10 ([`nvm`](https://github.com/nvm-sh/nvm) is preferable)  
- To install:  ```nvm install 10```	
- To switch to version 10:  ```nvm use 10```
+ * Curl (suffices to have `curl` command available in bash shell)
+
+ * React Native CLI development environment for both iOS and Android (Needed for running mobile apps. Xcode and Android studio must be installed in order to run iOS and android apps, respectively.)  
  
  * Expo CLI  
  To install: ```npm i -g expo-cli```
@@ -24,7 +23,7 @@ Clone the respository and ensure you have the requirements below:
  To install: ```npm i -g react-native-cli```
  
  * Firebase Tools (Needed to test and deploy firebase functions, dashboard etc.)  
- To install: ```npm i -g react-native-cli```
+ To install: ```npm i -g firebase-tools```
 
 ### 2. Configure the Development Environment
 
@@ -54,6 +53,13 @@ bash bin/migrate-project.bash <path-to-old-project> <path-to-new-project>
 ```
 
 ## Running and Deploying the App
+
+### Using the Correct Node Version
+After running the script above, the project instance will contain a local copy of NVM, which can be loaded with the following command:
+```
+source ./bin/nvm.sh
+```
+The project contains `.nvmrc` files that indicate the correct node version to use. To switch to the correct version, run ```nvm use``` in a given directory.
 
 ### Run Mobile Apps Locally on a Simulator
 

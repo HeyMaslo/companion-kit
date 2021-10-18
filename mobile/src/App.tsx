@@ -24,6 +24,7 @@ import AnalyticsExpo from 'src/services/AnalyticsService';
 import { InitAnalytics } from 'common/services/analytics/analytics';
 import PromptModal from './components/PromptModal';
 
+// Code to enable Siri shortcuts on iOS. Omitted for now as shortcuts are no-ops.
 // import {
 //     SiriShortcutsEvent,
 //     donateShortcut,
@@ -36,7 +37,7 @@ import PromptModal from './components/PromptModal';
 const logger = createLogger('[APP]');
 
 // const opts1: ShortcutOptions = {
-//     activityType: 'com.maslo.evolution.SiriShortcutsModule.sayHello',
+//     activityType: 'com.maslo.companionkit.SiriShortcutsModule.sayHello',
 //     title: 'Say Hi',
 //     userInfo: {
 //         foo: 1,
@@ -45,7 +46,7 @@ const logger = createLogger('[APP]');
 //     },
 //     keywords: ['kek', 'foo', 'bar'],
 //     persistentIdentifier:
-//     'com.maslo.evolution.SiriShortcutsModule.sayHello',
+//     'com.maslo.companionkit.SiriShortcutsModule.sayHello',
 //     isEligibleForSearch: true,
 //     isEligibleForPrediction: true,
 //     suggestedInvocationPhrase: 'Say something',
