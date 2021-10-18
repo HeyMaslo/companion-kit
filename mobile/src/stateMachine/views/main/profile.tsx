@@ -48,7 +48,7 @@ const concentricCirclesStyles: ConcentricCirclesStyles = { diameter: 112, stroke
 export class ProfileView extends ViewState {
     constructor(props) {
         super(props);
-        this.persona.hiddenArms = true;
+        this.persona.armsHidden = true;
         this._contentHeight = this.persona.setupContainerHeightForceScroll({ rotation: 180 });
     }
 
