@@ -94,9 +94,9 @@ export default abstract class BackendControllerBase implements IBackendControlle
         return this.Client.post('/affirmation', {
             id: affirmationId,
             data: {
-                content,
                 domains,
                 keywords,
+                content,
             },
         },
         {

@@ -98,7 +98,7 @@ describe('Export Functions', () => {
             {
                 domains: ['physical', 'mood'],
                 keywords: ['testing'],
-                text: 'example affirmation',
+                content: 'example affirmation',
             },
             `/affirmations/${affirmationId}`);
         const result = await(handle(snap));
