@@ -101,6 +101,7 @@ describe('Export Functions', () => {
                 content: 'example affirmation',
             },
             `/affirmations/${affirmationId}`);
+        console.log('snap', snap);
         const result = await(handle(snap));
         assert.isNull(result.error);
     });
