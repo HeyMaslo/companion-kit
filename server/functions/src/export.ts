@@ -119,7 +119,7 @@ fns.measurement = FeatureSettings.ExportToDataServices
 type AffirmationDoc = {
     domains: string[],
     keywords: string[],
-    text: string,
+    content: string,
 };
 
 fns.affirmation = FeatureSettings.ExportToDataServices
@@ -127,7 +127,7 @@ fns.affirmation = FeatureSettings.ExportToDataServices
         .onCreate(async (snap, context): Promise<ExportResult> => {
             const data: AffirmationDoc = snap.data() as AffirmationDoc;
             const backend = new FunctionBackendController();
-            return backend.logAffirmation(snap.id, data.text, data.domains, data.keywords)
+            return backend.logAffirmation(snap.id, data.content, data.domains, data.keywords)
             .then((res: RemoteCallResult) => {
                 const { error } = res;
                 return { error };

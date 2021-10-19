@@ -91,7 +91,7 @@ export default abstract class BackendControllerBase implements IBackendControlle
     }
 
     public logAffirmation(affirmationId: string, content: string, domains: string[], keywords: string[]): Promise<RemoteCallResult> {
-        return this.Client.post('/affirmation', {
+        return this.Client.post('/affirmations', {
             id: affirmationId,
             data: {
                 domains,
