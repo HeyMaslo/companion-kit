@@ -60,7 +60,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: bipolarbridges/data-services
-          ref: master # change to a different branch if needed
+          ref: affirmation # change to a different branch if needed
           path: data-services
       - name: Create shared network
         run: docker network create bb_default
