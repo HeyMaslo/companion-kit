@@ -1,9 +1,6 @@
 import { Event, IEvent } from 'common/utils/event';
 import { createLogger } from 'common/logger';
 
-
-
-
 export enum GlobalTriggers {
     SignOut = 1000,
     CreateStory,
