@@ -80,7 +80,6 @@
 	<false/>
 	<key>NSUserActivityTypes</key>
 	<array>
-		<string>com.maslo.companionkit.SiriShortcutsModule.sayHello</string>
 	</array>
 </dict>
 </plist>
