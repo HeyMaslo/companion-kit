@@ -74,8 +74,6 @@
     "babel-plugin-transform-define": "^2.0.0",
     "babel-plugin-ts-nameof": "^4.2.1",
     "eslint": "^7.2.0",
-    "eslint-config-airbnb-base": "14.2.1",
-    "eslint-plugin-import": "^2.22.1",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
     "react-native-svg-transformer": "^0.14.3",
