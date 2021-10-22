@@ -3,7 +3,8 @@ import * as Repositories from 'common/database/repositories';
 import Collections from 'common/database/collections';
 import { ServerFirestore } from 'common/database/repositories/dbProvider';
 import admin from './admin';
-import { Domain, Question } from '../../../../mobile/src/constants/QoL';
+import { Question } from '../../../../mobile/src/constants/QoL';
+import { Domain } from '../../../../mobile/src/constants/Domain';
 
 const db = createLazy<ServerFirestore>(() => {
     const res = admin.firestore() as ServerFirestore;
@@ -24,6 +25,7 @@ const RepoFactory = {
     Domains: createLazy(() => new Repositories.DomainRepo(db.value)),
     Questions: createLazy(() => new Repositories.GenericRepo<Question>(db.value,
         Collections.Questions)),
+    Strategies: createLazy(() => new Repositories.StrategyRepo(db.value)),
 };
 
 export const Repo = {
@@ -35,6 +37,7 @@ export const Repo = {
     get Invites() { return RepoFactory.Invites.value; },
     get ServiceJobs() { return RepoFactory.ServiceJobs.value; },
     get Domains() { return RepoFactory.Domains.value; },
+    get strategies() { return RepoFactory.Strategies.value; },
     get Questions() { return RepoFactory.Questions.value; },
 };
 

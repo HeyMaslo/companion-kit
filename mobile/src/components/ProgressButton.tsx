@@ -60,6 +60,7 @@ export default class ProgressButton extends React.Component<Props, ProgressButto
         Animated.timing(this.state.progressAnimation, {
             toValue: toValue,
             duration: 300,
+            useNativeDriver: true,
         }).start();
     }
 

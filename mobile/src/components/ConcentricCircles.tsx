@@ -106,7 +106,9 @@ export function ConcentricCircle(props: ConcentricCircleProps) {
             Animated.timing(offset, {
                 toValue: getOffset(diameter, progress),
                 duration: 1500,
+                useNativeDriver: true,
                 easing: Easing.inOut(Easing.ease),
+                useNativeDriver: true
             }).start();
         }
     }, [progress]);

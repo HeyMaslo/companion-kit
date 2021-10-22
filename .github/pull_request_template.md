@@ -5,10 +5,11 @@ Keep in mind that you can (and should) edit and update this as you work on this 
 
 ## PR Checklist
 - [ ] 1. PR title (above) matches the name of a task on Notion
-- [ ] 2. Task on notion has PR # set to the number of this PR
-- [ ] 3. The base branch of this PR is correct
-- [ ] 4. The status of the PR is set to 'Draft' if applicable
-- [ ] 5. The PR includes an appropriate status label.
+- [ ] 2. PR title has the appropriate epic prefix in square brackets eg. \[Life Domains\]
+- [ ] 3. Task on notion has PR # set to the number of this PR
+- [ ] 4. The base branch of this PR is correct
+- [ ] 5. The status of the PR is set to 'Draft' if applicable
+- [ ] 6. The PR includes an appropriate status label.
 
 # BEGIN PR DESCRIPTION 
 > Delete everything above and including this line before creating your PR - also delete any instructions below.

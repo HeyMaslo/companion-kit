@@ -1,0 +1,93 @@
+name: checks
+on: push
+defaults:
+  run:
+    shell: bash
+jobs:
+  lint-server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '10'
+      - uses: ./.github/actions/setup
+      - run: yarn lint:server
+#   TODO: Fix lint rules
+#   lint-mobile:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2
+#       - uses: actions/setup-node@v2
+#         with:
+#           node-version: '10'
+#       - uses: ./.github/actions/setup
+#       - run: yarn lint
+#         working-directory: mobile
+  build-server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '10'
+      - uses: ./.github/actions/setup
+      - run: yarn build:server
+  build-dashboard: 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '10'
+      - uses: ./.github/actions/setup
+      - run: yarn build:dashboard
+  # TODO: add an ios build step
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v2
+        with:
+          path: companion-app
+      - name: Check out external services
+        uses: actions/checkout@v2
+        with:
+          repository: bipolarbridges/data-services
+          ref: master # change to a different branch if needed
+          path: data-services
+      - name: Create shared network
+        run: docker network create bb_default
+      - name: Create environment file
+        working-directory: companion-app
+        run: cp test.env .docker.env
+      - name: Start DB service
+        working-directory: data-services
+        run: docker-compose up -d db
+      - name: Await DB
+        working-directory: data-services
+        run: sleep 15
+      - name: Load test data
+        working-directory: data-services
+        run: docker-compose run --rm db_shell execute test_data
+      - name: Start API service
+        working-directory: data-services
+        run: docker-compose up -d api
+      - name: Await server
+        working-directory: data-services
+        run: sleep 5
+      - name: Show server logs
+        working-directory: data-services
+        run: docker-compose logs api
+      - name: Build Server
+        working-directory: companion-app/server/functions
+        run: docker-compose build server
+      - name: Run Tests
+        working-directory: companion-app/server/functions
+        run: docker-compose run --rm server yarn test
