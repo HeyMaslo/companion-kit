@@ -33,11 +33,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    badge: {
-        position: 'absolute',
-        backgroundColor: 'red',
-        zIndex: 111,
-    },
 });
 
 type Props = {

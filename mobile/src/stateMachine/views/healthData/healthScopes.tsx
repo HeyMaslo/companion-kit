@@ -33,14 +33,6 @@ export class HealthScopesView extends ViewState {
         }
     }
 
-    // componentWillUnmount() {
-    //     this.model.settingsSynced.off(this.onScheduleSynced);
-    // }
-
-    // onScheduleSynced = () => {
-    //     PushToast({ text: 'Changes saved' });
-    // }
-
     onSettings = () => {
         AppController.Instance.PromptModal.openModal({
             typeModal: 'positive',
@@ -49,6 +41,7 @@ export class HealthScopesView extends ViewState {
             confirmText: 'Go to settings',
             customView:
                 <View>
+                    {/* MK-TODO: - this screen's design has not been finalized */}
                     {/* <View style={styles.imageNextToText}>
                     <Image source={Images.iOS_Settings} style={{ width: 26, height: 26 }} />
                     <Text style={[TextStyles.p1, styles.instructionText]}>{'Open iPhone settings'}</Text>

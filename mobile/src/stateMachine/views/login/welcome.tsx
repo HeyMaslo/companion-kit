@@ -63,11 +63,6 @@ export class WelcomeView extends ViewState {
             this.trigger(ScenarioTriggers.Secondary);
         }
     }
-    goTodata = () => {
-        if (!this.globalLoading) {
-            this.trigger(ScenarioTriggers.Primary);
-        }
-    }
     
     googleSignIn = () => {
         if (!this.globalLoading) {
