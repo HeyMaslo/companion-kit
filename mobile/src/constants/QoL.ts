@@ -10,7 +10,7 @@ export type Affirmation = {
     id: string,
     keywords: string[],
     domains: string[],
-    text: string,
+    content: string,
 };
 // QUESTION
 

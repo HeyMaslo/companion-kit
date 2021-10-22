@@ -5,8 +5,8 @@ export type LastSeen = {
 };
 
 export type UserState = {
-    surveyState:    PartialQol;
-    focusDomains?:   string[];
+    surveyState: PartialQol;
+    focusDomains?: string[];
     chosenStrategies?: string[];
     lastSeenAffirmations?: LastSeen,
 };

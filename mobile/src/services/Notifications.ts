@@ -28,11 +28,9 @@ import {
 import {
     getRandomUniqMessages,
     getMessagesForExactTime,
-    isAffirmation,
 } from 'src/constants/notificationMessages';
 import { GlobalTrigger, GlobalTriggers } from 'src/stateMachine/globalTriggers';
 import Localization from 'src/services/localization';
-import { getAffirmationForDomains } from 'src/constants/affirmationMessages';
 import { Affirmation } from 'src/constants/QoL';
 
 import { FunctionBackendController } from '../../../server/functions/src/services/backend';
@@ -223,7 +221,7 @@ export class NotificationsService {
                 type: NotificationTypes.Affirmation,
                 id: msg.id,
             },
-            body: msg.text,
+            body: msg.content,
             ios: { sound: true },
             android:
                 Platform.OS === 'android'
@@ -256,26 +254,40 @@ export class NotificationsService {
     }
 
     private async scheduleMessages(
-        messages: string[] | Affirmation[],
+        messages: string[],
         startDateMS: number,
-        isAffir: boolean,
     ): Promise<NotificationResult[]> {
         let result: NotificationResult[] = await Promise.all(
             messages.map(
                 async (
-                    msg: string | Affirmation,
+                    msg: string,
                     index: number,
                 ): Promise<NotificationResult> => {
-                    return isAffir
-                        ? await this.scheduleAffirmationMessage(
-                              msg as Affirmation,
-                              startDateMS,
-                          )
-                        : await this.scheduleMessage(
-                              msg as string,
-                              startDateMS,
-                              index,
-                          );
+                    return await this.scheduleMessage(
+                        msg as string,
+                        startDateMS,
+                        index,
+                    );
+                },
+            ),
+        );
+        return result;
+    }
+
+    private async scheduleAffirmationMessages(
+        messages: Affirmation[],
+        startDateMS: number,
+    ): Promise<NotificationResult[]> {
+        let result: NotificationResult[] = await Promise.all(
+            messages.map(
+                async (
+                    msg: Affirmation,
+                    index: number,
+                ): Promise<NotificationResult> => {
+                    return await this.scheduleAffirmationMessage(
+                        msg as Affirmation,
+                        startDateMS,
+                    );
                 },
             ),
         );
@@ -298,7 +310,6 @@ export class NotificationsService {
     private async scheduleNotifications(
         time: NotificationTime,
         startDateMS: number,
-        isAffir: boolean,
         clientID: string,
     ): Promise<NotificationResult[]> {
         const settings = { name: this.user.firstName };
@@ -306,49 +317,38 @@ export class NotificationsService {
         const messages =
             time === NotificationTime.ExactTime
                 ? {
-                      [NotificationTypes.Retention]: getMessagesForExactTime(
-                          startDateMS,
-                          SCHEDULE_DAYS_COUNT,
-                          settings,
-                      ),
-                      [NotificationTypes.Affirmation]: this.affirmations
-                          ? this.affirmations
-                          : null,
-                      [NotificationTypes.TestAffirmation]:
-                          getAffirmationForDomains(this.domains, 1, settings),
-                  }
+                    [NotificationTypes.Retention]: getMessagesForExactTime(
+                        startDateMS,
+                        SCHEDULE_DAYS_COUNT,
+                        settings,
+                    ),
+                    [NotificationTypes.Affirmation]: this.affirmations
+                        ? this.affirmations
+                        : null,
+                }
                 : {
-                      [NotificationTypes.Retention]: getRandomUniqMessages(
-                          time,
-                          SCHEDULE_DAYS_COUNT,
-                          settings,
-                      ),
-                  };
+                    [NotificationTypes.Retention]: getRandomUniqMessages(
+                        time,
+                        SCHEDULE_DAYS_COUNT,
+                        settings,
+                    ),
+                };
 
         result.push(
             ...(await this.scheduleMessages(
                 messages[NotificationTypes.Retention],
                 startDateMS,
-                isAffir,
             )),
         );
         // check for null, it is of type null when undefined or empty array is given
         if (messages[NotificationTypes.Affirmation]) {
             result.push(
-                ...(await this.scheduleMessages(
+                ...(await this.scheduleAffirmationMessages(
                     messages[NotificationTypes.Affirmation],
                     startDateMS,
-                    isAffir,
                 )),
             );
         }
-        result.push(
-            ...(await this.scheduleMessages(
-                messages[NotificationTypes.TestAffirmation],
-                startDateMS,
-                isAffir,
-            )),
-        );
         try {
             await this.exportScheduled(clientID, result);
         } catch (err) {
@@ -403,8 +403,6 @@ export class NotificationsService {
             const res: NotificationResult[] = await this.scheduleNotifications(
                 time,
                 startDateMS,
-                time === NotificationTime.ExactTime &&
-                    schedule[time].isAffirmation,
                 clientID,
             );
             scheduleData[time] = res;

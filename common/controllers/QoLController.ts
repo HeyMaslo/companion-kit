@@ -4,7 +4,7 @@ import {
     PartialQol,
 } from '../../mobile/src/constants/QoL';
 import RepoFactory from 'common/controllers/RepoFactory';
-import { UserState } from 'common/models/userState';
+import { UserState, LastSeen } from 'common/models/userState';
 import { createLogger } from 'common/logger';
 
 const logger = createLogger('[QoLController]');
@@ -77,7 +77,9 @@ export default class QoLControllerBase implements IQoLController {
                 [propertyName]: parameter,
                 surveyState: null
             }
-        } else if (propertyName !== 'surveyState' && Array.isArray(parameter)){
+        } if (propertyName == 'lastSeenAffirmations' && (parameter as LastSeen) !== undefined) {
+            st[propertyName] = (parameter as LastSeen);
+        } else if (propertyName !== 'surveyState' && propertyName !== 'lastSeenAffirmations' && Array.isArray(parameter)) {
             st[propertyName] = parameter;
         }
         await RepoFactory.Instance.userState.setByUserId(this._userId, st);

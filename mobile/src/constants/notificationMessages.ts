@@ -46,7 +46,7 @@ const texts = {
 export function isAffirmation(
     content: string | Affirmation,
 ): content is Affirmation {
-    return (content as Affirmation).text !== undefined;
+    return (content as Affirmation).content !== undefined;
 }
 
 export function spliceRandomMessage(
@@ -72,7 +72,7 @@ export function spliceRandomMessage(
             const search = `[${key}]`;
             const replacement = settings[key];
             if (isAffirmation(message)) {
-                message = replace(message.text, search, replacement);
+                message = replace(message.content, search, replacement);
             } else {
                 message = replace(message, search, replacement);
             }

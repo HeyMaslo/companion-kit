@@ -18,7 +18,7 @@ export default class AffirmationRepo extends GenericRepo<Affirmation> {
         if (docs.length < 1) {
             return null;
         } else {
-            const data = docs.map((af) => {return { ...af.data(), id: af.id } as Affirmation; });
+            const data = docs.map((af) => { return { ...af.data(), id: af.id } as Affirmation; });
             return data.filter((af) => {
                 const noKeywords: boolean = !af.keywords.some(r => keywordFilter.includes(r));
                 if (lastSeen === {} || !lastSeen) {

@@ -48,20 +48,6 @@ import { QolStartView } from './views/qol/startQOL';
 import { QolEndView } from './views/qol/endQOL';
 import { QolQuestion } from './views/qol/qolQuestion';
 
-import { ChooseDomainView } from './views/lifeDomains/chooseDomain';
-import { DomainDetailsView } from './views/lifeDomains/domainDetails';
-import { SelectDomainView } from './views/lifeDomains/selectDomain';
-import { ThreeDomainView } from './views/lifeDomains/threeDomains';
-import { ChooseDomainEndView } from './views/lifeDomains/chooseDomainEnd';
-
-import { ChooseStrategiesView } from './views/strategies/ChooseStrategiesView';
-import { FocusStrategiesView } from './views/strategies/FocusStrategiesView';
-import { StrategyDetailsView } from './views/strategies/StrategyDetailsView';
-
-import { QolStartView } from './views/qol/startQOL';
-import { QolEndView } from './views/qol/endQOL';
-import { QolQuestion } from './views/qol/qolQuestion';
-
 import Triggers = ScenarioTriggers;
 import { VerificationCodeView } from './views/login/verificationCode';
 import { NoInvitationView } from './views/login/noInvitation';
