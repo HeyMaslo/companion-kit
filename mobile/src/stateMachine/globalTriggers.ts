@@ -13,7 +13,6 @@ export enum GlobalTriggers {
     Profile,
     NotificationReceived,
     HealthAuthSettings,
-    GetAuthInstructSettingsView
 }
 
 const logger = createLogger('[Globaltriggers]');

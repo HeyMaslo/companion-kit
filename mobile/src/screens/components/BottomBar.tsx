@@ -42,15 +42,9 @@ const styles = StyleSheet.create({
 
 type Props = {
     screen?: 'home' | 'goals' | 'profile' | 'settings';
-    showBadgeOn?: 'home' | 'profile';
 };
 
-interface BottomBarState {
-    profileLayout: LayoutRectangle,
-    bottomBarY: number,
-}
-
-export default class BottomBar extends React.Component<Props, BottomBarState> {
+export default class BottomBar extends React.Component<Props> {
 
     private backgroundColor = this.props.screen === 'home' ? Colors.home.bg : Colors.pageBg;
     private showIndicator = process.appFeatures.GOALS_ENABLED && AppViewModel.Instance.Goals.activeGoals.length > 0;
@@ -70,27 +64,11 @@ export default class BottomBar extends React.Component<Props, BottomBarState> {
 
     private iconSize = process.appFeatures.GOALS_ENABLED ? 32 : 28;
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            profileLayout: { width: 0, height: 0, x: 0, y: 0, },
-            bottomBarY: 0,
-        };
-    }
-
-    onLayoutProfileIcon = (event: LayoutChangeEvent) => {
-        this.setState({ profileLayout: event.nativeEvent.layout });
-    }
-
-    onLayoutBottomBar = (event: LayoutChangeEvent) => {
-        this.setState({ bottomBarY: event.nativeEvent.layout.y });
-    }
 
     render() {
         return (
             <>
-                <View style={[BaseStyles.container, styles.container, { backgroundColor: this.backgroundColor }]} onLayout={this.onLayoutBottomBar}>
+                <View style={[BaseStyles.container, styles.container, { backgroundColor: this.backgroundColor }]}>
                     <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Home)}>
                         <this.ArchiveIcon width={this.iconSize} height={this.iconSize} color={'#000000'} />
                     </TouchableOpacity>
@@ -104,7 +82,7 @@ export default class BottomBar extends React.Component<Props, BottomBarState> {
                         height={55}
                         onPress={() => GlobalTrigger(GlobalTriggers.CreateStory)}
                     />
-                    <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Profile)} onLayout={this.onLayoutProfileIcon}>
+                    <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Profile)}>
                         <this.ProfileIcon width={this.iconSize} height={this.iconSize} />
                     </TouchableOpacity>
                     {process.appFeatures.GOALS_ENABLED ?
@@ -113,8 +91,6 @@ export default class BottomBar extends React.Component<Props, BottomBarState> {
                         </TouchableOpacity>
                         : null}
                 </View>
-                {this.props.showBadgeOn == 'profile' &&
-                    <View style={[styles.badge, { width: this.iconSize / 2, height: this.iconSize / 2, borderRadius: this.iconSize / 4, top: this.state.bottomBarY + this.state.profileLayout.y - this.iconSize / 2, left: this.state.profileLayout.x + this.state.profileLayout.width - this.iconSize / 4 }]} />}
             </>
         );
     }
