@@ -81,7 +81,7 @@ export class ConditionObserver {
     }
 
     private _compute = () => {
-        this.logger.log('====> COMPUTE', this._boolObserver?.currentValue, this.condition['compose'] || '', this._lastTriggerResult || '<none>');
+        this.logger.log('====> COMPUTE', this._boolObserver?.currentValue, this.condition.compose || '', this._lastTriggerResult || '<none>');
 
         let final: boolean;
         if (Conditions.Compositional.guard(this.condition)) {

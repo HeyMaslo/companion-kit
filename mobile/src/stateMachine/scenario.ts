@@ -114,7 +114,7 @@ export const MasloScenario: GlobalScenario<States> = {
         ],
     },
     [States.ResetPassword]: {
-        view: ResetPasswordView,        
+        view: ResetPasswordView,
         exit: [
             { target: States.SignInWithEmail, trigger: Triggers.Cancel },
         ],
@@ -210,7 +210,7 @@ export const MasloScenario: GlobalScenario<States> = {
                 target: VM.showLocation
                     ? States.Journal_Location
                     : States.Journal_SelectType,
-                trigger: Triggers.Primary
+                trigger: Triggers.Primary,
             },
             { target: States.Journal_Feelings, trigger: Triggers.Secondary },
             CreateJournalCancelTransition,

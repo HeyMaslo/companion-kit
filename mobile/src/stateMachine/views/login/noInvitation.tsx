@@ -23,7 +23,6 @@ export class NoInvitationView extends ViewState {
 
     get enableGlobalProgressTracking() { return true; }
 
-
     goBack = () => {
         this.trigger(ScenarioTriggers.Back);
     }

@@ -139,15 +139,15 @@ const devicesWithNotch: Array<NotchDevice> = [
     },
     {
         brand: 'LG',
-        model: 'LM-Q910', //G7 One
+        model: 'LM-Q910', // G7 One
     },
     {
         brand: 'LG',
-        model: 'LM-G710', //G7 ThinQ
+        model: 'LM-G710', // G7 ThinQ
     },
     {
         brand: 'LG',
-        model: 'LM-V405', //V40 ThinQ
+        model: 'LM-V405', // V40 ThinQ
     },
     {
         brand: 'Motorola',

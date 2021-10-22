@@ -174,13 +174,13 @@ export abstract class SignInViewModelBase {
         if (!await this.email.validate()) {
             return 'invalidEmail';
         }
-        
+
         const email = prepareEmail(this.email.value);
 
         const data = await this.Auth.signInWithEmailOnly(email);
 
         return data;
-    } 
+    }
 
     public sendVerificationCodeByEmail = async (): Promise<{ result: boolean } | 'noInvitation' | 'usePassword' | 'invalidEmail'> => {
         if (!await this.email.validate()) {

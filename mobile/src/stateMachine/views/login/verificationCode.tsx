@@ -42,7 +42,9 @@ export class VerificationCodeView extends ViewState {
                 if (this.viewModel.errorMsg) this.viewModel.errorMsg = null;
                 this.viewModel.verificationCodeValue[index] = '';
             }
-            index !== 0 ? this.viewModel.inputRefArray[index - 1].focus() : null;
+            if (index !== 0) {
+                this.viewModel.inputRefArray[index - 1].focus();
+            }
         }
     }
 
@@ -88,7 +90,7 @@ export class VerificationCodeView extends ViewState {
         }
 
         this.trigger(ScenarioTriggers.Primary);
-    });
+    })
 
     onChangeVerificationCodeText = async (value, index) => {
         if (!value || isNaN(value) || this.viewModel.isPasting) return;
@@ -151,7 +153,7 @@ export class VerificationCodeView extends ViewState {
                                         value={this.viewModel.verificationCodeValue[index]}
                                         ref={ref => this.viewModel.inputRefArray[index] = ref}
                                         // maxLength={1}
-                                        keyboardType='numeric'
+                                        keyboardType="numeric"
                                         onChangeText={value => this.onChangeVerificationCodeText(value, index)}
                                         onKeyPress={({ nativeEvent }) => this.onVerificationCodeKeyPress(nativeEvent, index)}
                                         style={{ height: '100%', textAlign: 'center', fontSize: 20 }}
@@ -189,7 +191,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        width: '100%'
+        width: '100%',
     },
     otpBox: {
         padding: 0,
@@ -198,7 +200,7 @@ const styles = StyleSheet.create({
         borderBottomColor: 'grey',
         height: 45,
         width: 45,
-        textAlign: 'center'
+        textAlign: 'center',
     },
     centerBox: {
         marginRight: 30,

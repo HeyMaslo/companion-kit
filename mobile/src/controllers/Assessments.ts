@@ -50,7 +50,7 @@ export class AssessmentsController implements IAssessmentsController, IDisposabl
     // }
 
     public isActive(type: AssessmentType): boolean {
-        return ClientAssessments.getIsCooledDown(this._assessments, type, this._now.nowMs)
+        return ClientAssessments.getIsCooledDown(this._assessments, type, this._now.nowMs);
     }
 
     initialize(account: ClientAccountIded, clientUid: string) {

@@ -39,11 +39,11 @@ export class ResetPasswordView extends PasswordBase {
         }
 
         if (!process.appFeatures.USE_MAGIC_LINK && this.viewModel.isResettingPassword) {
-            const res = await this.viewModel.resetPassword();
+            const resetRes = await this.viewModel.resetPassword();
 
-            if (res && res.result) {
+            if (resetRes && resetRes.result) {
                 PushToast({ text: 'Your Password has been set.' });
-                this.trigger(ScenarioTriggers.Secondary)
+                this.trigger(ScenarioTriggers.Secondary);
             }
         }
 
