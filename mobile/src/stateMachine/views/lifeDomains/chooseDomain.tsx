@@ -75,7 +75,7 @@ export class ChooseDomainView extends ViewDomainsBase {
             Alert.alert(
                 'Too Many',
                 'Looks like you have already selected three life areas.',
-                [{ text: 'Deselct all', onPress: this.clearDomains, style: 'destructive'},
+                [{ text: 'Deselect all', onPress: this.clearDomains, style: 'destructive'},
                  { text: 'OK' }]);
         } else if (this.viewModel.selectDomain(this.viewModel.getDomainByName(n as DomainName))) {
 
