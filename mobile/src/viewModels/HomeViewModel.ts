@@ -187,7 +187,7 @@ export default class HomeViewModel {
         if (lastSurveyScores === null) {
             return PersonaArmState.createEmptyArmState();
         }
-        let currentArmMagnitudes: PersonaArmState = {};
+        let currentArmMagnitudes = PersonaArmState.createZeroArmState();
         for (let domain of Object.values(DomainName)) {
             let score: number = 0;
             lastSurveyScores[domain].forEach((val) => {
