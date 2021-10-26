@@ -7,6 +7,7 @@ import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import { QolSurveyType } from 'src/constants/QoL';
 import { PersonaArmState } from 'dependencies/persona/lib';
+import AppController from 'src/controllers';
 
 const minContentHeight = 460;
 

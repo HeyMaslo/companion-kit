@@ -108,7 +108,6 @@ export function ConcentricCircle(props: ConcentricCircleProps) {
                 duration: 1500,
                 useNativeDriver: true,
                 easing: Easing.inOut(Easing.ease),
-                useNativeDriver: true
             }).start();
         }
     }, [progress]);
