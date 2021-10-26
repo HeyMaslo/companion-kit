@@ -75,14 +75,11 @@ if [ ! -f ".env" ]; then
         fi
     fi
 fi
-yarn env:clean || exit 1 
-yarn env:set || exit 1
+yarn env:clean
+yarn env:set
 if [ $submodules == 1 ]; then
-	mkdir mobile/dependencies
-	cd mobile/dependencies || exit 1
-	git clone -b bipolarbridges-persona https://github.com/bipolarbridges/maslo-persona.git persona
-	git clone https://github.com/HeyMaslo/react-native-switch-pro.git
-	cd ../..
+	git submodule init
+	git submodule update
 fi
 if [ $functions == 1 ]; then
 	dir server/functions
@@ -101,5 +98,8 @@ if [ $mobile == 1 ]; then
         pod install --repo-update
     fi
     cd ../..
+    echo "Copying patched gradle.groovy"
+    # This is used to fix lines 81 & 82, if 'react-native-unimodules' is updated, our fixed version must be updated as well
+    cp mobile/gradle.groovy mobile/node_modules/react-native-unimodules
 fi
 echo "Done."

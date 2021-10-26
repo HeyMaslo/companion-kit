@@ -7,5 +7,6 @@ runs:
         run: cp test.env .env
         shell: bash
       - name: Initialize project
-        run: ./bin/setup.bash -y -p 0 -f 1 -s 1
+        # NOTE: disables submodules in script - must be enabled in checkout step
+        run: ./bin/setup.bash -y -p 0 -f 1 -s 0
         shell: bash

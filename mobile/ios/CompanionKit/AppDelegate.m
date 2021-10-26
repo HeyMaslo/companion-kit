@@ -18,6 +18,8 @@
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 
+@import RNSiriShortcuts;
+
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
   SKDescriptorMapper *layoutDescriptorMapper = [[SKDescriptorMapper alloc] initWithDefaults];
@@ -46,6 +48,11 @@ static void InitializeFlipper(UIApplication *application) {
   InitializeFlipper(application);
 #endif
 
+  // Check if the app launched with any shortcuts
+  BOOL launchedFromShortcut = [launchOptions objectForKey:@"UIApplicationLaunchOptionsUserActivityDictionaryKey"] != nil;
+  // Add a boolean to the initialProperties to let the app know you got the initial shortcut
+  NSDictionary *initialProperties = @{ @"launchedFromShortcut":@(launchedFromShortcut) };
+
   self.moduleRegistryAdapter = [[UMModuleRegistryAdapter alloc] initWithModuleRegistryProvider:[[UMModuleRegistryProvider alloc] init]];
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
@@ -68,6 +75,26 @@ static void InitializeFlipper(UIApplication *application) {
     NSArray<id<RCTBridgeModule>> *extraModules = [_moduleRegistryAdapter extraModulesForBridge:bridge];
     // If you'd like to export some custom RCTBridgeModules that are not Expo modules, add them here!
     return extraModules;
+}
+
+// This method checks for shortcuts issued to the app
+- (BOOL) application:(UIApplication *)application
+continueUserActivity:(NSUserActivity *)userActivity
+  restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> *restorableObjects))restorationHandler
+{
+  UIViewController *viewController = [self.window rootViewController];
+  RCTRootView *rootView = (RCTRootView*) [viewController view];
+
+  // If the initial properties say the app launched from a shortcut (see above), tell the library about it.
+  if ([[rootView.appProperties objectForKey:@"launchedFromShortcut"] boolValue]) {
+    ShortcutsModule.initialUserActivity = userActivity;
+
+    rootView.appProperties = @{ @"launchedFromShortcut":@NO };
+  }
+
+  [ShortcutsModule onShortcutReceivedWithUserActivity:userActivity];
+
+  return YES;
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
