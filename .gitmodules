@@ -5,6 +5,3 @@
 [submodule "mobile/dependencies/react-native-switch-pro"]
 	path = mobile/dependencies/react-native-switch-pro
 	url = git@github.com:HeyMaslo/react-native-switch-pro.git
-[submodule "mobile/android/react-native-siri-shortcut"]
-	path = mobile/android/react-native-siri-shortcut
-	url = git@github.com:Gustash/react-native-siri-shortcut.git
