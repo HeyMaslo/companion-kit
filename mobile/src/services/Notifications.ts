@@ -33,7 +33,6 @@ import { GlobalTrigger, GlobalTriggers } from 'src/stateMachine/globalTriggers';
 import Localization from 'src/services/localization';
 import { Affirmation } from 'src/constants/QoL';
 
-import { FunctionBackendController } from '../../../server/functions/src/services/backend';
 import { RemoteCallResult } from 'common/abstractions/controlllers/IBackendController';
 
 const logger = createLogger('[Notifications]');
@@ -294,18 +293,18 @@ export class NotificationsService {
         return result;
     }
 
-    private async exportScheduled(
-        clientID: string,
-        notifs: NotificationResult[],
-    ): Promise<RemoteCallResult[]> {
-        console.log(notifs);
-        const backend = new FunctionBackendController();
+    // private async exportScheduled(
+    //     clientID: string,
+    //     notifs: NotificationResult[],
+    // ): Promise<RemoteCallResult[]> {
+    //     console.log(notifs);
+    //     const backend = new FunctionBackendController();
 
-        const allNotifs: Promise<RemoteCallResult>[] = notifs.map((not) =>
-            backend.logNotification(clientID, not),
-        );
-        return Promise.all(allNotifs);
-    }
+    //     const allNotifs: Promise<RemoteCallResult>[] = notifs.map((not) =>
+    //         backend.logNotification(clientID, not),
+    //     );
+    //     return Promise.all(allNotifs);
+    // }
 
     private async scheduleNotifications(
         time: NotificationTime,
@@ -349,11 +348,11 @@ export class NotificationsService {
                 )),
             );
         }
-        try {
-            await this.exportScheduled(clientID, result);
-        } catch (err) {
-            logger.warn(err);
-        }
+        // try {
+        //     await this.exportScheduled(clientID, result);
+        // } catch (err) {
+        //     logger.warn(err);
+        // }
 
         return result;
     }

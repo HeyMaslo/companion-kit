@@ -135,6 +135,10 @@ export class NotificationsController implements IDisposable {
         this._previousPermissionsState = this.enabled;
     }
 
+    public gcheckPermission = async () => {
+        return this._service.checkPermissions();
+    };
+
     public askPermission = async () => {
         await this._service.askPermission();
         await this.sync(true);
@@ -205,28 +209,24 @@ export class NotificationsController implements IDisposable {
     }
 
     private sync = async (onlyToken = false) => {
-        if (!this._userId) {
-            throw new Error('no user id set');
-        }
-        const userState: UserState =
-            await RepoFactory.Instance.userState.getByUserId(this._userId);
+        if (!this._userId) throw new Error('no user id set');
+        const userState: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
 
-        const affirmations: Affirmation[] =
-            await RepoFactory.Instance.affirmations.getByDomain(
-                this.domains,
-                this.keywordFilter,
-                userState.lastSeenAffirmations,
-            );
+        const affirmations: Affirmation[] = await RepoFactory.Instance.affirmations.getByDomain(
+            this.domains,
+            this.keywordFilter,
+            userState.lastSeenAffirmations,
+        );
 
         let scheduleResult: ScheduleResult | void;
         if (!onlyToken) {
             scheduleResult = this.enabled
                 ? await this._service.rescheduleNotifications(
-                      this.schedule,
-                      this.domains,
-                      affirmations,
-                      this._userId,
-                  )
+                    this.schedule,
+                    this.domains,
+                    affirmations,
+                    this._userId,
+                )
                 : await this._service.resetSchedule();
         }
 
@@ -235,9 +235,9 @@ export class NotificationsController implements IDisposable {
         this.settings.updateNotifications({
             locals: scheduleResult
                 ? {
-                      current: scheduleResult,
-                      schedule: toJS(this.schedule),
-                  }
+                    current: scheduleResult,
+                    schedule: toJS(this.schedule),
+                }
                 : undefined,
             enabled: this._enabledByUser,
             token,

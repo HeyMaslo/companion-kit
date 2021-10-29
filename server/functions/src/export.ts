@@ -2,7 +2,7 @@ import { FeatureSettings } from './services/config';
 import * as functions from 'firebase-functions';
 import { SentimentAnalysis, SentimentValue } from '../../../common/models/Sentiment';
 import { EnergyValue, RecordData } from '../../../common/models/RecordData';
-import { FunctionBackendController } from '../src/services/backend';
+import { FunctionBackendController } from './services/FunctionBackendController';
 import {
     RemoteCallResult,
 } from '../../../common/abstractions/controlllers/IBackendController';

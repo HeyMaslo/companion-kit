@@ -31,6 +31,7 @@
     "expo-image-picker": "^8.4.0",
     "expo-linking": "^1.0.3",
     "expo-media-library": "^8.4.0",
+    "expo-notifications": "^0.13.3",
     "expo-three": "^5.5.1",
     "expo-updates": "^0.2.14",
     "firebase": "^7.20.0",

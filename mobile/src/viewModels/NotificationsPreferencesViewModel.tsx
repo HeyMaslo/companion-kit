@@ -110,7 +110,7 @@ export class NotificationsPreferencesViewModel {
                     time,
                     value,
                     domains,
-                    affirmationTime,
+                    null,
                 );
             } else {
                 AppController.Instance.User.notifications.toggleTime(
