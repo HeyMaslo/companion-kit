@@ -24,6 +24,7 @@ import AppQueryService from 'src/services/AppQueryService';
 import AnalyticsExpo from 'src/services/AnalyticsService';
 import { InitAnalytics } from 'common/services/analytics/analytics';
 
+// Code to enable Siri shortcuts on iOS. Omitted for now as shortcuts are no-ops.
 // import {
 //     SiriShortcutsEvent,
 //     donateShortcut,
@@ -36,7 +37,7 @@ import { InitAnalytics } from 'common/services/analytics/analytics';
 const logger = createLogger('[APP]');
 
 // const opts1: ShortcutOptions = {
-//     activityType: 'com.maslo.evolution.SiriShortcutsModule.sayHello',
+//     activityType: 'com.maslo.companionkit.SiriShortcutsModule.sayHello',
 //     title: 'Say Hi',
 //     userInfo: {
 //         foo: 1,
@@ -45,7 +46,7 @@ const logger = createLogger('[APP]');
 //     },
 //     keywords: ['kek', 'foo', 'bar'],
 //     persistentIdentifier:
-//     'com.maslo.evolution.SiriShortcutsModule.sayHello',
+//     'com.maslo.companionkit.SiriShortcutsModule.sayHello',
 //     isEligibleForSearch: true,
 //     isEligibleForPrediction: true,
 //     suggestedInvocationPhrase: 'Say something',
@@ -96,32 +97,17 @@ export default class App extends React.Component<IAppProps> {
         });
     }
 
-    // setupShortcut1() {
-    //     donateShortcut(opts1);
-    // }
-
-    // async clearShortcut1() {
-    //     try {
-    //       await clearShortcutsWithIdentifiers([
-    //         'com.maslo.evolution.SiriShortcutsModule.sayHello',
-    //       ]);
-    //       alert('Cleared Shortcut 1');
-    //     } catch (e) {
-    //       alert("You're not running iOS 12!");
-    //     }
-    // }
-
-    // async updateShortcutList() {
-    //     try {
-    //       const shortcuts = await getShortcuts();
+//     async updateShortcutList() {
+//         try {
+//           const shortcuts = await getShortcuts();
     
-    //       this.setState({
-    //         shortcuts,
-    //       });
-    //     } catch (e) {
-    //       alert("You're not running iOS 12!");
-    //     }
-    // }
+//           this.setState({
+//             shortcuts,
+//           });
+//         } catch (e) {
+//           alert("You're not running iOS 12!");
+//         }
+//     }
 
     private processUnhandledError(e: Error) {
         if (__DEV__) {

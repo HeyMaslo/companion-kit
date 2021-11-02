@@ -86,12 +86,12 @@ fns.measurement = FeatureSettings.ExportToDataServices
             const data: RecordData = snap.data() as RecordData;
             const backend = new FunctionBackendController();
             const makeRequest = async (ex: RecordExport) =>
-                backend.logMeasurement(data.clientUid, data.coachUid, ex.typeId, ex.value, data.date)
+                backend.logMeasurement(data.clientUid, 'maslo-measurement', ex.typeId, ex.value, data.date)
                 .then((res: RemoteCallResult) => {
                     if (res.error) {
                         return Promise.reject(res.error);
                     } else {
-                        return Promise.resolve();
+                        return Promise.resolve(null);
                     }
                 });
             // Q: should we mash into a single call?
@@ -106,10 +106,12 @@ fns.measurement = FeatureSettings.ExportToDataServices
                     return ps.concat([Promise.reject(`Key ${key} is not valid for record`)]);
                 }
             }, ([] as Promise<void>[])))
-            .then(() => {
+            .then((res) => {
+                console.log('records all OK', res);
                 return { error: null };
             })
             .catch((e) => {
+                console.error('records all ERROR', e);
                 return { error: e };
             });
         });

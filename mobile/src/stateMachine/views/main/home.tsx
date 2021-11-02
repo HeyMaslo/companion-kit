@@ -19,6 +19,8 @@ import { TransitionObserver } from 'common/utils/transitionObserver';
 import { UserProfileName } from 'src/screens/components/UserProfileName';
 import AppViewModel from 'src/viewModels';
 import { QolSurveyType } from 'src/constants/QoL';
+import ChooseDomainViewModel from 'src/viewModels/ChooseDomainViewModel';
+import ChooseStrategyViewModel from 'src/viewModels/ChooseStrategyViewModel';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -58,7 +60,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
             toValue: 1,
             delay: isFirstLaunch ? 1000 : 400,
             duration: 500,
-            useNativeDriver: true
+            useNativeDriver: true,
         }).start(this.checkNewLinkDoc);
         isFirstLaunch = false;
     }
@@ -136,6 +138,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     private onShortQol = () => {
         this.viewQolModel.setQolSurveyType = QolSurveyType.Short;
         this.trigger(ScenarioTriggers.Tertiary);
+    }
+    private onStartDomains = () => {
+        AppViewModel.Instance.ChooseDomain = new ChooseDomainViewModel();
+        AppViewModel.Instance.ChooseStrategy = new ChooseStrategyViewModel();
+        this.trigger(ScenarioTriggers.Next);
     }
 
     private openStoryDetails = (jid: string) => {
@@ -321,6 +328,10 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
+                    <View style={{flexDirection:'row'}}>
+                    {/* Domains button used for development only and will be removed eventually */}
+                    <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains()}/>
+                    </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
                     { loading
                         ? <ActivityIndicator size="large" />
@@ -376,4 +387,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         textAlign: 'center',
     },
+    qolButton: {
+        width: '30%',
+        height: 30,
+        marginLeft: 20,
+        marginBottom: 15
+    },
+    domainView: {
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+    }
 });

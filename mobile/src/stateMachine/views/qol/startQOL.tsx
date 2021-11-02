@@ -54,9 +54,9 @@ export class QolStartView extends ViewState {
 
     private onClose = (): void | Promise<void> => this.runLongOperation(async () => {
         this.showModal({
-            title: `Do you really want to stop the survey? Your progress will be saved.`,
+            title: `Are you sure you want to pause the survey?`,
             primaryButton: {
-                text: 'yes, stop',
+                text: 'yes',
                 action: this.saveProgress,
             },
             secondaryButton: {
