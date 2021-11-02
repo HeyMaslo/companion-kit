@@ -1,5 +1,5 @@
 import { observable, computed, toJS } from 'mobx';
-import { SurveyQuestions, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT } from "../constants/QoLSurvey";
+import { SurveyQuestions, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT, ShortSurveyQuestions, SHORT_QUESTIONS_COUNT } from "../constants/QoLSurvey";
 import { PersonaDomains } from '../stateMachine/persona';
 import { createLogger } from 'common/logger';
 import AppController from 'src/controllers';
@@ -25,7 +25,6 @@ export default class QOLSurveyViewModel {
     public startDate: number;
     public questionCompletionDates: number[];
 
-    public readonly numQuestions: number = QUESTIONS_COUNT;
     public readonly domainQuestionCount: number = DOMAIN_QUESTION_COUNT;
     private readonly _settings: ILocalSettingsController = AppController.Instance.User.localSettings;
 
@@ -69,10 +68,12 @@ export default class QOLSurveyViewModel {
     get domainNum(): number { return this._domainNum; }
 
     @computed
-    get question(): string { return SurveyQuestions[this._questionNum]; }
+    get question(): string { return this.QolSurveyType == QolSurveyType.Full ? SurveyQuestions[this._questionNum] : ShortSurveyQuestions[this._questionNum]; }
 
     @computed
     get domain(): string { return PersonaDomains[this._domainNum]; }
+
+    get numQuestions(): number { return this.QolSurveyType == QolSurveyType.Full ? QUESTIONS_COUNT : SHORT_QUESTIONS_COUNT; }
 
     get surveyResponses(): any { return this._surveyResponses; }
 
@@ -91,7 +92,7 @@ export default class QOLSurveyViewModel {
     }
 
     public nextQuestion(): void {
-        if (!((this._questionNum + 1) > (QUESTIONS_COUNT - 1))) {
+        if (!((this._questionNum + 1) > (this.numQuestions - 1))) {
             this._questionNum++;
             if ((this._questionNum + 1) % (DOMAIN_QUESTION_COUNT) === 1) {
                 this._domainNum++;
@@ -156,7 +157,7 @@ export default class QOLSurveyViewModel {
                 this._settings.updateQolSettings({ pendingShortQol: false }, 'pendingShortQol');
                 break;
         }
-        
+
     }
 
     private getArmMagnitudes(scores: QolSurveyResults): PersonaArmState {
@@ -170,5 +171,5 @@ export default class QOLSurveyViewModel {
         }
         return currentArmMagnitudes;
     }
-    
+
 }
