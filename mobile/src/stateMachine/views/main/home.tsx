@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, ScrollView, ActivityIndicator, View, Animated, GestureResponderEvent } from 'react-native';
+import { StyleSheet, Text, ScrollView, ActivityIndicator, View, Animated, GestureResponderEvent, TouchableNativeFeedback, Platform, Pressable } from 'react-native';
 import TextStyles from 'src/styles/TextStyles';
 import Colors from 'src/constants/colors';
 import { Container, MasloPage, Placeholder, Button } from 'src/components';
@@ -22,6 +22,8 @@ import { QolSurveyResults, QolSurveyType } from 'src/constants/QoL';
 import { getPersonaRadius, PersonaScale } from 'src/stateMachine/persona';
 import AppController from 'src/controllers'; // MK-TODO used for testing only
 import { sum } from 'src/helpers/DomainHelper';
+import { Portal } from 'react-native-paper';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -358,6 +360,9 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     }
 
     private onTapOrb(event: GestureResponderEvent) {
+        if (Platform.OS == 'ios') {
+            ReactNativeHapticFeedback.trigger('impactLight');
+        }
         const scaledOrbRadius = this.ordRadius / personaScale;
         let orbLowerX = (Layout.window.width / 2) - scaledOrbRadius
         let orbUpperX = orbLowerX + (2 * scaledOrbRadius);
@@ -380,16 +385,27 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
-                    <View onTouchStart={this.onTapOrb} style={{ position: 'absolute', top: -(this.orbTapContainerHeight), left: 0, right: 0, height: this.orbTapContainerHeight }} />
+                    {/* Portal component used to capture touch events on/above orb */}
+                    <Portal>
+                        {Platform.OS == 'ios' ?
+                            <Pressable onPress={this.onTapOrb} style={{ width: Layout.window.width, height: this.orbTapContainerHeight, zIndex: 9999 }}>
+                                <View style={{ width: '100%', height: this.orbTapContainerHeight }} />
+                            </Pressable>
+                            :
+                            <TouchableNativeFeedback onPress={this.onTapOrb} style={{ width: Layout.window.width, height: this.orbTapContainerHeight, zIndex: 9999 }}>
+                                <View style={{ width: '100%', height: this.orbTapContainerHeight }} />
+                            </TouchableNativeFeedback>
+                        }
+                    </Portal>
                     <View style={{ flexDirection: 'row' }}>
-                        <Button title="Domains" style={styles.qolButton} onPress={() => this.onStartDomains()} />
+                        <Button title='Domains' style={styles.qolButton} onPress={() => this.onStartDomains()} />
                         {/* MK-TODO below buttons used for development/testing only and will be removed */}
-                        <Button title="WorkingView" style={styles.qolButton} onPress={() => this.onTESTINGButton()} />
-                        <Button title="SETUP History" style={styles.qolButton} onPress={() => this.onSetupButton()} />
+                        <Button title='WorkingView' style={styles.qolButton} onPress={() => this.onTESTINGButton()} />
+                        <Button title='SETUP History' style={styles.qolButton} onPress={() => this.onSetupButton()} />
                     </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
                     {loading
-                        ? <ActivityIndicator size="large" />
+                        ? <ActivityIndicator size='large' />
                         : this.getCheckinsList()
                     }
                     <BottomBar screen={'home'} />
