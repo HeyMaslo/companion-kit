@@ -6,8 +6,6 @@ export const logger = createLogger('[QOLModel]');
 
 export default class QoLHistoryViewModel {
 
-  private initModel: Promise<void>;
-
   private _historyEntries: SurveyResults[];
   private _selectedEntry: SurveyResults;
   private _selctedEntryWeekNumebr: number = 1;
@@ -29,16 +27,12 @@ export default class QoLHistoryViewModel {
     return this._selctedEntryWeekNumebr;
   }
 
-  constructor() {
-    this.initModel = AppController.Instance.User.qol.getAllSurveyResults().then((surveyResults: SurveyResults[]) => {
+  async init() {
+    await AppController.Instance.User.qol.getAllSurveyResults().then((surveyResults: SurveyResults[]) => {
       this._historyEntries = surveyResults;
-      this._historyEntries.sort((a, b) => a.date - b.date)
+      this._historyEntries.sort((a, b) => a.date - b.date);
       return;
     });
-  }
-
-  async init() {
-    return await this.initModel;
   }
 
 }
