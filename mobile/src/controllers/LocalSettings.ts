@@ -65,6 +65,13 @@ export class LocalSettingsController implements ILocalSettingsController {
                 deviceId: DeviceId,
                 deviceInfo: Info,
                 appVersion: AppVersion.FullVersion,
+                qol: {
+                    seenQolOnboarding: false,
+                    pendingFullQol: true,
+                    pendingShortQol: false,
+                    lastShortQol: Date(),
+                },
+                lastDailyCheckIn: Date(),
             };
             updateDiff = this._current;
 

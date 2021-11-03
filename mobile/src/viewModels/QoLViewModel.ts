@@ -21,7 +21,7 @@ export default class QOLSurveyViewModel {
     public initModel: Promise<void>;
     public originalArmMagnitudes: PersonaArmState;
     public showInterlude: boolean = false;
-    public QolSurveyType: QolSurveyType;
+    public qolSurveyType: QolSurveyType;
     public startDate: number;
     public questionCompletionDates: number[];
 
@@ -40,6 +40,7 @@ export default class QOLSurveyViewModel {
                 this._armMagnitudes = this.getArmMagnitudes(partialQolState.scores);
                 this.isUnfinished = true;
                 this.showInterlude = partialQolState.isFirstTimeQol;
+                this.qolSurveyType = partialQolState.surveyType;
                 return;
             } else {
                 this.startDate = new Date().getTime();
@@ -53,6 +54,7 @@ export default class QOLSurveyViewModel {
                 this.questionCompletionDates = [];
                 this._armMagnitudes = PersonaArmState.createEmptyArmState();
                 this.isUnfinished = false;
+                this.qolSurveyType = QolSurveyType.Full;
                 return;
             }
         });
@@ -69,18 +71,18 @@ export default class QOLSurveyViewModel {
     get domainNum(): number { return this._domainNum; }
 
     @computed
-    get question(): string { return this.QolSurveyType == QolSurveyType.Full ? SurveyQuestions[this._questionNum] : ShortSurveyQuestions[this._questionNum]; }
+    get question(): string { return this.qolSurveyType == QolSurveyType.Full ? SurveyQuestions[this._questionNum] : ShortSurveyQuestions[this._questionNum]; }
 
     @computed
     get domain(): string { return PersonaDomains[this._domainNum]; }
 
-    get numQuestions(): number { return this.QolSurveyType == QolSurveyType.Full ? QUESTIONS_COUNT : SHORT_QUESTIONS_COUNT; }
+    get numQuestions(): number { return this.qolSurveyType == QolSurveyType.Short ? SHORT_QUESTIONS_COUNT: QUESTIONS_COUNT; }
 
     get surveyResponses(): any { return this._surveyResponses; }
 
     get qolArmMagnitudes(): any { return this._armMagnitudes; }
 
-    set setQolSurveyType(type: QolSurveyType) { this.QolSurveyType = type; }
+    set setQolSurveyType(type: QolSurveyType) { this.qolSurveyType = type; }
 
     resetSurveyResults(): void {
         const surveyResponses = {};
@@ -129,7 +131,7 @@ export default class QOLSurveyViewModel {
                 isFirstTimeQol: this.showInterlude,
                 startDate: this.startDate,
                 questionCompletionDates: this.questionCompletionDates,
-                surveyType: this.QolSurveyType,
+                surveyType: this.qolSurveyType,
             }
             res = await AppController.Instance.User.qol.sendPartialQol(partialQol);
             this.isUnfinished = true;
@@ -149,7 +151,7 @@ export default class QOLSurveyViewModel {
     }
 
     public updatePendingQol() {
-        switch (this.QolSurveyType) {
+        switch (this.qolSurveyType) {
             case QolSurveyType.Full:
                 this._settings.updateQolSettings({ pendingFullQol: false }, 'pendingFullQol');
                 break;

@@ -188,8 +188,7 @@ export default class HomeViewModel {
     // return true if there is a pending Full QoL
     private isTimeForFullQol(): boolean {
         const lastFullQol: Date = new Date(AppController.Instance.User.localSettings?.current?.qol?.lastFullQol);
-        let nextFullQol: Date = lastFullQol;
-        nextFullQol.setDate(nextFullQol.getDate() + 28);
+        const nextFullQol = new Date(lastFullQol.getDate() + 28);
         const today: Date = new Date();
 
         if (equalDateByDay(nextFullQol, today)) {
@@ -203,8 +202,7 @@ export default class HomeViewModel {
     // return true if there is a pending Short QoL
     private isTimeForShortQol(): boolean {
         const lastShortQol: Date = new Date(AppController.Instance.User.localSettings?.current?.qol?.lastShortQol);
-        let nextShortQol: Date = lastShortQol;
-        nextShortQol.setDate(nextShortQol.getDate() + 7);
+        const nextShortQol = new Date(lastShortQol.getDate() + 7);
         const today: Date = new Date();
 
         if (equalDateByDay(nextShortQol, today)) {
