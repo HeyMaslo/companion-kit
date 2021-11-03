@@ -11,8 +11,6 @@ import { iconForDomain } from 'src/helpers/DomainHelper';
 import { DomainName } from 'src/constants/Domain';
 
 const { width } = Dimensions.get('window');
-const date = new Date();
-const today = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 const centerDomainFontSize = Layout.isSmallDevice ? 25 : 30;
 const sideDomainsFontSize = Layout.isSmallDevice ? 14 : 17;
 
