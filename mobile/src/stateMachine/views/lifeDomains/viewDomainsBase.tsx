@@ -69,23 +69,19 @@ export abstract class ViewDomainsBase extends ViewState {
 
     async start() { }
 
-    public abstract onCancel?= () => { }
+    public abstract onCancel?: () => void
 
-    public abstract onBack?= () => { }
+    public abstract onBack?: () => void
 
-    public abstract onDetails = () => { }
+    public abstract onDetails: () => void
 
-    public abstract getDomainDisplay = (): string[] => {
-        return [];
-    }
+    public abstract getDomainDisplay(): string[]
 
-    public abstract getDomainImportanceBullets = (): string[] => {
-        return [];
-    }
+    public abstract getDomainImportanceBullets(): string[]
 
-    public abstract goToRight = () => { }
+    public abstract goToRight: () => void
 
-    public abstract goToLeft = () => { }
+    public abstract goToLeft: () => void
 
     public getCenterElement(): JSX.Element {
         return (<></>);
