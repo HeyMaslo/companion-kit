@@ -56,7 +56,9 @@ export default class StrategyViewModel {
   // must be called after fetchPossibleStrategies
   public async fetchSelectedStrategies() {
     let chosenStrategiesIds = await AppController.Instance.User.strategy.getChosenStrategiesIds();
-    this.selectedStrategies = this.allStrategies.filter((strat) => chosenStrategiesIds.includes(strat.internalId));
+    if (chosenStrategiesIds) {
+      this.selectedStrategies = this.allStrategies.filter((strat) => chosenStrategiesIds.includes(strat.internalId));
+    }
   }
 
   public postSelectedStrategies(): Promise<void> {

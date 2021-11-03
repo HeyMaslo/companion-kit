@@ -46,7 +46,9 @@ export default class DomainViewModel {
 
     public async fetchSelectedDomains() {
         let focusedDomains = await AppController.Instance.User.domain.getFocusedDomains();
-        this._selectedDomains = focusedDomains.map((name) => this.getDomainByName(name));
+        if (focusedDomains) {
+            this._selectedDomains = focusedDomains.map((name) => this.getDomainByName(name));
+        }
     }
 
     public postSelectedDomains(): Promise<void> {

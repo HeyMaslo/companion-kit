@@ -179,7 +179,7 @@ export default class IconsOnCircle extends React.Component<IconsOnCircleProps, C
           {this.state.currentCallout &&
             <Portal>
               <Animated.View style={{ opacity: this.state.fadeIn }}>
-                <View key='callout' style={[styles.callout, { left: this.state.calloutLeft, top: this.state.calloutTop }]}>
+                <View key='callout' pointerEvents={'none'} style={[styles.callout, { left: this.state.calloutLeft, top: this.state.calloutTop }]}>
                   <Text style={[styles.calloutText]}>{this.state.currentCallout}</Text>
                 </View>
                 {this.state.currentCallout == DomainName.HOME || this.state.currentCallout == DomainName.SPIRITUAL || this.state.currentCallout == DomainName.MONEY ?
