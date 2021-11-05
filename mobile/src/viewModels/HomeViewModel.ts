@@ -216,7 +216,9 @@ export default class HomeViewModel {
         const lastDailyCheckIn: Date = new Date(AppController.Instance.User.localSettings?.current?.lastDailyCheckIn);
         const today: Date = new Date();
 
-        return (lastDailyCheckIn.getDay() === today.getDay() && lastDailyCheckIn.getMonth() === today.getMonth() && lastDailyCheckIn.getFullYear() === today.getFullYear())
+        return lastDailyCheckIn.getDay() === today.getDay()
+            && lastDailyCheckIn.getMonth() === today.getMonth()
+            && lastDailyCheckIn.getFullYear() === today.getFullYear()
     }
 
     public getArmMagnitudes = async () => {

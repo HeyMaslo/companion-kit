@@ -32,7 +32,7 @@ export class QolStartView extends ViewState {
             if (this.viewModel.isUnfinished) {
                 await this.viewModel.saveSurveyProgress(null);
             }
-            this.viewModel.QolSurveyType = QolSurveyType.Full;
+            this.viewModel.qolSurveyType = QolSurveyType.Full;
         }
     }
 
@@ -40,7 +40,7 @@ export class QolStartView extends ViewState {
         return AppViewModel.Instance.QOL;
     }
 
-    private saveProgress = async() => {
+    private saveProgress = async () => {
         await this.viewModel.saveSurveyProgress(PersonaArmState.createEmptyArmState());
         this.cancel();
     }
@@ -71,19 +71,19 @@ export class QolStartView extends ViewState {
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
                 <Container style={[styles.container, { height: this._contentHeight }]}>
-                    <Text style={[this.textStyles.h1, styles.title]}>Welcome{(this.viewModel.QolSurveyType === QolSurveyType.Full) ? " back":""}!</Text>
-                    <Text style={[this.textStyles.p1, styles.message]}> {(this.viewModel.QolSurveyType === QolSurveyType.Full) ?
-                    "Welcome to your monthly check-in! We'll start with getting an update on your quality of life." :
-                    "I’m happy you’re here! First, I’ll need to gather some information about your current Quality of Life. Ready to begin?"}
+                    <Text style={[this.textStyles.h1, styles.title]}>Welcome{(this.viewModel.qolSurveyType === QolSurveyType.Full) ? " back" : ""}!</Text>
+                    <Text style={[this.textStyles.p1, styles.message]}> {(this.viewModel.qolSurveyType === QolSurveyType.Full) ?
+                        "Welcome to your monthly check-in! We'll start with getting an update on your quality of life." :
+                        "I’m happy you’re here! First, I’ll need to gather some information about your current Quality of Life. Ready to begin?"}
                     </Text>
-                    <Button title="I'M READY" style={styles.readyButton} onPress={() => this.onStartSurvey()}/>
+                    <Button title="I'M READY" style={styles.readyButton} onPress={() => this.onStartSurvey()} />
                 </Container>
             </MasloPage>
         );
     }
 }
 
-const styles = StyleSheet.create({ 
+const styles = StyleSheet.create({
     container: {
         paddingTop: '30%',
         alignItems: 'center'

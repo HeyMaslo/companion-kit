@@ -1,4 +1,4 @@
-import { observable, computed, toJS } from 'mobx';
+import { observable, computed } from 'mobx';
 import { SurveyQuestions, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT, ShortSurveyQuestions, SHORT_QUESTIONS_COUNT } from "../constants/QoLSurvey";
 import { PersonaDomains } from '../stateMachine/persona';
 import { createLogger } from 'common/logger';
@@ -27,7 +27,6 @@ export default class QOLSurveyViewModel {
 
     public readonly domainQuestionCount: number = DOMAIN_QUESTION_COUNT;
     private readonly _settings: ILocalSettingsController = AppController.Instance.User.localSettings;
-    
 
     constructor() {
         this.initModel = AppController.Instance.User.qol.getPartialQol().then((partialQolState: PartialQol) => {
@@ -71,12 +70,26 @@ export default class QOLSurveyViewModel {
     get domainNum(): number { return this._domainNum; }
 
     @computed
-    get question(): string { return this.qolSurveyType == QolSurveyType.Full ? SurveyQuestions[this._questionNum] : ShortSurveyQuestions[this._questionNum]; }
+    get question(): string {
+        switch (this.qolSurveyType) {
+            case (QolSurveyType.Full):
+                return SurveyQuestions[this._questionNum];
+            case (QolSurveyType.Short):
+                return ShortSurveyQuestions[this._questionNum];
+        }
+    }
 
     @computed
     get domain(): string { return PersonaDomains[this._domainNum]; }
 
-    get numQuestions(): number { return this.qolSurveyType == QolSurveyType.Short ? SHORT_QUESTIONS_COUNT: QUESTIONS_COUNT; }
+    get numQuestions(): number {
+        switch (this.qolSurveyType) {
+            case (QolSurveyType.Full):
+                return QUESTIONS_COUNT;
+            case (QolSurveyType.Short):
+                return SHORT_QUESTIONS_COUNT;
+        }
+    }
 
     get surveyResponses(): any { return this._surveyResponses; }
 

@@ -12,7 +12,7 @@ export const SurveyQuestions = [
     "Kept a rountine in my sleep-wake schedule",
 
     "Felt happy",
-    "Enjoyed things as much as I ususally do",
+    "Enjoyed things as much as I usually do",
     "Felt able to cope",
     "Felt emotionally balanced",
 
