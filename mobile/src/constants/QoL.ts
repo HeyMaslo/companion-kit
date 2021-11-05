@@ -33,7 +33,7 @@ export namespace QolSurveyResults {
             Identity: [],
             Leisure: [],
             Independence: [],
-            Selfesteem: [],
+            'Self-esteem': [],
             Home: [],
             Money: [],
             Spiritual: [],

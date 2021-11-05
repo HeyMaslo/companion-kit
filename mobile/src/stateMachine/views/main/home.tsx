@@ -168,7 +168,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                 Mood: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
                 Physical: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 3) + 1),
                 Relationships: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
-                Selfesteem: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
+                'Self-esteem': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
                 Sleep: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 1) + 1),
                 Spiritual: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
             };
