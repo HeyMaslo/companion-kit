@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export type ThemeState = 'Light' | 'Dark';
 
 const palette = {
-  purplePrimary: '#424AA0',
+  purplePrimary: '#424AA0', // AKA orbIndigo
   purpleMuted: '#999DC3',
   purpleLight: '#C4D2F6',
 
@@ -31,8 +31,6 @@ const colors = {
   highlightContrastSecondary: palette.orangeLight,
 
   tint: palette.purpleLight,
-
-  orbIndigo: '#424AA0',
 
   orbArmIndigo: '#4B54B9',
   orbPeriwinkle: '#598CCF',
