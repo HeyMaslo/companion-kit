@@ -18,10 +18,8 @@ import { InterventionTipsStatuses, Identify, DocumentLinkEntry } from 'common/mo
 import { TransitionObserver } from 'common/utils/transitionObserver';
 import { UserProfileName } from 'src/screens/components/UserProfileName';
 import AppViewModel from 'src/viewModels';
-import { QolSurveyResults, QolSurveyType } from 'src/constants/QoL';
+import { QolSurveyType } from 'src/constants/QoL';
 import { getPersonaRadius, PersonaScale } from 'src/stateMachine/persona';
-import AppController from 'src/controllers'; // MK-TODO used for testing only
-import { sum } from 'src/helpers/DomainHelper';
 import { Portal } from 'react-native-paper';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
@@ -154,39 +152,6 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     async onTESTINGButton() {
         await AppViewModel.Instance.QoLHistory.init();
         this.trigger(ScenarioTriggers.TESTING);
-    }
-
-    async onSetupButton() { // MK-TODO used for testing only
-        for (let i = 0; i < 10; i++) {
-            let responses: QolSurveyResults = {
-                Thinking: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 4) + 1),
-                Home: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 2) + 1),
-                Identity: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
-                Independence: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
-                Leisure: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 4) + 1),
-                Money: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
-                Mood: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
-                Physical: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 3) + 1),
-                Relationships: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
-                'Self-esteem': Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
-                Sleep: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 1) + 1),
-                Spiritual: Array.from({ length: 4 }, (x, i) => Math.floor(Math.random() * 5) + 1),
-            };
-            let aggregateScore = 0;
-            const entries = Object.entries(responses)
-            for (const [key, value] of entries) {
-                aggregateScore += sum(value);
-            }
-            aggregateScore /= entries.length
-
-            let completionDates: number[] = [];
-            Array.from({ length: 48 }, (x, i) => i).forEach((index) => {
-                let date = new Date().getTime() - 10;
-                completionDates.push(date);
-            })
-
-            await AppController.Instance.User.qol.sendSurveyResults(responses, aggregateScore, i % 4 == 0 ? QolSurveyType.Full : QolSurveyType.Short, new Date().getTime() - 5000, completionDates);
-        }
     }
 
     private openStoryDetails = (jid: string) => {
@@ -397,11 +362,10 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                             </TouchableNativeFeedback>
                         }
                     </Portal>
+                    {/* MK-TODO below buttons used for development/testing only and will be removed */}
                     <View style={{ flexDirection: 'row' }}>
-                        <Button title='Domains' style={styles.qolButton} onPress={() => this.onStartDomains()} />
-                        {/* MK-TODO below buttons used for development/testing only and will be removed */}
-                        <Button title='WorkingView' style={styles.qolButton} onPress={() => this.onTESTINGButton()} />
-                        <Button title='SETUP History' style={styles.qolButton} onPress={() => this.onSetupButton()} />
+                        <Button title='Domains' style={styles.testingButton} onPress={() => this.onStartDomains()} />                        
+                        <Button title='History' style={styles.testingButton} onPress={() => this.onTESTINGButton()} />
                     </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
                     {loading
@@ -458,10 +422,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         textAlign: 'center',
     },
-    qolButton: {
+    testingButton: {
         width: '30%',
         height: 30,
         marginLeft: 20,
-        marginBottom: 15
+        marginBottom: 15,
+        backgroundColor: 'green',
     },
 });
