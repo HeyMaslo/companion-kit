@@ -32,6 +32,16 @@ const colors = {
 
   tint: palette.purpleLight,
 
+  orbIndigo: '#424AA0',
+
+  orbArmIndigo: '#4B54B9',
+  orbPeriwinkle: '#598CCF',
+  orbSkyBlue: '#A1C9DF',
+  orbYellow: '#FEF8BB',
+  orbMango: '#FAC25E',
+  orbOrange: '#EF905B',
+  orbCoral: '#EF7864',
+
   // cardPrimaryBackground: palette.purplePrimary,
   // buttonPrimaryBackground: palette.purplePrimary,
 }

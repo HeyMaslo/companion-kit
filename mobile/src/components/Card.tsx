@@ -25,7 +25,7 @@ export default function Card(props: CardProps) {
             onPress={onPress} activeOpacity={1}
             underlayColor={theme.colors.highlightSecondary}>
             <View style={[BaseStyles.cardContainer, { backgroundColor: isTransparent ? 'transparent' : theme.colors.highlight }]}>
-                {Image ? <Image width={20} height={20} style={BaseStyles.cardImage} /> : null}
+                {Image ? <Image width={20} height={20} style={BaseStyles.cardImage} stroke={textColor} /> : null}
                 <View style={BaseStyles.cardTextBlock}>
                     <Text style={{ ...BaseStyles.cardTitle, color: textColor }}>{title}</Text>
                     <Text style={{ ...TextStyles.p3, lineHeight: 16, color: textColor }} lineBreakMode='tail' numberOfLines={numberOfLines || 1}>{description}</Text>
