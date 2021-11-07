@@ -13,7 +13,7 @@ import { getPersonaRadius } from '../../../persona';
 import IconsOnCircle from '../../IconsOnCircle';
 import { DomainName } from 'src/constants/Domain';
 import { SurveyResults } from 'common/database/repositories/SurveyResultsRepo';
-import SplineThroughPoints, { cartesianCoordinate } from '../../SplineThroughPoints';
+import SplineThroughPoints, { CartesianCoordinate } from '../../SplineThroughPoints';
 import { QolSurveyType } from 'src/constants/QoL';
 import Colors from '../../../../constants/colors/Colors';
 import Images from 'src/constants/images';
@@ -42,7 +42,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   @observable
   private historyEntries: SurveyResults[] = [];
   @observable
-  private entryCoordinates: cartesianCoordinate[] = [];
+  private entryCoordinates: CartesianCoordinate[] = [];
   @observable
   private graphHeight = 10;
   @observable

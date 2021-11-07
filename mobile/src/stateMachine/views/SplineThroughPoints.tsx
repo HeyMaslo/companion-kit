@@ -3,19 +3,19 @@ import { Svg, Path, Circle } from 'react-native-svg';
 import { ViewStyle } from 'react-native';
 import { View } from 'react-native-animatable';
 
-export type cartesianCoordinate = [number, number]
+export type CartesianCoordinate = [number, number]
 
 export type SplineThroughPointsProps = {
   style: ViewStyle[];
   viewBox: string;
-  controlPoints: cartesianCoordinate[];
+  controlPoints: CartesianCoordinate[];
   strokeColor: string;
   strokeWidth: number,
 }
 
 export default class SplineThroughPoints extends React.Component<SplineThroughPointsProps> {
 
-  private vertices: cartesianCoordinate[] = [];
+  private vertices: CartesianCoordinate[] = [];
   private pathDetails: string[] = [];
 
   render() {
