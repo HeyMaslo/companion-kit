@@ -27,4 +27,7 @@
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
     </application>
 
+<queries>
+    <package android:name="com.google.android.apps.fitness" />
+</queries>
 </manifest>
