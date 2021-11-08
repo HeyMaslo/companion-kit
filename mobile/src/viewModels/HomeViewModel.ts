@@ -12,10 +12,10 @@ import { tryOpenLink } from 'src/constants/links';
 import { Identify, DocumentLinkEntry, DocumentLinkShareStatuses } from 'common/models';
 import { arraySplit } from 'common/utils/mathx';
 import { UserProfileViewModel } from './UserProfileViewModel';
-import { QolSurveyResults, QolSurveyType } from 'src/constants/QoL';
-import { PersonaDomains } from 'src/stateMachine/persona';
+import { QolSurveyResults } from 'src/constants/QoL';
 import { PersonaArmState } from 'dependencies/persona/lib';
 import { ILocalSettingsController } from 'src/controllers/LocalSettings';
+import { DomainName } from 'src/constants/Domain';
 
 const EmptyArr: any[] = [];
 
@@ -223,12 +223,15 @@ export default class HomeViewModel {
 
     public getArmMagnitudes = async () => {
         const lastSurveyScores: QolSurveyResults = await AppController.Instance.User.qol.getSurveyResults();
-        if (lastSurveyScores === null) {
+        if (lastSurveyScores == null) {
             return PersonaArmState.createEmptyArmState();
         }
-        let currentArmMagnitudes: PersonaArmState = {};
-        for (let domain of PersonaDomains) {
-            let score: number = lastSurveyScores[domain];
+        let currentArmMagnitudes = PersonaArmState.createEmptyArmState();
+        for (let domain of Object.values(DomainName)) {
+            let score: number = 0;
+            lastSurveyScores[domain].forEach((val) => {
+                score += val;
+            })
             let mag: number = 0.4 + (score * 3 / 100);
             currentArmMagnitudes[domain] = mag;
         }

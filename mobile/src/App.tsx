@@ -23,6 +23,7 @@ import AudioManager from 'src/services/Audio';
 import AppQueryService from 'src/services/AppQueryService';
 import AnalyticsExpo from 'src/services/AnalyticsService';
 import { InitAnalytics } from 'common/services/analytics/analytics';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 // Code to enable Siri shortcuts on iOS. Omitted for now as shortcuts are no-ops.
 // import {
@@ -90,24 +91,39 @@ export default class App extends React.Component<IAppProps> {
         this.processUnhandledError(error);
     }
 
-    handleSiriShortcut({userInfo, activityType}: any) {
+    handleSiriShortcut({ userInfo, activityType }: any) {
         this.setState({
             shortcutInfo: userInfo,
             shortcutActivityType: activityType,
         });
     }
 
-//     async updateShortcutList() {
-//         try {
-//           const shortcuts = await getShortcuts();
-    
-//           this.setState({
-//             shortcuts,
-//           });
-//         } catch (e) {
-//           alert("You're not running iOS 12!");
-//         }
-//     }
+    // setupShortcut1() {
+    //     donateShortcut(opts1);
+    // }
+
+    // async clearShortcut1() {
+    //     try {
+    //       await clearShortcutsWithIdentifiers([
+    //         'com.maslo.evolution.SiriShortcutsModule.sayHello',
+    //       ]);
+    //       alert('Cleared Shortcut 1');
+    //     } catch (e) {
+    //       alert("You're not running iOS 12!");
+    //     }
+    // }
+
+    // async updateShortcutList() {
+    //     try {
+    //       const shortcuts = await getShortcuts();
+
+    //       this.setState({
+    //         shortcuts,
+    //       });
+    //     } catch (e) {
+    //       alert("You're not running iOS 12!");
+    //     }
+    // }
 
     private processUnhandledError(e: Error) {
         if (__DEV__) {
@@ -143,12 +159,14 @@ export default class App extends React.Component<IAppProps> {
         }
 
         return (
-            <MobxProvider>
-                <View style={styles.container}>
-                    <StatusBar barStyle="light-content" hidden={true} />
-                    <AppRouter />
-                </View>
-            </MobxProvider>
+            <PaperProvider>
+                <MobxProvider>
+                    <View style={styles.container}>
+                        <StatusBar barStyle="light-content" hidden={true} />
+                        <AppRouter />
+                    </View>
+                </MobxProvider>
+            </PaperProvider>
         );
     }
 

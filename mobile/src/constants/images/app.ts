@@ -16,6 +16,7 @@ import CameraIconSVG from 'src/assets/images/app/camera-icon.svg';
 import RefreshIconSVG from 'src/assets/images/app/refresh-icon.svg';
 import DarkRefreshIconSVG from 'src/assets/images/app/refresh-icon-dark.svg';
 import ArrowRightSVG from 'src/assets/images/app/arrow-right.svg';
+import CaretDownSVG from 'src/assets/images/app/caret-down.svg';
 import EnvelopeIconSVG from 'src/assets/images/app/envelope-icon.svg';
 import BellIconSVG from 'src/assets/images/app/bell-icon.svg';
 import KeyIconSVG from 'src/assets/images/app/key-icon.svg';
@@ -51,10 +52,17 @@ import GoalsIndicatorSVG from 'src/assets/images/app/goals-icon-indicator.svg';
 import GoalsIndicatorActiveSVG from 'src/assets/images/app/goals-icon-indicator-active.svg';
 import SettingsIconActiveSVG from 'src/assets/images/app/settings-icon-active.svg';
 import LeisureIconSVG from 'src/assets/images/app/leisure.svg';
+import SleepIconSVG from 'src/assets/images/app/sleep.svg';
 import MoneyIconSVG from 'src/assets/images/app/money.svg';
 import PhysicalIconSVG from 'src/assets/images/app/physical.svg';
 import SelfEsteemIconSVG from 'src/assets/images/app/selfesteem.svg';
-import SleepIconSVG from 'src/assets/images/app/sleep.svg';
+import HomeDomainIconSVG from 'src/assets/images/app/sleep.svg';
+import MoodIconSVG from 'src/assets/images/app/moodIcon.svg';
+import ThinkingIconSVG from 'src/assets/images/app/thinking.svg';
+import IdentityIconSVG from 'src/assets/images/app/sleep.svg';
+import IndependenceIconSVG from 'src/assets/images/app/IndependenceIcon.svg';
+import SpirtualIconSVG from 'src/assets/images/app/SpiritualIcon.svg';
+import RelationshipsIconSVG from 'src/assets/images/app/RelationshipIcon.svg';
 
 export default {
     signInWithGoogle: GoogleIconPng,
@@ -75,6 +83,7 @@ export default {
     refreshIcon: RefreshIconSVG,
     darkRefreshIcon: DarkRefreshIconSVG,
     arrowRight: ArrowRightSVG,
+    caretDown: CaretDownSVG,
     envelopeIcon: EnvelopeIconSVG,
     bellIcon: BellIconSVG,
     keyIcon: KeyIconSVG,
@@ -114,9 +123,16 @@ export default {
     homeIcon: HomeIconSVG,
     busIcon: BusIconSVG,
     // Domain
-    leisureIcon: LeisureIconSVG,
-    moneyIcon: MoneyIconSVG,
+    moodIcon: MoodIconSVG,
     physicalIcon: PhysicalIconSVG,
-    selfEsteemIcon: SelfEsteemIconSVG,
     sleepIcon: SleepIconSVG,
+    thinkingIcon: ThinkingIconSVG,
+    identityIcon: IdentityIconSVG,
+    leisureIcon: LeisureIconSVG,
+    independenceIcon: IndependenceIconSVG,
+    selfEsteemIcon: SelfEsteemIconSVG,
+    homeDomainIcon: HomeDomainIconSVG,
+    moneyIcon: MoneyIconSVG,
+    spirtualIcon: SpirtualIconSVG,
+    relationshipsIcon: RelationshipsIconSVG,
 };

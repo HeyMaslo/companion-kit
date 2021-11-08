@@ -17,5 +17,5 @@ export default {
     },
     getViewWidth,
     getViewHeight,
-    isSmallDevice: width < 340 || height < 650,
+    isSmallDevice: width < 340 || height < 670,
 };

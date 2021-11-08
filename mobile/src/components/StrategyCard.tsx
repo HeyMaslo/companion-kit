@@ -1,60 +1,56 @@
-import { DisplayStrategyIded } from '../../../mobile/src/constants/Strategy';
+import { DisplayStrategy } from '../../../mobile/src/constants/Strategy';
 import React from 'react';
 import { Dimensions, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Images from 'src/constants/images';
 import TextStyles from 'src/styles/TextStyles';
 import Colors from '../constants/colors/Colors';
+import { iconForDomain } from 'src/helpers/DomainHelper';
 
 const { width } = Dimensions.get('window');
+const darkColor = TextStyles.h1.color;
 
-interface IStrategyCardProps {
-    item: DisplayStrategyIded,
+type IStrategyCardProps = {
+    item: DisplayStrategy,
     onLearnMorePress: ((strategyId: string) => void),
     onSelectStrategy?: ((strategyId: string) => void),
     hideCheckbox?: boolean,
+    isSmallCard?: boolean,
 }
 
-export default class StrategyCard extends React.Component<IStrategyCardProps> {
+type StrategyCardState= { isPressable: boolean }
+
+export default class StrategyCard extends React.Component<IStrategyCardProps, StrategyCardState> {
 
   constructor(props) {
     super(props);
-}
 
-private iconForDomain(d: string): JSX.Element {
-  switch (d.toLowerCase()) {
-    case 'sleep':
-      return <View key={d} style={styles.icon}><Images.sleepIcon width={20} height={20}/></View>;
-    case 'physical':
-      return <View key={d} style={styles.icon}><Images.physicalIcon width={20} height={20}/></View>;
-    case 'mood':
-      return <View key={d} style={styles.icon}><Images.selfEsteemIcon width={20} height={20}/></View>;
-    case 'cognition':
-      return <View key={d} style={styles.icon}><Images.leisureIcon width={20} height={20}/></View>;
-  }
+    this.state = {
+      isPressable: !!this.props.onSelectStrategy
+    }
 }
 
 render() {
     return(
-      <Pressable onPress={()=>this.props.onSelectStrategy(this.props.item.id)} disabled={this.props.hideCheckbox}>
-        <View style={styles.listItem}>
-        <View style={{flexDirection: "row", justifyContent: 'space-between', alignItems: 'center'}}>
-          <Text style={[TextStyles.p1, {display: 'flex', maxWidth: width - size - 70}]}>{this.props.item.title}</Text>
-          {!this.props.hideCheckbox && 
-            <View style={[styles.checkbox, this.props.item.isChecked && styles.checkboxChecked, {display: 'flex'}]}>
-              {this.props.item.isChecked && <Images.radioChecked width={8} height={6} />}
-            </View>}
-        </View>
-        <Text style={[TextStyles.p2, {paddingLeft: 7, paddingTop: 7}]}>{this.props.item.details}</Text>
-        <View style={{flexDirection: "row", justifyContent: 'space-between', marginTop: 10}}>
-        <View style={{display: 'flex', flexDirection: "row", justifyContent: 'flex-start'}}>
-          {this.props.item.associatedDomainNames.map((slug) => {
-            return this.iconForDomain(slug);
-          })}
-        </View>
-          <TouchableOpacity onPress={() => this.props.onLearnMorePress(this.props.item.id)}>
-            <Text style={{display: 'flex', paddingRight: 7, textAlign: 'right'}}>{'LEARN MORE >'}</Text>
-          </TouchableOpacity>
-        </View>
+      <Pressable onPress={()=>this.props.onSelectStrategy(this.props.item.internalId)} disabled={!this.state.isPressable}>
+        <View style={[styles.listItem, this.props.item.isChecked && {borderColor: darkColor}]}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+            <Text style={[TextStyles.labelLarge, {display: 'flex', width: width - size - 70}]}>{this.props.item.title}</Text>
+            {!this.props.hideCheckbox && 
+              <View style={[styles.checkbox, this.props.item.isChecked && styles.checkboxChecked, {display: 'flex'}]}>
+                {this.props.item.isChecked && <Images.radioChecked width={8} height={6} />}
+              </View>}
+          </View>
+        {this.props.isSmallCard && <Text style={[TextStyles.p2, {paddingLeft: 7, paddingTop: 7}]}>{this.props.item.details}</Text>}
+          <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 10}}>
+            <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-start'}}>
+              {this.props.item.associatedDomainNames.map((name) => {
+                return iconForDomain(name, null, darkColor, 22, 22);
+              })}
+            </View>
+            <TouchableOpacity onPress={() => this.props.onLearnMorePress(this.props.item.internalId)} hitSlop={{top: 10, left: 10, right: 10, bottom: 10}}>
+              <Text style={[TextStyles.labelMedium, {color: darkColor, display: 'flex', paddingRight: 7}]}>{'Learn More >'}</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </Pressable>
     );
@@ -70,7 +66,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 7,
     borderColor: '#CBC8CD',
-    padding: 10,
+    paddingTop: 15,
+    paddingBottom: 10,
+    paddingHorizontal: 20,
     marginBottom: 30,
   },
   checkbox: {

@@ -272,6 +272,11 @@ export function formatDate(date: Date | number): string {
     return `${month} ${day}`;
 }
 
+export function formatDateMonthYear(date: Date | number): string {
+    const d = getDate(date);
+    return `${months[d.getMonth()]} ${d.getFullYear()}`;
+  }
+
 export function formatToDateTime(date: Date | number): string {
     const d = getDate(date);
     const day = d.getDate();

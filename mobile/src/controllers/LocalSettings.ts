@@ -145,7 +145,7 @@ export class LocalSettingsController implements ILocalSettingsController {
     }
 
     updateNotifications(diff: Partial<NotificationsSettings>) {
-        const notifications = this.current.notifications || { };
+        const notifications = this.current.notifications || {};
         transaction(() => {
             let changed = transferChangedFields(diff, notifications, 'enabled', 'token');
 
@@ -163,15 +163,16 @@ export class LocalSettingsController implements ILocalSettingsController {
 
     updateQolSettings(diff: Partial<QolSettings>, changedField: keyof QolSettings) {
         const qol = this.current.qol;
-        if (!qol) { return; }
-        
-        transaction(() => {
-            let changed = transferChangedFields(diff, qol, changedField);
+        if (qol) {
 
-            if (changed) {
-                this.update({ qol });
-            }
-        });
+            transaction(() => {
+                let changed = transferChangedFields(diff, qol, changedField);
+
+                if (changed) {
+                    this.update({ qol });
+                }
+            });
+        }
     }
 
     updateLastDailyCheckIn(diff: string) {
