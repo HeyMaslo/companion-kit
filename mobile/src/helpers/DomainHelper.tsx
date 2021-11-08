@@ -2,12 +2,13 @@ import Images from 'src/constants/images';
 import Colors from 'src/constants/colors/Colors';
 import { StyleProp, ViewStyle } from 'react-native';
 import React from 'react';
-import { DomainName } from 'src/constants/Domain';
+import { DomainName, SubdomainName } from 'src/constants/Domain';
 
-export function iconForDomain(domainName: DomainName, style?: StyleProp<ViewStyle>, color: string = Colors.typography.h1, width: number = 30, height: number = 30): JSX.Element {
-  if (!domainName) { return <></>; }
+export function iconForDomain(name: DomainName | SubdomainName, style?: StyleProp<ViewStyle>, color: string = Colors.typography.h1, width: number = 30, height: number = 30): JSX.Element {
+  if (!name) { return <></>; }
 
-  switch (domainName) {
+  switch (name) {
+    // Domains
     case DomainName.MOOD:
       return <Images.moodIcon pointerEvents={'none'} key={DomainName.MOOD} color={color} width={width} height={height} style={style} />;
 
@@ -44,6 +45,18 @@ export function iconForDomain(domainName: DomainName, style?: StyleProp<ViewStyl
     case DomainName.RELATIONSHIPS:
       return <Images.relationshipsIcon pointerEvents={'none'} key={DomainName.RELATIONSHIPS} color={color} width={width} height={height} style={style} />;
 
+    // Physical Subdomain
+    case SubdomainName.EXERCISE:
+      return <Images.physicalIcon pointerEvents={'none'} key={SubdomainName.EXERCISE} color={color} width={width} height={height} style={style} />;
+
+    case SubdomainName.DIETNUTRITION:
+      return <Images.dietIcon pointerEvents={'none'} key={SubdomainName.DIETNUTRITION} color={color} width={width} height={height} style={style} />;
+
+    case SubdomainName.SEXUALHEALTH:
+      return <Images.sexualHealthIcon pointerEvents={'none'} key={SubdomainName.SEXUALHEALTH} color={color} width={width} height={height} style={style} />;
+
+    case SubdomainName.SUBSTANCEUSE:
+      return <Images.substanceUseIcon pointerEvents={'none'} key={SubdomainName.SUBSTANCEUSE} color={color} width={width} height={height} style={style} />;
   }
 }
 

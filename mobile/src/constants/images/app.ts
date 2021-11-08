@@ -63,6 +63,9 @@ import IdentityIconSVG from 'src/assets/images/app/sleep.svg';
 import IndependenceIconSVG from 'src/assets/images/app/IndependenceIcon.svg';
 import SpirtualIconSVG from 'src/assets/images/app/SpiritualIcon.svg';
 import RelationshipsIconSVG from 'src/assets/images/app/RelationshipIcon.svg';
+import DietIconSVG from 'src/assets/images/app/diet.svg';
+import SexualHealthIconSVG from 'src/assets/images/app/sexual.svg';
+import SubstanceUseIConSVG from 'src/assets/images/app/substance.svg';
 
 export default {
     signInWithGoogle: GoogleIconPng,
@@ -135,4 +138,8 @@ export default {
     moneyIcon: MoneyIconSVG,
     spirtualIcon: SpirtualIconSVG,
     relationshipsIcon: RelationshipsIconSVG,
+    // Subdomain
+    dietIcon: DietIconSVG,
+    sexualHealthIcon: SexualHealthIconSVG,
+    substanceUseIcon: SubstanceUseIConSVG,
 };
