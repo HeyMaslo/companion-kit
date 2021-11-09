@@ -9,12 +9,17 @@ import { ViewState } from '../base';
 import Layout from 'src/constants/Layout';
 import { iconForDomain } from 'src/helpers/DomainHelper';
 import { DomainName } from 'src/constants/Domain';
+import { Portal } from 'react-native-paper';
+import { observable } from 'mobx';
 
 const { width } = Dimensions.get('window');
-const centerDomainFontSize = Layout.isSmallDevice ? 25 : 30;
+export const centerDomainFontSize = Layout.isSmallDevice ? 25 : 30;
 const sideDomainsFontSize = Layout.isSmallDevice ? 14 : 17;
 
 export abstract class ViewDomainsBase extends ViewState {
+
+    @observable
+    protected showSubdomainPopUp = false
 
     constructor(props) {
         super(props);
@@ -30,6 +35,7 @@ export abstract class ViewDomainsBase extends ViewState {
         translateXTabOne: new Animated.Value(0),
         translateY: 0,
         xDomain: 0,
+        popUpFadeOpacity: new Animated.Value(0),
     }
 
     handleSlide = type => {
@@ -82,6 +88,10 @@ export abstract class ViewDomainsBase extends ViewState {
     public abstract goToLeft: () => void
 
     public getCenterElement(): JSX.Element {
+        return (<></>);
+    }
+
+    public getPopUpElement(): JSX.Element {
         return (<></>);
     }
 
@@ -204,6 +214,10 @@ export abstract class ViewDomainsBase extends ViewState {
                         </TouchableOpacity>
                     </View>
                 </Container>
+                {this.showSubdomainPopUp &&
+                    <Portal>
+                        {this.getPopUpElement()}
+                    </Portal>}
             </MasloPage>
         );
     }
@@ -260,5 +274,6 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         letterSpacing: 1.79,
         fontFamily: mainFontMedium,
+        textTransform: 'uppercase',
     },
 });

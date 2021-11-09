@@ -1,6 +1,6 @@
 import { observable } from 'mobx';
 import { createLogger } from 'common/logger';
-import { DomainIded, DomainName } from '../constants/Domain';
+import { Domain, DomainName, FocusedDomains, SubdomainName } from '../constants/Domain';
 import AppViewModel from 'src/viewModels';
 import AppController from 'src/controllers';
 
@@ -15,8 +15,8 @@ export default class DomainViewModel {
     @observable
     private _rightDomain: number;
 
-    private _allDomains: DomainIded[]; // every domain in the domains collection
-    private _selectedDomains: DomainIded[];
+    private _allDomains: Domain[]; // every domain in the domains collection
+    private _selectedDomains: FocusedDomains;
 
     public domainCount: number;
 
@@ -27,15 +27,19 @@ export default class DomainViewModel {
         this._rightDomain = 2;
 
         this._allDomains = [];
-        this._selectedDomains = [];
+        this._selectedDomains = { domains: [], subdomains: [] };
         this.domainCount = 0;
     }
 
-    public get selectedDomains(): DomainIded[] {
+    public get mainDomain(): Domain {
+        return this._allDomains[this._mainDomain];
+    }
+
+    public get selectedDomains(): FocusedDomains {
         return this._selectedDomains
     }
 
-    public get allDomains(): DomainIded[] {
+    public get allDomains(): Domain[] {
         return this._allDomains;
     }
 
@@ -47,12 +51,12 @@ export default class DomainViewModel {
     public async fetchSelectedDomains() {
         let focusedDomains = await AppController.Instance.User.domain.getFocusedDomains();
         if (focusedDomains) {
-            this._selectedDomains = focusedDomains.map((name) => this.getDomainByName(name));
+            this._selectedDomains = focusedDomains;
         }
     }
 
     public postSelectedDomains(): Promise<void> {
-        return AppController.Instance.User.qol.setUserStateProperty('focusedDomains', this.selectedDomains.map(d => d.name));
+        return AppController.Instance.User.qol.setUserStateProperty('focusedDomains', this.selectedDomains);
     }
 
     //  Returns the three domain names displayed on the choose domain screen (main is center domain), along with the importance string of the main domain
@@ -91,21 +95,27 @@ export default class DomainViewModel {
 
     // adds selected domains by user to the selected domains array, use this array to persist to backend by calling postSelectedDomains
     // returns false if domain has already been selected
-    public selectDomain(domain: DomainIded): Boolean {
-        if (this._selectedDomains.map(dom => dom.id).includes(domain.id)) {
+    public selectDomain(domain: Domain): Boolean {
+        if (this._selectedDomains.domains.includes(domain.name)) {
             return false;
         }
-        this._selectedDomains.push(domain);
+        this._selectedDomains.domains.push(domain.name);
+        AppViewModel.Instance.Strategy.setSelectedDomains(this._selectedDomains);
+        return true;
+    }
+
+    public selectSubdomains(subdomains: SubdomainName[]) {
+        this._selectedDomains.subdomains = subdomains; // If more categories of subdomains (besides Physical) are added this will need to be changed
         AppViewModel.Instance.Strategy.setSelectedDomains(this._selectedDomains);
         return true;
     }
 
     // to persist to backend call postSelectedDomains after calling this function
     public clearSelectedDomains() {
-        this._selectedDomains = [];
+        this._selectedDomains = { domains: [], subdomains: [] };
     }
 
-    public getDomainByName(name: DomainName): DomainIded {
+    public getDomainByName(name: DomainName): Domain {
         for (let i = 0; i < this._allDomains.length; i++) {
             let domain = this._allDomains[i];
             if (domain.name === name) {

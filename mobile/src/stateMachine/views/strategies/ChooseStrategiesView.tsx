@@ -16,14 +16,14 @@ export class ChooseStrategiesView extends ViewState {
 
   @observable
   private dropDownIsExtended = false;
-  private selectedDomainNames: DomainName[] = [];
+  private selectedDomainNames: string[] = [];
   private currentFilter: DomainName = null;
 
   constructor(props) {
     super(props);
     this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0 } });
     this.hidePersona();
-    this.selectedDomainNames = AppViewModel.Instance.Domain.selectedDomains.map((d) => d.name);
+    this.selectedDomainNames = (AppViewModel.Instance.Domain.selectedDomains.domains as string[]).concat(AppViewModel.Instance.Domain.selectedDomains.subdomains);
 
     this.onLearnMorePress = this.onLearnMorePress.bind(this);
     this.onSelectStrategy = this.onSelectStrategy.bind(this);
@@ -111,8 +111,8 @@ export class ChooseStrategiesView extends ViewState {
               <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
                 {/* Sort Row of Three Buttons */}
                 <TouchableOpacity onPress={() => this.changeFilterPressed(null)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == null ? { textDecorationLine: 'underline' } : null]}>{'Show All'}</Text></TouchableOpacity>
-                <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainNames[0])}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainNames[0] ? { textDecorationLine: 'underline' } : null]}>{this.selectedDomainNames[0]}</Text></TouchableOpacity>
-                <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainNames[1])}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainNames[1] ? { textDecorationLine: 'underline' } : null]}>{this.selectedDomainNames[1]}</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainNames[0] as DomainName)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainNames[0] ? { textDecorationLine: 'underline' } : null]}>{this.selectedDomainNames[0]}</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainNames[1] as DomainName)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainNames[1] ? { textDecorationLine: 'underline' } : null]}>{this.selectedDomainNames[1]}</Text></TouchableOpacity>
               </View>
               :
               <View>
@@ -140,7 +140,7 @@ export class ChooseStrategiesView extends ViewState {
   }
 }
 
-const size = 24;
+const checkboxSize = 24;
 
 const styles = StyleSheet.create({
   rowButton: {
@@ -191,9 +191,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   checkbox: {
-    height: size,
-    width: size,
-    borderRadius: size / 2,
+    height: checkboxSize,
+    width: checkboxSize,
+    borderRadius: checkboxSize / 2,
     borderWidth: 1,
     borderColor: Colors.borderColor,
     justifyContent: 'center',

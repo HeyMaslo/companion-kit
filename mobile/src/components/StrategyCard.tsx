@@ -5,6 +5,7 @@ import Images from 'src/constants/images';
 import TextStyles from 'src/styles/TextStyles';
 import Colors from '../constants/colors/Colors';
 import { iconForDomain } from 'src/helpers/DomainHelper';
+import { DomainName } from 'src/constants/Domain';
 
 const { width } = Dimensions.get('window');
 const darkColor = TextStyles.h1.color;
@@ -34,7 +35,7 @@ render() {
       <Pressable onPress={()=>this.props.onSelectStrategy(this.props.item.internalId)} disabled={!this.state.isPressable}>
         <View style={[styles.listItem, this.props.item.isChecked && {borderColor: darkColor}]}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-            <Text style={[TextStyles.labelLarge, {display: 'flex', width: width - size - 70}]}>{this.props.item.title}</Text>
+            <Text style={[TextStyles.labelLarge, {display: 'flex', width: width - checkboxSize - 70}]}>{this.props.item.title}</Text>
             {!this.props.hideCheckbox && 
               <View style={[styles.checkbox, this.props.item.isChecked && styles.checkboxChecked, {display: 'flex'}]}>
                 {this.props.item.isChecked && <Images.radioChecked width={8} height={6} />}
@@ -44,7 +45,7 @@ render() {
           <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 10}}>
             <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-start'}}>
               {this.props.item.associatedDomainNames.map((name) => {
-                return iconForDomain(name, null, darkColor, 22, 22);
+                return iconForDomain(name as DomainName, null, darkColor, 22, 22);
               })}
             </View>
             <TouchableOpacity onPress={() => this.props.onLearnMorePress(this.props.item.internalId)} hitSlop={{top: 10, left: 10, right: 10, bottom: 10}}>
@@ -59,7 +60,7 @@ render() {
 }
 
 
-const size = 24;
+const checkboxSize = 24;
 
 const styles = StyleSheet.create({ 
   listItem: {
@@ -72,9 +73,9 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   checkbox: {
-    height: size,
-    width: size,
-    borderRadius: size / 2,
+    height: checkboxSize,
+    width: checkboxSize,
+    borderRadius: checkboxSize / 2,
     borderWidth: 1,
     borderColor: Colors.borderColor,
     justifyContent: 'center',

@@ -37,7 +37,7 @@ export class ThreeDomainView extends ViewState {
     }
 
     renderContent() {
-        const selectedDomains = this.viewModel.selectedDomains;
+        const selectedDomains = this.viewModel.selectedDomains.domains;
 
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.onBack()}>

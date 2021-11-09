@@ -76,7 +76,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
     this.historyEntries = this.viewModel.historyEntries;
     this.selectedEntry = this.viewModel.selectedEntry;
     this.selectedEntryIndex = this.viewModel.selectedEntryWeekNumber - 1;
-    this.selectedDomains = this.selectedEntry.focusDomains || [];
+    this.selectedDomains = this.selectedEntry.focusDomains.domains || [];
     this.scrollViewContentOffset = { x: this.selectedEntryIndex * (weekCircleDiameter + weekCircleMarginLeft * 2), y: 0 };
 
     this.allDomains = AppViewModel.Instance.Domain.allDomains.map((d) => d.name);
@@ -128,7 +128,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   changeFilterPressed = (selection: string) => {
     if (selection == 'Show All') {
       this.domainSort = null;
-      this.selectedDomains = this.selectedEntry.focusDomains;
+      this.selectedDomains = this.selectedEntry.focusDomains.domains;
     } else {
       this.domainSort = selection as DomainName;
       this.selectedDomains = [this.domainSort];
@@ -175,7 +175,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
         this.selectedEntry = item
         this.selectedEntryIndex = index
         if (this.domainSort == null) {
-          this.selectedDomains = this.selectedEntry.focusDomains || [];
+          this.selectedDomains = this.selectedEntry.focusDomains.domains || [];
         }
       }}>
         <View style={[styles.weekCircle,

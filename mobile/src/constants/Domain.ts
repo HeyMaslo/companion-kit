@@ -1,5 +1,3 @@
-import { Identify } from 'common/models';
-
 export enum DomainName {
   MOOD            = 'Mood',
   PHYSICAL        = 'Physical',
@@ -36,4 +34,7 @@ export type Subdomain = {
   bullets:    string[],
 };
 
-export type DomainIded = Identify<Domain>;
+export type FocusedDomains = {
+  domains: DomainName[],
+  subdomains: SubdomainName[],
+};

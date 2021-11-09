@@ -10,7 +10,7 @@ import { ViewState } from './base';
 import Layout from 'src/constants/Layout';
 import { getPersonaRadius } from '../persona';
 import IconsOnCircle from './IconsOnCircle';
-import { DomainName } from 'src/constants/Domain';
+import { DomainName, FocusedDomains } from 'src/constants/Domain';
 
 const containerMarginTop = Layout.isSmallDevice ? 25 : 75;
 const containerMarginBottom = Layout.isSmallDevice ? 0 : 25;
@@ -23,7 +23,7 @@ type YourFocusDomainsViewState = {
 export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
 
   @observable
-  private selectedDomains: DomainName[] = [];
+  private selectedDomains: FocusedDomains = { domains: [], subdomains: [] };
   private ordRadius = getPersonaRadius();
 
   constructor(props) {
@@ -31,7 +31,7 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
     this.onLearnMorePress = this.onLearnMorePress.bind(this);
     this.onLayoutIconCircle = this.onLayoutIconCircle.bind(this);
     this._contentHeight = this.layout.window.height - containerMarginTop;
-    this.selectedDomains = AppViewModel.Instance.Domain.selectedDomains.map((d) => d.name);
+    this.selectedDomains = AppViewModel.Instance.Domain.selectedDomains;
 
     this.state = {
       bottomWrapperTop: 0,
@@ -80,7 +80,7 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
     return (
       <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
         <Container style={[{ height: this._contentHeight, marginTop: containerMarginTop, marginBottom: containerMarginBottom }]}>
-          <IconsOnCircle circleRaius={this.ordRadius * 6} symbolSize={40} totalContainerMargin={containerMarginTop - containerMarginBottom} highlightedDomains={this.selectedDomains} onLayout={this.onLayoutIconCircle} />
+          <IconsOnCircle circleRaius={this.ordRadius * 6} symbolSize={40} totalContainerMargin={containerMarginTop - containerMarginBottom} highlightedDomains={this.selectedDomains.domains} onLayout={this.onLayoutIconCircle} />
           <View pointerEvents={'box-none'} style={[styles.bottomWrapper, { top: this.state.bottomWrapperTop }]}>
             <Button
               title={'View All Life Areas'}

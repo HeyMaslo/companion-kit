@@ -39,13 +39,12 @@ export class SelectDomainView extends ViewState {
 
     renderContent() {
         const [l,mainDomain,r,i] = this.viewModel.getDomainDisplay();
-        const selectedDomains = this.viewModel.selectedDomains;
-        logger.log('MY_SELECTL', selectedDomains.length);
+        const selectedDomains = this.viewModel.selectedDomains.domains;
 
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()}>
                 <Container style={[{ height: this._contentHeight, alignItems: 'center' }]}>
-                    <Text style={[this.textStyles.h1, styles.title]}>{(selectedDomains.length == 2)? `You have selected the ${selectedDomains[0].name} & ${selectedDomains[1].name} life areas.` : `You have selected the ${mainDomain} life area.`} </Text>
+                    <Text style={[this.textStyles.h1, styles.title]}>{(selectedDomains.length == 2)? `You have selected the ${selectedDomains[0]} & ${selectedDomains[1]} life areas.` : `You have selected the ${mainDomain} life area.`} </Text>
                     <Text style={[this.textStyles.h1, styles.title]}>{'Would you like to select another?'}</Text>
                     <View style ={styles.buttonContainer}>
                        

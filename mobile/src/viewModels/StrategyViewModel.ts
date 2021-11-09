@@ -1,13 +1,13 @@
 import { observable } from 'mobx';
 import { Strategy, DisplayStrategy } from '../constants/Strategy';
-import { DomainIded, DomainName } from '../constants/Domain';
+import { Domain, DomainName, FocusedDomains, SubdomainName } from '../constants/Domain';
 import AppController from 'src/controllers';
 
 export default class StrategyViewModel {
 
   private _allStrategies: DisplayStrategy[] = [];       // every strategy in the strategies collection
   private _availableStrategies: DisplayStrategy[] = []; // strategies a user could choose based on their selected domains 
-  private _selectedDomains: DomainIded[] = [];
+  private _selectedDomains: FocusedDomains = { domains: [], subdomains: [] };
 
   @observable
   public availableStrategies: DisplayStrategy[] = [];
@@ -24,14 +24,14 @@ export default class StrategyViewModel {
     return this._allStrategies;
   }
 
-  public setSelectedDomains(domains: DomainIded[]) {
-    if (domains) {
-      this._selectedDomains = domains;
+  public setSelectedDomains(focusedDomains: FocusedDomains) {
+    if (focusedDomains) {
+      this._selectedDomains = focusedDomains;
     }
   }
 
   public clearSelectedDomains() {
-    this._selectedDomains = [];
+    this._selectedDomains = { domains: [], subdomains: [] };
   }
 
   private setAllStrategies(strats: Strategy[]) {
@@ -67,7 +67,9 @@ export default class StrategyViewModel {
 
   // Only include strategies from the selectedDomains
   public updateAvailableStrategiesForSelectedDomains() {
-    this.availableStrategies = this._allStrategies.filter((s) => s.associatedDomainNames.some(r => this._selectedDomains.map(sd => sd.name).includes(r)))
+    this.availableStrategies = this._allStrategies.filter((s) => s.associatedDomainNames.some(r => {
+      return this._selectedDomains.domains.includes(r as DomainName) || this._selectedDomains.subdomains.includes(r as SubdomainName);
+    }))
     this._availableStrategies = this.availableStrategies;
   }
 

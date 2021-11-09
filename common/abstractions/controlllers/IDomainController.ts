@@ -1,11 +1,10 @@
-import { DomainIded, DomainName } from '../../../mobile/src/constants/Domain';
-import { UserState } from 'common/models/userState';
+import { Domain, FocusedDomains } from '../../../mobile/src/constants/Domain';
 
 export interface IDomainController {
 
-  getPossibleDomains(): Promise<DomainIded[]>;
+  getPossibleDomains(): Promise<Domain[]>;
 
-  getFocusedDomains(): Promise<DomainName[]>;
+  getFocusedDomains(): Promise<FocusedDomains>;
 
   setUser(userId: string): void;
 
