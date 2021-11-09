@@ -1,4 +1,4 @@
-import { DomainScope, Domain, DomainName } from '../../../mobile/src/constants/Domain';
+import { Domain, DomainName } from '../../../mobile/src/constants/Domain';
 import { Repo } from './services/db';
 import { Identify } from 'common/models';
 import { QoL as QoLFunctions } from 'common/abstractions/functions';
@@ -35,9 +35,8 @@ export const QoLEndpoint = new FunctionFactory(QoLFunctions.QoLEndpoint)
 export async function createDomain(args: CreateDomainRequest)
     : Promise<CreateDomainResponse> {
 
-    if (args.scope in DomainScope) {
+    if (args.name in DomainName) {
         await Repo.Domains.create({
-            scope:      args.scope as DomainScope,
             name:       args.name as DomainName,
             importance: args.importance,
             bullets:    args.bullets,
