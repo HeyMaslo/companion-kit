@@ -3,7 +3,7 @@ import { IUserNameProvider } from 'src/services/Notifications';
 import { ILocalSettingsController } from './LocalSettings';
 import { ThrottleAction } from 'common/utils/throttle';
 import { IDisposable } from 'common/utils/unsubscriber';
-import { auth, initHealthKit, disconnectAndroid, getDOB, getAuthStatus, checkForStepsData, checkForSleepData } from 'src/helpers/health'
+import { authAndroid, initHealthKit, disconnectAndroid, getDOB, getAuthStatus, checkForStepsData, checkForSleepData } from 'src/helpers/health'
 import { Platform } from 'react-native';
 import logger from 'common/logger';
 
@@ -46,8 +46,8 @@ export class HealthPermissionsController implements IDisposable {
             });
             await this.initAsync();
         } else if (Platform.OS == 'android') {
-            const authorized = await auth();
-            logger.log("PERMS", authorized);
+            const authorized = await authAndroid();
+            logger.log("GOOGLE_FIT_PERMS", authorized);
             this._enabledByUserOriginal = authorized;
             this._enabledByUser = authorized;
 

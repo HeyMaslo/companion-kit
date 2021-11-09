@@ -2,13 +2,48 @@ import GoogleFit, { Scopes } from 'react-native-google-fit';
 import AppleHealthKit from 'react-native-health';
 import logger from 'common/logger';
 
+// GOOGLE FIT:
 const runOptions = {
   scopes: [
     Scopes.FITNESS_ACTIVITY_READ,
     Scopes.FITNESS_ACTIVITY_WRITE,
-    Scopes.FITNESS_BODY_READ,
-  ]
+    // Scopes.FITNESS_BODY_READ,
+  ],
 };
+
+export const authAndroid = () => {
+  const authValue = GoogleFit.checkIsAuthorized().then(() => {
+    var isAuth = GoogleFit.isAuthorized;
+    logger.log('GOOGLE_FIT_IS_AUTHORIZED?', isAuth)
+    if (isAuth) {
+      logger.log('GOOGLE_FIT_IS_AUTHORIZED');
+      isAuth = true;
+    } else {
+      // Authentication if already not authorized for a particular device
+      GoogleFit.authorize(runOptions)
+        .then(authResult => {
+          if (authResult.success) {
+            console.log('AUTH_SUCCESS');
+            isAuth = true
+            // if successfully authorized, fetch data
+          } else {
+            console.log('AUTH_DENIED ' + authResult);
+            isAuth = false;
+          }
+        })
+        .catch(() => {
+          console.log('AUTH_ERROR');
+        });
+    }
+    return isAuth;
+  })
+  return authValue;
+}
+
+export const disconnectAndroid = () => { GoogleFit.disconnect() }
+
+
+// APPLE HEALTH KIT:
 
 const permissions = {
   permissions: {
@@ -71,33 +106,6 @@ const permissions = {
     write: [],
   },
 };
-
-export const auth = async () => {
-  var isAuth;
-
-  return await GoogleFit.checkIsAuthorized().then(() => {
-    isAuth = GoogleFit.isAuthorized;
-    logger.log('GOOGLE_FIT_IS_AUTHORIZED?', isAuth)
-    isAuth = GoogleFit.authorize(runOptions)
-      .then(authResult => {
-        if (authResult.success) {
-          logger.log('GOOGLE_FIT_IS_AUTHORIZED', authResult.success);
-          return true;
-
-        } else {
-          logger.log('GOOGLEFIT_AUTH_DENIED' + authResult);
-          return false;
-        }
-      })
-      .catch(() => {
-        return false;
-      })
-    return isAuth;
-  })
-}
-
-export const disconnectAndroid = () => { GoogleFit.disconnect() }
-
 export const initHealthKit = async (): Promise<boolean> => {
   return new Promise((resolve, reject) => {
     AppleHealthKit.initHealthKit(permissions, (err, results) => {
