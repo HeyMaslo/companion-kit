@@ -35,20 +35,14 @@ export const QoLEndpoint = new FunctionFactory(QoLFunctions.QoLEndpoint)
 export async function createDomain(args: CreateDomainRequest)
     : Promise<CreateDomainResponse> {
 
-    if (args.name in DomainName) {
-        await Repo.Domains.create({
-            name:       args.name as DomainName,
-            importance: args.importance,
-            bullets:    args.bullets,
-        });
-        return {
-            error: null,
-        };
-    } else {
-        return {
-            error: 'Invalid scope',
-        };
-    }
+    await Repo.Domains.create({
+        name: args.name as DomainName,
+        importance: args.importance,
+        bullets: args.bullets,
+    });
+    return {
+        error: null,
+    };
 }
 
 export async function getDomains(): Promise<GetDomainsResponse> {
