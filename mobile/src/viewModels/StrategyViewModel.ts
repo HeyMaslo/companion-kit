@@ -65,10 +65,11 @@ export default class StrategyViewModel {
     return AppController.Instance.User.qol.setUserStateProperty('chosenStrategies', this.selectedStrategies.map(strat => strat.internalId));
   }
 
-  // Only include strategies from the selectedDomains
+  // Only include strategies from the selectedDomains and selectedSubdomains.
   public updateAvailableStrategiesForSelectedDomains() {
+    const selectedDomainsAndSubdomain: string[] = (this._selectedDomains.domains.filter((dom) => dom !== DomainName.PHYSICAL) as string[]).concat(this._selectedDomains.subdomains);
     this.availableStrategies = this._allStrategies.filter((s) => s.associatedDomainNames.some(r => {
-      return this._selectedDomains.domains.includes(r as DomainName) || this._selectedDomains.subdomains.includes(r as SubdomainName);
+      return selectedDomainsAndSubdomain.includes(r);
     }))
     this._availableStrategies = this.availableStrategies;
   }
