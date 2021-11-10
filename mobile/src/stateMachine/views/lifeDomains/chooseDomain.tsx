@@ -109,7 +109,7 @@ export class ChooseDomainView extends ViewDomainsBase {
                             renderItem={this.renderListItem}
                             keyExtractor={item => item.name} />
 
-                        <Text style={styles.descriptionText}>Select any specific aspects of the {mainDomain.name} life area you’d like to focus on.</Text>
+                        <Text style={[this.textStyles.p1, styles.descriptionText]}>Select any specific aspects of the {mainDomain.name} life area you’d like to focus on.</Text>
                         <ButtonBlock okTitle={'DONE'} cancelTitle={'BACK'} onCancel={this.closePopUp} onOk={() => this.onDoneChoosingSubdomains(mainDomain)} nextDisabled={this.checkedSubdomains.length == 0} />
                     </Container>
                 </MasloPage>
@@ -124,8 +124,8 @@ export class ChooseDomainView extends ViewDomainsBase {
                     <View style={[styles.checkbox, this.checkedSubdomains.includes(item.name) && styles.checkboxChecked, { display: 'flex' }]}>
                         {this.checkedSubdomains.includes(item.name) && <Images.radioChecked width={8} height={6} fill={'purple'} />}
                     </View>
-                    {iconForDomain(item.name, { marginHorizontal: 15 })}
-                    <Text>{item.name}</Text>
+                    {iconForDomain(item.name, { marginHorizontal: 15 }, 'purple')}
+                    <Text style={this.textStyles.p2}>{item.name}</Text>
                 </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.onSubdomainLearnMorePress(item.name)} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
