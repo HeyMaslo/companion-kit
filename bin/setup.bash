@@ -93,6 +93,7 @@ if [ $dashboard == 1 ]; then
 fi
 if [ $mobile == 1 ]; then
     dir mobile/ios
+    nvm use 12
     yarn
     if [ $pods == 1 ]; then
         pod install --repo-update
