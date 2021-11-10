@@ -13,7 +13,10 @@ export function iconForDomain(name: DomainName | SubdomainName, style?: StylePro
       return <Images.moodIcon pointerEvents={'none'} key={DomainName.MOOD} color={color} fill={fill} width={width} height={height} style={style} />;
 
     case DomainName.PHYSICAL:
-      return <Images.physicalIcon pointerEvents={'none'} key={DomainName.PHYSICAL} color={color} fill={fill} width={width} height={height} style={style} />;
+      if (fill) {
+        return <Images.physicalIconFilled pointerEvents={'none'} key={DomainName.PHYSICAL} color={color} fill={fill} width={width} height={height} style={style} />;
+      }
+      return <Images.physicalIcon pointerEvents={'none'} key={DomainName.PHYSICAL} color={color} width={width} height={height} style={style} />;
 
     case DomainName.SLEEP:
       return <Images.sleepIcon pointerEvents={'none'} key={DomainName.SLEEP} color={color} fill={fill} width={width} height={height} style={style} />;

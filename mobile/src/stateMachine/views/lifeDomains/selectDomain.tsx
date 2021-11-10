@@ -16,14 +16,14 @@ export class SelectDomainView extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.layout.window.height - containerMarginTop;
-        this.persona.setupContainerHeight(0, { transition: { duration: 2.2 }}, Layout.window.height * 0.58);
+        this.persona.setupContainerHeight(0, { transition: { duration: 2.2 } }, Layout.window.height * 0.58);
     }
 
     private get viewModel() {
         return AppViewModel.Instance.Domain;
     }
 
-    async start() {}
+    async start() { }
 
     private cancel = () => {
         this.trigger(ScenarioTriggers.Cancel);
@@ -38,18 +38,18 @@ export class SelectDomainView extends ViewState {
     }
 
     renderContent() {
-        const [l,mainDomain,r,i] = this.viewModel.getDomainDisplay();
+        const mainDomain = this.viewModel.getDomainDisplay().mainName;
         const selectedDomains = this.viewModel.selectedDomains.domains;
 
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()}>
                 <Container style={[{ height: this._contentHeight, alignItems: 'center' }]}>
-                    <Text style={[this.textStyles.h1, styles.title]}>{(selectedDomains.length == 2)? `You have selected the ${selectedDomains[0]} & ${selectedDomains[1]} life areas.` : `You have selected the ${mainDomain} life area.`} </Text>
+                    <Text style={[this.textStyles.h1, styles.title]}>{(selectedDomains.length == 2) ? `You have selected the ${selectedDomains[0]} & ${selectedDomains[1]} life areas.` : `You have selected the ${mainDomain} life area.`} </Text>
                     <Text style={[this.textStyles.h1, styles.title]}>{'Would you like to select another?'}</Text>
-                    <View style ={styles.buttonContainer}>
-                       
-                        <Button title='No' titleStyles={{color:'black'}} withBorder={true} style={styles.readyButtonNo} onPress={() => this.onEndSurvey()}/>
-                        <Button title='Yes' style={styles.readyButton} onPress={(selectedDomains.length == 2 || selectedDomains.length == 3) ? () => this.onThreeSelected() : () => this.cancel()}/>
+                    <View style={styles.buttonContainer}>
+
+                        <Button title='No' titleStyles={{ color: 'black' }} withBorder={true} style={styles.readyButtonNo} onPress={() => this.onEndSurvey()} />
+                        <Button title='Yes' style={styles.readyButton} onPress={(selectedDomains.length == 2 || selectedDomains.length == 3) ? () => this.onThreeSelected() : () => this.cancel()} />
 
                     </View>
                 </Container>
@@ -58,7 +58,7 @@ export class SelectDomainView extends ViewState {
     }
 }
 
-const styles = StyleSheet.create({ 
+const styles = StyleSheet.create({
     title: {
         justifyContent: 'center',
         textAlign: 'center',
@@ -86,5 +86,5 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 50,
     },
-    
+
 });

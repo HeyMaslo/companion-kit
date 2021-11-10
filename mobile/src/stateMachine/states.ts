@@ -68,6 +68,7 @@ export enum States {
     Choose_end,
     View_Domains,
     Domain_Details_after_ViewDomains,
+    Subdomain_Details,
 
     // Strategies block
     Choose_Strategies,

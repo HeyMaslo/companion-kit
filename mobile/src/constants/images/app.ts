@@ -55,6 +55,7 @@ import LeisureIconSVG from 'src/assets/images/app/leisure.svg';
 import SleepIconSVG from 'src/assets/images/app/sleep.svg';
 import MoneyIconSVG from 'src/assets/images/app/money.svg';
 import PhysicalIconSVG from 'src/assets/images/app/physical.svg';
+import PhysicalIconFilledSVG from 'src/assets/images/app/physical-filled.svg';
 import SelfEsteemIconSVG from 'src/assets/images/app/selfesteem.svg';
 import HomeDomainIconSVG from 'src/assets/images/app/sleep.svg';
 import MoodIconSVG from 'src/assets/images/app/moodIcon.svg';
@@ -128,6 +129,7 @@ export default {
     // Domain
     moodIcon: MoodIconSVG,
     physicalIcon: PhysicalIconSVG,
+    physicalIconFilled: PhysicalIconFilledSVG,
     sleepIcon: SleepIconSVG,
     thinkingIcon: ThinkingIconSVG,
     identityIcon: IdentityIconSVG,

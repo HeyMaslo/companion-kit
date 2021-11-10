@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, Alert, StyleSheet, Animated } from 'react-native';
 import { Button, ButtonBlock, Container, MasloPage } from 'src/components'
-import { Domain, DomainName, SubdomainName } from 'src/constants/Domain';
+import { Domain, DomainName, Subdomain, SubdomainName } from 'src/constants/Domain';
 import Images from 'src/constants/images';
 import Layout from 'src/constants/Layout';
 import { iconForDomain } from 'src/helpers/DomainHelper';
@@ -31,16 +31,24 @@ export class ChooseDomainView extends ViewDomainsBase {
     }
 
     async start() {
-        this.viewModel.fetchPossibleDomains();
-        this.forceUpdate();
+        this.checkedSubdomains = this.viewModel.checkedSubdomains;
+        if (this.viewModel.learnMoreSubdomain != null) {
+            this.showSubdomainPopUp = true;
+            this.state.popUpFadeOpacity = fadeEnd;
+            this.viewModel.learnMoreSubdomain = null;
+        }
     }
 
-    getDomainDisplay = (): string[] => {
+    async end() {
+        this.checkedSubdomains = [];
+    }
+
+    getDomainDisplay = (): { leftName: string, mainName: string, rightName: string, mainImportance: string, subdomains: Subdomain[] } => {
         return this.viewModel.getDomainDisplay();
     }
 
     getDomainImportanceBullets = (): string[] => {
-        const [lDomain, domain, rDomain, importance] = this.getDomainDisplay();
+        const domain = this.getDomainDisplay().mainName;
         if (domain) {
             return this.viewModel.getDomainByName(domain as DomainName).bullets;
         }
@@ -67,8 +75,7 @@ export class ChooseDomainView extends ViewDomainsBase {
     }
 
     public getCenterElement(): JSX.Element {
-        const [lDomain, domain, rDomain, importance] = this.getDomainDisplay();
-        const domainName = domain as DomainName;
+        const domainName = this.getDomainDisplay().mainName as DomainName;
         return (
             <Button
                 title={this.viewModel.selectedDomains.domains.includes(domainName) && this.viewModel.selectedDomains.domains.length > 0 ? 'Choose Strategies' : 'Select Life Area'}
@@ -138,8 +145,9 @@ export class ChooseDomainView extends ViewDomainsBase {
     }
 
     private onSubdomainLearnMorePress(name: SubdomainName) {
-        console.log('learn more about ', name)
-        // MK-TODO - implement this
+        this.viewModel.learnMoreSubdomain = this.viewModel.getDomainByName(DomainName.PHYSICAL).subdomains.find((s) => s.name == name);
+        this.viewModel.checkedSubdomains = this.checkedSubdomains;
+        this.trigger(ScenarioTriggers.Quaternary);
     }
 
     private onDoneChoosingSubdomains(mainDomain: Domain) {

@@ -1,4 +1,3 @@
-import { months } from 'common/utils/dateHelpers';
 import React from 'react';
 import { Animated, Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button, Container, MasloPage } from 'src/components';
@@ -8,7 +7,7 @@ import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
 import { ViewState } from '../base';
 import Layout from 'src/constants/Layout';
 import { iconForDomain } from 'src/helpers/DomainHelper';
-import { DomainName } from 'src/constants/Domain';
+import { DomainName, Subdomain } from 'src/constants/Domain';
 import { Portal } from 'react-native-paper';
 import { observable } from 'mobx';
 
@@ -79,7 +78,7 @@ export abstract class ViewDomainsBase extends ViewState {
 
     public abstract onDetails: () => void
 
-    public abstract getDomainDisplay(): string[]
+    public abstract getDomainDisplay(): { leftName: string, mainName: string, rightName: string, mainImportance: string, subdomains: Subdomain[] }
 
     public abstract getDomainImportanceBullets(): string[]
 
@@ -106,8 +105,8 @@ export abstract class ViewDomainsBase extends ViewState {
 
     renderContent() {
         let { xTabOne, xTabTwo, active, translateX, translateXTabTwo, translateXTabOne, translateY, xDomain } = this.state
-        const [lDomain, domain, rDomain, importance] = this.getDomainDisplay();
-        const centerDomainName = domain as DomainName
+        const display = this.getDomainDisplay();
+        const centerDomainName = display.mainName as DomainName
 
         return (
             <MasloPage style={this.baseStyles.page} onClose={this.onCancel} onBack={this.onBack}>
@@ -200,17 +199,17 @@ export abstract class ViewDomainsBase extends ViewState {
                         <TouchableOpacity onPress={this.goToLeft} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
                             <Images.backIcon width={20} height={20} />
                         </TouchableOpacity>
-                        <Text style={[TextStyles.p1, styles.domain, { fontSize: centerDomainFontSize, lineHeight: centerDomainFontSize }]}>{domain}</Text>
+                        <Text style={[TextStyles.p1, styles.domain, { fontSize: centerDomainFontSize, lineHeight: centerDomainFontSize }]}>{centerDomainName}</Text>
                         <TouchableOpacity onPress={this.goToRight} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
                             <Images.backIcon width={20} height={20} style={{ transform: [{ rotate: '180deg' }] }} />
                         </TouchableOpacity>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <TouchableOpacity onPress={this.goToLeft} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
-                            <Text style={[TextStyles.labelMedium, styles.domain, { fontSize: sideDomainsFontSize, lineHeight: sideDomainsFontSize }]}>{lDomain}</Text>
+                            <Text style={[TextStyles.labelMedium, styles.domain, { fontSize: sideDomainsFontSize, lineHeight: sideDomainsFontSize }]}>{display.leftName}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={this.goToRight} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
-                            <Text style={[TextStyles.labelMedium, styles.domain, { fontSize: sideDomainsFontSize, lineHeight: sideDomainsFontSize }]}>{rDomain}</Text>
+                            <Text style={[TextStyles.labelMedium, styles.domain, { fontSize: sideDomainsFontSize, lineHeight: sideDomainsFontSize }]}>{display.rightName}</Text>
                         </TouchableOpacity>
                     </View>
                 </Container>

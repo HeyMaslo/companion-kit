@@ -1,6 +1,6 @@
 import { observable } from 'mobx';
 import { createLogger } from 'common/logger';
-import { Domain, DomainName, FocusedDomains, SubdomainName } from '../constants/Domain';
+import { Domain, DomainName, FocusedDomains, Subdomain, SubdomainName } from '../constants/Domain';
 import AppViewModel from 'src/viewModels';
 import AppController from 'src/controllers';
 
@@ -15,10 +15,13 @@ export default class DomainViewModel {
     @observable
     private _rightDomain: number;
 
-    private _allDomains: Domain[]; // every domain in the domains collection
+    private _allDomains: Domain[]; // every Domain in the domains collection
     private _selectedDomains: FocusedDomains;
 
     public domainCount: number;
+    
+    public learnMoreSubdomain: Subdomain;
+    public checkedSubdomains: SubdomainName[] = []; // used to persist subdomain checkboxes when moving to and from subdomain 'Learn More' View 
 
     constructor() {
 
@@ -55,23 +58,25 @@ export default class DomainViewModel {
         }
     }
 
-    public postSelectedDomains(): Promise<void> {
+    public postFocusedDomains(): Promise<void> {
+        console.log('POSTING selecteddomains', this.selectedDomains )
         return AppController.Instance.User.qol.setUserStateProperty('focusedDomains', this.selectedDomains);
     }
 
     //  Returns the three domain names displayed on the choose domain screen (main is center domain), along with the importance string of the main domain
-    public getDomainDisplay(): string[] {
+    public getDomainDisplay(): { leftName: string, mainName: string, rightName: string, mainImportance: string, subdomains: Subdomain[] } {
         if (this.domainCount < 3) {
             logger.log("Warning: not enough domains available!");
-            return [null, null, null, null];
+            return { leftName: null, mainName: null, rightName: null, mainImportance: null, subdomains: null };
         }
 
         const leftName = this._leftDomain > -1 ? this._allDomains[this._leftDomain].name : '';
         const rightName = this._rightDomain < this.domainCount ? this._allDomains[this._rightDomain].name : '';
         const mainName = this._allDomains[this._mainDomain].name;
         const mainImportance = this._allDomains[this._mainDomain].importance;
+        const subdomains = this._allDomains[this._mainDomain].subdomains;
 
-        return [leftName, mainName, rightName, mainImportance];
+        return { leftName: leftName, mainName: mainName, rightName: rightName, mainImportance: mainImportance, subdomains: subdomains };
     }
 
     //  Iterates through the domains as user clicks the next or back button, (-1) going back, (1) going forward through the list of domains
@@ -93,7 +98,7 @@ export default class DomainViewModel {
         }
     }
 
-    // adds selected domains by user to the selected domains array, use this array to persist to backend by calling postSelectedDomains
+    // adds selected domains by user to the selected domains array, use this array to persist to backend by calling postFocusedDomains
     // returns false if domain has already been selected
     public selectDomain(domain: Domain): Boolean {
         if (this._selectedDomains.domains.includes(domain.name)) {
@@ -105,12 +110,14 @@ export default class DomainViewModel {
     }
 
     public selectSubdomains(subdomains: SubdomainName[]) {
+        console.log('selectSubdomains called with', subdomains)
         this._selectedDomains.subdomains = subdomains; // If more categories of subdomains (besides Physical) are added this will need to be changed
+        console.log('this._selectedDomains.subdomains', this._selectedDomains.subdomains)
         AppViewModel.Instance.Strategy.setSelectedDomains(this._selectedDomains);
         return true;
     }
 
-    // to persist to backend call postSelectedDomains after calling this function
+    // to persist to backend call postFocusedDomains after calling this function
     public clearSelectedDomains() {
         this._selectedDomains = { domains: [], subdomains: [] };
     }

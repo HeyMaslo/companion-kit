@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Container, MasloPage, StrategyCard, Button } from 'src/components';
-import { DomainName } from 'src/constants/Domain';
+import { DomainName, SubdomainName } from 'src/constants/Domain';
 import { Strategy } from 'src/constants/Strategy';
 import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
@@ -20,7 +20,7 @@ export class DomainDetailsView extends ViewState {
         this._contentHeight = this.persona.setupContainerHeightForceScroll({ rotation: -15, transition: { duration: 1 }, scale: 0.8 });
     }
 
-    async start() {}
+    async start() { }
 
     private get viewModel() {
         return AppViewModel.Instance.Domain;
@@ -39,12 +39,12 @@ export class DomainDetailsView extends ViewState {
     }
 
     // selected strategies will be at the front of the list
-    private strategiesForListInOrder(domain: DomainName): Strategy[] {
+    private strategiesForListInOrder(domain: string): Strategy[] {
         const numberOfStrategiesToShow = 5;
-        
+
         const selected = this.strategiesViewModel.selectedStrategies.filter((s) => s.associatedDomainNames.includes(domain));
-        const ids = selected.map((x) => x.internalId);
-        const remianing = this.strategiesViewModel.allStrategies.filter((s) => s.associatedDomainNames.includes(domain) && !ids.includes(s.internalId)) as Strategy[];
+        const selectedIds = selected.map((x) => x.internalId);
+        const remianing = this.strategiesViewModel.allStrategies.filter((s) => s.associatedDomainNames.includes(domain) && !selectedIds.includes(s.internalId)) as Strategy[];
 
         const difference = Math.max(0, numberOfStrategiesToShow - selected.length);
         this.numberOfRemainingStrategies = remianing.length - difference;
@@ -58,46 +58,58 @@ export class DomainDetailsView extends ViewState {
     }
 
     renderListItem = ({ item }) => (
-        <StrategyCard item={item} onSelectStrategy={(()=>(null))} onLearnMorePress={this.onLearnMorePress} hideCheckbox={true}/>
-      );
+        <StrategyCard item={item} onSelectStrategy={(() => (null))} onLearnMorePress={this.onLearnMorePress} hideCheckbox={true} />
+    );
 
     renderBulletPoint(str: string) {
-      return (
-        <View key={str} style={{flexDirection: 'row'}}>
-          <Text>{'\u2022'}</Text>
-          <Text style={{flex: 1, paddingLeft: 5}}>{str}</Text>
-        </View>
-      );
+        return (
+            <View key={str} style={{ flexDirection: 'row' }}>
+                <Text>{'\u2022'}</Text>
+                <Text style={{ flex: 1, paddingLeft: 5 }}>{str}</Text>
+            </View>
+        );
     }
 
     renderContent() {
-        const [leftName, mainName, rightName, mainImportance] = this.viewModel.getDomainDisplay();
+        const display = this.viewModel.getDomainDisplay();
+        const subdomains = display.subdomains;
+        const learnMoreSubdomain = this.viewModel.learnMoreSubdomain;
+
+        let mainName = display.mainName;
+        let importance = display.mainImportance;
+        let bullets = this.viewModel.getDomainByName(mainName as DomainName).bullets
+
+        if (subdomains && subdomains.includes(learnMoreSubdomain)) {
+            mainName = learnMoreSubdomain.name
+            importance = learnMoreSubdomain.importance
+            bullets = learnMoreSubdomain.bullets
+        }
 
         return (
-            <MasloPage style={[this.baseStyles.page,{backgroundColor: '#E7E7F6'}]} onClose={this.cancel}>
-                <Container style={[styles.container, {height: this._contentHeight}]}>
+            <MasloPage style={[this.baseStyles.page, { backgroundColor: '#E7E7F6' }]} onClose={this.cancel}>
+                <Container style={[styles.container, { height: this._contentHeight }]}>
                     <Text style={[this.textStyles.h1, styles.header]}>Let’s talk about {mainName}:</Text>
 
                     <View style={styles.content}>
-                        <Text style={[this.textStyles.labelExtraLarge, {marginBottom: 10}]}>What to know:</Text>
-                        {this.viewModel.getDomainByName(mainName as DomainName).bullets.map((b) => this.renderBulletPoint(b))}
+                        <Text style={[this.textStyles.labelExtraLarge, { marginBottom: 10 }]}>What to know:</Text>
+                        {bullets.map((b) => this.renderBulletPoint(b))}
                     </View>
                     <ScrollView>
-                        <Text>{mainImportance}</Text>
-                        </ScrollView>
+                        <Text>{importance}</Text>
+                    </ScrollView>
                     <Text style={[this.textStyles.h1, styles.header]}>Strategies:</Text>
-                    <FlatList style={styles.list}    
-                        data={this.strategiesForListInOrder(mainName as DomainName)}
+                    <FlatList style={styles.list}
+                        data={this.strategiesForListInOrder(mainName)}
                         renderItem={this.renderListItem}
-                        keyExtractor={item => item.internalId}/>
-                    {this.numberOfRemainingStrategies > 0 && <Button title='Load more strategies' style={styles.button} titleStyles={{ color: TextStyles.h1.color }} withBorder={false} onPress={this.loadMoreStrategies}/>}
+                        keyExtractor={item => item.internalId} />
+                    {this.numberOfRemainingStrategies > 0 && <Button title='Load more strategies' style={styles.button} titleStyles={{ color: TextStyles.h1.color }} withBorder={false} onPress={this.loadMoreStrategies} />}
                 </Container>
-             </MasloPage>
+            </MasloPage>
         );
     }
 }
 
-const styles = StyleSheet.create({ 
+const styles = StyleSheet.create({
     header: {
         alignSelf: 'flex-start',
         marginBottom: 20,
@@ -105,8 +117,8 @@ const styles = StyleSheet.create({
     container: {
         paddingTop: 40,
         paddingBottom: 15,
-        backgroundColor:'#E7E7F6',
-        alignItems:'center',
+        backgroundColor: '#E7E7F6',
+        alignItems: 'center',
     },
     content: {
         width: '90%',

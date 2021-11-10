@@ -136,7 +136,7 @@ export const MasloScenario: GlobalScenario<States> = {
         ],
     },
     [States.ResetPassword]: {
-        view: ResetPasswordView,        
+        view: ResetPasswordView,
         exit: [
             { target: States.SignInWithEmail, trigger: Triggers.Cancel },
         ],
@@ -190,7 +190,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { condition: VM.notificationReceived, compose: 'and', trigger: GlobalTriggers.NotificationReceived },
         ],
         exit: [
-            { priority: 3, target: States.Journal_SelectMood, condition: VM.openCreateJournal, params: <MoodViewParams> { openedByNotification: true } },
+            { priority: 3, target: States.Journal_SelectMood, condition: VM.openCreateJournal, params: <MoodViewParams>{ openedByNotification: true } },
             { priority: 5, target: States.Goals, condition: VM.openGoals },
             { priority: 10, target: States.Home, condition: () => true },
         ],
@@ -387,6 +387,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Settings, trigger: [Triggers.Back] },
         ],
     },
+
     [States.Choose_Domain]: {
         view: ChooseDomainView,
         exit: [
@@ -394,8 +395,10 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Domain_Details, trigger: [Triggers.Submit] },
             { target: States.Select_Domain, trigger: [Triggers.Tertiary] },
             { target: States.Choose_end, trigger: [Triggers.Next] },
+            { target: States.Subdomain_Details, trigger: [Triggers.Quaternary] },
         ]
     },
+
     [States.Domain_Details]: {
         view: DomainDetailsView,
         exit: [
@@ -404,6 +407,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Strategy_Details4, trigger: [Triggers.Tertiary] },
         ]
     },
+
     [States.Domain_Details_after_ViewDomains]: {
         view: DomainDetailsView,
         exit: [
@@ -412,6 +416,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Strategy_Details5, trigger: [Triggers.Tertiary] },
         ]
     },
+
     [States.Select_Domain]: {
         view: SelectDomainView,
         exit: [
@@ -420,6 +425,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Choose_end, trigger: [Triggers.Next] },
         ]
     },
+
     [States.Three_Selected]: {
         view: ThreeDomainView,
         exit: [
@@ -428,12 +434,20 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Choose_end, trigger: [Triggers.Submit] },
         ]
     },
+
     [States.Choose_end]: {
         view: ChooseDomainEndView,
         exit: [
             { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
             { target: States.Select_Domain, trigger: [Triggers.Back] },
             { target: States.Choose_Strategies, trigger: [Triggers.Submit] },
+        ]
+    },
+
+    [States.Subdomain_Details]: {
+        view: DomainDetailsView,
+        exit: [
+            { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
         ]
     },
 

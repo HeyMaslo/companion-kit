@@ -39,7 +39,7 @@ export class ChooseDomainEndView extends ViewState {
     }
 
     async onChooseStrategies() {
-        this.viewModel.postSelectedDomains();
+        this.viewModel.postFocusedDomains();
         this.strategiesViewModel.updateAvailableStrategiesForSelectedDomains();
         this.trigger(ScenarioTriggers.Submit)
     }
