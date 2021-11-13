@@ -61,7 +61,7 @@ export class QolHistoryMainView extends ViewState {
 
   renderContent() {
     return (
-      <MasloPage style={this.baseStyles.page} onBack={this.onBack}>
+      <MasloPage style={this.baseStyles.page} onBack={this.onBack} theme={this.theme}>
         <Container style={[{ height: this._contentHeight, paddingTop: 52 }]}>
           {/* Title */}
           <View style={{ justifyContent: 'center', marginBottom: 35 }}>

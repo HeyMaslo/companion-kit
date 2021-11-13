@@ -58,7 +58,6 @@ export const TextStyles = StyleSheet.create({
         fontSize: 20,
         lineHeight: 21,
         letterSpacing: 1.79,
-        color: Colors.typography.h1,
         textTransform: 'uppercase',
     },
     labelLarge: {
@@ -67,7 +66,6 @@ export const TextStyles = StyleSheet.create({
         fontSize: 15,
         lineHeight: 16,
         letterSpacing: 1.79,
-        color: Colors.typography.h1,
         textTransform: 'uppercase',
     },
     labelMedium: {

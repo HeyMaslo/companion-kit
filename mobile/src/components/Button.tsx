@@ -49,16 +49,16 @@ export default class Button extends React.Component<ButtonProps> {
         const { disabled, title, style, titleStyles, withBorder, underlayColor, isTransparent, buttonForm, icon, disabledStyle, disabledTextStyle, theme } = this.props;
         return (
             <TouchableHighlight
-                style={[{ ...styles.button, backgroundColor: theme.colors.highlight }, disabled && disabledStyle, withBorder && { ...styles.withBorder, borderColor: theme.colors.highlight }, isTransparent && { backgroundColor: 'transparent', borderColor: theme.colors.highlightSecondary }, buttonForm && styles.buttonForm, style]}
+                style={[{ ...styles.button, backgroundColor: theme.colors.highlight }, disabled && disabledStyle, withBorder && { ...styles.withBorder, borderColor: theme.colors.highlightSecondary }, isTransparent && { backgroundColor: 'transparent', borderColor: theme.colors.highlightSecondary }, buttonForm && styles.buttonForm, style]}
                 onPress={this._onPressHandler}
-                underlayColor={underlayColor}
+                underlayColor={underlayColor ? underlayColor : theme.colors.highlightSecondary}
                 activeOpacity={1}
                 disabled={disabled}
             >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    {icon && new icon({ style: [{ color: isTransparent ? theme.colors.background : theme.colors.background }, { width: 30, height: 30, marginRight: 15 }] })}
+                    {icon && new icon({ style: [{ color: isTransparent ? theme.colors.highlight : theme.colors.background }, { width: 30, height: 30, marginRight: 15 }] })}
                     {title
-                        ? <Text style={[TextStyles.btnTitle, disabled && disabledTextStyle, { color: isTransparent ? theme.colors.background : theme.colors.background }, titleStyles]}>
+                        ? <Text style={[TextStyles.btnTitle, disabled && disabledTextStyle, { color: isTransparent ? theme.colors.highlight : theme.colors.background }, titleStyles]}>
                             {title}
                         </Text>
                         : <>{this.props.children}</>

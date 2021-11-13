@@ -58,7 +58,7 @@ export class DomainDetailsView extends ViewState {
     }
 
     renderListItem = ({ item }) => (
-        <StrategyCard item={item} onSelectStrategy={(() => (null))} onLearnMorePress={this.onLearnMorePress} hideCheckbox={true} />
+        <StrategyCard item={item} onSelectStrategy={(() => (null))} onLearnMorePress={this.onLearnMorePress} hideCheckbox={true} theme={this.theme} />
     );
 
     renderBulletPoint(str: string) {
@@ -102,7 +102,7 @@ export class DomainDetailsView extends ViewState {
                         data={this.strategiesForListInOrder(mainName)}
                         renderItem={this.renderListItem}
                         keyExtractor={item => item.internalId} />
-                    {this.numberOfRemainingStrategies > 0 && <Button title='Load more strategies' style={styles.button} titleStyles={{ color: TextStyles.h1.color }} withBorder={false} onPress={this.loadMoreStrategies} />}
+                    {this.numberOfRemainingStrategies > 0 && <Button title='Load more strategies' style={styles.button} withBorder={false} onPress={this.loadMoreStrategies} theme={this.theme} />}
                 </Container>
             </MasloPage>
         );

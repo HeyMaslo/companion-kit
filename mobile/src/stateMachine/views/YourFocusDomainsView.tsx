@@ -73,12 +73,12 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
   }
 
   renderListItem = ({ item }) => (
-    <StrategyCard item={item} onLearnMorePress={this.onLearnMorePress} hideCheckbox={true} isSmallCard={true} />
+    <StrategyCard item={item} onLearnMorePress={this.onLearnMorePress} hideCheckbox={true} isSmallCard={true} theme={this.theme} />
   );
 
   renderContent() {
     return (
-      <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
+      <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} theme={this.theme}>
         <Container style={[{ height: this._contentHeight, marginTop: containerMarginTop, marginBottom: containerMarginBottom }]}>
           <IconsOnCircle circleRaius={this.ordRadius * 6} symbolSize={40} totalContainerMargin={containerMarginTop - containerMarginBottom} highlightedDomains={this.selectedDomains.domains} onLayout={this.onLayoutIconCircle} />
           <View pointerEvents={'box-none'} style={[styles.bottomWrapper, { top: this.state.bottomWrapperTop }]}>
@@ -86,6 +86,7 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
               title={'View All Life Areas'}
               style={[styles.viewAllButton]}
               onPress={this.onLifeAreasPress}
+              theme={this.theme}
             />
             <Text style={[TextStyles.labelLarge, styles.focusStrategies]}>Your Focus Strategies:</Text>
             <FlatList style={[styles.list]}

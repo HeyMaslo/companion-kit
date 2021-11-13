@@ -11,7 +11,7 @@ const palette = {
   orangeLight: '#F7B8AE',
 
   greyPrimary: '#3E3C43',
-  greyLight: '#BBBFBF',
+  greyLight: '#B2B2BE',
   greyExtraLight: '#E4E4E7',
 
   black: '#0B0B0B',
@@ -21,7 +21,7 @@ const palette = {
 
 const colors = {
   background: palette.white,
-  midground: palette.greyExtraLight,
+  midground: palette.greyLight,
   foreground: palette.greyPrimary,
 
   highlight: palette.purplePrimary,

@@ -6,19 +6,20 @@ import TextStyles from 'src/styles/TextStyles';
 import Colors from '../constants/colors/Colors';
 import { iconForDomain } from 'src/helpers/DomainHelper';
 import { DomainName } from 'src/constants/Domain';
+import { Theme } from 'src/constants/theme/PStheme';
 
 const { width } = Dimensions.get('window');
-const darkColor = TextStyles.h1.color;
 
 type IStrategyCardProps = {
-    item: DisplayStrategy,
-    onLearnMorePress: ((strategyId: string) => void),
-    onSelectStrategy?: ((strategyId: string) => void),
-    hideCheckbox?: boolean,
-    isSmallCard?: boolean,
+  item: DisplayStrategy,
+  onLearnMorePress: ((strategyId: string) => void),
+  onSelectStrategy?: ((strategyId: string) => void),
+  hideCheckbox?: boolean,
+  isSmallCard?: boolean,
+  theme: Theme,
 }
 
-type StrategyCardState= { isPressable: boolean }
+type StrategyCardState = { isPressable: boolean }
 
 export default class StrategyCard extends React.Component<IStrategyCardProps, StrategyCardState> {
 
@@ -28,28 +29,29 @@ export default class StrategyCard extends React.Component<IStrategyCardProps, St
     this.state = {
       isPressable: !!this.props.onSelectStrategy
     }
-}
+  }
 
-render() {
-    return(
-      <Pressable onPress={()=>this.props.onSelectStrategy(this.props.item.internalId)} disabled={!this.state.isPressable}>
-        <View style={[styles.listItem, this.props.item.isChecked && {borderColor: darkColor}]}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-            <Text style={[TextStyles.labelLarge, {display: 'flex', width: width - checkboxSize - 70}]}>{this.props.item.title}</Text>
-            {!this.props.hideCheckbox && 
-              <View style={[styles.checkbox, this.props.item.isChecked && styles.checkboxChecked, {display: 'flex'}]}>
+  render() {
+    const theme = this.props.theme;
+    return (
+      <Pressable onPress={() => this.props.onSelectStrategy(this.props.item.internalId)} disabled={!this.state.isPressable}>
+        <View style={[styles.listItem, this.props.item.isChecked && { borderColor: theme.colors.highlight }]}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Text style={[TextStyles.labelLarge, { display: 'flex', width: width - checkboxSize - 70 }]}>{this.props.item.title}</Text>
+            {!this.props.hideCheckbox &&
+              <View style={[styles.checkbox, this.props.item.isChecked && styles.checkboxChecked, { display: 'flex' }]}>
                 {this.props.item.isChecked && <Images.radioChecked width={8} height={6} />}
               </View>}
           </View>
-        {this.props.isSmallCard && <Text style={[TextStyles.p2, {paddingLeft: 7, paddingTop: 7}]}>{this.props.item.details}</Text>}
-          <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 10}}>
-            <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-start'}}>
+          {this.props.isSmallCard && <Text style={[TextStyles.p2, { paddingLeft: 7, paddingTop: 7 }]}>{this.props.item.details}</Text>}
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
               {this.props.item.associatedDomainNames.filter((dom) => dom !== DomainName.PHYSICAL).map((name) => {
-                return iconForDomain(name as DomainName, null, darkColor, 22, 22);
+                return iconForDomain(name as DomainName, null, theme.colors.highlight, 22, 22);
               })}
             </View>
-            <TouchableOpacity onPress={() => this.props.onLearnMorePress(this.props.item.internalId)} hitSlop={{top: 10, left: 10, right: 10, bottom: 10}}>
-              <Text style={[TextStyles.labelMedium, {color: darkColor, display: 'flex', paddingRight: 7}]}>{'Learn More >'}</Text>
+            <TouchableOpacity onPress={() => this.props.onLearnMorePress(this.props.item.internalId)} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
+              <Text style={[TextStyles.labelMedium, { color: theme.colors.highlight, display: 'flex', paddingRight: 7 }]}>{'Learn More >'}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -62,7 +64,7 @@ render() {
 
 const checkboxSize = 24;
 
-const styles = StyleSheet.create({ 
+const styles = StyleSheet.create({
   listItem: {
     borderWidth: 1,
     borderRadius: 7,
@@ -82,11 +84,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'transparent',
     flexShrink: 0,
-},
+  },
   checkboxChecked: {
     backgroundColor: Colors.radioButton.checkedBg,
     borderWidth: 0,
-},
+  },
   icon: {
     display: 'flex',
     marginRight: 5,

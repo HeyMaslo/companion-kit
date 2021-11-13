@@ -4,7 +4,7 @@ import Layout from 'src/constants/Layout';
 import TextStyles from 'src/styles/TextStyles';
 import { ITipItem, TipTypes } from 'src/viewModels/components/TipItemViewModel';
 import InfoIcon from 'src/assets/images/info-icon.svg';
-import PlusIcon from 'src/assets/images/plus-icon.svg';
+import PlusIconInCircle from 'src/assets/images/plus-icon.svg';
 import ShareIcon from 'src/assets/images/share-icon.svg';
 import { Theme } from 'src/constants/theme/PStheme';
 
@@ -15,7 +15,7 @@ function getTipIcon(type: TipTypes, theme: Theme) {
         case 'finish-qol':
         case 'full-qol':
         case 'short-qol': {
-            return <PlusIcon width={16} height={16} />;
+            return <PlusIconInCircle width={16} height={16} color={theme.colors.tint} />;
         }
 
         default: {

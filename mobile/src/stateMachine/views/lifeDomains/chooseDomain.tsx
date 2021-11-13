@@ -83,10 +83,12 @@ export class ChooseDomainView extends ViewDomainsBase {
             <Button
                 title={alreadySelected ? 'Remove' : 'Select'}
                 style={styles.domain}
+                withBorder
                 onPress={() => this.onSelectButtonPressed(domainName)}
                 isTransparent={alreadySelected}
                 disabled={hasThreeSelected && !alreadySelected}
                 icon={alreadySelected ? Images.minusIcon : Images.plusIcon}
+                theme={this.theme}
             />
         );
     }
@@ -101,7 +103,7 @@ export class ChooseDomainView extends ViewDomainsBase {
         const mainDomain = this.viewModel.mainDomain;
         return (
             <Animated.View style={{ opacity: this.state.popUpFadeOpacity }}>
-                <MasloPage style={[this.baseStyles.page, { paddingBottom: 30 }]}>
+                <MasloPage style={[this.baseStyles.page, { paddingBottom: 30 }]} theme={this.theme}>
                     <Container style={[{ height: this._contentHeight, alignItems: 'center' }]}>
                         <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', height: Layout.window.height * 0.25, marginBottom: 10 }}>
                             {iconForDomain(mainDomain.name, { flex: 1 }, 'purple', 60, 60, 'purple')}
@@ -115,7 +117,7 @@ export class ChooseDomainView extends ViewDomainsBase {
                             keyExtractor={item => item.name} />
 
                         <Text style={[this.textStyles.p1, styles.descriptionText]}>Select any specific aspects of the {mainDomain.name} life area you’d like to focus on.</Text>
-                        <ButtonBlock okTitle={'DONE'} cancelTitle={'BACK'} onCancel={this.closePopUp} onOk={() => this.onDoneChoosingSubdomains(mainDomain)} nextDisabled={this.checkedSubdomains.length == 0} />
+                        <ButtonBlock okTitle={'DONE'} cancelTitle={'BACK'} onCancel={this.closePopUp} onOk={() => this.onDoneChoosingSubdomains(mainDomain)} nextDisabled={this.checkedSubdomains.length == 0} theme={this.theme} />
                     </Container>
                 </MasloPage>
             </Animated.View>
@@ -126,15 +128,15 @@ export class ChooseDomainView extends ViewDomainsBase {
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 15 }}>
             <TouchableOpacity onPress={() => this.toggleSubdomainCheckbox(item.name)}>
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                    <View style={[styles.checkbox, this.checkedSubdomains.includes(item.name) && styles.checkboxChecked, { display: 'flex' }]}>
+                    <View style={[styles.checkbox, { borderColor: this.theme.colors.highlight }, this.checkedSubdomains.includes(item.name) && { ...styles.checkboxChecked, backgroundColor: this.theme.colors.highlight, }, { display: 'flex' }]}>
                         {this.checkedSubdomains.includes(item.name) && <Images.radioChecked width={8} height={6} fill={'purple'} />}
                     </View>
-                    {iconForDomain(item.name, { marginHorizontal: 15 }, 'purple')}
+                    {iconForDomain(item.name, { marginHorizontal: 15 }, this.theme.colors.highlight)}
                     <Text style={this.textStyles.p2}>{item.name}</Text>
                 </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.onSubdomainLearnMorePress(item.name)} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
-                <Text style={[TextStyles.labelMedium, { textAlign: 'center', color: 'purple', paddingRight: 7 }]}>{'Learn\nMore'}</Text>
+                <Text style={[TextStyles.labelMedium, { textAlign: 'center', color: this.theme.colors.highlight, paddingRight: 7 }]}>{'Learn\nMore'}</Text>
             </TouchableOpacity>
         </View>
     );
@@ -168,7 +170,7 @@ export class ChooseDomainView extends ViewDomainsBase {
 
 
     public getBottomBannerElement(): JSX.Element {
-        // MK-TODO: - fix button style and animated slide up from bottom?
+        // MK-TODO: - adjust height based on screen size and offset based on safe area (home indicator), animated slide up from bottom?
         // this.state.popUpFadeOpacity != fadeEnd && Animated.timing(this.state.popUpFadeOpacity, {
         //     toValue: 1,
         //     delay: 50,
@@ -188,9 +190,9 @@ export class ChooseDomainView extends ViewDomainsBase {
                 break;
         }
         return (
-            <Animated.View style={{ width: this.layout.window.width, height: 100, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', backgroundColor: '#C4D2F6', position: 'absolute', bottom: 0, left: 0 }}>
-                <Text style={{ width: '60%' }}>{selectionInformation}</Text>
-                <Button title={`I'm Done`} style={{ ...styles.domain, width: '25%' }} onPress={() => this.trigger(ScenarioTriggers.Next)} />
+            <Animated.View style={{ width: this.layout.window.width, height: 100, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#C4D2F6', position: 'absolute', bottom: 0, left: 0, right: 0 }}>
+                <Text style={[this.textStyles.p3, { width: '55%' }]} >{selectionInformation}</Text>
+                <Button title={`I'm Done`} style={{ ...styles.domain, width: '29%', backgroundColor: 'white' }} withBorder titleStyles={{ color: this.theme.colors.highlight }} onPress={() => this.trigger(ScenarioTriggers.Next)} theme={this.theme} />
             </Animated.View>
         );
     }
@@ -226,9 +228,7 @@ const checkboxSize = 24;
 const styles = StyleSheet.create({
     domain: {
         height: 50,
-        borderWidth: 1,
         borderRadius: 5,
-        borderColor: 'rgb(120,120,120)',
         width: '40%',
     },
     subdomainTitle: {
@@ -245,14 +245,12 @@ const styles = StyleSheet.create({
         width: checkboxSize,
         borderRadius: checkboxSize / 2,
         borderWidth: 1,
-        borderColor: 'purple',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'transparent',
         flexShrink: 0,
     },
     checkboxChecked: {
-        backgroundColor: 'purple',
         borderWidth: 0,
     },
     descriptionText: {
