@@ -130,6 +130,7 @@ export abstract class PasswordBase extends ViewState {
                     onBack={this.onGoBack}
                     inProgress={this.inProgress}
                     style={[this.baseStyles.page, { justifyContent: 'flex-start', position: 'relative' }]}
+                    theme={this.theme}
                 >
                     <Container style={[
                         keyboard?.isOpened ? this.baseStyles.flexCenterBottom : this.baseStyles.flexStart,

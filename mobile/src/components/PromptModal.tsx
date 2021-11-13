@@ -7,6 +7,7 @@ import Colors from 'src/constants/colors';
 import PromptModalViewModel from 'common/viewModels/PromptModalViewModel';
 import { notch } from 'src/styles/BaseStyles';
 import ModalImages from 'src/constants/ModalImages';
+import { Theme } from 'src/constants/theme/PStheme';
 
 // import MagicIcon from 'src/assets/images/magic-icon.svg';
 
@@ -14,6 +15,7 @@ interface PromptModalProps {
     style?: any;
     messageStyle?: any;
     model: PromptModalViewModel,
+    theme: Theme,
 }
 
 @observer
@@ -63,6 +65,7 @@ export default class PromptModal extends React.Component<PromptModalProps> {
                             onOk={this.model.onConfirm}
                             onCancel={this.model.onReject}
                             containerStyles={styles.actionsWrap}
+                            theme={this.props.theme}
                         />
                     </View>
                 </Container>

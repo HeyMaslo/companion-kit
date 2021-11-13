@@ -4,6 +4,7 @@ import AltAudioThumbPng from 'src/assets/images/app/alt-audio-thumb.png';
 import AddStoryButtonSVG from 'src/assets/images/app/add-btn-bg.svg';
 import BackIconSVG from 'src/assets/images/app/back-arrow.svg';
 import CloseIconSVG from 'src/assets/images/app/close-icon.svg';
+import HeartIconSVG from 'src/assets/images/app/heart.svg';
 import ClockIconSVG from 'src/assets/images/app/clock-icon.svg';
 import ClockIcon2SVG from 'src/assets/images/app/clock-icon2.svg';
 import ProfileIconSVG from 'src/assets/images/app/profile-icon.svg';
@@ -76,6 +77,7 @@ export default {
     altAudioThumb: AltAudioThumbPng,
     bottomAddNewStory: AddStoryButtonSVG,
     closeIcon: CloseIconSVG,
+    heartIcon: HeartIconSVG,
     backIcon: BackIconSVG,
     clockIcon: ClockIconSVG,
     clockIcon2: ClockIcon2SVG,

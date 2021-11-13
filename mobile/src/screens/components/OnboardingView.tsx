@@ -8,19 +8,21 @@ import Colors from 'src/constants/colors';
 import { MasloPage, Container, ProgressBarCircleGradient, Button } from 'src/components';
 import BaseStyles from 'src/styles/BaseStyles';
 import { IPersonaViewContext } from 'src/stateMachine/abstractions';
+import { Theme } from 'src/constants/theme/PStheme';
 
 type Props = {
     content: OnboardingSettings,
     stepIndex?: number,
     totalCount?: number,
     personaViewContext?: IPersonaViewContext,
+    theme: Theme,
 };
 
 const progressBarDiameter = 120;
 const minContentHeight = 344;
 
 export default function OnboardingView(props: Props) {
-    const { content, stepIndex, totalCount, personaViewContext } = props;
+    const { content, stepIndex, totalCount, personaViewContext, theme } = props;
 
     if (!content) {
         return null;
@@ -37,7 +39,7 @@ export default function OnboardingView(props: Props) {
     ), [stepIndex]);
 
     return (
-        <MasloPage onClose={onClose} style={BaseStyles.page}>
+        <MasloPage onClose={onClose} style={BaseStyles.page} theme={this.theme}>
             <Container style={[BaseStyles.container, BaseStyles.flexBetween, { height: contentHeight }]}>
                 {!!totalCount &&
                     <ProgressBarCircleGradient
@@ -60,6 +62,7 @@ export default function OnboardingView(props: Props) {
                             style={singleButton ? '100%' : BaseStyles.blockButtonsWidth}
                             withBorder
                             isTransparent
+                            theme={theme}
                         />
                     }
                     {primaryButton !== null &&
@@ -67,6 +70,7 @@ export default function OnboardingView(props: Props) {
                             title={primaryButton.title}
                             onPress={primaryButton.action}
                             style={singleButton ? '100%' : BaseStyles.blockButtonsWidth}
+                            theme={theme}
                         />
                     }
                 </View>

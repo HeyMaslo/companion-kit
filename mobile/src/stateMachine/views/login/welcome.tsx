@@ -76,7 +76,7 @@ export class WelcomeView extends ViewState {
         const texts = Localization.Current.MobileProject;
 
         return (
-            <MasloPage style={[this.baseStyles.page]}>
+            <MasloPage style={[this.baseStyles.page]} theme={this.theme}>
                 <AnimatedContainer
                     style={[
                         this.baseStyles.container,
@@ -91,9 +91,10 @@ export class WelcomeView extends ViewState {
                         <Button
                             style={styles.button}
                             onPress={this.googleSignIn}
+                            theme={this.theme}
                         >
                             <Image style={styles.gIcon} source={googleIcon} />
-                            <Text style={this.textStyles.btnTitle}>sign in with google</Text>
+                            <Text style={[this.textStyles.btnTitle, {color: this.theme.colors.background}]}>sign in with google</Text>
                         </Button>
                         { Platform.OS === 'ios' && Features.Mobile.SignIn.Apple && this.enableAppleButton ? (
                             <AppleAuthentication.AppleAuthenticationButton
@@ -111,6 +112,7 @@ export class WelcomeView extends ViewState {
                             titleStyles={styles.mailButtonTitle}
                             onPress={this.goToEmailSignin}
                             isTransparent
+                            theme={this.theme}
                         />
                         <View style={styles.footer}>
                             {this.legalBlock}

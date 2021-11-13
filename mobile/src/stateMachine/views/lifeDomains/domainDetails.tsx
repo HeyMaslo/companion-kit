@@ -86,7 +86,7 @@ export class DomainDetailsView extends ViewState {
         }
         // MK-TODO: - match design of details view to figma mockup
         return (
-            <MasloPage style={[this.baseStyles.page, { backgroundColor: '#E7E7F6' }]} onClose={this.cancel}>
+            <MasloPage style={[this.baseStyles.page, { backgroundColor: '#E7E7F6' }]} onClose={this.cancel} theme={this.theme}>
                 <Container style={[styles.container, { height: this._contentHeight }]}>
                     <Text style={[this.textStyles.h1, styles.header]}>Let’s talk about {mainName}:</Text>
 

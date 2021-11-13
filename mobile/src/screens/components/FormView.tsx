@@ -12,6 +12,7 @@ import BaseStyles from 'src/styles/BaseStyles';
 import { GradColor } from 'src/components/ProgressBarCircle';
 import { IPersonaViewContext } from 'src/stateMachine/abstractions';
 import { PersonaScrollMask } from 'src/components/PersonaScollMask';
+import { Theme } from 'src/constants/theme/PStheme';
 
 export type FormViewProps = {
     text: string;
@@ -25,6 +26,7 @@ export type FormViewProps = {
     previousStep: () => void;
     addResponse: () => Promise<void>;
     personaViewContext?: IPersonaViewContext,
+    theme: Theme,
 };
 
 const progressBarDiameter = Layout.getViewWidth(63);
@@ -58,6 +60,7 @@ export default function FormView(props: FormViewProps) {
         addResponse,
         intermission,
         personaViewContext,
+        theme,
     } = props;
 
     if (!answers) {
@@ -97,7 +100,8 @@ export default function FormView(props: FormViewProps) {
                 <ActivityButton
                     title={'Submit'}
                     onPress={addResponse}
-                    loading="promise"
+                    loading='promise'
+                    theme={theme}
                 />
             </AnimatedContainer>
         );
@@ -110,8 +114,9 @@ export default function FormView(props: FormViewProps) {
                 </View>
                 <View style={{ width: '100%' }}>
                     <Button
-                        title="Continue"
+                        title='Continue'
                         onPress={() => nextStep(null)}
+                        theme={theme}
                     />
                 </View>
             </Container>
@@ -136,6 +141,7 @@ export default function FormView(props: FormViewProps) {
                                     styles.button,
                                 ]}
                                 onPress={() => nextStep(index, answer.route)}
+                                theme={theme}
                             />,
                         )}
                     </View>
@@ -145,7 +151,7 @@ export default function FormView(props: FormViewProps) {
     }
 
     return (
-        <MasloPage onClose={onClose} onBack={previousStep} style={BaseStyles.page}>
+        <MasloPage onClose={onClose} onBack={previousStep} style={BaseStyles.page} theme={this.theme}>
             <PersonaScrollMask />
             {!!totalCount &&
                 <ProgressBarHaflCircle

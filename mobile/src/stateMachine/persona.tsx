@@ -89,7 +89,6 @@ export function PersonaView(this: void, props: Props) {
             <MasloPersonaExpo
                 context={props.context}
                 disabled={props.disabled}
-                personaSettings={{ colors: PersonaColors }}
                 staticScale={PersonaScale}
             />
         </View>

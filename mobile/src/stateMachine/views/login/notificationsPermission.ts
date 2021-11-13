@@ -5,7 +5,9 @@ import { ScenarioTriggers } from '../../abstractions';
 
 @observer
 export class NotificationsPermissionView extends ViewState {
+
     async start() {
+        const theme = this.theme;
         this.showModal({
             title: 'I can help you make checking-in a daily habit.',
             message: 'Would you like to enable notifications?',
@@ -17,6 +19,7 @@ export class NotificationsPermissionView extends ViewState {
                 text: 'skip',
                 action: this.onSkip,
             },
+            theme: theme,
         });
     }
 

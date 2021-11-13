@@ -43,6 +43,7 @@ export abstract class ViewState<CState = {}, CParams = any> extends React.Compon
     protected readonly logger = createLogger(`[${this.constructor.name}]`);
 
     protected get persona() { return this.props.context.persona; }
+    protected get theme() { return this.props.context.theme; }
 
     /** @virtual */
     protected get unbreakable() { return false; }

@@ -5,8 +5,10 @@ import { IPersonaViewContext, IStateViewContext, KeyboardState } from './abstrac
 import { PersonaViewPresets, PersonaStates, PersonaViewState, CurrentPersonaSettings } from './persona';
 import logger from 'common/logger';
 import { PersonaArmState } from 'dependencies/persona/lib';
+import { getTheme, Theme, ThemeState } from 'src/constants/theme/PStheme';
 
 class PersonaViewContext implements IPersonaViewContext {
+    
     @observable
     public state: PersonaStates = PersonaStates.Init;
 
@@ -16,7 +18,7 @@ class PersonaViewContext implements IPersonaViewContext {
     @observable
     public qolArmMagnitudes: PersonaArmState = PersonaArmState.createEmptyArmState();
 
-    @observable.ref
+    @observable
     public armsHidden: boolean = false;
 
     // will be set outside
@@ -164,6 +166,11 @@ export class ViewContext implements IStateViewContext {
     private _keyboardProps: KeyboardState;
 
     get keyboard(): Readonly<KeyboardState> { return this._keyboardProps; }
+
+    @observable.ref
+    private _themeProps: ThemeState = 'Light';
+
+    get theme(): Readonly<Theme> { return getTheme(this._themeProps); }
 
     constructor() {
         this.initKeyboardEvents();

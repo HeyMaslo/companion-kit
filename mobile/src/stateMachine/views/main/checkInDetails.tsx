@@ -64,7 +64,7 @@ export type CheckInDetailsParams = {
 type State = {
     transcriptionIsOpened: boolean,
     showButton: boolean,
-  };
+};
 
 @observer
 export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
@@ -117,6 +117,7 @@ export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
                 text: 'go back',
                 action: null,
             },
+            theme: this.theme,
         });
     }
 
@@ -148,15 +149,15 @@ export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
         const moodTitle = Moods.getTitle(mood);
 
         return (
-            <MasloPage style={this.baseStyles.page}>
+            <MasloPage style={this.baseStyles.page} theme={this.theme}>
                 <Container style={styles.topBarWrapWrap}>
                     <PersonaScrollMask />
                     <View style={styles.topBarWrap}>
-                        <Button style={styles.backBtn} underlayColor="transparent" onPress={this._onBackBtnPress}>
+                        <Button style={styles.backBtn} underlayColor="transparent" onPress={this._onBackBtnPress} theme={this.theme}>
                             <Images.backIcon width={28} height={14} />
                         </Button>
                         {Features.Mobile.CheckIns.AllowCheckinDelete &&
-                            <Button style={styles.deleteBtn} onPress={this._onDeleteBtnPress}>
+                            <Button style={styles.deleteBtn} onPress={this._onDeleteBtnPress} theme={this.theme}>
                                 <DeleteIcon width={15} height={19} />
                             </Button>
                         }
@@ -218,7 +219,7 @@ export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
                                         <View>
                                             <Text style={[TextStyles.labelMedium, styles.cardLabel]}>{'you describe it as ...'}</Text>
                                             <Text
-                                                onLayout={event =>  this._measureTextHeight(event)}
+                                                onLayout={event => this._measureTextHeight(event)}
                                                 lineBreakMode="tail"
                                                 numberOfLines={transcriptionIsOpened ? null : 7}
                                                 style={[this.textStyles.p2, styles.cardTitle]}
@@ -230,9 +231,10 @@ export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
                                             onPress={this._onExtendBtnPress}
                                             style={styles.extendButton}
                                             underlayColor={'transparent'}
+                                            theme={this.theme}
                                         >
                                             <Text style={[this.textStyles.labelMedium, styles.extendButtonText]}>{`show ${transcriptionIsOpened ? 'less' : 'more'}`}</Text>
-                                            <Images.buttonTriangle width={8} height={4} style={{ transform: transcriptionIsOpened ? [{ rotate: '180deg'}] : [] }} />
+                                            <Images.buttonTriangle width={8} height={4} style={{ transform: transcriptionIsOpened ? [{ rotate: '180deg' }] : [] }} />
                                         </Button>}
                                     </Container>
                                 </View>
@@ -245,7 +247,7 @@ export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
                                     <Container style={{ paddingLeft: 64 }}>
                                         <Text style={[this.textStyles.labelMedium, styles.cardLabel]}>You felt ...</Text>
                                         <View style={styles.list}>
-                                            {feelings.map((feeling, i) =>  (
+                                            {feelings.map((feeling, i) => (
                                                 <View key={`${feeling}_${i}`} style={styles.listItem}>
                                                     <Images.checkedIcon style={styles.listItemIcon} />
                                                     <Text style={[this.textStyles.p2, styles.listItemText]}>{feeling}</Text>
@@ -263,7 +265,7 @@ export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
                                     <Container style={{ paddingLeft: 64 }}>
                                         <Text style={[this.textStyles.labelMedium, styles.cardLabel]}>I recommended you ...</Text>
                                         <View style={styles.list}>
-                                            {recommendedTips.map((tip, i) =>  (
+                                            {recommendedTips.map((tip, i) => (
                                                 <View key={`${tip.text}_${i}`} style={styles.listItem}>
                                                     <Images.checkedIcon style={styles.listItemIcon} />
                                                     <Text style={[this.textStyles.p2, styles.listItemText]}>{tip.text}</Text>
@@ -276,16 +278,17 @@ export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
                             </>
                         }
 
-                        { EnvConstants.AllowManualProcessing && (
+                        {EnvConstants.AllowManualProcessing && (
                             <React.Fragment>
                                 <View style={styles.separator} />
                                 <ActivityButton
                                     title="Process"
                                     onPress={this.model.manualProcess}
                                     loading="promise"
+                                    theme={this.theme}
                                 />
 
-                                { this.model.processResultDebug && (
+                                {this.model.processResultDebug && (
                                     <Text>
                                         {this.model.processResultDebug}
                                     </Text>
@@ -293,7 +296,7 @@ export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
                             </React.Fragment>
                         )}
 
-                        { this.model.recordEntities && (
+                        {this.model.recordEntities && (
                             <Container style={styles.chart}>
                                 <BubbleChart
                                     data={this.model.recordEntities}
@@ -304,7 +307,7 @@ export class CheckInDetailsView extends ViewState<State, CheckInDetailsParams> {
                         )}
                     </View>
                 </ScrollView>
-                <BottomBar />
+                <BottomBar theme={this.theme} />
             </MasloPage>
         );
     }
