@@ -35,7 +35,7 @@ export default class StrategyCard extends React.Component<IStrategyCardProps, St
     const theme = this.props.theme;
     return (
       <Pressable onPress={() => this.props.onSelectStrategy(this.props.item.internalId)} disabled={!this.state.isPressable}>
-        <View style={[styles.listItem, this.props.item.isChecked && { borderColor: theme.colors.highlight }]}>
+        <View style={[styles.listItem, { backgroundColor: this.props.theme.colors.background }, this.props.item.isChecked && { borderColor: theme.colors.highlight }]}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={[TextStyles.labelLarge, { display: 'flex', width: width - checkboxSize - 70 }]}>{this.props.item.title}</Text>
             {!this.props.hideCheckbox &&

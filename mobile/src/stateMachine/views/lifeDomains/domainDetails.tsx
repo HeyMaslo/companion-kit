@@ -1,10 +1,10 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Container, MasloPage, StrategyCard, Button } from 'src/components';
-import { DomainName, SubdomainName } from 'src/constants/Domain';
-import { Strategy } from 'src/constants/Strategy';
-import TextStyles from 'src/styles/TextStyles';
+import { DomainName } from 'src/constants/Domain';
+import { DisplayStrategy } from 'src/constants/Strategy';
+import { iconForDomain } from 'src/helpers/DomainHelper';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
@@ -20,7 +20,9 @@ export class DomainDetailsView extends ViewState {
         this._contentHeight = this.persona.setupContainerHeightForceScroll({ rotation: -15, transition: { duration: 1 }, scale: 0.8 });
     }
 
-    async start() { }
+    async start() {
+        this.hidePersona();
+    }
 
     private get viewModel() {
         return AppViewModel.Instance.Domain;
@@ -39,17 +41,17 @@ export class DomainDetailsView extends ViewState {
     }
 
     // selected strategies will be at the front of the list
-    private strategiesForListInOrder(domain: string): Strategy[] {
-        const numberOfStrategiesToShow = 5;
-
-        const selected = this.strategiesViewModel.selectedStrategies.filter((s) => s.associatedDomainNames.includes(domain));
+    private strategiesForListInOrder(domain: string, lengthOfListToShow = 5): DisplayStrategy[] {
+        const selected: DisplayStrategy[] = this.strategiesViewModel.selectedStrategies.filter((s) => s.associatedDomainNames.includes(domain)).map((strat) => {
+            return { ...strat, isChecked: true };
+        });
         const selectedIds = selected.map((x) => x.internalId);
-        const remianing = this.strategiesViewModel.allStrategies.filter((s) => s.associatedDomainNames.includes(domain) && !selectedIds.includes(s.internalId)) as Strategy[];
+        const remianing: DisplayStrategy[] = this.strategiesViewModel.allStrategies.filter((s) => s.associatedDomainNames.includes(domain) && !selectedIds.includes(s.internalId));
 
-        const difference = Math.max(0, numberOfStrategiesToShow - selected.length);
+        const difference = Math.max(0, lengthOfListToShow - selected.length);
         this.numberOfRemainingStrategies = remianing.length - difference;
 
-        return selected.concat(remianing).slice(0, numberOfStrategiesToShow);
+        return selected.concat(remianing).slice(0, lengthOfListToShow);
     }
 
     onLearnMorePress(id: string) {
@@ -57,8 +59,8 @@ export class DomainDetailsView extends ViewState {
         this.trigger(ScenarioTriggers.Tertiary);
     }
 
-    renderListItem = ({ item }) => (
-        <StrategyCard item={item} onSelectStrategy={(() => (null))} onLearnMorePress={this.onLearnMorePress} hideCheckbox={true} theme={this.theme} />
+    renderStratgeyCard = (strategy: DisplayStrategy) => (
+        <StrategyCard item={strategy} onLearnMorePress={this.onLearnMorePress} hideCheckbox={!strategy.isChecked} theme={this.theme} />
     );
 
     renderBulletPoint(str: string) {
@@ -84,25 +86,37 @@ export class DomainDetailsView extends ViewState {
             importance = learnMoreSubdomain.importance
             bullets = learnMoreSubdomain.bullets
         }
-        // MK-TODO: - match design of details view to figma mockup
-        return (
-            <MasloPage style={[this.baseStyles.page, { backgroundColor: '#E7E7F6' }]} onClose={this.cancel} theme={this.theme}>
-                <Container style={[styles.container, { height: this._contentHeight }]}>
-                    <Text style={[this.textStyles.h1, styles.header]}>Let’s talk about {mainName}:</Text>
+        const domainString = mainName == DomainName.PHYSICAL ? 'Physical health' : mainName;
 
-                    <View style={styles.content}>
-                        <Text style={[this.textStyles.labelExtraLarge, { marginBottom: 10 }]}>What to know:</Text>
-                        {bullets.map((b) => this.renderBulletPoint(b))}
-                    </View>
-                    <ScrollView>
-                        <Text>{importance}</Text>
+        return (
+            <MasloPage style={[this.baseStyles.page, { backgroundColor: this.theme.colors.highlightSecondary }]} onClose={this.cancel} theme={this.theme}>
+                <Container style={[styles.container, { height: this._contentHeight }]}>
+                    {/* Title */}
+                    <Text style={[this.textStyles.h1, styles.header]}>{domainString} and your quality of life</Text>
+                    <ScrollView style={{ width: '100%' }} contentContainerStyle={{ alignItems: 'center' }}>
+                        {/* What to know */}
+                        <View style={styles.content}>
+                            <Text style={[this.textStyles.labelExtraLarge, { marginBottom: 10 }]}>What to know</Text>
+                            <View style={{ marginBottom: 20 }}>
+                                {bullets.map((b) => this.renderBulletPoint(b))}
+                            </View>
+                            {/* List of subdomains (if applicable) */}
+                            {subdomains && subdomains.map((subDom) => {
+                                return (
+                                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginVertical: 10 }}>
+                                        {iconForDomain(subDom.name, { marginHorizontal: 15 }, this.theme.colors.foreground)}
+                                        <Text style={this.textStyles.p2}>{subDom.name}</Text>
+                                    </View>
+                                );
+                            })}
+                        </View>
+                        {/* Long description of importance */}
+                        <Text style={{ marginBottom: 20 }}>{importance}</Text>
+                        {/* Strategies List */}
+                        <Text style={[this.textStyles.h2, styles.header]}>Strategies:</Text>
+                        {this.strategiesForListInOrder(mainName).map((strat) => this.renderStratgeyCard(strat))}
+                        {this.numberOfRemainingStrategies > 0 && <Button title='Load more strategies' style={styles.button} withBorder={false} onPress={this.loadMoreStrategies} theme={this.theme} />}
                     </ScrollView>
-                    <Text style={[this.textStyles.h1, styles.header]}>Strategies:</Text>
-                    <FlatList style={styles.list}
-                        data={this.strategiesForListInOrder(mainName)}
-                        renderItem={this.renderListItem}
-                        keyExtractor={item => item.internalId} />
-                    {this.numberOfRemainingStrategies > 0 && <Button title='Load more strategies' style={styles.button} withBorder={false} onPress={this.loadMoreStrategies} theme={this.theme} />}
                 </Container>
             </MasloPage>
         );
@@ -124,6 +138,7 @@ const styles = StyleSheet.create({
         width: '90%',
         backgroundColor: '#ffff',
         padding: 10,
+        paddingBottom: 20,
         borderRadius: 5,
         marginBottom: 20,
     },

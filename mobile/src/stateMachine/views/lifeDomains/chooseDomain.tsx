@@ -106,18 +106,16 @@ export class ChooseDomainView extends ViewDomainsBase {
                 <MasloPage style={[this.baseStyles.page, { paddingBottom: 30 }]} theme={this.theme}>
                     <Container style={[{ height: this._contentHeight, alignItems: 'center' }]}>
                         <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', height: Layout.window.height * 0.25, marginBottom: 10 }}>
-                            {iconForDomain(mainDomain.name, { flex: 1 }, 'purple', 60, 60, 'purple')}
+                            {iconForDomain(mainDomain.name, { flex: 1 }, this.theme.colors.highlight, 60, 60, this.theme.colors.highlight)}
                             <Text style={[TextStyles.p1, styles.subdomainTitle, { fontSize: centerDomainFontSize, lineHeight: centerDomainFontSize }]}>{mainDomain.name}</Text>
                         </View>
-
                         <FlatList style={styles.subdomainList}
                             data={mainDomain.subdomains}
                             extraData={this.refresh}
                             renderItem={this.renderListItem}
                             keyExtractor={item => item.name} />
-
                         <Text style={[this.textStyles.p1, styles.descriptionText]}>Select any specific aspects of the {mainDomain.name} life area you’d like to focus on.</Text>
-                        <ButtonBlock okTitle={'DONE'} cancelTitle={'BACK'} onCancel={this.closePopUp} onOk={() => this.onDoneChoosingSubdomains(mainDomain)} nextDisabled={this.checkedSubdomains.length == 0} theme={this.theme} />
+                        <ButtonBlock okTitle={'DONE'} cancelTitle={'BACK'} onCancel={() => this.onCancelSubdomains()} onOk={() => this.onDoneChoosingSubdomains(mainDomain)} nextDisabled={this.checkedSubdomains.length == 0} theme={this.theme} />
                     </Container>
                 </MasloPage>
             </Animated.View>
@@ -129,7 +127,7 @@ export class ChooseDomainView extends ViewDomainsBase {
             <TouchableOpacity onPress={() => this.toggleSubdomainCheckbox(item.name)}>
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                     <View style={[styles.checkbox, { borderColor: this.theme.colors.highlight }, this.checkedSubdomains.includes(item.name) && { ...styles.checkboxChecked, backgroundColor: this.theme.colors.highlight, }, { display: 'flex' }]}>
-                        {this.checkedSubdomains.includes(item.name) && <Images.radioChecked width={8} height={6} fill={'purple'} />}
+                        {this.checkedSubdomains.includes(item.name) && <Images.radioChecked width={8} height={6} fill={this.theme.colors.highlight} />}
                     </View>
                     {iconForDomain(item.name, { marginHorizontal: 15 }, this.theme.colors.highlight)}
                     <Text style={this.textStyles.p2}>{item.name}</Text>
@@ -160,6 +158,11 @@ export class ChooseDomainView extends ViewDomainsBase {
     private onDoneChoosingSubdomains(mainDomain: Domain) {
         this.closePopUp();
         this.selectDomain(mainDomain);
+    }
+
+    private onCancelSubdomains() {
+        this.checkedSubdomains = [];
+        this.closePopUp();
     }
 
     closePopUp = () => {
