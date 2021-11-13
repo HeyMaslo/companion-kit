@@ -84,7 +84,7 @@ export class DomainDetailsView extends ViewState {
             importance = learnMoreSubdomain.importance
             bullets = learnMoreSubdomain.bullets
         }
-
+        // MK-TODO: - match design of details view to figma mockup
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: '#E7E7F6' }]} onClose={this.cancel}>
                 <Container style={[styles.container, { height: this._contentHeight }]}>

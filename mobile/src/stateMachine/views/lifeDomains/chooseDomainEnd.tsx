@@ -16,8 +16,8 @@ const minContentHeight = 1000;
 export class ChooseDomainEndView extends ViewState {
     constructor(props) {
         super(props);
-        this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { transition: { duration: 2.2 }});
-        this.persona.view = {...this.persona.view, position: { x: this.persona.view.position.x, y: Layout.window.height*0.18} };
+        this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { transition: { duration: 2.2 } });
+        this.persona.view = { ...this.persona.view, position: { x: this.persona.view.position.x, y: Layout.window.height * 0.18 } };
     }
 
     private get viewModel() {
@@ -28,11 +28,7 @@ export class ChooseDomainEndView extends ViewState {
         return AppViewModel.Instance.Strategy;
     }
 
-    async start() {}
-
-    private cancel = () => {
-        this.trigger(ScenarioTriggers.Cancel);
-    }
+    async start() { }
 
     private onBack = () => {
         this.trigger(ScenarioTriggers.Back);
@@ -46,12 +42,12 @@ export class ChooseDomainEndView extends ViewState {
 
     renderContent() {
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.onBack()}>
-                <Container style={[styles.flexContainer, { height: this._contentHeight, justifyContent: 'space-between',}]}>
+            <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()}>
+                <Container style={[styles.flexContainer, { height: this._contentHeight, justifyContent: 'space-between', }]}>
                     <Text style={[this.textStyles.h1, styles.title]}>Next, you'll choose strategies for your focus domains </Text>
-                    <View style ={{width: '90%', flex: 0, alignItems: 'center', justifyContent: 'space-around', marginBottom: 15}}>
+                    <View style={{ width: '90%', flex: 0, alignItems: 'center', justifyContent: 'space-around', marginBottom: 15 }}>
                         <Text style={[this.textStyles.p3, styles.message]}>You can choose up to 4 strategies and update them weekly</Text>
-                        <Button title='View Strategies' style={styles.continueButton} onPress={() => this.onChooseStrategies()}/>
+                        <Button title='View Strategies' style={styles.continueButton} onPress={() => this.onChooseStrategies()} />
                     </View>
                 </Container>
             </MasloPage>
@@ -81,7 +77,7 @@ const styles = StyleSheet.create({
     },
     readyButton: {
         width: '40%',
-        height: 50, 
+        height: 50,
         margin: 5,
     },
     continueButton: {
@@ -89,5 +85,5 @@ const styles = StyleSheet.create({
         height: 50,
         margin: 5,
     },
-    
+
 });

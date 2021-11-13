@@ -19,7 +19,7 @@ export default class DomainViewModel {
     private _selectedDomains: FocusedDomains;
 
     public domainCount: number;
-    
+
     public learnMoreSubdomain: Subdomain;
     public checkedSubdomains: SubdomainName[] = []; // used to persist subdomain checkboxes when moving to and from subdomain 'Learn More' View 
 
@@ -59,7 +59,6 @@ export default class DomainViewModel {
     }
 
     public postFocusedDomains(): Promise<void> {
-        console.log('POSTING selecteddomains', this.selectedDomains )
         return AppController.Instance.User.qol.setUserStateProperty('focusedDomains', this.selectedDomains);
     }
 
@@ -109,10 +108,21 @@ export default class DomainViewModel {
         return true;
     }
 
+    // if the selected domains array contains domain remove it, use this array to persist to backend by calling postFocusedDomains
+    public removeSelectedDomain(domain: Domain) {
+        // If we are removing the Physical Domain, remove all of the selected subdomains
+        if (domain.name == DomainName.PHYSICAL) {
+            this._selectedDomains.subdomains = [];
+        }
+        const oldLength = this._selectedDomains.domains.length;
+        this._selectedDomains.domains = this._selectedDomains.domains.filter((dom) => dom !== domain.name)
+        if (this._selectedDomains.domains.length != oldLength) {
+            AppViewModel.Instance.Strategy.setSelectedDomains(this._selectedDomains);
+        }
+    }
+
     public selectSubdomains(subdomains: SubdomainName[]) {
-        console.log('selectSubdomains called with', subdomains)
         this._selectedDomains.subdomains = subdomains; // If more categories of subdomains (besides Physical) are added this will need to be changed
-        console.log('this._selectedDomains.subdomains', this._selectedDomains.subdomains)
         AppViewModel.Instance.Strategy.setSelectedDomains(this._selectedDomains);
         return true;
     }

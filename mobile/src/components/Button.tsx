@@ -3,6 +3,7 @@ import {
     TouchableHighlight,
     StyleSheet,
     Text,
+    View,
 } from 'react-native';
 import Colors from 'src/constants/colors';
 import TextStyles from '../styles/TextStyles';
@@ -18,6 +19,9 @@ export interface ButtonProps {
     withBorder?: boolean;
     underlayColor?: string;
     buttonForm?: boolean;
+    icon?: React.ComponentClass;
+    disabledStyle?: any;
+    disabledTextStyle?: any;
 }
 
 export default class Button extends React.Component<ButtonProps> {
@@ -40,7 +44,7 @@ export default class Button extends React.Component<ButtonProps> {
     }
 
     render() {
-        const { disabled, title, style, titleStyles, withBorder, underlayColor, isTransparent, buttonForm } = this.props;
+        const { disabled, title, style, titleStyles, withBorder, underlayColor, isTransparent, buttonForm, icon, disabledStyle, disabledTextStyle } = this.props;
         const btnUnderlayColor = () => {
             if (isTransparent) {
                 return Colors.borderColor;
@@ -50,21 +54,24 @@ export default class Button extends React.Component<ButtonProps> {
             }
             return Colors.button.defaultUnderlayColor;
         };
-
+        // MK-TODO: - fix disabled style with icon
         return (
             <TouchableHighlight
-                style={[ styles.button, disabled && styles.disabledButton, withBorder && styles.withBorder, isTransparent && styles.buttonTransparent, buttonForm && styles.buttonForm, style ]}
+                style={[styles.button, disabled && (disabledStyle ? disabledStyle : styles.disabledButton), withBorder && styles.withBorder, isTransparent && styles.buttonTransparent, buttonForm && styles.buttonForm, style]}
                 onPress={this._onPressHandler}
                 underlayColor={underlayColor ? underlayColor : btnUnderlayColor()}
                 activeOpacity={1}
                 disabled={disabled}
             >
-                { title
-                    ? <Text style={[TextStyles.btnTitle, disabled && styles.disabledText, isTransparent ? { color: Colors.button.transparentText } : {}, buttonForm && styles.buttonFormText, titleStyles]}>
-                        {title}
-                    </Text>
-                    : <>{this.props.children}</>
-                }
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    {icon && new icon({ style: [{ color: isTransparent ? Colors.button.transparentText : TextStyles.btnTitle.color }, { width: 30, height: 30, marginRight: 15 }] })}
+                    {title
+                        ? <Text style={[TextStyles.btnTitle, disabled && (disabledTextStyle ? disabledTextStyle : styles.disabledText), isTransparent ? { color: Colors.button.transparentText } : {}, buttonForm && styles.buttonFormText, titleStyles]}>
+                            {title}
+                        </Text>
+                        : <>{this.props.children}</>
+                    }
+                </View>
             </TouchableHighlight>
         );
     }

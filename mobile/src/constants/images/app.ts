@@ -67,6 +67,8 @@ import RelationshipsIconSVG from 'src/assets/images/app/RelationshipIcon.svg';
 import DietIconSVG from 'src/assets/images/app/diet.svg';
 import SexualHealthIconSVG from 'src/assets/images/app/sexual.svg';
 import SubstanceUseIConSVG from 'src/assets/images/app/substance.svg';
+import PlusIconSVG from 'src/assets/images/app/plus.svg';
+import MinusIconSVG from 'src/assets/images/app/minus.svg';
 
 export default {
     signInWithGoogle: GoogleIconPng,
@@ -144,4 +146,7 @@ export default {
     dietIcon: DietIconSVG,
     sexualHealthIcon: SexualHealthIconSVG,
     substanceUseIcon: SubstanceUseIConSVG,
+    // Domain Button
+    plusIcon: PlusIconSVG,
+    minusIcon: MinusIconSVG,
 };

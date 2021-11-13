@@ -19,6 +19,8 @@ export abstract class ViewDomainsBase extends ViewState {
 
     @observable
     protected showSubdomainPopUp = false
+    @observable
+    protected showBottomBanner = false;
 
     constructor(props) {
         super(props);
@@ -35,6 +37,7 @@ export abstract class ViewDomainsBase extends ViewState {
         translateY: 0,
         xDomain: 0,
         popUpFadeOpacity: new Animated.Value(0),
+        reRenderButton: false,
     }
 
     handleSlide = type => {
@@ -91,6 +94,10 @@ export abstract class ViewDomainsBase extends ViewState {
     }
 
     public getPopUpElement(): JSX.Element {
+        return (<></>);
+    }
+
+    public getBottomBannerElement(): JSX.Element {
         return (<></>);
     }
 
@@ -186,7 +193,7 @@ export abstract class ViewDomainsBase extends ViewState {
 
                         </View>
                     </View>
-                    <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', height: Layout.window.height * 0.25, marginBottom: 10 }}>
+                    <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', height: Layout.window.height * 0.25, marginBottom: 10, marginTop: this.state.reRenderButton ? 0 : null }}>
                         {this.getCenterElement()}
                         {iconForDomain(centerDomainName, { flex: 1 }, TextStyles.h1.color, 60, 60)}
                     </View>
@@ -216,6 +223,10 @@ export abstract class ViewDomainsBase extends ViewState {
                 {this.showSubdomainPopUp &&
                     <Portal>
                         {this.getPopUpElement()}
+                    </Portal>}
+                {this.showBottomBanner &&
+                    <Portal>
+                        {this.getBottomBannerElement()}
                     </Portal>}
             </MasloPage>
         );
