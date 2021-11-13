@@ -5,7 +5,7 @@ export type ThemeState = 'Light' | 'Dark';
 const palette = {
   purplePrimary: '#424AA0', // AKA orbIndigo
   purpleMuted: '#999DC3',
-  purpleLight: '#C4D2F6',
+  tintLilac: '#C4D2F6',
 
   orangePrimary: '#EF7864',
   orangeLight: '#F7B8AE',
@@ -30,7 +30,7 @@ const colors = {
   highlightContrast: palette.orangePrimary,
   highlightContrastSecondary: palette.orangeLight,
 
-  tint: palette.purpleLight,
+  tint: palette.tintLilac,
 
   orbArmIndigo: '#4B54B9',
   orbPeriwinkle: '#598CCF',

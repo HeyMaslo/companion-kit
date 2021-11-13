@@ -193,7 +193,7 @@ export class ChooseDomainView extends ViewDomainsBase {
                 break;
         }
         return (
-            <Animated.View style={{ width: this.layout.window.width, height: 100, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#C4D2F6', position: 'absolute', bottom: 0, left: 0, right: 0 }}>
+            <Animated.View style={{ width: this.layout.window.width, height: 100, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: this.theme.colors.tint, position: 'absolute', bottom: 0, left: 0, right: 0 }}>
                 <Text style={[this.textStyles.p3, { width: '55%' }]} >{selectionInformation}</Text>
                 <Button title={`I'm Done`} style={{ ...styles.domain, width: '29%', backgroundColor: 'white' }} withBorder titleStyles={{ color: this.theme.colors.highlight }} onPress={() => this.trigger(ScenarioTriggers.Next)} theme={this.theme} />
             </Animated.View>
