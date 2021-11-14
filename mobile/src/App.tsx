@@ -23,6 +23,7 @@ import AppQueryService from 'src/services/AppQueryService';
 import AnalyticsExpo from 'src/services/AnalyticsService';
 import { InitAnalytics } from 'common/services/analytics/analytics';
 import { Provider as PaperProvider } from 'react-native-paper';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 // Code to enable Siri shortcuts on iOS. Omitted for now as shortcuts are no-ops.
 // import {
@@ -158,14 +159,16 @@ export default class App extends React.Component<IAppProps> {
         }
 
         return (
-            <PaperProvider>
-                <MobxProvider>
-                    <View style={styles.container}>
-                        <StatusBar barStyle="light-content" hidden={true} />
-                        <AppRouter />
-                    </View>
-                </MobxProvider>
-            </PaperProvider>
+            <SafeAreaProvider>
+                <PaperProvider>
+                    <MobxProvider>
+                        <View style={styles.container}>
+                            <StatusBar barStyle="light-content" hidden={true} />
+                            <AppRouter />
+                        </View>
+                    </MobxProvider>
+                </PaperProvider>
+            </SafeAreaProvider>
         );
     }
 
