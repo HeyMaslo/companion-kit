@@ -204,12 +204,12 @@ export abstract class ViewDomainsBase extends ViewState {
                             justifyContent: 'space-between',
                             marginBottom: 20,
                         }}>
-                        <TouchableOpacity onPress={this.goToLeft} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
-                            <Images.backIcon width={20} height={20} />
+                        <TouchableOpacity onPress={this.goToLeft} hitSlop={{ top: 15, left: 15, right: 15, bottom: 15 }}>
+                            <Images.backIcon width={30} height={30} />
                         </TouchableOpacity>
                         <Text style={[TextStyles.p1, styles.domain, { color: colors.highlight, fontSize: centerDomainFontSize, lineHeight: centerDomainFontSize }]}>{centerDomainName}</Text>
-                        <TouchableOpacity onPress={this.goToRight} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
-                            <Images.backIcon width={20} height={20} style={{ transform: [{ rotate: '180deg' }] }} />
+                        <TouchableOpacity onPress={this.goToRight} hitSlop={{ top: 15, left: 15, right: 15, bottom: 15 }}>
+                            <Images.backIcon width={30} height={30} style={{ transform: [{ rotate: '180deg' }] }} />
                         </TouchableOpacity>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
