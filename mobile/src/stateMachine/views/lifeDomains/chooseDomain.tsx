@@ -106,17 +106,19 @@ export class ChooseDomainView extends ViewDomainsBase {
             <Animated.View style={{ opacity: this.state.popUpFadeOpacity }}>
                 <MasloPage style={[this.baseStyles.page, { paddingBottom: 30 }]} theme={this.theme}>
                     <Container style={[{ height: this._contentHeight, alignItems: 'center' }]}>
-                        <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', height: Layout.window.height * 0.25, marginBottom: 10 }}>
+                        <View style={[styles.centerFlexColumn, { height: Layout.window.height * 0.25 }]}>
                             {iconForDomain(mainDomain.name, { flex: 1 }, this.theme.colors.highlight, 60, 60, this.theme.colors.highlight)}
                             <Text style={[TextStyles.p1, styles.subdomainTitle, { fontSize: centerDomainFontSize, lineHeight: centerDomainFontSize }]}>{mainDomain.name}</Text>
                         </View>
-                        <FlatList style={styles.subdomainList}
-                            data={mainDomain.subdomains}
-                            extraData={this.refresh}
-                            renderItem={this.renderListItem}
-                            keyExtractor={item => item.name} />
-                        <Text style={[this.textStyles.p1, styles.descriptionText]}>Select any specific aspects of the {mainDomain.name} life area you’d like to focus on.</Text>
-                        <ButtonBlock okTitle={'DONE'} cancelTitle={'BACK'} onCancel={() => this.onCancelSubdomains()} onOk={() => this.onDoneChoosingSubdomains(mainDomain)} nextDisabled={this.checkedSubdomains.length == 0} theme={this.theme} />
+                        <View style={[styles.centerFlexColumn, { width: '100%', flexGrow: 1 }]}>
+                            <FlatList style={styles.subdomainList}
+                                data={mainDomain.subdomains}
+                                extraData={this.refresh}
+                                renderItem={this.renderListItem}
+                                keyExtractor={item => item.name} />
+                            <Text style={[this.textStyles.p1, styles.descriptionText]}>Select any specific aspects of the {mainDomain.name} life area you’d like to focus on.</Text>
+                        </View>
+                        <ButtonBlock containerStyles={{ marginTop: 30 }} okTitle={'DONE'} cancelTitle={'BACK'} onCancel={() => this.onCancelSubdomains()} onOk={() => this.onDoneChoosingSubdomains(mainDomain)} nextDisabled={this.checkedSubdomains.length == 0} theme={this.theme} />
                     </Container>
                 </MasloPage>
             </Animated.View>
@@ -174,7 +176,7 @@ export class ChooseDomainView extends ViewDomainsBase {
 
 
     public getBottomBannerElement(): JSX.Element {
-        // MK-TODO: - adjust height based on screen size and offset based on safe area (home indicator), animated slide up from bottom?
+        // MK-TODO: - animated slide up from bottom?
         // this.state.popUpFadeOpacity != fadeEnd && Animated.timing(this.state.popUpFadeOpacity, {
         //     toValue: 1,
         //     delay: 50,
@@ -217,7 +219,9 @@ export class ChooseDomainView extends ViewDomainsBase {
     selectDomain = (domain: Domain) => {
         const didSelectDomain = this.viewModel.selectDomain(domain);
         if (!didSelectDomain) {
-            if (domain.name == DomainName.PHYSICAL) this.checkedSubdomains = [];
+            if (domain.name == DomainName.PHYSICAL) {
+                this.checkedSubdomains = [];
+            }
             this.viewModel.removeSelectedDomain(domain);
         } else {
             this.viewModel.selectSubdomains(this.checkedSubdomains);
@@ -262,7 +266,11 @@ const styles = StyleSheet.create({
         borderWidth: 0,
     },
     descriptionText: {
-        marginBottom: 50,
         textAlign: 'center',
+    },
+    centerFlexColumn: {
+        flexDirection: 'column',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
     }
 });
