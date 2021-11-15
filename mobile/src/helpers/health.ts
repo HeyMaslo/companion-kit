@@ -7,8 +7,67 @@ const runOptions = {
   scopes: [
     Scopes.FITNESS_ACTIVITY_READ,
     Scopes.FITNESS_ACTIVITY_WRITE,
-    // Scopes.FITNESS_BODY_READ,
+    Scopes.FITNESS_BODY_READ,
   ],
+};
+
+//Google Fit Steps
+let dailyStepCount;
+
+var today = new Date();
+var lastWeekDate = new Date(
+  today.getFullYear(),
+  today.getMonth(),
+  today.getDate() - 8,
+);
+const opt = {
+  startDate: lastWeekDate.toISOString(), // required ISO8601Timestamp
+  endDate: today.toISOString(), // required ISO8601Timestamp
+  bucketUnit: 'DAY', // optional - default "DAY". Valid values: "NANOSECOND" | "MICROSECOND" | "MILLISECOND" | "SECOND" | "MINUTE" | "HOUR" | "DAY"
+  bucketInterval: 1, // optional - default 1.
+};
+
+const fetchStepsData = async opt => {
+  const res = await GoogleFit.getDailyStepCountSamples(opt);
+  if (res.length !== 0) {
+    for (var i = 0; i < res.length; i++) {
+      if (res[i].source === 'com.google.android.gms:estimated_steps') {
+        let data = res[i].steps.reverse();
+        dailyStepCount = res[i].steps;
+        // setdailySteps(data[0].value);
+      }
+    }
+  } else {
+    console.log('Daily Steps Not Found');
+  }
+};
+
+const fetchSleepData = async opt => {
+  const midnight = "00:00"
+  // var midnight = new Date();
+  // midnight.setHours(0, 0, 0, 0);
+  let sleepTotal = 0;
+  const res = await GoogleFit.getSleepSamples(opt);
+
+  for (var i = 0; i < res.length; i++) {
+    if (Date.parse(res[i].endDate) > Date.parse(midnight)) {
+      if (Date.parse(res[i].startDate) > Date.parse(midnight)) {
+        sleepTotal +=
+          Date.parse(res[i].endDate) - Date.parse(res[i].startDate);
+      } else {
+        sleepTotal += Date.parse(res[i].endDate) - Date.parse(midnight);
+      }
+      if (
+        i + 1 < res.length &&
+        Date.parse(res[i].startDate) < Date.parse(res[i + 1].endDate)
+      ) {
+        sleepTotal -=
+          Date.parse(res[i + 1].endDate) - Date.parse(res[i].startDate);
+      }
+    }
+  }
+  // return Math.round((sleepTotal / (1000 * 60 * 60)) * 100) / 100;
+  // setSleep(Math.round((sleepTotal / (1000 * 60 * 60)) * 100) / 100);
 };
 
 export const authAndroid = () => {
@@ -16,8 +75,12 @@ export const authAndroid = () => {
     var isAuth = GoogleFit.isAuthorized;
     logger.log('GOOGLE_FIT_IS_AUTHORIZED?', isAuth)
     if (isAuth) {
+      // Authentication already authorized for a particular device
       logger.log('GOOGLE_FIT_IS_AUTHORIZED');
-      isAuth = true;
+      logger.log('GOOGLE_FIT: Fetching Step Data');
+      fetchStepsData;
+      logger.log('GOOGLE_FIT: Fetching Sleep Data');
+      fetchSleepData;
     } else {
       // Authentication if already not authorized for a particular device
       GoogleFit.authorize(runOptions)
@@ -26,6 +89,10 @@ export const authAndroid = () => {
             console.log('AUTH_SUCCESS');
             isAuth = true
             // if successfully authorized, fetch data
+            logger.log('GOOGLE_FIT: Fetching Step Data');
+          fetchStepsData;
+          logger.log('GOOGLE_FIT: Fetching Sleep Data');
+          fetchSleepData;
           } else {
             console.log('AUTH_DENIED ' + authResult);
             isAuth = false;
