@@ -32,7 +32,8 @@ describe('QoL', () => {
                     type: QoLActionTypes.CreateDomain,
                     name: 'Physical',
                     importance: 'SLEEP = Sleeeeepz Sleeeeepz Sleeeeepz Sleeeeepz incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
-                    bullets: [''],
+                    importanceBullets: [''],
+                    whatToKnowBullets: [''],
                 });
                 assert.isNull(result.error);
             });
@@ -49,7 +50,8 @@ describe('QoL', () => {
                     type: QoLActionTypes.CreateDomain,
                     name: 'Physical',
                     importance: '',
-                    bullets: [''],
+                    importanceBullets: [''],
+                    whatToKnowBullets: [''],
                 });
                 const result = await getDomains();
                 assert.isNull(result.error);
@@ -64,7 +66,8 @@ describe('QoL', () => {
                 type: QoLActionTypes.CreateDomain,
                 name: 'Physical',
                 importance: '',
-                bullets: [''],
+                importanceBullets: [''],
+                whatToKnowBullets: [''],
             });
             const createResult = await createQuestion({
                 type: QoLActionTypes.CreateQuestion,

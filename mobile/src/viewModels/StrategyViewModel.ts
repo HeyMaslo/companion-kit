@@ -40,6 +40,7 @@ export default class StrategyViewModel {
         return {
           internalId: s.internalId,
           title: s.title,
+          shortDescription: s.shortDescription,
           details: s.details,
           associatedDomainNames: s.associatedDomainNames,
           isChecked: false,

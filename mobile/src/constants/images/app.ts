@@ -70,6 +70,7 @@ import SexualHealthIconSVG from 'src/assets/images/app/sexual.svg';
 import SubstanceUseIConSVG from 'src/assets/images/app/substance.svg';
 import PlusIconSVG from 'src/assets/images/app/plus.svg';
 import MinusIconSVG from 'src/assets/images/app/minus.svg';
+import ThreeArrowsSVG from 'src/assets/images/app/threeArrows.svg';
 
 export default {
     signInWithGoogle: GoogleIconPng,
@@ -151,4 +152,5 @@ export default {
     // Domain Button
     plusIcon: PlusIconSVG,
     minusIcon: MinusIconSVG,
+    threeArrowsIcon: ThreeArrowsSVG,
 };

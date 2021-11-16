@@ -1,10 +1,10 @@
 import Images from 'src/constants/images';
-import Colors from 'src/constants/colors/Colors';
-import { StyleProp, ViewStyle } from 'react-native';
+import { StyleProp, Text, ViewStyle } from 'react-native';
 import React from 'react';
 import { DomainName, SubdomainName } from 'src/constants/Domain';
+import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
 
-export function iconForDomain(name: DomainName | SubdomainName, style?: StyleProp<ViewStyle>, color: string = Colors.typography.h1, width: number = 30, height: number = 30, fill?: string): JSX.Element {
+export function iconForDomain(name: DomainName | SubdomainName, style?: StyleProp<ViewStyle>, color: string = 'black', width: number = 30, height: number = 30, fill?: string): JSX.Element {
   if (!name) { return <></>; }
 
   switch (name) {
@@ -69,4 +69,19 @@ export function sum(elements: number[]): number {
     total += elements[i];
   }
   return total;
+}
+
+export function formatTextContent(input: string, headingStyle?: any, boldStyle?: any, italicStyle?: any): (string | JSX.Element)[] {
+  const baseBoldStyle: any = {
+    fontFamily: mainFontMedium
+  }
+  return input.split(/\\n/g).map((str) => {
+    str += '\n';
+    if (str.startsWith('/h1')) {
+      return <Text style={{ ...TextStyles.h3 as any, headingStyle }}>{`\n${str.substring(3)}\n`}</Text>;
+    } else if (str.startsWith('/bbold')) {
+      return <Text style={{ ...baseBoldStyle, boldStyle }}>{`\n${str.substring(6)}\n`}</Text>;
+    }
+    return str;
+  })
 }

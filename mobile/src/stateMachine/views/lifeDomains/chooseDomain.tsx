@@ -52,7 +52,7 @@ export class ChooseDomainView extends ViewDomainsBase {
     getDomainImportanceBullets = (): string[] => {
         const domain = this.getDomainDisplay().mainName;
         if (domain) {
-            return this.viewModel.getDomainByName(domain as DomainName).bullets;
+            return this.viewModel.getDomainByName(domain as DomainName).importanceBullets;
         }
         return [];
     }

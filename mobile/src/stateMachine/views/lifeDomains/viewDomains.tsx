@@ -34,7 +34,7 @@ export class ViewDomainsView extends ViewDomainsBase {
   getDomainImportanceBullets = (): string[] => {
     const domain = this.viewModel.getDomainDisplay().mainName
     if (domain) {
-      return this.viewModel.getDomainByName(domain as DomainName).bullets;
+      return this.viewModel.getDomainByName(domain as DomainName).importanceBullets;
     }
     return [];
   }

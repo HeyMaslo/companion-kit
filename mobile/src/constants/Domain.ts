@@ -22,10 +22,11 @@ export enum SubdomainName {
 }
 
 export type Domain = {
-  name:       DomainName,
-  importance: string,     // description of why the domain is important
-  bullets:    string[],   // the key points of domain importance
-  subdomains?: Subdomain[],
+  name:              DomainName,
+  importance:        string,     // description of why the domain is important
+  importanceBullets: string[],   // the key points of domain importance
+  whatToKnowBullets: string[],
+  subdomains?:       Subdomain[],
 };
 
 export type Subdomain = {

@@ -25,9 +25,9 @@ export default class DomainViewModel {
 
     constructor() {
 
-        this._leftDomain = 0;
-        this._mainDomain = 1;
-        this._rightDomain = 2;
+        this._leftDomain = -1;
+        this._mainDomain = 0;
+        this._rightDomain = 1;
 
         this._allDomains = [];
         this._selectedDomains = { domains: [], subdomains: [] };
@@ -79,8 +79,8 @@ export default class DomainViewModel {
     }
 
     //  Iterates through the domains as user clicks the next or back button, (-1) going back, (1) going forward through the list of domains
-    public moveToNextDomain(dir: number): void {
-        if (dir > 0) {
+    public moveToNextDomain(direction: number): void {
+        if (direction > 0) {
             if (this._rightDomain < this.domainCount) {
                 this._rightDomain++;
                 this._mainDomain++;
@@ -88,7 +88,7 @@ export default class DomainViewModel {
             }
         }
 
-        if (dir < 0) {
+        if (direction < 0) {
             if (this._leftDomain >= 0) {
                 this._rightDomain--;
                 this._mainDomain--;

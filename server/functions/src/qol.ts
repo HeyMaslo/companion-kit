@@ -38,7 +38,8 @@ export async function createDomain(args: CreateDomainRequest)
     await Repo.Domains.create({
         name: args.name as DomainName,
         importance: args.importance,
-        bullets: args.bullets,
+        importanceBullets: args.importanceBullets,
+        whatToKnowBullets: args.whatToKnowBullets,
     });
     return {
         error: null,

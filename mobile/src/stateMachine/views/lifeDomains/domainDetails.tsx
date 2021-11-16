@@ -2,9 +2,11 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Container, MasloPage, StrategyCard, Button } from 'src/components';
+import { containerStyles } from 'src/components/Container';
 import { DomainName } from 'src/constants/Domain';
+import Layout from 'src/constants/Layout';
 import { DisplayStrategy } from 'src/constants/Strategy';
-import { iconForDomain } from 'src/helpers/DomainHelper';
+import { formatTextContent, iconForDomain } from 'src/helpers/DomainHelper';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
@@ -16,13 +18,12 @@ export class DomainDetailsView extends ViewState {
 
     constructor(props) {
         super(props);
+        this._contentHeight = Layout.window.height;
+        this.hidePersona2();
         this.onLearnMorePress = this.onLearnMorePress.bind(this);
-        this._contentHeight = this.persona.setupContainerHeightForceScroll({ rotation: -15, transition: { duration: 1 }, scale: 0.8 });
     }
 
-    async start() {
-        this.hidePersona();
-    }
+    async start() { }
 
     private get viewModel() {
         return AppViewModel.Instance.Domain;
@@ -65,9 +66,9 @@ export class DomainDetailsView extends ViewState {
 
     renderBulletPoint(str: string) {
         return (
-            <View key={str} style={{ flexDirection: 'row' }}>
-                <Text>{'\u2022'}</Text>
-                <Text style={{ flex: 1, paddingLeft: 5 }}>{str}</Text>
+            <View key={str} style={{ flexDirection: 'row', marginVertical: 10 }}>
+                <Text style={this.textStyles.p2}>{'\u2022'}</Text>
+                <Text style={[this.textStyles.p2, { flex: 1, paddingLeft: 5 }]}>{str}</Text>
             </View>
         );
     }
@@ -79,12 +80,12 @@ export class DomainDetailsView extends ViewState {
 
         let mainName = display.mainName;
         let importance = display.mainImportance;
-        let bullets = this.viewModel.getDomainByName(mainName as DomainName).bullets
+        let whatToKnowBullets = this.viewModel.getDomainByName(mainName as DomainName).whatToKnowBullets
 
         if (subdomains && subdomains.includes(learnMoreSubdomain)) {
             mainName = learnMoreSubdomain.name
             importance = learnMoreSubdomain.importance
-            bullets = learnMoreSubdomain.bullets
+            whatToKnowBullets = learnMoreSubdomain.bullets
         }
         const domainString = mainName == DomainName.PHYSICAL ? 'Physical health' : mainName;
 
@@ -93,17 +94,17 @@ export class DomainDetailsView extends ViewState {
                 <Container style={[styles.container, { height: this._contentHeight }]}>
                     {/* Title */}
                     <Text style={[this.textStyles.h1, styles.header]}>{domainString} and your quality of life</Text>
-                    <ScrollView style={{ width: '100%' }} contentContainerStyle={{ alignItems: 'center' }}>
+                    <ScrollView style={{ width: Layout.window.width }} contentContainerStyle={{ alignItems: 'center' }}>
                         {/* What to know */}
                         <View style={styles.content}>
-                            <Text style={[this.textStyles.labelExtraLarge, { marginBottom: 10 }]}>What to know</Text>
-                            <View style={{ marginBottom: 20 }}>
-                                {bullets.map((b) => this.renderBulletPoint(b))}
+                            <Text style={[this.textStyles.labelExtraLarge, { marginVertical: 10 }]}>What to know</Text>
+                            <View style={{ marginBottom: 0 }}>
+                                {whatToKnowBullets.map((b) => this.renderBulletPoint(b))}
                             </View>
                             {/* List of subdomains (if applicable) */}
                             {subdomains && subdomains.map((subDom) => {
                                 return (
-                                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginVertical: 10 }}>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginTop: 30, marginBottom: 10 }}>
                                         {iconForDomain(subDom.name, { marginHorizontal: 15 }, this.theme.colors.foreground)}
                                         <Text style={this.textStyles.p2}>{subDom.name}</Text>
                                     </View>
@@ -111,9 +112,13 @@ export class DomainDetailsView extends ViewState {
                             })}
                         </View>
                         {/* Long description of importance */}
-                        <Text style={{ marginBottom: 20 }}>{importance}</Text>
+                        <Text style={[this.textStyles.p2, { marginBottom: 20, paddingHorizontal: containerStyles.container.paddingLeft }]}>
+                            <Text style={this.textStyles.h3}>The Importance of {domainString}{'\n'}</Text>
+                            {'\n'}
+                            {formatTextContent(importance)}
+                        </Text>
                         {/* Strategies List */}
-                        <Text style={[this.textStyles.h2, styles.header]}>Strategies:</Text>
+                        <Text style={[this.textStyles.h2, styles.header, { paddingLeft: containerStyles.container.paddingLeft }]}>Strategies:</Text>
                         {this.strategiesForListInOrder(mainName).map((strat) => this.renderStratgeyCard(strat))}
                         {this.numberOfRemainingStrategies > 0 && <Button title='Load more strategies' style={styles.button} withBorder={false} onPress={this.loadMoreStrategies} theme={this.theme} />}
                     </ScrollView>
@@ -138,9 +143,8 @@ const styles = StyleSheet.create({
         width: '90%',
         backgroundColor: '#ffff',
         padding: 10,
-        paddingBottom: 20,
         borderRadius: 5,
-        marginBottom: 20,
+        marginBottom: 30,
     },
     list: {
         marginBottom: 25,

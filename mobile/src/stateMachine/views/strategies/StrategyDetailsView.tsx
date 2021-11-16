@@ -1,13 +1,13 @@
 import { Strategy } from '../../../../../mobile/src/constants/Strategy';
 import { observer } from 'mobx-react';
 import React from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Container, MasloPage } from 'src/components';
 import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
-import { iconForDomain } from 'src/helpers/DomainHelper';
+import { formatTextContent, iconForDomain } from 'src/helpers/DomainHelper';
 
 @observer
 export class StrategyDetailsView extends ViewState {
@@ -40,7 +40,7 @@ export class StrategyDetailsView extends ViewState {
 
   renderIconItem = ({ item }) => (
     <View style={[styles.listItem, { flexDirection: "row", justifyContent: 'center' }]}>
-      {iconForDomain(item, { display: 'flex', marginRight: 20 })}
+      {iconForDomain(item, { display: 'flex', marginRight: 20 }, this.theme.colors.midground)}
       <Text style={[TextStyles.h2, styles.strategy, { display: 'flex' }]}>{this.capitalizeFirstLetter(item)}</Text>
     </View>
   );
@@ -62,7 +62,11 @@ export class StrategyDetailsView extends ViewState {
             keyExtractor={item => item}
             scrollEnabled={false} />
           {/* Body */}
-          <Text style={[TextStyles.p1, styles.body]}>{this._learnMoreStrategy.details}</Text>
+          <ScrollView>
+            <Text style={[TextStyles.p1, styles.body]}>
+              {formatTextContent(this._learnMoreStrategy.details)}
+            </Text>
+          </ScrollView>
         </Container>
       </MasloPage>
     );
@@ -82,7 +86,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   body: {
-    textAlign: 'center',
+    // textAlign: 'center',
     marginTop: 20,
   },
 
