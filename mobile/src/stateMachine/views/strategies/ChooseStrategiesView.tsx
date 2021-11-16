@@ -44,7 +44,10 @@ export class ChooseStrategiesView extends ViewState {
       title: AlertExitWithoutSave,
       primaryButton: {
         text: 'yes, stop',
-        action: () => this.trigger(ScenarioTriggers.Cancel),
+        action: () => {
+          this.viewModel.selectedStrategies = [];
+          this.trigger(ScenarioTriggers.Cancel);
+        },
       },
       secondaryButton: {
         text: 'no, go back',
