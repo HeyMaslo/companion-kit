@@ -39,7 +39,7 @@ export default class StrategyCard extends React.Component<IStrategyCardProps, St
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={[TextStyles.labelLarge, { display: 'flex', width: width - checkboxSize - 70 }]}>{this.props.item.title}</Text>
             {!this.props.hideCheckbox &&
-              <View style={[styles.checkbox, this.props.item.isChecked && styles.checkboxChecked, { display: 'flex' }]}>
+              <View style={[styles.checkbox, this.props.item.isChecked && { borderWidth: 0, backgroundColor: theme.colors.highlight, }, { display: 'flex' }]}>
                 {this.props.item.isChecked && <Images.radioChecked width={8} height={6} />}
               </View>}
           </View>
@@ -84,10 +84,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'transparent',
     flexShrink: 0,
-  },
-  checkboxChecked: {
-    backgroundColor: Colors.radioButton.checkedBg,
-    borderWidth: 0,
   },
   icon: {
     display: 'flex',

@@ -24,7 +24,6 @@ export class ChooseStrategiesView extends ViewState {
     this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0 } });
     this.hidePersona();
     this.selectedDomainNames = (AppViewModel.Instance.Domain.selectedDomains.domains as string[]).concat(AppViewModel.Instance.Domain.selectedDomains.subdomains);
-
     this.onLearnMorePress = this.onLearnMorePress.bind(this);
     this.onSelectStrategy = this.onSelectStrategy.bind(this);
   }
@@ -33,11 +32,10 @@ export class ChooseStrategiesView extends ViewState {
     return AppViewModel.Instance.Strategy;
   }
 
-  async start() {
-    this.viewModel.selectedStrategies = [];
-  }
+  async start() { }
 
   onBack = () => {
+    this.viewModel.selectedStrategies = [];
     this.trigger(ScenarioTriggers.Back);
   }
 
@@ -94,7 +92,7 @@ export class ChooseStrategiesView extends ViewState {
   );
 
   renderListItem = ({ item }) => (
-    <StrategyCard item={item} onSelectStrategy={this.onSelectStrategy} onLearnMorePress={this.onLearnMorePress} theme={this.theme} />
+    <StrategyCard item={item} onSelectStrategy={this.onSelectStrategy} onLearnMorePress={this.onLearnMorePress} isSmallCard={true} theme={this.theme} />
   );
 
   renderContent() {
@@ -137,7 +135,7 @@ export class ChooseStrategiesView extends ViewState {
             data={this.viewModel.availableStrategies}
             renderItem={this.renderListItem}
             keyExtractor={item => item.internalId} />
-          <Button title={'SELECT ' + (this.viewModel.selectedStrategies.length < 1 ? 'STRATEGIES' : (this.viewModel.selectedStrategies.length == 1 ? 'THIS STRATEGY' : 'THESE STRATEGIES'))} style={styles.selectButton} onPress={this.onSubmit} disabled={this.viewModel.selectedStrategies.length < 1} theme={this.theme} />
+          <Button title={'SELECT ' + (this.viewModel.selectedStrategies.length < 1 ? 'STRATEGIES' : (this.viewModel.selectedStrategies.length == 1 ? 'THIS STRATEGY' : 'THESE STRATEGIES'))} style={styles.selectButton} disabledStyle={{ backgroundColor: this.theme.colors.highlightSecondary, }} onPress={this.onSubmit} disabled={this.viewModel.selectedStrategies.length < 1} theme={this.theme} />
         </Container >
       </MasloPage >
     );

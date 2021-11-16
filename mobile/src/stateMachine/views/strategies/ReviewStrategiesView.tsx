@@ -63,7 +63,7 @@ export class ReviewStrategiesView extends ViewState {
   }
 
   renderListItem = ({ item }) => (
-    <StrategyCard item={item} onSelectStrategy={(() => (null))} onLearnMorePress={this.onLearnMorePress} hideCheckbox={true} theme={this.theme} />
+    <StrategyCard item={item} onSelectStrategy={(() => (null))} onLearnMorePress={this.onLearnMorePress} hideCheckbox={true} isSmallCard={true} theme={this.theme} />
   );
 
   public renderInnerContent(titleText: string, showButton: boolean, listData?: any[]): JSX.Element {

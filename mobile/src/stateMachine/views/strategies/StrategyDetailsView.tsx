@@ -39,9 +39,9 @@ export class StrategyDetailsView extends ViewState {
   }
 
   renderIconItem = ({ item }) => (
-    <View style={[styles.listItem, { flexDirection: "row", justifyContent: 'center' }]}>
-      {iconForDomain(item, { display: 'flex', marginRight: 20 }, this.theme.colors.midground)}
-      <Text style={[TextStyles.h2, styles.strategy, { display: 'flex' }]}>{this.capitalizeFirstLetter(item)}</Text>
+    <View style={[styles.listItem, { flexDirection: 'row', justifyContent: 'center' }]}>
+      {iconForDomain(item, { marginRight: 20 }, this.theme.colors.foreground)}
+      <Text style={[TextStyles.h2, styles.strategy, {marginBottom: 10}]}>{this.capitalizeFirstLetter(item)}</Text>
     </View>
   );
 
@@ -54,7 +54,7 @@ export class StrategyDetailsView extends ViewState {
             <Text style={[TextStyles.h2, styles.strategy]}>{this._learnMoreStrategy.title}</Text>
           </View>
           {/* Subtitle */}
-          <Text style={[TextStyles.p2, styles.strategy]}>{'This strategy targets personal improvement in these life domains:'}</Text>
+          <Text style={[TextStyles.p2, styles.strategy, { color: this.theme.colors.midground }]}>{'This strategy targets personal improvement in these life areas:'}</Text>
           {/* Icon Container */}
           <FlatList style={styles.list}
             data={this.viewModel.learnMoreStrategy.associatedDomainNames}
@@ -76,17 +76,16 @@ export class StrategyDetailsView extends ViewState {
 const styles = StyleSheet.create({
   list: {
     flexGrow: 0,
-    marginTop: 50,
+    marginTop: 30,
+    marginBottom: 15,
   },
   listItem: {
-    padding: 10,
-    marginBottom: 30,
+  //  paddingTop: 10,
   },
   strategy: {
     textAlign: 'center',
   },
   body: {
-    // textAlign: 'center',
     marginTop: 20,
   },
 
