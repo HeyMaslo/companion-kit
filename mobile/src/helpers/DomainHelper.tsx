@@ -64,8 +64,8 @@ export function iconForDomain(name: DomainName | SubdomainName, style?: StylePro
 }
 
 export function sum(elements: number[]): number {
-  var total = 0;
-  for (var i = 0; i < elements.length; i++) {
+  let total = 0;
+  for (let i = 0; i < elements.length; i++) {
     total += elements[i];
   }
   return total;
@@ -78,9 +78,13 @@ export function formatTextContent(input: string, headingStyle?: any, boldStyle?:
   return input.split(/\\n/g).map((str) => {
     str += '\n';
     if (str.startsWith('/h1')) {
-      return <Text style={{ ...TextStyles.h3 as any, headingStyle }}>{`\n${str.substring(3)}\n`}</Text>;
+      return <Text key={str} style={headingStyle ? headingStyle : TextStyles.h3}>
+        {`\n${str.substring(3)}\n`}
+      </Text>;
     } else if (str.startsWith('/bbold')) {
-      return <Text style={{ ...baseBoldStyle, boldStyle }}>{`\n${str.substring(6)}\n`}</Text>;
+      return <Text key={str} style={boldStyle ? boldStyle : baseBoldStyle}>
+        {`\n${str.substring(6)}\n`}
+      </Text>;
     }
     return str;
   })
