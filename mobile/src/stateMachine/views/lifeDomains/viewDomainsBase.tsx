@@ -214,10 +214,10 @@ export abstract class ViewDomainsBase extends ViewState {
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <TouchableOpacity onPress={this.goToLeft} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
-                            <Text style={[TextStyles.labelMedium, styles.domain, { fontSize: sideDomainsFontSize, lineHeight: sideDomainsFontSize }]}>{display.leftName}</Text>
+                            <Text style={[TextStyles.labelMedium, styles.domain, { fontSize: sideDomainsFontSize, lineHeight: sideDomainsFontSize, color: this.theme.colors.midground }]}>{display.leftName}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={this.goToRight} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
-                            <Text style={[TextStyles.labelMedium, styles.domain, { fontSize: sideDomainsFontSize, lineHeight: sideDomainsFontSize }]}>{display.rightName}</Text>
+                            <Text style={[TextStyles.labelMedium, styles.domain, { fontSize: sideDomainsFontSize, lineHeight: sideDomainsFontSize, color: this.theme.colors.midground }]}>{display.rightName}</Text>
                         </TouchableOpacity>
                     </View>
                 </Container>
