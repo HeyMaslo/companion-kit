@@ -34,7 +34,7 @@ export abstract class ViewState<CState = {}, CParams = any> extends React.Compon
     protected _contentHeight: number = 0;
 
     // To keep last persona state
-    private readonly _personaStates: Partial<Record<PersonaStateOverriders, Partial<IPersonaViewContext>>> = { };
+    private readonly _personaStates: Partial<Record<PersonaStateOverriders, Partial<IPersonaViewContext>>> = {};
     private _lastPersonaStates: PersonaStateOverriders[] = [];
 
     private _modalPromiseResolver: PromiseWrapper;
@@ -219,6 +219,19 @@ export abstract class ViewState<CState = {}, CParams = any> extends React.Compon
         };
     }
 
+    hidePersona2 = () => { // MK-TODO: - why doesnt the above hidePersona work?
+        const oldY = this.persona.view.position.y as number;
+        this.persona.view = {
+            ...this.persona.view,
+            position: {
+                ...this.persona.view.position,
+                y: oldY - (layout.window.height / 2 + 50),
+            },
+            transparency: 0,
+            transition: { duration: 0 },
+        };
+    }
+
     protected get contentContainerStyles() { return styles.background; }
 
     protected fadeOuContent = (duration = 500, delay = 0) => {
@@ -251,7 +264,7 @@ export abstract class ViewState<CState = {}, CParams = any> extends React.Compon
     abstract renderContent(): React.ReactNode;
 
     render() {
-        const { animation = null, duration = 0, delay = 0 } = this.contentAnimation || { };
+        const { animation = null, duration = 0, delay = 0 } = this.contentAnimation || {};
 
         const hasProgress = this._progressCounter > 0 || (this.enableGlobalProgressTracking && this.globalLoading);
         const contentContainerAnimation: Animatable.Animation = hasProgress ? 'fadeOut' : 'fadeIn';
