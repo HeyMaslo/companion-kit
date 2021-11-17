@@ -6,7 +6,6 @@ import logger from 'common/logger';
 const runOptions = {
   scopes: [
     Scopes.FITNESS_ACTIVITY_READ,
-    Scopes.FITNESS_BODY_READ,
     Scopes.FITNESS_SLEEP_READ
   ],
 };
