@@ -6,8 +6,8 @@ import logger from 'common/logger';
 const runOptions = {
   scopes: [
     Scopes.FITNESS_ACTIVITY_READ,
-    Scopes.FITNESS_ACTIVITY_WRITE,
     Scopes.FITNESS_BODY_READ,
+    Scopes.FITNESS_SLEEP_READ
   ],
 };
 
@@ -29,16 +29,18 @@ const opt = {
 
 const fetchStepsData = async opt => {
   const res = await GoogleFit.getDailyStepCountSamples(opt);
+  logger.log('fetchStepsData results: ', res)
   if (res.length !== 0) {
     for (var i = 0; i < res.length; i++) {
       if (res[i].source === 'com.google.android.gms:estimated_steps') {
         let data = res[i].steps.reverse();
         dailyStepCount = res[i].steps;
         // setdailySteps(data[0].value);
+        return dailyStepCount;
       }
     }
   } else {
-    console.log('Daily Steps Not Found');
+    logger.log('Daily Steps Not Found');
   }
 };
 
@@ -66,21 +68,36 @@ const fetchSleepData = async opt => {
       }
     }
   }
-  // return Math.round((sleepTotal / (1000 * 60 * 60)) * 100) / 100;
+  return Math.round((sleepTotal / (1000 * 60 * 60)) * 100) / 100;
   // setSleep(Math.round((sleepTotal / (1000 * 60 * 60)) * 100) / 100);
 };
 
+const fetchAndroidHealthData = async () => {
+      let sleepData;
+      let stepsData;
+      // call Google Fit API to get the steps data for the user
+      // opts --> options object
+      logger.log('GOOGLE_FIT: Fetching Step Data');
+      stepsData = await fetchStepsData(opt);
+
+      // call Google Fit API to get the sleep data for the user
+      // opts --> options object
+      logger.log('GOOGLE_FIT: Fetching Sleep Data');
+      sleepData = await fetchSleepData(opt);
+
+      logger.log('GOOGLE_FIT: Sleep Data: ', JSON.stringify(sleepData));
+      logger.log('GOOGLE_FIT: Step Data: ', JSON.stringify(stepsData));
+}
+
 export const authAndroid = () => {
-  const authValue = GoogleFit.checkIsAuthorized().then(() => {
+  const authValue = GoogleFit.checkIsAuthorized().then(async () => {
     var isAuth = GoogleFit.isAuthorized;
     logger.log('GOOGLE_FIT_IS_AUTHORIZED?', isAuth)
     if (isAuth) {
-      // Authentication already authorized for a particular device
       logger.log('GOOGLE_FIT_IS_AUTHORIZED');
-      logger.log('GOOGLE_FIT: Fetching Step Data');
-      fetchStepsData;
-      logger.log('GOOGLE_FIT: Fetching Sleep Data');
-      fetchSleepData;
+      // Authentication already authorized for a particular device
+      // fetch the android health data
+      fetchAndroidHealthData();
     } else {
       // Authentication if already not authorized for a particular device
       GoogleFit.authorize(runOptions)
@@ -89,17 +106,16 @@ export const authAndroid = () => {
             console.log('AUTH_SUCCESS');
             isAuth = true
             // if successfully authorized, fetch data
-            logger.log('GOOGLE_FIT: Fetching Step Data');
-          fetchStepsData;
-          logger.log('GOOGLE_FIT: Fetching Sleep Data');
-          fetchSleepData;
+            fetchAndroidHealthData();
           } else {
+            // Auth fails/denied
             console.log('AUTH_DENIED ' + authResult);
             isAuth = false;
           }
         })
-        .catch(() => {
-          console.log('AUTH_ERROR');
+        .catch((error) => {
+          // catch errors if Auth fails
+          console.log('AUTH_ERROR: ', error);
         });
     }
     return isAuth;
