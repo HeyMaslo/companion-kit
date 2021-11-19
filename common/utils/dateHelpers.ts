@@ -89,6 +89,11 @@ export function add(date: Date | number, amount: number, granularity: Granularit
     }
 }
 
+export function equalDateByDay(left: Date, right: Date): boolean {
+    return left.getDay() === right.getDay() && left.getMonth() === right.getMonth()
+        && left.getFullYear() === right.getFullYear();
+}
+
 export function compare(d1: Date | number, d2: Date | number, g: Granularity, local?: boolean): number;
 export function compare(d1: Date | number, d2: Date | number): number;
 

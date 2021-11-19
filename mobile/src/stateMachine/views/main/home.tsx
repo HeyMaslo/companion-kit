@@ -142,6 +142,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         this.trigger(ScenarioTriggers.Tertiary);
     }
 
+    private onShortQol = () => {
+        this.qolViewModel.setQolSurveyType = QolSurveyType.Short;
+        this.trigger(ScenarioTriggers.Tertiary);
+    }
+
     private async onStartDomains() {
         AppViewModel.Instance.Domain.clearSelectedDomains();
         AppViewModel.Instance.Strategy.clearSelectedDomains();
@@ -255,6 +260,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                 return;
             }
 
+            case 'short-qol': {
+                this.onShortQol();
+                return;
+            }
+
             case 'docLinkTip': {
                 t.open();
                 return;
@@ -364,7 +374,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                     </Portal>
                     {/* MK-TODO below buttons used for development/testing only and will be removed */}
                     <View style={{ flexDirection: 'row' }}>
-                        <Button title='Domains' style={styles.testingButton} onPress={() => this.onStartDomains()} />                        
+                        <Button title='Domains' style={styles.testingButton} onPress={() => this.onStartDomains()} />
                         <Button title='History' style={styles.testingButton} onPress={() => this.onTESTINGButton()} />
                     </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}

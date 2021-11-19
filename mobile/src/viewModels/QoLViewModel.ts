@@ -1,5 +1,5 @@
 import { observable, computed } from 'mobx';
-import { SurveyQuestions, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT } from '../constants/QoLSurvey';
+import { SurveyQuestions, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT, ShortSurveyQuestions, SHORT_QUESTIONS_COUNT } from "../constants/QoLSurvey";
 import { createLogger } from 'common/logger';
 import AppController from 'src/controllers';
 import { ILocalSettingsController } from 'src/controllers/LocalSettings';
@@ -26,17 +26,15 @@ export default class QOLSurveyViewModel {
     public startDate: number;
     public questionCompletionDates: number[];
 
-    public readonly numQuestions: number = QUESTIONS_COUNT;
     public readonly domainQuestionCount: number = DOMAIN_QUESTION_COUNT;
     private readonly _settings: ILocalSettingsController = AppController.Instance.User.localSettings;
-
 
     constructor() {
         this.initModel = AppController.Instance.User.qol.getPartialQol().then((partialQolState: PartialQol) => {
             if (!this._settings.current?.qol?.seenQolOnboarding) {
                 this.updateQolOnboarding();
             }
-            if (partialQolState !== null && typeof(partialQolState) !== 'undefined') {
+            if (partialQolState !== null && typeof (partialQolState) !== 'undefined') {
                 this._questionNum = partialQolState.questionNum;
                 this._domainNum = partialQolState.domainNum;
                 this._surveyResponses = partialQolState.scores;
@@ -45,6 +43,7 @@ export default class QOLSurveyViewModel {
                 this._armMagnitudes = this.getArmMagnitudes(partialQolState.scores);
                 this.isUnfinished = true;
                 this.showInterlude = partialQolState.isFirstTimeQol;
+                this.qolSurveyType = partialQolState.surveyType;
                 return;
             } else {
                 this.startDate = new Date().getTime();
@@ -54,6 +53,7 @@ export default class QOLSurveyViewModel {
                 this.questionCompletionDates = [];
                 this._armMagnitudes = PersonaArmState.createEmptyArmState();
                 this.isUnfinished = false;
+                this.qolSurveyType = QolSurveyType.Full;
                 return;
             }
         });
@@ -70,14 +70,32 @@ export default class QOLSurveyViewModel {
     get domainNum(): number { return this._domainNum; }
 
     @computed
-    get question(): string { return SurveyQuestions[this._questionNum]; }
+    get question(): string {
+        switch (this.qolSurveyType) {
+            case (QolSurveyType.Full):
+                return SurveyQuestions[this._questionNum];
+            case (QolSurveyType.Short):
+                return ShortSurveyQuestions[this._questionNum];
+        }
+    }
 
     @computed
     get domain(): string { return Object.values(DomainName)[this._domainNum]; }
 
+    get numQuestions(): number {
+        switch (this.qolSurveyType) {
+            case (QolSurveyType.Full):
+                return QUESTIONS_COUNT;
+            case (QolSurveyType.Short):
+                return SHORT_QUESTIONS_COUNT;
+        }
+    }
+
     get surveyResponses(): any { return this._surveyResponses; }
 
     get qolArmMagnitudes(): any { return this._armMagnitudes; }
+
+    set setQolSurveyType(type: QolSurveyType) { this.qolSurveyType = type; }
 
     public nextQuestion(goBack?: boolean): void {
         if (goBack) {
@@ -123,6 +141,7 @@ export default class QOLSurveyViewModel {
                 isFirstTimeQol: this.showInterlude,
                 startDate: this.startDate,
                 questionCompletionDates: this.questionCompletionDates,
+                surveyType: this.qolSurveyType,
             }
             res = await AppController.Instance.User.qol.sendPartialQol(partialQol);
             this.isUnfinished = true;
@@ -141,13 +160,22 @@ export default class QOLSurveyViewModel {
         return res;
     }
 
-    public updateQolOnboarding = () => {
-        this._settings.updateQolOnboarding({ seenQolOnboarding: true, lastFullQol: Date() })
+    public updateQolOnboarding() {
+        this._settings.updateQolSettings({ seenQolOnboarding: true }, 'seenQolOnboarding');
+        this._settings.updateQolSettings({ lastFullQol: Date() }, 'lastFullQol');
         this.showInterlude = true;
     }
 
-    public updatePendingFullQol = () => {
-        this._settings.updatePendingFullQol({ pendingFullQol: false });
+    public updatePendingQol() {
+        switch (this.qolSurveyType) {
+            case QolSurveyType.Full:
+                this._settings.updateQolSettings({ pendingFullQol: false }, 'pendingFullQol');
+                break;
+            case QolSurveyType.Short:
+                this._settings.updateQolSettings({ pendingShortQol: false }, 'pendingShortQol');
+                break;
+        }
+
     }
 
     private getArmMagnitudes(scores: QolSurveyResults): PersonaArmState {

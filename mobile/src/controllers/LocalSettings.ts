@@ -9,6 +9,7 @@ import { ThrottleAction } from 'common/utils/throttle';
 import { IEvent, Event } from 'common/utils/event';
 import { AppVersion } from './AppVersion';
 import logger from 'common/logger';
+import { QolSurveyType } from 'src/constants/QoL';
 
 const DeviceId = ExpoConstants.installationId;
 
@@ -26,9 +27,8 @@ export interface ILocalSettingsController {
     readonly synced: IEvent;
 
     updateNotifications(diff: Partial<NotificationsSettings>): void;
-    updateQolOnboarding(diff: Partial<QolSettings>): void;
-    updateLastFullQol(diff: Partial<QolSettings>): void;
-    updatePendingFullQol(diff: Partial<QolSettings>): void;
+    updateQolSettings(diff: Partial<QolSettings>, changedField: keyof QolSettings): void;
+    updateLastDailyCheckIn(diff: string): void;
 
     flushChanges(): Promise<void>;
 }
@@ -65,6 +65,13 @@ export class LocalSettingsController implements ILocalSettingsController {
                 deviceId: DeviceId,
                 deviceInfo: Info,
                 appVersion: AppVersion.FullVersion,
+                qol: {
+                    seenQolOnboarding: false,
+                    pendingFullQol: true,
+                    pendingShortQol: false,
+                    lastShortQol: Date(),
+                },
+                lastDailyCheckIn: Date(),
             };
             updateDiff = this._current;
 
@@ -86,6 +93,7 @@ export class LocalSettingsController implements ILocalSettingsController {
     private submitChanges = async () => {
         const diff: Partial<UserLocalSettings> = {
             notifications: toJS(this._current.notifications),
+            lastDailyCheckIn: toJS(this._current.lastDailyCheckIn)
         };
 
         if (this._sameDevice && this._sameDevice.notifications) {
@@ -153,11 +161,12 @@ export class LocalSettingsController implements ILocalSettingsController {
         });
     }
 
-    updateQolOnboarding(diff: Partial<QolSettings>) {
+    updateQolSettings(diff: Partial<QolSettings>, changedField: keyof QolSettings) {
         const qol = this.current.qol;
         if (qol) {
+
             transaction(() => {
-                let changed = transferChangedFields(diff, qol, 'seenQolOnboarding', 'lastFullQol');
+                let changed = transferChangedFields(diff, qol, changedField);
 
                 if (changed) {
                     this.update({ qol });
@@ -166,30 +175,16 @@ export class LocalSettingsController implements ILocalSettingsController {
         }
     }
 
-    updateLastFullQol(diff: Partial<QolSettings>) {
-        const qol = this.current.qol;
-        if (qol) {
-            transaction(() => {
-                let changed = transferChangedFields(diff, qol, 'lastFullQol');
+    updateLastDailyCheckIn(diff: string) {
+        let lastDailyCheckIn = this.current.lastDailyCheckIn;
+        transaction(() => {
+            let changed = diff !== lastDailyCheckIn;
 
-                if (changed) {
-                    this.update({ qol });
-                }
-            });
-        }
-    }
-
-    updatePendingFullQol(diff: Partial<QolSettings>) {
-        const qol = this.current.qol;
-        if (qol) {
-            transaction(() => {
-                let changed = transferChangedFields(diff, qol, 'pendingFullQol');
-
-                if (changed) {
-                    this.update({ qol });
-                }
-            });
-        }
+            if (changed) {
+                lastDailyCheckIn = diff;
+                this.update({ lastDailyCheckIn });
+            }
+        });
     }
 }
 
@@ -225,6 +220,5 @@ function getLocalsHash(locals: LocalNotificationsSchedule): string {
     }
 
     const res = prts.join('');
-    // console.log('============= HASH:', res);
     return res;
 }
