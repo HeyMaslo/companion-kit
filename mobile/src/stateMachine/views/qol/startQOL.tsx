@@ -5,9 +5,9 @@ import { observer } from 'mobx-react';
 import { StyleSheet, Text } from 'react-native';
 import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
-import AppController from 'src/controllers';
 import { QolSurveyType } from 'src/constants/QoL';
 import { PersonaArmState } from 'dependencies/persona/lib';
+import AppController from 'src/controllers';
 
 const minContentHeight = 460;
 
@@ -16,20 +16,31 @@ export class QolStartView extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -15, transition: { duration: 1.5 } });
-        if (!AppController.Instance.User.localSettings?.current?.qol?.see) {
+        if (!AppController.Instance.User.localSettings?.current?.qol?.seenQolOnboarding) {
             this.viewModel.updateQolOnboarding();
         }
     }
 
     async start() {
         await this.viewModel.init();
+        const currentQolSettings = AppController.Instance.User.localSettings?.current.qol;
+
+        // If there is a short qol that is partialy complete submit it
+        if (currentQolSettings.pendingFullQol && currentQolSettings.pendingShortQol) {
+            await this.viewModel.sendSurveyResults();
+
+            if (this.viewModel.isUnfinished) {
+                await this.viewModel.saveSurveyProgress(null);
+            }
+            this.viewModel.qolSurveyType = QolSurveyType.Full;
+        }
     }
 
     public get viewModel() {
         return AppViewModel.Instance.QOL;
     }
 
-    private saveProgress = async() => {
+    private saveProgress = async () => {
         await this.viewModel.saveSurveyProgress(PersonaArmState.createEmptyArmState());
         this.cancel();
     }
@@ -60,19 +71,19 @@ export class QolStartView extends ViewState {
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
                 <Container style={[styles.container, { height: this._contentHeight }]}>
-                    <Text style={[this.textStyles.h1, styles.title]}>Welcome{(this.viewModel.QolSurveyType === QolSurveyType.Full) ? " back":""}!</Text>
-                    <Text style={[this.textStyles.p1, styles.message]}> {(this.viewModel.QolSurveyType === QolSurveyType.Full) ?
-                    "Welcome to your monthly check-in! We'll start with getting an update on your quality of life." :
-                    "I’m happy you’re here! First, I’ll need to gather some information about your current Quality of Life. Ready to begin?"}
+                    <Text style={[this.textStyles.h1, styles.title]}>Welcome{(this.viewModel.qolSurveyType === QolSurveyType.Full) ? " back" : ""}!</Text>
+                    <Text style={[this.textStyles.p1, styles.message]}> {(this.viewModel.qolSurveyType === QolSurveyType.Full) ?
+                        "Welcome to your monthly check-in! We'll start with getting an update on your quality of life." :
+                        "I’m happy you’re here! First, I’ll need to gather some information about your current Quality of Life. Ready to begin?"}
                     </Text>
-                    <Button title="I'M READY" style={styles.readyButton} onPress={() => this.onStartSurvey()}/>
+                    <Button title="I'M READY" style={styles.readyButton} onPress={() => this.onStartSurvey()} />
                 </Container>
             </MasloPage>
         );
     }
 }
 
-const styles = StyleSheet.create({ 
+const styles = StyleSheet.create({
     container: {
         paddingTop: '30%',
         alignItems: 'center'

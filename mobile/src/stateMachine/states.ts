@@ -60,17 +60,27 @@ export enum States {
     NotificationsSettings,
 
     // LIFE DOMAINS block
+    Focus_Domains,
     Choose_Domain,
     Domain_Details,
     Select_Domain,
     Three_Selected,
     Choose_end,
+    View_Domains,
+    Domain_Details_after_ViewDomains,
 
     // Strategies block
     Choose_Strategies,
-    Focus_Strategies,
-    Strategy_Details,
-    Strategy_Details2,
+    Review_Strategies,
+    Strategy_Details_after_Choose_Strategies,
+    Strategy_Details_after_Review_Strategies,
+    Strategy_Details_after_Focus_Domains,
+    Strategy_Details_after_Domain_Details,
+    Strategy_Details_after_Domain_Details_after_ViewDomains,
+    Strategy_Details_after_QolHistory_Strategies,
+    All_Strategies,
+    All_Strategies_after_ViewDomains,
+    QolHistory_Strategies,
 
     // QoL Block
     qol_Question,
@@ -78,4 +88,7 @@ export enum States {
     StartQol,
     QolQuestion,
     EndQol,
+
+    QolHistory,
+    QolHistoryTimline,
 }

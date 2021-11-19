@@ -1,8 +1,8 @@
-import { StrategyIded } from '../../../mobile/src/constants/Strategy';
-import { UserState } from 'common/models/userState';
+import { Strategy } from '../../../mobile/src/constants/Strategy';
 
 export interface IStrategyController {
 
-  getPossibleStrategies(): Promise<StrategyIded[]>
+  getPossibleStrategies(): Promise<Strategy[]>;
+  getChosenStrategiesIds(): Promise<string[]>;
   
 }

@@ -23,6 +23,7 @@ import AudioManager from 'src/services/Audio';
 import AppQueryService from 'src/services/AppQueryService';
 import AnalyticsExpo from 'src/services/AnalyticsService';
 import { InitAnalytics } from 'common/services/analytics/analytics';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 const logger = createLogger('[APP]');
 
@@ -90,12 +91,14 @@ export default class App extends React.Component<IAppProps> {
         }
 
         return (
-            <MobxProvider>
-                <View style={styles.container}>
-                    <StatusBar barStyle="light-content" hidden={true} />
-                    <AppRouter />
-                </View>
-            </MobxProvider>
+            <PaperProvider>
+                <MobxProvider>
+                    <View style={styles.container}>
+                        <StatusBar barStyle="light-content" hidden={true} />
+                        <AppRouter />
+                    </View>
+                </MobxProvider>
+            </PaperProvider>
         );
     }
 

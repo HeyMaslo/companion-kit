@@ -1,11 +1,12 @@
-import { observable, computed, toJS } from 'mobx';
-import { SurveyQuestions, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT } from "../constants/QoLSurvey";
-import { PersonaDomains } from '../stateMachine/persona';
+import { observable, computed } from 'mobx';
+import { SurveyQuestions, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT, ShortSurveyQuestions, SHORT_QUESTIONS_COUNT } from "../constants/QoLSurvey";
 import { createLogger } from 'common/logger';
 import AppController from 'src/controllers';
 import { ILocalSettingsController } from 'src/controllers/LocalSettings';
 import { PartialQol, QolSurveyResults, QolSurveyType } from 'src/constants/QoL';
 import { PersonaArmState } from 'dependencies/persona/lib';
+import { sum } from 'src/helpers/DomainHelper';
+import { DomainName } from 'src/constants/Domain';
 
 export const logger = createLogger('[QOLModel]');
 
@@ -17,22 +18,23 @@ export default class QOLSurveyViewModel {
     private _domainNum: number;
     private _surveyResponses: QolSurveyResults;
     private _armMagnitudes: PersonaArmState;
+    private initModel: Promise<void>;
     public isUnfinished: boolean;
-    public initModel: Promise<void>;
     public originalArmMagnitudes: PersonaArmState;
     public showInterlude: boolean = false;
-    public QolSurveyType: QolSurveyType;
+    public qolSurveyType: QolSurveyType;
     public startDate: number;
     public questionCompletionDates: number[];
 
-    public readonly numQuestions: number = QUESTIONS_COUNT;
     public readonly domainQuestionCount: number = DOMAIN_QUESTION_COUNT;
     private readonly _settings: ILocalSettingsController = AppController.Instance.User.localSettings;
-    
 
     constructor() {
         this.initModel = AppController.Instance.User.qol.getPartialQol().then((partialQolState: PartialQol) => {
-            if (partialQolState !== null) {
+            if (!this._settings.current?.qol?.seenQolOnboarding) {
+                this.updateQolOnboarding();
+            }
+            if (partialQolState !== null && typeof (partialQolState) !== 'undefined') {
                 this._questionNum = partialQolState.questionNum;
                 this._domainNum = partialQolState.domainNum;
                 this._surveyResponses = partialQolState.scores;
@@ -41,19 +43,17 @@ export default class QOLSurveyViewModel {
                 this._armMagnitudes = this.getArmMagnitudes(partialQolState.scores);
                 this.isUnfinished = true;
                 this.showInterlude = partialQolState.isFirstTimeQol;
+                this.qolSurveyType = partialQolState.surveyType;
                 return;
             } else {
                 this.startDate = new Date().getTime();
                 this._questionNum = 0;
                 this._domainNum = 0;
-                const surveyResponses = {};
-                for (let domain of PersonaDomains) {
-                    surveyResponses[domain] = 0;
-                }
-                this._surveyResponses = surveyResponses;
+                this._surveyResponses = QolSurveyResults.createEmptyResults();;
                 this.questionCompletionDates = [];
                 this._armMagnitudes = PersonaArmState.createEmptyArmState();
                 this.isUnfinished = false;
+                this.qolSurveyType = QolSurveyType.Full;
                 return;
             }
         });
@@ -70,19 +70,42 @@ export default class QOLSurveyViewModel {
     get domainNum(): number { return this._domainNum; }
 
     @computed
-    get question(): string { return SurveyQuestions[this._questionNum]; }
+    get question(): string {
+        switch (this.qolSurveyType) {
+            case (QolSurveyType.Full):
+                return SurveyQuestions[this._questionNum];
+            case (QolSurveyType.Short):
+                return ShortSurveyQuestions[this._questionNum];
+        }
+    }
 
     @computed
-    get domain(): string { return PersonaDomains[this._domainNum]; }
+    get domain(): string { return Object.values(DomainName)[this._domainNum]; }
+
+    get numQuestions(): number {
+        switch (this.qolSurveyType) {
+            case (QolSurveyType.Full):
+                return QUESTIONS_COUNT;
+            case (QolSurveyType.Short):
+                return SHORT_QUESTIONS_COUNT;
+        }
+    }
 
     get surveyResponses(): any { return this._surveyResponses; }
 
     get qolArmMagnitudes(): any { return this._armMagnitudes; }
 
-    set setQolSurveyType(type: QolSurveyType) { this.QolSurveyType = type; }
+    set setQolSurveyType(type: QolSurveyType) { this.qolSurveyType = type; }
 
-    public nextQuestion(): void {
-        if (!((this._questionNum + 1) > (QUESTIONS_COUNT - 1))) {
+    public nextQuestion(goBack?: boolean): void {
+        if (goBack) {
+            if (this._questionNum - 1 >= 0) {
+                this._questionNum--;
+                if ((this._questionNum + 1) % (DOMAIN_QUESTION_COUNT) === 0) {
+                    this._domainNum--;
+                }
+            }
+        } else if (this._questionNum + 1 <= QUESTIONS_COUNT - 1) {
             this._questionNum++;
             if ((this._questionNum + 1) % (DOMAIN_QUESTION_COUNT) === 1) {
                 this._domainNum++;
@@ -92,7 +115,7 @@ export default class QOLSurveyViewModel {
 
     public savePrevResponse(prevResponse: number): void {
         const currDomain: string = this.domain;
-        this._surveyResponses[currDomain] += prevResponse;
+        this._surveyResponses[currDomain][this.questionNum % DOMAIN_QUESTION_COUNT] = prevResponse;
         this.saveSurveyProgress(this.qolArmMagnitudes);
     }
 
@@ -118,6 +141,7 @@ export default class QOLSurveyViewModel {
                 isFirstTimeQol: this.showInterlude,
                 startDate: this.startDate,
                 questionCompletionDates: this.questionCompletionDates,
+                surveyType: this.qolSurveyType,
             }
             res = await AppController.Instance.User.qol.sendPartialQol(partialQol);
             this.isUnfinished = true;
@@ -126,23 +150,41 @@ export default class QOLSurveyViewModel {
     }
 
     public sendSurveyResults = async () => {
-        const res: boolean = await AppController.Instance.User.qol.sendSurveyResults(this._surveyResponses, this.startDate, this.questionCompletionDates);
+        let aggregateScore = 0;
+        const entries = Object.entries(this._surveyResponses)
+        for (const [key, value] of entries) {
+            aggregateScore += sum(value);
+        }
+        aggregateScore /= entries.length
+        const res: boolean = await AppController.Instance.User.qol.sendSurveyResults(this._surveyResponses, aggregateScore, this.qolSurveyType, this.startDate, this.questionCompletionDates);
         return res;
     }
 
-    public updateQolOnboarding = () => {
-        this._settings.updateQolOnboarding({ seenQolOnboarding: true, lastFullQol: Date() })
+    public updateQolOnboarding() {
+        this._settings.updateQolSettings({ seenQolOnboarding: true }, 'seenQolOnboarding');
+        this._settings.updateQolSettings({ lastFullQol: Date() }, 'lastFullQol');
         this.showInterlude = true;
     }
 
-    public updatePendingFullQol = () => {
-        this._settings.updatePendingFullQol({ pendingFullQol: false });
+    public updatePendingQol() {
+        switch (this.qolSurveyType) {
+            case QolSurveyType.Full:
+                this._settings.updateQolSettings({ pendingFullQol: false }, 'pendingFullQol');
+                break;
+            case QolSurveyType.Short:
+                this._settings.updateQolSettings({ pendingShortQol: false }, 'pendingShortQol');
+                break;
+        }
+
     }
 
     private getArmMagnitudes(scores: QolSurveyResults): PersonaArmState {
-        let currentArmMagnitudes: PersonaArmState = {};
-        for (let domain of PersonaDomains) {
-            let score: number = scores[domain];
+        let currentArmMagnitudes: PersonaArmState = PersonaArmState.createEmptyArmState();
+        for (let domain of Object.values(DomainName)) {
+            let score: number = 0;
+            scores[domain].forEach((val) => {
+                score += val;
+            })
             let mag: number;
             if (score === 0) { mag = 0.2; }
             else { mag = 0.4 + (score * 3 / 100); }
@@ -150,5 +192,5 @@ export default class QOLSurveyViewModel {
         }
         return currentArmMagnitudes;
     }
-    
+
 }

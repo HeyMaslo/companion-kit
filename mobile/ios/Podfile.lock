@@ -457,11 +457,15 @@ PODS:
   - RNFBApp (10.5.0):
     - Firebase/CoreOnly (~> 7.4.0)
     - React-Core
+  - RNReactNativeHapticFeedback (1.13.0):
+    - React-Core
   - RNSentry (2.1.1):
     - React-Core
     - Sentry (= 6.0.9)
   - RNSVG (12.1.0):
     - React
+  - RNVectorIcons (8.1.0):
+    - React-Core
   - Sentry (6.0.9):
     - Sentry/Core (= 6.0.9)
   - Sentry/Core (6.0.9)
@@ -565,8 +569,10 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
+  - RNReactNativeHapticFeedback (from `../node_modules/react-native-haptic-feedback`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNSVG (from `../node_modules/react-native-svg`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - UMAppLoader (from `../node_modules/unimodules-app-loader/ios`)
   - UMBarCodeScannerInterface (from `../node_modules/unimodules-barcode-scanner-interface/ios`)
   - UMCameraInterface (from `../node_modules/unimodules-camera-interface/ios`)
@@ -722,10 +728,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
+  RNReactNativeHapticFeedback:
+    :path: "../node_modules/react-native-haptic-feedback"
   RNSentry:
     :path: "../node_modules/@sentry/react-native"
   RNSVG:
     :path: "../node_modules/react-native-svg"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
   UMAppLoader:
     :path: "../node_modules/unimodules-app-loader/ios"
   UMBarCodeScannerInterface:
@@ -834,8 +844,10 @@ SPEC CHECKSUMS:
   ReactCommon: bedc99ed4dae329c4fcf128d0c31b9115e5365ca
   RNDateTimePicker: a84d2b439666c9243d42a8396c588d4d1d36e3f3
   RNFBApp: 43a062dc6a1a88edd934d2229d1ba64f25381598
+  RNReactNativeHapticFeedback: b83bfb4b537bdd78eb4f6ffe63c6884f7b049ead
   RNSentry: 6b46b6fc1d715a378fbaa5d7d43bc9ce99b500e5
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
+  RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
   Sentry: 388c9dc093b2fd3a264466a5c5b21e25959610a9
   UMAppLoader: 61049c8d55590b74e9ae1d5429bf68d96b4a2528
   UMBarCodeScannerInterface: e5e4c87797d3d01214e25cd1618866caf5d4f17f
@@ -853,6 +865,6 @@ SPEC CHECKSUMS:
   Yoga: a7de31c64fe738607e7a3803e3f591a4b1df7393
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: c197a385793696406beed33a3cd832c2207cd7af
+PODFILE CHECKSUM: 75b260dcff1b6ac1f107388d94512a4a6638946e
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2
