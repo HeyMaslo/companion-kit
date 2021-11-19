@@ -1,48 +1,29 @@
+require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
-require_relative '../node_modules/react-native-unimodules/cocoapods.rb'
 
 platform :ios, '13.0'
 
 target 'CompanionKit' do
-  use_unimodules!
+  use_expo_modules!
   config = use_native_modules!
 
-  use_react_native!(:path => config["reactNativePath"])
+  use_react_native!(:path => config[:reactNativePath])
+
+  pod 'ExpoModulesCore', :path => "../node_modules/expo-modules-core/ios"
+
 
   target 'CompanionKitTests' do
     inherit! :complete
     # Pods for testing
   end
 
-  use_flipper!({ 'Flipper-Folly' => '2.5.3', 'Flipper' => '0.87.0', 'Flipper-RSocket' => '1.3.1' })
-
-  # Fix for Folly Pod on Xcode 12.5
-  # Adapted from https://github.com/facebook/flipper/issues/2215#issuecomment-829053571
-
-  def find_and_replace(dir, findstr, replacestr)
-    Dir[dir].each do |name|
-        text = File.read(name)
-        replace = text.gsub(findstr,replacestr)
-        replaced = text.index(replacestr)
-        if replaced == nil && text != replace
-            puts "Fix: " + name
-            File.open(name, "w") { |file| file.puts replace }
-            STDOUT.flush
-        end
-    end
-    Dir[dir + '*/'].each(&method(:find_and_replace))
-  end
+  use_flipper!()
 
   post_install do |installer|
-    flipper_post_install(installer)
+	    react_native_post_install(installer)
+	    # __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
-
-  find_and_replace("Pods/RCT-Folly/folly/synchronization/DistributedMutex-inl.h",
-                   "atomic_notify_one(state)", "folly::atomic_notify_one(state)")
-
-  find_and_replace("Pods/RCT-Folly/folly/synchronization/DistributedMutex-inl.h",
-  "atomic_wait_until(&state, previous | data, deadline)", "folly::atomic_wait_until(&state, previous | data, deadline)")
     
   end
 

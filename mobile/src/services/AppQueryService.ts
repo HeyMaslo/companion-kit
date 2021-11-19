@@ -1,7 +1,7 @@
 
 import { createLogger } from 'common/logger';
 import { ParsedURL } from 'expo-linking';
-import { Linking } from 'expo';
+import * as  Linking from 'expo-linking';
 import { observable, transaction } from 'mobx';
 import Lazy from 'common/utils/lazy';
 
@@ -63,18 +63,18 @@ export class AppQueryService implements IAppQueryService {
 
         const params: AppQueryParameters = { };
 
-        if (result.queryParams?.link) {
-            const linkParsed = Linking.parse(result.queryParams.link);
-            params.mode = linkParsed.queryParams?.mode;
-            params.oobCode = linkParsed.queryParams?.oobCode;
+        // if (result.queryParams?.link) {
+        //     const linkParsed = Linking.parse(result.queryParams.link);
+        //     params.mode = linkParsed.queryParams?.mode;
+        //     params.oobCode = linkParsed.queryParams?.oobCode;
 
-            if (linkParsed?.queryParams?.continueUrl) {
-                const continueUrlParsed = Linking.parse(linkParsed?.queryParams?.continueUrl);
-                params.appParams = continueUrlParsed?.queryParams;
-            }
-        } else {
-            params.appParams = result.queryParams || { };
-        }
+        //     if (linkParsed?.queryParams?.continueUrl) {
+        //         const continueUrlParsed = Linking.parse(linkParsed?.queryParams?.continueUrl);
+        //         params.appParams = continueUrlParsed?.queryParams;
+        //     }
+        // } else {
+        //     params.appParams = result.queryParams || { };
+        // }
 
         transaction(() => {
             this._currentUrl = e.url;

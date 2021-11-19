@@ -1,4 +1,3 @@
-import * as Sentry from 'sentry-expo';
 import { reaction } from 'mobx';
 
 import { IAnalytics, UserInfo, EventData } from 'common/services/analytics/analytics';
@@ -27,12 +26,6 @@ class AnalyticsExpo implements IAnalytics {
     }
 
     initialize = () => {
-        if (Env.SentryDSN) {
-            Sentry.init({
-                dsn: Env.SentryDSN,
-                enableInExpoDevelopment: false,
-            } as Sentry.ReactNativeOptions);
-        }
 
         this.initialized = true;
     }
@@ -47,12 +40,6 @@ class AnalyticsExpo implements IAnalytics {
                 // this.Segment.identifyWithTraits(id, { username, email, appVersion });
             }
 
-            Sentry.configureScope(scope => {
-                scope.setUser({ username, email, id });
-            });
-
-            Sentry.setRelease(appVersion);
-
             this.userInfo = userData;
         }
     }
@@ -62,7 +49,7 @@ class AnalyticsExpo implements IAnalytics {
             return;
         }
 
-        Sentry.captureMessage(event.message);
+
         // Firebase.Instance.analytics.logEvent('custom');
     }
 
@@ -71,7 +58,7 @@ class AnalyticsExpo implements IAnalytics {
             return;
         }
 
-        Sentry.captureException(error);
+
 
         if (__DEV__) {
             console.log('[AnalyticsExpo] Captured error', error);
