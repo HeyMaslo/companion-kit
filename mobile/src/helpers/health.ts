@@ -87,38 +87,35 @@ const fetchAndroidHealthData = async () => {
       logger.log('GOOGLE_FIT: Step Data: ', JSON.stringify(stepsData));
 }
 
-export const authAndroid = () => {
-  const authValue = GoogleFit.checkIsAuthorized().then(() => {
-    var isAuth = GoogleFit.isAuthorized;
-    logger.log('GOOGLE_FIT_IS_AUTHORIZED?', isAuth)
-    if (isAuth) {
-      logger.log('GOOGLE_FIT_IS_AUTHORIZED');
-      // Authentication already authorized for a particular device
-      // fetch the android health data
-      fetchAndroidHealthData();
-    } else {
+export const authAndroid = async () => {
+  await GoogleFit.checkIsAuthorized();
+  let isAuth = GoogleFit.isAuthorized;
+  logger.log('GOOGLE_FIT_IS_AUTHORIZED?', isAuth)
+  if (isAuth) {
+    logger.log('GOOGLE_FIT_IS_AUTHORIZED');
+    // Authentication already authorized for a particular device
+    // fetch the android health data
+    await fetchAndroidHealthData();
+  } else {
+    try {
       // Authentication if already not authorized for a particular device
-      GoogleFit.authorize(runOptions)
-        .then(authResult => {
-          if (authResult.success) {
-            console.log('AUTH_SUCCESS');
-            isAuth = true
-            // if successfully authorized, fetch data
-            fetchAndroidHealthData();
-          } else {
-            // Auth fails/denied
-            console.log('AUTH_DENIED ' + authResult);
-            isAuth = false;
-          }
-        })
-        .catch((error) => {
-          // catch errors if Auth fails
-          console.log('AUTH_ERROR: ', error);
-        });
-    }
-    return isAuth;
-  })
-  return authValue;
+      const authResult = await GoogleFit.authorize(runOptions);
+      if (authResult.success) {
+        console.log('AUTH_SUCCESS');
+        isAuth = true
+        // if successfully authorized, fetch data
+        await fetchAndroidHealthData();
+      } else {
+        // Auth fails/denied
+        console.log('AUTH_DENIED ' + authResult);
+        isAuth = false;
+      }
+    } catch (error) {
+        // catch errors if Auth fails
+        console.log('AUTH_ERROR: ', error);
+    };
+  }
+  return isAuth;
 }
 
 export const disconnectAndroid = () => { GoogleFit.disconnect() }
