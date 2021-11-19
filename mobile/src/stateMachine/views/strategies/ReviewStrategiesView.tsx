@@ -10,7 +10,10 @@ import { ViewState } from '../base';
 import { AlertExitWithoutSave } from 'src/constants/alerts';
 
 @observer
-export class FocusStrategiesView extends ViewState {
+export class ReviewStrategiesView extends ViewState {
+
+  private showButton = true;
+
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0} });
@@ -19,8 +22,8 @@ export class FocusStrategiesView extends ViewState {
         this.onLearnMorePress = this.onLearnMorePress.bind(this);
     }
 
-    public get viewModel() {
-        return AppViewModel.Instance.ChooseStrategy;
+    private get viewModel() {
+        return AppViewModel.Instance.Strategy;
     }
 
     async start() {
@@ -61,22 +64,30 @@ export class FocusStrategiesView extends ViewState {
     renderListItem = ({ item }) => (
       <StrategyCard item={item} onSelectStrategy={(()=>(null))} onLearnMorePress={this.onLearnMorePress} hideCheckbox={true}/>
     );
+    
+    public renderInnerContent(titleText: string, showButton: boolean, listData?: any[]): JSX.Element {
+      this.showButton = showButton;
+      return (
+            <>
+            {/* Title */}
+            <View style={{justifyContent: 'center', flexDirection: 'row', marginBottom: 20}}>
+              <Text style={[TextStyles.h2, styles.strategy]}>{titleText}</Text>
+            </View>
+            {/* List of Strategies */}
+            <FlatList style={styles.list}    
+            data={listData || this.viewModel.selectedStrategies}
+            renderItem={this.renderListItem}
+            keyExtractor={item => item.internalId}/>
+          </>
+      );
+    }
 
     renderContent() {
-      console.log('availableStrategies', this.viewModel.availableStrategies.length)
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} onBack={this.onBack}>
-                <Container style={[{height: this._contentHeight, paddingTop: 10, paddingBottom: 10}]}>
-                    {/* Title */}
-                    <View style={{justifyContent: 'center', flexDirection: 'row', marginBottom: 20}}>
-                        <Text style={[TextStyles.h2, styles.strategy]}>{'Here are your focus strategies.'}</Text>
-                    </View>
-                    {/* List of Strategies */}
-                    <FlatList style={styles.list}    
-                    data={this.viewModel.selectedStrategies}
-                    renderItem={this.renderListItem}
-                    keyExtractor={item => item.id}/>
-                    <Button title='CONTINUE' style={styles.selectButton} onPress={this.nextPage}/>
+            <MasloPage style={this.baseStyles.page} onBack={this.onBack}>
+                <Container style={[{height: this._contentHeight, paddingTop: 10}]}>
+                  {this.renderInnerContent('Here are your focus strategies.', true)}
+                  {this. showButton && <Button title='CONTINUE' style={styles.selectButton} onPress={this.nextPage}/>}
                 </Container>
             </MasloPage>
         );
@@ -109,7 +120,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   selectButton: {
-    marginBottom: 30,
+    marginBottom: 20,
   },
   icon: {
     display: 'flex',

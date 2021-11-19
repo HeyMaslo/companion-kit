@@ -13,10 +13,9 @@ import { Identify, DocumentLinkEntry, DocumentLinkShareStatuses } from 'common/m
 import { arraySplit } from 'common/utils/mathx';
 import { UserProfileViewModel } from './UserProfileViewModel';
 import { QolSurveyResults } from 'src/constants/QoL';
-import { PersonaDomains } from 'src/stateMachine/persona';
 import { PersonaArmState } from 'dependencies/persona/lib';
 import { ILocalSettingsController } from 'src/controllers/LocalSettings';
-import logger from 'common/logger';
+import { DomainName } from 'src/constants/Domain';
 
 const EmptyArr: any[] = [];
 
@@ -175,7 +174,7 @@ export default class HomeViewModel {
         nextFullQol.setDate(nextFullQol.getDate() + 28);
         const today: Date = new Date();
         if (nextFullQol.getDay() === today.getDay() && nextFullQol.getMonth() === today.getMonth()
-        && nextFullQol.getFullYear() === today.getFullYear()) {
+            && nextFullQol.getFullYear() === today.getFullYear()) {
             this._settings.updateLastFullQol({ lastFullQol: Date() });
             this._settings.updatePendingFullQol({ pendingFullQol: true });
             return true;
@@ -185,12 +184,15 @@ export default class HomeViewModel {
 
     public getArmMagnitudes = async () => {
         const lastSurveyScores: QolSurveyResults = await AppController.Instance.User.qol.getSurveyResults();
-        if (lastSurveyScores === null) {
+        if (lastSurveyScores == null) {
             return PersonaArmState.createEmptyArmState();
         }
-        let currentArmMagnitudes: PersonaArmState = {};
-        for (let domain of PersonaDomains) {
-            let score: number = lastSurveyScores[domain];
+        let currentArmMagnitudes = PersonaArmState.createZeroArmState();
+        for (let domain of Object.values(DomainName)) {
+            let score: number = 0;
+            lastSurveyScores[domain].forEach((val) => {
+                score += val;
+            })
             let mag: number = 0.4 + (score * 3 / 100);
             currentArmMagnitudes[domain] = mag;
         }

@@ -137,7 +137,7 @@ export class LocalSettingsController implements ILocalSettingsController {
     }
 
     updateNotifications(diff: Partial<NotificationsSettings>) {
-        const notifications = this.current.notifications || { };
+        const notifications = this.current.notifications || {};
         transaction(() => {
             let changed = transferChangedFields(diff, notifications, 'enabled', 'token');
 
@@ -154,36 +154,42 @@ export class LocalSettingsController implements ILocalSettingsController {
     }
 
     updateQolOnboarding(diff: Partial<QolSettings>) {
-        const qol = this.current.qol || { };
-        transaction(() => {
-            let changed = transferChangedFields(diff, qol, 'seenQolOnboarding', 'lastFullQol');
+        const qol = this.current.qol;
+        if (qol) {
+            transaction(() => {
+                let changed = transferChangedFields(diff, qol, 'seenQolOnboarding', 'lastFullQol');
 
-            if (changed) {
-                this.update({ qol });
-            }
-        });
+                if (changed) {
+                    this.update({ qol });
+                }
+            });
+        }
     }
 
     updateLastFullQol(diff: Partial<QolSettings>) {
-        const qol = this.current.qol || { };
-        transaction(() => {
-            let changed = transferChangedFields(diff, qol, 'lastFullQol');
+        const qol = this.current.qol;
+        if (qol) {
+            transaction(() => {
+                let changed = transferChangedFields(diff, qol, 'lastFullQol');
 
-            if (changed) {
-                this.update({ qol });
-            }
-        });
+                if (changed) {
+                    this.update({ qol });
+                }
+            });
+        }
     }
 
     updatePendingFullQol(diff: Partial<QolSettings>) {
-        const qol = this.current.qol || { };
-        transaction(() => {
-            let changed = transferChangedFields(diff, qol, 'pendingFullQol');
+        const qol = this.current.qol;
+        if (qol) {
+            transaction(() => {
+                let changed = transferChangedFields(diff, qol, 'pendingFullQol');
 
-            if (changed) {
-                this.update({ qol });
-            }
-        });
+                if (changed) {
+                    this.update({ qol });
+                }
+            });
+        }
     }
 }
 

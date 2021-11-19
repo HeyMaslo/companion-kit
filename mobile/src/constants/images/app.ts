@@ -16,6 +16,7 @@ import CameraIconSVG from 'src/assets/images/app/camera-icon.svg';
 import RefreshIconSVG from 'src/assets/images/app/refresh-icon.svg';
 import DarkRefreshIconSVG from 'src/assets/images/app/refresh-icon-dark.svg';
 import ArrowRightSVG from 'src/assets/images/app/arrow-right.svg';
+import CaretDownSVG from 'src/assets/images/app/caret-down.svg';
 import EnvelopeIconSVG from 'src/assets/images/app/envelope-icon.svg';
 import BellIconSVG from 'src/assets/images/app/bell-icon.svg';
 import KeyIconSVG from 'src/assets/images/app/key-icon.svg';
@@ -50,11 +51,19 @@ import GoalsActiveSVG from 'src/assets/images/app/goals-icon-active.svg';
 import GoalsIndicatorSVG from 'src/assets/images/app/goals-icon-indicator.svg';
 import GoalsIndicatorActiveSVG from 'src/assets/images/app/goals-icon-indicator-active.svg';
 import SettingsIconActiveSVG from 'src/assets/images/app/settings-icon-active.svg';
-import LeisureIconSVG from 'src/assets/images/app/leisure.svg';
-import MoneyIconSVG from 'src/assets/images/app/money.svg';
-import PhysicalIconSVG from 'src/assets/images/app/physical.svg';
-import SelfEsteemIconSVG from 'src/assets/images/app/selfesteem.svg';
-import SleepIconSVG from 'src/assets/images/app/sleep.svg';
+// Note: Domain icons are not finallized so some are reused
+import LeisureIconSVG from 'src/assets/images/app/domain/leisure.svg';
+import SleepIconSVG from 'src/assets/images/app/domain/sleep.svg';
+import MoneyIconSVG from 'src/assets/images/app/domain/money.svg';
+import PhysicalIconSVG from 'src/assets/images/app/domain/physical.svg';
+import SelfEsteemIconSVG from 'src/assets/images/app/domain/self-esteem.svg';
+import HomeDomainIconSVG from 'src/assets/images/app/domain/sleep.svg';
+import MoodIconSVG from 'src/assets/images/app/domain/mood.svg';
+import ThinkingIconSVG from 'src/assets/images/app/domain/thinking.svg';
+import IdentityIconSVG from 'src/assets/images/app/domain/sleep.svg';
+import IndependenceIconSVG from 'src/assets/images/app/domain/independence.svg';
+import SpirtualIconSVG from 'src/assets/images/app/domain/spiritual.svg';
+import RelationshipsIconSVG from 'src/assets/images/app/domain/relationships.svg';
 
 export default {
     signInWithGoogle: GoogleIconPng,
@@ -75,6 +84,7 @@ export default {
     refreshIcon: RefreshIconSVG,
     darkRefreshIcon: DarkRefreshIconSVG,
     arrowRight: ArrowRightSVG,
+    caretDown: CaretDownSVG,
     envelopeIcon: EnvelopeIconSVG,
     bellIcon: BellIconSVG,
     keyIcon: KeyIconSVG,
@@ -114,9 +124,16 @@ export default {
     homeIcon: HomeIconSVG,
     busIcon: BusIconSVG,
     // Domain
-    leisureIcon: LeisureIconSVG,
-    moneyIcon: MoneyIconSVG,
+    moodIcon: MoodIconSVG,
     physicalIcon: PhysicalIconSVG,
-    selfEsteemIcon: SelfEsteemIconSVG,
     sleepIcon: SleepIconSVG,
+    thinkingIcon: ThinkingIconSVG,
+    identityIcon: IdentityIconSVG,
+    leisureIcon: LeisureIconSVG,
+    independenceIcon: IndependenceIconSVG,
+    selfEsteemIcon: SelfEsteemIconSVG,
+    homeDomainIcon: HomeDomainIconSVG,
+    moneyIcon: MoneyIconSVG,
+    spirtualIcon: SpirtualIconSVG,
+    relationshipsIcon: RelationshipsIconSVG,
 };

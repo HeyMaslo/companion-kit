@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Animated } from 'react-native';
 
-const styles = StyleSheet.create({
+export const containerStyles = StyleSheet.create({
     container: {
         width: '100%',
         paddingLeft: 20,
@@ -21,7 +21,7 @@ export default class Container extends React.Component<ContainerProps> {
         const { children, style } = this.props;
 
         return (
-            <View style={[styles.container, style]}>
+            <View style={[containerStyles.container, style]}>
                 {children}
             </View>
         );
