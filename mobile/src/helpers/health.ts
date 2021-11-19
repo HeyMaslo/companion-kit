@@ -28,7 +28,6 @@ const opt = {
 
 const fetchStepsData = async opt => {
   const res = await GoogleFit.getDailyStepCountSamples(opt);
-  logger.log('fetchStepsData results: ', res)
   if (res.length !== 0) {
     for (var i = 0; i < res.length; i++) {
       if (res[i].source === 'com.google.android.gms:estimated_steps') {
@@ -89,7 +88,7 @@ const fetchAndroidHealthData = async () => {
 }
 
 export const authAndroid = () => {
-  const authValue = GoogleFit.checkIsAuthorized().then(async () => {
+  const authValue = GoogleFit.checkIsAuthorized().then(() => {
     var isAuth = GoogleFit.isAuthorized;
     logger.log('GOOGLE_FIT_IS_AUTHORIZED?', isAuth)
     if (isAuth) {
