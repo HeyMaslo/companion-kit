@@ -16,7 +16,7 @@ export enum ScenarioTriggers {
     Quaternary,
     Quinary,
     Next,
-    TESTING // used for development only and will be removed
+    TESTING // used for development only and should be removed when testing button on home screen is removed
 }
 
 export enum NavigationStates {
