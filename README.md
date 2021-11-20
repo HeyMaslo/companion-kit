@@ -65,7 +65,14 @@ The project contains `.nvmrc` files that indicate the correct node version to us
 
 **iOS**: To run project locally run `yarn ios` from the `./mobile` directory
 
-**Android**: To run project locally the first time, open the android directory in android studio, sync with gradle and run the app. In subsequent runs, run `yarn android` from the `./mobile` directory
+**Android**: Make sure your android folder has a `local.properties` file and that it contains the following: (Note: following paths are for Mac, will be different on Windows)
+```
+sdk.dir=/Users/_YourUsername_/Library/Android/sdk
+ndk.dir=/Users/_YourUsername_/Library/Android/sdk/ndk-bundle
+```
+You may need to install NDK by going to Android Studio File > Project Structure and clicking Download Android NPK.
+
+To run project locally the first time, open the android directory in android studio, sync with gradle and run the app. In subsequent runs, run `yarn android` from the `./mobile` directory
 
 ### Run Mobile Apps Locally on a Real Device
 
