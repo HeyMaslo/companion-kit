@@ -11,7 +11,7 @@
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
   "dependencies": {
-    "@react-native-community/datetimepicker": "^3.0.2",
+    "@react-native-community/datetimepicker": "^3.5.2",
     "@react-native-firebase/app": "^13.0.1",
     "base-64": "^1.0.0",
     "computed-async-mobx": "^6.1.0",

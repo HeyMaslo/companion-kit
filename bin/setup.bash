@@ -99,8 +99,5 @@ if [ $mobile == 1 ]; then
         pod install --repo-update
     fi
     cd ../..
-    echo "Copying patched gradle.groovy"
-    # This is used to fix lines 81 & 82, if 'react-native-unimodules' is updated, our fixed version must be updated as well
-    cp mobile/gradle.groovy mobile/node_modules/react-native-unimodules
 fi
 echo "Done."
