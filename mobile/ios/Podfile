@@ -13,6 +13,7 @@ target 'CompanionKit' do
   pod 'ExpoModulesCore', :path => "../node_modules/expo-modules-core/ios"
 
 
+
   target 'CompanionKitTests' do
     inherit! :complete
     # Pods for testing

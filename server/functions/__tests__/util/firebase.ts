@@ -10,7 +10,7 @@ export function init(name: string) {
     };
     const test = fbFuncTest(config);
     const app = admin.initializeApp(config, name);
-    return {test: test, app : app};
+    return { test: test, app: app };
 }
 
 export async function clear() {

@@ -51,8 +51,10 @@
     "react-native-haptic-feedback": "^1.13.0",
     "react-native-markdown-renderer": "^3.2.8",
     "react-native-modal-datetime-picker": "^13.0.0",
+    "react-native-paper": "^4.9.2",
     "react-native-shadow": "^1.2.2",
     "react-native-svg": "^12.1.0",
+    "react-native-vector-icons": "^8.1.0",
     "rn-apple-healthkit": "0.8.0",
     "simplex-noise": "3.0.0",
     "three": "^0.125.0"

@@ -17,3 +17,6 @@ common/models/ClientCard.ts
 
 **/**/**/*.swp
 /server/functions/api_key.json
+gradle/
+.gradle
+gen

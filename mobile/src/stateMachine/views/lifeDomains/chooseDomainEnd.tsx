@@ -3,9 +3,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, Container, MasloPage } from 'src/components';
-// import { styles } from 'react-native-markdown-renderer';
 import Layout from 'src/constants/Layout';
-import AppController from 'src/controllers';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
@@ -22,8 +20,12 @@ export class ChooseDomainEndView extends ViewState {
         this.persona.view = {...this.persona.view, position: { x: this.persona.view.position.x, y: Layout.window.height*0.18} };
     }
 
-    public get viewModel() {
-        return AppViewModel.Instance.ChooseDomain;
+    private get viewModel() {
+        return AppViewModel.Instance.Domain;
+    }
+
+    private get strategiesViewModel() {
+        return AppViewModel.Instance.Strategy;
     }
 
     async start() {}
@@ -32,24 +34,24 @@ export class ChooseDomainEndView extends ViewState {
         this.trigger(ScenarioTriggers.Cancel);
     }
 
-    async onThreeSelected() {
-        let possibleStrategies = await AppController.Instance.User.strategy.getPossibleStrategies();
-        AppViewModel.Instance.ChooseStrategy.setAvailableStrategies(possibleStrategies);
+    private onBack = () => {
+        this.trigger(ScenarioTriggers.Back);
+    }
+
+    async onChooseStrategies() {
+        this.viewModel.postSelectedDomains();
+        this.strategiesViewModel.updateAvailableStrategiesForSelectedDomains();
         this.trigger(ScenarioTriggers.Submit)
     }
 
     renderContent() {
-        const [l,mainDomain,r,i] = this.viewModel.getDomainDisplay();
-        const selectedDomains = this.viewModel.selectedDomains;
-        logger.log('MY_SELECTL', selectedDomains.length);
-
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()}>
+            <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.onBack()}>
                 <Container style={[styles.flexContainer, { height: this._contentHeight, justifyContent: 'space-between',}]}>
                     <Text style={[this.textStyles.h1, styles.title]}>Next, you'll choose strategies for your focus domains </Text>
                     <View style ={{width: '90%', flex: 0, alignItems: 'center', justifyContent: 'space-around', marginBottom: 15}}>
                         <Text style={[this.textStyles.p3, styles.message]}>You can choose up to 4 strategies and update them weekly</Text>
-                        <Button title='View Strategies' style={styles.continueButton} onPress={() => this.onThreeSelected()}/>
+                        <Button title='View Strategies' style={styles.continueButton} onPress={() => this.onChooseStrategies()}/>
                     </View>
                 </Container>
             </MasloPage>

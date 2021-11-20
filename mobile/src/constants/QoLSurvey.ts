@@ -1,6 +1,6 @@
 export const DOMAIN_QUESTION_COUNT = 4;
 
-export const SurveyQuestions  = [
+export const SurveyQuestions = [
     "Had plenty of energy",
     "Had the right amount of exercise for me",
     "Felt physically well",
@@ -12,7 +12,7 @@ export const SurveyQuestions  = [
     "Kept a rountine in my sleep-wake schedule",
 
     "Felt happy",
-    "Enjoyed things as much as I ususally do",
+    "Enjoyed things as much as I usually do",
     "Felt able to cope",
     "Felt emotionally balanced",
 
@@ -63,3 +63,21 @@ export const SurveyQuestions  = [
 ];
 
 export const QUESTIONS_COUNT = SurveyQuestions.length; // 48
+
+
+export const ShortSurveyQuestions = [
+    "Felt physically well",
+    "Awoken feeling refreshed",
+    "Enjoyed things as much as I ususally do",
+    "Had good concentration",
+    "Been interested in my leisure activities",
+    "Been interested in my social relationships",
+    "Practised my spirituality as I wish",
+    "Had enough money for extras",
+    "Kept my home tidy",
+    "Felt accepted by others",
+    "Traveled around freely (e.g., driving, using public transport)",
+    "Had a clear idea of what I want and don’t want",
+];
+
+export const SHORT_QUESTIONS_COUNT = ShortSurveyQuestions.length; // 12

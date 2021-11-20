@@ -1,4 +1,4 @@
-import { DomainScope, Domain } from '../../../mobile/src/constants/Domain';
+import { DomainScope, Domain, DomainName } from '../../../mobile/src/constants/Domain';
 import { Repo } from './services/db';
 import { Identify } from 'common/models';
 import { QoL as QoLFunctions } from 'common/abstractions/functions';
@@ -38,9 +38,9 @@ export async function createDomain(args: CreateDomainRequest)
     if (args.scope in DomainScope) {
         await Repo.Domains.create({
             scope:      args.scope as DomainScope,
-            name:       args.name,
-            slug:       args.slug,
+            name:       args.name as DomainName,
             importance: args.importance,
+            bullets:    args.bullets,
         });
         return {
             error: null,
@@ -61,10 +61,10 @@ export async function getDomains(): Promise<GetDomainsResponse> {
 
 export async function createQuestion(args: CreateQuestionRequest)
     : Promise<CreateQuestionResponse> {
-    const dom: Maybe<Domain> = await Repo.Domains.getBySlug(args.domainSlug);
+    const dom: Maybe<Domain> = await Repo.Domains.getByName(args.domainName);
     return await wrapAsync<Domain, CreateQuestionResponse>(dom, async () => {
         await Repo.Questions.create({
-            domainId: dom.slug,
+            domainId: dom.name,
             text: args.text,
             position: args.position,
         });
@@ -73,7 +73,7 @@ export async function createQuestion(args: CreateQuestionRequest)
         };
     }, async () => {
         return {
-            error: 'Domain with slug does not exist',
+            error: 'Domain with name does not exist',
         };
     });
 }
