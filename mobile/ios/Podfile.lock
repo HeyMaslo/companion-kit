@@ -48,6 +48,8 @@ PODS:
     - ExpoModulesCore
   - EXKeepAwake (10.0.0):
     - ExpoModulesCore
+  - EXLinearGradient (10.0.3):
+    - ExpoModulesCore
   - EXMediaLibrary (13.0.3):
     - ExpoModulesCore
     - React-Core
@@ -434,15 +436,17 @@ PODS:
     - React-jsi (= 0.66.3)
     - React-logger (= 0.66.3)
     - React-perflogger (= 0.66.3)
-  - RNDateTimePicker (3.0.2):
-    - React
+  - RNDateTimePicker (3.5.2):
+    - React-Core
   - RNFBApp (13.0.1):
     - Firebase/CoreOnly (= 8.9.1)
     - React-Core
   - RNReactNativeHapticFeedback (1.13.0):
     - React-Core
-  - RNSVG (12.1.0):
+  - RNSVG (12.1.1):
     - React
+  - RNVectorIcons (8.1.0):
+    - React-Core
   - UMTaskManagerInterface (7.0.3):
     - ExpoModulesCore
   - Yoga (1.14.0)
@@ -470,6 +474,7 @@ DEPENDENCIES:
   - EXImageManipulator (from `../node_modules/expo-image-manipulator/ios`)
   - EXImagePicker (from `../node_modules/expo-image-picker/ios`)
   - EXKeepAwake (from `../node_modules/expo-keep-awake/ios`)
+  - EXLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
   - EXMediaLibrary (from `../node_modules/expo-media-library/ios`)
   - EXNotifications (from `../node_modules/expo-notifications/ios`)
   - EXPermissions (from `../node_modules/expo-permissions/ios`)
@@ -533,6 +538,7 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - RNReactNativeHapticFeedback (from `../node_modules/react-native-haptic-feedback`)
   - RNSVG (from `../node_modules/react-native-svg`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - UMTaskManagerInterface (from `../node_modules/unimodules-task-manager-interface/ios`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -605,6 +611,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-image-picker/ios"
   EXKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
+  EXLinearGradient:
+    :path: "../node_modules/expo-linear-gradient/ios"
   EXMediaLibrary:
     :path: "../node_modules/expo-media-library/ios"
   EXNotifications:
@@ -683,6 +691,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-haptic-feedback"
   RNSVG:
     :path: "../node_modules/react-native-svg"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
   UMTaskManagerInterface:
     :path: "../node_modules/unimodules-task-manager-interface/ios"
   Yoga:
@@ -711,6 +721,7 @@ SPEC CHECKSUMS:
   EXImageManipulator: 49bbcede2429523edfd95dc242cf7f8fdf271307
   EXImagePicker: bf704ef8e9171b05696a24114b44c6629565b45d
   EXKeepAwake: 8aa32396a5972d26e75e538603aad0f032396503
+  EXLinearGradient: 4d727eacb53d19ef25b02dd810e0199b453489ce
   EXMediaLibrary: 2a684cca228d6605a72f9995d3e7b8af2a05246c
   EXNotifications: 4a2beb5a2a7292ba64165413811b7c495bcb1297
   EXPermissions: 7696f4c16e89981f84c04d96327f7e1e592373c0
@@ -768,14 +779,15 @@ SPEC CHECKSUMS:
   React-RCTVibration: 50cfe7049167cfc7e83ac5542c6fff0c76791a9b
   React-runtimeexecutor: bbbdb3d8fcf327c6e2249ee71b6ef1764b7dc266
   ReactCommon: 9bac022ab71596f2b0fde1268272543184c63971
-  RNDateTimePicker: a84d2b439666c9243d42a8396c588d4d1d36e3f3
+  RNDateTimePicker: 7658208086d86d09e1627b5c34ba0cf237c60140
   RNFBApp: dda844e7084b590eb3d9bec1b2115cabbe4bc40e
   RNReactNativeHapticFeedback: b83bfb4b537bdd78eb4f6ffe63c6884f7b049ead
-  RNSVG: ce9d996113475209013317e48b05c21ee988d42e
+  RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
+  RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
   UMTaskManagerInterface: 5654c50e68af11b19b9d05452bacf23d19b3f30f
   Yoga: 32a18c0e845e185f4a2a66ec76e1fd1f958f22fa
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: a15b07e3b697b041dbe57664d4308a9d90ad9583
+PODFILE CHECKSUM: 8a7856bb8223078e3a76ff59cf1d06d6c201229c
 
 COCOAPODS: 1.11.2
