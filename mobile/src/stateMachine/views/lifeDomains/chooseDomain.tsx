@@ -217,14 +217,20 @@ export class ChooseDomainView extends ViewDomainsBase {
     }
 
     selectDomain = (domain: Domain) => {
-        const didSelectDomain = this.viewModel.selectDomain(domain);
+        const didSelectDomain = this.viewModel.selectDomain(domain, () => {
+            AppViewModel.Instance.Strategy.setSelectedDomains(this.viewModel.selectedDomains);
+        });
         if (!didSelectDomain) {
             if (domain.name == DomainName.PHYSICAL) {
                 this.checkedSubdomains = [];
             }
-            this.viewModel.removeSelectedDomain(domain);
+            this.viewModel.removeSelectedDomain(domain, () => {
+                AppViewModel.Instance.Strategy.setSelectedDomains(this.viewModel.selectedDomains);
+            });
         } else {
-            this.viewModel.selectSubdomains(this.checkedSubdomains);
+            this.viewModel.selectSubdomains(this.checkedSubdomains, () => {
+                AppViewModel.Instance.Strategy.setSelectedDomains(this.viewModel.selectedDomains);
+            });
         }
         this.setState({ reRenderButton: !this.state.reRenderButton }); // reload the view so button style matches domain selection
         this.showBottomBanner = this.viewModel.selectedDomains.domains.length !== 0 && !this.showSubdomainPopUp;

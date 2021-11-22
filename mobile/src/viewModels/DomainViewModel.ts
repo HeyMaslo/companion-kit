@@ -1,7 +1,6 @@
 import { observable } from 'mobx';
 import { createLogger } from 'common/logger';
 import { Domain, DomainName, FocusedDomains, Subdomain, SubdomainName } from '../constants/Domain';
-import AppViewModel from 'src/viewModels';
 import AppController from 'src/controllers';
 
 const logger = createLogger('[DomainViewModel]');
@@ -99,17 +98,19 @@ export default class DomainViewModel {
 
     // adds selected domains by user to the selected domains array, use this array to persist to backend by calling postFocusedDomains
     // returns false if domain has already been selected
-    public selectDomain(domain: Domain): Boolean {
+    // Use callback to set selected domains in StrategiesViewModel
+    public selectDomain(domain: Domain, callback: () => void): Boolean {
         if (this._selectedDomains.domains.includes(domain.name)) {
             return false;
         }
         this._selectedDomains.domains.push(domain.name);
-        AppViewModel.Instance.Strategy.setSelectedDomains(this._selectedDomains);
+        callback();
         return true;
     }
 
     // if the selected domains array contains domain remove it, use this array to persist to backend by calling postFocusedDomains
-    public removeSelectedDomain(domain: Domain) {
+    // Use callback to set selected domains in StrategiesViewModel
+    public removeSelectedDomain(domain: Domain, callback: () => void) {
         // If we are removing the Physical Domain, remove all of the selected subdomains
         if (domain.name == DomainName.PHYSICAL) {
             this._selectedDomains.subdomains = [];
@@ -117,13 +118,14 @@ export default class DomainViewModel {
         const oldLength = this._selectedDomains.domains.length;
         this._selectedDomains.domains = this._selectedDomains.domains.filter((dom) => dom !== domain.name)
         if (this._selectedDomains.domains.length != oldLength) {
-            AppViewModel.Instance.Strategy.setSelectedDomains(this._selectedDomains);
+            callback();
         }
     }
 
-    public selectSubdomains(subdomains: SubdomainName[]) {
+    // Use callback to set selected domains in StrategiesViewModel
+    public selectSubdomains(subdomains: SubdomainName[], callback: () => void) {
         this._selectedDomains.subdomains = subdomains; // If more categories of subdomains (besides Physical) are added this will need to be changed
-        AppViewModel.Instance.Strategy.setSelectedDomains(this._selectedDomains);
+        callback();
         return true;
     }
 
