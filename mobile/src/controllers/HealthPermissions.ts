@@ -50,7 +50,7 @@ export class HealthPermissionsController implements IDisposable {
             
             this._enabledByUserOriginal = isAuthorized;
             this._enabledByUser = isAuthorized;
-            this.sync();
+            await this.sync();
         }
 
         return this.permissionsGranted;
