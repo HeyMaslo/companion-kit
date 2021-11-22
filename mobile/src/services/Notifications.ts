@@ -1,9 +1,9 @@
-import * as Notifications from 'expo-notifications';
+import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 import { Platform } from 'react-native';
 import { EventSubscription } from 'fbemitter';
 import { observable, transaction } from 'mobx';
-// import { Notification, LocalNotification } from 'expo/build/Notifications/Notifications.types'; 
+import { Notification, LocalNotification } from 'expo/build/Notifications/Notifications.types';
 import ExpoConstants from 'expo-constants';
 
 import { createLogger } from 'common/logger';
@@ -52,7 +52,7 @@ export class NotificationsService {
         if (!user) {
             throw new Error('IUserController is required');
         }
-        // this._notificationsSubscription = Notifications.addListener(this._onNotificationReceived);
+        this._notificationsSubscription = Notifications.addListener(this._onNotificationReceived);
 
         // TEST
         // setTimeout(() => {
@@ -119,7 +119,7 @@ export class NotificationsService {
                 if (!token) {
                     logger.error('Notifications.getExpoPushTokenAsync() returned `null` while `this._currentStatus` =', this._currentStatus);
                 } else {
-                    // this._tokenCached = token;
+                    this._tokenCached = token;
                 }
                 return token;
             } catch (err) {
@@ -148,19 +148,19 @@ export class NotificationsService {
                 type: NotificationTypes.Retention,
             };
 
-            // const notification: Notification = {
-            //     title: Localization.Current.MobileProject.projectName,
-            //     data,
-            //     body: m,
-            //     ios: { sound: true },
-            //     android: Platform.OS === 'android' ? { channelId: AndroidChannels.Default } : null,
-            // };
+            const notification: LocalNotification = {
+                title: Localization.Current.MobileProject.projectName,
+                data,
+                body: m,
+                ios: { sound: true },
+                android: Platform.OS === 'android' ? { channelId: AndroidChannels.Default } : null,
+            };
 
-            // await Notifications.scheduleLocalNotificationAsync(notification, schedulingOptions);
+            await Notifications.scheduleLocalNotificationAsync(notification, schedulingOptions);
             logger.log('scheduleNotifications with message:', m, '| notification time is:', date);
 
             const dateStr = new Date(schedulingOptions.time).toUTCString();
-            // result.push({ body: notification.body, date: dateStr });
+            result.push({ body: notification.body, date: dateStr });
         }
 
         return result;
@@ -214,15 +214,15 @@ export class NotificationsService {
     }
 
     async createAndroidChannel() {
-        // await Notifications.createChannelAndroidAsync(AndroidChannels.Default, {
-        //     name:  Localization.Current.MobileProject.projectName,
-        //     sound: true,
-        //     vibrate: true,
-        // });
+        await Notifications.createChannelAndroidAsync(AndroidChannels.Default, {
+            name:  Localization.Current.MobileProject.projectName,
+            sound: true,
+            vibrate: true,
+        });
     }
 
     async deleteAndroidChannel() {
-        // await Notifications.deleteChannelAndroidAsync(AndroidChannels.Default);
+        await Notifications.deleteChannelAndroidAsync(AndroidChannels.Default);
     }
 
     private _onNotificationReceived = (n: Notification) => {
