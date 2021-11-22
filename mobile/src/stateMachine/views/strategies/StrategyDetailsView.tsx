@@ -8,6 +8,7 @@ import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
 import { formatTextContent, iconForDomain } from 'src/helpers/DomainHelper';
+import Layout from 'src/constants/Layout';
 
 @observer
 export class StrategyDetailsView extends ViewState {
@@ -41,7 +42,7 @@ export class StrategyDetailsView extends ViewState {
   renderIconItem = ({ item }) => (
     <View style={[styles.listItem, { flexDirection: 'row', justifyContent: 'center' }]}>
       {iconForDomain(item, { marginRight: 20 }, this.theme.colors.foreground)}
-      <Text style={[TextStyles.h2, styles.strategy, {marginBottom: 10}]}>{this.capitalizeFirstLetter(item)}</Text>
+      <Text style={[TextStyles.h2, styles.strategy, { marginBottom: 10 }]}>{this.capitalizeFirstLetter(item)}</Text>
     </View>
   );
 
@@ -62,7 +63,7 @@ export class StrategyDetailsView extends ViewState {
             keyExtractor={item => item}
             scrollEnabled={false} />
           {/* Body */}
-          <ScrollView>
+          <ScrollView style={{ width: Layout.window.width, marginLeft: -20 }} contentContainerStyle={{ paddingHorizontal: 20 }}>
             <Text style={[TextStyles.p1, styles.body]}>
               {formatTextContent(this._learnMoreStrategy.details)}
             </Text>
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   listItem: {
-  //  paddingTop: 10,
+    //  paddingTop: 10,
   },
   strategy: {
     textAlign: 'center',
