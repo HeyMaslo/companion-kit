@@ -5,7 +5,6 @@ import {
 import AppLoading from 'expo-app-loading';
 import { observer, Provider as MobxProvider } from 'mobx-react';
 import * as Font from 'expo-font';
-import 'mobx-react/batchingForReactNative';
 import 'src/services/base64';
 import './helpers/fixtimerbug';
 import type { } from 'common/declarations/process'; // TS fix
