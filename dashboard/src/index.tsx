@@ -1,7 +1,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-import 'react-image-crop/dist/ReactCrop.scss';
+import 'react-image-crop/lib/ReactCrop.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import React from 'react';
