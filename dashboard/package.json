@@ -48,7 +48,7 @@
         "react-custom-scrollbars": "^4.2.1",
         "react-datepicker": "^2.14.1",
         "react-dom": "^16.13.1",
-        "react-image-crop": "^8.6.2",
+        "react-image-crop": "^9.0.5",
         "react-input-mask": "^2.0.4",
         "react-json-tree": "^0.11.2",
         "react-player": "^1.15.3",

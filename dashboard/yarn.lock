@@ -8990,13 +8990,12 @@ react-dom@^16.13.1:
     prop-types "^15.6.2"
     scheduler "^0.19.1"
 
-react-image-crop@^8.6.2:
-  version "8.6.12"
-  resolved "https://registry.yarnpkg.com/react-image-crop/-/react-image-crop-8.6.12.tgz#fb57e17c3b56ac0a52ba1967c108975b1f132dcd"
-  integrity sha512-3CNz1xfsRRSH/iH023IDMXxzsb1M6RTHHUVsVcb8uFPcjGiA9WisvQ24G1eRDf2j4NlybupOEEdfK2vT0etN6A==
+react-image-crop@^9.0.5:
+  version "9.0.5"
+  resolved "https://registry.yarnpkg.com/react-image-crop/-/react-image-crop-9.0.5.tgz#a6dfe5411156f1dd1e435b128424ccf175a86948"
+  integrity sha512-J5lbsBMI36GsbkRHXNEo95OjwpxfkUBrEl9Oxb7z5mDC7iamySXYKhkv9QoidkfmI9e8Vj7q3SgNCVfuZHQMQw==
   dependencies:
     clsx "^1.1.1"
-    prop-types "^15.7.2"
 
 react-input-autosize@^3.0.0:
   version "3.0.0"
