@@ -2,7 +2,7 @@ import { FeatureSettings } from './services/config';
 import * as functions from 'firebase-functions';
 import { SentimentAnalysis, SentimentValue } from '../../../common/models/Sentiment';
 import { EnergyValue, RecordData } from '../../../common/models/RecordData';
-import { FunctionBackendController } from '../src/services/backend';
+import { FunctionBackendController } from './services/FunctionBackendController';
 import {
     RemoteCallResult,
 } from '../../../common/abstractions/controlllers/IBackendController';
@@ -113,6 +113,24 @@ fns.measurement = FeatureSettings.ExportToDataServices
             .catch((e) => {
                 console.error('records all ERROR', e);
                 return { error: e };
+            });
+        });
+
+type AffirmationDoc = {
+    domains: string[],
+    keywords: string[],
+    content: string,
+};
+
+fns.affirmation = FeatureSettings.ExportToDataServices
+    && functions.firestore.document('/affirmations/{id}')
+        .onCreate(async (snap, context): Promise<ExportResult> => {
+            const data: AffirmationDoc = snap.data() as AffirmationDoc;
+            const backend = new FunctionBackendController();
+            return backend.logAffirmation(snap.id, data.content, data.domains, data.keywords)
+            .then((res: RemoteCallResult) => {
+                const { error } = res;
+                return { error };
             });
         });
 

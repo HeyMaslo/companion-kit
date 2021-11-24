@@ -5,7 +5,7 @@ import {
     QolSurveyType,
 } from '../../mobile/src/constants/QoL';
 import RepoFactory from 'common/controllers/RepoFactory';
-import { UserState } from 'common/models/userState';
+import { UserState, LastSeen } from 'common/models/userState';
 import { createLogger } from 'common/logger';
 import { SurveyResults } from 'database/repositories/SurveyResultsRepo';
 import { DomainName } from '../../mobile/src/constants/Domain';
@@ -93,6 +93,10 @@ export default class QoLControllerBase implements IQoLController {
             st['focusedDomains'] = parameter as DomainName[];
         } else if (propertyName == 'chosenStrategies') {
             st['chosenStrategies'] = parameter as string[];
+        } else if (propertyName == 'lastSeenAffirmations' && (parameter as LastSeen) !== undefined) {
+            st[propertyName] = (parameter as LastSeen);
+        } else if (propertyName !== 'surveyState' && propertyName !== 'lastSeenAffirmations' && Array.isArray(parameter)) {
+            st[propertyName] = parameter;
         }
         await RepoFactory.Instance.userState.setByUserId(this._userId, st);
     }

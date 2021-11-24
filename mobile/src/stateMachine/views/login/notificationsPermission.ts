@@ -21,6 +21,9 @@ export class NotificationsPermissionView extends ViewState {
     }
 
     askNtfPermissions = () => this.runLongOperation(async () => {
+        this.logger.log('yoooooooo')
+        console.log('yoooooooo22')
+        const curr = await AppController.Instance.User.notifications.gcheckPermission();
         const enabled = await AppController.Instance.User.notifications.askPermission();
 
         if (enabled) {
