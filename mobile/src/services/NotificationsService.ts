@@ -1,5 +1,4 @@
 import * as Notifications from 'expo-notifications';
-import * as Permissions from 'expo-permissions';
 import { Platform } from 'react-native';
 import { EventSubscription } from 'fbemitter';
 import { observable, transaction } from 'mobx';
@@ -30,6 +29,7 @@ import Localization from 'src/services/localization';
 import { Affirmation } from 'src/constants/QoL';
 
 import { RemoteCallResult } from 'common/abstractions/controlllers/IBackendController';
+import { PermissionStatus } from 'expo-modules-core';
 
 const logger = createLogger('[Notifications]');
 
@@ -105,11 +105,11 @@ export class NotificationsService {
 
     public get hasPermission() {
         switch (this._currentStatus.status) {
-            case Permissions.PermissionStatus.GRANTED: {
+            case PermissionStatus.GRANTED: {
                 return true;
             }
 
-            case Permissions.PermissionStatus.DENIED: {
+            case PermissionStatus.DENIED: {
                 return false;
             }
 
