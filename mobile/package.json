@@ -36,7 +36,6 @@
     "expo-media-library": "^13.0.3",
     "expo-modules-core": "^0.4.8",
     "expo-notifications": "^0.13.3",
-    "expo-permissions": "^13.0.3",
     "expo-three": "^6.0.1",
     "firebase": "^7.20.0",
     "gsap": "^3.5.1",
