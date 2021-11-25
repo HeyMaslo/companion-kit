@@ -12,8 +12,8 @@ export default class AffirmationRepo extends GenericRepo<Affirmation> {
     }
 
     async getByDomain(domains: string[], keywordFilter: string[], lastSeen: LastSeen): Promise<Maybe<Affirmation[]>> {
-        const query: Query = this.collection
-            .where(nameof<Affirmation>(a => a.domains), 'array-contains-any', domains);
+        // MK-TODO: get actuall domains
+        const query: Query = this.collection.where(nameof<Affirmation>(a => a.domains), 'array-contains-any', ['physical']);
         const docs: DocumentSnapshot[] = (await query.get()).docs;
         if (docs.length < 1) {
             return null;

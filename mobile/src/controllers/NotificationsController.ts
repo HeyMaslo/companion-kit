@@ -4,7 +4,7 @@ import { observable, toJS } from 'mobx';
 import {
     NotificationsService,
     IUserNameProvider,
-} from 'src/services/Notifications';
+} from 'src/services/NotificationsService';
 import {
     NotificationTime,
     Schedule,
@@ -71,7 +71,8 @@ export class NotificationsController implements IDisposable {
     }
 
     public get permissionsAsked() {
-        return this._enabledByUser != null;
+        console.log('this._service.hasPermission', this._service.hasPermission)
+        return this._service.hasPermission != null;
     }
 
     /* public get affirmationTime() {
@@ -85,7 +86,7 @@ export class NotificationsController implements IDisposable {
     public get domains() {
         return this._domains;
     }
-
+    // MK-TODO: - actually call this
     public set domains(domains: string[]) {
         this._domains = domains;
     }
@@ -93,7 +94,7 @@ export class NotificationsController implements IDisposable {
     public get keywordFilter() {
         return this._keywordFilter;
     }
-
+    // MK-TODO: - actually call this
     public set keywordFilter(filter: string[]) {
         this._keywordFilter = filter;
     }
@@ -103,14 +104,14 @@ export class NotificationsController implements IDisposable {
         await this._service.checkPermissions();
 
         // backward compatibility for 'enabled'
-        if (this.settings.current.notifications?.enabled == null) {
-            const allowedByUser = await AsyncStorage.getValue(
-                AllowanceStorageKey,
-            );
-            this.settings.updateNotifications({
-                enabled: allowedByUser ? allowedByUser === 'true' : null,
-            });
-        }
+        // if (this.settings.current.notifications?.enabled == null) {
+        //     const allowedByUser = await AsyncStorage.getValue(
+        //         AllowanceStorageKey,
+        //     );
+        //     this.settings.updateNotifications({
+        //         enabled: allowedByUser ? allowedByUser === 'true' : null,
+        //     });
+        // }
 
         // backward compatibility for 'schedule'
         if (this.settings.current.notifications?.locals == null) {
@@ -126,7 +127,7 @@ export class NotificationsController implements IDisposable {
                 .schedule as Schedule;
         }
 
-        this._enabledByUser = this.settings.current.notifications?.enabled;
+        // this._enabledByUser = this.settings.current.notifications?.enabled;
 
         // allow re-schedule in case when notifications state before were unknown or disabled
         const updateSchedule = !this._previousPermissionsState && this.enabled;
@@ -135,11 +136,15 @@ export class NotificationsController implements IDisposable {
         this._previousPermissionsState = this.enabled;
     }
 
-    public gcheckPermission = async () => {
-        return this._service.checkPermissions();
+    public checkPermission = async () => {
+        const self = this;
+        await this._service.checkPermissions();
+        self.settings.updateNotifications({
+            enabled: this._service.hasPermission == true,
+        });
     };
 
-    public askPermission = async () => {
+    public askPermission = async (): Promise<boolean> => {
         await this._service.askPermission();
         await this.sync(true);
         return this.permissionsGranted;
@@ -214,7 +219,7 @@ export class NotificationsController implements IDisposable {
 
         const affirmations: Affirmation[] = await RepoFactory.Instance.affirmations.getByDomain(
             this.domains,
-            this.keywordFilter,
+            ['test'],
             userState.lastSeenAffirmations,
         );
 

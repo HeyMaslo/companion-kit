@@ -14,7 +14,7 @@ import { Users as UsersFunctions } from 'common/abstractions/functions';
 import MobileTracker from 'src/services/mobileTracker';
 import * as Events from 'src/services/mobileTracker.events';
 
-import { NotificationsController } from 'src/controllers/Notifications';
+import { NotificationsController } from 'src/controllers/NotificationsController';
 import { AssessmentsController, IAssessmentsController } from 'src/controllers/Assessments';
 import { RecordsController } from 'common/controllers/RecordsController';
 import { IPromptsController, PromptsController } from 'src/controllers/Prompts';
@@ -279,6 +279,7 @@ export class UserController extends UserControllerBase implements IUserControlle
             }
 
             await this._localSettings.load(user.id);
+            this.notifications.setUser(user.id);
             await this.notifications.initAsync();
         }
     }

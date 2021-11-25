@@ -91,7 +91,7 @@ export class NotificationsSettingsView extends ViewState {
         const exactActive = isTimeActive(selectedTime, NotificationTime.ExactTime);
         const exactTime = !!selectedTime && !!selectedTime[NotificationTime.ExactTime] && selectedTime[NotificationTime.ExactTime].value;
         const notificationsEnabled = this.model.isEnabled && !this.model.isToggleInProgress && selectedTime;
-        const titleText = notificationsEnabled ? 'When do you want to be notified?' : 'Do you want to get notifications?';
+        const titleText = notificationsEnabled ? 'When do you want to be notified?' : 'Do you want to recieve notifications?';
 
         return (
             <MasloPage style={this.baseStyles.page}>

@@ -1,12 +1,8 @@
-import { Notifications } from 'expo';
+import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 import { Platform } from 'react-native';
 import { EventSubscription } from 'fbemitter';
 import { observable, transaction } from 'mobx';
-import {
-    Notification,
-    LocalNotification,
-} from 'expo/build/Notifications/Notifications.types';
 import ExpoConstants from 'expo-constants';
 
 import { createLogger } from 'common/logger';
@@ -45,10 +41,10 @@ export interface IUserNameProvider {
 const SCHEDULE_DAYS_COUNT = 7;
 export class NotificationsService {
     @observable
-    private _currentStatus: Permissions.PermissionStatus;
+    private _currentStatus: Notifications.NotificationPermissionsStatus;
 
     @observable.ref
-    private _openedNotification: NotificationData;
+    private _openedNotification: Notifications.NotificationRequest;
 
     private _notificationsSubscription: EventSubscription = null;
 
@@ -77,7 +73,7 @@ export class NotificationsService {
         if (!user) {
             throw new Error('IUserController is required');
         }
-        this._notificationsSubscription = Notifications.addListener(
+        this._notificationsSubscription = Notifications.addNotificationReceivedListener(
             this._onNotificationReceived,
         );
 
@@ -108,7 +104,7 @@ export class NotificationsService {
     }
 
     public get hasPermission() {
-        switch (this._currentStatus) {
+        switch (this._currentStatus.status) {
             case Permissions.PermissionStatus.GRANTED: {
                 return true;
             }
@@ -124,19 +120,14 @@ export class NotificationsService {
     }
 
     async checkPermissions(): Promise<void> {
-        const result = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-        this._currentStatus = result.status;
+        const result = await Notifications.getPermissionsAsync();
+        this._currentStatus = result;
         logger.log(`hasPermission = ${this.hasPermission}`);
     }
 
-    async askPermission(): Promise<void> {
-        if (this.hasPermission === null) {
-            const result = await Permissions.askAsync(
-                Permissions.NOTIFICATIONS,
-            );
-            this._currentStatus = result.status;
-            logger.log('got new permission:', this.hasPermission);
-        }
+    async askPermission() {
+        const result = await Notifications.requestPermissionsAsync();
+        this._currentStatus = result;
     }
 
     async getToken(): Promise<string | null> {
@@ -144,93 +135,89 @@ export class NotificationsService {
             if (this._tokenCached) {
                 return this._tokenCached;
             }
-
-            try {
-                const token = await Notifications.getExpoPushTokenAsync();
-                if (!token) {
-                    logger.error(
-                        'Notifications.getExpoPushTokenAsync() returned `null` while `this._currentStatus` =',
-                        this._currentStatus,
-                    );
-                } else {
-                    this._tokenCached = token;
-                }
-                return token;
-            } catch (err) {
-                logger.log('Failed to get notifications token');
-                logger.error(err);
-            }
+            //  Do we need token?
+            // try {
+            //     const token = await Notifications.getExpoPushTokenAsync();
+            //     if (!token) {
+            //         logger.error(
+            //             'Notifications.getExpoPushTokenAsync() returned `null` while `this._currentStatus` =',
+            //             this._currentStatus,
+            //         );
+            //     } else {
+            //         this._tokenCached = token;
+            //     }
+            //     return token;
+            // } catch (err) {
+            //     logger.log('Failed to get notifications token');
+            //     logger.error(err);
+            // }
         }
 
         return null;
     }
 
-    private async scheduleMessage(
-        msg: string,
-        startDateMS: number,
-        index: number,
-    ): Promise<NotificationResult> {
-        const date = addDaysToDate(startDateMS, index);
-        const schedulingOptions: NotificationSchedulingOptions = { time: date };
-        const data = {
-            type: NotificationTypes.Retention,
-        };
+    // private async scheduleMessage(
+    //     msg: string,
+    //     startDateMS: number,
+    //     index: number,
+    // ): Promise<NotificationResult> {
+    //     const date = addDaysToDate(startDateMS, index);
+    //     const schedulingOptions: NotificationSchedulingOptions = { time: date };
+    //     const data = {
+    //         type: NotificationTypes.Retention,
+    //     };
 
-        const notification: LocalNotification = {
-            title: Localization.Current.MobileProject.projectName,
-            data,
-            body: msg,
-            ios: { sound: true },
-            android:
-                Platform.OS === 'android'
-                    ? { channelId: AndroidChannels.Default }
-                    : null,
-        };
+    //     const notification: Notifications.Notification = {
+    //         title: Localization.Current.MobileProject.projectName,
+    //         data,
+    //         body: msg,
+    //         ios: { sound: true },
+    //         android:
+    //             Platform.OS === 'android'
+    //                 ? { channelId: AndroidChannels.Default }
+    //                 : null,
+    //     };
 
-        const scheduled = await Notifications.scheduleLocalNotificationAsync(
-            notification,
-            schedulingOptions,
-        );
+    //     const scheduled = await Notifications.scheduleNotificationAsync(
+    //         notification,
+    //         schedulingOptions,
+    //     );
 
-        const notifId = Number.isNaN(scheduled)
-            ? scheduled.toString()
-            : (scheduled as string);
+    //     const notifId = Number.isNaN(scheduled)
+    //         ? scheduled.toString()
+    //         : (scheduled as string);
 
-        logger.log(
-            'scheduleNotifications with message:',
-            notification.body,
-            '| notification time is:',
-            schedulingOptions.time,
-        );
-        const dateStr = new Date(schedulingOptions.time).toUTCString();
-        return { body: notification.body, notifId, date: dateStr };
-    }
+    //     logger.log(
+    //         'scheduleNotifications with message:',
+    //         notification.body,
+    //         '| notification time is:',
+    //         schedulingOptions.time,
+    //     );
+    //     const dateStr = new Date(schedulingOptions.time).toUTCString();
+    //     return { body: notification.body, notifId, date: dateStr };
+    // }
 
-    private async scheduleAffirmationMessage(
-        msg: Affirmation,
-        affirmationTime: number,
-    ): Promise<NotificationResult> {
+    private async scheduleAffirmationMessage(msg: Affirmation, affirmationTime: number): Promise<NotificationResult> {
         const schedulingOptions: NotificationSchedulingOptions = {
             time: new Date(affirmationTime).getTime(),
             repeat: 'day',
         };
-        const notification: LocalNotification = {
-            title: Localization.Current.MobileProject.projectName,
-            data: {
-                type: NotificationTypes.Affirmation,
-                id: msg.id,
+        const notification: Notifications.NotificationRequestInput = {
+            identifier: msg.id,
+            content: {
+                title: Localization.Current.MobileProject.projectName,
+                body: msg.content,
+                data: {
+                    type: NotificationTypes.Affirmation,
+                    id: msg.id
+                },
+                sound: true
             },
-            body: msg.content,
-            ios: { sound: true },
-            android:
-                Platform.OS === 'android'
-                    ? { channelId: AndroidChannels.Default }
-                    : null,
+            trigger: { seconds: 6 },
         };
 
-        const scheduled = await Notifications.scheduleLocalNotificationAsync(
+        const scheduled = await Notifications.scheduleNotificationAsync(
             notification,
-            schedulingOptions,
         );
 
         const notifId = Number.isNaN(scheduled)
@@ -239,44 +226,41 @@ export class NotificationsService {
 
         logger.log(
             'scheduleNotifications with message:',
-            notification.body,
-            '| notification time is:',
-            schedulingOptions.time,
+            notification.content,
+            // '| notification time is:',
+            // schedulingOptions.time,
         );
         const dateStr = new Date(schedulingOptions.time).toUTCString();
         return {
-            body: notification.body,
+            body: notification.content.body,
             notifId,
-            affirmationId: notification.data.id,
+            affirmationId: notification.content.data['id'] as string,
             date: dateStr,
         };
     }
 
-    private async scheduleMessages(
-        messages: string[],
-        startDateMS: number,
-    ): Promise<NotificationResult[]> {
-        let result: NotificationResult[] = await Promise.all(
-            messages.map(
-                async (
-                    msg: string,
-                    index: number,
-                ): Promise<NotificationResult> => {
-                    return await this.scheduleMessage(
-                        msg as string,
-                        startDateMS,
-                        index,
-                    );
-                },
-            ),
-        );
-        return result;
-    }
+    // private async scheduleMessages(
+    //     messages: string[],
+    //     startDateMS: number,
+    // ): Promise<NotificationResult[]> {
+    //     let result: NotificationResult[] = await Promise.all(
+    //         messages.map(
+    //             async (
+    //                 msg: string,
+    //                 index: number,
+    //             ): Promise<NotificationResult> => {
+    //                 return await this.scheduleMessage(
+    //                     msg as string,
+    //                     startDateMS,
+    //                     index,
+    //                 );
+    //             },
+    //         ),
+    //     );
+    //     return result;
+    // }
 
-    private async scheduleAffirmationMessages(
-        messages: Affirmation[],
-        startDateMS: number,
-    ): Promise<NotificationResult[]> {
+    private async scheduleAffirmationMessages(messages: Affirmation[], startDateMS: number): Promise<NotificationResult[]> {
         let result: NotificationResult[] = await Promise.all(
             messages.map(
                 async (
@@ -306,11 +290,7 @@ export class NotificationsService {
     //     return Promise.all(allNotifs);
     // }
 
-    private async scheduleNotifications(
-        time: NotificationTime,
-        startDateMS: number,
-        clientID: string,
-    ): Promise<NotificationResult[]> {
+    private async scheduleNotifications(time: NotificationTime, startDateMS: number, clientID: string): Promise<NotificationResult[]> {
         const settings = { name: this.user.firstName };
         const result: NotificationResult[] = [];
         const messages =
@@ -333,12 +313,12 @@ export class NotificationsService {
                     ),
                 };
 
-        result.push(
-            ...(await this.scheduleMessages(
-                messages[NotificationTypes.Retention],
-                startDateMS,
-            )),
-        );
+        // result.push(
+        //     ...(await this.scheduleMessages(
+        //         messages[NotificationTypes.Retention],
+        //         startDateMS,
+        //     )),
+        // );
         // check for null, it is of type null when undefined or empty array is given
         if (messages[NotificationTypes.Affirmation]) {
             result.push(
@@ -357,12 +337,7 @@ export class NotificationsService {
         return result;
     }
 
-    public async rescheduleNotifications(
-        schedule: Schedule,
-        domains: string[],
-        affirmations: Affirmation[],
-        clientID: string,
-    ): Promise<ScheduleResult> {
+    public async rescheduleNotifications(schedule: Schedule, domains: string[], affirmations: Affirmation[], clientID: string): Promise<ScheduleResult> {
         await this.resetSchedule();
 
         if (Platform.OS === 'android') {
@@ -423,24 +398,24 @@ export class NotificationsService {
     }
 
     async createAndroidChannel(): Promise<void> {
-        await Notifications.createChannelAndroidAsync(AndroidChannels.Default, {
+        const channel: Notifications.NotificationChannelInput = {
             name: Localization.Current.MobileProject.projectName,
-            sound: true,
-            vibrate: true,
-        });
+            importance: 5,
+        }
+        await Notifications.setNotificationChannelAsync(AndroidChannels.Default, channel);
     }
 
     async deleteAndroidChannel(): Promise<void> {
-        await Notifications.deleteChannelAndroidAsync(AndroidChannels.Default);
+        await Notifications.deleteNotificationChannelGroupAsync(AndroidChannels.Default);
     }
 
-    private _onNotificationReceived = (n: Notification) => {
-        logger.log('received notification:', n);
+    private _onNotificationReceived = (event: Notifications.Notification) => {
+        logger.log('received notification event:', event);
 
-        if (NotificationData.guard(n.data)) {
+        if (NotificationData.guard(event.request)) {
             transaction(() => {
                 this._openedNotification = null;
-                this._openedNotification = { ...n.data };
+                this._openedNotification = { ...event.request };
             });
 
             GlobalTrigger(GlobalTriggers.NotificationReceived);
