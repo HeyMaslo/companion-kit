@@ -55,8 +55,6 @@ PODS:
     - React-Core
   - EXNotifications (0.13.3):
     - ExpoModulesCore
-  - EXPermissions (13.0.3):
-    - ExpoModulesCore
   - Expo (43.0.3):
     - ExpoModulesCore
   - ExpoModulesCore (0.4.8):
@@ -479,7 +477,6 @@ DEPENDENCIES:
   - EXLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
   - EXMediaLibrary (from `../node_modules/expo-media-library/ios`)
   - EXNotifications (from `../node_modules/expo-notifications/ios`)
-  - EXPermissions (from `../node_modules/expo-permissions/ios`)
   - Expo (from `../node_modules/expo/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
@@ -620,8 +617,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-media-library/ios"
   EXNotifications:
     :path: "../node_modules/expo-notifications/ios"
-  EXPermissions:
-    :path: "../node_modules/expo-permissions/ios"
   Expo:
     :path: "../node_modules/expo/ios"
   ExpoModulesCore:
@@ -729,7 +724,6 @@ SPEC CHECKSUMS:
   EXLinearGradient: 4d727eacb53d19ef25b02dd810e0199b453489ce
   EXMediaLibrary: 2a684cca228d6605a72f9995d3e7b8af2a05246c
   EXNotifications: 4a2beb5a2a7292ba64165413811b7c495bcb1297
-  EXPermissions: 7696f4c16e89981f84c04d96327f7e1e592373c0
   Expo: 5316c3ecdc34eb0cad340d01dc8beec97c7e879e
   ExpoModulesCore: a9a9bf32b2da35cd9b7299c80790c03a91ac7d15
   EXSplashScreen: 57f329dbf25c5c12800feed79068a056453dc772
