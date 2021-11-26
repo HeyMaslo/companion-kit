@@ -4,4 +4,4 @@
 	branch = bipolarbridges-persona
 [submodule "mobile/dependencies/react-native-switch-pro"]
 	path = mobile/dependencies/react-native-switch-pro
-	url = git@github.com:HeyMaslo/react-native-switch-pro.git
+	url = git@github.com:bipolarbridges/react-native-switch-pro.git
