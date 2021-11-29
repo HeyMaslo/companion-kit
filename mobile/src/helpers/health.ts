@@ -88,8 +88,7 @@ const fetchAndroidHealthData = async () => {
 }
 
 export const authAndroid = async () => {
-  await GoogleFit.checkIsAuthorized();
-  let isAuth = GoogleFit.isAuthorized;
+  let isAuth = checkAndroidAuth();
   logger.log('GOOGLE_FIT_IS_AUTHORIZED?', isAuth)
   if (isAuth) {
     logger.log('GOOGLE_FIT_IS_AUTHORIZED');
@@ -119,6 +118,18 @@ export const authAndroid = async () => {
 }
 
 export const disconnectAndroid = () => { GoogleFit.disconnect() }
+
+export const checkAndroidAuth = () => {
+  // Checks the auth of Google Fit and writes it to GoogleFit.isAuthorized
+  updateAndroidAuthStatus();
+  logger.log("GOOGLE FIT AUTH CHECK HOMESCREEN: ", GoogleFit.isAuthorized);
+  return GoogleFit.isAuthorized;
+}
+
+const updateAndroidAuthStatus = async () => {
+  await GoogleFit.checkIsAuthorized();
+  console.log('AUTH VALUE AFTER UPDATING: ', GoogleFit.isAuthorized)
+}
 
 
 // APPLE HEALTH KIT:

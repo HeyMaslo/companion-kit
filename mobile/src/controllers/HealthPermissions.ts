@@ -75,6 +75,7 @@ export class HealthPermissionsController implements IDisposable {
         this.settings.updateHealthPermissions({
             enabledAndroid: this._enabledByUser,
         });
-    }    dispose() {
     }
+
+    dispose(){}
 }

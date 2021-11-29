@@ -23,6 +23,9 @@ import Images from 'src/constants/images';
 import AppController from 'src/controllers';
 import ChooseDomainViewModel from 'src/viewModels/ChooseDomainViewModel';
 import ChooseStrategyViewModel from 'src/viewModels/ChooseStrategyViewModel';
+import GoogleFit, { Scopes } from 'react-native-google-fit';
+import { checkAndroidAuth, getAuthStatus, authAndroid } from 'src/helpers/health'
+import { AlertExitWithoutSave } from 'src/constants/alerts';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -55,10 +58,10 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     get viewQolModel() { return AppViewModel.Instance.QOL; }
 
     async start() {
-        await AppViewModel.Instance.QOL.init();
-        const qolArmMagnitudes = await this.viewModel.getArmMagnitudes();
-        this.persona.qolArmMagnitudes = qolArmMagnitudes;
-        this.setState({ ...this.state, isUnfinishedQol: AppViewModel.Instance.QOL.isUnfinished });
+        // await AppViewModel.Instance.QOL.init();
+        // const qolArmMagnitudes = await this.viewModel.getArmMagnitudes();
+        // this.persona.qolArmMagnitudes = qolArmMagnitudes;
+        // this.setState({ ...this.state, isUnfinishedQol: AppViewModel.Instance.QOL.isUnfinished });
         Animated.timing(this.state.opacity, {
             toValue: 1,
             delay: isFirstLaunch ? 1000 : 400,
@@ -293,8 +296,17 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     }
 
     private showHealthPermissionCard() {
-        return Platform.OS == 'ios' && !this.healthPermissionsEnabled;
+        return Platform.OS == 'ios'? !this.healthPermissionsEnabled : !checkAndroidAuth();
     }
+
+    // private healthPermAnd() {
+    //     this.authAn();
+    //     return checkAndroidAuth();
+    // }
+
+    // private async authAn() {
+    //     await authAndroid();
+    // }
 
     private getHealth() {
         return (
@@ -350,6 +362,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                         {/* Domains button used for development only and will be removed eventually */}
                         <Button title='Domains' style={styles.qolButton} onPress={() => this.onStartDomains()} />
                     </View>
+                    {this.getCenterElement()}
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getCenterElement()}
                     {loading
                         ? <ActivityIndicator size='large' />
