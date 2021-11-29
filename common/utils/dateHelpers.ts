@@ -40,8 +40,8 @@ export function countDays(start: Date, end: Date, condition: (d: Date) => boolea
 
 export type HourAndMinute = {
     hour: number,
-    minute: number
-}
+    minute: number,
+};
 
 export type ConstantGranularity = 'second' | 'minute' | 'hour' | 'day' | 'week';
 export type Granularity = ConstantGranularity | 'month' | 'year';

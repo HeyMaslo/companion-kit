@@ -22,7 +22,7 @@ export default class AffirmationRepo extends GenericRepo<Affirmation> {
                 if (noBDMention && affirmation.mentionsBD) {
                     return false;
                 }
-                let thirtyDaysAgo = new Date();
+                const thirtyDaysAgo = new Date();
                 thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
                 // return true if the affirmation has not been seen before or if it has been 30 days since it was seen
                 const thirtyDaysApart: boolean = lastSeen[affirmation.id] ? lastSeen[affirmation.id] <= thirtyDaysAgo.getTime() : true;

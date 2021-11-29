@@ -1,7 +1,6 @@
 import { DomainName } from '../../mobile/src/constants/Domain';
 import { Affirmation, PartialQol } from '../../mobile/src/constants/QoL';
 
-
 export type LastSeen = {
     // key is affirmationID and number is date
     [key: string]: number,
