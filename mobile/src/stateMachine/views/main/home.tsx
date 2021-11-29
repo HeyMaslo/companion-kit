@@ -22,6 +22,8 @@ import { QolSurveyType } from 'src/constants/QoL';
 import { getPersonaRadius, PersonaScale } from 'src/stateMachine/persona';
 import { Portal } from 'react-native-paper';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import AppController from 'src/controllers';
+import { DomainName } from 'src/constants/Domain';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -155,8 +157,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
     // used for development only and will be removed
     async onTESTINGButton() {
-        await AppViewModel.Instance.QoLHistory.init();
-        this.trigger(ScenarioTriggers.TESTING);
+        AppController.Instance.User.notifications.scheduleTime = { hour: 10, minute: 30 };
+        AppController.Instance.User.notifications.domainNames = [DomainName.SLEEP];
+        await AppController.Instance.User.notifications.scheduleSevenAffirmationNotifications();
+        // await AppViewModel.Instance.QoLHistory.init();
+        // this.trigger(ScenarioTriggers.TESTING);
     }
 
     private openStoryDetails = (jid: string) => {

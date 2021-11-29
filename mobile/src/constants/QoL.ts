@@ -9,10 +9,11 @@ import { DomainName } from './Domain';
 // AFFIRMATIONS
 export type Affirmation = {
     id: string,
-    keywords: string[],
-    domains: string[],
     content: string,
+    domainNames: DomainName[],
+    mentionsBD: boolean,
 };
+
 // QUESTION
 
 export type Question = {

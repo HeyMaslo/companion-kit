@@ -1,4 +1,4 @@
-import { NotificationResult } from '../models/Notifications';
+import { ScheduledAffirmationNotification } from '../models/userState';
 import {
     IBackendClient,
     IBackendController, RemoteCallResult,
@@ -64,13 +64,13 @@ export default abstract class BackendControllerBase implements IBackendControlle
     }
 
     public logNotification
-    (clientID: string, notif: NotificationResult): Promise<RemoteCallResult>  {
+    (clientID: string, scheduled: ScheduledAffirmationNotification): Promise<RemoteCallResult>  {
         return this.Client.post('/affirmation/notif', {
-            id: notif.notifId,
+            id: scheduled.notifId,
             data: {
-                affirmationId: notif.affirmationId,
+                affirmationId: scheduled.affirmation.id,
                 userId: clientID,
-                date: notif.date,
+                date: scheduled.scheduledDate,
             },
         },
         {

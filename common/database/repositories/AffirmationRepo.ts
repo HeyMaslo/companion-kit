@@ -11,23 +11,22 @@ export default class AffirmationRepo extends GenericRepo<Affirmation> {
         return Collections.Affirmations;
     }
 
-    async getByDomain(domains: string[], keywordFilter: string[], lastSeen: LastSeen): Promise<Maybe<Affirmation[]>> {
-        // MK-TODO: get actuall domains
-        const query: Query = this.collection.where(nameof<Affirmation>(a => a.domains), 'array-contains-any', ['physical']);
+    async getByDomains(domains: string[], noBDMention: boolean, lastSeen: LastSeen): Promise<Affirmation[]> {
+        const query: Query = this.collection.where(nameof<Affirmation>(a => a.domainNames), 'array-contains-any', domains);
         const docs: DocumentSnapshot[] = (await query.get()).docs;
         if (docs.length < 1) {
             return null;
         } else {
-            const data = docs.map((af) => { return { ...af.data(), id: af.id } as Affirmation; });
-            return data.filter((af) => {
-                const noKeywords: boolean = !af.keywords.some(r => keywordFilter.includes(r));
-                if (lastSeen === {} || !lastSeen) {
-                    return noKeywords;
+            const data = docs.map((snapshot) => { return { ...snapshot.data(), id: snapshot.id } as Affirmation; });
+            return data.filter((affirmation) => {
+                if (noBDMention && affirmation.mentionsBD) {
+                    return false;
                 }
-                const thirtyAgo = new Date();
-                thirtyAgo.setDate(thirtyAgo.getDate() - 30);
-                const thirtyApart: boolean = lastSeen[af.id] ? lastSeen[af.id] <= thirtyAgo.getTime() : true;
-                return thirtyApart && noKeywords;
+                let thirtyDaysAgo = new Date();
+                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+                // return true if the affirmation has not been seen before or if it has been 30 days since it was seen
+                const thirtyDaysApart: boolean = lastSeen[affirmation.id] ? lastSeen[affirmation.id] <= thirtyDaysAgo.getTime() : true;
+                return thirtyDaysApart;
             });
         }
     }

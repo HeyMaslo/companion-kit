@@ -81,24 +81,24 @@ export default class QoLControllerBase implements IQoLController {
     }
 
     public async setUserStateProperty(propertyName: keyof UserState, parameter: UserState[keyof UserState]): Promise<void> {
-        let st: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
-        if (st === null) {
-            st = {
-                [propertyName]: parameter,
+        let userState: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
+        if (userState === null) {
+            userState = {
                 surveyState: null,
                 focusedDomains: [],
                 chosenStrategies: [],
+                lastSeenAffirmations: {},
+                scheduledAffirmations: [],
             }
         } else if (propertyName == 'focusedDomains') {
-            st['focusedDomains'] = parameter as DomainName[];
+            userState['focusedDomains'] = parameter as DomainName[];
         } else if (propertyName == 'chosenStrategies') {
-            st['chosenStrategies'] = parameter as string[];
-        } else if (propertyName == 'lastSeenAffirmations' && (parameter as LastSeen) !== undefined) {
-            st[propertyName] = (parameter as LastSeen);
-        } else if (propertyName !== 'surveyState' && propertyName !== 'lastSeenAffirmations' && Array.isArray(parameter)) {
-            st[propertyName] = parameter;
+            userState['chosenStrategies'] = parameter as string[];
         }
-        await RepoFactory.Instance.userState.setByUserId(this._userId, st);
+        //  else if (propertyName == 'lastSeenAffirmations' && (parameter as LastSeen) !== undefined) {
+        //     userState[propertyName] = (parameter as LastSeen);
+        // }
+        await RepoFactory.Instance.userState.setByUserId(this._userId, userState);
     }
 
 }

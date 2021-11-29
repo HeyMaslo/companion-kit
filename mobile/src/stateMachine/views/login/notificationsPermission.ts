@@ -28,7 +28,6 @@ export class NotificationsPermissionView extends ViewState {
         } else {
             await AppController.Instance.User.notifications.disableNotifications();
         }
-        console.log('Here in askNtfPermissions')
         this.trigger(ScenarioTriggers.Submit);
     })
 

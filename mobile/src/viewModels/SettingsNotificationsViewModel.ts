@@ -17,18 +17,16 @@ export class SettingsNotificationsViewModel {
 
     private _unsubscribe: () => void = null;
 
-    private get originalIsEnabled() { return !!AppController.Instance.User?.notifications.enabled; }
+    private get originalIsEnabled() { return !!AppController.Instance.User?.notifications.notificationsEnabled; }
 
     get isEnabled() { return this._isEnabled; }
     get isToggleInProgress() { return this._toggleInProgress; }
-
-    get schedule() { return AppController.Instance.User.notifications.schedule; }
 
     get settingsSynced() { return AppController.Instance.User.localSettings.synced; }
 
     @computed
     get scheduleTimeString() {
-        const ntfTime = AppController.Instance.User.notifications.schedule;
+        const ntfTime = null;
 
         if (!ntfTime) {
             return 'Not specified';
@@ -67,7 +65,7 @@ export class SettingsNotificationsViewModel {
 
             this._isEnabled = !this._isEnabled;
 
-            if (!AppController.Instance.User.notifications.enabled) {
+            if (!AppController.Instance.User.notifications.notificationsEnabled) {
                 await AppController.Instance.User.notifications.enableNotifications();
             } else {
                 await AppController.Instance.User.notifications.disableNotifications();
@@ -96,12 +94,6 @@ export class SettingsNotificationsViewModel {
 
             this._toggleInProgress = false;
         }
-    }
-
-    toggleTime = (time: NotificationTime, value?: number) => {
-        return time === NotificationTime.ExactTime
-            ? AppController.Instance.User.notifications.toggleTime(time, value)
-            : AppController.Instance.User.notifications.toggleTime(time);
     }
 
     init() {

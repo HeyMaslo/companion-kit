@@ -1,4 +1,5 @@
 import { AssessmentType } from 'common/models/intakeForms';
+import { Affirmation } from '../../mobile/src/constants/QoL';
 
 export enum AndroidChannels {
     Reminders = 'reminders',
@@ -70,9 +71,6 @@ export type NotificationSchedulingOptions = {
     repeat?: 'minute' | 'hour' | 'day' | 'week' | 'month' | 'year' | undefined;
     intervalMs?: number | undefined;
 };
-
-export type NotificationResult = { body: string, date: string, notifId: string, affirmationId?: string };
-export type ScheduleResult = { [key: string]: NotificationResult[] };
 
 export type TokenInfo = { deviceId: string, value: string, isStandaloneDevice: boolean };
 

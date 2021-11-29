@@ -1,9 +1,10 @@
 import { observable, computed, reaction } from 'mobx';
 import AppController from 'src/controllers';
 import { NotificationTime, timeToString } from 'src/helpers/notifications';
-import { Alert} from 'react-native';
+import { Alert } from 'react-native';
 import { createLogger } from 'common/logger';
 import * as Links from 'src/constants/links';
+import { Domain, DomainName } from 'src/constants/Domain';
 
 const logger = createLogger('[SettingsNotificationsViewModel]');
 
@@ -17,7 +18,7 @@ export class NotificationCustomizeViewModel {
 
     private _unsubscribe: () => void = null;
 
-    private get originalIsEnabled() { return !!AppController.Instance.User?.notifications.enabled; }
+    private get originalIsEnabled() { return !!AppController.Instance.User?.notifications.notificationsEnabled; }
 
     get isEnabled() { return this._isEnabled; }
     get isToggleInProgress() { return this._toggleInProgress; }
@@ -67,7 +68,7 @@ export class NotificationCustomizeViewModel {
 
             this._isEnabled = !this._isEnabled;
 
-            if (!AppController.Instance.User.notifications.enabled) {
+            if (!AppController.Instance.User.notifications.notificationsEnabled) {
                 await AppController.Instance.User.notifications.enableNotifications();
             } else {
                 await AppController.Instance.User.notifications.disableNotifications();
@@ -98,25 +99,12 @@ export class NotificationCustomizeViewModel {
         }
     }
 
-    toggleTime = (
-        time: NotificationTime,
-        value?: number,
-        domains?: string[],
-        keywordFilter?: string[],
-    ) => {
+    toggleTime = (time: NotificationTime, value?: number, domains?: DomainName[], keywordFilter?: string[]) => {
         if (time === NotificationTime.ExactTime) {
             if (domains) {
-                return AppController.Instance.User.notifications.toggleTime(
-                    time,
-                    value,
-                    domains,
-                    keywordFilter,
-                );
+                return AppController.Instance.User.notifications.toggleTime(time, value, domains, keywordFilter);
             } else {
-                AppController.Instance.User.notifications.toggleTime(
-                    time,
-                    value,
-                );
+                AppController.Instance.User.notifications.toggleTime(time, value);
             }
         } else {
             AppController.Instance.User.notifications.toggleTime(time);

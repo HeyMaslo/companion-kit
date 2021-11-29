@@ -1,52 +1,26 @@
-/* eslint-disable no-dupe-class-members */
-import AsyncStorage from 'src/services/StorageAsync';
 import { observable, toJS } from 'mobx';
-import {
-    NotificationsService,
-    IUserNameProvider,
-} from 'src/services/NotificationsService';
-import {
-    NotificationTime,
-    Schedule,
-    getDefaultSchedule,
-} from 'src/helpers/notifications';
-import { createLogger } from 'common/logger';
+import { NotificationsService, IUserNameProvider } from 'src/services/NotificationsService';
 import { ILocalSettingsController } from './LocalSettings';
-import { ScheduleResult } from 'common/models/Notifications';
 import { ThrottleAction } from 'common/utils/throttle';
 import { IDisposable } from 'common/utils/unsubscriber';
 import RepoFactory from 'common/controllers/RepoFactory';
 import { Affirmation } from 'src/constants/QoL';
 import { UserState } from 'common/models/userState';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const logger = createLogger('[NotificationsController]');
-
-const AllowanceStorageKey = 'notificationsAllowedByUser';
-const TimeStorageKey = 'notificationsTime';
+import { DomainName } from 'src/constants/Domain';
+import { HourAndMinute } from 'common/utils/dateHelpers';
 
 export class NotificationsController implements IDisposable {
+
     private readonly _service: NotificationsService;
 
     @observable
-    private _schedule: Schedule;
-
-    @observable
-    private _enabledByUser: boolean;
-
-    private _previousPermissionsState: boolean = null;
+    private _notificationsEnabledByUser: boolean;
 
     private readonly _syncThrottle = new ThrottleAction<Promise<void>>(1000);
 
-    // private _affirmationTime: number;
-    private _domains: string[];
-    private _keywordFilter: string[];
     private _userId: string;
 
-    constructor(
-        private readonly settings: ILocalSettingsController,
-        name: IUserNameProvider,
-    ) {
+    constructor(private readonly settings: ILocalSettingsController, name: IUserNameProvider) {
         this._service = new NotificationsService(name);
     }
 
@@ -54,99 +28,46 @@ export class NotificationsController implements IDisposable {
         this._userId = userId;
     }
 
-    public get schedule(): Readonly<Schedule> {
-        return this._schedule;
-    }
+    public domainNames: DomainName[]; // only affirmations containing these domains will be scheduled
+
+    public scheduleTime: HourAndMinute; // the time of day the user wants to recieve a notification in miliseconds
 
     public get openedNotification() {
         return this._service.openedNotification;
     }
 
-    public get enabled() {
-        return this._enabledByUser && this._service.hasPermission;
+    public get notificationsEnabled() {
+        return this._notificationsEnabledByUser && this.permissionsGranted;
+    }
+
+    public get permissionsAsked() {
+        return this._service.hasPermission != null;
     }
 
     public get permissionsGranted() {
         return this._service.hasPermission === true;
     }
 
-    public get permissionsAsked() {
-        console.log('this._service.hasPermission', this._service.hasPermission)
-        return this._service.hasPermission != null;
-    }
-
-    /* public get affirmationTime() {
-        return this._affirmationTime;
-    }
-
-    public set affirmationTime(time: number) {
-        this._affirmationTime = time;
-    } */
-
-    public get domains() {
-        return this._domains;
-    }
-    // MK-TODO: - actually call this
-    public set domains(domains: string[]) {
-        this._domains = domains;
-    }
-
-    public get keywordFilter() {
-        return this._keywordFilter;
-    }
-    // MK-TODO: - actually call this
-    public set keywordFilter(filter: string[]) {
-        this._keywordFilter = filter;
-    }
-
     // Should be OK to call multiple times
     async initAsync() {
-        await this._service.checkPermissions();
-
-        // backward compatibility for 'enabled'
-        // if (this.settings.current.notifications?.enabled == null) {
-        //     const allowedByUser = await AsyncStorage.getValue(
-        //         AllowanceStorageKey,
-        //     );
-        //     this.settings.updateNotifications({
-        //         enabled: allowedByUser ? allowedByUser === 'true' : null,
-        //     });
-        // }
-
-        // backward compatibility for 'schedule'
-        if (this.settings.current.notifications?.locals == null) {
-            const scheduleSerialized = await AsyncStorage.getValue(
-                TimeStorageKey,
-            );
-            this._schedule =
-                (scheduleSerialized &&
-                    (JSON.parse(scheduleSerialized) as Schedule)) ||
-                getDefaultSchedule();
-        } else {
-            this._schedule = this.settings.current.notifications.locals
-                .schedule as Schedule;
-        }
-
-        // this._enabledByUser = this.settings.current.notifications?.enabled;
-
-        // allow re-schedule in case when notifications state before were unknown or disabled
-        const updateSchedule = !this._previousPermissionsState && this.enabled;
-        await this.sync(!updateSchedule);
-
-        this._previousPermissionsState = this.enabled;
+        console.log('NotifController initAsync() called')
+        this._notificationsEnabledByUser = this.settings.current.notifications.enabled;
+        if (!this._notificationsEnabledByUser) return;
+        await this._service.checkNotificationsPermissions();
+        this._notificationsEnabledByUser = this.permissionsGranted;
+        this._syncThrottle.tryRun(this.sync);
     }
 
-    public checkPermission = async () => {
-        const self = this;
-        await this._service.checkPermissions();
-        self.settings.updateNotifications({
-            enabled: this._service.hasPermission == true,
-        });
-    };
+    // public checkPermission = async () => {
+    //     await this._service.checkNotificationsPermissions();
+    //     this.settings.updateNotifications({
+    //         enabled: this._service.hasPermission == true,
+    //     });
+    // };
 
     public askPermission = async (): Promise<boolean> => {
-        await this._service.askPermission();
-        await this.sync(true);
+        await this._service.askNotificationsPermissions();
+        await this.sync();
         return this.permissionsGranted;
     };
 
@@ -155,106 +76,63 @@ export class NotificationsController implements IDisposable {
     };
 
     public enableNotifications = async () => {
+        // try to request permission (don't know they were denied or just never asked)
         if (!this.permissionsGranted) {
-            // try to request permission (don't know they were denied or just never asked)
             const enabled = await this.askPermission();
             if (!enabled) {
                 return false;
             }
         }
-
-        this._enabledByUser = true;
+        this._notificationsEnabledByUser = true;
         this._syncThrottle.tryRun(this.sync);
         return true;
     };
 
     public disableNotifications = async () => {
-        this._enabledByUser = false;
+        this._notificationsEnabledByUser = false;
+        await this._service.cancelAllUpcomingNotifications();
         this._syncThrottle.tryRun(this.sync);
     };
 
-    toggleTime(
-        time:
-            | NotificationTime.Morning
-            | NotificationTime.Midday
-            | NotificationTime.Evening,
-    ): Promise<void>;
-    toggleTime(time: NotificationTime.ExactTime, value: number): Promise<void>;
-    toggleTime(
-        time: NotificationTime.ExactTime,
-        value: number,
-        domains: string[],
-        keywordFilter: string[],
-    ): Promise<void>;
+    // Schedule 7 daily affirmation notifications starting tomorrow at this.scheduleTime
+    public async scheduleSevenAffirmationNotifications() {
+        if (!this._userId) throw new Error('no user id set');
+        if (this.notificationsEnabled) {
+            let userState: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
+            const possibleAffirmations: Affirmation[] = await RepoFactory.Instance.affirmations.getByDomains(this.domainNames, false, userState.lastSeenAffirmations);
 
-    public async toggleTime(
-        time: NotificationTime,
-        value?: number,
-        domains?: string[],
-        keywordFilter?: string[],
-    ) {
-        this.domains = domains;
-        this.keywordFilter = keywordFilter;
+            const tomorrow = new Date()
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(this.scheduleTime.hour, this.scheduleTime.minute, 0, 0);
 
-        if (time === NotificationTime.ExactTime) {
-            const timeobj = this.schedule[time] || {
-                active: false,
-                value: null,
-                isAffirmation: !domains || !keywordFilter,
-            };
-
-            timeobj.active = !timeobj.active;
-            timeobj.value = value;
-            this._schedule[time] = timeobj;
-        } else {
-            this._schedule[time] = !this.schedule[time];
+            const scheduled = await this._service.scheduleAffirmationMessages(possibleAffirmations.slice(0, 6), tomorrow.getTime());
+            scheduled.forEach((result) => {
+                userState.lastSeenAffirmations[result.affirmation.id] = result.scheduledDate;
+                userState.scheduledAffirmations.push(result);
+            });
+            console.log('userState.lastSeenAffirmations', userState.lastSeenAffirmations);
+            console.log('userState.scheduledAffirmations', userState.scheduledAffirmations);
+            RepoFactory.Instance.userState.setByUserId(this._userId, userState);
         }
-
-        this._syncThrottle.tryRun(this.sync);
     }
 
-    private sync = async (onlyToken = false) => {
+    // Cancels all upcoming notifcations
+    public async cancelScheduledNotifications() {
         if (!this._userId) throw new Error('no user id set');
-        const userState: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
+        let userState: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
 
-        const affirmations: Affirmation[] = await RepoFactory.Instance.affirmations.getByDomain(
-            this.domains,
-            ['test'],
-            userState.lastSeenAffirmations,
-        );
+        this._service.cancelAllUpcomingNotifications();
+        userState.scheduledAffirmations.forEach(san => {
+            userState.lastSeenAffirmations[san.affirmation.id] = null;
+        })
+        userState.scheduledAffirmations = [];
+        return await RepoFactory.Instance.userState.setByUserId(this._userId, userState);
+    }
 
-        let scheduleResult: ScheduleResult | void;
-        if (!onlyToken) {
-            scheduleResult = this.enabled
-                ? await this._service.rescheduleNotifications(
-                    this.schedule,
-                    this.domains,
-                    affirmations,
-                    this._userId,
-                )
-                : await this._service.resetSchedule();
-        }
-
-        const token = this.enabled ? await this._service.getToken() : null;
-
+    private sync = async () => {
         this.settings.updateNotifications({
-            locals: scheduleResult
-                ? {
-                    current: scheduleResult,
-                    schedule: toJS(this.schedule),
-                }
-                : undefined,
-            enabled: this._enabledByUser,
-            token,
+            enabled: this._notificationsEnabledByUser,
         });
-    };
-
-    public invalidateToken = async () => {
-        if (!this.settings.current?.notifications?.token) {
-            return;
-        }
-
-        this.settings.updateNotifications({ token: null });
     };
 
     dispose() {

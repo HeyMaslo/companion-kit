@@ -37,15 +37,11 @@ export class NotificationsSettingsView extends ViewState {
 
     async start() {
         this.resetPersona(PersonaStates.Question, PersonaViewPresets.TopHalfOut);
-        this.model.settingsSynced.on(this.onScheduleSynced);
+        this.model.settingsSynced.on(null);
     }
 
     componentWillUnmount() {
-        this.model.settingsSynced.off(this.onScheduleSynced);
-    }
-
-    onScheduleSynced = () => {
-        PushToast({ text: 'Changes saved' });
+        this.model.settingsSynced.off(null);
     }
 
     openDatePicker = () => {
@@ -86,11 +82,20 @@ export class NotificationsSettingsView extends ViewState {
     }
 
     renderContent() {
-        const selectedTime = this.model.schedule;
+        const selectedTime = this.model.schedule || {
+            [NotificationTime.Morning]: false,
+            [NotificationTime.Midday]: false,
+            [NotificationTime.Evening]: false,
+            [NotificationTime.ExactTime]: {
+                active: false,
+                value: 0,
+                isAffirmation: false,
+            }
+        };
         const { showDatePicker } = this.state;
         const exactActive = isTimeActive(selectedTime, NotificationTime.ExactTime);
         const exactTime = !!selectedTime && !!selectedTime[NotificationTime.ExactTime] && selectedTime[NotificationTime.ExactTime].value;
-        const notificationsEnabled = this.model.isEnabled && !this.model.isToggleInProgress && selectedTime;
+        const notificationsEnabled = this.model.isEnabled && !this.model.isToggleInProgress;
         const titleText = notificationsEnabled ? 'When do you want to be notified?' : 'Do you want to recieve notifications?';
 
         return (
@@ -98,7 +103,7 @@ export class NotificationsSettingsView extends ViewState {
                 <Container style={styles.topBarWrapWrap}>
                     <PersonaScrollMask />
                     <View style={styles.topBarWrap}>
-                        <Button style={styles.backBtn} underlayColor="transparent" onPress={() => this.trigger(ScenarioTriggers.Back)}>
+                        <Button style={styles.backBtn} underlayColor='transparent' onPress={() => this.trigger(ScenarioTriggers.Back)}>
                             <Images.backIcon width={28} height={14} />
                         </Button>
                     </View>
@@ -107,7 +112,7 @@ export class NotificationsSettingsView extends ViewState {
                     <Container style={[this.baseStyles.container, styles.container]}>
                         <Text style={[this.textStyles.h1, styles.title]}>{titleText}</Text>
                         <Card
-                            title="Notifications"
+                            title='Notifications'
                             description={notificationsEnabled ? this.model.scheduleTimeString : 'Off'}
                             style={{ marginBottom: 20 }}
                         >
@@ -126,8 +131,8 @@ export class NotificationsSettingsView extends ViewState {
                         {notificationsEnabled && (
                             <>
                                 <Card
-                                    title="Morning"
-                                    description="From 7 AM to 10 AM"
+                                    title='Morning'
+                                    description='From 7 AM to 10 AM'
                                     onPress={() => this.model.toggleTime(NotificationTime.Morning)}
                                 >
                                     <Checkbox
@@ -136,38 +141,38 @@ export class NotificationsSettingsView extends ViewState {
                                     />
                                 </Card>
                                 <Card
-                                    title="Midday"
-                                    description="From 12 PM to 2 PM"
+                                    title='Midday'
+                                    description='From 12 PM to 2 PM'
                                     onPress={() => this.model.toggleTime(NotificationTime.Midday)}>
-                                        <Checkbox
-                                            checked={selectedTime[NotificationTime.Midday]}
-                                            onChange={() => this.model.toggleTime(NotificationTime.Midday)}
-                                        />
+                                    <Checkbox
+                                        checked={selectedTime[NotificationTime.Midday]}
+                                        onChange={() => this.model.toggleTime(NotificationTime.Midday)}
+                                    />
                                 </Card>
                                 <Card
-                                    title="Evening"
-                                    description="From 6 PM to 10 PM"
+                                    title='Evening'
+                                    description='From 6 PM to 10 PM'
                                     onPress={() => this.model.toggleTime(NotificationTime.Evening)}>
-                                        <Checkbox
-                                            checked={selectedTime[NotificationTime.Evening]}
-                                            onChange={() => this.model.toggleTime(NotificationTime.Evening)}
-                                        />
+                                    <Checkbox
+                                        checked={selectedTime[NotificationTime.Evening]}
+                                        onChange={() => this.model.toggleTime(NotificationTime.Evening)}
+                                    />
                                 </Card>
                                 <Card
-                                    title="Exact Time"
-                                    description="Set your own time"
+                                    title='Exact Time'
+                                    description='Set your own time'
                                     style={exactActive ? styles.exactCard : null}
                                     onPress={this.openDatePicker}>
-                                        <Checkbox
-                                            checked={exactActive}
-                                            onChange={this.openDatePicker}
-                                        />
+                                    <Checkbox
+                                        checked={exactActive}
+                                        onChange={this.openDatePicker}
+                                    />
                                 </Card>
                                 {exactActive && (
                                     <View style={styles.exactTime}>
                                         <Container style={[this.baseStyles.flexRowBetween, { paddingVertical: 12 }]}>
                                             <Text style={this.baseStyles.cardTitle}>At</Text>
-                                            <Text style={{...this.baseStyles.cardTitle, color: Colors.notificationsSettings.exact.desc}}>{this.formatDate(exactTime)}</Text>
+                                            <Text style={{ ...this.baseStyles.cardTitle, color: Colors.notificationsSettings.exact.desc }}>{this.formatDate(exactTime)}</Text>
                                         </Container>
                                     </View>
                                 )}
@@ -178,7 +183,7 @@ export class NotificationsSettingsView extends ViewState {
                         isVisible={showDatePicker}
                         onConfirm={this.setDate}
                         onCancel={this.closeDatePicker}
-                        mode="time"
+                        mode='time'
                         // TODO test Android
                         isDarkModeEnabled={colorScheme === 'dark'}
                     />

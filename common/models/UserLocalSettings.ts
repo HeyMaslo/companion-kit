@@ -1,5 +1,4 @@
 import Identify from './Identify';
-import { ScheduleResult } from './Notifications';
 
 export type UserLocalSettings = {
     deviceId: string,
@@ -12,10 +11,7 @@ export type UserLocalSettings = {
 };
 
 export type NotificationsSettings = {
-    // currenty we use this only for locals
     enabled?: boolean,
-    token?: string,
-    locals?: LocalNotificationsSchedule,
 };
 
 export type QolSettings = {
@@ -24,13 +20,6 @@ export type QolSettings = {
     pendingFullQol: boolean,
     lastShortQol?: string,
     pendingShortQol: boolean,
-};
-
-export type LocalNotificationsSchedule = {
-    current: ScheduleResult,
-    schedule: {
-        [type: string]: null | boolean | { active: boolean, value: number },
-    },
 };
 
 export type DeviceInfo = {

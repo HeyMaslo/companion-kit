@@ -15,28 +15,28 @@ import { NotificationCustomizeViewModel } from 'src/viewModels/NotificationsCust
 
 @observer
 export class NotificationsCustmizeView extends ViewState {
+
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeightForceScroll();
     }
+    
     state = {
-        physicalDomainEnabled: false, 
-        leisuresDomainEnabled: false, 
-        sleepDomainEnabled: false, 
-        includeEnabled:false
+        physicalDomainEnabled: false,
+        leisuresDomainEnabled: false,
+        sleepDomainEnabled: false,
+        includeEnabled: false
     }
 
-    private readonly model = new NotificationCustomizeViewModel();
-
-    protected get unbreakable() { return false; }
+    private readonly viewModel = new NotificationCustomizeViewModel();
 
     async start() {
         this.resetPersona(PersonaStates.Question, PersonaViewPresets.TopHalfOut);
-        this.model.settingsSynced.on(this.onScheduleSynced);
+        this.viewModel.settingsSynced.on(this.onScheduleSynced);
     }
 
     componentWillUnmount() {
-        this.model.settingsSynced.off(this.onScheduleSynced);
+        this.viewModel.settingsSynced.off(this.onScheduleSynced);
     }
 
     onScheduleSynced = () => {
@@ -45,7 +45,7 @@ export class NotificationsCustmizeView extends ViewState {
 
     onNext = () => {
         this.trigger(ScenarioTriggers.Primary)
-   }
+    }
 
     renderContent() {
         const titleText = 'Customize your notifications below:';
@@ -63,62 +63,62 @@ export class NotificationsCustmizeView extends ViewState {
                     <Container style={[this.baseStyles.container, styles.container]}>
                         <Text style={[this.textStyles.h1, styles.title]}>{titleText}</Text>
                         <Card
-                            title="Physical Domain"
+                            title='Physical Domain'
                             description={this.state.physicalDomainEnabled ? 'On' : 'Off'}
                             style={{ marginBottom: 20 }}
                             Image={Images.bellIcon}
                         >
                             <Switch
                                 value={this.state.physicalDomainEnabled}
-                                disabled={this.model.isToggleInProgress}
-                                onValueChange={(physicalDomainEnabled) => this.setState({physicalDomainEnabled})}
+                                disabled={this.viewModel.isToggleInProgress}
+                                onValueChange={(physicalDomainEnabled) => this.setState({ physicalDomainEnabled })}
                             />
                         </Card>
 
                         <Card
-                            title="Leisure Domain"
+                            title='Leisure Domain'
                             description={this.state.leisuresDomainEnabled ? 'On' : 'Off'}
                             style={{ marginBottom: 20 }}
                             Image={Images.bellIcon}
                         >
                             <Switch
                                 value={this.state.leisuresDomainEnabled}
-                                disabled={this.model.isToggleInProgress}
-                                onValueChange={(leisuresDomainEnabled) => this.setState({leisuresDomainEnabled})}
+                                disabled={this.viewModel.isToggleInProgress}
+                                onValueChange={(leisuresDomainEnabled) => this.setState({ leisuresDomainEnabled })}
                             />
                         </Card>
 
                         <Card
-                            title="Sleep Domain"
+                            title='Sleep Domain'
                             description={this.state.sleepDomainEnabled ? 'On' : 'Off'}
                             style={{ marginBottom: 20 }}
                             Image={Images.bellIcon}
                         >
                             <Switch
                                 value={this.state.sleepDomainEnabled}
-                                disabled={this.model.isToggleInProgress}
-                                onValueChange={(sleepDomainEnabled) => this.setState({sleepDomainEnabled})}
+                                disabled={this.viewModel.isToggleInProgress}
+                                onValueChange={(sleepDomainEnabled) => this.setState({ sleepDomainEnabled })}
                             />
                         </Card>
                         <Card
-                            title="Include notifications that  mention bipolar diagnosis"
+                            title='Include notifications that mention bipolar diagnosis'
                             description={this.state.includeEnabled ? 'On' : 'Off'}
                             style={{ marginBottom: 20, height: 100 }}
                             Image={Images.bellIcon}
                         >
                             <Switch
                                 value={this.state.includeEnabled}
-                                disabled={this.model.isToggleInProgress}
-                                onValueChange={(includeEnabled) => this.setState({includeEnabled})}
+                                disabled={this.viewModel.isToggleInProgress}
+                                onValueChange={(includeEnabled) => this.setState({ includeEnabled })}
                             />
                         </Card>
                         <View style={styles.buttonView}>
-                        <Button
-                            title="SAVE"
-                            style={[styles.insturctionsButton, this.textStyles.h2]}
-                            titleStyles={styles.insturctionsButtonTitle}
-                            onPress={this.onNext}
-                            isTransparent
+                            <Button
+                                title='SAVE'
+                                style={[styles.insturctionsButton, this.textStyles.h2]}
+                                titleStyles={styles.insturctionsButtonTitle}
+                                onPress={this.onNext}
+                                isTransparent
                             />
                         </View>
                     </Container>
@@ -160,11 +160,11 @@ const styles = StyleSheet.create({
         marginBottom: 40,
         textAlign: 'center',
     },
-    buttonView : {
+    buttonView: {
         alignContent: 'center',
         alignItems: 'center',
         padding: 5
-     },
+    },
     insturctionsButton: {
         width: '80%',
         height: 50,
