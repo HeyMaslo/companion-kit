@@ -346,9 +346,6 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     }
 
     private onTapOrb(event: GestureResponderEvent) {
-        if (Platform.OS == 'ios') {
-            ReactNativeHapticFeedback.trigger('impactLight');
-        }
         const scaledOrbRadius = this.ordRadius / personaScale;
         let orbLowerX = (Layout.window.width / 2) - scaledOrbRadius
         let orbUpperX = orbLowerX + (2 * scaledOrbRadius);
@@ -358,6 +355,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
         if (event.nativeEvent.locationX >= orbLowerX && event.nativeEvent.locationX <= orbUpperX) {
             if (event.nativeEvent.locationY >= orbLowerY && event.nativeEvent.locationY <= orbUpperY) {
+                const selectedDomains = AppViewModel.Instance.Domain.selectedDomains;
+                if (!(selectedDomains && selectedDomains.domains && selectedDomains.domains.length > 0)) return;
+                if (Platform.OS == 'ios') {
+                    ReactNativeHapticFeedback.trigger('impactLight');
+                }
                 this.trigger(ScenarioTriggers.Next)
             }
         }
@@ -390,7 +392,6 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                     {/* MK-TODO below buttons used for development/testing only and will be removed */}
                     <View style={{ flexDirection: 'row' }}>
                         <Button title='Domains' style={styles.testingButton} onPress={() => this.onStartDomains()} theme={this.theme} />
-                        <Button title='History' style={styles.testingButton} onPress={() => this.onTESTINGButton()} theme={this.theme} />
                     </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
                     {loading
