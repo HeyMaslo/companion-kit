@@ -91,7 +91,7 @@ export default class QoLControllerBase implements IQoLController {
                 scheduledAffirmations: [],
             }
         } else if (propertyName == 'focusedDomains') {
-            st['focusedDomains'] = parameter as FocusedDomains;
+            userState['focusedDomains'] = parameter as FocusedDomains;
         } else if (propertyName == 'chosenStrategies') {
             userState['chosenStrategies'] = parameter as string[];
         }
