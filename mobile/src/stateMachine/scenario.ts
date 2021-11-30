@@ -20,7 +20,7 @@ import { CheckInTypeView } from './views/checkin/selectCheckInType';
 import { TextRecordView } from './views/checkin/recordTextCheckIn';
 import { RecordView } from './views/checkin/recordAudioCheckIn';
 import { NotificationsSettingsView } from './views/main/notificationsSettings';
-import { NotificationsCustomizeView } from './views/notificationCustomize/notificationsCustomize';
+import { CustomizeNotificationsView } from './views/notificationCustomize/CustomizeNotifications';
 import { EmailSettingsView } from './views/main/emailSettings';
 import { SettingsView } from './views/main/settings';
 import { ChangePasswordView } from './views/password/changePassword';
@@ -391,7 +391,7 @@ export const MasloScenario: GlobalScenario<States> = {
     },
 
     [States.NotificationsCustomize]: {
-        view: NotificationsCustomizeView,
+        view: CustomizeNotificationsView,
         exit: [
             { target: States.NotificationsSettings, trigger: [Triggers.Back] },
         ],

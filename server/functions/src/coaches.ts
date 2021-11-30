@@ -18,7 +18,7 @@ import { getMaxClients } from 'common/helpers/billing';
 import { transferDefinedFields } from 'common/utils/fields';
 import { NotificationTypes } from 'common/models/Notifications';
 import AppHttpError from 'server/utils/AppHttpError';
-import { pushNotifications } from 'server/services/notifications';
+// import { pushNotifications } from 'server/services/notifications';
 import { FeatureSettings as Features } from 'server/services/config';
 import { PromptsEndpoint } from './coaches.prompts';
 import { DocumentsEndpoint } from './coaches.documents';
@@ -199,20 +199,20 @@ async function EditAssessments(data: ClientsEditAssessment, clientUid: string, a
     const newAccount =  await Repo.Clients.updateAccount(clientUid, accountId, { assessments });
 
     if (isActive) {
-        const [resp] = await pushNotifications([{
-            uid: clientUid,
-            data: {
-                body: 'Your therapist wants you to take an assessment. It\'s waiting for you in the app.',
-                data: {
-                    type: NotificationTypes.Assessment,
-                    assessmentType: data.type,
-                },
-            },
-        }]);
+        // const [resp] = await pushNotifications([{
+        //     uid: clientUid,
+        //     data: {
+        //         body: 'Your therapist wants you to take an assessment. It\'s waiting for you in the app.',
+        //         data: {
+        //             type: NotificationTypes.Assessment,
+        //             assessmentType: data.type,
+        //         },
+        //     },
+        // }]);
 
-        if (!resp.statuses.some(s => s.current === 'enqueued' || s.current === 'confirmed')) {
-            return { status: false, message: 'Push notification has not been sent!', account: newAccount };
-        }
+        // if (!resp.statuses.some(s => s.current === 'enqueued' || s.current === 'confirmed')) {
+        //     return { status: false, message: 'Push notification has not been sent!', account: newAccount };
+        // }
     }
 
     return { status: true, message: `Assessment has been successfully ${ isActive ? 'activated' : 'deactivated' }`, account: newAccount };

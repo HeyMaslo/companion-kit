@@ -13,7 +13,7 @@ import Images from 'src/constants/images';
 import AppViewModel from 'src/viewModels';
 
 @observer
-export class NotificationsCustomizeView extends ViewState {
+export class CustomizeNotificationsView extends ViewState {
 
     state = {
         firstDomainEnabled: false,
