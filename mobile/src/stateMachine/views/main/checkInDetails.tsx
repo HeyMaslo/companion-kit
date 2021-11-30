@@ -4,7 +4,6 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { CachedImage as Image } from 'src/components/common/CachedImage';
-import Switch from 'dependencies/react-native-switch-pro';
 import TextStyles, { mainFontThin } from 'src/styles/TextStyles';
 import Colors from 'src/constants/colors';
 import { MasloPage, Container, Button, AudioPlayer, ActivityButton } from 'src/components';
