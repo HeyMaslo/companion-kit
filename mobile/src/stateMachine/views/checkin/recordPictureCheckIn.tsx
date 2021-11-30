@@ -45,6 +45,7 @@ export class RecordPitureCheckinView extends CheckInViewBase {
                     text: 'no, go back',
                     action: this.hideModal,
                 },
+                theme: this.theme,
             });
         } else {
             this.pictureViewVM.reset();
@@ -65,7 +66,7 @@ export class RecordPitureCheckinView extends CheckInViewBase {
         const pic = toJS(picture);
 
         return (
-            <MasloPage style={this.baseStyles.page}>
+            <MasloPage style={this.baseStyles.page} theme={this.theme}>
                 {(picture && !capturing) ? (
                     <>
                         <TouchableOpacity onPress={this._onBack} style={[this.baseStyles.back]}>
@@ -95,6 +96,7 @@ export class RecordPitureCheckinView extends CheckInViewBase {
                             exif: true,
                         }}
                         onBack={this._onBack}
+                        theme={this.theme}
                     />
                 )}
             </MasloPage>

@@ -41,9 +41,10 @@ export class MoodView extends CheckInViewBase<{}, MoodViewParams> {
 
     renderContent() {
         const { viewModel } = this;
+        const theme = this.theme;
 
         return (
-            <MasloPage withDots dotLength={3} activeDot={0} onClose={this.cancel} style={this.baseStyles.page}>
+            <MasloPage withDots dotLength={3} activeDot={0} onClose={this.cancel} style={this.baseStyles.page} theme={this.theme}>
                 <Container style={[this.baseStyles.container, this.baseStyles.flexBetween, { height: this._contentHeight }]}>
                     <View style={[this.baseStyles.textBlock, styles.textBlock]}>
                         <Text style={[this.textStyles.h1, styles.title]}>{viewModel.firstName}, slide the scale to show me how your day is going</Text>
@@ -52,6 +53,7 @@ export class MoodView extends CheckInViewBase<{}, MoodViewParams> {
                     <ButtonBlock
                         onOk={this.next}
                         onCancel={this.cancel}
+                        theme={theme}
                         // nextDisabled={viewModel.moodChooser.currentMood === null}
                     />
                 </Container>

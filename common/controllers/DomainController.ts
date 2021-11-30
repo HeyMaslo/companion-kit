@@ -1,5 +1,5 @@
 import { IDomainController } from 'common/abstractions/controlllers/IDomainController';
-import { DomainIded, DomainName } from '../../mobile/src/constants/Domain';
+import { Domain, FocusedDomains } from '../../mobile/src/constants/Domain';
 import RepoFactory from 'common/controllers/RepoFactory';
 
 export default class DomainControllerBase implements IDomainController {
@@ -10,11 +10,11 @@ export default class DomainControllerBase implements IDomainController {
     this._userId = userId;
   }
 
-  public async getPossibleDomains(): Promise<DomainIded[]> {
+  public async getPossibleDomains(): Promise<Domain[]> {
     return await RepoFactory.Instance.domains.get();
   }
 
-  public async getFocusedDomains(): Promise<DomainName[]> {
+  public async getFocusedDomains(): Promise<FocusedDomains> {
     return (await RepoFactory.Instance.userState.getByUserId(this._userId)).focusedDomains;
   }
 

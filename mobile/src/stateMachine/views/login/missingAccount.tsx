@@ -34,6 +34,7 @@ export class MissingAccountView extends ViewState {
                         onPress: () => Links.tryOpenLink(Localization.Current.MobileProject.contactUsLink, false),
                     }),
                 },
+                theme: this.theme,
             });
         } else {
             this.showModal({
@@ -50,6 +51,7 @@ export class MissingAccountView extends ViewState {
                         onPress: () => Links.tryOpenLink(Localization.Current.MobileProject.contactUsLink, false),
                     }),
                 },
+                theme: this.theme,
             });
         }
     }

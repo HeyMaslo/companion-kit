@@ -62,11 +62,11 @@ export class NotificationsSettingsView extends ViewState {
         const desc = 'Life Area \u0026 Diagnosis';
 
         return (
-            <MasloPage style={this.baseStyles.page}>
+            <MasloPage style={this.baseStyles.page} theme={this.theme}>
                 <Container style={styles.topBarWrapWrap}>
                     <PersonaScrollMask />
                     <View style={styles.topBarWrap}>
-                        <Button style={styles.backBtn} underlayColor='transparent' onPress={() => this.trigger(ScenarioTriggers.Back)}>
+                        <Button style={styles.backBtn} underlayColor='transparent' onPress={() => this.trigger(ScenarioTriggers.Back)} theme={this.theme}>
                             <Images.backIcon width={28} height={14} />
                         </Button>
                     </View>
@@ -78,6 +78,7 @@ export class NotificationsSettingsView extends ViewState {
                             title='Notifications'
                             description={notificationsEnabled ? this.viewModel.scheduleTimeString : 'Off'}
                             style={{ marginBottom: 20 }}
+                            theme={this.theme}
                         >
                             <Switch
                                 value={this.viewModel.isEnabled}
@@ -91,12 +92,14 @@ export class NotificationsSettingsView extends ViewState {
                                     title='Customize Notifications'
                                     description={desc}
                                     onPress={() => this.trigger(ScenarioTriggers.Next)}
+                                    theme={this.theme}
                                 >
                                 </Card>
                                 <Card
                                     title='Edit Notification Schedule'
                                     description={'Choose the time of day'}
                                     onPress={() => this.setState({ showDatePicker: true })}
+                                    theme={this.theme}
                                 />
                                 <DateTimePicker
                                     isVisible={showDatePicker}

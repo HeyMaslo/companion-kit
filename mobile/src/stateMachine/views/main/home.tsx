@@ -2,11 +2,10 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { StyleSheet, Text, ScrollView, ActivityIndicator, View, Animated, GestureResponderEvent, TouchableNativeFeedback, Platform, Pressable } from 'react-native';
 import TextStyles from 'src/styles/TextStyles';
-import Colors from 'src/constants/colors';
 import { Container, MasloPage, Placeholder, Button } from 'src/components';
 import HomeViewModel from 'src/viewModels/HomeViewModel';
 import BottomBar from 'src/screens/components/BottomBar';
-import CheckInCard from 'src/screens/components/CheckInCard';
+import ResourceCard from 'src/screens/components/ResourceCard';
 import TipItemCard from 'src/screens/components/TipCard';
 import { CheckInDetailsParams } from 'src/stateMachine/views/main/checkInDetails';
 import { ViewState } from '../base';
@@ -23,7 +22,8 @@ import { getPersonaRadius, PersonaScale } from 'src/stateMachine/persona';
 import { Portal } from 'react-native-paper';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import AppController from 'src/controllers';
-import { DomainName, DomainScope } from 'src/constants/Domain';
+import { DomainName } from 'src/constants/Domain';
+import { formatDateDayMonthYear } from 'common/utils/dateHelpers';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -57,14 +57,15 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     get qolViewModel() { return AppViewModel.Instance.QOL; }
 
     async start() {
+        this.persona.armsHidden = false;
         await AppViewModel.Instance.QOL.init();
-        this.persona.qolArmMagnitudes = await this.viewModel.getArmMagnitudes();
+        this.persona.qolArmMagnitudes = await this.viewModel.getArmMagnitudes();;
         this.setState({ ...this.state, isUnfinishedQol: AppViewModel.Instance.QOL.isUnfinished });
         Animated.timing(this.state.opacity, {
             toValue: 1,
-            delay: isFirstLaunch ? 1000 : 400,
-            duration: 500,
-            useNativeDriver: true
+            delay: isFirstLaunch ? 1000 : 50, // MK-TODO: - play with this delay and duration + see if instant render is possible
+            duration: isFirstLaunch ? 500 : 450,
+            useNativeDriver: true,
         }).start(this.checkNewLinkDoc);
         isFirstLaunch = false;
         // MK-TODO is this the best place to do this? Good now for testing
@@ -120,6 +121,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                 this.hideNewDocumentLinkeModal();
                 this.viewModel.markLinkDocumentAsSeen(doc);
             },
+            theme: this.theme,
         });
     }
 
@@ -166,8 +168,16 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         // this.trigger(ScenarioTriggers.TESTING);
     }
 
-    private openStoryDetails = (jid: string) => {
+    private openResourceDetails = (jid: string) => {
         this.trigger<CheckInDetailsParams>(ScenarioTriggers.Primary, { id: jid });
+    }
+
+    private favoriteResource = (jid: string) => {
+        console.log('favoriteResource', jid);
+    }
+
+    private removeResource = (jid: string) => {
+        console.log('removeResource', jid);
     }
 
     private modalTextsByStatus = (status: InterventionTipsStatuses.StatusIds) => {
@@ -232,6 +242,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                 this.hideModal();
                 t.actions.seen();
             },
+            theme: this.theme,
         });
     }
 
@@ -291,11 +302,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
         return (
             <>
-                {tips?.length ? (
+                {tips?.length && (
                     <ScrollView
                         showsHorizontalScrollIndicator={false}
                         horizontal
-                        style={{ maxHeight: Layout.isSmallDevice ? 112 : 132 }}
+                        style={{ maxHeight: Layout.isSmallDevice ? 112 : 132, marginBottom: 16 }}
                         contentContainerStyle={styles.tipsList}
                     >
                         {tips.map(s => (
@@ -303,24 +314,21 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                                 key={s.id}
                                 item={s}
                                 onPress={() => this.onTipItemPress(s)}
+                                theme={this.theme}
                             />
                         ))}
                     </ScrollView>
-                ) : null}
-                <Container style={styles.heading}>
-                    <Text style={[TextStyles.labelMedium, styles.headingTitle]}>Your Check-ins</Text>
-                    <Text style={[TextStyles.labelMedium, styles.date]}>{today}</Text>
-                </Container>
+                )}
             </>
         );
     }
 
-    private getCheckinsList() {
-        const { checkIns } = this.viewModel;
+    private getResourcesList() {
+        const { resources } = this.viewModel;
 
         return (
-            checkIns.length === 0 ? (
-                <Placeholder message={'You don’t have any check-ins yet'} />
+            resources.length === 0 ? (
+                <Placeholder message={'You don’t have any more resources'} />
             ) : (
                 <ScrollView
                     style={{ maxHeight: MaxHeight }}
@@ -328,12 +336,15 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                     horizontal
                     contentContainerStyle={styles.list}
                 >
-                    {checkIns.map((s, i) => (
-                        <CheckInCard
+                    {resources.map((s, i) => (
+                        <ResourceCard
                             key={s.id}
                             model={s}
                             active={i === 0}
-                            onPress={() => this.openStoryDetails(s.id)}
+                            onPress={() => this.openResourceDetails(s.id)}
+                            onHeart={() => this.favoriteResource(s.id)}
+                            onClose={() => this.removeResource(s.id)}
+                            theme={this.theme}
                         />
                     ))}
                 </ScrollView>
@@ -342,9 +353,6 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     }
 
     private onTapOrb(event: GestureResponderEvent) {
-        if (Platform.OS == 'ios') {
-            ReactNativeHapticFeedback.trigger('impactLight');
-        }
         const scaledOrbRadius = this.ordRadius / personaScale;
         let orbLowerX = (Layout.window.width / 2) - scaledOrbRadius
         let orbUpperX = orbLowerX + (2 * scaledOrbRadius);
@@ -354,6 +362,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
         if (event.nativeEvent.locationX >= orbLowerX && event.nativeEvent.locationX <= orbUpperX) {
             if (event.nativeEvent.locationY >= orbLowerY && event.nativeEvent.locationY <= orbUpperY) {
+                const selectedDomains = AppViewModel.Instance.Domain.selectedDomains;
+                if (!(selectedDomains && selectedDomains.domains && selectedDomains.domains.length > 0)) return;
+                if (Platform.OS == 'ios') {
+                    ReactNativeHapticFeedback.trigger('impactLight');
+                }
                 this.trigger(ScenarioTriggers.Next)
             }
         }
@@ -365,7 +378,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         } = this.viewModel;
 
         return (
-            <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
+            <MasloPage style={this.baseStyles.page} theme={this.theme}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', position: 'absolute', top: 60, left: 0, right: 0 }}>
+                    <Text style={[this.textStyles.labelMedium, { color: this.theme.colors.midground }]}>{formatDateDayMonthYear(new Date())}</Text>
+                </View>
+                {/* Do we want this animated fade in every time, only on app open or not at all? */}
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
                     {/* Portal component used to capture touch events on/above orb */}
                     <Portal>
@@ -381,15 +398,14 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                     </Portal>
                     {/* MK-TODO below buttons used for development/testing only and will be removed */}
                     <View style={{ flexDirection: 'row' }}>
-                        <Button title='Domains' style={styles.testingButton} onPress={() => this.onStartDomains()} />
-                        <Button title='History' style={styles.testingButton} onPress={() => this.onTESTINGButton()} />
+                        <Button title='Domains' style={styles.testingButton} onPress={() => this.onStartDomains()} theme={this.theme} />
                     </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
                     {loading
                         ? <ActivityIndicator size='large' />
-                        : this.getCheckinsList()
+                        : this.getResourcesList()
                     }
-                    <BottomBar screen={'home'} />
+                    <BottomBar screen={'home'} theme={this.theme} />
                 </Animated.View>
             </MasloPage>
         );
@@ -410,9 +426,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginTop: 32,
         marginBottom: 16,
-    },
-    headingTitle: {
-        color: Colors.home.headingTitle,
     },
     date: {
         textTransform: 'uppercase',

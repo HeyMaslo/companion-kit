@@ -3,7 +3,6 @@ import React from 'react';
 import ExpoConstants from 'expo-constants';
 import { observer } from 'mobx-react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import Colors from 'src/constants/colors';
 import { MasloPage, Container, Button, Card, Link } from 'src/components';
 import AppViewModel from 'src/viewModels';
 import AppController from 'src/controllers';
@@ -51,6 +50,7 @@ export class SettingsView extends ViewState {
                 text: 'no, I don’t',
                 action: null,
             },
+            theme: this.theme,
         });
     }
 
@@ -100,12 +100,12 @@ export class SettingsView extends ViewState {
         const notificationsEnabled = this.model.notifications.isEnabled && !this.model.notifications.isToggleInProgress;
 
         return (
-            <MasloPage style={this.baseStyles.page}>
+            <MasloPage style={this.baseStyles.page} theme={this.theme}>
                 <Container style={styles.topBarWrapWrap}>
                     <PersonaScrollMask />
                     {!process.appFeatures.GOALS_ENABLED &&
                         <View style={styles.topBarWrap}>
-                            <Button style={styles.backBtn} underlayColor="transparent" onPress={() => this.trigger(ScenarioTriggers.Back)}>
+                            <Button style={styles.backBtn} underlayColor='transparent' onPress={() => this.trigger(ScenarioTriggers.Back)} theme={this.theme}>
                                 <Images.backIcon width={28} height={14} />
                             </Button>
                         </View>
@@ -118,9 +118,10 @@ export class SettingsView extends ViewState {
                             <Button
                                 style={styles.updateButton}
                                 onPress={AppController.Instance.version.update}
+                                theme={this.theme}
                             >
                                 <Images.darkRefreshIcon style={styles.refreshIcon} />
-                                <Text style={[this.textStyles.labelMedium, styles.updateText]}>Update Available</Text>
+                                <Text style={[this.textStyles.labelMedium, { letterSpacing: 1.6, color: 'red' }]}>Update Available</Text>
                             </Button>
                         ) : null}
                         <View style={styles.cardsWrap}>
@@ -129,6 +130,8 @@ export class SettingsView extends ViewState {
                                 description={AppController.Instance.User?.user?.email}
                                 Image={authProviderIcon}
                                 onPress={this.onEmailChange}
+                                isTransparent
+                                theme={this.theme}
                             >
                                 {/* <Images.arrowRight width={8} height={8} /> */}
                             </Card>
@@ -138,6 +141,7 @@ export class SettingsView extends ViewState {
                                     description={this.model.needsCreatePassword ? 'Create password' : 'Change your password'}
                                     Image={Images.keyIcon}
                                     onPress={this.onPasswordChange}
+                                    theme={this.theme}
                                 >
                                     <Images.arrowRight width={8} height={8} />
                                 </Card>
@@ -147,23 +151,24 @@ export class SettingsView extends ViewState {
                                 description={notificationsEnabled ? 'On' : 'Off'}
                                 Image={Images.bellIcon}
                                 onPress={this.onNotificationsChange}
+                                theme={this.theme}
                             >
                                 <Images.arrowRight width={8} height={8} />
                             </Card>
                         </View>
                         <View style={[this.baseStyles.flexCenterBottom, styles.bottomBlock]}>
                             <Button
-                                title="logout"
+                                title='logout'
                                 withBorder
                                 isTransparent
                                 onPress={this.logout}
+                                theme={this.theme}
                             />
                             <AppVersionView />
                             {this.renderLinksFooter()}
                         </View>
                     </Container>
                 </ScrollView>
-                {process.appFeatures.GOALS_ENABLED && <BottomBar screen={'settings'} />}
             </MasloPage>
         );
     }
@@ -220,7 +225,6 @@ const styles = StyleSheet.create({
     },
     updateButton: {
         width: '100%',
-        backgroundColor: Colors.settings.updateButtonBg,
         height: 40,
         borderRadius: 5,
         flexDirection: 'row',
@@ -231,11 +235,6 @@ const styles = StyleSheet.create({
         height: 20,
         width: 20,
         marginRight: 8,
-    },
-    updateText: {
-        color: Colors.settings.updateText,
-        letterSpacing: 1.6,
-        // marginTop: 4,
     },
     version: {
         marginTop: 20,

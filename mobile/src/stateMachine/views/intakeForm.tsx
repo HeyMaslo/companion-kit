@@ -114,6 +114,7 @@ export class IntakeFormView extends ViewState<State> {
                     this.trigger(ScenarioTriggers.Cancel);
                 },
             },
+            theme: this.theme,
         });
     })
 
@@ -142,7 +143,9 @@ export class IntakeFormView extends ViewState<State> {
                         title: message.rejectAction,
                     } : null,
                 onClose: this._onFormClose,
-            }} personaViewContext={this.persona} />;
+            }} 
+            personaViewContext={this.persona} 
+            theme={this.theme} />;
         }
 
         if (this.state.jumpInQuestion) {
@@ -160,6 +163,7 @@ export class IntakeFormView extends ViewState<State> {
                         onClose: this._onFormClose,
                     }}
                     personaViewContext={this.persona}
+                    theme={this.theme} 
                 />
             );
         }
@@ -185,6 +189,7 @@ export class IntakeFormView extends ViewState<State> {
             previousStep: this._prevStep,
             addResponse: this._submit,
             personaViewContext: this.persona,
+            theme: this.theme,
         };
 
         return <FormView {...formViewContent} />;

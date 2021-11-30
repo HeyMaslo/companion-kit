@@ -1,20 +1,25 @@
-import { months } from 'common/utils/dateHelpers';
 import React from 'react';
 import { Animated, Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button, Container, MasloPage } from 'src/components';
-import Colors from 'src/constants/colors';
 import Images from 'src/constants/images';
 import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
 import { ViewState } from '../base';
 import Layout from 'src/constants/Layout';
 import { iconForDomain } from 'src/helpers/DomainHelper';
-import { DomainName } from 'src/constants/Domain';
+import { DomainName, Subdomain } from 'src/constants/Domain';
+import { Portal } from 'react-native-paper';
+import { observable } from 'mobx';
 
 const { width } = Dimensions.get('window');
-const centerDomainFontSize = Layout.isSmallDevice ? 25 : 30;
+export const centerDomainFontSize = Layout.isSmallDevice ? 25 : 30;
 const sideDomainsFontSize = Layout.isSmallDevice ? 14 : 17;
 
 export abstract class ViewDomainsBase extends ViewState {
+
+    @observable
+    protected showSubdomainPopUp = false
+    @observable
+    protected showBottomBanner = false;
 
     constructor(props) {
         super(props);
@@ -30,6 +35,8 @@ export abstract class ViewDomainsBase extends ViewState {
         translateXTabOne: new Animated.Value(0),
         translateY: 0,
         xDomain: 0,
+        popUpFadeOpacity: new Animated.Value(0),
+        reRenderButton: false,
     }
 
     handleSlide = type => {
@@ -73,7 +80,7 @@ export abstract class ViewDomainsBase extends ViewState {
 
     public abstract onDetails: () => void
 
-    public abstract getDomainDisplay(): string[]
+    public abstract getDomainDisplay(): { leftName: string, mainName: string, rightName: string, mainImportance: string, subdomains: Subdomain[] }
 
     public abstract getDomainImportanceBullets(): string[]
 
@@ -82,6 +89,14 @@ export abstract class ViewDomainsBase extends ViewState {
     public abstract goToLeft: () => void
 
     public getCenterElement(): JSX.Element {
+        return (<></>);
+    }
+
+    public getPopUpElement(): JSX.Element {
+        return (<></>);
+    }
+
+    public getBottomBannerElement(): JSX.Element {
         return (<></>);
     }
 
@@ -96,13 +111,14 @@ export abstract class ViewDomainsBase extends ViewState {
 
     renderContent() {
         let { xTabOne, xTabTwo, active, translateX, translateXTabTwo, translateXTabOne, translateY, xDomain } = this.state
-        const [lDomain, domain, rDomain, importance] = this.getDomainDisplay();
-        const centerDomainName = domain as DomainName
+        const display = this.getDomainDisplay();
+        const centerDomainName = display.mainName as DomainName;
+        const colors = this.theme.colors;
 
         return (
-            <MasloPage style={this.baseStyles.page} onClose={this.onCancel} onBack={this.onBack}>
+            <MasloPage style={this.baseStyles.page} onClose={this.onCancel} onBack={this.onBack} theme={this.theme}>
                 <Container style={[{ height: this._contentHeight }]}>
-                    <View style={{ borderWidth: 1, borderColor: '#CBC8CD', borderRadius: 10, height: Layout.window.height * 0.37, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ borderWidth: 1, borderColor: colors.highlightSecondary, borderRadius: 10, height: Layout.window.height * 0.37, justifyContent: 'center', alignItems: 'center' }}>
                         <View style={{
                             flexDirection: 'row',
                             margin: 10,
@@ -119,7 +135,7 @@ export abstract class ViewDomainsBase extends ViewState {
                                 onLayout={event => this.setState({ xTabOne: event.nativeEvent.layout.x })}
                                 onPress={() => this.setState({ active: 0 }, () => this.handleSlide(xTabOne))}
                             >
-                                <Text style={{ fontWeight: active === 0 ? 'bold' : 'normal', textDecorationLine: active === 0 ? 'underline' : 'none' }}>Importance</Text>
+                                <Text style={[this.textStyles.labelMedium, { fontWeight: active === 0 ? 'bold' : 'normal', textDecorationLine: active === 0 ? 'underline' : 'none', color: active === 0 ? colors.foreground : colors.midground }]}>Importance</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.tabs, {
@@ -130,7 +146,7 @@ export abstract class ViewDomainsBase extends ViewState {
                                 onLayout={event => this.setState({ xTabTwo: event.nativeEvent.layout.x })}
                                 onPress={() => this.setState({ active: 1 }, () => this.handleSlide(xTabTwo))}
                             >
-                                <Text style={{ fontWeight: active === 1 ? 'bold' : 'normal', textDecorationLine: active === 1 ? 'underline' : 'none' }}>Timeline</Text>
+                                <Text style={[this.textStyles.labelMedium, { fontWeight: active === 1 ? 'bold' : 'normal', textDecorationLine: active === 1 ? 'underline' : 'none', color: active === 0 ? colors.midground : colors.foreground }]}>Timeline</Text>
                             </TouchableOpacity>
                         </View>
                         <ScrollView>
@@ -170,16 +186,17 @@ export abstract class ViewDomainsBase extends ViewState {
                             <Button
                                 title={active === 0 ? 'Learn More' : 'Calendar'}
                                 style={styles.buttonDetails}
-                                titleStyles={styles.mailButtonTitle}
+                                titleStyles={styles.halfPillButtonTitle}
                                 onPress={active === 0 ? () => this.onDetails() : null}
                                 isTransparent
+                                theme={this.theme}
                             />
 
                         </View>
                     </View>
-                    <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', height: Layout.window.height * 0.25, marginBottom: 10 }}>
+                    <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', height: Layout.window.height * 0.25, marginBottom: 10, marginTop: this.state.reRenderButton ? 0 : null }}>
                         {this.getCenterElement()}
-                        {iconForDomain(centerDomainName, { flex: 1 }, TextStyles.h1.color, 60, 60)}
+                        {iconForDomain(centerDomainName, { flex: 1 }, colors.highlight, 60, 60)}
                     </View>
                     <View
                         style={{
@@ -187,23 +204,31 @@ export abstract class ViewDomainsBase extends ViewState {
                             justifyContent: 'space-between',
                             marginBottom: 20,
                         }}>
-                        <TouchableOpacity onPress={this.goToLeft} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
-                            <Images.backIcon width={20} height={20} />
+                        <TouchableOpacity onPress={this.goToLeft} hitSlop={{ top: 15, left: 15, right: 15, bottom: 15 }}>
+                            <Images.threeArrowsIcon width={30} height={30} style={{ transform: [{ rotate: '180deg' }] }} color={this.theme.colors.midground} />
                         </TouchableOpacity>
-                        <Text style={[TextStyles.p1, styles.domain, { fontSize: centerDomainFontSize, lineHeight: centerDomainFontSize }]}>{domain}</Text>
-                        <TouchableOpacity onPress={this.goToRight} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
-                            <Images.backIcon width={20} height={20} style={{ transform: [{ rotate: '180deg' }] }} />
+                        <Text style={[TextStyles.p1, styles.domain, { color: colors.highlight, fontSize: centerDomainFontSize, lineHeight: centerDomainFontSize }]}>{centerDomainName}</Text>
+                        <TouchableOpacity onPress={this.goToRight} hitSlop={{ top: 15, left: 15, right: 15, bottom: 15 }}>
+                            <Images.threeArrowsIcon width={30} height={30} color={this.theme.colors.midground} />
                         </TouchableOpacity>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <TouchableOpacity onPress={this.goToLeft} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
-                            <Text style={[TextStyles.labelMedium, styles.domain, { fontSize: sideDomainsFontSize, lineHeight: sideDomainsFontSize }]}>{lDomain}</Text>
+                            <Text style={[TextStyles.labelMedium, styles.domain, { fontSize: sideDomainsFontSize, lineHeight: sideDomainsFontSize, color: this.theme.colors.midground }]}>{display.leftName}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={this.goToRight} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
-                            <Text style={[TextStyles.labelMedium, styles.domain, { fontSize: sideDomainsFontSize, lineHeight: sideDomainsFontSize }]}>{rDomain}</Text>
+                            <Text style={[TextStyles.labelMedium, styles.domain, { fontSize: sideDomainsFontSize, lineHeight: sideDomainsFontSize, color: this.theme.colors.midground }]}>{display.rightName}</Text>
                         </TouchableOpacity>
                     </View>
                 </Container>
+                {this.showSubdomainPopUp &&
+                    <Portal>
+                        {this.getPopUpElement()}
+                    </Portal>}
+                {this.showBottomBanner &&
+                    <Portal>
+                        {this.getBottomBannerElement()}
+                    </Portal>}
             </MasloPage>
         );
     }
@@ -238,18 +263,15 @@ const styles = StyleSheet.create({
         maxWidth: '90%',
         marginVertical: 0,
         marginHorizontal: 'auto',
-        color: Colors.secondarySubtitle,
     },
     buttonDetails: {
         borderTopLeftRadius: 25,
         borderBottomLeftRadius: 20,
         borderWidth: 1,
-        backgroundColor: '#E0E0E0',
         height: 40,
         width: '45%',
     },
-    mailButtonTitle: {
-        color: 'black',
+    halfPillButtonTitle: {
         fontSize: 10,
         padding: 10,
     },
@@ -260,5 +282,6 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         letterSpacing: 1.79,
         fontFamily: mainFontMedium,
+        textTransform: 'uppercase',
     },
 });

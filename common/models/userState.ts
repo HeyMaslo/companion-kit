@@ -1,4 +1,4 @@
-import { DomainName } from '../../mobile/src/constants/Domain';
+import { FocusedDomains } from '../../mobile/src/constants/Domain';
 import { Affirmation, PartialQol } from '../../mobile/src/constants/QoL';
 
 export type LastSeen = {
@@ -14,7 +14,7 @@ export type ScheduledAffirmationNotification = {
 
 export type UserState = {
     surveyState: PartialQol;
-    focusedDomains?: DomainName[];
+    focusedDomains?: FocusedDomains;
     chosenStrategies?: string[]; // array of Strategy.internalId (firestore document id) to reference strategies in the strategies collection
     lastSeenAffirmations?: LastSeen, // keeps track of affirmations that have been seen/scheduled at which date
     scheduledAffirmations?: ScheduledAffirmationNotification[], // only contains upcoming affirmation notifications

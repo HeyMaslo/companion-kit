@@ -32,7 +32,7 @@ export class CheckInTypeView extends CheckInViewBase {
         this.persona.state = PersonaStates.Tap;
     }
 
-    private _goToRecord =  async () => {
+    private _goToRecord = async () => {
         const res = await Recorder.askForPermissionAsync();
 
         if (res.status === 'granted') {
@@ -49,7 +49,7 @@ export class CheckInTypeView extends CheckInViewBase {
         this.trigger(ScenarioTriggers.Secondary);
     }
 
-    private _goToPicture =  async () => {
+    private _goToPicture = async () => {
         const hasPermission = await this.viewModel.pictureViewVM.askCameraPermissions();
         if (hasPermission) {
             this.trigger(ScenarioTriggers.Submit);
@@ -87,6 +87,7 @@ export class CheckInTypeView extends CheckInViewBase {
                 },
             } : okButton,
             secondaryButton: settingsSupported ? okButton : null,
+            theme: this.theme,
         });
     }
 
@@ -111,7 +112,7 @@ export class CheckInTypeView extends CheckInViewBase {
         const { viewModel } = this;
 
         return (
-            <MasloPage withDots dotLength={3} activeDot={2} onClose={this.onClose} style={this.baseStyles.page}>
+            <MasloPage withDots dotLength={3} activeDot={2} onClose={this.onClose} style={this.baseStyles.page} theme={this.theme}>
                 <Container style={[this.baseStyles.container, this.baseStyles.flexBetween, { height: this._contentHeight }]}>
                     <View style={[this.baseStyles.textBlock, styles.textBlock]}>
                         <Text style={[
@@ -148,7 +149,7 @@ export class CheckInTypeView extends CheckInViewBase {
                                 </TouchableOpacity>
                             </>}
                         </View>
-                        <Button onPress={this._onGoBack} title="Cancel" isTransparent withBorder />
+                        <Button onPress={this._onGoBack} title='Cancel' isTransparent withBorder theme={this.theme} />
                     </View>
                 </Container>
             </MasloPage>

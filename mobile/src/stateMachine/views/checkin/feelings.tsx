@@ -64,15 +64,16 @@ export class FeelingsView extends CheckInViewBase {
         if (!feelingsMultiSelect) {
             return null;
         }
+        const theme = this.theme;
 
         return (
-            <MasloPage style={this.baseStyles.page}>
+            <MasloPage style={this.baseStyles.page} theme={this.theme}>
                 <Container style={styles.topBarWrapWrap}>
                     <PersonaScrollMask height={Layout.getViewHeight(24)} />
                     <View style={styles.topBarWrap}>
                         <Dots length={3} active={0} styles={{ left: 0 }} />
-                        <Button style={styles.closeBtn} underlayColor="transparent" onPress={this.onClose}>
-                            <Images.closeIcon width={28} height={14} />
+                        <Button style={styles.closeBtn} underlayColor="transparent" onPress={this.onClose} theme={theme}>
+                            <Images.closeIcon width={28} height={14} color={'#BABFBF'} />
                         </Button>
                     </View>
                 </Container>
@@ -89,6 +90,7 @@ export class FeelingsView extends CheckInViewBase {
                             onOk={this.next}
                             onCancel={this.back}
                             nextDisabled={!isFeelingsSelected}
+                            theme={theme}
                         />
                     </Container>
                 </ScrollView>

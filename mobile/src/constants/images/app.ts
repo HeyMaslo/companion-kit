@@ -4,6 +4,7 @@ import AltAudioThumbPng from 'src/assets/images/app/alt-audio-thumb.png';
 import AddStoryButtonSVG from 'src/assets/images/app/add-btn-bg.svg';
 import BackIconSVG from 'src/assets/images/app/back-arrow.svg';
 import CloseIconSVG from 'src/assets/images/app/close-icon.svg';
+import HeartIconSVG from 'src/assets/images/app/heart.svg';
 import ClockIconSVG from 'src/assets/images/app/clock-icon.svg';
 import ClockIcon2SVG from 'src/assets/images/app/clock-icon2.svg';
 import ProfileIconSVG from 'src/assets/images/app/profile-icon.svg';
@@ -51,19 +52,25 @@ import GoalsActiveSVG from 'src/assets/images/app/goals-icon-active.svg';
 import GoalsIndicatorSVG from 'src/assets/images/app/goals-icon-indicator.svg';
 import GoalsIndicatorActiveSVG from 'src/assets/images/app/goals-icon-indicator-active.svg';
 import SettingsIconActiveSVG from 'src/assets/images/app/settings-icon-active.svg';
-// Note: Domain icons are not finallized so some are reused
-import LeisureIconSVG from 'src/assets/images/app/domain/leisure.svg';
-import SleepIconSVG from 'src/assets/images/app/domain/sleep.svg';
-import MoneyIconSVG from 'src/assets/images/app/domain/money.svg';
-import PhysicalIconSVG from 'src/assets/images/app/domain/physical.svg';
-import SelfEsteemIconSVG from 'src/assets/images/app/domain/self-esteem.svg';
-import HomeDomainIconSVG from 'src/assets/images/app/domain/sleep.svg';
-import MoodIconSVG from 'src/assets/images/app/domain/mood.svg';
-import ThinkingIconSVG from 'src/assets/images/app/domain/thinking.svg';
-import IdentityIconSVG from 'src/assets/images/app/domain/sleep.svg';
-import IndependenceIconSVG from 'src/assets/images/app/domain/independence.svg';
-import SpirtualIconSVG from 'src/assets/images/app/domain/spiritual.svg';
-import RelationshipsIconSVG from 'src/assets/images/app/domain/relationships.svg';
+import LeisureIconSVG from 'src/assets/images/app/leisure.svg';
+import SleepIconSVG from 'src/assets/images/app/sleep.svg';
+import MoneyIconSVG from 'src/assets/images/app/money.svg';
+import PhysicalIconSVG from 'src/assets/images/app/physical.svg';
+import PhysicalIconFilledSVG from 'src/assets/images/app/physical-filled.svg';
+import SelfEsteemIconSVG from 'src/assets/images/app/selfesteem.svg';
+import HomeDomainIconSVG from 'src/assets/images/app/sleep.svg';
+import MoodIconSVG from 'src/assets/images/app/moodIcon.svg';
+import ThinkingIconSVG from 'src/assets/images/app/thinking.svg';
+import IdentityIconSVG from 'src/assets/images/app/sleep.svg';
+import IndependenceIconSVG from 'src/assets/images/app/IndependenceIcon.svg';
+import SpirtualIconSVG from 'src/assets/images/app/SpiritualIcon.svg';
+import RelationshipsIconSVG from 'src/assets/images/app/RelationshipIcon.svg';
+import DietIconSVG from 'src/assets/images/app/diet.svg';
+import SexualHealthIconSVG from 'src/assets/images/app/sexual.svg';
+import SubstanceUseIConSVG from 'src/assets/images/app/substance.svg';
+import PlusIconSVG from 'src/assets/images/app/plus.svg';
+import MinusIconSVG from 'src/assets/images/app/minus.svg';
+import ThreeArrowsSVG from 'src/assets/images/app/threeArrows.svg';
 
 export default {
     signInWithGoogle: GoogleIconPng,
@@ -71,6 +78,7 @@ export default {
     altAudioThumb: AltAudioThumbPng,
     bottomAddNewStory: AddStoryButtonSVG,
     closeIcon: CloseIconSVG,
+    heartIcon: HeartIconSVG,
     backIcon: BackIconSVG,
     clockIcon: ClockIconSVG,
     clockIcon2: ClockIcon2SVG,
@@ -126,6 +134,7 @@ export default {
     // Domain
     moodIcon: MoodIconSVG,
     physicalIcon: PhysicalIconSVG,
+    physicalIconFilled: PhysicalIconFilledSVG,
     sleepIcon: SleepIconSVG,
     thinkingIcon: ThinkingIconSVG,
     identityIcon: IdentityIconSVG,
@@ -136,4 +145,12 @@ export default {
     moneyIcon: MoneyIconSVG,
     spirtualIcon: SpirtualIconSVG,
     relationshipsIcon: RelationshipsIconSVG,
+    // Subdomain
+    dietIcon: DietIconSVG,
+    sexualHealthIcon: SexualHealthIconSVG,
+    substanceUseIcon: SubstanceUseIConSVG,
+    // Domain Button
+    plusIcon: PlusIconSVG,
+    minusIcon: MinusIconSVG,
+    threeArrowsIcon: ThreeArrowsSVG,
 };

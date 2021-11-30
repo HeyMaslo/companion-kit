@@ -16,15 +16,14 @@ export class ChooseStrategiesView extends ViewState {
 
   @observable
   private dropDownIsExtended = false;
-  private selectedDomainNames: DomainName[] = [];
+  private selectedDomainNames: string[] = [];
   private currentFilter: DomainName = null;
 
   constructor(props) {
     super(props);
     this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0 } });
     this.hidePersona();
-    this.selectedDomainNames = AppViewModel.Instance.Domain.selectedDomains.map((d) => d.name);
-
+    this.selectedDomainNames = (AppViewModel.Instance.Domain.selectedDomains.domains as string[]).concat(AppViewModel.Instance.Domain.selectedDomains.subdomains);
     this.onLearnMorePress = this.onLearnMorePress.bind(this);
     this.onSelectStrategy = this.onSelectStrategy.bind(this);
   }
@@ -33,11 +32,10 @@ export class ChooseStrategiesView extends ViewState {
     return AppViewModel.Instance.Strategy;
   }
 
-  async start() {
-    this.viewModel.selectedStrategies = [];
-  }
+  async start() { }
 
   onBack = () => {
+    this.viewModel.selectedStrategies = [];
     this.trigger(ScenarioTriggers.Back);
   }
 
@@ -46,12 +44,16 @@ export class ChooseStrategiesView extends ViewState {
       title: AlertExitWithoutSave,
       primaryButton: {
         text: 'yes, stop',
-        action: () => this.trigger(ScenarioTriggers.Cancel),
+        action: () => {
+          this.viewModel.selectedStrategies = [];
+          this.trigger(ScenarioTriggers.Cancel);
+        },
       },
       secondaryButton: {
         text: 'no, go back',
         action: this.hideModal,
-      }
+      },
+      theme: this.theme,
     });
   })
 
@@ -93,12 +95,12 @@ export class ChooseStrategiesView extends ViewState {
   );
 
   renderListItem = ({ item }) => (
-    <StrategyCard item={item} onSelectStrategy={this.onSelectStrategy} onLearnMorePress={this.onLearnMorePress} />
+    <StrategyCard item={item} onSelectStrategy={this.onSelectStrategy} onLearnMorePress={this.onLearnMorePress} isSmallCard={true} theme={this.theme} />
   );
 
   renderContent() {
     return (
-      <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()}>
+      <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} onBack={() => this.onBack()} theme={this.theme}>
         <Container style={[{ height: this._contentHeight, paddingTop: 10 }]}>
 
           {/* Title */}
@@ -107,40 +109,43 @@ export class ChooseStrategiesView extends ViewState {
           </View>
 
           <View>
-            {this.selectedDomainNames.length < 3 ?
-              <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                {/* Sort Row of Three Buttons */}
-                <TouchableOpacity onPress={() => this.changeFilterPressed(null)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == null ? { textDecorationLine: 'underline' } : null]}>{'Show All'}</Text></TouchableOpacity>
-                <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainNames[0])}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainNames[0] ? { textDecorationLine: 'underline' } : null]}>{this.selectedDomainNames[0]}</Text></TouchableOpacity>
-                <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainNames[1])}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainNames[1] ? { textDecorationLine: 'underline' } : null]}>{this.selectedDomainNames[1]}</Text></TouchableOpacity>
-              </View>
-              :
-              <View>
-                {/* Sort Drop Down Button */}
-                <Button titleStyles={[styles.sortButtonTitle, this.currentFilter == null ? { textDecorationLine: 'underline' } : null]} title='SHOW ALL' style={styles.sortButton} onPress={this.dropDown} />
-                {this.dropDownIsExtended &&
-                  <FlatList style={styles.dropDownlist}
-                    data={this.selectedDomainNames}
-                    renderItem={this.renderDropDownListItem}
-                    keyExtractor={item => item}
-                    scrollEnabled={false} />}
-              </View>
+            {
+              this.selectedDomainNames.length < 3 ?
+                <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                  {/* Sort Row of Three Buttons */}
+                  <TouchableOpacity onPress={() => this.changeFilterPressed(null)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == null ? { textDecorationLine: 'underline' } : null]}>{'Show All'}</Text></TouchableOpacity>
+                  <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainNames[0] as DomainName)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainNames[0] ? { textDecorationLine: 'underline' } : null]}>{this.selectedDomainNames[0]}</Text></TouchableOpacity>
+                  <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainNames[1] as DomainName)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainNames[1] ? { textDecorationLine: 'underline' } : null]}>{this.selectedDomainNames[1]}</Text></TouchableOpacity>
+                </View>
+                :
+                <View>
+                  {/* Sort Drop Down Button */}
+                  <Button titleStyles={[styles.sortButtonTitle, this.currentFilter == null ? { textDecorationLine: 'underline' } : null]} title='SHOW ALL' style={styles.sortButton} onPress={this.dropDown} theme={this.theme} />
+                  {
+                    this.dropDownIsExtended &&
+                    <FlatList style={styles.dropDownlist}
+                      data={this.selectedDomainNames}
+                      renderItem={this.renderDropDownListItem}
+                      keyExtractor={item => item}
+                      scrollEnabled={false} />
+                  }
+                </View >
             }
-          </View>
+          </View >
 
           {/* List of Strategies */}
-          <FlatList style={styles.list}
+          < FlatList style={styles.list}
             data={this.viewModel.availableStrategies}
             renderItem={this.renderListItem}
             keyExtractor={item => item.internalId} />
-          <Button title={'SELECT ' + (this.viewModel.selectedStrategies.length < 1 ? 'STRATEGIES' : (this.viewModel.selectedStrategies.length == 1 ? 'THIS STRATEGY' : 'THESE STRATEGIES'))} style={styles.selectButton} onPress={this.onSubmit} disabled={this.viewModel.selectedStrategies.length < 1} />
-        </Container>
-      </MasloPage>
+          <Button title={'SELECT ' + (this.viewModel.selectedStrategies.length < 1 ? 'STRATEGIES' : (this.viewModel.selectedStrategies.length == 1 ? 'THIS STRATEGY' : 'THESE STRATEGIES'))} style={styles.selectButton} disabledStyle={{ backgroundColor: this.theme.colors.highlightSecondary, }} onPress={this.onSubmit} disabled={this.viewModel.selectedStrategies.length < 1} theme={this.theme} />
+        </Container >
+      </MasloPage >
     );
   }
 }
 
-const size = 24;
+const checkboxSize = 24;
 
 const styles = StyleSheet.create({
   rowButton: {
@@ -191,9 +196,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   checkbox: {
-    height: size,
-    width: size,
-    borderRadius: size / 2,
+    height: checkboxSize,
+    width: checkboxSize,
+    borderRadius: checkboxSize / 2,
     borderWidth: 1,
     borderColor: Colors.borderColor,
     justifyContent: 'center',

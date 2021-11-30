@@ -1,5 +1,4 @@
 import { StyleSheet, Platform } from 'react-native';
-import Colors from 'src/constants/colors';
 import { hasNotch } from 'src/constants/devices';
 import Layout from 'src/constants/Layout';
 import TextStylesBase, { mainFontLight, mainFontMedium, mainFontThin } from './TextStyles';
@@ -32,7 +31,6 @@ const BaseStyles = StyleSheet.create({
         paddingBottom: notch && !android ? 34 : 20,
     },
     page: {
-        backgroundColor: Colors.pageBg,
         height: layout.window.height,
         justifyContent: 'flex-end',
     },
@@ -134,7 +132,6 @@ const BaseStyles = StyleSheet.create({
     card: {
         width: '100%',
         height: 74,
-        borderColor: Colors.borderColor,
         borderWidth: 1,
         borderRadius: 5,
         marginBottom: 16,
@@ -157,7 +154,6 @@ const BaseStyles = StyleSheet.create({
         ...TextStyles.p2,
         lineHeight: 24,
         marginBottom: 2,
-        color: Colors.card.title,
     },
 });
 

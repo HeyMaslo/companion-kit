@@ -37,8 +37,6 @@ import { RecordPitureCheckinView } from './views/checkin/recordPictureCheckIn';
 
 import { ChooseDomainView } from './views/lifeDomains/chooseDomain';
 import { DomainDetailsView } from './views/lifeDomains/domainDetails';
-import { SelectDomainView } from './views/lifeDomains/selectDomain';
-import { ThreeDomainView } from './views/lifeDomains/threeDomains';
 import { ChooseDomainEndView } from './views/lifeDomains/chooseDomainEnd';
 import { ViewDomainsView } from './views/lifeDomains/viewDomains';
 
@@ -402,10 +400,11 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { target: States.Home, trigger: [Triggers.Cancel] },
             { target: States.Domain_Details, trigger: [Triggers.Submit] },
-            { target: States.Select_Domain, trigger: [Triggers.Tertiary] },
             { target: States.Choose_end, trigger: [Triggers.Next] },
+            { target: States.Subdomain_Details, trigger: [Triggers.Quaternary] },
         ]
     },
+
     [States.Domain_Details]: {
         view: DomainDetailsView,
         exit: [
@@ -414,6 +413,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Strategy_Details_after_Domain_Details, trigger: [Triggers.Tertiary] },
         ]
     },
+
     [States.Domain_Details_after_ViewDomains]: {
         view: DomainDetailsView,
         exit: [
@@ -422,28 +422,19 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Strategy_Details_after_Domain_Details_after_ViewDomains, trigger: [Triggers.Tertiary] },
         ]
     },
-    [States.Select_Domain]: {
-        view: SelectDomainView,
-        exit: [
-            { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
-            { target: States.Three_Selected, trigger: [Triggers.Submit] },
-            { target: States.Choose_end, trigger: [Triggers.Next] },
-        ]
-    },
-    [States.Three_Selected]: {
-        view: ThreeDomainView,
-        exit: [
-            { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
-            { target: States.Select_Domain, trigger: [Triggers.Back] },
-            { target: States.Choose_end, trigger: [Triggers.Submit] },
-        ]
-    },
+
     [States.Choose_end]: {
         view: ChooseDomainEndView,
         exit: [
-            { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
-            { target: States.Select_Domain, trigger: [Triggers.Back] },
+            { target: States.Choose_Domain, trigger: [Triggers.Back] },
             { target: States.Choose_Strategies, trigger: [Triggers.Submit] },
+        ]
+    },
+
+    [States.Subdomain_Details]: {
+        view: DomainDetailsView,
+        exit: [
+            { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
         ]
     },
 

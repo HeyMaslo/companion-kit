@@ -64,11 +64,10 @@ export enum States {
     Focus_Domains,
     Choose_Domain,
     Domain_Details,
-    Select_Domain,
-    Three_Selected,
     Choose_end,
     View_Domains,
     Domain_Details_after_ViewDomains,
+    Subdomain_Details,
 
     // Strategies block
     Choose_Strategies,

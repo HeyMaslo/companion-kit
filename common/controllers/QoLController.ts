@@ -8,7 +8,7 @@ import RepoFactory from 'common/controllers/RepoFactory';
 import { UserState, LastSeen } from 'common/models/userState';
 import { createLogger } from 'common/logger';
 import { SurveyResults } from 'database/repositories/SurveyResultsRepo';
-import { DomainName } from '../../mobile/src/constants/Domain';
+import { DomainName, FocusedDomains } from '../../mobile/src/constants/Domain';
 
 const logger = createLogger('[QoLController]');
 
@@ -50,7 +50,7 @@ export default class QoLControllerBase implements IQoLController {
             } else {
                 st = {
                     surveyState: qol,
-                    focusedDomains: [],
+                    focusedDomains: { domains: [], subdomains: [] },
                     chosenStrategies: [],
                 }
             }
@@ -85,13 +85,13 @@ export default class QoLControllerBase implements IQoLController {
         if (userState === null) {
             userState = {
                 surveyState: null,
-                focusedDomains: [],
+                focusedDomains: { domains: [], subdomains: [] },
                 chosenStrategies: [],
                 lastSeenAffirmations: {},
                 scheduledAffirmations: [],
             }
         } else if (propertyName == 'focusedDomains') {
-            userState['focusedDomains'] = parameter as DomainName[];
+            st['focusedDomains'] = parameter as FocusedDomains;
         } else if (propertyName == 'chosenStrategies') {
             userState['chosenStrategies'] = parameter as string[];
         }
