@@ -70,7 +70,7 @@ export class SettingsView extends ViewState {
         const { feedback, terms, privacy } = Localization.Current.MobileProject.links;
         return (
             <Text style={this.textStyles.p4}>
-                { !!feedback ? (
+                {!!feedback ? (
                     <>
                         Send
                         <Link link={feedback}> Feedback, </Link>
@@ -79,7 +79,7 @@ export class SettingsView extends ViewState {
                 <Text style={feedback ? null : { textTransform: 'capitalize' }}>
                     read
                 </Text>
-                { !!terms ? (
+                {!!terms ? (
                     <>
                         <Link link={terms}> Terms <Text style={{ textTransform: 'lowercase' }}>of</Text> Service </Link>
                         or
@@ -97,7 +97,7 @@ export class SettingsView extends ViewState {
             ? Images.googleIcon
             : Images.envelopeIcon;
 
-        const notificationsEnabled = this.model.notifications.isEnabled && !this.model.notifications.isToggleInProgress && this.model.notifications.schedule;
+        const notificationsEnabled = this.model.notifications.isEnabled && !this.model.notifications.isToggleInProgress;
 
         return (
             <MasloPage style={this.baseStyles.page}>
@@ -114,7 +114,7 @@ export class SettingsView extends ViewState {
                 <ScrollView style={[{ zIndex: 0, elevation: 0 }]}>
                     <Container style={[this.baseStyles.container, styles.container]}>
                         <Text style={[this.textStyles.h1, styles.title]}>What do you need help with?</Text>
-                        { AppController.Instance.version.hasNext ? (
+                        {AppController.Instance.version.hasNext ? (
                             <Button
                                 style={styles.updateButton}
                                 onPress={AppController.Instance.version.update}
@@ -132,7 +132,7 @@ export class SettingsView extends ViewState {
                             >
                                 {/* <Images.arrowRight width={8} height={8} /> */}
                             </Card>
-                            { this.model.disablePassword ? null : (
+                            {this.model.disablePassword ? null : (
                                 <Card
                                     title={'Password'}
                                     description={this.model.needsCreatePassword ? 'Create password' : 'Change your password'}
@@ -144,7 +144,7 @@ export class SettingsView extends ViewState {
                             )}
                             <Card
                                 title={'Notifications'}
-                                description={notificationsEnabled ? this.model.notifications.scheduleTimeString : 'Off'}
+                                description={notificationsEnabled ? 'On' : 'Off'}
                                 Image={Images.bellIcon}
                                 onPress={this.onNotificationsChange}
                             >

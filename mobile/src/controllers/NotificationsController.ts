@@ -1,4 +1,4 @@
-import { observable, toJS } from 'mobx';
+import { observable } from 'mobx';
 import { NotificationsService, IUserNameProvider } from 'src/services/NotificationsService';
 import { ILocalSettingsController } from './LocalSettings';
 import { ThrottleAction } from 'common/utils/throttle';
@@ -94,8 +94,8 @@ export class NotificationsController implements IDisposable {
         this._syncThrottle.tryRun(this.sync);
     };
 
-    // Schedule 7 daily affirmation notifications starting tomorrow at this.scheduleTime
-    public async scheduleSevenAffirmationNotifications() {
+    // Schedule 28 daily affirmation notifications starting tomorrow at this.scheduleTime
+    public async scheduleTwentyEightAffirmationNotifications() {
         if (!this._userId) throw new Error('no user id set');
         if (this.notificationsEnabled) {
             let userState: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
@@ -105,7 +105,7 @@ export class NotificationsController implements IDisposable {
             tomorrow.setDate(tomorrow.getDate() + 1);
             tomorrow.setHours(this.scheduleTime.hour, this.scheduleTime.minute, 0, 0);
 
-            const scheduled = await this._service.scheduleAffirmationMessages(possibleAffirmations.slice(0, 6), tomorrow.getTime());
+            const scheduled = await this._service.scheduleAffirmationMessages(possibleAffirmations.slice(0, 27), tomorrow.getTime());
             scheduled.forEach((result) => {
                 userState.lastSeenAffirmations[result.affirmation.id] = result.scheduledDate;
                 userState.scheduledAffirmations.push(result);

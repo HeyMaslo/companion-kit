@@ -20,6 +20,7 @@ import { CheckInTypeView } from './views/checkin/selectCheckInType';
 import { TextRecordView } from './views/checkin/recordTextCheckIn';
 import { RecordView } from './views/checkin/recordAudioCheckIn';
 import { NotificationsSettingsView } from './views/main/notificationsSettings';
+import { NotificationsCustomizeView } from './views/notificationCustomize/notificationsCustomize';
 import { EmailSettingsView } from './views/main/emailSettings';
 import { SettingsView } from './views/main/settings';
 import { ChangePasswordView } from './views/password/changePassword';
@@ -136,7 +137,7 @@ export const MasloScenario: GlobalScenario<States> = {
         ],
     },
     [States.ResetPassword]: {
-        view: ResetPasswordView,        
+        view: ResetPasswordView,
         exit: [
             { target: States.SignInWithEmail, trigger: Triggers.Cancel },
         ],
@@ -190,7 +191,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { condition: VM.notificationReceived, compose: 'and', trigger: GlobalTriggers.NotificationReceived },
         ],
         exit: [
-            { priority: 3, target: States.Journal_SelectMood, condition: VM.openCreateJournal, params: <MoodViewParams> { openedByNotification: true } },
+            { priority: 3, target: States.Journal_SelectMood, condition: VM.openCreateJournal, params: <MoodViewParams>{ openedByNotification: true } },
             { priority: 5, target: States.Goals, condition: VM.openGoals },
             { priority: 10, target: States.Home, condition: () => true },
         ],
@@ -385,8 +386,17 @@ export const MasloScenario: GlobalScenario<States> = {
         enter: { trigger: GlobalTriggers.NotifictaionSettings },
         exit: [
             { target: States.Settings, trigger: [Triggers.Back] },
+            { target: States.NotificationsCustomize, trigger: [Triggers.Next] },
         ],
     },
+
+    [States.NotificationsCustomize]: {
+        view: NotificationsCustomizeView,
+        exit: [
+            { target: States.NotificationsSettings, trigger: [Triggers.Back] },
+        ],
+    },
+
     [States.Choose_Domain]: {
         view: ChooseDomainView,
         exit: [

@@ -58,6 +58,7 @@ export enum States {
     EmailSettings,
     ChangePassword,
     NotificationsSettings,
+    NotificationsCustomize,
 
     // LIFE DOMAINS block
     Focus_Domains,

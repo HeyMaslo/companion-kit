@@ -4,35 +4,66 @@ import { observer } from 'mobx-react';
 import { StyleSheet, Text, View, ScrollView, Switch } from 'react-native';
 import { MasloPage, Container, Card, Button } from 'src/components';
 import Colors from 'src/constants/colors';
-
 import { ScenarioTriggers, PersonaStates } from '../../abstractions';
 import { PushToast } from '../../toaster';
 import Layout from 'src/constants/Layout';
 import { PersonaViewPresets } from 'src/stateMachine/persona';
 import { PersonaScrollMask } from 'src/components/PersonaScollMask';
 import Images from 'src/constants/images';
-import { NotificationCustomizeViewModel } from 'src/viewModels/NotificationsCustomizeViewModel';
+import AppViewModel from 'src/viewModels';
 
 @observer
-export class NotificationsCustmizeView extends ViewState {
+export class NotificationsCustomizeView extends ViewState {
+
+    state = {
+        firstDomainEnabled: false,
+        secondDomainEnabled: false,
+        thirdDomainEnabled: false,
+        BDMentionEnabled: false
+    }
 
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeightForceScroll();
     }
-    
-    state = {
-        physicalDomainEnabled: false,
-        leisuresDomainEnabled: false,
-        sleepDomainEnabled: false,
-        includeEnabled: false
-    }
 
-    private readonly viewModel = new NotificationCustomizeViewModel();
+    get viewModel() {
+        return AppViewModel.Instance.Settings.notifications;
+    }
 
     async start() {
         this.resetPersona(PersonaStates.Question, PersonaViewPresets.TopHalfOut);
         this.viewModel.settingsSynced.on(this.onScheduleSynced);
+        this.viewModel.posssibleDomains.forEach((dom, index) => {
+            this.setStateForIndex(index, this.viewModel.domainsForNotifications.includes(dom));
+        })
+        this.setState({ BDMentionEnabled: this.viewModel.allowBDMention })
+    }
+
+    private stateForIndex(index: number): boolean {
+        switch (index) {
+            case 0:
+                return this.state.firstDomainEnabled;
+            case 1:
+                return this.state.secondDomainEnabled;
+            case 2:
+                return this.state.thirdDomainEnabled;
+            default:
+                return false;
+        }
+    }
+
+    private setStateForIndex(index: number, value: boolean) {
+        switch (index) {
+            case 0:
+                return this.setState({ firstDomainEnabled: value });
+            case 1:
+                return this.setState({ secondDomainEnabled: value });
+            case 2:
+                return this.setState({ thirdDomainEnabled: value });
+            default:
+                return;
+        }
     }
 
     componentWillUnmount() {
@@ -43,8 +74,10 @@ export class NotificationsCustmizeView extends ViewState {
         PushToast({ text: 'Changes saved' });
     }
 
-    onNext = () => {
-        this.trigger(ScenarioTriggers.Primary)
+    onBack = () => {
+        this.viewModel.domainsForNotifications = this.viewModel.posssibleDomains.filter((dom, index) => this.stateForIndex(index));
+        this.viewModel.allowBDMention = this.state.BDMentionEnabled;
+        this.trigger(ScenarioTriggers.Back)
     }
 
     renderContent() {
@@ -54,7 +87,7 @@ export class NotificationsCustmizeView extends ViewState {
                 <Container style={styles.topBarWrapWrap}>
                     <PersonaScrollMask />
                     <View style={styles.topBarWrap}>
-                        <Button style={styles.backBtn} underlayColor='transparent' onPress={() => this.trigger(ScenarioTriggers.Back)}>
+                        <Button style={styles.backBtn} underlayColor='transparent' onPress={() => this.onBack()}>
                             <Images.backIcon width={28} height={14} />
                         </Button>
                     </View>
@@ -62,65 +95,44 @@ export class NotificationsCustmizeView extends ViewState {
                 <ScrollView style={[{ zIndex: 0, elevation: 0 }]}>
                     <Container style={[this.baseStyles.container, styles.container]}>
                         <Text style={[this.textStyles.h1, styles.title]}>{titleText}</Text>
-                        <Card
-                            title='Physical Domain'
-                            description={this.state.physicalDomainEnabled ? 'On' : 'Off'}
-                            style={{ marginBottom: 20 }}
-                            Image={Images.bellIcon}
-                        >
-                            <Switch
-                                value={this.state.physicalDomainEnabled}
-                                disabled={this.viewModel.isToggleInProgress}
-                                onValueChange={(physicalDomainEnabled) => this.setState({ physicalDomainEnabled })}
-                            />
-                        </Card>
-
-                        <Card
-                            title='Leisure Domain'
-                            description={this.state.leisuresDomainEnabled ? 'On' : 'Off'}
-                            style={{ marginBottom: 20 }}
-                            Image={Images.bellIcon}
-                        >
-                            <Switch
-                                value={this.state.leisuresDomainEnabled}
-                                disabled={this.viewModel.isToggleInProgress}
-                                onValueChange={(leisuresDomainEnabled) => this.setState({ leisuresDomainEnabled })}
-                            />
-                        </Card>
-
-                        <Card
-                            title='Sleep Domain'
-                            description={this.state.sleepDomainEnabled ? 'On' : 'Off'}
-                            style={{ marginBottom: 20 }}
-                            Image={Images.bellIcon}
-                        >
-                            <Switch
-                                value={this.state.sleepDomainEnabled}
-                                disabled={this.viewModel.isToggleInProgress}
-                                onValueChange={(sleepDomainEnabled) => this.setState({ sleepDomainEnabled })}
-                            />
-                        </Card>
+                        {this.viewModel.posssibleDomains.map((dom, index) => {
+                            return <Card
+                                key={dom}
+                                title={dom + ' Life Area'}
+                                description={this.stateForIndex(index) ? 'On' : 'Off'}
+                                style={{ marginBottom: 20, height: 100 }}
+                                Image={Images.bellIcon}
+                            >
+                                <Switch
+                                    value={this.stateForIndex(index)}
+                                    disabled={this.viewModel.isToggleInProgress}
+                                    onValueChange={(enabled) => {
+                                        this.setStateForIndex(index, enabled);
+                                    }}
+                                />
+                            </Card>
+                        })}
                         <Card
                             title='Include notifications that mention bipolar diagnosis'
-                            description={this.state.includeEnabled ? 'On' : 'Off'}
-                            style={{ marginBottom: 20, height: 100 }}
+                            description={this.state.BDMentionEnabled ? 'On' : 'Off'}
+                            style={{ marginBottom: 20 }}
                             Image={Images.bellIcon}
                         >
                             <Switch
-                                value={this.state.includeEnabled}
+                                value={this.state.BDMentionEnabled}
                                 disabled={this.viewModel.isToggleInProgress}
-                                onValueChange={(includeEnabled) => this.setState({ includeEnabled })}
+                                onValueChange={(val) => this.setState({ BDMentionEnabled: val })}
                             />
                         </Card>
-                        <View style={styles.buttonView}>
+                        {/* <View style={styles.buttonView}>
                             <Button
                                 title='SAVE'
                                 style={[styles.insturctionsButton, this.textStyles.h2]}
                                 titleStyles={styles.insturctionsButtonTitle}
-                                onPress={this.onNext}
+                                onPress={this.onBack}
                                 isTransparent
                             />
-                        </View>
+                        </View> */}
                     </Container>
                 </ScrollView>
             </MasloPage>

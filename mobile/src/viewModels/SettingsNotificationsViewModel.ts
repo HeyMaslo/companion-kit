@@ -1,11 +1,9 @@
-import { observable, computed, autorun, reaction } from 'mobx';
+import { observable, computed, reaction } from 'mobx';
 import AppController from 'src/controllers';
-import { NotificationTime, timeToString } from 'src/helpers/notifications';
 import { Alert, Linking } from 'react-native';
-import { createLogger } from 'common/logger';
 import * as Links from 'src/constants/links';
-
-const logger = createLogger('[SettingsNotificationsViewModel]');
+import { HourAndMinute } from 'common/utils/dateHelpers';
+import { DomainName } from 'src/constants/Domain';
 
 export class SettingsNotificationsViewModel {
 
@@ -19,34 +17,37 @@ export class SettingsNotificationsViewModel {
 
     private get originalIsEnabled() { return !!AppController.Instance.User?.notifications.notificationsEnabled; }
 
+    private _posssibleDomains: DomainName[] = [];
+
+    @observable
+    public scheduledTime: HourAndMinute = null;
+    @observable
+    public domainsForNotifications: DomainName[] = [];
+    @observable
+    public allowBDMention: Boolean = false; // MK-TODO: what should default be (false or true)
+
+    get posssibleDomains() { return this._posssibleDomains; }
+
     get isEnabled() { return this._isEnabled; }
     get isToggleInProgress() { return this._toggleInProgress; }
 
     get settingsSynced() { return AppController.Instance.User.localSettings.synced; }
 
     @computed
-    get scheduleTimeString() {
-        const ntfTime = null;
-
-        if (!ntfTime) {
-            return 'Not specified';
+    get scheduleTimeString(): string {
+        if (this.scheduledTime == null) {
+            return 'On';
         }
+        const date = new Date();
+        date.setHours(this.scheduledTime.hour, this.scheduledTime.minute)
+        return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    }
 
-        const keys = Object.keys(ntfTime) as NotificationTime[];
-        const strings = keys.map(time => {
-            const val = time === NotificationTime.ExactTime
-                ? ntfTime[time] && ntfTime[time].active
-                : ntfTime[time];
-
-            const res = val ? timeToString(time) : '';
-
-            return res;
-        });
-
-        const filtered = strings.filter(v => !!v);
-        const result = filtered.join(', ');
-
-        return result && result.length !== 0 ? result : 'Not specified';
+    public setDomains(domains: DomainName[]) {
+        if (domains) {
+            this._posssibleDomains = domains;
+            this.domainsForNotifications = domains;
+        }
     }
 
     updateEnabledState = () => {
@@ -98,9 +99,7 @@ export class SettingsNotificationsViewModel {
 
     init() {
         this.updateEnabledState();
-        logger.log('init this.originalIsEnabled =', this.originalIsEnabled, 'this.isEnabled =', this.isEnabled);
         this._unsubscribe = reaction(() => this.originalIsEnabled, enabled => {
-            logger.log('originalIsEnabled CHANGED:', enabled, ', this.isEnabled =', this.isEnabled);
             if (this._toggleInProgress) {
                 return;
             }

@@ -23,7 +23,7 @@ import { getPersonaRadius, PersonaScale } from 'src/stateMachine/persona';
 import { Portal } from 'react-native-paper';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import AppController from 'src/controllers';
-import { DomainName } from 'src/constants/Domain';
+import { DomainName, DomainScope } from 'src/constants/Domain';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -68,10 +68,12 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         }).start(this.checkNewLinkDoc);
         isFirstLaunch = false;
         // MK-TODO is this the best place to do this? Good now for testing
-        await AppViewModel.Instance.Domain.fetchPossibleDomains();
-        AppViewModel.Instance.Domain.fetchSelectedDomains();
-        await AppViewModel.Instance.Strategy.fetchPossibleStrategies();
-        AppViewModel.Instance.Strategy.fetchSelectedStrategies();
+        // await AppViewModel.Instance.Domain.fetchPossibleDomains();
+        // await AppViewModel.Instance.Domain.fetchSelectedDomains();
+        // await AppViewModel.Instance.Strategy.fetchPossibleStrategies();
+        // await AppViewModel.Instance.Strategy.fetchSelectedStrategies();
+        // AppViewModel.Instance.Settings.notifications.setDomains(AppViewModel.Instance.Domain.selectedDomains);
+        AppViewModel.Instance.Settings.notifications.setDomains([DomainName.SLEEP]);
     }
 
     private checkNewLinkDoc = () => {
@@ -159,7 +161,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     async onTESTINGButton() {
         AppController.Instance.User.notifications.scheduleTime = { hour: 10, minute: 30 };
         AppController.Instance.User.notifications.domainNames = [DomainName.SLEEP];
-        await AppController.Instance.User.notifications.scheduleSevenAffirmationNotifications();
+        await AppController.Instance.User.notifications.scheduleTwentyEightAffirmationNotifications();
         // await AppViewModel.Instance.QoLHistory.init();
         // this.trigger(ScenarioTriggers.TESTING);
     }
