@@ -48,11 +48,11 @@ export class ReviewNotificationsOnboarding extends ViewState {
   renderContent() {
     const titleText = 'Notification preferences';
     return (
-      <MasloPage style={this.baseStyles.page}>
+      <MasloPage style={this.baseStyles.page} theme={this.theme}>
         <Container style={styles.topBarWrapWrap}>
           <PersonaScrollMask />
           <View style={styles.topBarWrap}>
-            <Button style={styles.backBtn} underlayColor='transparent' onPress={() => this.onBack()}>
+            <Button style={styles.backBtn} underlayColor='transparent' onPress={() => this.onBack()} theme={this.theme}>
               <Images.backIcon width={28} height={14} />
             </Button>
           </View>
@@ -66,6 +66,7 @@ export class ReviewNotificationsOnboarding extends ViewState {
                 title='Continue'
                 onPress={this.onNext}
                 isTransparent
+                theme={this.theme}
               />
             </View>
           </Container>

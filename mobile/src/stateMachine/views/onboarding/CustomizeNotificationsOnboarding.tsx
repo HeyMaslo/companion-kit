@@ -3,7 +3,6 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { StyleSheet, Text, View, ScrollView, Switch } from 'react-native';
 import { MasloPage, Container, Card, Button } from 'src/components';
-import Colors from 'src/constants/colors';
 import { ScenarioTriggers, PersonaStates } from '../../abstractions';
 import { PushToast } from '../../toaster';
 import Layout from 'src/constants/Layout';
@@ -89,11 +88,11 @@ export class CustomizeNotificationsOnboardingView extends ViewState {
   renderContent() {
     const titleText = 'Customize your notifications below:';
     return (
-      <MasloPage style={this.baseStyles.page}>
+      <MasloPage style={this.baseStyles.page} theme={this.theme}>
         <Container style={styles.topBarWrapWrap}>
           <PersonaScrollMask />
           <View style={styles.topBarWrap}>
-            <Button style={styles.backBtn} underlayColor='transparent' onPress={() => this.onBack()}>
+            <Button style={styles.backBtn} underlayColor='transparent' onPress={() => this.onBack()} theme={this.theme}>
               <Images.backIcon width={28} height={14} />
             </Button>
           </View>
@@ -108,6 +107,7 @@ export class CustomizeNotificationsOnboardingView extends ViewState {
                 description={this.stateForIndex(index) ? 'On' : 'Off'}
                 style={{ marginBottom: 20, height: 100 }}
                 Image={Images.bellIcon}
+                theme={this.theme}
               >
                 <Switch
                   value={this.stateForIndex(index)}
@@ -123,6 +123,7 @@ export class CustomizeNotificationsOnboardingView extends ViewState {
               description={this.state.BDMentionEnabled ? 'On' : 'Off'}
               style={{ marginBottom: 20 }}
               Image={Images.bellIcon}
+              theme={this.theme}
             >
               <Switch
                 value={this.state.BDMentionEnabled}
@@ -135,6 +136,7 @@ export class CustomizeNotificationsOnboardingView extends ViewState {
                 title='Continue'
                 onPress={this.onNext}
                 isTransparent
+                theme={this.theme}
               />
             </View>
           </Container>
@@ -180,16 +182,5 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     padding: 5
-  },
-  insturctionsButton: {
-    width: '80%',
-    height: 50,
-    borderColor: 'grey',
-    borderWidth: 0.25,
-    backgroundColor: 'white',
-    padding: 5
-  },
-  insturctionsButtonTitle: {
-    color: Colors.welcome.mailButton.title,
   },
 });

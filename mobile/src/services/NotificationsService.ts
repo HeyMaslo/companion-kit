@@ -50,6 +50,7 @@ export class NotificationsService {
     }
 
     public get hasPermission(): boolean | null {
+        if (!this._currentStatus) return null;
         switch (this._currentStatus.status) {
             case PermissionStatus.GRANTED: {
                 return true;

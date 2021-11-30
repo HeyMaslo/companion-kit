@@ -56,8 +56,6 @@ export default class AppController implements IAppController {
     get loading() { return this.auth.initializing || this.user.value.initializing; }
 
     private onSignOut = async () => {
-        logger.log('SIGN OUT: invalidating token...');
-        await this.User?.notifications.invalidateToken();
         await this.User?.localSettings?.flushChanges();
 
         logger.log('SIGN OUT: VIEW sign out...');
