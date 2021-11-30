@@ -40,7 +40,7 @@ export class SettingsNotificationsViewModel {
         }
         const date = new Date();
         date.setHours(this.scheduledTime.hour, this.scheduledTime.minute)
-        return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+        return 'Daily at ' + date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
     }
 
     public setDomains(domains: DomainName[]) {

@@ -142,21 +142,21 @@ export default class CreateCheckInViewModel {
         }
     }
 
-    public tryUseQuestionFromNotification() {
-        const notification = AppController.Instance.User.notifications.openedNotification;
-        if (notification?.type === NotificationTypes.CustomPrompt && (notification.promptId || notification.originalText)) {
-            const promptsList = AppController.Instance.User.prompts?.promptsList || [];
-            const prompt = promptsList.find(p => p.id === notification.promptId);
+    // public tryUseQuestionFromNotification() {
+    //     const notification = AppController.Instance.User.notifications.openedNotification;
+    //     if (notification?.type === NotificationTypes.CustomPrompt && (notification.promptId || notification.originalText)) {
+    //         const promptsList = AppController.Instance.User.prompts?.promptsList || [];
+    //         const prompt = promptsList.find(p => p.id === notification.promptId);
 
-            if (prompt) {
-                this._questions.forceAddQuestion(prompt.text, prompt.id);
-            } else if (notification.originalText) {
-                this._questions.forceAddQuestion(notification.originalText);
-            }
-        } else if (notification?.type === NotificationTypes.TriggerPhrase && notification.phrasePrompt) {
-            this._questions.forceAddQuestion(notification.phrasePrompt);
-        }
-    }
+    //         if (prompt) {
+    //             this._questions.forceAddQuestion(prompt.text, prompt.id);
+    //         } else if (notification.originalText) {
+    //             this._questions.forceAddQuestion(notification.originalText);
+    //         }
+    //     } else if (notification?.type === NotificationTypes.TriggerPhrase && notification.phrasePrompt) {
+    //         this._questions.forceAddQuestion(notification.phrasePrompt);
+    //     }
+    // }
 
     submit = async () => {
         if (this.recording.playing) {

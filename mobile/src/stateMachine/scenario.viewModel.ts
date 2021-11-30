@@ -42,13 +42,13 @@ export class ScenarioViewModel {
     public readonly showNewReward = () => process.appFeatures.CLIENT_REWARDS_ENABLED === true && AppViewModel.Instance.CreateCheckIn.beforeSubmitState?.rewardLevel < AppController.Instance.User.rewards?.level;
 
     // NOTIFICATIONS
-    private get _currentNotification() { return AppController.Instance.User.notifications.openedNotification; }
-    private readonly _canReactOnNotification = () => !AppViewModel.Instance.CreateCheckIn.inProgress;
-    public readonly notificationReceived = () => !!this._currentNotification?.type && this.homeReady() && this._canReactOnNotification();
+    // private get _currentNotification() { return AppController.Instance.User.notifications.openedNotification; }
+    // private readonly _canReactOnNotification = () => !AppViewModel.Instance.CreateCheckIn.inProgress;
+    // public readonly notificationReceived = () => !!this._currentNotification?.type && this.homeReady() && this._canReactOnNotification();
 
-    private readonly _notificationType = (...types: NotificationTypes[]) => this._canReactOnNotification() && types.includes(this._currentNotification?.type);
-    public readonly openCreateJournal = () => this._notificationType(NotificationTypes.Retention, NotificationTypes.CustomPrompt, NotificationTypes.TriggerPhrase);
-    public readonly openGoals = () => this._notificationType(NotificationTypes.NewGoals);
+    // private readonly _notificationType = (...types: NotificationTypes[]) => this._canReactOnNotification() && types.includes(this._currentNotification?.type);
+    // public readonly openCreateJournal = () => this._notificationType(NotificationTypes.Retention, NotificationTypes.CustomPrompt, NotificationTypes.TriggerPhrase);
+    // public readonly openGoals = () => this._notificationType(NotificationTypes.NewGoals);
     // public readonly openAssessmentForm = () => notificationOpened(NotificationTypes.Assessment);
 
     public readonly showConsent = () => process.appFeatures.MOBILE_SHOW_CONSENT === true && this.userConfirmed() && !AppController.Instance.User.user?.client?.consentAccepted;
