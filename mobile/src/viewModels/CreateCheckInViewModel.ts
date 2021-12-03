@@ -22,6 +22,7 @@ import { NotificationTypes } from 'common/models/Notifications';
 import logger from 'common/logger';
 import PictureViewViewModel from './PictureViewViewModel';
 import { GlobalTriggers, setTriggerEnabled } from 'src/stateMachine/globalTriggers';
+import { ILocalSettingsController } from 'src/controllers/LocalSettings';
 
 export type LocationItem = {
     label: string;
@@ -75,6 +76,7 @@ export default class CreateCheckInViewModel {
 
     private get user() { return AppController.Instance.User.user; }
     private get authUser() { return AppController.Instance.Auth.authUser; }
+    private readonly _settings: ILocalSettingsController = AppController.Instance.User.localSettings;
 
     get inProgress() { return this._inProgress; }
     set inProgress(v: boolean) {
@@ -235,6 +237,7 @@ export default class CreateCheckInViewModel {
         }
 
         this.result = await AppController.Instance.User.journal.addEntry(entry);
+        if (this.result) this._settings.updateLastDailyCheckIn( Date() );
 
         this.reset();
     }

@@ -132,11 +132,17 @@ export class UserController extends UserControllerBase implements IUserControlle
 
     private readonly _domain = new Lazy(() => {
         const dc = new DomainController();
+        if (this.user && this.activeAccount) {
+            dc.setUser(this.user.id);
+        }
         return dc;
     });
 
     private readonly _strategy = new Lazy(() => {
         const sc = new StrategyController();
+        if (this.user && this.activeAccount) {
+            sc.setUser(this.user.id);
+        }
         return sc;
     });
 

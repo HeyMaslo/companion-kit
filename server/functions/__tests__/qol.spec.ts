@@ -10,7 +10,7 @@ import clientConfig from './mocks/client/config';
 
 import { createDomain, createQuestion, getDomains, getQuestions } from 'server/qol';
 import { QoLActionTypes } from 'common/models/dtos/qol';
-import { DomainScope } from '../../../mobile/src/constants/Domain';
+import { DomainName, DomainScope } from '../../../mobile/src/constants/Domain';
 
 const {test, app} = firebase.init('qol-test');
 
@@ -32,8 +32,8 @@ describe('QoL', () => {
                     type: QoLActionTypes.CreateDomain,
                     scope: DomainScope.GENERAL,
                     name: 'Physical',
-                    slug: 'physical',
                     importance: 'SLEEP = Sleeeeepz Sleeeeepz Sleeeeepz Sleeeeepz incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
+                    bullets: [''],
                 });
                 assert.isNull(result.error);
             });
@@ -42,8 +42,8 @@ describe('QoL', () => {
                     type: QoLActionTypes.CreateDomain,
                     scope: 'NOT_A_VALID_SCOPE',
                     name: 'Physical',
-                    slug: 'physical',
                     importance: 'PHYSICAL = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
+                    bullets: [''],
                 });
                 assert.isNotNull(result.error);
             });
@@ -60,8 +60,8 @@ describe('QoL', () => {
                     type: QoLActionTypes.CreateDomain,
                     scope: 'GENERAL',
                     name: 'Physical',
-                    slug: 'physical',
                     importance: '',
+                    bullets: [''],
                 });
                 const result = await getDomains();
                 assert.isNull(result.error);
@@ -71,27 +71,18 @@ describe('QoL', () => {
     });
     describe('Question Creation', () => {
         afterEach(fbCleanup);
-        it('Should not allow a question to be created if the domain slug is invalid', async () => {
-            const result = await createQuestion({
-                type: QoLActionTypes.CreateQuestion,
-                text: 'had plenty of energy',
-                domainSlug: 'not_a_valid_slug',
-                position: 1,
-            });
-            assert.isNotNull(result.error);
-        });
         it('Should allow a question to be created referring to a domain', async () => {
             await createDomain({
                 type: QoLActionTypes.CreateDomain,
                 scope: 'GENERAL',
                 name: 'Physical',
-                slug: 'physical',
                 importance: '',
+                bullets: [''],
             });
             const createResult = await createQuestion({
                 type: QoLActionTypes.CreateQuestion,
                 text: 'had plenty of energy',
-                domainSlug: 'physical',
+                domainName: DomainName.PHYSICAL,
                 position: 1,
             });
             assert.isNull(createResult.error);

@@ -2,8 +2,8 @@ import AppController from 'src/controllers';
 import CheckInViewModel from './CheckInViewModel';
 import { computed } from 'mobx';
 import NamesHelper from 'common/utils/nameHelper';
-import { months } from 'common/utils/dateHelpers';
-import { ITipItem, IStaticTipItem, ICheckInTipItem, IFinishQolTipItem, IFullQolTipItem, IAssessmentTipItem, IDocumentLinkTip } from './components/TipItemViewModel';
+import { equalDateByDay, months } from 'common/utils/dateHelpers';
+import { ITipItem, IStaticTipItem, ICheckInTipItem, IFinishQolTipItem, IFullQolTipItem, IShortQolTipItem, IAssessmentTipItem, IDocumentLinkTip } from './components/TipItemViewModel';
 import AppViewModel from './index';
 import InterventionTipsViewModel from 'src/viewModels/components/InterventionTipsViewModel';
 import Localization from 'src/services/localization';
@@ -13,10 +13,9 @@ import { Identify, DocumentLinkEntry, DocumentLinkShareStatuses } from 'common/m
 import { arraySplit } from 'common/utils/mathx';
 import { UserProfileViewModel } from './UserProfileViewModel';
 import { QolSurveyResults } from 'src/constants/QoL';
-import { PersonaDomains } from 'src/stateMachine/persona';
 import { PersonaArmState } from 'dependencies/persona/lib';
 import { ILocalSettingsController } from 'src/controllers/LocalSettings';
-import logger from 'common/logger';
+import { DomainName } from 'src/constants/Domain';
 
 const EmptyArr: any[] = [];
 
@@ -67,7 +66,7 @@ export default class HomeViewModel {
 
     @computed
     private get generalTips(): ITipItem[] {
-        const result: ITipItem[] = [];
+        let result: ITipItem[] = [];
 
         if (process.appFeatures.INTERVENTIONS_ENABLED && this.interventionTips?.tips?.length) {
             result.push(
@@ -103,43 +102,54 @@ export default class HomeViewModel {
             })) || EmptyArr;
         }
 
+        this.submitPendingShortIfTimeForFull()
+        const needsDailyCheckIn = !this.hasCompletedDailyCheckInToday();
+        result = [];
+
+        if (needsDailyCheckIn) {
+            result = [
+                <ICheckInTipItem>{
+                    id: 'check-in',
+                    type: 'check-in',
+                    title: AppViewModel.Instance.CreateCheckIn.question || 'Create a new check-in!',
+                }];
+        }
+
         if (AppViewModel.Instance.QOL.isUnfinished) {
-            return [
+            result.unshift(
                 <IFinishQolTipItem>{
                     id: 'finish-qol',
                     type: 'finish-qol',
                     title: 'Tap to continue your QoL Survey!',
-                },
-                <ICheckInTipItem>{
-                    id: 'check-in',
-                    type: 'check-in',
-                    title: AppViewModel.Instance.CreateCheckIn.question || 'Create a new check-in!',
-                },
-            ];
+                });
+            return result;
         }
 
         if (this.isTimeForFullQol()) {
-            return [
+            result.unshift(
                 <IFullQolTipItem>{
                     id: 'full-qol',
                     type: 'full-qol',
                     title: "It's time for your monthly check-in!",
-                },
-                <ICheckInTipItem>{
-                    id: 'check-in',
-                    type: 'check-in',
-                    title: AppViewModel.Instance.CreateCheckIn.question || 'Create a new check-in!',
-                },
-            ];
+                });
         }
 
-        return [
-            <ICheckInTipItem>{
+        if (this.isTimeForShortQol()) {
+            result.unshift(
+                <IShortQolTipItem>{
+                    id: 'short-qol',
+                    type: 'short-qol',
+                    title: "It's time for your weekly check-in!",
+                });
+        }
+
+        return result.length == 0 ?
+            [<ICheckInTipItem>{
                 id: 'check-in',
                 type: 'check-in',
                 title: AppViewModel.Instance.CreateCheckIn.question || 'Create a new check-in!',
-            },
-        ];
+            }]
+            : result;
     }
 
     @computed
@@ -168,29 +178,60 @@ export default class HomeViewModel {
         ];
     }
 
+    private submitPendingShortIfTimeForFull() {
+        if (AppController.Instance.User.localSettings?.current?.qol?.pendingShortQol && this.isTimeForFullQol()) {
+            this._settings.updateQolSettings({ pendingShortQol: false }, 'pendingShortQol');
+        }
+    }
+
     // returns true if it has been 28 calendar days since last Full QoL
+    // return true if there is a pending Full QoL
     private isTimeForFullQol(): boolean {
         const lastFullQol: Date = new Date(AppController.Instance.User.localSettings?.current?.qol?.lastFullQol);
-        let nextFullQol: Date = lastFullQol;
-        nextFullQol.setDate(nextFullQol.getDate() + 28);
+        const nextFullQol = new Date(lastFullQol.getDate() + 28);
         const today: Date = new Date();
-        if (nextFullQol.getDay() === today.getDay() && nextFullQol.getMonth() === today.getMonth()
-        && nextFullQol.getFullYear() === today.getFullYear()) {
-            this._settings.updateLastFullQol({ lastFullQol: Date() });
-            this._settings.updatePendingFullQol({ pendingFullQol: true });
+
+        if (equalDateByDay(nextFullQol, today)) {
+            this._settings.updateQolSettings({ lastFullQol: Date() }, 'lastFullQol');
+            this._settings.updateQolSettings({ pendingFullQol: true }, 'pendingFullQol');
             return true;
-        } else if (AppController.Instance.User.localSettings?.current?.qol?.pendingFullQol) { return true; }
-        return false;
+        } else return AppController.Instance.User.localSettings?.current?.qol?.pendingFullQol;
+    }
+
+    // returns true if it has been 7 calendar days since last Short QoL
+    // return true if there is a pending Short QoL
+    private isTimeForShortQol(): boolean {
+        const lastShortQol: Date = new Date(AppController.Instance.User.localSettings?.current?.qol?.lastShortQol);
+        const nextShortQol = new Date(lastShortQol.getDate() + 7);
+        const today: Date = new Date();
+
+        if (equalDateByDay(nextShortQol, today)) {
+            this._settings.updateQolSettings({ lastShortQol: Date() }, 'lastShortQol');
+            this._settings.updateQolSettings({ pendingShortQol: true }, 'pendingShortQol');
+            return true;
+        } else return AppController.Instance.User.localSettings?.current?.qol?.pendingShortQol;
+    }
+
+    private hasCompletedDailyCheckInToday(): boolean {
+        const lastDailyCheckIn: Date = new Date(AppController.Instance.User.localSettings?.current?.lastDailyCheckIn);
+        const today: Date = new Date();
+
+        return lastDailyCheckIn.getDay() === today.getDay()
+            && lastDailyCheckIn.getMonth() === today.getMonth()
+            && lastDailyCheckIn.getFullYear() === today.getFullYear()
     }
 
     public getArmMagnitudes = async () => {
         const lastSurveyScores: QolSurveyResults = await AppController.Instance.User.qol.getSurveyResults();
-        if (lastSurveyScores === null) {
+        if (lastSurveyScores == null) {
             return PersonaArmState.createEmptyArmState();
         }
-        let currentArmMagnitudes: PersonaArmState = {};
-        for (let domain of PersonaDomains) {
-            let score: number = lastSurveyScores[domain];
+        let currentArmMagnitudes = PersonaArmState.createEmptyArmState();
+        for (let domain of Object.values(DomainName)) {
+            let score: number = 0;
+            lastSurveyScores[domain].forEach((val) => {
+                score += val;
+            })
             let mag: number = 0.4 + (score * 3 / 100);
             currentArmMagnitudes[domain] = mag;
         }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, ScrollView, ActivityIndicator, View, Animated, Platform, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, ScrollView, ActivityIndicator, View, Animated, GestureResponderEvent, TouchableNativeFeedback, Platform, Pressable, TouchableOpacity } from 'react-native';
 import TextStyles from 'src/styles/TextStyles';
 import Colors from 'src/constants/colors';
 import { Container, MasloPage, Placeholder, Button } from 'src/components';
@@ -21,11 +21,13 @@ import AppViewModel from 'src/viewModels';
 import { QolSurveyType } from 'src/constants/QoL';
 import Images from 'src/constants/images';
 import AppController from 'src/controllers';
-import ChooseDomainViewModel from 'src/viewModels/ChooseDomainViewModel';
-import ChooseStrategyViewModel from 'src/viewModels/ChooseStrategyViewModel';
+import { getPersonaRadius, PersonaScale } from 'src/stateMachine/persona';
+import { Portal } from 'react-native-paper';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
+const personaScale = PersonaScale;
 
 let isFirstLaunch = true;
 
@@ -36,6 +38,8 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     private get healthPermissionsEnabled() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabled; };
 
 
+    private ordRadius = getPersonaRadius();
+    private orbTapContainerHeight = 0;
     state = {
         opacity: new Animated.Value(0),
         isUnfinishedQol: null,
@@ -43,29 +47,34 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
     constructor(props, ctx) {
         super(props, ctx);
-
+        this.onTapOrb = this.onTapOrb.bind(this);
         const smallHeight = this.layout.window.height < 800;
         this.persona.state = PersonaStates.Idle;
         this._contentHeight = smallHeight
             ? this.persona.setupContainerHeightForceScroll({ rotation: 120, transition: { duration: 1.5 } })
             : this.persona.setupContainerHeight(minContentHeight, { rotation: 120, transition: { duration: 1.5 } });
+        this.orbTapContainerHeight = Layout.window.height - this._contentHeight;
     }
 
     get viewModel() { return HomeViewModel.Instance; }
-    get viewQolModel() { return AppViewModel.Instance.QOL; }
+    get qolViewModel() { return AppViewModel.Instance.QOL; }
 
     async start() {
         await AppViewModel.Instance.QOL.init();
-        const qolArmMagnitudes = await this.viewModel.getArmMagnitudes();
-        this.persona.qolArmMagnitudes = qolArmMagnitudes;
+        this.persona.qolArmMagnitudes = await this.viewModel.getArmMagnitudes();
         this.setState({ ...this.state, isUnfinishedQol: AppViewModel.Instance.QOL.isUnfinished });
         Animated.timing(this.state.opacity, {
             toValue: 1,
             delay: isFirstLaunch ? 1000 : 400,
             duration: 500,
-            useNativeDriver: true,
+            useNativeDriver: true
         }).start(this.checkNewLinkDoc);
         isFirstLaunch = false;
+        // MK-TODO is this the best place to do this? Good now for testing
+        await AppViewModel.Instance.Domain.fetchPossibleDomains();
+        AppViewModel.Instance.Domain.fetchSelectedDomains();
+        await AppViewModel.Instance.Strategy.fetchPossibleStrategies();
+        AppViewModel.Instance.Strategy.fetchSelectedStrategies();
     }
 
     private checkNewLinkDoc = () => {
@@ -134,17 +143,29 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     }
 
     private onFullQol = () => {
-        this.viewQolModel.setQolSurveyType = QolSurveyType.Full;
+        this.qolViewModel.qolSurveyType = QolSurveyType.Full;
         this.trigger(ScenarioTriggers.Tertiary);
     }
 
     private onHealthSettings = () => {
         this.trigger(ScenarioTriggers.Quinary);
     }
-    private onStartDomains = () => {
-        AppViewModel.Instance.ChooseDomain = new ChooseDomainViewModel();
-        AppViewModel.Instance.ChooseStrategy = new ChooseStrategyViewModel();
-        this.trigger(ScenarioTriggers.Next);
+    
+    private onShortQol = () => {
+        this.qolViewModel.setQolSurveyType = QolSurveyType.Short;
+        this.trigger(ScenarioTriggers.Tertiary);
+    }
+
+    private async onStartDomains() {
+        AppViewModel.Instance.Domain.clearSelectedDomains();
+        AppViewModel.Instance.Strategy.clearSelectedDomains();
+        this.trigger(ScenarioTriggers.Quinary);
+    }
+
+    // used for development only and will be removed
+    async onTESTINGButton() {
+        await AppViewModel.Instance.QoLHistory.init();
+        this.trigger(ScenarioTriggers.TESTING);
     }
 
     private openStoryDetails = (jid: string) => {
@@ -248,6 +269,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                 return;
             }
 
+            case 'short-qol': {
+                this.onShortQol();
+                return;
+            }
+
             case 'docLinkTip': {
                 t.open();
                 return;
@@ -341,14 +367,45 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         );
     }
 
+    private onTapOrb(event: GestureResponderEvent) {
+        if (Platform.OS == 'ios') {
+            ReactNativeHapticFeedback.trigger('impactLight');
+        }
+        const scaledOrbRadius = this.ordRadius / personaScale;
+        let orbLowerX = (Layout.window.width / 2) - scaledOrbRadius
+        let orbUpperX = orbLowerX + (2 * scaledOrbRadius);
+
+        let orbUpperY = this.orbTapContainerHeight;
+        let orbLowerY = orbUpperY - (scaledOrbRadius * 2);
+
+        if (event.nativeEvent.locationX >= orbLowerX && event.nativeEvent.locationX <= orbUpperX) {
+            if (event.nativeEvent.locationY >= orbLowerY && event.nativeEvent.locationY <= orbUpperY) {
+                this.trigger(ScenarioTriggers.Next)
+            }
+        }
+    }
+
     renderContent() {
         const { loading } = this.viewModel;
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
+                    {/* Portal component used to capture touch events on/above orb */}
+                    <Portal>
+                        {Platform.OS == 'ios' ?
+                            <Pressable onPress={this.onTapOrb} style={{ width: Layout.window.width, height: this.orbTapContainerHeight, zIndex: 9999 }}>
+                                <View style={{ width: '100%', height: this.orbTapContainerHeight }} />
+                            </Pressable>
+                            :
+                            <TouchableNativeFeedback onPress={this.onTapOrb} style={{ width: Layout.window.width, height: this.orbTapContainerHeight, zIndex: 9999 }}>
+                                <View style={{ width: '100%', height: this.orbTapContainerHeight }} />
+                            </TouchableNativeFeedback>
+                        }
+                    </Portal>
+                    {/* MK-TODO below buttons used for development/testing only and will be removed */}
                     <View style={{ flexDirection: 'row' }}>
-                        {/* Domains button used for development only and will be removed eventually */}
-                        <Button title='Domains' style={styles.qolButton} onPress={() => this.onStartDomains()} />
+                        <Button title='Domains' style={styles.testingButton} onPress={() => this.onStartDomains()} />
+                        <Button title='History' style={styles.testingButton} onPress={() => this.onTESTINGButton()} />
                     </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getCenterElement()}
                     {loading
@@ -412,9 +469,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         justifyContent: 'center'
     },
-    mailButtonTitle: {
-        color: Colors.welcome.mailButton.title,
-    },
     healthView: {
         width: '90%',
         borderWidth: 2,
@@ -424,14 +478,11 @@ const styles = StyleSheet.create({
         borderColor: 'red',
         backgroundColor: 'white'
     },
-    qolButton: {
+    testingButton: {
         width: '30%',
         height: 30,
         marginLeft: 20,
-        marginBottom: 15
+        marginBottom: 15,
+        backgroundColor: 'green',
     },
-    domainView: {
-        flexDirection: 'row',
-        justifyContent: 'space-around'
-    }
 });

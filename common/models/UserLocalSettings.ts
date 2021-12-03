@@ -9,6 +9,7 @@ export type UserLocalSettings = {
     notifications?: NotificationsSettings;
     health?: HealthPermissionsSettings;
     qol?: QolSettings;
+    lastDailyCheckIn?: string;
 };
 
 export type NotificationsSettings = {
@@ -27,6 +28,8 @@ export type QolSettings = {
     seenQolOnboarding?: boolean,
     lastFullQol?: string,
     pendingFullQol: boolean,
+    lastShortQol?: string,
+    pendingShortQol: boolean,
 };
 
 export type LocalNotificationsSchedule = {
