@@ -1,4 +1,4 @@
-import { HourAndMinute } from 'utils/dateHelpers';
+import { HourAndMinute } from '../utils/dateHelpers';
 import { DomainName } from '../../mobile/src/constants/Domain';
 import Identify from './Identify';
 
