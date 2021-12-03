@@ -20,11 +20,11 @@ export class SettingsNotificationsViewModel {
     private _posssibleDomains: DomainName[] = [];
 
     @observable
-    public scheduledTime: HourAndMinute = null;
+    public scheduledTime: HourAndMinute = AppController.Instance.User.localSettings.current.notifications.scheduledTime;
     @observable
-    public domainsForNotifications: DomainName[] = [];
+    public domainsForNotifications: DomainName[] = AppController.Instance.User.localSettings.current.notifications.domainsForNotifications;
     @observable
-    public allowBDMention: Boolean = false; // MK-TODO: what should default be (false or true)
+    public allowBDMention: Boolean = AppController.Instance.User.localSettings.current.notifications.allowBDMention;
 
     get posssibleDomains() { return this._posssibleDomains; }
 

@@ -269,7 +269,7 @@ export default class CreateCheckInViewModel {
             this._keptQuestion = null;
             this._questions.refresh(AppController.Instance.User.prompts?.promptsList);
             this.resetFeelings();
-            AppController.Instance.User.notifications.resetOpenedNotification();
+            AppController.Instance.User.notifications.completeOpenedNotification();
         });
     }
 

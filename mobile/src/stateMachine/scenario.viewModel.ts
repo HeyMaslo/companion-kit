@@ -42,9 +42,8 @@ export class ScenarioViewModel {
     public readonly showNewReward = () => process.appFeatures.CLIENT_REWARDS_ENABLED === true && AppViewModel.Instance.CreateCheckIn.beforeSubmitState?.rewardLevel < AppController.Instance.User.rewards?.level;
 
     // NOTIFICATIONS
-    // private get _currentNotification() { return AppController.Instance.User.notifications.openedNotification; }
     // private readonly _canReactOnNotification = () => !AppViewModel.Instance.CreateCheckIn.inProgress;
-    // public readonly notificationReceived = () => !!this._currentNotification?.type && this.homeReady() && this._canReactOnNotification();
+    public readonly notificationReceived = () => this.homeReady();
 
     // private readonly _notificationType = (...types: NotificationTypes[]) => this._canReactOnNotification() && types.includes(this._currentNotification?.type);
     // public readonly openCreateJournal = () => this._notificationType(NotificationTypes.Retention, NotificationTypes.CustomPrompt, NotificationTypes.TriggerPhrase);

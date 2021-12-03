@@ -91,4 +91,6 @@ export enum States {
 
     QolHistory,
     QolHistoryTimline,
+
+    View_Affirmation,
 }

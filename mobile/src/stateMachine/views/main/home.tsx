@@ -163,7 +163,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     async onTESTINGButton() {
         AppController.Instance.User.notifications.scheduleTime = { hour: 10, minute: 30 };
         AppController.Instance.User.notifications.domainNames = [DomainName.SLEEP];
-        await AppController.Instance.User.notifications.scheduleTwentyEightAffirmationNotifications();
+        await AppController.Instance.User.notifications.scheduleTESTINGAffirmationNotification();
         // await AppViewModel.Instance.QoLHistory.init();
         // this.trigger(ScenarioTriggers.TESTING);
     }
@@ -398,7 +398,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                     </Portal>
                     {/* MK-TODO below buttons used for development/testing only and will be removed */}
                     <View style={{ flexDirection: 'row' }}>
-                        <Button title='Domains' style={styles.testingButton} onPress={() => this.onStartDomains()} theme={this.theme} />
+                        <Button title='Domains' style={styles.testingButton} onPress={() => this.onTESTINGButton()} theme={this.theme} />
                     </View>
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
                     {loading

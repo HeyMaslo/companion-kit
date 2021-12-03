@@ -34,6 +34,7 @@ import { FeelingsView } from './views/checkin/feelings';
 import { GoalsView } from './views/main/goals';
 import { RewardsView } from './views/rewardsView';
 import { RecordPitureCheckinView } from './views/checkin/recordPictureCheckIn';
+import { ViewAffirmationView } from './views/ViewAffirmation'
 
 import { ChooseDomainView } from './views/lifeDomains/chooseDomain';
 import { DomainDetailsView } from './views/lifeDomains/domainDetails';
@@ -189,9 +190,10 @@ export const MasloScenario: GlobalScenario<States> = {
             { condition: VM.notificationReceived, compose: 'and', trigger: GlobalTriggers.NotificationReceived },
         ],
         exit: [
-            { priority: 3, target: States.Journal_SelectMood, condition: VM.openCreateJournal, params: <MoodViewParams>{ openedByNotification: true } },
-            { priority: 5, target: States.Goals, condition: VM.openGoals },
-            { priority: 10, target: States.Home, condition: () => true },
+            { priority: 3, target: States.View_Affirmation, condition: () => true },
+            // { priority: 3, target: States.Journal_SelectMood, condition: VM.openCreateJournal, params: <MoodViewParams>{ openedByNotification: true } },
+            // { priority: 5, target: States.Goals, condition: VM.openGoals },
+            // { priority: 10, target: States.Home, condition: () => true },
         ],
         log: true,
     },
@@ -577,6 +579,13 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { target: States.QolHistoryTimline, trigger: [Triggers.Back] },
             { target: States.Strategy_Details_after_QolHistory_Strategies, trigger: [Triggers.Tertiary] },
+        ]
+    },
+
+    [States.View_Affirmation]: {
+        view: ViewAffirmationView,
+        exit: [
+            { target: States.Home, trigger: [Triggers.Back] },
         ]
     },
 };

@@ -3,18 +3,16 @@ import { Platform } from 'react-native';
 import { EventSubscription } from 'fbemitter';
 import { observable, transaction } from 'mobx';
 import { createLogger } from 'common/logger';
-import {
-    NotificationTypes,
-    AndroidChannels,
-} from 'common/models/Notifications';
+import { NotificationTypes, AndroidChannels } from 'common/models/Notifications';
 import { ScheduledAffirmationNotification } from 'common/models/userState';
 import Localization from 'src/services/localization';
 import { Affirmation } from 'src/constants/QoL';
 import { PermissionStatus } from 'expo-modules-core';
 import { DateTriggerInput } from 'expo-notifications';
 import { DomainName } from 'src/constants/Domain';
+import { GlobalTrigger, GlobalTriggers } from 'src/stateMachine/globalTriggers';
 
-const logger = createLogger('[Notifications]');
+const logger = createLogger('[NotificationsController]');
 
 export interface IUserNameProvider {
     readonly firstName: string;
@@ -32,13 +30,19 @@ export class NotificationsService {
     private _openedNotification: Notifications.NotificationRequest;
 
     private _notificationsSubscription: EventSubscription = null;
+    private _notificationsTapSubscription: EventSubscription = null;
 
     constructor(private readonly user: IUserNameProvider) {
         if (!user) {
             throw new Error('IUserController is required');
         }
         this._notificationsSubscription = Notifications.addNotificationReceivedListener(
+            // Called when notifcation is recieved and user is in app
             this._onNotificationReceived,
+        );
+        this._notificationsTapSubscription = Notifications.addNotificationResponseReceivedListener(
+            // Called when user taps on notifcation and it opens the app
+            this._onNotificationTap,
         );
     }
 
@@ -82,20 +86,23 @@ export class NotificationsService {
         this._currentStatus = result;
     }
 
-    private async scheduleAffirmationMessage(affirmation: Affirmation, affirmationTime: number): Promise<ScheduledAffirmationNotification> {
+    private async scheduleAffirmationMessage(affirmation: Affirmation, affirmationTime: number, allowBDMention: boolean): Promise<ScheduledAffirmationNotification> {
         const affirmationDate = new Date(affirmationTime);
+        console.log('afiirm date', affirmationDate.toLocaleString())
         const schedulingOptions: DateTriggerInput = {
             channelId: AndroidChannels.Default,
             date: affirmationDate,
         };
+        const isSensitiveMessage: boolean = affirmation.mentionsBD && !allowBDMention;
         const notification: Notifications.NotificationRequestInput = {
             identifier: affirmation.id,
             content: {
                 title: Localization.Current.MobileProject.projectName,
-                body: affirmation.content,
+                body: isSensitiveMessage ? 'Anon String because this affirmation has content that mentions **' : affirmation.content,
                 data: {
                     type: NotificationTypes.Affirmation,
-                    id: affirmation.id
+                    id: affirmation.id,
+                    privateBody: affirmation.content,
                 },
                 sound: true
             },
@@ -112,8 +119,8 @@ export class NotificationsService {
         };
     }
 
-    // Schedule each affirmation 24 hours after the other, beggining at startDateMS
-    public async scheduleAffirmationMessages(messages: Affirmation[], startDateMS: number): Promise<ScheduledAffirmationNotification[]> {
+    // Schedule each affirmation in messages 24 hours after the other, beggining at startDateMS
+    public async scheduleAffirmationMessages(messages: Affirmation[], startDateMS: number, allowBDMention: boolean): Promise<ScheduledAffirmationNotification[]> {
         const oneDayMS = 86400000; // 24 hours in milliseconds
         let result: ScheduledAffirmationNotification[] = await Promise.all(
             messages.map(
@@ -124,6 +131,7 @@ export class NotificationsService {
                     return await this.scheduleAffirmationMessage(
                         msg as Affirmation,
                         startDateMS + index * oneDayMS,
+                        allowBDMention,
                     );
                 },
             ),
@@ -156,21 +164,22 @@ export class NotificationsService {
     }
 
     private _onNotificationReceived = async (event: Notifications.Notification) => {
-        logger.log('received notification event:', event);
-
-        // Use this to open screen for notification
-        // if (NotificationData.guard(event.request)) {
-        //     transaction(() => {
-        //         this._openedNotification = null;
-        //         this._openedNotification = { ...event.request };
-        //     });
-
-        //     GlobalTrigger(GlobalTriggers.NotificationReceived);
-        // }
+        this.handleNotification(event.request);
     };
+
+    private _onNotificationTap = async (event: Notifications.NotificationResponse) => {
+        this.handleNotification(event.notification.request);
+    };
+
+    private handleNotification(request: Notifications.NotificationRequest) {
+        this._openedNotification = request;
+        GlobalTrigger(GlobalTriggers.NotificationReceived);
+    }
 
     dispose() {
         this._notificationsSubscription.remove();
         this._notificationsSubscription = null;
+        this._notificationsTapSubscription.remove();
+        this._notificationsTapSubscription = null;
     }
 }

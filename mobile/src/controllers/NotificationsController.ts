@@ -8,6 +8,7 @@ import { Affirmation } from 'src/constants/QoL';
 import { UserState } from 'common/models/userState';
 import { DomainName } from 'src/constants/Domain';
 import { HourAndMinute } from 'common/utils/dateHelpers';
+import AppController from '.';
 
 export class NotificationsController implements IDisposable {
 
@@ -19,6 +20,10 @@ export class NotificationsController implements IDisposable {
     private readonly _syncThrottle = new ThrottleAction<Promise<void>>(1000);
 
     private _userId: string;
+
+    private get allowBDMention() {
+        return AppController.Instance.User.localSettings.current.notifications.allowBDMention || false;
+    }
 
     constructor(private readonly settings: ILocalSettingsController, name: IUserNameProvider) {
         this._service = new NotificationsService(name);
@@ -71,8 +76,14 @@ export class NotificationsController implements IDisposable {
         return this.permissionsGranted;
     };
 
-    public resetOpenedNotification = () => {
-        this._service.resetOpenedNotification();
+    // Remove the opened notification from userState.scheduledAffirmations and reset the openedNotification
+    public async completeOpenedNotification() {
+        RepoFactory.Instance.userState.getByUserId(this._userId).then((userState: UserState) => {
+            userState.scheduledAffirmations = userState.scheduledAffirmations.filter((sa) => sa.notifId != this.openedNotification.identifier);
+            RepoFactory.Instance.userState.setByUserId(this._userId, userState);
+            this._service.resetOpenedNotification();
+        })
+
     };
 
     public enableNotifications = async () => {
@@ -105,7 +116,28 @@ export class NotificationsController implements IDisposable {
             tomorrow.setDate(tomorrow.getDate() + 1);
             tomorrow.setHours(this.scheduleTime.hour, this.scheduleTime.minute, 0, 0);
 
-            const scheduled = await this._service.scheduleAffirmationMessages(possibleAffirmations.slice(0, 27), tomorrow.getTime());
+            const scheduled = await this._service.scheduleAffirmationMessages(possibleAffirmations.slice(0, 27), tomorrow.getTime(), this.allowBDMention);
+            scheduled.forEach((result) => {
+                userState.lastSeenAffirmations[result.affirmation.id] = result.scheduledDate;
+                userState.scheduledAffirmations.push(result);
+            });
+            console.log('userState.lastSeenAffirmations', userState.lastSeenAffirmations);
+            console.log('userState.scheduledAffirmations', userState.scheduledAffirmations);
+            RepoFactory.Instance.userState.setByUserId(this._userId, userState);
+        }
+    }
+    
+    // MK-TODO: - testing only remove before merge
+    public async scheduleTESTINGAffirmationNotification() {
+        if (!this._userId) throw new Error('no user id set');
+        if (this.notificationsEnabled) {
+            let userState: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
+            const possibleAffirmations: Affirmation[] = await RepoFactory.Instance.affirmations.getByDomains(this.domainNames, false, userState.lastSeenAffirmations);
+
+            const now = new Date();
+            console.log('now', now.getTime())
+
+            const scheduled = await this._service.scheduleAffirmationMessages(possibleAffirmations.slice(0, 1), now.getTime() + 10000, this.allowBDMention);
             scheduled.forEach((result) => {
                 userState.lastSeenAffirmations[result.affirmation.id] = result.scheduledDate;
                 userState.scheduledAffirmations.push(result);

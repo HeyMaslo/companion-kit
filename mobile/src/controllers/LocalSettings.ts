@@ -2,14 +2,13 @@ import { Platform } from 'react-native';
 import ExpoConstants, { AppOwnership } from 'expo-constants';
 import * as Device from 'expo-device';
 import { observable, toJS, transaction } from 'mobx';
-import { UserLocalSettings, NotificationsSettings, DeviceInfo, LocalNotificationsSchedule, QolSettings } from 'common/models';
+import { UserLocalSettings, NotificationsSettings, DeviceInfo, QolSettings } from 'common/models';
 import RepoFactory from 'common/controllers/RepoFactory';
 import { transferChangedFields } from 'common/utils/fields';
 import { ThrottleAction } from 'common/utils/throttle';
 import { IEvent, Event } from 'common/utils/event';
 import { AppVersion } from './AppVersion';
 import logger from 'common/logger';
-import { QolSurveyType } from 'src/constants/QoL';
 
 const DeviceId = ExpoConstants.installationId;
 
@@ -72,6 +71,12 @@ export class LocalSettingsController implements ILocalSettingsController {
                     lastShortQol: Date(),
                 },
                 lastDailyCheckIn: Date(),
+                notifications: {
+                    enabled: false,
+                    scheduledTime: { hour: 0, minute: 0 },
+                    allowBDMention: false,
+                    domainsForNotifications: [],
+                }
             };
             updateDiff = this._current;
 
@@ -100,7 +105,7 @@ export class LocalSettingsController implements ILocalSettingsController {
             await RepoFactory.Instance.users.updateLocalSettings(
                 this._uid,
                 this._sameDevice.deviceId,
-                { notifications: { ...this._sameDevice.notifications, token: null } },
+                { notifications: { ...this._sameDevice.notifications } },
             );
         }
 
@@ -145,17 +150,13 @@ export class LocalSettingsController implements ILocalSettingsController {
     }
 
     updateNotifications(diff: Partial<NotificationsSettings>) {
-        const notifications = this.current.notifications || {};
+        const notifications = this.current.notifications;
+        if (!notifications) return;
         transaction(() => {
-            let changed = transferChangedFields(diff, notifications, 'enabled', 'token');
-
-            if (diff.locals && getLocalsHash(diff.locals) !== getLocalsHash(notifications.locals)) {
-                notifications.locals = diff.locals;
-                changed = true;
-            }
+            let changed = transferChangedFields(diff, notifications);
+            console.log('updateNotifications after transferChangedFields', notifications)
 
             if (changed) {
-                // logger.log('UPDATE');
                 this.update({ notifications });
             }
         });
@@ -186,39 +187,4 @@ export class LocalSettingsController implements ILocalSettingsController {
             }
         });
     }
-}
-
-function getLocalsHash(locals: LocalNotificationsSchedule): string {
-    if (!locals) {
-        return null;
-    }
-
-    const prts: string[] = [];
-
-    if (locals.current) {
-        prts.push('[C]:');
-        Object.keys(locals.current).forEach(k => {
-            const v = locals.current[k];
-            const vv = v?.length
-                ? v.map(n => `${n.date}`).join('|')
-                : '';
-            prts.push(`${k}+${vv};`);
-        });
-    }
-
-    if (locals.schedule) {
-        prts.push('[S]:');
-        Object.keys(locals.schedule).forEach(k => {
-            const v = locals.schedule[k];
-            const vv = !v
-                ? ''
-                : (v === true
-                    ? 'true' : `${v.active}_${v.value}`
-                );
-            prts.push(`${k}_${vv};`);
-        });
-    }
-
-    const res = prts.join('');
-    return res;
 }
