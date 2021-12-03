@@ -1,6 +1,5 @@
 import { Platform } from 'react-native';
 import ExpoConstants, { AppOwnership } from 'expo-constants';
-import * as Device from 'expo-device';
 import { observable, toJS, transaction } from 'mobx';
 import { UserLocalSettings, NotificationsSettings, DeviceInfo, LocalNotificationsSchedule, QolSettings, HealthPermissionsSettings } from 'common/models';
 import RepoFactory from 'common/controllers/RepoFactory';
@@ -9,6 +8,7 @@ import { ThrottleAction } from 'common/utils/throttle';
 import { IEvent, Event } from 'common/utils/event';
 import { AppVersion } from './AppVersion';
 import logger from 'common/logger';
+import { QolSurveyType } from 'src/constants/QoL';
 
 const DeviceId = ExpoConstants.installationId;
 
@@ -17,8 +17,7 @@ const Info: DeviceInfo = {
     platformVersion: ExpoConstants.appOwnership === AppOwnership.Standalone
         ? Platform.Version
         : ('Expo Client ' + ExpoConstants.expoVersion),
-    modelName: Device.modelName,
-    isStandaloneDevice: ExpoConstants.appOwnership === AppOwnership.Standalone && Device.isDevice,
+    isStandaloneDevice: ExpoConstants.appOwnership === AppOwnership.Standalone,
 };
 
 export interface ILocalSettingsController {
@@ -26,9 +25,8 @@ export interface ILocalSettingsController {
     readonly synced: IEvent;
 
     updateNotifications(diff: Partial<NotificationsSettings>): void;
-    updateQolOnboarding(diff: Partial<QolSettings>): void;
-    updateLastFullQol(diff: Partial<QolSettings>): void;
-    updatePendingFullQol(diff: Partial<QolSettings>): void;
+    updateQolSettings(diff: Partial<QolSettings>, changedField: keyof QolSettings): void;
+    updateLastDailyCheckIn(diff: string): void;
 
     updateHealthPermissions(diff: HealthPermissionsSettings): void;
 
@@ -68,10 +66,15 @@ export class LocalSettingsController implements ILocalSettingsController {
                 deviceId: DeviceId,
                 deviceInfo: Info,
                 appVersion: AppVersion.FullVersion,
+                qol: {
+                    seenQolOnboarding: false,
+                    pendingFullQol: true,
+                    pendingShortQol: false,
+                    lastShortQol: Date(),
+                },
+                lastDailyCheckIn: Date(),
             };
             updateDiff = this._current;
-
-            this._sameDevice = settings.find(s => s.deviceInfo?.modelName === Info.modelName);
         } else if (this._current.appVersion !== AppVersion.FullVersion
             || this._current.deviceInfo?.platformVersion !== Info.platformVersion) {
 
@@ -89,6 +92,7 @@ export class LocalSettingsController implements ILocalSettingsController {
     private submitChanges = async () => {
         const diff: Partial<UserLocalSettings> = {
             notifications: toJS(this._current.notifications),
+            lastDailyCheckIn: toJS(this._current.lastDailyCheckIn)
         };
 
         if (this._sameDevice && this._sameDevice.notifications) {
@@ -187,35 +191,28 @@ export class LocalSettingsController implements ILocalSettingsController {
         });
     }
 
-    updateQolOnboarding(diff: Partial<QolSettings>) {
-        const qol = this.current.qol || {};
-        transaction(() => {
-            let changed = transferChangedFields(diff, qol, 'seenQolOnboarding', 'lastFullQol');
+    updateQolSettings(diff: Partial<QolSettings>, changedField: keyof QolSettings) {
+        const qol = this.current.qol;
+        if (qol) {
 
-            if (changed) {
-                this.update({ qol });
-            }
-        });
+            transaction(() => {
+                let changed = transferChangedFields(diff, qol, changedField);
+
+                if (changed) {
+                    this.update({ qol });
+                }
+            });
+        }
     }
 
-    updateLastFullQol(diff: Partial<QolSettings>) {
-        const qol = this.current.qol || {};
+    updateLastDailyCheckIn(diff: string) {
+        let lastDailyCheckIn = this.current.lastDailyCheckIn;
         transaction(() => {
-            let changed = transferChangedFields(diff, qol, 'lastFullQol');
+            let changed = diff !== lastDailyCheckIn;
 
             if (changed) {
-                this.update({ qol });
-            }
-        });
-    }
-
-    updatePendingFullQol(diff: Partial<QolSettings>) {
-        const qol = this.current.qol || {};
-        transaction(() => {
-            let changed = transferChangedFields(diff, qol, 'pendingFullQol');
-
-            if (changed) {
-                this.update({ qol });
+                lastDailyCheckIn = diff;
+                this.update({ lastDailyCheckIn });
             }
         });
     }
@@ -253,6 +250,5 @@ function getLocalsHash(locals: LocalNotificationsSchedule): string {
     }
 
     const res = prts.join('');
-    // console.log('============= HASH:', res);
     return res;
 }

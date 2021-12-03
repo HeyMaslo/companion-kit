@@ -18,8 +18,6 @@
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 
-@import RNSiriShortcuts;
-
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
   SKDescriptorMapper *layoutDescriptorMapper = [[SKDescriptorMapper alloc] initWithDefaults];
@@ -84,15 +82,6 @@ continueUserActivity:(NSUserActivity *)userActivity
 {
   UIViewController *viewController = [self.window rootViewController];
   RCTRootView *rootView = (RCTRootView*) [viewController view];
-
-  // If the initial properties say the app launched from a shortcut (see above), tell the library about it.
-  if ([[rootView.appProperties objectForKey:@"launchedFromShortcut"] boolValue]) {
-    ShortcutsModule.initialUserActivity = userActivity;
-
-    rootView.appProperties = @{ @"launchedFromShortcut":@NO };
-  }
-
-  [ShortcutsModule onShortcutReceivedWithUserActivity:userActivity];
 
   return YES;
 }

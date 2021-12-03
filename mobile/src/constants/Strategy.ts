@@ -1,13 +1,12 @@
-import { Identify } from 'common/models';
+import { DomainName } from './Domain';
 
 export type Strategy = {
+  internalId:                string, // this will be the same as the strategy's document id in firestore
   title:                    string,
   details:                  string,
-  associatedDomainNames:    string[],
+  associatedDomainNames:    DomainName[],
 };
 
-export type StrategyIded = Identify<Strategy>;
-
-export type DisplayStrategyIded = StrategyIded & {
+export type DisplayStrategy = Strategy & {
   isChecked: boolean,
 };

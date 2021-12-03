@@ -10,20 +10,18 @@ import { ViewState } from '../base';
 
 export const logger = createLogger('[endQOL]');
 
-const minContentHeight = 1000;
-
+const containerMarginTop = Layout.isSmallDevice ? 50 : 75;
 @observer
 export class SelectDomainView extends ViewState {
     constructor(props) {
         super(props);
-        this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { transition: { duration: 2.2 }});
-        this.persona.view = {...this.persona.view, position: { x: this.persona.view.position.x, y: Layout.window.height*0.20} };
+        this._contentHeight = this.layout.window.height - containerMarginTop;
+        this.persona.setupContainerHeight(0, { transition: { duration: 2.2 }}, Layout.window.height * 0.58);
     }
 
-    public get viewModel() {
-        return AppViewModel.Instance.ChooseDomain;
+    private get viewModel() {
+        return AppViewModel.Instance.Domain;
     }
-    
 
     async start() {}
 
@@ -47,12 +45,13 @@ export class SelectDomainView extends ViewState {
         return (
             <MasloPage style={this.baseStyles.page} onClose={() => this.cancel()} onBack={() => this.cancel()}>
                 <Container style={[{ height: this._contentHeight, alignItems: 'center' }]}>
-                    <Text style={[this.textStyles.h1, styles.title]}>{(selectedDomains.length == 2)? `You have Selected the ${selectedDomains[0].name} & ${selectedDomains[1].name} Domains.` : `You have Selected the ${mainDomain} Domain.`} </Text>
-                    <Text style={[this.textStyles.h1, styles.title]}>{selectedDomains.length == 2? 'would you like to choose a third Domain?' : 'would you like to choose an additional focus Domain?' }</Text>
+                    <Text style={[this.textStyles.h1, styles.title]}>{(selectedDomains.length == 2)? `You have selected the ${selectedDomains[0].name} & ${selectedDomains[1].name} life areas.` : `You have selected the ${mainDomain} life area.`} </Text>
+                    <Text style={[this.textStyles.h1, styles.title]}>{'Would you like to select another?'}</Text>
                     <View style ={styles.buttonContainer}>
-                        {(selectedDomains.length == 2 || selectedDomains.length == 3) && <Button title='Continue' style={styles.continueButton} onPress={() => this.onThreeSelected()}/>}
-                        { selectedDomains.length < 2 && <Button title='No' titleStyles={{color:'black'}} withBorder={true} style={styles.readyButtonNo} onPress={() => this.onEndSurvey()}/>}
-                        { selectedDomains.length < 2 && <Button title='Yes' style={styles.readyButton} onPress={() => this.cancel()}/>}
+                       
+                        <Button title='No' titleStyles={{color:'black'}} withBorder={true} style={styles.readyButtonNo} onPress={() => this.onEndSurvey()}/>
+                        <Button title='Yes' style={styles.readyButton} onPress={(selectedDomains.length == 2 || selectedDomains.length == 3) ? () => this.onThreeSelected() : () => this.cancel()}/>
+
                     </View>
                 </Container>
             </MasloPage>

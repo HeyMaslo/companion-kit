@@ -38,7 +38,7 @@ export default class RepoFactory {
     private readonly _records = createLazy(() => new RecordRepo(Firebase.Instance.database));
     private readonly _staticTips = createLazy(() => new StaticTipsRepo(Firebase.Instance.database));
     private readonly _qolSurveyResults = createLazy(() => new SurveyResultsRepo(Firebase.Instance.database));
-    private readonly _qolDomains = createLazy(() => new DomainRepo(Firebase.Instance.database));
+    private readonly _domains = createLazy(() => new DomainRepo(Firebase.Instance.database));
     private readonly _strategies = createLazy(() => new StrategyRepo(Firebase.Instance.database));
     private readonly _userState = createLazy(() => new UserStateRepo(Firebase.Instance.database));
 
@@ -54,7 +54,7 @@ export default class RepoFactory {
     get records(): RecordRepo { return this._records.value; }
     get staticTips(): StaticTipsRepo { return this._staticTips.value; }
     get surveyResults(): SurveyResultsRepo { return this._qolSurveyResults.value; }
-    get qolDomains(): DomainRepo { return this._qolDomains.value };
+    get domains(): DomainRepo { return this._domains.value };
     get strategies(): StrategyRepo { return this._strategies.value };
     get userState(): UserStateRepo { return this._userState.value };
 

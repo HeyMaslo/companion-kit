@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import { reaction } from 'mobx';
 import {
     MasloPersonaExpo,
@@ -10,7 +10,6 @@ import {
     PersonaSettings,
     CurrentPersonaSettings,
 } from 'dependencies/persona/expo';
-import { Domains as PersonaDomains } from 'dependencies/persona/lib/domains';
 import { IPersonaViewContext } from './abstractions';
 import Colors from 'src/constants/colors';
 import Layout from 'src/constants/Layout';
@@ -19,7 +18,7 @@ import * as Haptics from 'src/services/haptics';
 // FIREBASE & EXPO-THREE COMPATIBILITY HOTFIX
 (global as any).Image = undefined;
 
-export { PersonaStates, PersonaViewState, PersonaArmState, IPersonaContext, PersonaSettings, CurrentPersonaSettings, PersonaDomains };
+export { PersonaStates, PersonaViewState, PersonaArmState, IPersonaContext, PersonaSettings, CurrentPersonaSettings };
 
 export const PersonaViewPresets: { [name: string]: PersonaViewState } = {
     Default: {
@@ -51,7 +50,13 @@ export const PersonaViewPresets: { [name: string]: PersonaViewState } = {
     },
 };
 
-const PersonaScale = 0.5 * 2 / 3;
+export const PersonaScale = 1 / 3;
+
+const { height, width } = Dimensions.get('window');
+
+export function getPersonaRadius(scale?: number): number {
+    return ((scale || PersonaScale) * Math.min(width, height) / 2) / (devicePixelRatio +1);
+} 
 
 type Props = {
     context: IPersonaViewContext,
@@ -80,7 +85,7 @@ export function PersonaView(this: void, props: Props) {
     }, { fireImmediately: true }));
 
     return (
-        <View style={styles.personaWrapper} pointerEvents="none">
+        <View style={styles.personaWrapper} pointerEvents={'none'}>
             <MasloPersonaExpo
                 context={props.context}
                 disabled={props.disabled}
@@ -101,5 +106,5 @@ const styles = StyleSheet.create({
         top: 0,
         position: 'absolute',
         zIndex: 100,
-    },
+    }
 });
