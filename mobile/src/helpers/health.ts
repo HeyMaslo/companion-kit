@@ -69,7 +69,7 @@ export const checkForStepsData = async (): Promise<boolean> => {
         return;
       }
 
-      console.log('Step Count results FROM HEALTHKIT', results.value);
+      console.log('Step Count results FROM HEALTHKIT, if this is ZERO we assume perms were not granted', results.value);
       const res: boolean = results.value && results.value > 0;
       resolve(res);
       return;

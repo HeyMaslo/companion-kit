@@ -42,7 +42,6 @@ export type LocalNotificationsSchedule = {
 export type DeviceInfo = {
     platform: string,
     platformVersion: string | number,
-    modelName: string,
     isStandaloneDevice: boolean,
 };
 

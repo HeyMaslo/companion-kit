@@ -5,7 +5,6 @@ import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';
 import { Alert, Platform } from 'react-native';
 import { observable } from 'mobx';
-import * as Device from 'expo-device';
 import { Camera, CameraCapturedPicture } from 'expo-camera';
 import { ImageInfo } from 'expo-image-picker/build/ImagePicker.types';
 import * as Links from 'src/constants/links';
@@ -277,11 +276,7 @@ export default class PictureViewViewModel {
                 // iOS
                 !isAndroid ||
                 // horizontal gallery photo
-                (fromGallery && exifOrientation < 6) ||
-                // xiaomi mi phone
-                Device.deviceName === 'Mi Phone' ||
-                // htc
-                Device.brand === 'htc'
+                (fromGallery && exifOrientation < 6)
             ) {
                 console.log('>>>>>>>exceptions<<<<<<<<');
                 return [ { resize: { width: newW, height: newH } }];

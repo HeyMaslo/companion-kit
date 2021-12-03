@@ -1,6 +1,5 @@
 import { Platform } from 'react-native';
 import ExpoConstants, { AppOwnership } from 'expo-constants';
-import * as Device from 'expo-device';
 import { observable, toJS, transaction } from 'mobx';
 import { UserLocalSettings, NotificationsSettings, DeviceInfo, LocalNotificationsSchedule, QolSettings, HealthPermissionsSettings } from 'common/models';
 import RepoFactory from 'common/controllers/RepoFactory';
@@ -18,8 +17,7 @@ const Info: DeviceInfo = {
     platformVersion: ExpoConstants.appOwnership === AppOwnership.Standalone
         ? Platform.Version
         : ('Expo Client ' + ExpoConstants.expoVersion),
-    modelName: Device.modelName,
-    isStandaloneDevice: ExpoConstants.appOwnership === AppOwnership.Standalone && Device.isDevice,
+    isStandaloneDevice: ExpoConstants.appOwnership === AppOwnership.Standalone,
 };
 
 export interface ILocalSettingsController {
@@ -77,8 +75,6 @@ export class LocalSettingsController implements ILocalSettingsController {
                 lastDailyCheckIn: Date(),
             };
             updateDiff = this._current;
-
-            this._sameDevice = settings.find(s => s.deviceInfo?.modelName === Info.modelName);
         } else if (this._current.appVersion !== AppVersion.FullVersion
             || this._current.deviceInfo?.platformVersion !== Info.platformVersion) {
 
@@ -177,6 +173,20 @@ export class LocalSettingsController implements ILocalSettingsController {
             if (changed) {
                 // logger.log('UPDATE');
                 this.update({ notifications });
+            }
+        });
+    }
+
+    updateHealthPermissions(diff: Partial<HealthPermissionsSettings>) {
+        let health = this.current.health || {};
+        health.seenPermissionPromptIOS = true;
+        logger.log('Value of Health: ', health);
+        transaction(() => {
+            let changed = transferChangedFields(diff, health, 'enabledAndroid', 'seenPermissionPromptIOS');
+            logger.log('Value of changed: ', changed);
+            logger.log('Value of changed: ', diff);
+            if (changed) {
+                this.update({ health });
             }
         });
     }
