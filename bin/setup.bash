@@ -98,6 +98,7 @@ if [ $mobile == 1 ]; then
     nvm use 14
     yarn
     if [ $pods == 1 ]; then
+        pod deintegrate
         pod install --repo-update
     fi
     cd ../..
