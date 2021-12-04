@@ -86,13 +86,13 @@ export class HealthScopesView extends ViewState {
             customView:
                 <View>
                     <View style={styles.imageNextToText}>
-                        <Image source={Images.GoogleFitHealthPermPNG} style={{ width: 26, height: 26 }} />
+                        <Image source={Images.GoogleFitCheckMarkPNG} style={{ width: 26, height: 26 }} />
                         <Text style={[TextStyles.p1, styles.instructionText]}>{'Turn All Categories On'}</Text>
                     </View>
                 </View>,
             onConfirm: async () => {
-                AppController.Instance.PromptModal.closeModal();
                 await authAndroid();
+                AppController.Instance.PromptModal.closeModal();
             },
         });
 

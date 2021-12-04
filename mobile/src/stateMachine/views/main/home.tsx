@@ -326,15 +326,6 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         return Platform.OS == 'ios'? !this.healthPermissionsEnabled : !checkAndroidAuth();
     }
 
-    // private healthPermAnd() {
-    //     this.authAn();
-    //     return checkAndroidAuth();
-    // }
-
-    // private async authAn() {
-    //     await authAndroid();
-    // }
-
     private getHealth() {
         return (
             <>

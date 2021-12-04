@@ -10,11 +10,8 @@ const runOptions = {
   ],
 };
 
-//Google Fit Steps
-let dailyStepCount;
-
-var today = new Date();
-var lastWeekDate = new Date(
+const today = new Date();
+const lastWeekDate = new Date(
   today.getFullYear(),
   today.getMonth(),
   today.getDate() - 8,
@@ -28,28 +25,26 @@ const opt = {
 
 const fetchStepsData = async opt => {
   const res = await GoogleFit.getDailyStepCountSamples(opt);
-  if (res.length !== 0) {
-    for (var i = 0; i < res.length; i++) {
-      if (res[i].source === 'com.google.android.gms:estimated_steps') {
-        let data = res[i].steps.reverse();
-        dailyStepCount = res[i].steps;
-        // setdailySteps(data[0].value);
-        return dailyStepCount;
-      }
-    }
+  const estimatedData = res.find(element => element.source === 'com.google.android.gms:estimated_steps');
+  if (estimatedData) {
+    //Google Fit Steps
+    const dailyStepCount = estimatedData.steps;
+    return dailyStepCount;
   } else {
-    logger.log('Daily Steps Not Found');
+    logger.log('Google Fit Daily Steps Not Found');
   }
 };
 
 const fetchSleepData = async opt => {
   const midnight = "00:00"
-  // var midnight = new Date();
-  // midnight.setHours(0, 0, 0, 0);
   let sleepTotal = 0;
   const res = await GoogleFit.getSleepSamples(opt);
 
-  for (var i = 0; i < res.length; i++) {
+  // For loop that goes through the users sleep samples and calculate the data for the current day
+  // Takes sleep from the last midnight to the current time
+  // We want the result in hours that is why we have divided the result by 1000 x 60 x 60
+  // If we want to convert the results in minutes, divide the result by 1000 x 60 only.
+  for (let i = 0; i < res.length; i++) {
     if (Date.parse(res[i].endDate) > Date.parse(midnight)) {
       if (Date.parse(res[i].startDate) > Date.parse(midnight)) {
         sleepTotal +=
@@ -67,31 +62,26 @@ const fetchSleepData = async opt => {
     }
   }
   return Math.round((sleepTotal / (1000 * 60 * 60)) * 100) / 100;
-  // setSleep(Math.round((sleepTotal / (1000 * 60 * 60)) * 100) / 100);
 };
 
 const fetchAndroidHealthData = async () => {
-      let sleepData;
-      let stepsData;
       // call Google Fit API to get the steps data for the user
       // opts --> options object
-      logger.log('GOOGLE_FIT: Fetching Step Data');
-      stepsData = await fetchStepsData(opt);
+      const stepsData = await fetchStepsData(opt);
 
       // call Google Fit API to get the sleep data for the user
       // opts --> options object
-      logger.log('GOOGLE_FIT: Fetching Sleep Data');
-      sleepData = await fetchSleepData(opt);
+      const sleepData = await fetchSleepData(opt);
 
-      logger.log('GOOGLE_FIT: Sleep Data: ', JSON.stringify(sleepData));
-      logger.log('GOOGLE_FIT: Step Data: ', JSON.stringify(stepsData));
+      // Uncomment below to log the data for sleep and steps from Google Fit
+      // Store this data into Firebase once a schema is determined
+      // logger.log('GOOGLE_FIT: Sleep Data: ', JSON.stringify(sleepData));
+      // logger.log('GOOGLE_FIT: Step Data: ', JSON.stringify(stepsData));
 }
 
 export const authAndroid = async () => {
   let isAuth = checkAndroidAuth();
-  logger.log('GOOGLE_FIT_IS_AUTHORIZED?', isAuth)
   if (isAuth) {
-    logger.log('GOOGLE_FIT_IS_AUTHORIZED');
     // Authentication already authorized for a particular device
     // fetch the android health data
     await fetchAndroidHealthData();
@@ -100,18 +90,18 @@ export const authAndroid = async () => {
       // Authentication if already not authorized for a particular device
       const authResult = await GoogleFit.authorize(runOptions);
       if (authResult.success) {
-        console.log('AUTH_SUCCESS');
+        console.log('GOOGLE_FIT_AUTH_SUCCESS');
         isAuth = true
         // if successfully authorized, fetch data
         await fetchAndroidHealthData();
       } else {
         // Auth fails/denied
-        console.log('AUTH_DENIED ' + authResult);
+        console.log('GOOGLE_FIT_AUTH_DENIED ' + authResult);
         isAuth = false;
       }
     } catch (error) {
         // catch errors if Auth fails
-        console.log('AUTH_ERROR: ', error);
+        console.log('GOOGLE_FIT_AUTH_ERROR: ', error);
     };
   }
   return isAuth;
@@ -122,13 +112,11 @@ export const disconnectAndroid = () => { GoogleFit.disconnect() }
 export const checkAndroidAuth = () => {
   // Checks the auth of Google Fit and writes it to GoogleFit.isAuthorized
   updateAndroidAuthStatus();
-  logger.log("GOOGLE FIT AUTH CHECK HOMESCREEN: ", GoogleFit.isAuthorized);
   return GoogleFit.isAuthorized;
 }
 
 const updateAndroidAuthStatus = async () => {
   await GoogleFit.checkIsAuthorized();
-  console.log('AUTH VALUE AFTER UPDATING: ', GoogleFit.isAuthorized)
 }
 
 

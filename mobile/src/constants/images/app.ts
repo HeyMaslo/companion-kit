@@ -50,7 +50,7 @@ import GoalsSVG from 'src/assets/images/app/goals-icon.svg';
 import GoalsActiveSVG from 'src/assets/images/app/goals-icon-active.svg';
 import GoalsIndicatorSVG from 'src/assets/images/app/goals-icon-indicator.svg';
 import GoalsIndicatorActiveSVG from 'src/assets/images/app/goals-icon-indicator-active.svg';
-import GoogleFitHealthPermPNG from 'src/assets/images/android_check.png'
+import GoogleFitCheckMarkPNG from 'src/assets/images/google-fit-checkmark.png'
 import SettingsIconActiveSVG from 'src/assets/images/app/settings-icon-active.svg';
 import HealthHeartSVG from 'src/assets/images/app/apple-health-heart.svg';
 import iOS_SettingsPNG from 'src/assets/images/ios_settings.png';
@@ -138,7 +138,7 @@ export default {
     iOS_CompanionKit: iOS_CompanionKitPNG,
     iOS_Switch: iOS_SwitchPNG,
     //Google Fit
-    GoogleFitHealthPermPNG: GoogleFitHealthPermPNG
+    GoogleFitCheckMarkPNG: GoogleFitCheckMarkPNG
     // Domain
     moodIcon: MoodIconSVG,
     physicalIcon: PhysicalIconSVG,
