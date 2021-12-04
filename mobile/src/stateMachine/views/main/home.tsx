@@ -63,10 +63,10 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     get qolViewModel() { return AppViewModel.Instance.QOL; }
 
     async start() {
-        // await AppViewModel.Instance.QOL.init();
-        // const qolArmMagnitudes = await this.viewModel.getArmMagnitudes();
-        // this.persona.qolArmMagnitudes = qolArmMagnitudes;
-        // this.setState({ ...this.state, isUnfinishedQol: AppViewModel.Instance.QOL.isUnfinished });
+        await AppViewModel.Instance.QOL.init();
+        const qolArmMagnitudes = await this.viewModel.getArmMagnitudes();
+        this.persona.qolArmMagnitudes = qolArmMagnitudes;
+        this.setState({ ...this.state, isUnfinishedQol: AppViewModel.Instance.QOL.isUnfinished });
         Animated.timing(this.state.opacity, {
             toValue: 1,
             delay: isFirstLaunch ? 1000 : 400,
