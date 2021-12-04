@@ -28,8 +28,7 @@ const fetchStepsData = async opt => {
   const estimatedData = res.find(element => element.source === 'com.google.android.gms:estimated_steps');
   if (estimatedData) {
     //Google Fit Steps
-    const dailyStepCount = estimatedData.steps;
-    return dailyStepCount;
+    return estimatedData.steps;
   } else {
     logger.log('Google Fit Daily Steps Not Found');
   }
