@@ -25,7 +25,7 @@ export interface ILocalSettingsController {
     readonly current: Readonly<UserLocalSettings>;
     readonly synced: IEvent;
 
-    updateNotifications(diff: Partial<NotificationsSettings>): void;
+    updateNotifications(diff: Partial<NotificationsSettings>, changedField: keyof NotificationsSettings): void;
     updateQolSettings(diff: Partial<QolSettings>, changedField: keyof QolSettings): void;
     updateLastDailyCheckIn(diff: string): void;
 
@@ -149,12 +149,11 @@ export class LocalSettingsController implements ILocalSettingsController {
         return this._syncThrottle.forceRun();
     }
 
-    updateNotifications(diff: Partial<NotificationsSettings>) {
+    updateNotifications(diff: Partial<NotificationsSettings>, changedField: keyof NotificationsSettings) {
         const notifications = this.current.notifications;
         if (!notifications) return;
         transaction(() => {
-            let changed = transferChangedFields(diff, notifications);
-            console.log('updateNotifications after transferChangedFields', notifications)
+            let changed = transferChangedFields(diff, notifications, changedField);
 
             if (changed) {
                 this.update({ notifications });

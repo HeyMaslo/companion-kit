@@ -63,13 +63,6 @@ export class NotificationsController implements IDisposable {
         this._syncThrottle.tryRun(this.sync);
     }
 
-    // public checkPermission = async () => {
-    //     await this._service.checkNotificationsPermissions();
-    //     this.settings.updateNotifications({
-    //         enabled: this._service.hasPermission == true,
-    //     });
-    // };
-
     public askPermission = async (): Promise<boolean> => {
         await this._service.askNotificationsPermissions();
         await this.sync();
@@ -77,14 +70,22 @@ export class NotificationsController implements IDisposable {
     };
 
     // Remove the opened notification from userState.scheduledAffirmations and reset the openedNotification
-    public async completeOpenedNotification() {
-        RepoFactory.Instance.userState.getByUserId(this._userId).then((userState: UserState) => {
-            userState.scheduledAffirmations = userState.scheduledAffirmations.filter((sa) => sa.notifId != this.openedNotification.identifier);
+    public async completeOpenedNotification(currentUserState: UserState = null): Promise<UserState> {
+        return currentUserState ?
+            this.onFulfilled(currentUserState) :
+            RepoFactory.Instance.userState.getByUserId(this._userId).then(this.onFulfilled);
+    };
+
+    // Used only by above function
+    private onFulfilled = (userState: UserState) => {
+        const filtered = userState.scheduledAffirmations.filter((sa) => sa.notifId != this.openedNotification.identifier);
+        if (filtered !== userState.scheduledAffirmations) {
+            userState.scheduledAffirmations = filtered;
             RepoFactory.Instance.userState.setByUserId(this._userId, userState);
             this._service.resetOpenedNotification();
-        })
-
-    };
+        }
+        return userState;
+    }
 
     public enableNotifications = async () => {
         // try to request permission (don't know they were denied or just never asked)
@@ -110,6 +111,7 @@ export class NotificationsController implements IDisposable {
         if (!this._userId) throw new Error('no user id set');
         if (this.notificationsEnabled) {
             let userState: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
+            userState = await this.completeOpenedNotification(userState); // make sure nothing is leftover from old notifcations
             const possibleAffirmations: Affirmation[] = await RepoFactory.Instance.affirmations.getByDomains(this.domainNames, false, userState.lastSeenAffirmations);
 
             const tomorrow = new Date()
@@ -126,7 +128,7 @@ export class NotificationsController implements IDisposable {
             RepoFactory.Instance.userState.setByUserId(this._userId, userState);
         }
     }
-    
+
     // MK-TODO: - testing only remove before merge
     public async scheduleTESTINGAffirmationNotification() {
         if (!this._userId) throw new Error('no user id set');
@@ -162,9 +164,7 @@ export class NotificationsController implements IDisposable {
     }
 
     private sync = async () => {
-        this.settings.updateNotifications({
-            enabled: this._notificationsEnabledByUser,
-        });
+        this.settings.updateNotifications({ enabled: this._notificationsEnabledByUser }, 'enabled');
     };
 
     dispose() {
