@@ -401,7 +401,7 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
             { target: States.All_Strategies, trigger: [Triggers.Next] },
-            { target: States.Strategy_Details4, trigger: [Triggers.Tertiary] },
+            { target: States.Strategy_Details_after_Domain_Details, trigger: [Triggers.Tertiary] },
         ]
     },
 
@@ -410,7 +410,7 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { target: States.View_Domains, trigger: [Triggers.Cancel] },
             { target: States.All_Strategies_after_ViewDomains, trigger: [Triggers.Next] },
-            { target: States.Strategy_Details5, trigger: [Triggers.Tertiary] },
+            { target: States.Strategy_Details_after_Domain_Details_after_ViewDomains, trigger: [Triggers.Tertiary] },
         ]
     },
 
@@ -435,7 +435,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Home, trigger: [Triggers.Cancel] },
             { target: States.Choose_Domain, trigger: [Triggers.Back] },
             { target: States.Review_Strategies, trigger: [Triggers.Submit] },
-            { target: States.Strategy_Details, trigger: [Triggers.Tertiary] },
+            { target: States.Strategy_Details_after_Choose_Strategies, trigger: [Triggers.Tertiary] },
         ]
     },
 
@@ -444,47 +444,47 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { target: States.Home, trigger: [Triggers.Cancel] },
             { target: States.Choose_Strategies, trigger: [Triggers.Back] },
-            { target: States.Strategy_Details2, trigger: [Triggers.Tertiary] },
+            { target: States.Strategy_Details_after_Review_Strategies, trigger: [Triggers.Tertiary] },
             { target: States.Home, trigger: [Triggers.Submit] },
         ]
     },
 
-    [States.Strategy_Details]: {
+    [States.Strategy_Details_after_Choose_Strategies]: {
         view: StrategyDetailsView,
         exit: [
             { target: States.Choose_Strategies, trigger: [Triggers.Back] },
         ]
     },
 
-    [States.Strategy_Details2]: {
+    [States.Strategy_Details_after_Review_Strategies]: {
         view: StrategyDetailsView,
         exit: [
             { target: States.Review_Strategies, trigger: [Triggers.Back] },
         ]
     },
 
-    [States.Strategy_Details3]: {
+    [States.Strategy_Details_after_Focus_Domains]: {
         view: StrategyDetailsView,
         exit: [
             { target: States.Focus_Domains, trigger: [Triggers.Back] },
         ]
     },
 
-    [States.Strategy_Details4]: {
+    [States.Strategy_Details_after_Domain_Details]: {
         view: StrategyDetailsView,
         exit: [
             { target: States.Domain_Details, trigger: [Triggers.Back] },
         ]
     },
 
-    [States.Strategy_Details5]: {
+    [States.Strategy_Details_after_Domain_Details_after_ViewDomains]: {
         view: StrategyDetailsView,
         exit: [
             { target: States.Domain_Details_after_ViewDomains, trigger: [Triggers.Back] },
         ]
     },
 
-    [States.Strategy_Details6]: {
+    [States.Strategy_Details_after_QolHistory_Strategies]: {
         view: StrategyDetailsView,
         exit: [
             { target: States.QolHistory_Strategies, trigger: [Triggers.Back] },
@@ -509,7 +509,7 @@ export const MasloScenario: GlobalScenario<States> = {
         view: YourFocusDomainsView,
         exit: [
             { target: States.Home, trigger: [Triggers.Cancel] },
-            { target: States.Strategy_Details3, trigger: [Triggers.Tertiary] },
+            { target: States.Strategy_Details_after_Focus_Domains, trigger: [Triggers.Tertiary] },
             { target: States.View_Domains, trigger: [Triggers.Next] },
         ]
     },
@@ -567,7 +567,7 @@ export const MasloScenario: GlobalScenario<States> = {
         view: QolHistoryStrategiesView,
         exit: [
             { target: States.QolHistoryTimline, trigger: [Triggers.Back] },
-            { target: States.Strategy_Details6, trigger: [Triggers.Tertiary] },
+            { target: States.Strategy_Details_after_QolHistory_Strategies, trigger: [Triggers.Tertiary] },
         ]
     },
 };

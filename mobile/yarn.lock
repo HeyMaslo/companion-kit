@@ -9339,11 +9339,6 @@ react-native-shadow@^1.2.2:
   resolved "https://registry.yarnpkg.com/react-native-shadow/-/react-native-shadow-1.2.2.tgz#08991cd14b71e32f2fc6363911c139d231949a66"
   integrity sha512-kwTmqRKmPEML9KbJi0uvvKd+67rOJQcr3IyNp9bg+qi/H+Wnwev/Mr8sUiUZlYEJ433ii2iNwpjc1ERMjHtMWw==
 
-react-native-siri-shortcut@^1.9.2:
-  version "1.9.2"
-  resolved "https://registry.yarnpkg.com/react-native-siri-shortcut/-/react-native-siri-shortcut-1.9.2.tgz#949db3e0aee90daf1880e7b6254e6f4720fa221d"
-  integrity sha512-AaRvu/9BE+YiiKm6aZ0srvlL1B0xyVLFC9mfW1+f2uSOMmYi94U8J4hlhXMYlemQWy81QQ4R8Lc9MwCifKB7eQ==
-
 react-native-svg-transformer@^0.14.3:
   version "0.14.3"
   resolved "https://registry.yarnpkg.com/react-native-svg-transformer/-/react-native-svg-transformer-0.14.3.tgz#43c8e176f5a11f16f39b87a64018e0ac090ffbdb"

@@ -462,8 +462,6 @@ PODS:
   - RNSentry (2.1.1):
     - React-Core
     - Sentry (= 6.0.9)
-  - RNSiriShortcuts (1.9.2):
-    - React
   - RNSVG (12.1.0):
     - React
   - RNVectorIcons (8.1.0):
@@ -574,7 +572,6 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - RNReactNativeHapticFeedback (from `../node_modules/react-native-haptic-feedback`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
-  - RNSiriShortcuts (from `../node_modules/react-native-siri-shortcut`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - UMAppLoader (from `../node_modules/unimodules-app-loader/ios`)
@@ -738,8 +735,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-haptic-feedback"
   RNSentry:
     :path: "../node_modules/@sentry/react-native"
-  RNSiriShortcuts:
-    :path: "../node_modules/react-native-siri-shortcut"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
@@ -855,7 +850,6 @@ SPEC CHECKSUMS:
   RNFBApp: 43a062dc6a1a88edd934d2229d1ba64f25381598
   RNReactNativeHapticFeedback: b83bfb4b537bdd78eb4f6ffe63c6884f7b049ead
   RNSentry: 6b46b6fc1d715a378fbaa5d7d43bc9ce99b500e5
-  RNSiriShortcuts: 74f828938f424d5a276c647114c25b18bf0e79a9
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
   Sentry: 388c9dc093b2fd3a264466a5c5b21e25959610a9
