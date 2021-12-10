@@ -1,8 +1,8 @@
 import AppController from 'src/controllers';
 import AppViewModel from 'src/viewModels';
 import * as Features from 'common/constants/features';
-
 import { NotificationTypes } from 'common/models/Notifications';
+import { Platform } from 'react-native';
 
 export class ScenarioViewModel {
 
@@ -54,4 +54,7 @@ export class ScenarioViewModel {
     public readonly showConsent = () => process.appFeatures.MOBILE_SHOW_CONSENT === true && this.userConfirmed() && !AppController.Instance.User.user?.client?.consentAccepted;
     public readonly showAssessment = () => process.appFeatures.ASSESSMENTS_ENABLED === true && this.userWithAccount() && !!AppController.Instance.User.assessments.nextFormTypeAvailable;
     public readonly showQol = () => this.userWithAccount() && !AppController.Instance.User.localSettings?.current?.qol?.seenQolOnboarding;
+    // Health data
+    public readonly hasHealthPermissions = () => AppController.Instance.User?.hasHealthDataPermissions.enabled;
+    public readonly needsHealthPromptIOS = () => Platform.OS == 'ios' && (typeof AppController.Instance.User?.localSettings.current.healthPermissions == 'undefined' || !AppController.Instance.User?.localSettings.current.healthPermissions.seenPermissionPromptIOS);
 }

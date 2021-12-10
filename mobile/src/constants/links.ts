@@ -1,5 +1,4 @@
-import * as Linking from 'expo-linking'
-import { Alert } from 'react-native';
+import { Alert, Linking } from 'react-native';
 
 export const OpenEmailClient = 'message:';
 

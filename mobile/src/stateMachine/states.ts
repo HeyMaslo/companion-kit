@@ -2,7 +2,6 @@
 // NOTE Order makes a difference: latter one has more priority
 // if on the same frame two states will compete
 // (enter condition of both will be satisfied)
-
 // a-la routes
 export enum States {
     Undefined = 0,
@@ -88,6 +87,9 @@ export enum States {
     StartQol,
     QolQuestion,
     EndQol,
+    // Health Block
+    HealthConsent,
+    HealthScopes,
 
     QolHistory,
     QolHistoryTimline,

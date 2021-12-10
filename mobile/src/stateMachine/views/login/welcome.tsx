@@ -63,7 +63,7 @@ export class WelcomeView extends ViewState {
             this.trigger(ScenarioTriggers.Secondary);
         }
     }
-
+    
     googleSignIn = () => {
         if (!this.globalLoading) {
             SignInViewModel.Instance.googleSignIn();
