@@ -7,7 +7,7 @@ export type UserLocalSettings = {
     deviceInfo?: DeviceInfo;
 
     notifications?: NotificationsSettings;
-    health?: HealthPermissionsSettings;
+    healthPermissions?: HealthPermissionsSettings;
     qol?: QolSettings;
     lastDailyCheckIn?: string;
 };

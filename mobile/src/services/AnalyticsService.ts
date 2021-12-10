@@ -1,4 +1,4 @@
-// import * as Sentry from 'sentry-expo';
+// import * as Sentry from 'sentry-expo'; // this package is causing build errors, will require further investigation
 import { reaction } from 'mobx';
 
 import { IAnalytics, UserInfo, EventData } from 'common/services/analytics/analytics';

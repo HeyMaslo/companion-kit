@@ -7,7 +7,6 @@ import { transferChangedFields } from 'common/utils/fields';
 import { ThrottleAction } from 'common/utils/throttle';
 import { IEvent, Event } from 'common/utils/event';
 import { AppVersion } from './AppVersion';
-import logger from 'common/logger';
 import { QolSurveyType } from 'src/constants/QoL';
 
 const DeviceId = ExpoConstants.installationId;
@@ -58,7 +57,6 @@ export class LocalSettingsController implements ILocalSettingsController {
 
         this._uid = uid;
         this._current = settings.find(s => s.deviceId === DeviceId);
-        console.log('DeviceId', DeviceId)
 
         let updateDiff: Partial<UserLocalSettings> = null;
         if (!this._current) {
@@ -103,7 +101,6 @@ export class LocalSettingsController implements ILocalSettingsController {
             );
         }
 
-        logger.log('[LocalSettingsController] submitting changes...', diff);
         await RepoFactory.Instance.users.updateLocalSettings(
             this._uid,
             DeviceId,
@@ -114,10 +111,9 @@ export class LocalSettingsController implements ILocalSettingsController {
 
     private submitChangesHealth = async () => {
         const diff: Partial<UserLocalSettings> = {
-            health: toJS(this._current.health),
+            healthPermissions: toJS(this._current.healthPermissions),
         };
 
-        logger.log('[LocalSettingsController] submitting changes...', diff);
         await RepoFactory.Instance.users.updateLocalSettings(
             this._uid,
             DeviceId,
@@ -132,7 +128,6 @@ export class LocalSettingsController implements ILocalSettingsController {
 
         };
 
-        logger.log('[LocalSettingsController] submitting changes...', diff);
         await RepoFactory.Instance.users.updateLocalSettings(
             this._uid,
             DeviceId,
@@ -147,7 +142,7 @@ export class LocalSettingsController implements ILocalSettingsController {
         }
 
         Object.assign(this._current, diff);
-        if (this.current.health !== undefined) {
+        if (this.current.healthPermissions !== undefined) {
             this._syncThrottle.tryRun(this.submitChangesHealth);
         } else if (diff.qol !== undefined) {
             this._syncThrottle.tryRun(this.submitQolChanges);
@@ -171,22 +166,18 @@ export class LocalSettingsController implements ILocalSettingsController {
             }
 
             if (changed) {
-                // logger.log('UPDATE');
                 this.update({ notifications });
             }
         });
     }
 
     updateHealthPermissions(diff: Partial<HealthPermissionsSettings>) {
-        let health = this.current.health || {};
+        let health = this.current.healthPermissions || {};
         health.seenPermissionPromptIOS = true;
-        logger.log('Value of Health: ', health);
         transaction(() => {
             let changed = transferChangedFields(diff, health, 'enabledAndroid', 'seenPermissionPromptIOS');
-            logger.log('Value of changed: ', changed);
-            logger.log('Value of changed: ', diff);
             if (changed) {
-                this.update({ health });
+                this.update({ healthPermissions: health });
             }
         });
     }

@@ -12,7 +12,6 @@ export enum GlobalTriggers {
     Settings,
     Profile,
     NotificationReceived,
-    HealthAuthSettings,
 }
 
 const logger = createLogger('[Globaltriggers]');
