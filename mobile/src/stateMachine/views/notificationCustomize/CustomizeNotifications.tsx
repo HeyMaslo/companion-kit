@@ -1,15 +1,16 @@
 import { ViewState } from '../base';
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, View, ScrollView, Switch } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Switch, Platform } from 'react-native';
 import { MasloPage, Container, Card, Button } from 'src/components';
 import { ScenarioTriggers, PersonaStates } from '../../abstractions';
 import { PushToast } from '../../toaster';
 import Layout from 'src/constants/Layout';
 import { PersonaViewPresets } from 'src/stateMachine/persona';
-import { PersonaScrollMask } from 'src/components/PersonaScollMask';
 import Images from 'src/constants/images';
 import AppViewModel from 'src/viewModels';
+import { iconForDomain } from 'src/helpers/DomainHelper';
+import { DomainName } from 'src/constants/Domain';
 
 @observer
 export class CustomizeNotificationsView extends ViewState {
@@ -80,54 +81,51 @@ export class CustomizeNotificationsView extends ViewState {
     }
 
     renderContent() {
-        const titleText = 'Customize your notifications below:';
+        const titleText = 'Customize Notifications';
         return (
-            <MasloPage style={this.baseStyles.page} theme={this.theme}>
-                <Container style={styles.topBarWrapWrap}>
-                    <PersonaScrollMask />
-                    <View style={styles.topBarWrap}>
-                        <Button style={styles.backBtn} underlayColor='transparent' onPress={() => this.onBack()} theme={this.theme}>
-                            <Images.backIcon width={28} height={14} />
-                        </Button>
-                    </View>
-                </Container>
-                <ScrollView style={[{ zIndex: 0, elevation: 0 }]}>
-                    <Container style={[this.baseStyles.container, styles.container]}>
-                        <Text style={[this.textStyles.h1, styles.title]}>{titleText}</Text>
-                        {this.viewModel.posssibleDomains.map((dom, index) => {
-                            return <Card
-                                key={dom}
-                                title={dom + ' Life Area'}
-                                description={this.stateForIndex(index) ? 'On' : 'Off'}
-                                style={{ marginBottom: 20, height: 100 }}
-                                Image={Images.bellIcon}
-                                theme={this.theme}
-                            >
-                                <Switch
-                                    value={this.stateForIndex(index)}
-                                    disabled={this.viewModel.isToggleInProgress}
-                                    onValueChange={(enabled) => {
-                                        this.setStateForIndex(index, enabled);
-                                    }}
-                                />
-                            </Card>
-                        })}
-                        <Card
-                            title='Include notifications that mention bipolar diagnosis'
-                            description={this.state.BDMentionEnabled ? 'On' : 'Off'}
+            <MasloPage style={this.baseStyles.page} onBack={this.onBack} theme={this.theme}>
+                <Container style={[this.baseStyles.container, { flexDirection: 'column', flex: 1, }]}>
+                    <Text style={[this.textStyles.h1, styles.title, { color: this.theme.colors.foreground }]}>{titleText}</Text>
+                    {this.viewModel.posssibleDomains.map((dom, index) => {
+                        return <Card
+                            key={dom}
+                            title={dom + ' Life Area'}
+                            description={this.stateForIndex(index) ? 'On' : 'Off'}
                             style={{ marginBottom: 20 }}
-                            Image={Images.bellIcon}
+                            isTransparent
+                            ImageElement={iconForDomain(dom, { width: 16, height: 16 }, this.theme.colors.highlight)}
                             theme={this.theme}
                         >
                             <Switch
-                                value={this.state.BDMentionEnabled}
+                                value={this.stateForIndex(index)}
                                 disabled={this.viewModel.isToggleInProgress}
-                                onValueChange={(val) => this.setState({ BDMentionEnabled: val })}
+                                onValueChange={(enabled) => {
+                                    this.setStateForIndex(index, enabled);
+                                }}
+                                thumbColor={Platform.OS == 'android' && this.theme.colors.highlight}
+                                trackColor={Platform.OS == 'android' && { true: this.theme.colors.highlightSecondary }}
                             />
                         </Card>
-                    </Container>
-                </ScrollView>
-            </MasloPage>
+                    })}
+                    <Card
+                        title='Include notifications that mention bipolar diagnosis'
+                        description={this.state.BDMentionEnabled ? 'On' : 'Off'}
+                        style={{ marginBottom: 20, height: 100 }}
+                        titleStyle={{ marginBottom: 12, color: this.theme.colors.foreground }}
+                        isTransparent
+                        ImageElement={iconForDomain(DomainName.MOOD, { width: 16, height: 16 }, this.theme.colors.highlight)}
+                        theme={this.theme}
+                    >
+                        <Switch
+                            value={this.state.BDMentionEnabled}
+                            disabled={this.viewModel.isToggleInProgress}
+                            onValueChange={(val) => this.setState({ BDMentionEnabled: val })}
+                            thumbColor={Platform.OS == 'android' && this.theme.colors.highlight}
+                            trackColor={Platform.OS == 'android' && { true: this.theme.colors.highlightSecondary }}
+                        />
+                    </Card>
+                </Container>
+            </MasloPage >
         );
     }
 }

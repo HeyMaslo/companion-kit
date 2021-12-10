@@ -6,9 +6,10 @@ import { IDisposable } from 'common/utils/unsubscriber';
 import RepoFactory from 'common/controllers/RepoFactory';
 import { Affirmation } from 'src/constants/QoL';
 import { UserState } from 'common/models/userState';
-import { DomainName } from 'src/constants/Domain';
+import { DomainName, SubdomainName } from 'src/constants/Domain';
 import { HourAndMinute } from 'common/utils/dateHelpers';
 import AppController from '.';
+import { shuffle } from 'common/utils/mathx';
 
 export class NotificationsController implements IDisposable {
 
@@ -33,7 +34,7 @@ export class NotificationsController implements IDisposable {
         this._userId = userId;
     }
 
-    public domainNames: DomainName[]; // only affirmations containing these domains will be scheduled
+    public domainAndSubdomainNames: (DomainName | SubdomainName)[]; // only affirmations containing these domains will be scheduled
 
     public scheduleTime: HourAndMinute; // the time of day the user wants to recieve a notification in miliseconds
 
@@ -112,7 +113,12 @@ export class NotificationsController implements IDisposable {
         if (this.notificationsEnabled) {
             let userState: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
             userState = await this.completeOpenedNotification(userState); // make sure nothing is leftover from old notifcations
-            const possibleAffirmations: Affirmation[] = await RepoFactory.Instance.affirmations.getByDomains(this.domainNames, false, userState.lastSeenAffirmations);
+
+            let possibleAffirmations: Affirmation[] = await RepoFactory.Instance.affirmations.getByDomains(
+                this.domainAndSubdomainNames,
+                this.allowBDMention,
+                userState.lastSeenAffirmations);
+            possibleAffirmations = shuffle(possibleAffirmations);
 
             const tomorrow = new Date()
             tomorrow.setDate(tomorrow.getDate() + 1);
@@ -123,8 +129,7 @@ export class NotificationsController implements IDisposable {
                 userState.lastSeenAffirmations[result.affirmation.id] = result.scheduledDate;
                 userState.scheduledAffirmations.push(result);
             });
-            console.log('userState.lastSeenAffirmations', userState.lastSeenAffirmations);
-            console.log('userState.scheduledAffirmations', userState.scheduledAffirmations);
+
             RepoFactory.Instance.userState.setByUserId(this._userId, userState);
         }
     }
@@ -134,10 +139,11 @@ export class NotificationsController implements IDisposable {
         if (!this._userId) throw new Error('no user id set');
         if (this.notificationsEnabled) {
             let userState: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
-            const possibleAffirmations: Affirmation[] = await RepoFactory.Instance.affirmations.getByDomains(this.domainNames, false, userState.lastSeenAffirmations);
+
+            let possibleAffirmations: Affirmation[] = await RepoFactory.Instance.affirmations.getByDomains(this.domainAndSubdomainNames, true, userState.lastSeenAffirmations);
+            possibleAffirmations = shuffle(possibleAffirmations);
 
             const now = new Date();
-            console.log('now', now.getTime())
 
             const scheduled = await this._service.scheduleAffirmationMessages(possibleAffirmations.slice(0, 1), now.getTime() + 10000, this.allowBDMention);
             scheduled.forEach((result) => {

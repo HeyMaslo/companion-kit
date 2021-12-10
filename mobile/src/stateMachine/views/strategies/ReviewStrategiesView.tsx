@@ -8,6 +8,7 @@ import Colors from '../../../constants/colors/Colors';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
 import { AlertExitWithoutSave } from 'src/constants/alerts';
+import AppController from 'src/controllers';
 
 @observer
 export class ReviewStrategiesView extends ViewState {
@@ -58,7 +59,10 @@ export class ReviewStrategiesView extends ViewState {
     this.trigger(ScenarioTriggers.Back);
   }
 
-  nextPage = () => {
+  async onCompleteDomainAndStraegyFlow() {
+    // Wait until the final confirmation button is pressed to schedule affirmation notifications
+    // Anywhere else in the flow the user can go back and change selected domains 
+    await AppController.Instance.User.notifications.scheduleTwentyEightAffirmationNotifications();
     this.trigger(ScenarioTriggers.Submit);
   }
 
@@ -88,7 +92,7 @@ export class ReviewStrategiesView extends ViewState {
       <MasloPage style={this.baseStyles.page} onBack={this.onBack} theme={this.theme}>
         <Container style={[{ height: this._contentHeight, paddingTop: 10 }]}>
           {this.renderInnerContent('Here are your focus strategies.', true)}
-          {this.showButton && <Button title='CONTINUE' style={styles.selectButton} onPress={this.nextPage} theme={this.theme} />}
+          {this.showButton && <Button title='CONTINUE' style={styles.selectButton} onPress={() => this.onCompleteDomainAndStraegyFlow()} theme={this.theme} />}
         </Container>
       </MasloPage>
     );

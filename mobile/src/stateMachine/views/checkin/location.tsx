@@ -65,7 +65,7 @@ export class LocationView extends CheckInViewBase {
             <MasloPage withDots dotLength={3} activeDot={1} onClose={this.onClose} style={this.baseStyles.page} theme={this.theme}>
                 <Container style={[this.baseStyles.container, this.baseStyles.flexBetween, { height: this._contentHeight }]}>
                     <View style={[this.baseStyles.textBlock, styles.textBlock]}>
-                        <Text style={[this.textStyles.h1, this.baseStyles.textCenter]}>{`And where are you \n right now?`}</Text>
+                        <Text style={[this.textStyles.h1, { textAlign: 'center' }]}>{`And where are you \n right now?`}</Text>
                     </View>
                     <View style={styles.locationSelect}>
                         <LocationsSelect model={locationSelect} />

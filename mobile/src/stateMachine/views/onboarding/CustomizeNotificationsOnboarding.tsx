@@ -1,42 +1,27 @@
-import { ViewState } from '../base';
+import { NotificationsOnboardingBaseView } from './NotificationsOnboardingBase';
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, View, ScrollView, Switch } from 'react-native';
-import { MasloPage, Container, Card, Button } from 'src/components';
-import { ScenarioTriggers, PersonaStates } from '../../abstractions';
-import { PushToast } from '../../toaster';
-import Layout from 'src/constants/Layout';
-import { PersonaViewPresets } from 'src/stateMachine/persona';
-import { PersonaScrollMask } from 'src/components/PersonaScollMask';
-import Images from 'src/constants/images';
-import AppViewModel from 'src/viewModels';
+import { StyleSheet, Text, View, ScrollView, Switch, Platform } from 'react-native';
+import { Card } from 'src/components';
+import { ScenarioTriggers } from '../../abstractions';
+import TextStyles from 'src/styles/TextStyles';
+import { DomainName } from 'src/constants/Domain';
+import { iconForDomain } from 'src/helpers/DomainHelper';
 
 @observer
-export class CustomizeNotificationsOnboardingView extends ViewState {
+export class CustomizeNotificationsOnboardingView extends NotificationsOnboardingBaseView {
 
   state = {
     firstDomainEnabled: false,
     secondDomainEnabled: false,
     thirdDomainEnabled: false,
-    BDMentionEnabled: false
-  }
-
-  constructor(props) {
-    super(props);
-    this._contentHeight = this.persona.setupContainerHeightForceScroll();
-  }
-
-  get viewModel() {
-    return AppViewModel.Instance.Settings.notifications;
   }
 
   async start() {
-    this.resetPersona(PersonaStates.Question, PersonaViewPresets.TopHalfOut);
-    this.viewModel.settingsSynced.on(this.onScheduleSynced);
+    super.start();
     this.viewModel.posssibleDomains.forEach((dom, index) => {
       this.setStateForIndex(index, this.viewModel.domainsForNotifications.includes(dom));
     })
-    this.setState({ BDMentionEnabled: this.viewModel.allowBDMention })
   }
 
   private stateForIndex(index: number): boolean {
@@ -65,122 +50,53 @@ export class CustomizeNotificationsOnboardingView extends ViewState {
     }
   }
 
-  componentWillUnmount() {
-    this.viewModel.settingsSynced.off(this.onScheduleSynced);
-  }
-
-  onScheduleSynced = () => {
-    PushToast({ text: 'Changes saved' });
-  }
-
   onBack = () => {
     this.viewModel.domainsForNotifications = this.viewModel.posssibleDomains.filter((dom, index) => this.stateForIndex(index));
-    this.viewModel.allowBDMention = this.state.BDMentionEnabled;
     this.trigger(ScenarioTriggers.Back)
   }
 
   onNext = () => {
     this.viewModel.domainsForNotifications = this.viewModel.posssibleDomains.filter((dom, index) => this.stateForIndex(index));
-    this.viewModel.allowBDMention = this.state.BDMentionEnabled;
     this.trigger(ScenarioTriggers.Next)
   }
 
-  renderContent() {
-    const titleText = 'Customize your notifications below:';
+  renderInnerContent(): JSX.Element {
+    const titleText = 'Customize target life area notifications';
     return (
-      <MasloPage style={this.baseStyles.page} theme={this.theme}>
-        <Container style={styles.topBarWrapWrap}>
-          <PersonaScrollMask />
-          <View style={styles.topBarWrap}>
-            <Button style={styles.backBtn} underlayColor='transparent' onPress={() => this.onBack()} theme={this.theme}>
-              <Images.backIcon width={28} height={14} />
-            </Button>
-          </View>
-        </Container>
-        <ScrollView style={[{ zIndex: 0, elevation: 0 }]}>
-          <Container style={[this.baseStyles.container, styles.container]}>
-            <Text style={[this.textStyles.h1, styles.title]}>{titleText}</Text>
-            {this.viewModel.posssibleDomains.map((dom, index) => {
-              return <Card
-                key={dom}
-                title={dom + ' Life Area'}
-                description={this.stateForIndex(index) ? 'On' : 'Off'}
-                style={{ marginBottom: 20, height: 100 }}
-                Image={Images.bellIcon}
-                theme={this.theme}
-              >
-                <Switch
-                  value={this.stateForIndex(index)}
-                  disabled={this.viewModel.isToggleInProgress}
-                  onValueChange={(enabled) => {
-                    this.setStateForIndex(index, enabled);
-                  }}
-                />
-              </Card>
-            })}
-            <Card
-              title='Include notifications that mention bipolar diagnosis'
-              description={this.state.BDMentionEnabled ? 'On' : 'Off'}
-              style={{ marginBottom: 20 }}
-              Image={Images.bellIcon}
-              theme={this.theme}
-            >
-              <Switch
-                value={this.state.BDMentionEnabled}
-                disabled={this.viewModel.isToggleInProgress}
-                onValueChange={(val) => this.setState({ BDMentionEnabled: val })}
-              />
-            </Card>
-            <View style={styles.buttonView}>
-              <Button
-                title='Continue'
-                onPress={this.onNext}
-                isTransparent
-                theme={this.theme}
-              />
-            </View>
-          </Container>
-        </ScrollView>
-      </MasloPage>
+      <>
+        <Text style={[TextStyles.h1, styles.title, { color: this.theme.colors.foreground }]}>{titleText}</Text>
+        {/* {this.viewModel.posssibleDomains.map((dom, index) => { */}
+        {/* // MK-TODO remove below and uncomment above after testing */}
+        {[DomainName.SLEEP].map((dom, index) => {
+          return <Card
+            key={dom}
+            title={dom + ' Life Area'}
+            description={this.stateForIndex(index) ? 'On' : 'Off'}
+            style={{ marginBottom: 20 }}
+            isTransparent
+            ImageElement={iconForDomain(dom, { width: 16, height: 16 }, this.theme.colors.highlight)}
+            theme={this.theme}
+          >
+            <Switch
+              value={this.stateForIndex(index)}
+              disabled={this.viewModel.isToggleInProgress}
+              onValueChange={(enabled) => {
+                this.setStateForIndex(index, enabled);
+              }}
+              thumbColor={Platform.OS == 'android' && this.theme.colors.highlight}
+              trackColor={Platform.OS == 'android' && { true: this.theme.colors.highlightSecondary }}
+            />
+          </Card>
+        })}
+        <Text style={[TextStyles.p1, { color: this.theme.colors.foreground, textAlign: 'center' }]}>If you turn on notifications, PolarUs will send you encouragement and tips for that life area.</Text>
+      </>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  topBarWrapWrap: {
-    position: 'absolute',
-    top: 0,
-    width: '100%',
-    zIndex: 2,
-    elevation: 2,
-  },
-  topBarWrap: {
-    position: 'relative',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    height: 72,
-    zIndex: 2,
-    elevation: 2,
-  },
-  backBtn: {
-    width: 52,
-    height: 52,
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-  },
-  container: {
-    minHeight: Layout.window.height,
-    paddingTop: Layout.getViewHeight(21),
-  },
   title: {
     marginBottom: 40,
     textAlign: 'center',
-  },
-  buttonView: {
-    alignContent: 'center',
-    alignItems: 'center',
-    padding: 5
-  },
+  }
 });

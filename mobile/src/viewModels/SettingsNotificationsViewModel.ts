@@ -3,7 +3,7 @@ import AppController from 'src/controllers';
 import { Alert, Linking } from 'react-native';
 import * as Links from 'src/constants/links';
 import { HourAndMinute } from 'common/utils/dateHelpers';
-import { DomainName } from 'src/constants/Domain';
+import { DomainName, SubdomainName } from 'src/constants/Domain';
 
 export class SettingsNotificationsViewModel {
 
@@ -17,12 +17,12 @@ export class SettingsNotificationsViewModel {
 
     private get originalIsEnabled() { return !!AppController.Instance.User?.notifications.notificationsEnabled; }
 
-    private _posssibleDomains: DomainName[] = [];
+    private _posssibleDomains: (DomainName | SubdomainName)[] = [];
 
     @observable
     public scheduledTime: HourAndMinute = AppController.Instance.User.localSettings.current.notifications.scheduledTime;
     @observable
-    public domainsForNotifications: DomainName[] = AppController.Instance.User.localSettings.current.notifications.domainsForNotifications;
+    public domainsForNotifications: (DomainName | SubdomainName)[] = AppController.Instance.User.localSettings.current.notifications.domainsForNotifications;
     @observable
     public allowBDMention: Boolean = AppController.Instance.User.localSettings.current.notifications.allowBDMention;
 
@@ -43,10 +43,10 @@ export class SettingsNotificationsViewModel {
         return 'Daily at ' + date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
     }
 
-    public setDomains(domains: DomainName[]) {
-        if (domains) {
-            this._posssibleDomains = domains;
-            this.domainsForNotifications = domains;
+    public setAllDomains(allDomains: (DomainName | SubdomainName)[]) {
+        if (allDomains) {
+            this._posssibleDomains = allDomains;
+            this.domainsForNotifications = allDomains;
         }
     }
 

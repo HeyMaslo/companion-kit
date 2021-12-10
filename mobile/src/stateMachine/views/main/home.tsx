@@ -22,8 +22,10 @@ import { getPersonaRadius, PersonaScale } from 'src/stateMachine/persona';
 import { Portal } from 'react-native-paper';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import AppController from 'src/controllers';
-import { DomainName } from 'src/constants/Domain';
+import { DomainName, SubdomainName } from 'src/constants/Domain';
 import { formatDateDayMonthYear } from 'common/utils/dateHelpers';
+import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
+import { PersonaArmState } from 'dependencies/persona/lib';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -58,9 +60,9 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
     async start() {
         this.persona.armsHidden = false;
-        await AppViewModel.Instance.QOL.init();
-        this.persona.qolArmMagnitudes = await this.viewModel.getArmMagnitudes();;
-        this.setState({ ...this.state, isUnfinishedQol: AppViewModel.Instance.QOL.isUnfinished });
+        await this.qolViewModel.init();
+        this.persona.qolArmMagnitudes = this.qolViewModel.qolArmMagnitudes();
+        this.setState({ ...this.state, isUnfinishedQol: this.qolViewModel.isUnfinished });
         Animated.timing(this.state.opacity, {
             toValue: 1,
             delay: isFirstLaunch ? 1000 : 50, // MK-TODO: - play with this delay and duration + see if instant render is possible
@@ -73,8 +75,9 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         // await AppViewModel.Instance.Domain.fetchSelectedDomains();
         // await AppViewModel.Instance.Strategy.fetchPossibleStrategies();
         // await AppViewModel.Instance.Strategy.fetchSelectedStrategies();
-        // AppViewModel.Instance.Settings.notifications.setDomains(AppViewModel.Instance.Domain.selectedDomains);
-        AppViewModel.Instance.Settings.notifications.setDomains([DomainName.SLEEP]);
+        // AppViewModel.Instance.Settings.notifications.setAllDomains(AppViewModel.Instance.Domain.selectedDomains);
+        //
+        AppViewModel.Instance.Settings.notifications.setAllDomains([DomainName.SLEEP]);
     }
 
     private checkNewLinkDoc = () => {
@@ -159,10 +162,10 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         this.trigger(ScenarioTriggers.Quinary);
     }
 
-    // used for development only and will be removed
+    // MK-TODO: - used for development only and will be removed
     async onTESTINGButton() {
         AppController.Instance.User.notifications.scheduleTime = { hour: 10, minute: 30 };
-        AppController.Instance.User.notifications.domainNames = [DomainName.SLEEP];
+        AppController.Instance.User.notifications.domainAndSubdomainNames = [DomainName.SLEEP, SubdomainName.DIETNUTRITION];
         await AppController.Instance.User.notifications.scheduleTESTINGAffirmationNotification();
         // await AppViewModel.Instance.QoLHistory.init();
         // this.trigger(ScenarioTriggers.TESTING);
@@ -379,12 +382,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
         return (
             <MasloPage style={this.baseStyles.page} theme={this.theme}>
-                <View style={{ flexDirection: 'row', justifyContent: 'center', position: 'absolute', top: 60, left: 0, right: 0 }}>
-                    <Text style={[this.textStyles.labelMedium, { color: this.theme.colors.midground }]}>{formatDateDayMonthYear(new Date())}</Text>
+                <View style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
+                    <Text style={[this.textStyles.labelMedium, { textAlign: 'center', color: this.theme.colors.midground }]}>{formatDateDayMonthYear(new Date())}</Text>
                 </View>
-                {/* Do we want this animated fade in every time, only on app open or not at all? */}
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
-                    {/* Portal component used to capture touch events on/above orb */}
+                    {/* Portal component used to capture touch events on or above orb */}
                     <Portal>
                         {Platform.OS == 'ios' ?
                             <Pressable onPress={this.onTapOrb} style={{ width: Layout.window.width, height: this.orbTapContainerHeight, zIndex: 9999 }}>

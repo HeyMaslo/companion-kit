@@ -1,8 +1,7 @@
 import AppController from 'src/controllers';
 import AppViewModel from 'src/viewModels';
 import * as Features from 'common/constants/features';
-
-import { NotificationTypes } from 'common/models/Notifications';
+import { Platform } from 'react-native';
 
 export class ScenarioViewModel {
 
@@ -33,8 +32,6 @@ export class ScenarioViewModel {
 
     public readonly userPreparing = () => AppController.Instance.User.initializing;
 
-    public readonly askNotifyPermissions = () => AppController.Instance.User && !AppController.Instance.User?.notifications.permissionsAsked;
-
     public readonly homeReady = () => !this.userPreparing() && this.userConfirmed();
 
     public readonly hasActiveOnboarding = () => process.appFeatures.MOBILE_ONBOARDING_ENABLED === true && this.userWithAccount() && AppController.Instance.User.onboardingDayIndex != null && !AppController.Instance.User.hasSeenOnboarding;
@@ -42,13 +39,8 @@ export class ScenarioViewModel {
     public readonly showNewReward = () => process.appFeatures.CLIENT_REWARDS_ENABLED === true && AppViewModel.Instance.CreateCheckIn.beforeSubmitState?.rewardLevel < AppController.Instance.User.rewards?.level;
 
     // NOTIFICATIONS
-    // private readonly _canReactOnNotification = () => !AppViewModel.Instance.CreateCheckIn.inProgress;
-    public readonly notificationReceived = () => this.homeReady();
-
-    // private readonly _notificationType = (...types: NotificationTypes[]) => this._canReactOnNotification() && types.includes(this._currentNotification?.type);
-    // public readonly openCreateJournal = () => this._notificationType(NotificationTypes.Retention, NotificationTypes.CustomPrompt, NotificationTypes.TriggerPhrase);
-    // public readonly openGoals = () => this._notificationType(NotificationTypes.NewGoals);
-    // public readonly openAssessmentForm = () => notificationOpened(NotificationTypes.Assessment);
+    public readonly notificationReceived = () => this.homeReady(); // this may need more checks
+    public readonly askNotifyPermissions = () => Platform.OS != 'android' && AppController.Instance.User && !AppController.Instance.User?.notifications.permissionsGranted && !AppController.Instance.User?.notifications.permissionsAsked;
 
     public readonly showConsent = () => process.appFeatures.MOBILE_SHOW_CONSENT === true && this.userConfirmed() && !AppController.Instance.User.user?.client?.consentAccepted;
     public readonly showAssessment = () => process.appFeatures.ASSESSMENTS_ENABLED === true && this.userWithAccount() && !!AppController.Instance.User.assessments.nextFormTypeAvailable;

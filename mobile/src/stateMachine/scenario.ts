@@ -34,6 +34,9 @@ import { FeelingsView } from './views/checkin/feelings';
 import { GoalsView } from './views/main/goals';
 import { RewardsView } from './views/rewardsView';
 import { RecordPitureCheckinView } from './views/checkin/recordPictureCheckIn';
+import { CustomizeNotificationsOnboardingView } from './views/onboarding/CustomizeNotificationsOnboarding';
+import { ReviewNotificationsOnboardingView } from './views/onboarding/ReviewNotificationsOnboarding';
+import { BDMentionNotificationsOnboardingView } from './views/onboarding/BDMentionNotificationsOnboarding';
 import { ViewAffirmationView } from './views/ViewAffirmation'
 
 import { ChooseDomainView } from './views/lifeDomains/chooseDomain';
@@ -160,11 +163,27 @@ export const MasloScenario: GlobalScenario<States> = {
         ],
     },
 
-    [States.AskNotificationsPermissions]: {
-        view: NotificationsPermissionView,
+    [States.CustomizeNotificationsOnboarding]: {
+        view: CustomizeNotificationsOnboardingView, // NotificationsPermissionView,
         exit: [
-            { target: States.HomeRouter, trigger: Triggers.Submit },
-            { target: States.HomeRouter, trigger: Triggers.Submit },
+            { target: States.BDMentionNotifcationsOnboarding, trigger: Triggers.Next },
+            { target: States.Home, trigger: Triggers.Back },
+        ],
+    },
+
+    [States.BDMentionNotifcationsOnboarding]: {
+        view: BDMentionNotificationsOnboardingView,
+        exit: [
+            { target: States.CustomizeNotificationsOnboarding, trigger: Triggers.Back },
+            { target: States.ReviewNotifcationsOnboarding, trigger: Triggers.Next },
+        ],
+    },
+
+    [States.ReviewNotifcationsOnboarding]: {
+        view: ReviewNotificationsOnboardingView,
+        exit: [
+            { target: States.BDMentionNotifcationsOnboarding, trigger: Triggers.Back },
+            { target: States.HomeRouter, trigger: Triggers.Next },
         ],
     },
 
@@ -176,7 +195,7 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { priority: 0, target: States.Consent, condition: VM.showConsent },
             { priority: 1, target: States.OnboardingEnter, condition: VM.hasActiveOnboarding },
-            { priority: 2, target: States.AskNotificationsPermissions, condition: VM.askNotifyPermissions },
+            { priority: 2, target: States.CustomizeNotificationsOnboarding, condition: () => true}, // VM.askNotifyPermissions },
             { priority: 4, target: States.IntakeForm, condition: VM.showAssessment },
             { priority: 5, target: States.StartQol, condition: VM.showQol },
             { priority: 10, target: States.Home, condition: () => true },

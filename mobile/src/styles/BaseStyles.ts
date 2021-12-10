@@ -1,42 +1,28 @@
-import { StyleSheet, Platform } from 'react-native';
-import { hasNotch } from 'src/constants/devices';
+import { StyleSheet } from 'react-native';
 import Layout from 'src/constants/Layout';
-import TextStylesBase, { mainFontLight, mainFontMedium, mainFontThin } from './TextStyles';
+import TextStylesBase from './TextStyles';
 
 export const TextStyles = TextStylesBase;
-export const notch = hasNotch();
+
 export const layout = Layout;
-const android = Platform.OS === 'android';
 
 const BaseStyles = StyleSheet.create({
-    top25: {
-        paddingTop: layout.getViewHeight(25),
-    },
-    top25FixedHeight: {
-        height: layout.getViewHeight(75),
-        paddingBottom: notch && !android ? 34 : 20,
-    },
     top43: {
         paddingTop: layout.getViewHeight(43),
     },
     top43FixedHeight: {
         height: layout.getViewHeight(57),
-        paddingBottom: notch && !android ? 34 : 20,
-    },
-    top51: {
-        paddingTop: layout.getViewHeight(51),
-    },
-    top51FixedHeight: {
-        height: layout.getViewHeight(49),
-        paddingBottom: notch && !android ? 34 : 20,
+        // paddingBottom: notch && !android ? 34 : 20,
+        paddingBottom: 20,
     },
     page: {
-        height: layout.window.height,
+        // height: layout.window.height, MK-TODO: - this is gonna mess a lot of stuff up
         justifyContent: 'flex-end',
     },
     container: {
         paddingTop: 20,
-        paddingBottom: notch && !android ? 34 : 20,
+        // paddingBottom: notch && !android ? 34 : 20,
+        // paddingBottom: 20,
     },
     flexStart: {
         display: 'flex',
@@ -98,9 +84,9 @@ const BaseStyles = StyleSheet.create({
         position: 'absolute',
         zIndex: 10,
         elevation: 10,
-        top: 2,
+        top: 0,
         right: 12,
-        height: 44,
+        height: 20,
         width: 44,
         justifyContent: 'center',
         alignItems: 'center',
@@ -108,8 +94,8 @@ const BaseStyles = StyleSheet.create({
     back: {
         position: 'absolute',
         width: 44,
-        height: 44,
-        top: 2,
+        height: 20,
+        top: 0,
         left: 12,
         zIndex: 10,
         elevation: 10,
@@ -124,9 +110,6 @@ const BaseStyles = StyleSheet.create({
         width: '100%',
         height: '100%',
         justifyContent: 'center',
-    },
-    textCenter: {
-        textAlign: 'center',
     },
     // card styles
     card: {
@@ -144,16 +127,9 @@ const BaseStyles = StyleSheet.create({
         paddingLeft: 16,
         paddingRight: 20,
     },
-    cardImage: {
-        marginRight: 16,
-    },
-    cardTextBlock: {
-        flex: 1,
-    },
     cardTitle: {
         ...TextStyles.p2,
         lineHeight: 24,
-        marginBottom: 2,
     },
 });
 

@@ -35,7 +35,9 @@ export enum States {
     JournalDetail,
 
     OnboardingEnter,
-    AskNotificationsPermissions,
+    CustomizeNotificationsOnboarding,
+    BDMentionNotifcationsOnboarding,
+    ReviewNotifcationsOnboarding,
 
     // Create Journal Block
     Journal_SelectMood,

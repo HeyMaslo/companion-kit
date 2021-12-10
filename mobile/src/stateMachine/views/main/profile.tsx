@@ -15,7 +15,6 @@ import BottomBar from 'src/screens/components/BottomBar';
 import Localization from 'src/services/localization';
 import Images from 'src/constants/images';
 
-import { notch } from 'src/styles/BaseStyles';
 import { PersonaScrollMask } from 'src/components/PersonaScollMask';
 import { RewardsInfoBlock } from 'src/components/RewardsInfoBlock';
 import { ConcentricCirclesStyles } from 'src/components/ConcentricCircles';
@@ -238,7 +237,7 @@ const styles = StyleSheet.create({
     topBlock: {
         flexDirection: 'column',
         alignItems: 'center',
-        marginTop: !notch ? 156 : 170,
+        marginTop: 156,
         marginBottom: 32,
     },
     name: {

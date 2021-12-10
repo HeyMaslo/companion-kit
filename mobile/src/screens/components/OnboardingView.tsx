@@ -39,7 +39,7 @@ export default function OnboardingView(props: Props) {
     ), [stepIndex]);
 
     return (
-        <MasloPage onClose={onClose} style={BaseStyles.page} theme={this.theme}>
+        <MasloPage onClose={onClose} style={{ justifyContent: 'flex-end' }} theme={this.theme}>
             <Container style={[BaseStyles.container, BaseStyles.flexBetween, { height: contentHeight }]}>
                 {!!totalCount &&
                     <ProgressBarCircleGradient
@@ -52,7 +52,7 @@ export default function OnboardingView(props: Props) {
                 }
                 <View style={BaseStyles.textBlock}>
                     <Text style={[TextStyles.h1, styles.title]}>{title}</Text>
-                    <Text style={[TextStyles.p1, BaseStyles.textCenter, { color: Colors.secondarySubtitle }]}>{description}</Text>
+                    <Text style={[TextStyles.p1, { textAlign: 'center', color: Colors.secondarySubtitle }]}>{description}</Text>
                 </View>
                 <View style={BaseStyles.buttonsBlock}>
                     {secondaryButton !== null &&

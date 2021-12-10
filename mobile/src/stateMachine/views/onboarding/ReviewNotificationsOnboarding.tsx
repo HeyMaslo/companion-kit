@@ -1,41 +1,22 @@
-import { ViewState } from '../base';
+import { NotificationsOnboardingBaseView } from './NotificationsOnboardingBase';
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, View, ScrollView, Switch } from 'react-native';
-import { MasloPage, Container, Card, Button } from 'src/components';
-import Colors from 'src/constants/colors';
-import { ScenarioTriggers, PersonaStates } from '../../abstractions';
-import { PushToast } from '../../toaster';
-import Layout from 'src/constants/Layout';
-import { PersonaViewPresets } from 'src/stateMachine/persona';
-import { PersonaScrollMask } from 'src/components/PersonaScollMask';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { ScenarioTriggers } from '../../abstractions';
 import Images from 'src/constants/images';
-import AppViewModel from 'src/viewModels';
+import TextStyles from 'src/styles/TextStyles';
+import { iconForDomain } from 'src/helpers/DomainHelper';
+import { DomainName } from 'src/constants/Domain';
 
 @observer
-export class ReviewNotificationsOnboarding extends ViewState {
+export class ReviewNotificationsOnboardingView extends NotificationsOnboardingBaseView {
 
+  // MK-TODO: - remove after testing
   constructor(props) {
     super(props);
-    this._contentHeight = this.persona.setupContainerHeightForceScroll();
+    this.viewModel.domainsForNotifications = [DomainName.SLEEP, DomainName.PHYSICAL, DomainName.MONEY];
   }
-
-  get viewModel() {
-    return AppViewModel.Instance.Settings.notifications;
-  }
-
-  async start() {
-    this.resetPersona(PersonaStates.Question, PersonaViewPresets.TopHalfOut);
-    this.viewModel.settingsSynced.on(this.onScheduleSynced);
-  }
-
-  componentWillUnmount() {
-    this.viewModel.settingsSynced.off(this.onScheduleSynced);
-  }
-
-  onScheduleSynced = () => {
-    PushToast({ text: 'Changes saved' });
-  }
+  //
 
   onBack = () => {
     this.trigger(ScenarioTriggers.Back)
@@ -45,83 +26,63 @@ export class ReviewNotificationsOnboarding extends ViewState {
     this.trigger(ScenarioTriggers.Next)
   }
 
-  renderContent() {
-    const titleText = 'Notification preferences';
+  renderListItem = ({ item }) => (
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 15 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', width: '85%' }}>
+        {iconForDomain(item, { marginHorizontal: 20 }, this.theme.colors.highlight)}
+        <Text style={this.textStyles.p2}>{item}</Text>
+        <View style={[styles.checkbox, { borderColor: this.theme.colors.highlight, ...styles.checkboxChecked, backgroundColor: this.theme.colors.highlight, display: 'flex', marginLeft: 'auto' }]}>
+          {<Images.radioChecked width={8} height={6} fill={this.theme.colors.highlight} />}
+        </View>
+      </View>
+    </View>
+  );
+
+  renderInnerContent(): JSX.Element {
+    const titleText = 'Notification Preferences';
+    const contentTextStyle = [TextStyles.p1, { color: this.theme.colors.foreground }];
     return (
-      <MasloPage style={this.baseStyles.page} theme={this.theme}>
-        <Container style={styles.topBarWrapWrap}>
-          <PersonaScrollMask />
-          <View style={styles.topBarWrap}>
-            <Button style={styles.backBtn} underlayColor='transparent' onPress={() => this.onBack()} theme={this.theme}>
-              <Images.backIcon width={28} height={14} />
-            </Button>
+      <>
+        <Text style={[TextStyles.h1, styles.title, { color: this.theme.colors.foreground }]}>{titleText}</Text>
+        <Text style={[TextStyles.p1, { textAlign: 'center', color: this.theme.colors.midground, marginBottom: 20 }]}>You can change these at any time in settings.</Text>
+        <View style={{ flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', height: '52%' }}>
+          <View>
+            <Text style={[contentTextStyle, { marginBottom: 10 }]}>Allow notifications for</Text>
+            <FlatList style={{ flexGrow: 0 }}
+              data={this.viewModel.domainsForNotifications}
+              renderItem={this.renderListItem}
+              keyExtractor={item => item} />
           </View>
-        </Container>
-        <ScrollView style={[{ zIndex: 0, elevation: 0 }]}>
-          <Container style={[this.baseStyles.container, styles.container]}>
-            <Text style={[this.textStyles.h1, styles.title]}>{titleText}</Text>
-            <Text>You can change these at any time in settings.</Text>
-            <View style={styles.buttonView}>
-              <Button
-                title='Continue'
-                onPress={this.onNext}
-                isTransparent
-                theme={this.theme}
-              />
-            </View>
-          </Container>
-        </ScrollView>
-      </MasloPage>
+          <Text style={[contentTextStyle, { alignSelf: 'flex-start' }]}>Notification time:  {this.viewModel.scheduleTimeString}</Text>
+          <Text style={contentTextStyle}>You will be{!this.viewModel.allowBDMention && ' not'} sent notifications that mention bipolar.</Text>
+        </View>
+      </>
     );
   }
 }
 
+const checkboxSize = 24;
 const styles = StyleSheet.create({
-  topBarWrapWrap: {
-    position: 'absolute',
-    top: 0,
-    width: '100%',
-    zIndex: 2,
-    elevation: 2,
-  },
-  topBarWrap: {
-    position: 'relative',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    height: 72,
-    zIndex: 2,
-    elevation: 2,
-  },
-  backBtn: {
-    width: 52,
-    height: 52,
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-  },
-  container: {
-    minHeight: Layout.window.height,
-    paddingTop: Layout.getViewHeight(21),
-  },
   title: {
     marginBottom: 40,
     textAlign: 'center',
   },
-  buttonView: {
-    alignContent: 'center',
+  checkbox: {
+    height: checkboxSize,
+    width: checkboxSize,
+    borderRadius: checkboxSize / 2,
+    borderWidth: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    padding: 5
+    backgroundColor: 'transparent',
+    flexShrink: 0,
   },
-  insturctionsButton: {
-    width: '80%',
-    height: 50,
-    borderColor: 'grey',
-    borderWidth: 0.25,
-    backgroundColor: 'white',
-    padding: 5
+  checkboxChecked: {
+    borderWidth: 0,
   },
-  insturctionsButtonTitle: {
-    color: Colors.welcome.mailButton.title,
-  },
+  centerFlexColumn: {
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  }
 });

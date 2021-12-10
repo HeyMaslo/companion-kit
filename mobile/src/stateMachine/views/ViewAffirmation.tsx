@@ -6,8 +6,7 @@ import { StyleSheet, Text } from 'react-native';
 import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../abstractions';
 import AppController from 'src/controllers';
-
-const minContentHeight = 460;
+import { observable } from 'mobx';
 
 @observer
 export class ViewAffirmationView extends ViewState {
@@ -15,11 +14,12 @@ export class ViewAffirmationView extends ViewState {
   private get notificationsController() {
     return AppController.Instance.User.notifications;
   }
+  @observable
   private currentNotification: NotificationRequest = this.notificationsController.openedNotification;
 
   constructor(props) {
     super(props);
-    this._contentHeight = this.persona.setupContainerHeight(minContentHeight);
+    this._contentHeight = this.persona.setupContainerHeightForceScroll();
   }
 
   async start() {
@@ -41,9 +41,9 @@ export class ViewAffirmationView extends ViewState {
 
     return (
       <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} theme={this.theme}>
-        <Container style={[styles.container, { height: this._contentHeight }]}>
-          <Text style={[this.textStyles.h1, styles.title]}>{title}</Text>
-          <Text style={[this.textStyles.p1, styles.message]}>{privateBody}</Text>
+        <Container style={[this.baseStyles.container, styles.container]}>
+          <Text style={[this.textStyles.h1, styles.title, { color: this.theme.colors.foreground }]}>{title}</Text>
+          <Text style={[this.textStyles.p1, styles.message, { color: this.theme.colors.foreground }]}>{privateBody}</Text>
         </Container>
       </MasloPage>
     );
@@ -52,8 +52,10 @@ export class ViewAffirmationView extends ViewState {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: '30%',
-    alignItems: 'center'
+    flexDirection: 'column',
+    flex: 1,
+    alignItems: 'center',
+    paddingTop: '25%',
   },
   title: {
     justifyContent: 'center',

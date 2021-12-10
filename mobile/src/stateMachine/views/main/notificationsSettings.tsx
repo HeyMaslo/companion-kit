@@ -1,19 +1,17 @@
 import { ViewState } from '../base';
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, View, ScrollView, Switch } from 'react-native';
-import { MasloPage, Container, Checkbox, Card, Button } from 'src/components';
+import { StyleSheet, Text, View, ScrollView, Switch, Platform } from 'react-native';
+import { MasloPage, Container, Card, Button } from 'src/components';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import Colors from 'src/constants/colors';
 import { ScenarioTriggers, PersonaStates } from '../../abstractions';
-import Layout from 'src/constants/Layout';
 import { PersonaViewPresets } from 'src/stateMachine/persona';
-import { PersonaScrollMask } from 'src/components/PersonaScollMask';
 import Images from 'src/constants/images';
 import AppViewModel from 'src/viewModels';
 
 @observer
 export class NotificationsSettingsView extends ViewState {
+
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeightForceScroll();
@@ -26,8 +24,6 @@ export class NotificationsSettingsView extends ViewState {
     get viewModel() {
         return AppViewModel.Instance.Settings.notifications;
     }
-
-    protected get unbreakable() { return false; }
 
     async start() {
         this.resetPersona(PersonaStates.Question, PersonaViewPresets.TopHalfOut);
@@ -59,60 +55,54 @@ export class NotificationsSettingsView extends ViewState {
         const { showDatePicker } = this.state;
         const notificationsEnabled = this.viewModel.isEnabled && !this.viewModel.isToggleInProgress;
         const titleText = notificationsEnabled ? 'When do you want to be notified?' : 'Do you want to recieve notifications?';
-        const desc = 'Life Area \u0026 Diagnosis';
+        const desc = 'Life Area \u0026 Diagnosis'; // \u0026 is &
 
         return (
-            <MasloPage style={this.baseStyles.page} theme={this.theme}>
-                <Container style={styles.topBarWrapWrap}>
-                    <PersonaScrollMask />
-                    <View style={styles.topBarWrap}>
-                        <Button style={styles.backBtn} underlayColor='transparent' onPress={() => this.trigger(ScenarioTriggers.Back)} theme={this.theme}>
-                            <Images.backIcon width={28} height={14} />
-                        </Button>
-                    </View>
-                </Container>
-                <ScrollView style={[{ zIndex: 0, elevation: 0 }]}>
-                    <Container style={[this.baseStyles.container, styles.container]}>
-                        <Text style={[this.textStyles.h1, styles.title]}>{titleText}</Text>
-                        <Card
-                            title='Notifications'
-                            description={notificationsEnabled ? this.viewModel.scheduleTimeString : 'Off'}
-                            style={{ marginBottom: 20 }}
-                            theme={this.theme}
-                        >
-                            <Switch
-                                value={this.viewModel.isEnabled}
-                                disabled={this.viewModel.isToggleInProgress}
-                                onValueChange={this.viewModel.toggleEnabledState}
+            <MasloPage style={this.baseStyles.page} onBack={() => this.trigger(ScenarioTriggers.Back)} theme={this.theme}>
+                <Container style={[this.baseStyles.container, { flexDirection: 'column', flex: 1, }]}>
+                    <Text style={[this.textStyles.h1, styles.title]}>{titleText}</Text>
+                    <Card
+                        title='Notifications'
+                        description={notificationsEnabled ? this.viewModel.scheduleTimeString : 'Off'}
+                        style={{ marginBottom: 20 }}
+                        theme={this.theme}
+                        isTransparent
+                    >
+                        <Switch
+                            value={this.viewModel.isEnabled}
+                            disabled={this.viewModel.isToggleInProgress}
+                            onValueChange={this.viewModel.toggleEnabledState}
+                            thumbColor={Platform.OS == 'android' && this.theme.colors.highlight}
+                            trackColor={Platform.OS == 'android' && { true: this.theme.colors.highlightSecondary }}
+                        />
+                    </Card>
+                    {notificationsEnabled && (
+                        <>
+                            <Card
+                                title='Customize Notifications'
+                                description={desc}
+                                onPress={() => this.trigger(ScenarioTriggers.Next)}
+                                theme={this.theme}
+                                isTransparent
+                            >
+                            </Card>
+                            <Card
+                                title='Edit Notification Schedule'
+                                description={'Choose the time of day'}
+                                onPress={() => this.setState({ showDatePicker: true })}
+                                theme={this.theme}
+                                isTransparent
                             />
-                        </Card>
-                        {notificationsEnabled && (
-                            <>
-                                <Card
-                                    title='Customize Notifications'
-                                    description={desc}
-                                    onPress={() => this.trigger(ScenarioTriggers.Next)}
-                                    theme={this.theme}
-                                >
-                                </Card>
-                                <Card
-                                    title='Edit Notification Schedule'
-                                    description={'Choose the time of day'}
-                                    onPress={() => this.setState({ showDatePicker: true })}
-                                    theme={this.theme}
-                                />
-                                <DateTimePicker
-                                    isVisible={showDatePicker}
-                                    onConfirm={this.setDate}
-                                    onCancel={this.closeDatePicker}
-                                    mode='time'
-                                // TODO test Android
-                                // isDarkModeEnabled={Appearance.getColorScheme() === 'dark'}
-                                />
-                            </>
-                        )}
-                    </Container>
-                </ScrollView>
+                            <DateTimePicker
+                                isVisible={showDatePicker}
+                                onConfirm={this.setDate}
+                                onCancel={this.closeDatePicker}
+                                mode='time'
+                                isDarkModeEnabled={false} // by defulat the picker will match the user's light/dark mode; our app is lightly themed so we'll only use the light version
+                            />
+                        </>
+                    )}
+                </Container>
             </MasloPage>
         );
     }
@@ -141,10 +131,6 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         justifyContent: 'center',
         backgroundColor: 'transparent',
-    },
-    container: {
-        minHeight: Layout.window.height,
-        paddingTop: Layout.getViewHeight(21),
     },
     title: {
         marginBottom: 40,

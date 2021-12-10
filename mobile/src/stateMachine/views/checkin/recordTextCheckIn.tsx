@@ -153,7 +153,7 @@ export class TextRecordView extends CheckInViewBase {
                             <View style={[this.baseStyles.textBlock, styles.textBlock]}>
                                 <Text style={[
                                     this.textStyles.h1,
-                                    this.baseStyles.textCenter,
+                                    { textAlign: 'center' },
                                     { fontSize: this._questionFontSize(this.textStyles.h1.fontSize, 23), lineHeight: this._questionFontSize(this.textStyles.h1.lineHeight, 27) }]}
                                 >
                                     {this.viewModel.question}

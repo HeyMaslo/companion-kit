@@ -23,7 +23,6 @@ export function StateMachine(this: never, props: Props) {
 
     const onActiveChanged = React.useCallback((active: boolean) => {
         logger.log('Scenario Runner changed active state:', active);
-        logger.log('THEME:', viewContext.theme);
 
         setRunning(active);
     }, []);
