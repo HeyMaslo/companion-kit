@@ -2,7 +2,7 @@ import { ViewState } from '../base';
 import React from 'react';
 import ExpoConstants from 'expo-constants';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Platform } from 'react-native';
 import Colors from 'src/constants/colors';
 import { MasloPage, Container, Button, Card, Link } from 'src/components';
 import AppViewModel from 'src/viewModels';
@@ -58,6 +58,10 @@ export class SettingsView extends ViewState {
         this.trigger(ScenarioTriggers.Submit);
     }
 
+    private onHealthPermissionsChange = () => {
+        this.trigger(ScenarioTriggers.Secondary);
+    }
+
     private onEmailChange = () => {
         // this.trigger(ScenarioTriggers.Primary);
     }
@@ -70,7 +74,7 @@ export class SettingsView extends ViewState {
         const { feedback, terms, privacy } = Localization.Current.MobileProject.links;
         return (
             <Text style={this.textStyles.p4}>
-                { !!feedback ? (
+                {!!feedback ? (
                     <>
                         Send
                         <Link link={feedback}> Feedback, </Link>
@@ -79,7 +83,7 @@ export class SettingsView extends ViewState {
                 <Text style={feedback ? null : { textTransform: 'capitalize' }}>
                     read
                 </Text>
-                { !!terms ? (
+                {!!terms ? (
                     <>
                         <Link link={terms}> Terms <Text style={{ textTransform: 'lowercase' }}>of</Text> Service </Link>
                         or
@@ -105,7 +109,7 @@ export class SettingsView extends ViewState {
                     <PersonaScrollMask />
                     {!process.appFeatures.GOALS_ENABLED &&
                         <View style={styles.topBarWrap}>
-                            <Button style={styles.backBtn} underlayColor="transparent" onPress={() => this.trigger(ScenarioTriggers.Back)}>
+                            <Button style={styles.backBtn} underlayColor='transparent' onPress={() => this.trigger(ScenarioTriggers.Back)}>
                                 <Images.backIcon width={28} height={14} />
                             </Button>
                         </View>
@@ -114,7 +118,7 @@ export class SettingsView extends ViewState {
                 <ScrollView style={[{ zIndex: 0, elevation: 0 }]}>
                     <Container style={[this.baseStyles.container, styles.container]}>
                         <Text style={[this.textStyles.h1, styles.title]}>What do you need help with?</Text>
-                        { AppController.Instance.version.hasNext ? (
+                        {AppController.Instance.version.hasNext ? (
                             <Button
                                 style={styles.updateButton}
                                 onPress={AppController.Instance.version.update}
@@ -132,7 +136,7 @@ export class SettingsView extends ViewState {
                             >
                                 {/* <Images.arrowRight width={8} height={8} /> */}
                             </Card>
-                            { this.model.disablePassword ? null : (
+                            {this.model.disablePassword ? null : (
                                 <Card
                                     title={'Password'}
                                     description={this.model.needsCreatePassword ? 'Create password' : 'Change your password'}
@@ -150,10 +154,19 @@ export class SettingsView extends ViewState {
                             >
                                 <Images.arrowRight width={8} height={8} />
                             </Card>
+                            <Card
+                                title={'Health Data'}
+                                description={'Learn more'}
+                                Image={Images.archiveIcon}
+                                onPress={this.onHealthPermissionsChange}
+                            >
+                                <Images.arrowRight width={8} height={8} />
+                            </Card>
+
                         </View>
                         <View style={[this.baseStyles.flexCenterBottom, styles.bottomBlock]}>
                             <Button
-                                title="logout"
+                                title='logout'
                                 withBorder
                                 isTransparent
                                 onPress={this.logout}

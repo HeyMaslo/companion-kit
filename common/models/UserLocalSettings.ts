@@ -7,6 +7,7 @@ export type UserLocalSettings = {
     deviceInfo?: DeviceInfo;
 
     notifications?: NotificationsSettings;
+    healthPermissions?: HealthPermissionsSettings;
     qol?: QolSettings;
     lastDailyCheckIn?: string;
 };
@@ -16,6 +17,11 @@ export type NotificationsSettings = {
     enabled?: boolean,
     token?: string,
     locals?: LocalNotificationsSchedule,
+};
+
+export type HealthPermissionsSettings = {
+    enabledAndroid?: boolean,
+    seenPermissionPromptIOS?: boolean,
 };
 
 export type QolSettings = {
@@ -36,7 +42,6 @@ export type LocalNotificationsSchedule = {
 export type DeviceInfo = {
     platform: string,
     platformVersion: string | number,
-    modelName: string,
     isStandaloneDevice: boolean,
 };
 

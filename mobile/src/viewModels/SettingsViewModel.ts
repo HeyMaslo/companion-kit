@@ -1,10 +1,12 @@
 import AppController from 'src/controllers';
 import { SettingsNotificationsViewModel } from './SettingsNotificationsViewModel';
+import { HealthPermissionsViewModel } from './HealthPermissionsViewModel';
 import { AuthProviders } from 'common/abstractions/controlllers/IAuthController';
 
 export default class SettingsViewModel {
 
     public readonly notifications = new SettingsNotificationsViewModel();
+    public readonly healthAuth = new HealthPermissionsViewModel();
 
     get authProvider() {
         return AppController.Instance.Auth.authUser

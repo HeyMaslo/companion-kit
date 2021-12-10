@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, ScrollView, ActivityIndicator, View, Animated, GestureResponderEvent, TouchableNativeFeedback, Platform, Pressable } from 'react-native';
+import { StyleSheet, Text, ScrollView, ActivityIndicator, View, Animated, GestureResponderEvent, TouchableNativeFeedback, Platform, Pressable, TouchableOpacity } from 'react-native';
 import TextStyles from 'src/styles/TextStyles';
 import Colors from 'src/constants/colors';
 import { Container, MasloPage, Placeholder, Button } from 'src/components';
@@ -19,6 +19,8 @@ import { TransitionObserver } from 'common/utils/transitionObserver';
 import { UserProfileName } from 'src/screens/components/UserProfileName';
 import AppViewModel from 'src/viewModels';
 import { QolSurveyType } from 'src/constants/QoL';
+import Images from 'src/constants/images';
+import AppController from 'src/controllers';
 import { getPersonaRadius, PersonaScale } from 'src/stateMachine/persona';
 import { Portal } from 'react-native-paper';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
@@ -33,6 +35,9 @@ let isFirstLaunch = true;
 export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQol: boolean }> {
 
     private _linkDocModalShown = true;
+    private get healthPermissionsEnabled() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabled; };
+
+
     private ordRadius = getPersonaRadius();
     private orbTapContainerHeight = 0;
     state = {
@@ -142,6 +147,10 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         this.trigger(ScenarioTriggers.Tertiary);
     }
 
+    private onHealthSettings = () => {
+        this.trigger(ScenarioTriggers.Quinary);
+    }
+    
     private onShortQol = () => {
         this.qolViewModel.setQolSurveyType = QolSurveyType.Short;
         this.trigger(ScenarioTriggers.Tertiary);
@@ -276,11 +285,12 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         }
     }
 
-    private getTitle() {
-        const {
-            today,
-            tips,
-        } = this.viewModel;
+    private getCenterElement() {
+        if (this.showHealthPermissionCard()) {
+            return this.getHealth();
+        }
+
+        const { today, tips } = this.viewModel;
 
         return (
             <>
@@ -307,6 +317,29 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
             </>
         );
     }
+
+    private showHealthPermissionCard() {
+        return Platform.OS == 'ios' && !this.healthPermissionsEnabled;
+    }
+
+    private getHealth() {
+        return (
+            <>
+                {this.showHealthPermissionCard() && (
+                    <TouchableOpacity style={styles.healthView} onPress={this.onHealthSettings}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingTop: 15 }}>
+                            <Text style={this.textStyles.p1}>Polarus needs access to {"\n"}your health data.</Text>
+                            <Images.healthHeart height={this.textStyles.p1.fontSize * 2.5} />
+                        </View>
+                        <View style={{ flexDirection: 'row', paddingTop: 10, paddingLeft: 20, paddingBottom: 10, alignItems: 'center' }}>
+                            <Images.settingsIcon style={{ margin: 10 }} />
+                            <Text style={[this.textStyles.p3, { color: 'red' }]}>Change Settings</Text>
+                        </View>
+                    </TouchableOpacity>
+                )}
+            </>
+        );
+    };
 
     private getCheckinsList() {
         const { checkIns } = this.viewModel;
@@ -353,10 +386,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     }
 
     renderContent() {
-        const {
-            loading,
-        } = this.viewModel;
-
+        const { loading } = this.viewModel;
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: Colors.home.bg }]}>
                 <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
@@ -377,7 +407,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                         <Button title='Domains' style={styles.testingButton} onPress={() => this.onStartDomains()} />
                         <Button title='History' style={styles.testingButton} onPress={() => this.onTESTINGButton()} />
                     </View>
-                    {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getTitle()}
+                    {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getCenterElement()}
                     {loading
                         ? <ActivityIndicator size='large' />
                         : this.getCheckinsList()
@@ -431,6 +461,22 @@ const styles = StyleSheet.create({
     newLinkMsg: {
         paddingHorizontal: 5,
         textAlign: 'center',
+    },
+    health: {
+        width: '80%',
+        height: 30,
+        borderColor: Colors.welcome.mailButton.border,
+        borderWidth: 1,
+        justifyContent: 'center'
+    },
+    healthView: {
+        width: '90%',
+        borderWidth: 2,
+        marginBottom: '10%',
+        alignSelf: 'center',
+        borderRadius: 7,
+        borderColor: 'red',
+        backgroundColor: 'white'
     },
     testingButton: {
         width: '30%',

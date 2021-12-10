@@ -1,14 +1,12 @@
 import { Platform } from 'react-native';
 import ExpoConstants, { AppOwnership } from 'expo-constants';
-import * as Device from 'expo-device';
 import { observable, toJS, transaction } from 'mobx';
-import { UserLocalSettings, NotificationsSettings, DeviceInfo, LocalNotificationsSchedule, QolSettings } from 'common/models';
+import { UserLocalSettings, NotificationsSettings, DeviceInfo, LocalNotificationsSchedule, QolSettings, HealthPermissionsSettings } from 'common/models';
 import RepoFactory from 'common/controllers/RepoFactory';
 import { transferChangedFields } from 'common/utils/fields';
 import { ThrottleAction } from 'common/utils/throttle';
 import { IEvent, Event } from 'common/utils/event';
 import { AppVersion } from './AppVersion';
-import logger from 'common/logger';
 import { QolSurveyType } from 'src/constants/QoL';
 
 const DeviceId = ExpoConstants.installationId;
@@ -18,8 +16,7 @@ const Info: DeviceInfo = {
     platformVersion: ExpoConstants.appOwnership === AppOwnership.Standalone
         ? Platform.Version
         : ('Expo Client ' + ExpoConstants.expoVersion),
-    modelName: Device.modelName,
-    isStandaloneDevice: ExpoConstants.appOwnership === AppOwnership.Standalone && Device.isDevice,
+    isStandaloneDevice: ExpoConstants.appOwnership === AppOwnership.Standalone,
 };
 
 export interface ILocalSettingsController {
@@ -29,6 +26,8 @@ export interface ILocalSettingsController {
     updateNotifications(diff: Partial<NotificationsSettings>): void;
     updateQolSettings(diff: Partial<QolSettings>, changedField: keyof QolSettings): void;
     updateLastDailyCheckIn(diff: string): void;
+
+    updateHealthPermissions(diff: HealthPermissionsSettings): void;
 
     flushChanges(): Promise<void>;
 }
@@ -74,8 +73,6 @@ export class LocalSettingsController implements ILocalSettingsController {
                 lastDailyCheckIn: Date(),
             };
             updateDiff = this._current;
-
-            this._sameDevice = settings.find(s => s.deviceInfo?.modelName === Info.modelName);
         } else if (this._current.appVersion !== AppVersion.FullVersion
             || this._current.deviceInfo?.platformVersion !== Info.platformVersion) {
 
@@ -104,7 +101,19 @@ export class LocalSettingsController implements ILocalSettingsController {
             );
         }
 
-        logger.log('[LocalSettingsController] submitting changes...', diff);
+        await RepoFactory.Instance.users.updateLocalSettings(
+            this._uid,
+            DeviceId,
+            diff,
+        );
+        await this._synced.triggerAsync();
+    }
+
+    private submitChangesHealth = async () => {
+        const diff: Partial<UserLocalSettings> = {
+            healthPermissions: toJS(this._current.healthPermissions),
+        };
+
         await RepoFactory.Instance.users.updateLocalSettings(
             this._uid,
             DeviceId,
@@ -116,9 +125,9 @@ export class LocalSettingsController implements ILocalSettingsController {
     private submitQolChanges = async () => {
         const diff: Partial<UserLocalSettings> = {
             qol: toJS(this._current.qol),
+
         };
 
-        logger.log('[LocalSettingsController] submitting changes...', diff);
         await RepoFactory.Instance.users.updateLocalSettings(
             this._uid,
             DeviceId,
@@ -133,7 +142,9 @@ export class LocalSettingsController implements ILocalSettingsController {
         }
 
         Object.assign(this._current, diff);
-        if (diff.qol !== undefined) {
+        if (this.current.healthPermissions !== undefined) {
+            this._syncThrottle.tryRun(this.submitChangesHealth);
+        } else if (diff.qol !== undefined) {
             this._syncThrottle.tryRun(this.submitQolChanges);
         } else {
             this._syncThrottle.tryRun(this.submitChanges);
@@ -155,8 +166,18 @@ export class LocalSettingsController implements ILocalSettingsController {
             }
 
             if (changed) {
-                // logger.log('UPDATE');
                 this.update({ notifications });
+            }
+        });
+    }
+
+    updateHealthPermissions(diff: Partial<HealthPermissionsSettings>) {
+        let health = this.current.healthPermissions || {};
+        health.seenPermissionPromptIOS = true;
+        transaction(() => {
+            let changed = transferChangedFields(diff, health, 'enabledAndroid', 'seenPermissionPromptIOS');
+            if (changed) {
+                this.update({ healthPermissions: health });
             }
         });
     }

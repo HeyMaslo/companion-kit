@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, LayoutChangeEvent, LayoutRectangle } from 'react-native';
 import Colors from 'src/constants/colors';
 import AddStoryButton from 'src/components/AddStoryButton';
 import { GlobalTrigger, GlobalTriggers } from 'src/stateMachine/globalTriggers';
@@ -39,49 +39,54 @@ type Props = {
     screen?: 'home' | 'goals' | 'profile' | 'settings';
 };
 
-export default function BottomBar(props: Props) {
-    const { screen } = props;
-    const backgroundColor = screen === 'home' ? Colors.home.bg : Colors.pageBg;
-    const showIndicator = process.appFeatures.GOALS_ENABLED && AppViewModel.Instance.Goals.activeGoals.length > 0;
+export default class BottomBar extends React.Component<Props> {
 
-    const getGoalsIcon = () => {
-        const goalsScreen = screen === 'goals';
-        if (showIndicator) {
+    private backgroundColor = this.props.screen === 'home' ? Colors.home.bg : Colors.pageBg;
+    private showIndicator = process.appFeatures.GOALS_ENABLED && AppViewModel.Instance.Goals.activeGoals.length > 0;
+
+    private getGoalsIcon = () => {
+        const goalsScreen = this.props.screen === 'goals';
+        if (this.showIndicator) {
             return goalsScreen ? Images.goalsIndicatorActive : Images.goalsIndicator;
         }
         return goalsScreen ? Images.goalsActive : Images.goals;
     };
 
-    const ArchiveIcon: React.ComponentClass<SvgProps, any> = screen === 'home' ? Images.activeArchiveIcon : Images.archiveIcon;
-    const ProfileIcon: React.ComponentClass<SvgProps, any> = screen === 'profile' ? Images.activeProfileIcon : Images.profileIcon;
-    const SettingsIcon: React.ComponentClass<SvgProps, any> = screen === 'settings' ? Images.settingsIconActive : Images.settingsIcon;
-    const GoalsIcon: React.ComponentClass<SvgProps, any> = getGoalsIcon();
+    private ArchiveIcon: React.ComponentClass<SvgProps, any> = this.props.screen === 'home' ? Images.activeArchiveIcon : Images.archiveIcon;
+    private ProfileIcon: React.ComponentClass<SvgProps, any> = this.props.screen === 'profile' ? Images.activeProfileIcon : Images.profileIcon;
+    private SettingsIcon: React.ComponentClass<SvgProps, any> = this.props.screen === 'settings' ? Images.settingsIconActive : Images.settingsIcon;
+    private GoalsIcon: React.ComponentClass<SvgProps, any> = this.getGoalsIcon();
 
-    const iconSize = process.appFeatures.GOALS_ENABLED ? 32 : 28;
+    private iconSize = process.appFeatures.GOALS_ENABLED ? 32 : 28;
 
-    return (
-        <View style={[BaseStyles.container, styles.container, { backgroundColor: backgroundColor }]}>
-            <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Home)}>
-                <ArchiveIcon width={iconSize} height={iconSize} color={'#000000'} />
-            </TouchableOpacity>
-            {process.appFeatures.GOALS_ENABLED ?
-                <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Goals)}>
-                    <GoalsIcon width={iconSize} height={iconSize} />
-                </TouchableOpacity>
-            : null}
-            <AddStoryButton
-                width={55}
-                height={55}
-                onPress={() => GlobalTrigger(GlobalTriggers.CreateStory)}
-            />
-            <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Profile)}>
-                <ProfileIcon width={iconSize} height={iconSize} />
-            </TouchableOpacity>
-            {process.appFeatures.GOALS_ENABLED ?
-                <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Settings)}>
-                    <SettingsIcon width={iconSize} height={iconSize} />
-                </TouchableOpacity>
-            : null}
-        </View>
-    );
+
+    render() {
+        return (
+            <>
+                <View style={[BaseStyles.container, styles.container, { backgroundColor: this.backgroundColor }]}>
+                    <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Home)}>
+                        <this.ArchiveIcon width={this.iconSize} height={this.iconSize} color={'#000000'} />
+                    </TouchableOpacity>
+                    {process.appFeatures.GOALS_ENABLED ?
+                        <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Goals)}>
+                            <this.GoalsIcon width={this.iconSize} height={this.iconSize} />
+                        </TouchableOpacity>
+                        : null}
+                    <AddStoryButton
+                        width={55}
+                        height={55}
+                        onPress={() => GlobalTrigger(GlobalTriggers.CreateStory)}
+                    />
+                    <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Profile)}>
+                        <this.ProfileIcon width={this.iconSize} height={this.iconSize} />
+                    </TouchableOpacity>
+                    {process.appFeatures.GOALS_ENABLED ?
+                        <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Settings)}>
+                            <this.SettingsIcon width={this.iconSize} height={this.iconSize} />
+                        </TouchableOpacity>
+                        : null}
+                </View>
+            </>
+        );
+    }
 }

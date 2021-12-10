@@ -57,7 +57,7 @@ type ConditionWithParams = Conditions.General & { params?: any };
 
 export type StateItem<T extends number> = {
     /** Component class that should render this state */
-    view: { new (props: ViewStateProps, context?: any): IStateView },
+    view: { new(props: ViewStateProps, context?: any): IStateView },
 
     /** Exit transitions to another states */
     exit?: StateTransition<T>[],
