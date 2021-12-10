@@ -56,6 +56,10 @@ export class SettingsView extends ViewState {
         this.trigger(ScenarioTriggers.Submit);
     }
 
+    private onHealthPermissionsChange = () => {
+        this.trigger(ScenarioTriggers.Secondary);
+    }
+
     private onEmailChange = () => {
         // this.trigger(ScenarioTriggers.Primary);
     }

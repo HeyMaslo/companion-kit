@@ -54,6 +54,8 @@ import { YourFocusDomainsView } from './views/YourFocusDomainsView';
 import { QolStartView } from './views/qol/startQOL';
 import { QolEndView } from './views/qol/endQOL';
 import { QolQuestion } from './views/qol/qolQuestion';
+import { HealthConsentView } from './views/healthData/healthConsent';
+import { HealthScopesView } from './views/healthData/healthScopes';
 
 import { QolHistoryMainView } from './views/qol/history/qolHistoryMain';
 import { QolTimelineView } from './views/qol/history/qolTimeline';
@@ -63,6 +65,7 @@ import Triggers = ScenarioTriggers;
 import { VerificationCodeView } from './views/login/verificationCode';
 import { NoInvitationView } from './views/login/noInvitation';
 import { ResetPasswordView } from './views/password/resetPassword';
+import { Platform } from 'react-native';
 
 const CreateJournalCancelTransition: StateTransition<States> = {
     target: States.Home,
@@ -96,6 +99,20 @@ export const MasloScenario: GlobalScenario<States> = {
         view: WelcomeView,
         exit: [
             { target: States.SignInWithEmail, trigger: Triggers.Secondary },
+            { target: States.HealthConsent, trigger: Triggers.Primary },
+        ],
+    },
+    [States.HealthConsent]: {
+        view: HealthConsentView,
+        exit: [
+            { target: States.Home, trigger: Triggers.Submit }, 
+        ],
+    },
+    [States.HealthScopes]: {
+        view: HealthScopesView,
+        exit: [
+            { target: States.Settings, trigger: Triggers.Back },
+            { target: States.Home, trigger: Triggers.Cancel },
         ],
     },
     [States.SignInWithEmail]: {
@@ -196,9 +213,11 @@ export const MasloScenario: GlobalScenario<States> = {
             { priority: 0, target: States.Consent, condition: VM.showConsent },
             { priority: 1, target: States.OnboardingEnter, condition: VM.hasActiveOnboarding },
             { priority: 2, target: States.CustomizeNotificationsOnboarding, condition: () => true}, // VM.askNotifyPermissions },
+            { priority: 3, target: States.HealthConsent, condition: Platform.OS == 'ios' ? VM.needsHealthPromptIOS : VM.hasHealthPermissions },
             { priority: 4, target: States.IntakeForm, condition: VM.showAssessment },
             { priority: 5, target: States.StartQol, condition: VM.showQol },
             { priority: 10, target: States.Home, condition: () => true },
+
         ],
         log: true,
     },
@@ -228,6 +247,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.StartQol, trigger: Triggers.Tertiary },
             { target: States.Journal_SelectMood, trigger: Triggers.Submit },
             { target: States.QolQuestion, trigger: Triggers.Quaternary },
+            { target: States.HealthScopes, trigger: Triggers.Quinary },
             { target: States.Focus_Domains, trigger: Triggers.Next },
             { target: States.Choose_Domain, trigger: Triggers.Quinary },
             { target: States.QolHistory, trigger: Triggers.TESTING },
@@ -380,7 +400,8 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Profile, trigger: Triggers.Back },
             { target: States.NotificationsSettings, trigger: Triggers.Primary },
             { target: States.ChangePassword, trigger: Triggers.Submit },
-            { target: States.ConfirmAccount, trigger: Triggers.Secondary },
+            // { target: States.ConfirmAccount, trigger: Triggers.Secondary },
+            { target: States.HealthScopes, trigger: Triggers.Secondary },
         ],
     },
 

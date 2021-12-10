@@ -8,6 +8,7 @@ export type UserLocalSettings = {
     deviceInfo?: DeviceInfo;
 
     notifications?: NotificationsSettings;
+    healthPermissions?: HealthPermissionsSettings;
     qol?: QolSettings;
     lastDailyCheckIn?: string;
 };
@@ -17,6 +18,11 @@ export type NotificationsSettings = {
     scheduledTime: HourAndMinute,
     allowBDMention: boolean,
     domainsForNotifications: DomainName[],
+};
+
+export type HealthPermissionsSettings = {
+    enabledAndroid?: boolean,
+    seenPermissionPromptIOS?: boolean,
 };
 
 export type QolSettings = {
@@ -30,7 +36,6 @@ export type QolSettings = {
 export type DeviceInfo = {
     platform: string,
     platformVersion: string | number,
-    modelName: string,
     isStandaloneDevice: boolean,
 };
 
