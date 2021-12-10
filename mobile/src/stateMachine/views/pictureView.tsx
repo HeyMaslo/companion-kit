@@ -9,7 +9,6 @@ import { ImagePickerOptions } from 'expo-image-picker';
 import PictureViewViewModel from 'src/viewModels/PictureViewViewModel';
 import PhotoIcon from 'src/assets/images/app/photo-icon.svg';
 import Images from 'src/constants/images';
-import * as Device from 'expo-device';
 import Colors from 'src/constants/colors';
 
 import CloseIcon from 'src/assets/images/app/close-icon-white.png';
@@ -95,7 +94,7 @@ export const PictureView = observer(function (this: void, props: PictureViewProp
         };
     }, []);
 
-    const renderCamera = Device.isDevice && model.cameraPermission;
+    const renderCamera = model.cameraPermission;
 
     const InterfaceView = () => (
         <>
@@ -142,11 +141,6 @@ export const PictureView = observer(function (this: void, props: PictureViewProp
 
     console.log('PICTURE ViEW RENDER ', renderCamera);
 
-    console.log(
-        '/////// Device info /////// \n',
-        Device,
-        '\n /////// Device info end ///////',
-    );
 
     return (
         <MasloPage style={BaseStyles.page} theme={props.theme}>

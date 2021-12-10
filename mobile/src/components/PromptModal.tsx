@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { StyleSheet, View, Text } from 'react-native';
-import { Container, ButtonBlock } from 'src/components';
+import { Container, ButtonBlock, Button } from 'src/components';
 import TextStyles from 'src/styles/TextStyles';
 import Colors from 'src/constants/colors';
 import PromptModalViewModel from 'common/viewModels/PromptModalViewModel';
@@ -30,7 +30,7 @@ export default class PromptModal extends React.Component<PromptModalProps> {
             return null;
         }
 
-        const { modalImage, confirmText, rejectText, title, message } = model.currentAction;
+        const { modalImage, confirmText, rejectText, title, message, customView } = model.currentAction;
         const Img = ModalImages[modalImage];
 
         return (
@@ -39,18 +39,25 @@ export default class PromptModal extends React.Component<PromptModalProps> {
                     <View style={styles.content}>
                         <View style={styles.messageWrap}>
                             {Img ? <Img height="110" width="150" /> : null}
-                            <Text style={[TextStyles.h1, styles.title ]}>{title}</Text>
+                            <Text style={[TextStyles.h1, styles.title]}>{title}</Text>
                             {typeof message === 'string'
-                                ? <Text style={[TextStyles.p1, styles.message, messageStyle ]}>{message}</Text>
+                                ? <Text style={[TextStyles.p1, styles.message, messageStyle]}>{message}</Text>
                                 : message}
+
+                            {customView}
                         </View>
-                        {/* <View style={styles.actionsWrap}>
-                            <ActivityButton
-                                isBlue
+
+                        {rejectText ?
+                            <ButtonBlock
+                                okTitle={confirmText}
+                                cancelTitle={rejectText}
+                                onOk={this.model.onConfirm}
+                                onCancel={this.model.onReject}
+                                containerStyles={styles.actionsWrap}
+                            /> :
+                            <Button
                                 title={confirmText}
-                                style={[styles.button]}
                                 onPress={this.model.onConfirm}
-                                loading="promise"
                             />
                             <Text
                                 style={[TextStyles.btnTitle, {color: Colors.mediumPurple2}, styles.reject]}
@@ -111,20 +118,11 @@ const styles = StyleSheet.create({
         color: Colors.promptModalMessage,
         maxWidth: '100%',
         marginTop: 12,
+        marginBottom: 24,
     },
     title: {
         color: Colors.promptModalTitle,
         textAlign: 'center',
         marginTop: 37,
     },
-    // button: {
-    //     backgroundColor: '#312670',
-    // },
-    // reject: {
-    //     color: Colors.graySuit,
-    //     width: '100%',
-    //     textAlign: 'center',
-    //     marginTop: 26,
-    //     marginBottom: 30,
-    // },
 });

@@ -42,7 +42,6 @@ export class NotificationsController implements IDisposable {
 
     // Should be OK to call multiple times
     async initAsync() {
-
         await this._service.checkPermissions();
 
         // backward compatibility for 'enabled'

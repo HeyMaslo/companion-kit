@@ -1,16 +1,17 @@
 import { observable } from 'mobx';
 
 export type PromptModalAction = {
-        title: string;
-        message: string | JSX.Element;
-        confirmText: string;
-        rejectText?: string;
-        onConfirm: () => Promise<any> | void;
-        onReject?: () => Promise<void> | void;
-        modalImage?: number;
-        awaitActions?: boolean;
-        className?: string;
-        typeModal: 'negative' | 'positive';
+    title: string;
+    message: string | JSX.Element;
+    confirmText: string;
+    rejectText?: string;
+    onConfirm: () => Promise<any> | void;
+    onReject?: () => Promise<void> | void;
+    modalImage?: number;
+    awaitActions?: boolean;
+    className?: string;
+    typeModal: 'negative' | 'positive';
+    customView?: JSX.Element;
 };
 
 export default class PromptModalViewModel {

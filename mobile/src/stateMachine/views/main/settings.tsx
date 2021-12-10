@@ -58,6 +58,10 @@ export class SettingsView extends ViewState {
         this.trigger(ScenarioTriggers.Submit);
     }
 
+    private onHealthPermissionsChange = () => {
+        this.trigger(ScenarioTriggers.Secondary);
+    }
+
     private onEmailChange = () => {
         // this.trigger(ScenarioTriggers.Primary);
     }
@@ -155,6 +159,15 @@ export class SettingsView extends ViewState {
                             >
                                 <Images.arrowRight width={8} height={8} />
                             </Card>
+                            <Card
+                                title={'Health Data'}
+                                description={'Learn more'}
+                                Image={Images.archiveIcon}
+                                onPress={this.onHealthPermissionsChange}
+                            >
+                                <Images.arrowRight width={8} height={8} />
+                            </Card>
+
                         </View>
                         <View style={[this.baseStyles.flexCenterBottom, styles.bottomBlock]}>
                             <Button

@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import AppleHealthKit from 'rn-apple-healthkit';
+import AppleHealthKit from 'react-native-health';
 
 const PERMS = AppleHealthKit.Constants.Permissions;
 
@@ -18,6 +18,7 @@ const getHealthKitData = () => {
   const options = {
     permissions: {
       read: [PERMS.BiologicalSex],
+      write: null,
     },
   };
 
