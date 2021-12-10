@@ -1,5 +1,5 @@
 import { observable } from 'mobx';
-import { IUserNameProvider } from 'src/services/Notifications';
+
 import { ILocalSettingsController } from './LocalSettings';
 import { ThrottleAction } from 'common/utils/throttle';
 import { IDisposable } from 'common/utils/unsubscriber';
@@ -20,7 +20,7 @@ export class HealthPermissionsController implements IDisposable {
 
     private readonly _syncThrottle = new ThrottleAction<Promise<void>>(1000);
 
-    constructor(private readonly settings: ILocalSettingsController, name: IUserNameProvider) {
+    constructor(private readonly settings: ILocalSettingsController) {
     }
 
     public get enabled() { return this._enabledByUser; }

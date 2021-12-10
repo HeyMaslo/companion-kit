@@ -53,10 +53,12 @@ export default class PromptModal extends React.Component<PromptModalProps> {
                                 onOk={this.model.onConfirm}
                                 onCancel={this.model.onReject}
                                 containerStyles={styles.actionsWrap}
+                                theme={this.props.theme}
                             /> :
                             <Button
                                 title={confirmText}
                                 onPress={this.model.onConfirm}
+                                theme={this.props.theme}
                             />
                         }
                     </View>

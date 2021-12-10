@@ -23,10 +23,8 @@ import AppController from 'src/controllers';
 import { getPersonaRadius, PersonaScale } from 'src/stateMachine/persona';
 import { Portal } from 'react-native-paper';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
-import AppController from 'src/controllers';
 import { DomainName, SubdomainName } from 'src/constants/Domain';
 import { formatDateDayMonthYear } from 'common/utils/dateHelpers';
-import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import { PersonaArmState } from 'dependencies/persona/lib';
 
 const minContentHeight = 535;
@@ -483,13 +481,6 @@ const styles = StyleSheet.create({
     newLinkMsg: {
         paddingHorizontal: 5,
         textAlign: 'center',
-    },
-    health: {
-        width: '80%',
-        height: 30,
-        borderColor: Colors.welcome.mailButton.border,
-        borderWidth: 1,
-        justifyContent: 'center'
     },
     healthView: {
         width: '90%',

@@ -11,8 +11,6 @@ export enum DomainName {
   MONEY           = 'Money',
   SPIRITUAL       = 'Spiritual',
   RELATIONSHIPS   = 'Relationships',
-  WORK            = 'Work',
-  STUDY           = 'Study',
 }
 
 export enum SubdomainName {
