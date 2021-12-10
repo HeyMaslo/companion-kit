@@ -56,5 +56,5 @@ export class ScenarioViewModel {
     public readonly showQol = () => this.userWithAccount() && !AppController.Instance.User.localSettings?.current?.qol?.seenQolOnboarding;
     // Health data
     public readonly hasHealthPermissions = () => AppController.Instance.User?.hasHealthDataPermissions.enabled;
-    public readonly needsHealthPromptIOS = () => Platform.OS == 'ios' && (typeof AppController.Instance.User?.localSettings.current.health == 'undefined' || !AppController.Instance.User?.localSettings.current.health.seenPermissionPromptIOS);
+    public readonly needsHealthPromptIOS = () => Platform.OS == 'ios' && (typeof AppController.Instance.User?.localSettings.current.healthPermissions == 'undefined' || !AppController.Instance.User?.localSettings.current.healthPermissions.seenPermissionPromptIOS);
 }

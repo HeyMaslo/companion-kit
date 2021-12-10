@@ -33,8 +33,8 @@ export class HealthPermissionsController implements IDisposable {
 
     // Should be OK to call multiple times
     async initAsync() {
-        this._permissionsAsked = !!this.settings.current.health?.seenPermissionPromptIOS;
-        this._enabledByUser = Platform.OS == 'ios' ? (this.permissionsAsked && await this.checkForIOSHealthData()) : this.settings.current.health?.enabledAndroid;
+        this._permissionsAsked = !!this.settings.current.healthPermissions?.seenPermissionPromptIOS;
+        this._enabledByUser = Platform.OS == 'ios' ? (this.permissionsAsked && await this.checkForIOSHealthData()) : this.settings.current.healthPermissions?.enabledAndroid;
     }
 
     public askPermission = async () => {
