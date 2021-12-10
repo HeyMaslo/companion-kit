@@ -569,6 +569,7 @@ export const MasloScenario: GlobalScenario<States> = {
 
     [States.QolHistory]: {
         view: QolHistoryMainView,
+        enter: [{ trigger: GlobalTriggers.QolHistory }],
         exit: [
             { target: States.Home, trigger: [Triggers.Back] },
             { target: States.QolHistoryTimline, trigger: [Triggers.Submit] },

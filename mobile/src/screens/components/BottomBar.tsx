@@ -42,15 +42,15 @@ export default function BottomBar(props: Props) {
 
     const iconSize = 28;
 
-    const ArchiveIcon: JSX.Element = <Images.activeArchiveIcon width={iconSize} height={iconSize} color={theme.colors.foreground} />;
-    const HomeIcon: JSX.Element = screen === 'home' ? <Images.homeIcon width={iconSize} height={iconSize} color={theme.colors.highlight} /> : <Images.homeIcon width={iconSize} height={iconSize} color={theme.colors.foreground} />;
-    const ProfileIcon: JSX.Element = screen === 'profile' ? <Images.activeProfileIcon width={iconSize} height={iconSize} color={theme.colors.highlight} /> : <Images.profileIcon width={iconSize} height={iconSize} color={theme.colors.foreground} />;
+    const HistoryIcon: JSX.Element = <Images.activeArchiveIcon width={iconSize} height={iconSize} color={theme.colors.midground} />;
+    const HomeIcon: JSX.Element = <Images.homeIcon width={iconSize} height={iconSize} color={screen === 'home' ? theme.colors.highlight : theme.colors.midground} />;
+    const ProfileIcon: JSX.Element = <Images.activeProfileIcon width={iconSize} height={iconSize} color={screen === 'profile' ? theme.colors.highlight : theme.colors.midground} />;
     // const SettingsIcon: React.ComponentClass<SvgProps, any> = screen === 'settings' ? Images.settingsIconActive : Images.settingsIcon;
 
     return (
         <View style={[BaseStyles.container, styles.container, { backgroundColor: backgroundColor }]}>
             <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.QolHistory)}>
-                {ArchiveIcon}
+                {HistoryIcon}
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Home)}>
                 {HomeIcon}
