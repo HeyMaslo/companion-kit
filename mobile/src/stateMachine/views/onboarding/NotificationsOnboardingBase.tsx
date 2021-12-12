@@ -10,7 +10,7 @@ export abstract class NotificationsOnboardingBaseView extends ViewState {
   constructor(props) {
     super(props);
     this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0 } });
-    this.resetPersona(PersonaStates.Question, PersonaViewPresets.TopHalfOut);
+    this.hidePersona2();
   }
 
   get viewModel() {
