@@ -47,9 +47,10 @@ export default class Button extends React.Component<ButtonProps> {
 
     render() {
         const { disabled, title, style, titleStyles, withBorder, underlayColor, isTransparent, buttonForm, icon, disabledStyle, disabledTextStyle, theme } = this.props;
+        const defualtDisabledStyle = { backgroundColor: theme.colors.highlightSecondary };
         return (
             <TouchableHighlight
-                style={[{ ...styles.button, backgroundColor: theme.colors.highlight }, disabled && disabledStyle, withBorder && { ...styles.withBorder, borderColor: theme.colors.highlightSecondary }, isTransparent && { backgroundColor: 'transparent', borderColor: theme.colors.highlightSecondary }, buttonForm && styles.buttonForm, style]}
+                style={[{ ...styles.button, backgroundColor: theme.colors.highlight }, disabled && (disabledStyle || defualtDisabledStyle), withBorder && { ...styles.withBorder, borderColor: theme.colors.highlightSecondary }, isTransparent && { backgroundColor: 'transparent', borderColor: theme.colors.highlightSecondary }, buttonForm && styles.buttonForm, style]}
                 onPress={this._onPressHandler}
                 underlayColor={underlayColor ? underlayColor : theme.colors.highlightSecondary}
                 activeOpacity={1}

@@ -1,6 +1,6 @@
 import { observable, computed, reaction } from 'mobx';
 import AppController from 'src/controllers';
-import { Alert, Linking } from 'react-native';
+import { Alert, Linking, Platform } from 'react-native';
 import * as Links from 'src/constants/links';
 import { HourAndMinute } from 'common/utils/dateHelpers';
 import { DomainName, SubdomainName } from 'src/constants/Domain';
@@ -33,6 +33,7 @@ export class SettingsNotificationsViewModel {
 
     get settingsSynced() { return AppController.Instance.User.localSettings.synced; }
 
+    // returns a string similar to 'Daily at 1:30 PM', varies slightly by locale
     @computed
     get scheduleTimeString(): string {
         if (this.scheduledTime == null) {
@@ -40,7 +41,14 @@ export class SettingsNotificationsViewModel {
         }
         const date = new Date();
         date.setHours(this.scheduledTime.hour, this.scheduledTime.minute)
-        return 'Daily at ' + date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+        const localeString = date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+
+        if (Platform.OS == 'ios') {
+            return 'Daily at ' + localeString;
+        }
+        const splits = localeString.split(':'); // splits are done becuase the android date locale might include seconds
+        const androidTimeString = splits.length > 1 ? splits[0] + ':' + splits[1] : localeString;
+        return 'Daily at ' + androidTimeString;
     }
 
     public setAllDomains(allDomains: (DomainName | SubdomainName)[]) {

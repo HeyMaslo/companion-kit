@@ -34,6 +34,7 @@ import { FeelingsView } from './views/checkin/feelings';
 import { GoalsView } from './views/main/goals';
 import { RewardsView } from './views/rewardsView';
 import { RecordPitureCheckinView } from './views/checkin/recordPictureCheckIn';
+import { NotificationsTimeOnboardingView } from './views/onboarding/NotificationsTimeOnboarding';
 import { CustomizeNotificationsOnboardingView } from './views/onboarding/CustomizeNotificationsOnboarding';
 import { ReviewNotificationsOnboardingView } from './views/onboarding/ReviewNotificationsOnboarding';
 import { BDMentionNotificationsOnboardingView } from './views/onboarding/BDMentionNotificationsOnboarding';
@@ -105,7 +106,7 @@ export const MasloScenario: GlobalScenario<States> = {
     [States.HealthConsent]: {
         view: HealthConsentView,
         exit: [
-            { target: States.Home, trigger: Triggers.Submit }, 
+            { target: States.Home, trigger: Triggers.Submit },
         ],
     },
     [States.HealthScopes]: {
@@ -180,11 +181,19 @@ export const MasloScenario: GlobalScenario<States> = {
         ],
     },
 
+    [States.NotificationsTimeOnboarding]: {
+        view: NotificationsTimeOnboardingView, // NotificationsPermissionView,
+        exit: [
+            { target: States.CustomizeNotificationsOnboarding, trigger: Triggers.Next },
+            { target: States.Home, trigger: Triggers.Back },
+        ],
+    },
+
     [States.CustomizeNotificationsOnboarding]: {
         view: CustomizeNotificationsOnboardingView, // NotificationsPermissionView,
         exit: [
             { target: States.BDMentionNotifcationsOnboarding, trigger: Triggers.Next },
-            { target: States.Home, trigger: Triggers.Back },
+            { target: States.NotificationsTimeOnboarding, trigger: Triggers.Back },
         ],
     },
 
@@ -212,7 +221,7 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { priority: 0, target: States.Consent, condition: VM.showConsent },
             { priority: 1, target: States.OnboardingEnter, condition: VM.hasActiveOnboarding },
-            { priority: 2, target: States.CustomizeNotificationsOnboarding, condition: () => true}, // VM.askNotifyPermissions },
+            { priority: 2, target: States.NotificationsTimeOnboarding, condition: () => true }, // VM.askNotifyPermissions },
             { priority: 3, target: States.HealthConsent, condition: Platform.OS == 'ios' ? VM.needsHealthPromptIOS : VM.hasHealthPermissions },
             { priority: 4, target: States.IntakeForm, condition: VM.showAssessment },
             { priority: 5, target: States.StartQol, condition: VM.showQol },

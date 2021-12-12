@@ -4,8 +4,12 @@ import { MasloPage, Container, Card, Button } from 'src/components';
 import { PersonaStates } from '../../abstractions';
 import { PersonaViewPresets } from 'src/stateMachine/persona';
 import AppViewModel from 'src/viewModels';
+import { observable } from 'mobx';
 
 export abstract class NotificationsOnboardingBaseView extends ViewState {
+
+  @observable
+  protected continueButtonDisabled = false;
 
   constructor(props) {
     super(props);
@@ -38,6 +42,7 @@ export abstract class NotificationsOnboardingBaseView extends ViewState {
             style={{ marginTop: 'auto' }}
             onPress={this.onNext}
             theme={this.theme}
+            disabled={this.continueButtonDisabled}
           />
         </Container>
       </MasloPage >

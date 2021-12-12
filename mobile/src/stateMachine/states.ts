@@ -34,6 +34,7 @@ export enum States {
     JournalDetail,
 
     OnboardingEnter,
+    NotificationsTimeOnboarding,
     CustomizeNotificationsOnboarding,
     BDMentionNotifcationsOnboarding,
     ReviewNotifcationsOnboarding,
