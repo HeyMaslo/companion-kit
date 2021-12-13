@@ -35,17 +35,13 @@ export class HealthPermissionsController implements IDisposable {
     public askPermission = async () => {
         if (Platform.OS == 'ios') {
             await initHealthKit();
-            AppController.Instance.User?.localSettings.updateHealthPermissions({
-                seenPermissionPromptIOS: true,
-            });
+            await this.syncSettings();
             await this.initAsync();
         } else if (Platform.OS == 'android') {
             const isAuthorized = await authAndroid();
-            logger.log("GOOGLE_FIT_PERMS", isAuthorized);
-
             this._enabledByUserOriginal = isAuthorized;
             this._enabledByUser = isAuthorized;
-            await this.sync();
+            await this.syncSettings();
         }
 
         return this.permissionsGranted;
@@ -57,7 +53,7 @@ export class HealthPermissionsController implements IDisposable {
         }
 
         this._enabledByUser = false;
-        this._syncThrottle.tryRun(this.sync);
+        this._syncThrottle.tryRun(this.syncSettings);
 
         return false;
     }
@@ -66,10 +62,11 @@ export class HealthPermissionsController implements IDisposable {
         return await checkForStepsData() || await getDOB() || await checkForSleepData();
     }
 
-    private sync = async () => {
-        AppController.Instance.User?.localSettings.updateHealthPermissions({
-            enabledAndroid: this._enabledByUser,
-        });
+    private syncSettings = async () => {
+        const diff = Platform.OS == 'ios' ?
+            { seenPermissionPromptIOS: true } :
+            { enabledAndroid: this._enabledByUser };
+        AppController.Instance.User?.localSettings.updateHealthPermissions(diff);
     }
 
     dispose() { }

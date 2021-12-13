@@ -2,7 +2,10 @@ import GoogleFit, { Scopes } from 'react-native-google-fit';
 import AppleHealthKit from 'react-native-health';
 import logger from 'common/logger';
 
-// GOOGLE FIT:
+//
+// -- GOOGLE FIT --
+//
+
 const runOptions = {
   scopes: [
     Scopes.FITNESS_ACTIVITY_READ,
@@ -27,7 +30,6 @@ const fetchStepsData = async opt => {
   const res = await GoogleFit.getDailyStepCountSamples(opt);
   const estimatedData = res.find(element => element.source === 'com.google.android.gms:estimated_steps');
   if (estimatedData) {
-    //Google Fit Steps
     return estimatedData.steps;
   } else {
     logger.log('Google Fit Daily Steps Not Found');
@@ -64,22 +66,22 @@ const fetchSleepData = async opt => {
 };
 
 const fetchAndroidHealthData = async () => {
-      // call Google Fit API to get the steps data for the user
-      // opts --> options object
-      const stepsData = await fetchStepsData(opt);
+  // call Google Fit API to get the steps data for the user
+  // opts --> options object
+  const stepsData = await fetchStepsData(opt);
 
-      // call Google Fit API to get the sleep data for the user
-      // opts --> options object
-      const sleepData = await fetchSleepData(opt);
+  // call Google Fit API to get the sleep data for the user
+  // opts --> options object
+  const sleepData = await fetchSleepData(opt);
 
-      // Uncomment below to log the data for sleep and steps from Google Fit
-      // Store this data into Firebase once a schema is determined
-      // logger.log('GOOGLE_FIT: Sleep Data: ', JSON.stringify(sleepData));
-      // logger.log('GOOGLE_FIT: Step Data: ', JSON.stringify(stepsData));
+  // Uncomment below to log the data for sleep and steps from Google Fit
+  // Store this data into Firebase once a schema is determined
+  // logger.log('GOOGLE_FIT: Sleep Data: ', JSON.stringify(sleepData));
+  // logger.log('GOOGLE_FIT: Step Data: ', JSON.stringify(stepsData));
 }
 
 export const authAndroid = async () => {
-  let isAuth = checkAndroidAuth();
+  let isAuth = await checkAndroidAuth();
   if (isAuth) {
     // Authentication already authorized for a particular device
     // fetch the android health data
@@ -99,8 +101,8 @@ export const authAndroid = async () => {
         isAuth = false;
       }
     } catch (error) {
-        // catch errors if Auth fails
-        console.log('GOOGLE_FIT_AUTH_ERROR: ', error);
+      // catch errors if Auth fails
+      console.log('GOOGLE_FIT_AUTH_ERROR: ', error);
     };
   }
   return isAuth;
@@ -108,18 +110,15 @@ export const authAndroid = async () => {
 
 export const disconnectAndroid = () => { GoogleFit.disconnect() }
 
-export const checkAndroidAuth = () => {
+export const checkAndroidAuth = async () => {
   // Checks the auth of Google Fit and writes it to GoogleFit.isAuthorized
-  updateAndroidAuthStatus();
+  await GoogleFit.checkIsAuthorized();
   return GoogleFit.isAuthorized;
 }
 
-const updateAndroidAuthStatus = async () => {
-  await GoogleFit.checkIsAuthorized();
-}
-
-
-// APPLE HEALTH KIT:
+//
+// -- APPLE HEALTH KIT --
+//
 
 const permissions = {
   permissions: {
