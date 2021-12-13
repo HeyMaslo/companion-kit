@@ -71,6 +71,10 @@ export class LocalSettingsController implements ILocalSettingsController {
                     lastShortQol: Date(),
                 },
                 lastDailyCheckIn: Date(),
+                healthPermissions: {
+                    seenPermissionPromptIOS: null,
+                    enabledAndroid: null,
+                }
             };
             updateDiff = this._current;
         } else if (this._current.appVersion !== AppVersion.FullVersion

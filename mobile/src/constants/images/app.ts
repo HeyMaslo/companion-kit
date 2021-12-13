@@ -138,7 +138,7 @@ export default {
     iOS_CompanionKit: iOS_CompanionKitPNG,
     iOS_Switch: iOS_SwitchPNG,
     //Google Fit
-    GoogleFitCheckMarkPNG: GoogleFitCheckMarkPNG
+    GoogleFitCheckMarkPNG: GoogleFitCheckMarkPNG,
     // Domain
     moodIcon: MoodIconSVG,
     physicalIcon: PhysicalIconSVG,

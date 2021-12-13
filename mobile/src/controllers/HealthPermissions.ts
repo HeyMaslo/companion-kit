@@ -1,12 +1,10 @@
 import { observable } from 'mobx';
-import { IUserNameProvider } from 'src/services/Notifications';
-import { ILocalSettingsController } from './LocalSettings';
 import { ThrottleAction } from 'common/utils/throttle';
 import { IDisposable } from 'common/utils/unsubscriber';
 import { authAndroid, initHealthKit, disconnectAndroid, getDOB, getAuthStatus, checkForStepsData, checkForSleepData } from 'src/helpers/health'
 import { Platform } from 'react-native';
 import logger from 'common/logger';
-
+import AppController from '.';
 
 export class HealthPermissionsController implements IDisposable {
 
@@ -20,9 +18,6 @@ export class HealthPermissionsController implements IDisposable {
 
     private readonly _syncThrottle = new ThrottleAction<Promise<void>>(1000);
 
-    constructor(private readonly settings: ILocalSettingsController, name: IUserNameProvider) {
-    }
-
     public get enabled() { return this._enabledByUser; }
 
     public get enabledOG() { return this._enabledByUserOriginal; }
@@ -33,21 +28,21 @@ export class HealthPermissionsController implements IDisposable {
 
     // Should be OK to call multiple times
     async initAsync() {
-        this._permissionsAsked = !!this.settings.current.healthPermissions?.seenPermissionPromptIOS;
-        this._enabledByUser = Platform.OS == 'ios' ? (this.permissionsAsked && await this.checkForIOSHealthData()) : this.settings.current.healthPermissions?.enabledAndroid;
+        this._permissionsAsked = !!AppController.Instance.User?.localSettings.current.healthPermissions?.seenPermissionPromptIOS;
+        this._enabledByUser = Platform.OS == 'ios' ? (this.permissionsAsked && await this.checkForIOSHealthData()) : AppController.Instance.User?.localSettings.current.healthPermissions?.enabledAndroid;
     }
 
     public askPermission = async () => {
         if (Platform.OS == 'ios') {
             await initHealthKit();
-            this.settings.updateHealthPermissions({
+            AppController.Instance.User?.localSettings.updateHealthPermissions({
                 seenPermissionPromptIOS: true,
             });
             await this.initAsync();
         } else if (Platform.OS == 'android') {
             const isAuthorized = await authAndroid();
             logger.log("GOOGLE_FIT_PERMS", isAuthorized);
-            
+
             this._enabledByUserOriginal = isAuthorized;
             this._enabledByUser = isAuthorized;
             await this.sync();
@@ -72,10 +67,10 @@ export class HealthPermissionsController implements IDisposable {
     }
 
     private sync = async () => {
-        this.settings.updateHealthPermissions({
+        AppController.Instance.User?.localSettings.updateHealthPermissions({
             enabledAndroid: this._enabledByUser,
         });
     }
 
-    dispose(){}
+    dispose() { }
 }

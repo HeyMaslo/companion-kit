@@ -21,9 +21,7 @@ import AppViewModel from 'src/viewModels';
 import { QolSurveyType } from 'src/constants/QoL';
 import Images from 'src/constants/images';
 import AppController from 'src/controllers';
-import GoogleFit, { Scopes } from 'react-native-google-fit';
-import { checkAndroidAuth, getAuthStatus, authAndroid } from 'src/helpers/health'
-import { AlertExitWithoutSave } from 'src/constants/alerts';
+import { checkAndroidAuth } from 'src/helpers/health'
 import { getPersonaRadius, PersonaScale } from 'src/stateMachine/persona';
 import { Portal } from 'react-native-paper';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
@@ -154,7 +152,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     private onHealthSettings = () => {
         this.trigger(ScenarioTriggers.Quinary);
     }
-    
+
     private onShortQol = () => {
         this.qolViewModel.setQolSurveyType = QolSurveyType.Short;
         this.trigger(ScenarioTriggers.Tertiary);
@@ -290,8 +288,8 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     }
 
     private getCenterElement() {
-        if (this.showHealthPermissionCard()) {
-            return this.getHealth();
+        if (this.willShowHealthPermissionCard()) {
+            return this.getHealthPermissionCard();
         }
 
         const { today, tips } = this.viewModel;
@@ -322,25 +320,23 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         );
     }
 
-    private showHealthPermissionCard() {
-        return Platform.OS == 'ios'? !this.healthPermissionsEnabled : !checkAndroidAuth();
+    private willShowHealthPermissionCard(): boolean {
+        return Platform.OS == 'ios' ? !this.healthPermissionsEnabled : !checkAndroidAuth();
     }
 
-    private getHealth() {
+    private getHealthPermissionCard() {
         return (
             <>
-                {this.showHealthPermissionCard() && (
-                    <TouchableOpacity style={styles.healthView} onPress={this.onHealthSettings}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingTop: 15 }}>
-                            <Text style={this.textStyles.p1}>Polarus needs access to {"\n"}your health data.</Text>
-                            <Images.healthHeart height={this.textStyles.p1.fontSize * 2.5} />
-                        </View>
-                        <View style={{ flexDirection: 'row', paddingTop: 10, paddingLeft: 20, paddingBottom: 10, alignItems: 'center' }}>
-                            <Images.settingsIcon style={{ margin: 10 }} />
-                            <Text style={[this.textStyles.p3, { color: 'red' }]}>Change Settings</Text>
-                        </View>
-                    </TouchableOpacity>
-                )}
+                <TouchableOpacity style={styles.healthView} onPress={this.onHealthSettings}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingTop: 15 }}>
+                        <Text style={this.textStyles.p1}>Polarus needs access to {"\n"}your health data.</Text>
+                        <Images.healthHeart height={this.textStyles.p1.fontSize * 2.5} />
+                    </View>
+                    <View style={{ flexDirection: 'row', paddingTop: 10, paddingLeft: 20, paddingBottom: 10, alignItems: 'center' }}>
+                        <Images.settingsIcon style={{ margin: 10 }} />
+                        <Text style={[this.textStyles.p3, { color: 'red' }]}>Change Settings</Text>
+                    </View>
+                </TouchableOpacity>
             </>
         );
     };
@@ -412,7 +408,6 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                         <Button title='History' style={styles.testingButton} onPress={() => this.onTESTINGButton()} />
                     </View>
                     {this.getCenterElement()}
-                    {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getCenterElement()}
                     {loading
                         ? <ActivityIndicator size='large' />
                         : this.getCheckinsList()
