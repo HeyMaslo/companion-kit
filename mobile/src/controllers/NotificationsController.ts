@@ -107,8 +107,8 @@ export class NotificationsController implements IDisposable {
         this._syncThrottle.tryRun(this.sync);
     };
 
-    // Schedule 28 daily affirmation notifications starting tomorrow at this.scheduleTime
-    public async scheduleTwentyEightAffirmationNotifications() {
+    // Schedule 27 daily affirmation notifications starting tomorrow at this.scheduleTime
+    public async scheduleTwentySevenAffirmationNotifications() {
         if (!this._userId) throw new Error('no user id set');
         if (this.notificationsEnabled) {
             let userState: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
@@ -120,11 +120,41 @@ export class NotificationsController implements IDisposable {
                 userState.lastSeenAffirmations);
             possibleAffirmations = shuffle(possibleAffirmations);
 
+            const firstDomain = this.domainAndSubdomainNames[0]; // there will always be at least domain
+            const secondDomain = this.domainAndSubdomainNames.length > 1 ? this.domainAndSubdomainNames[1] : null;
+            const thirdDomain = this.domainAndSubdomainNames.length > 2 ? this.domainAndSubdomainNames[2] : null;
+            const actualDomains = [firstDomain, secondDomain, thirdDomain].filter((d) => d);
+
+            // Interleave affirmations based on domain, i.e. if they chose Mood and Sleep they should recieve a Mood affirmation then a Sleep the next day then a Mood and so on
+            let affirmationsToSchedule = [];
+            switch (actualDomains.length) {
+                case 1:
+                    affirmationsToSchedule = possibleAffirmations.slice(0, 26);
+                    break;
+                case 2:
+                    const firstDomainAffirmations = possibleAffirmations.filter((aff) => aff.domainNames[0] == firstDomain);
+                    const secondDomainAffirmations = possibleAffirmations.filter((aff) => aff.domainNames[0] == secondDomain);
+                    for (let i = 0; i < 13; i++) { // (27 / 2 = 13.5) so we use 13 here and concat 1 more affirmation after the loop to get a total of 27
+                        affirmationsToSchedule.concat(firstDomainAffirmations[i]);
+                        affirmationsToSchedule.concat(secondDomainAffirmations[i]);
+                    }
+                    affirmationsToSchedule.concat(firstDomainAffirmations[13]);
+                    break;
+                case 3:
+                    const thirdDomainAffirmations = possibleAffirmations.filter((aff) => aff.domainNames[0] == thirdDomain);
+                    for (let i = 0; i < 9; i++) {
+                        affirmationsToSchedule.concat(firstDomainAffirmations[i]);
+                        affirmationsToSchedule.concat(secondDomainAffirmations[i]);
+                        affirmationsToSchedule.concat(thirdDomainAffirmations[i]);
+                    }
+                    break;
+            }
+
             const tomorrow = new Date()
             tomorrow.setDate(tomorrow.getDate() + 1);
             tomorrow.setHours(this.scheduleTime.hour, this.scheduleTime.minute, 0, 0);
 
-            const scheduled = await this._service.scheduleAffirmationMessages(possibleAffirmations.slice(0, 27), tomorrow.getTime(), this.allowBDMention);
+            const scheduled = await this._service.scheduleAffirmationMessages(affirmationsToSchedule.slice(0, 26), tomorrow.getTime(), this.allowBDMention);
             scheduled.forEach((result) => {
                 userState.lastSeenAffirmations[result.affirmation.id] = result.scheduledDate;
                 userState.scheduledAffirmations.push(result);

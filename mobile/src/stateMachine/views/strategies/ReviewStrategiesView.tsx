@@ -62,7 +62,7 @@ export class ReviewStrategiesView extends ViewState {
   async onCompleteDomainAndStraegyFlow() {
     // Wait until the final confirmation button is pressed to schedule affirmation notifications
     // Anywhere else in the flow the user can go back and change selected domains 
-    await AppController.Instance.User.notifications.scheduleTwentyEightAffirmationNotifications();
+    await AppController.Instance.User.notifications.scheduleTwentySevenAffirmationNotifications();
     this.trigger(ScenarioTriggers.Submit);
   }
 
