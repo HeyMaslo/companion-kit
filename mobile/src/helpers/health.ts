@@ -19,12 +19,6 @@ const lastWeekDate = new Date(
   today.getMonth(),
   today.getDate() - 8,
 );
-const opt = {
-  startDate: lastWeekDate.toISOString(), // required ISO8601Timestamp
-  endDate: today.toISOString(), // required ISO8601Timestamp
-  bucketUnit: 'DAY', // optional - default "DAY". Valid values: "NANOSECOND" | "MICROSECOND" | "MILLISECOND" | "SECOND" | "MINUTE" | "HOUR" | "DAY"
-  bucketInterval: 1, // optional - default 1.
-};
 
 const fetchStepsData = async opt => {
   const res = await GoogleFit.getDailyStepCountSamples(opt);
@@ -66,13 +60,16 @@ const fetchSleepData = async opt => {
 };
 
 const fetchAndroidHealthData = async () => {
-  // call Google Fit API to get the steps data for the user
-  // opts --> options object
-  const stepsData = await fetchStepsData(opt);
+  const options = {
+    startDate: lastWeekDate.toISOString(), // required ISO8601Timestamp
+    endDate: today.toISOString(), // required ISO8601Timestamp
+    bucketUnit: 'DAY', // optional - default "DAY". Valid values: "NANOSECOND" | "MICROSECOND" | "MILLISECOND" | "SECOND" | "MINUTE" | "HOUR" | "DAY"
+    bucketInterval: 1, // optional - default 1.
+  };
 
-  // call Google Fit API to get the sleep data for the user
-  // opts --> options object
-  const sleepData = await fetchSleepData(opt);
+  const stepsData = await fetchStepsData(options);
+
+  const sleepData = await fetchSleepData(options);
 
   // Uncomment below to log the data for sleep and steps from Google Fit
   // Store this data into Firebase once a schema is determined
