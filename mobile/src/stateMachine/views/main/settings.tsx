@@ -164,6 +164,7 @@ export class SettingsView extends ViewState {
                                 description={'Learn more'}
                                 Image={Images.archiveIcon}
                                 onPress={this.onHealthPermissionsChange}
+                                theme={this.theme}
                             >
                                 <Images.arrowRight width={8} height={8} />
                             </Card>

@@ -63,6 +63,7 @@ import LeisureIconSVG from 'src/assets/images/app/domain/leisure.svg';
 import SleepIconSVG from 'src/assets/images/app/domain/sleep.svg';
 import MoneyIconSVG from 'src/assets/images/app/domain/money.svg';
 import PhysicalIconSVG from 'src/assets/images/app/domain/physical.svg';
+import PhysicalIconFilledSVG from 'src/assets/images/app/domain/physical-filled.svg';
 import SelfEsteemIconSVG from 'src/assets/images/app/domain/self-esteem.svg';
 import HomeDomainIconSVG from 'src/assets/images/app/domain/sleep.svg';
 import MoodIconSVG from 'src/assets/images/app/domain/mood.svg';

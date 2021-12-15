@@ -475,13 +475,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         textAlign: 'center',
     },
-    health: {
-        width: '80%',
-        height: 30,
-        borderColor: Colors.welcome.mailButton.border,
-        borderWidth: 1,
-        justifyContent: 'center'
-    },
     healthView: {
         width: '90%',
         borderWidth: 2,
