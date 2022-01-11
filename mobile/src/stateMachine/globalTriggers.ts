@@ -12,6 +12,7 @@ export enum GlobalTriggers {
     Settings,
     Profile,
     NotificationReceived,
+    QolHistory,
 }
 
 const logger = createLogger('[Globaltriggers]');

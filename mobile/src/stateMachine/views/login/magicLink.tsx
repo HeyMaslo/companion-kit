@@ -34,5 +34,6 @@ export function magicLinkModal(
                 },
             }),
         },
+        theme: this.theme,
     };
 }

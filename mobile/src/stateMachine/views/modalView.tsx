@@ -5,6 +5,7 @@ import { Container, ActivityButton, MasloPage } from 'src/components';
 import BaseStyles, { notch } from 'src/styles/BaseStyles';
 import Colors from 'src/constants/colors';
 import Layout from 'src/constants/Layout';
+import { Theme } from 'src/constants/theme/PStheme';
 
 export type ModalButton = {
     text: string;
@@ -21,13 +22,14 @@ export type ModalProps = {
     secondaryButton?: ModalButtonOrCustom;
     contentHeight?: number;
     onClose?: () => void;
+    theme: Theme;
 };
 
 export function isModalButton(b: ModalButtonOrCustom): b is ModalButton {
     return !!b && !((b as { customRender: () => JSX.Element})?.customRender);
 }
 
-function renderSecondary(secondaryButton: ModalButtonOrCustom) {
+function renderSecondary(secondaryButton: ModalButtonOrCustom, theme: Theme) {
     if (!secondaryButton) {
         return null;
     }
@@ -44,35 +46,37 @@ function renderSecondary(secondaryButton: ModalButtonOrCustom) {
         <ActivityButton
             onPress={secondaryButton.action}
             title={secondaryButton.text}
-            loading="promise"
+            loading='promise'
             style={BaseStyles.blockButtonsWidth}
             withBorder
             isTransparent
+            theme={theme}
         />
     );
 }
 
 function ModalView(props: ModalProps) {
-    const { title, primaryButton, secondaryButton, message, contentHeight, onClose } = props;
+    const { title, primaryButton, secondaryButton, message, contentHeight, onClose, theme } = props;
     const heightStyle = { height: contentHeight ? contentHeight : BaseStyles.top43FixedHeight };
 
     return (
-        <MasloPage style={[BaseStyles.page, !contentHeight ? BaseStyles.top43 : null]} onClose={onClose}>
+        <MasloPage style={[BaseStyles.page, !contentHeight ? BaseStyles.top43 : null]} onClose={onClose} theme={theme}>
             <Container style={[BaseStyles.container, BaseStyles.flexBetween, heightStyle]}>
                 <View style={[BaseStyles.textBlock, styles.textBlock]}>
                     <Text style={[TextStyles.h1, styles.title]}>{title}</Text>
                     {message && (typeof(message) === 'string' ? <Text style={[Layout.isSmallDevice ? TextStyles.p2 : TextStyles.p1, styles.desc]}>{message}</Text> : message)}
                 </View>
                 <View style={[styles.buttonsBlock, { flexWrap: isModalButton(secondaryButton) ? 'wrap' : 'wrap-reverse'}]}>
-                    {renderSecondary(secondaryButton)}
+                    {renderSecondary(secondaryButton, theme)}
                     <ActivityButton
                         onPress={primaryButton.action}
                         title={primaryButton.text}
-                        loading="promise"
+                        loading='promise'
                         style={[
                             BaseStyles.blockButtonsWidth,
                             !isModalButton(secondaryButton) ? styles.primaryButton : null,
                         ]}
+                        theme={theme}
                     />
                 </View>
             </Container>

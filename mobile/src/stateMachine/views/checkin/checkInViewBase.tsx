@@ -36,6 +36,7 @@ export abstract class CheckInViewBase<CState = {}, CParams = any> extends ViewSt
                 text: 'no, go back',
                 action: this.hideModal,
             },
+            theme: this.theme,
         });
     })
 
@@ -49,6 +50,7 @@ export abstract class CheckInViewBase<CState = {}, CParams = any> extends ViewSt
                     action: () => this.trigger(ScenarioTriggers.Primary),
                 },
                 secondaryButton: null,
+                theme: this.theme,
             });
             return;
         }
@@ -69,6 +71,7 @@ export abstract class CheckInViewBase<CState = {}, CParams = any> extends ViewSt
                     this.trigger(ScenarioTriggers.Primary);
                 },
             },
+            theme: this.theme,
         });
     }
 }

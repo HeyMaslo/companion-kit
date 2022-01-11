@@ -67,6 +67,6 @@ export class OnboardingEnter extends ViewState<State> {
             return null;
         }
 
-        return <Onboarding content={content} stepIndex={stepIndex + 1} totalCount={StepsCount} personaViewContext={this.persona} />;
+        return <Onboarding content={content} stepIndex={stepIndex + 1} totalCount={StepsCount} personaViewContext={this.persona} theme={this.theme} />;
     }
 }

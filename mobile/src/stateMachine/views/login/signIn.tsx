@@ -143,6 +143,7 @@ export class SignInView extends ViewState {
                     onPress: () => Links.tryOpenLink(Localization.Current.MobileProject.contactUsLink, false),
                 }),
             },
+            theme: this.theme,
         });
     }
 
@@ -164,6 +165,7 @@ export class SignInView extends ViewState {
                     inProgress={inProgress || AppController.Instance.loading}
                     onBack={this.goBack}
                     style={[this.baseStyles.page, { justifyContent: 'flex-start', position: 'relative' }]}
+                    theme={this.theme}
                 >
                     <Container style={[
                         keyboard?.isOpened ? this.baseStyles.flexCenterBottom : this.baseStyles.flexStart,

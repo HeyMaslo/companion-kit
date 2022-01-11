@@ -1,6 +1,7 @@
 import { IPersonaContext, PersonaStates, PersonaViewState } from './persona';
 import { Conditions } from './conditions';
 import { ScreenRect } from 'react-native';
+import { Theme } from 'src/constants/theme/PStheme';
 
 export {
     PersonaStates,
@@ -41,6 +42,7 @@ export type KeyboardState = ScreenRect & { isOpened: boolean };
 export interface IStateViewContext extends IStateContext {
     readonly persona: IPersonaViewContext;
     readonly keyboard: Readonly<KeyboardState>;
+    readonly theme: Theme,
 }
 
 export type ViewStateProps<TParams = any> = {

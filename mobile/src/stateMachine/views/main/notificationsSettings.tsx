@@ -94,11 +94,11 @@ export class NotificationsSettingsView extends ViewState {
         const titleText = notificationsEnabled ? 'When do you want to be notified?' : 'Do you want to get notifications?';
 
         return (
-            <MasloPage style={this.baseStyles.page}>
+            <MasloPage style={this.baseStyles.page} theme={this.theme}>
                 <Container style={styles.topBarWrapWrap}>
                     <PersonaScrollMask />
                     <View style={styles.topBarWrap}>
-                        <Button style={styles.backBtn} underlayColor="transparent" onPress={() => this.trigger(ScenarioTriggers.Back)}>
+                        <Button style={styles.backBtn} underlayColor='transparent' onPress={() => this.trigger(ScenarioTriggers.Back)} theme={this.theme}>
                             <Images.backIcon width={28} height={14} />
                         </Button>
                     </View>
@@ -107,9 +107,10 @@ export class NotificationsSettingsView extends ViewState {
                     <Container style={[this.baseStyles.container, styles.container]}>
                         <Text style={[this.textStyles.h1, styles.title]}>{titleText}</Text>
                         <Card
-                            title="Notifications"
+                            title='Notifications'
                             description={notificationsEnabled ? this.model.scheduleTimeString : 'Off'}
                             style={{ marginBottom: 20 }}
+                            theme={this.theme}
                         >
                             <Switch
                                 value={this.model.isEnabled}
@@ -126,48 +127,56 @@ export class NotificationsSettingsView extends ViewState {
                         {notificationsEnabled && (
                             <>
                                 <Card
-                                    title="Morning"
-                                    description="From 7 AM to 10 AM"
+                                    title='Morning'
+                                    description='From 7 AM to 10 AM'
                                     onPress={() => this.model.toggleTime(NotificationTime.Morning)}
+                                    theme={this.theme}
                                 >
                                     <Checkbox
                                         checked={selectedTime[NotificationTime.Morning]}
                                         onChange={() => this.model.toggleTime(NotificationTime.Morning)}
+                                        theme={this.theme}
                                     />
                                 </Card>
                                 <Card
-                                    title="Midday"
-                                    description="From 12 PM to 2 PM"
-                                    onPress={() => this.model.toggleTime(NotificationTime.Midday)}>
-                                        <Checkbox
-                                            checked={selectedTime[NotificationTime.Midday]}
-                                            onChange={() => this.model.toggleTime(NotificationTime.Midday)}
-                                        />
+                                    title='Midday'
+                                    description='From 12 PM to 2 PM'
+                                    onPress={() => this.model.toggleTime(NotificationTime.Midday)}
+                                    theme={this.theme}>
+                                    <Checkbox
+                                        checked={selectedTime[NotificationTime.Midday]}
+                                        onChange={() => this.model.toggleTime(NotificationTime.Midday)}
+                                        theme={this.theme}
+                                    />
                                 </Card>
                                 <Card
-                                    title="Evening"
-                                    description="From 6 PM to 10 PM"
-                                    onPress={() => this.model.toggleTime(NotificationTime.Evening)}>
-                                        <Checkbox
-                                            checked={selectedTime[NotificationTime.Evening]}
-                                            onChange={() => this.model.toggleTime(NotificationTime.Evening)}
-                                        />
+                                    title='Evening'
+                                    description='From 6 PM to 10 PM'
+                                    onPress={() => this.model.toggleTime(NotificationTime.Evening)}
+                                    theme={this.theme}>
+                                    <Checkbox
+                                        checked={selectedTime[NotificationTime.Evening]}
+                                        onChange={() => this.model.toggleTime(NotificationTime.Evening)}
+                                        theme={this.theme}
+                                    />
                                 </Card>
                                 <Card
-                                    title="Exact Time"
-                                    description="Set your own time"
+                                    title='Exact Time'
+                                    description='Set your own time'
                                     style={exactActive ? styles.exactCard : null}
-                                    onPress={this.openDatePicker}>
-                                        <Checkbox
-                                            checked={exactActive}
-                                            onChange={this.openDatePicker}
-                                        />
+                                    onPress={this.openDatePicker}
+                                    theme={this.theme}>
+                                    <Checkbox
+                                        checked={exactActive}
+                                        onChange={this.openDatePicker}
+                                        theme={this.theme}
+                                    />
                                 </Card>
                                 {exactActive && (
                                     <View style={styles.exactTime}>
                                         <Container style={[this.baseStyles.flexRowBetween, { paddingVertical: 12 }]}>
                                             <Text style={this.baseStyles.cardTitle}>At</Text>
-                                            <Text style={{...this.baseStyles.cardTitle, color: Colors.notificationsSettings.exact.desc}}>{this.formatDate(exactTime)}</Text>
+                                            <Text style={{ ...this.baseStyles.cardTitle, color: Colors.notificationsSettings.exact.desc }}>{this.formatDate(exactTime)}</Text>
                                         </Container>
                                     </View>
                                 )}
@@ -178,7 +187,7 @@ export class NotificationsSettingsView extends ViewState {
                         isVisible={showDatePicker}
                         onConfirm={this.setDate}
                         onCancel={this.closeDatePicker}
-                        mode="time"
+                        mode='time'
                         // TODO test Android
                         isDarkModeEnabled={colorScheme === 'dark'}
                     />

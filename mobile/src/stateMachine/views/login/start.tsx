@@ -20,6 +20,6 @@ export class StartView extends ViewState {
     }
 
     renderContent() {
-        return <MasloPage />;
+        return <MasloPage theme={this.theme} />;
     }
 }

@@ -13,22 +13,25 @@ import { CheckInViewBase } from './checkInViewBase';
 import { ScenarioTriggers } from '../../abstractions';
 import Images from 'src/constants/images';
 import BaseStyles from 'src/styles/BaseStyles';
+import { Theme } from 'src/constants/theme/PStheme';
 
 type ControlProps = {
     onPress: () => void;
     Icon: React.ComponentClass<SvgProps, any>;
     title: string,
+    theme: Theme,
 };
 
 function ControlButton(props: ControlProps) {
-    const { onPress, Icon, title } = props;
+    const { onPress, Icon, title, theme } = props;
     return (
         <ActivityButton
             onPress={onPress}
-            loading="promise"
+            loading='promise'
             style={styles.controlsButton}
             withBorder
             isTransparent
+            theme={theme}
         >
             <Icon />
             <Text style={[TextStyles.btnTitle, styles.controlsButtonText]}>{title}</Text>
@@ -109,6 +112,7 @@ export class RecordView extends CheckInViewBase {
                 text: 'no, go back',
                 action: this.hideModal,
             },
+            theme: this.theme,
         });
     }
 
@@ -151,8 +155,10 @@ export class RecordView extends CheckInViewBase {
             return `${formatMins ? formatTime(minutes) : minutes}:${formatTime(seconds)}`;
         };
 
+        const theme = this.theme;
+
         return (
-            <MasloPage withDots dotLength={3} activeDot={2} onClose={this.tryClose} style={this.baseStyles.page}>
+            <MasloPage withDots dotLength={3} activeDot={2} onClose={this.tryClose} style={this.baseStyles.page} theme={this.theme}>
                 <Container style={[this.baseStyles.container, this.baseStyles.flexBetween, { height: this._contentHeight }]}>
                     {/* HEADER ==== */}
                     <View style={[this.baseStyles.textBlock, styles.textBlock]}>
@@ -168,7 +174,7 @@ export class RecordView extends CheckInViewBase {
                         {this.recorder.state === RecordingStates.countDown && (
                             <View style={styles.countDown}>
                                 <Text style={this.textStyles.h2}>Ready?</Text>
-                                <Text style={[{...this.textStyles.p2}, this.baseStyles.textCenter, styles.desc]}>{!!this.recorder.counter && `${this.recorder.counter}...`} </Text>
+                                <Text style={[{ ...this.textStyles.p2 }, this.baseStyles.textCenter, styles.desc]}>{!!this.recorder.counter && `${this.recorder.counter}...`} </Text>
                             </View>
                         )}
 
@@ -197,10 +203,11 @@ export class RecordView extends CheckInViewBase {
                         {this.recorder.state === RecordingStates.countDown && (
                             <Button
                                 onPress={this.cancelCountdown}
-                                title="Cancel"
+                                title='Cancel'
                                 withBorder
                                 isTransparent
                                 style={styles.cancelButton}
+                                theme={theme}
                             />
                         )}
 
@@ -208,11 +215,11 @@ export class RecordView extends CheckInViewBase {
                         {this.recorder.active && (
                             <View style={styles.controls}>
                                 {this.recorder.state === RecordingStates.recording
-                                    ? <ControlButton onPress={this.recorder.pauseAsync} title="PAUSE" Icon={Images.pauseIcon} />
-                                    : <ControlButton onPress={this.recorder.resumeAsync} title="RESUME" Icon={Images.resumeIcon} />
+                                    ? <ControlButton onPress={this.recorder.pauseAsync} title='PAUSE' Icon={Images.pauseIcon} theme={theme} />
+                                    : <ControlButton onPress={this.recorder.resumeAsync} title='RESUME' Icon={Images.resumeIcon} theme={theme} />
                                 }
 
-                                <ControlButton onPress={this.recorder.stopRecodringAsync} title="STOP" Icon={Images.stopIcon} />
+                                <ControlButton onPress={this.recorder.stopRecodringAsync} title='STOP' Icon={Images.stopIcon} theme={theme} />
                             </View>
                         )}
 
@@ -221,8 +228,9 @@ export class RecordView extends CheckInViewBase {
                             <ButtonBlock
                                 onOk={this.tryToSubmit}
                                 onCancel={this.onDelete}
-                                okTitle="Save"
-                                cancelTitle="delete"
+                                okTitle='Save'
+                                cancelTitle='delete'
+                                theme={theme}
                             />
                         )}
                     </View>
