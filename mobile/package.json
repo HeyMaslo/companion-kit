@@ -50,6 +50,7 @@
     "react-native-markdown-renderer": "^3.2.8",
     "react-native-modal-datetime-picker": "^8.9.3",
     "react-native-paper": "^4.9.2",
+    "react-native-safe-area-context": "^3.3.2",
     "react-native-shadow": "^1.2.2",
     "react-native-svg": "^12.1.0",
     "react-native-unimodules": "^0.10.1",

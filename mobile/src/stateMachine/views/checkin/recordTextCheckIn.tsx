@@ -80,6 +80,7 @@ export class TextRecordView extends CheckInViewBase {
                     this.hideModal();
                 },
             },
+            theme: this.theme,
         });
     }
 
@@ -108,6 +109,7 @@ export class TextRecordView extends CheckInViewBase {
                     this.hideModal();
                 },
             },
+            theme: this.theme,
         });
     }
 
@@ -129,6 +131,7 @@ export class TextRecordView extends CheckInViewBase {
 
         const editableContentPadding = this.layout.window.height - this._contentHeight;
         const editableContentHeight = keyboard?.isOpened ? keyboard?.screenY - editableContentPadding : '100%';
+        const theme = this.theme;
 
         return (
             <KeyboardAvoidingView behavior={android ? 'padding' : null} style={{ height: '100%' }}>
@@ -138,13 +141,14 @@ export class TextRecordView extends CheckInViewBase {
                     activeDot={2}
                     onClose={this.onClose}
                     style={!isEditable ? this.baseStyles.page : { justifyContent: 'flex-start', paddingTop: editableContentPadding }}
+                    theme={this.theme}
                 >
                     <Container style={[
                         this.baseStyles.container,
                         this.baseStyles.flexBetween,
                         isEditable ? styles.content : null,
                         { height: !isEditable ? this._contentHeight : editableContentHeight },
-                        ]}>
+                    ]}>
                         {!isEditable ? (
                             <View style={[this.baseStyles.textBlock, styles.textBlock]}>
                                 <Text style={[
@@ -158,7 +162,7 @@ export class TextRecordView extends CheckInViewBase {
                         ) : (
                             <Text style={[
                                 this.textStyles.h3, styles.editingTitle,
-                                { fontSize: this._questionFontSize(this.textStyles.h3.fontSize, !this.layout.isSmallDevice ? 20 : 18), lineHeight: this._questionFontSize(this.textStyles.h3.lineHeight, !this.layout.isSmallDevice ? 23 : 21)}]}
+                                { fontSize: this._questionFontSize(this.textStyles.h3.fontSize, !this.layout.isSmallDevice ? 20 : 18), lineHeight: this._questionFontSize(this.textStyles.h3.lineHeight, !this.layout.isSmallDevice ? 23 : 21) }]}
                             >
                                 {this.viewModel.question}
                             </Text>
@@ -168,7 +172,7 @@ export class TextRecordView extends CheckInViewBase {
                                 <>
                                     <TouchableOpacity onPress={this._onEditPress} style={styles.editBtn} activeOpacity={0.6}>
                                         <View style={styles.editBtnWrap}>
-                                            <Images.editIcon width={18} height={18}/>
+                                            <Images.editIcon width={18} height={18} />
                                             <Text style={[this.textStyles.labelMedium, styles.editBtnLabel]}>Edit your text</Text>
                                         </View>
                                     </TouchableOpacity>
@@ -192,6 +196,7 @@ export class TextRecordView extends CheckInViewBase {
                                         title="Done"
                                         onPress={this._onSubmit}
                                         style={styles.saveButton}
+                                        theme={theme}
                                     />
                                 </>
                             }
@@ -202,6 +207,7 @@ export class TextRecordView extends CheckInViewBase {
                                 cancelTitle="delete"
                                 onOk={this.tryToSubmit}
                                 onCancel={this.delete}
+                                theme={theme}
                             />
                         }
                     </Container>

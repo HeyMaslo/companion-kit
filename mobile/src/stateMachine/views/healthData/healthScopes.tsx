@@ -104,7 +104,7 @@ export class HealthScopesView extends ViewState {
         const explaining = 'We are collecting your health data to build a better personalized experience for you in the app.';
         const perm = this.model.getPermissions();
         return (
-            <MasloPage style={this.baseStyles.page} onBack={() => this.trigger(ScenarioTriggers.Back)} onClose={() => this.trigger(ScenarioTriggers.Cancel)}>
+            <MasloPage style={this.baseStyles.page} onBack={() => this.trigger(ScenarioTriggers.Back)} onClose={() => this.trigger(ScenarioTriggers.Cancel)} theme={this.theme}>
                 <Container style={styles.topBarWrapWrap}>
                     <PersonaScrollMask />
                 </Container>
@@ -123,6 +123,7 @@ export class HealthScopesView extends ViewState {
                                 <Button
                                     title='Grant Permission'
                                     onPress={this.onSettings}
+                                    theme={this.theme}
                                 />
                             </View>
                         )}

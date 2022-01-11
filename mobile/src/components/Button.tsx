@@ -3,10 +3,12 @@ import {
     TouchableHighlight,
     StyleSheet,
     Text,
+    View,
 } from 'react-native';
-import Colors from 'src/constants/colors';
 import TextStyles from '../styles/TextStyles';
 import AppController from 'src/controllers';
+import Layout from 'src/constants/Layout';
+import { Theme } from 'src/constants/theme/PStheme';
 
 export interface ButtonProps {
     style?: any;
@@ -18,6 +20,10 @@ export interface ButtonProps {
     withBorder?: boolean;
     underlayColor?: string;
     buttonForm?: boolean;
+    icon?: React.ComponentClass;
+    disabledStyle?: any;
+    disabledTextStyle?: any;
+    theme: Theme;
 }
 
 export default class Button extends React.Component<ButtonProps> {
@@ -40,31 +46,24 @@ export default class Button extends React.Component<ButtonProps> {
     }
 
     render() {
-        const { disabled, title, style, titleStyles, withBorder, underlayColor, isTransparent, buttonForm } = this.props;
-        const btnUnderlayColor = () => {
-            if (isTransparent) {
-                return Colors.borderColor;
-            }
-            if (buttonForm) {
-                return Colors.button.buttonForm.underlay;
-            }
-            return Colors.button.defaultUnderlayColor;
-        };
-
+        const { disabled, title, style, titleStyles, withBorder, underlayColor, isTransparent, buttonForm, icon, disabledStyle, disabledTextStyle, theme } = this.props;
         return (
             <TouchableHighlight
-                style={[ styles.button, disabled && styles.disabledButton, withBorder && styles.withBorder, isTransparent && styles.buttonTransparent, buttonForm && styles.buttonForm, style ]}
+                style={[{ ...styles.button, backgroundColor: theme.colors.highlight }, disabled && disabledStyle, withBorder && { ...styles.withBorder, borderColor: theme.colors.highlightSecondary }, isTransparent && { backgroundColor: 'transparent', borderColor: theme.colors.highlightSecondary }, buttonForm && styles.buttonForm, style]}
                 onPress={this._onPressHandler}
-                underlayColor={underlayColor ? underlayColor : btnUnderlayColor()}
+                underlayColor={underlayColor ? underlayColor : theme.colors.highlightSecondary}
                 activeOpacity={1}
                 disabled={disabled}
             >
-                { title
-                    ? <Text style={[TextStyles.btnTitle, disabled && styles.disabledText, isTransparent ? { color: Colors.button.transparentText } : {}, buttonForm && styles.buttonFormText, titleStyles]}>
-                        {title}
-                    </Text>
-                    : <>{this.props.children}</>
-                }
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    {icon && new icon({ style: [{ color: isTransparent ? theme.colors.highlight : theme.colors.background }, { width: 30, height: 30, marginRight: 15 }] })}
+                    {title
+                        ? <Text style={[TextStyles.btnTitle, disabled && disabledTextStyle, { color: isTransparent ? theme.colors.highlight : theme.colors.background }, titleStyles]}>
+                            {title}
+                        </Text>
+                        : <>{this.props.children}</>
+                    }
+                </View>
             </TouchableHighlight>
         );
     }
@@ -72,40 +71,21 @@ export default class Button extends React.Component<ButtonProps> {
 
 const styles = StyleSheet.create({
     button: {
-        width: '100%',
-        height: 65,
+        width: Layout.window.width * 0.88,
+        height: 55,
         maxHeight: 65,
         borderRadius: 5,
-        backgroundColor: Colors.button.defaultBg,
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
         borderWidth: 0,
-        borderColor: Colors.button.defaultBorder,
         flexShrink: 0,
-    },
-    whiteTitle: {
-        color: '#fff',
-    },
-    disabledButton: {
-        borderColor: Colors.button.disabledBorder,
-        backgroundColor: Colors.button.disabledBg,
-    },
-    disabledText: {
-        color: Colors.button.disabledText,
     },
     withBorder: {
         borderWidth: 1,
     },
-    buttonTransparent: {
-        borderColor: Colors.borderColor,
-        backgroundColor: 'transparent',
-    },
     buttonForm: {
-        backgroundColor: Colors.button.buttonForm.bg,
-        borderColor: Colors.button.buttonForm.border,
-    },
-    buttonFormText: {
-        color: Colors.button.buttonForm.text,
+        backgroundColor: '#E7E1F2',
+        borderColor: 'transparent',
     },
 });

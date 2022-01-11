@@ -62,21 +62,22 @@ export class QolStartView extends ViewState {
             secondaryButton: {
                 text: 'no, go back',
                 action: this.hideModal,
-            }
+            },
+            theme: this.theme,
         });
     })
 
     renderContent() {
 
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()}>
+            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} theme={this.theme}>
                 <Container style={[styles.container, { height: this._contentHeight }]}>
                     <Text style={[this.textStyles.h1, styles.title]}>Welcome{(this.viewModel.qolSurveyType === QolSurveyType.Full) ? " back" : ""}!</Text>
                     <Text style={[this.textStyles.p1, styles.message]}> {(this.viewModel.qolSurveyType === QolSurveyType.Full) ?
                         "Welcome to your monthly check-in! We'll start with getting an update on your quality of life." :
                         "I’m happy you’re here! First, I’ll need to gather some information about your current Quality of Life. Ready to begin?"}
                     </Text>
-                    <Button title="I'M READY" style={styles.readyButton} onPress={() => this.onStartSurvey()} />
+                    <Button title="I'M READY" style={styles.readyButton} onPress={() => this.onStartSurvey()} theme={this.theme} />
                 </Container>
             </MasloPage>
         );

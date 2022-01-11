@@ -13,6 +13,7 @@ import Colors from 'src/constants/colors';
 
 import CloseIcon from 'src/assets/images/app/close-icon-white.png';
 import BackIcon from 'src/assets/images/app/back-arrow-white.png';
+import { Theme } from 'src/constants/theme/PStheme';
 
 type PictureViewProps = {
     model: PictureViewViewModel;
@@ -20,6 +21,7 @@ type PictureViewProps = {
     onBack?: () => void;
     afterShot?: () => void;
     pictureOptions?: ImagePickerOptions;
+    theme: Theme;
 };
 
 const isAndroid = Platform.OS === 'android';
@@ -102,7 +104,7 @@ export const PictureView = observer(function (this: void, props: PictureViewProp
             <TouchableOpacity onPress={onClose} style={BaseStyles.close}>
                 <Image source={CloseIcon} style={{ width: 22, height: 22 }} />
             </TouchableOpacity>
-            <Container style={[BaseStyles.container, BaseStyles.flexRowBetween,  styles.container]}>
+            <Container style={[BaseStyles.container, BaseStyles.flexRowBetween, styles.container]}>
                 <TouchableOpacity
                     style={[BaseStyles.flexCenter, styles.cameraRoll]}
                     onPress={() => openCameraRoll(pictureOptions, afterShot)}
@@ -141,7 +143,7 @@ export const PictureView = observer(function (this: void, props: PictureViewProp
 
 
     return (
-        <MasloPage style={BaseStyles.page}>
+        <MasloPage style={BaseStyles.page} theme={props.theme}>
             {renderCamera ? (
                 <>
                     <View style={[styles.activityIndicator, { opacity: model.capturing ? 1 : 0 }]} pointerEvents="none">

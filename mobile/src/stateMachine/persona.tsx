@@ -11,7 +11,6 @@ import {
     CurrentPersonaSettings,
 } from 'dependencies/persona/expo';
 import { IPersonaViewContext } from './abstractions';
-import Colors from 'src/constants/colors';
 import Layout from 'src/constants/Layout';
 import * as Haptics from 'src/services/haptics';
 
@@ -89,14 +88,11 @@ export function PersonaView(this: void, props: Props) {
             <MasloPersonaExpo
                 context={props.context}
                 disabled={props.disabled}
-                personaSettings={{ colors: PersonaColors }}
                 staticScale={PersonaScale}
             />
         </View>
     );
 }
-
-const PersonaColors = Colors.personaColors;
 
 const styles = StyleSheet.create({
     personaWrapper: {

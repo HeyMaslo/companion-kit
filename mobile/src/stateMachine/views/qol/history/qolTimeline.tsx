@@ -72,11 +72,13 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
     return AppViewModel.Instance.QoLHistory;
   }
 
+  // MK-TODO: - colors and theme, wait until design is finalized
+
   async start() {
     this.historyEntries = this.viewModel.historyEntries;
     this.selectedEntry = this.viewModel.selectedEntry;
     this.selectedEntryIndex = this.viewModel.selectedEntryWeekNumber - 1;
-    this.selectedDomains = this.selectedEntry.focusDomains || [];
+    this.selectedDomains = this.selectedEntry.focusDomains.domains || [];
     this.scrollViewContentOffset = { x: this.selectedEntryIndex * (weekCircleDiameter + weekCircleMarginLeft * 2), y: 0 };
 
     this.allDomains = AppViewModel.Instance.Domain.allDomains.map((d) => d.name);
@@ -128,7 +130,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   changeFilterPressed = (selection: string) => {
     if (selection == 'Show All') {
       this.domainSort = null;
-      this.selectedDomains = this.selectedEntry.focusDomains;
+      this.selectedDomains = this.selectedEntry.focusDomains.domains;
     } else {
       this.domainSort = selection as DomainName;
       this.selectedDomains = [this.domainSort];
@@ -175,14 +177,14 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
         this.selectedEntry = item
         this.selectedEntryIndex = index
         if (this.domainSort == null) {
-          this.selectedDomains = this.selectedEntry.focusDomains || [];
+          this.selectedDomains = this.selectedEntry.focusDomains.domains || [];
         }
       }}>
         <View style={[styles.weekCircle,
         item.surveyType == QolSurveyType.Full ? { borderWidth: styles.weekCircle.borderWidth * 2.2 } : { borderWidth: styles.weekCircle.borderWidth },
-        index == this.selectedEntryIndex ? { backgroundColor: TextStyles.labelMedium.color } : { backgroundColor: 'white' },
+        index == this.selectedEntryIndex ? { backgroundColor: this.theme.colors.highlightSecondary } : { backgroundColor: 'white' },
         { top: this.topForWeekCircle(Math.round(score)), left: 0, marginHorizontal: ((Layout.window.width - 40) - 4 * weekCircleDiameter) / 8 }]}>
-          <Text style={[styles.weekCircleText, index == this.selectedEntryIndex ? { color: 'white' } : { color: TextStyles.labelMedium.color },]}>W{index + 1}</Text>
+          <Text style={[styles.weekCircleText, index == this.selectedEntryIndex ? { color: 'white' } : { color: this.theme.colors.highlightSecondary }]}>W{index + 1}</Text>
         </View>
       </Pressable>
     );
@@ -190,7 +192,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
 
   renderContent() {
     return (
-      <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()} onClose={() => this.onClose()}>
+      <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()} onClose={() => this.onClose()} theme={this.theme}>
         <Container style={[{ height: this._contentHeight, marginTop: containerMarginTop, marginBottom: containerMarginBottom }]}>
           <IconsOnCircle circleRaius={this.ordRadius * 6} symbolSize={40} totalContainerMargin={containerMarginTop - containerMarginBottom} highlightedDomains={this.selectedDomains} onLayout={this.onLayoutIconCircle} />
           <View pointerEvents={'box-none'} style={[styles.bottomWrapper, { top: this.state.bottomWrapperTop }]}>
@@ -201,7 +203,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
 
                 <TouchableOpacity onPress={this.dropDown} style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Text style={[TextStyles.labelLarge, this.domainSort && { textDecorationLine: 'underline' }]}>{this.domainSort || `Quality of\nlife score`}</Text>
-                  <Images.caretDown width={14} height={8} color={TextStyles.labelLarge.color} style={[{ marginLeft: 7 }, this.dropDownIsExtended && { transform: [{ rotate: '180deg' }] }]} />
+                  <Images.caretDown width={14} height={8} color={this.theme.colors.foreground} style={[{ marginLeft: 7 }, this.dropDownIsExtended && { transform: [{ rotate: '180deg' }] }]} />
                 </TouchableOpacity>
 
                 <View style={styles.scoreCircle}>
@@ -219,7 +221,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
               <SplineThroughPoints style={[styles.curve, { width: this.historyEntries.length * (weekCircleDiameter + weekCircleMarginLeft * 2), height: this.graphHeight }]}
                 viewBox={`0 0 ${this.historyEntries.length * (weekCircleDiameter + weekCircleMarginLeft * 2)} ${this.graphHeight}`}
                 controlPoints={this.entryCoordinates}
-                strokeColor={TextStyles.labelMedium.color}
+                strokeColor={this.theme.colors.highlightSecondary}
                 strokeWidth={4} />
 
               {this.historyEntries.map((entry, index) => this.renderListItem(entry, index))}
@@ -231,7 +233,8 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
               style={[styles.viewAllButton]}
               onPress={this.onViewStrategies}
               isTransparent={true}
-              disabled={this.dropDownIsExtended} />
+              disabled={this.dropDownIsExtended}
+              theme={this.theme} />
 
             {/* Dropdown list is here so it renders on top of everything */}
             {this.dropDownIsExtended &&
@@ -259,7 +262,7 @@ const styles = StyleSheet.create({
     height: 50,
     margin: 5,
     borderWidth: 1,
-    borderColor: TextStyles.labelLarge.color,
+    // borderColor: TextStyles.labelLarge.color,
   },
   header: {
     marginVertical: '5%',
@@ -273,7 +276,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 40 / 2,
     backgroundColor: 'transparent',
-    borderColor: TextStyles.labelLarge.color,
+    // borderColor: TextStyles.labelLarge.color,
     borderWidth: 2,
     justifyContent: 'center',
     alignItems: 'center',
@@ -291,7 +294,7 @@ const styles = StyleSheet.create({
     width: weekCircleDiameter,
     height: weekCircleDiameter,
     borderRadius: weekCircleRadius,
-    borderColor: TextStyles.labelMedium.color,
+    // borderColor: TextStyles.labelMedium.color,
     borderWidth: 2,
     justifyContent: 'center',
     alignItems: 'center',
