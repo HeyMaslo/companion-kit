@@ -102,5 +102,8 @@ if [ $mobile == 1 ]; then
     echo "Copying patched gradle.groovy"
     # This is used to fix lines 81 & 82, if 'react-native-unimodules' is updated, our fixed version must be updated as well
     cp mobile/gradle.groovy mobile/node_modules/react-native-unimodules
+    echo "Copying patched GoogleFitManager.java"
+    # This is used to fix line 199 by replacing a class variable with a literal string, if 'react-native-google-fit' is updated, re-evaluate
+    cp mobile/android/GoogleFitManager.java mobile/node_modules/react-native-google-fit/android/src/main/java/com/reactnative/googlefit/GoogleFitManager.java
 fi
 echo "Done."

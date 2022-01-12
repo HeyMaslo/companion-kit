@@ -159,10 +159,7 @@ export class UserController extends UserControllerBase implements IUserControlle
         });
 
         //Added Logic for Health permissions
-        this.hasHealthDataPermissions = new HealthPermissionsController(this._localSettings, {
-            get firstName() { return self.user?.firstName; },
-            get lastName() { return self.user?.lastName; },
-        });
+        this.hasHealthDataPermissions = new HealthPermissionsController();
 
         if (process.appFeatures.EDITABLE_PROMPTS_ENABLED === true) {
             this._prompts = new PromptsController(this._journal.entries);
