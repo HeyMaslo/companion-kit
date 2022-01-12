@@ -7,7 +7,6 @@ import { transferChangedFields } from 'common/utils/fields';
 import { ThrottleAction } from 'common/utils/throttle';
 import { IEvent, Event } from 'common/utils/event';
 import { AppVersion } from './AppVersion';
-import { QolSurveyType } from 'src/constants/QoL';
 
 const DeviceId = ExpoConstants.installationId;
 
@@ -26,7 +25,7 @@ export interface ILocalSettingsController {
     updateNotifications(diff: Partial<NotificationsSettings>, changedField: keyof NotificationsSettings): void;
     updateQolSettings(diff: Partial<QolSettings>, changedField: keyof QolSettings): void;
     updateLastDailyCheckIn(diff: string): void;
-
+    updateStrategiesConfirmed(diff: boolean): void;
     updateHealthPermissions(diff: HealthPermissionsSettings): void;
 
     flushChanges(): Promise<void>;
@@ -60,6 +59,7 @@ export class LocalSettingsController implements ILocalSettingsController {
 
         let updateDiff: Partial<UserLocalSettings> = null;
         if (!this._current) {
+            // INITIAL STATE for UserLocalSettings after account is created
             this._current = {
                 deviceId: DeviceId,
                 deviceInfo: Info,
@@ -76,7 +76,8 @@ export class LocalSettingsController implements ILocalSettingsController {
                     scheduledTime: { hour: 0, minute: 0 },
                     allowBDMention: false,
                     domainsForNotifications: [],
-                }
+                },
+                strategiesConfirmed: null,
             };
             updateDiff = this._current;
         } else if (this._current.appVersion !== AppVersion.FullVersion
@@ -206,6 +207,18 @@ export class LocalSettingsController implements ILocalSettingsController {
             if (changed) {
                 lastDailyCheckIn = diff;
                 this.update({ lastDailyCheckIn });
+            }
+        });
+    }
+
+    updateStrategiesConfirmed(diff: boolean) {
+        let strategiesConfirmed = this.current.strategiesConfirmed;
+        transaction(() => {
+            let changed = diff !== strategiesConfirmed;
+
+            if (changed) {
+                strategiesConfirmed = diff;
+                this.update({ strategiesConfirmed });
             }
         });
     }

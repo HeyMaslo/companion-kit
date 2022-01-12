@@ -11,6 +11,7 @@ export type UserLocalSettings = {
     healthPermissions?: HealthPermissionsSettings;
     qol?: QolSettings;
     lastDailyCheckIn?: string;
+    strategiesConfirmed?: boolean;
 };
 
 export type NotificationsSettings = {

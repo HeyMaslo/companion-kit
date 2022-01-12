@@ -223,8 +223,9 @@ export const MasloScenario: GlobalScenario<States> = {
             { priority: 1, target: States.OnboardingEnter, condition: VM.hasActiveOnboarding },
             { priority: 2, target: States.NotificationsTimeOnboarding, condition: () => true }, // VM.askNotifyPermissions },
             { priority: 3, target: States.HealthConsent, condition: Platform.OS == 'ios' ? VM.needsHealthPromptIOS : VM.hasHealthPermissions },
-            { priority: 4, target: States.IntakeForm, condition: VM.showAssessment },
-            { priority: 5, target: States.StartQol, condition: VM.showQol },
+            { priority: 4, target: States.Choose_Strategies, condition: VM.needsToChooseStrategies },
+            { priority: 5, target: States.IntakeForm, condition: VM.showAssessment },
+            { priority: 7, target: States.StartQol, condition: VM.showQol },
             { priority: 10, target: States.Home, condition: () => true },
 
         ],

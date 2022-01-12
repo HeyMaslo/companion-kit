@@ -29,7 +29,7 @@ export class NotificationsTimeOnboardingView extends NotificationsOnboardingBase
 
     this.setState(
       { showDatePicker: false },
-      () => this.viewModel.scheduledTime = { hour: date.getHours(), minute: date.getMinutes() },
+      () => this.viewModel.setScheduledTime({ hour: date.getHours(), minute: date.getMinutes() }),
     );
     this.setState({ hasPickedDate: true });
     this.continueButtonDisabled = false;

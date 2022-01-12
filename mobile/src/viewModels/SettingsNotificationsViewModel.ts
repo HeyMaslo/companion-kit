@@ -19,8 +19,7 @@ export class SettingsNotificationsViewModel {
 
     private _posssibleDomains: (DomainName | SubdomainName)[] = [];
 
-    @observable
-    public scheduledTime: HourAndMinute = AppController.Instance.User.localSettings.current.notifications.scheduledTime;
+    get scheduledTime(): HourAndMinute { return AppController.Instance.User.localSettings.current.notifications.scheduledTime };
     @observable
     public domainsForNotifications: (DomainName | SubdomainName)[] = AppController.Instance.User.localSettings.current.notifications.domainsForNotifications;
     @observable
@@ -49,6 +48,10 @@ export class SettingsNotificationsViewModel {
         const splits = localeString.split(':'); // splits are done becuase the android date locale might include seconds
         const androidTimeString = splits.length > 1 ? splits[0] + ':' + splits[1] : localeString;
         return 'Daily at ' + androidTimeString;
+    }
+
+    public setScheduledTime(time: HourAndMinute) {
+        AppController.Instance.User.localSettings.updateNotifications({ scheduledTime: time }, 'scheduledTime');
     }
 
     public setAllDomains(allDomains: (DomainName | SubdomainName)[]) {
