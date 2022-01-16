@@ -8,6 +8,7 @@ import { createLogger } from 'common/logger';
 import Layout from 'src/constants/Layout';
 import AppViewModel from 'src/viewModels';
 import QOLSurveyViewModel from '../../../viewModels/QoLViewModel';
+import AppController from 'src/controllers';
 
 export const logger = createLogger('[endQOL]');
 
@@ -45,6 +46,9 @@ export class QolEndView extends ViewState<{ opacity: Animated.Value }> {
     }
 
     private onEndSurvey = () => {
+        if (AppController.Instance.User.localSettings.current?.onboarding.needsQolOnboarding) {
+            this.viewModel.completeQolOnboarding();
+        }
         AppViewModel.Instance.QOL = new QOLSurveyViewModel();
         this.cancel();
     }

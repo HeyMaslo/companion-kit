@@ -46,8 +46,10 @@ export default class DomainViewModel {
     }
 
     public async fetchPossibleDomains() {
-        this._allDomains = await AppController.Instance.User.domain.getPossibleDomains();
-        this.domainCount = this._allDomains.length;
+        return await AppController.Instance.User.domain.getPossibleDomains().then((fetchedDoms) => {
+            this._allDomains = fetchedDoms;
+            this.domainCount = this._allDomains.length;
+        })
     }
 
     public async fetchSelectedDomains() {
@@ -142,6 +144,10 @@ export default class DomainViewModel {
             }
         }
         return null;
+    }
+
+    public completeDomainOnboarding() {
+        AppController.Instance.User.localSettings.updateOnboardingSettings({ needsDomainOnboarding: false }, 'needsDomainOnboarding');
     }
 
 }

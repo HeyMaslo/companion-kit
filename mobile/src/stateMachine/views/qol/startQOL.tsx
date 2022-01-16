@@ -16,13 +16,14 @@ export class QolStartView extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -15, transition: { duration: 1.5 } });
-        if (!AppController.Instance.User.localSettings?.current?.qol?.seenQolOnboarding) {
-            this.viewModel.updateQolOnboarding();
-        }
     }
 
     async start() {
         await this.viewModel.init();
+        // console.log('------- startQol')
+        // console.log('persona.qolArmMagnitudes', this.persona.qolArmMagnitudes)
+        // console.log('viewModel.qolArmMagnitudes', this.viewModel.qolArmMagnitudes)
+        // console.log('------- --')
         const currentQolSettings = AppController.Instance.User.localSettings?.current.qol;
 
         // If there is a short qol that is partialy complete submit it

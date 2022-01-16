@@ -29,6 +29,9 @@ export class QolQuestion extends ViewState {
 
     async start() {
         // Not yet implemented
+        console.log('------- qolQuestion')
+        console.log('this.persona.qolArmMagnitudes', this.persona.qolArmMagnitudes)
+        console.log('this.viewModel.domain', this.viewModel.domain)
     }
 
     private cancel = () => {

@@ -107,4 +107,8 @@ export default class StrategyViewModel {
     return null;
   }
 
+  public completeStrategiesOnboarding() {
+    AppController.Instance.User.localSettings.updateOnboardingSettings({ needsStrategyOnboarding: false }, 'needsStrategyOnboarding');
+  }
+
 }

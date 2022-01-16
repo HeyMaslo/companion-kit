@@ -31,16 +31,13 @@ export default class QOLSurveyViewModel {
 
     constructor() {
         this.initModel = AppController.Instance.User.qol.getPartialQol().then((partialQolState: PartialQol) => {
-            if (!this._settings.current?.qol?.seenQolOnboarding) {
-                this.updateQolOnboarding();
-            }
             if (partialQolState !== null && typeof (partialQolState) !== 'undefined') {
                 this._questionNum = partialQolState.questionNum;
                 this._domainNum = partialQolState.domainNum;
                 this._surveyResponses = partialQolState.scores;
                 this.startDate = partialQolState.startDate;
                 this.questionCompletionDates = partialQolState.questionCompletionDates;
-                // this._armMagnitudes = this.getArmMagnitudes(partialQolState.scores); // MK-FIXME MK-TODO
+                this._armMagnitudes = this.getArmMagnitudes(partialQolState.scores);
                 this.isUnfinished = true;
                 this.showInterlude = partialQolState.isFirstTimeQol;
                 this.qolSurveyType = partialQolState.surveyType;
@@ -160,8 +157,8 @@ export default class QOLSurveyViewModel {
         return res;
     }
 
-    public updateQolOnboarding() {
-        this._settings.updateQolSettings({ seenQolOnboarding: true }, 'seenQolOnboarding');
+    public completeQolOnboarding() {
+        this._settings.updateOnboardingSettings({ needsQolOnboarding: false }, 'needsQolOnboarding')
         this._settings.updateQolSettings({ lastFullQol: Date() }, 'lastFullQol');
         this.showInterlude = true;
     }

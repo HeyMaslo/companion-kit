@@ -65,9 +65,7 @@ export class CustomizeNotificationsOnboardingView extends NotificationsOnboardin
     return (
       <>
         <Text style={[TextStyles.h1, styles.title, { color: this.theme.colors.foreground }]}>{titleText}</Text>
-        {/* {this.viewModel.posssibleDomains.map((dom, index) => { */}
-        {/* // MK-TODO remove below and uncomment above after testing */}
-        {[DomainName.SLEEP].map((dom, index) => {
+        {this.viewModel.posssibleDomains.map((dom, index) => {
           return <Card
             key={dom}
             title={dom + ' Life Area'}

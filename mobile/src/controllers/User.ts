@@ -63,10 +63,7 @@ export interface IUserController extends IUserControllerBase {
     readonly domain: DomainController;
     readonly strategy: StrategyController;
 
-    readonly hasSeenOnboarding: boolean;
     readonly hasHealthDataPermissions: HealthPermissionsController;
-
-    onboardingSeen(): void;
 
     acceptConsent?(option: string): Promise<boolean>;
 }
@@ -88,9 +85,6 @@ export class UserController extends UserControllerBase implements IUserControlle
             () => this.user?.client?.journalsHistory,
             () => this.activeAccount?.id,
         ) : null;
-
-    @observable
-    private _onboardingSeen = false;
 
     @observable.ref
     private _staticTips: StaticTipItemIded[] = null;
@@ -220,12 +214,6 @@ export class UserController extends UserControllerBase implements IUserControlle
         return this.user?.client && this.activeAccount && getDayIndex(this.user.client.journalsHistory);
     }
 
-    get hasSeenOnboarding(): boolean { return this._onboardingSeen; }
-
-    onboardingSeen(): void {
-        this._onboardingSeen = true;
-    }
-
     private async onPreProcessAuthUser(authUser: AuthUser) {
         if (authUser) {
             const savedUserId = await StorageAsync.getValue(SavedUserIdKey);
@@ -271,8 +259,6 @@ export class UserController extends UserControllerBase implements IUserControlle
             this._records.weakValue?.setClient(this.activeAccount.coachId, this.user.id, this.user.displayName);
             this._recordsLastWeek.weakValue?.setLoggerName(`${this.user.displayName || '??'}:week`);
             this._qol.weakValue?.setUser(this.user.id);
-
-            this._onboardingSeen = false;
 
             if (user) {
                 await StorageAsync.setValue(SavedUserIdKey, user.id);

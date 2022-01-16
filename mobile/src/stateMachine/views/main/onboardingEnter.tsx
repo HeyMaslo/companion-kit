@@ -22,10 +22,6 @@ export class OnboardingEnter extends ViewState<State> {
         stepIndex: null,
     };
 
-    protected end() {
-        AppController.Instance.User.onboardingSeen();
-    }
-
     async start() {
         const stepIndex = AppContorller.Instance.User.onboardingDayIndex;
         const step = getOnboardingStep(stepIndex);

@@ -34,9 +34,12 @@ export class ScenarioViewModel {
 
     public readonly homeReady = () => !this.userPreparing() && this.userConfirmed();
 
-    public readonly hasActiveOnboarding = () => process.appFeatures.MOBILE_ONBOARDING_ENABLED === true && this.userWithAccount() && AppController.Instance.User.onboardingDayIndex != null && !AppController.Instance.User.hasSeenOnboarding;
-    public readonly showOnboardingExit = () => process.appFeatures.MOBILE_ONBOARDING_ENABLED === true && AppViewModel.Instance.CreateCheckIn.beforeSubmitState?.onboardingIndex != null;
-    public readonly showNewReward = () => process.appFeatures.CLIENT_REWARDS_ENABLED === true && AppViewModel.Instance.CreateCheckIn.beforeSubmitState?.rewardLevel < AppController.Instance.User.rewards?.level;
+    // Onboarding
+    public readonly isCurrentlyOnboarding = () => !AppController.Instance.User.localSettings?.current?.onboarding.completed;
+    public readonly showOnboardingQol = () => this.userWithAccount() && AppController.Instance.User.localSettings?.current?.onboarding.needsQolOnboarding;
+    public readonly onboardingNeedsToChooseDomains = () => AppController.Instance.User.localSettings.current.onboarding.needsDomainOnboarding
+    
+    public readonly needsToChooseStrategies = () => AppController.Instance.User?.localSettings.current.strategiesConfirmed === false;
 
     // NOTIFICATIONS
     public readonly notificationReceived = () => this.homeReady(); // this may need more checks
@@ -44,12 +47,8 @@ export class ScenarioViewModel {
 
     public readonly showConsent = () => process.appFeatures.MOBILE_SHOW_CONSENT === true && this.userConfirmed() && !AppController.Instance.User.user?.client?.consentAccepted;
     public readonly showAssessment = () => process.appFeatures.ASSESSMENTS_ENABLED === true && this.userWithAccount() && !!AppController.Instance.User.assessments.nextFormTypeAvailable;
-    public readonly showQol = () => this.userWithAccount() && !AppController.Instance.User.localSettings?.current?.qol?.seenQolOnboarding;
 
     // Health data
     public readonly hasHealthPermissions = () => AppController.Instance.User?.hasHealthDataPermissions.enabled;
     public readonly needsHealthPromptIOS = () => Platform.OS == 'ios' && (typeof AppController.Instance.User?.localSettings.current.healthPermissions == 'undefined' || !AppController.Instance.User?.localSettings.current.healthPermissions.seenPermissionPromptIOS);
-
-    // Domain and Strategy
-    public readonly needsToChooseStrategies = () => AppController.Instance.User?.localSettings.current.strategiesConfirmed === false;
 }

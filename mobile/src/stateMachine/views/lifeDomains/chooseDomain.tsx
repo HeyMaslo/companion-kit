@@ -32,6 +32,7 @@ export class ChooseDomainView extends ViewDomainsBase {
     }
 
     async start() {
+        await this.viewModel.fetchPossibleDomains();
         this.checkedSubdomains = this.viewModel.checkedSubdomains;
         if (this.viewModel.learnMoreSubdomain != null) {
             this.showSubdomainPopUp = true;
@@ -39,6 +40,7 @@ export class ChooseDomainView extends ViewDomainsBase {
             this.viewModel.learnMoreSubdomain = null;
         }
         this.showBottomBanner = this.viewModel.selectedDomains.domains.length !== 0 && !this.showSubdomainPopUp;
+        super.forceUpdate();
     }
 
     async end() {

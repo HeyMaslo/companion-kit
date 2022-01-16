@@ -106,7 +106,7 @@ export const MasloScenario: GlobalScenario<States> = {
     [States.HealthConsent]: {
         view: HealthConsentView,
         exit: [
-            { target: States.Home, trigger: Triggers.Submit },
+            { target: States.HomeRouter, trigger: Triggers.Submit },
         ],
     },
     [States.HealthScopes]: {
@@ -209,7 +209,7 @@ export const MasloScenario: GlobalScenario<States> = {
         view: ReviewNotificationsOnboardingView,
         exit: [
             { target: States.BDMentionNotifcationsOnboarding, trigger: Triggers.Back },
-            { target: States.HomeRouter, trigger: Triggers.Next },
+            { target: States.Home, trigger: Triggers.Next },
         ],
     },
 
@@ -219,13 +219,16 @@ export const MasloScenario: GlobalScenario<States> = {
             { condition: VM.homeReady },
         ],
         exit: [
-            { priority: 0, target: States.Consent, condition: VM.showConsent },
-            { priority: 1, target: States.OnboardingEnter, condition: VM.hasActiveOnboarding },
-            { priority: 2, target: States.NotificationsTimeOnboarding, condition: () => true }, // VM.askNotifyPermissions },
-            { priority: 3, target: States.HealthConsent, condition: Platform.OS == 'ios' ? VM.needsHealthPromptIOS : VM.hasHealthPermissions },
-            { priority: 4, target: States.Choose_Strategies, condition: VM.needsToChooseStrategies },
-            { priority: 5, target: States.IntakeForm, condition: VM.showAssessment },
-            { priority: 7, target: States.StartQol, condition: VM.showQol },
+            // { priority: 0, target: States.Consent, condition: VM.showConsent },
+            // { priority: 1, target: States.OnboardingEnter, condition: VM.hasActiveOnboarding },
+
+            // Onboarding
+            { priority: 2, target: States.HealthConsent, condition: Platform.OS == 'ios' ? VM.needsHealthPromptIOS : VM.hasHealthPermissions },
+            { priority: 3, target: States.StartQol, condition: VM.showOnboardingQol },
+            { priority: 4, target: States.Choose_Domain, condition: VM.onboardingNeedsToChooseDomains },
+            { priority: 5, target: States.Choose_Strategies, condition: VM.needsToChooseStrategies },
+            { priority: 6, target: States.NotificationsTimeOnboarding, condition: VM.askNotifyPermissions },
+            // Normal usuage
             { priority: 10, target: States.Home, condition: () => true },
 
         ],
@@ -264,126 +267,126 @@ export const MasloScenario: GlobalScenario<States> = {
         ],
     },
 
-    [States.OnboardingEnter]: {
-        view: OnboardingEnter,
-        exit: [
-            { target: States.Home, trigger: Triggers.Cancel },
-            { target: States.Journal_SelectMood, trigger: Triggers.Primary },
-        ],
-    },
-    [States.IntakeForm]: {
-        view: IntakeFormView,
-        exit: [
-            { target: States.Home, trigger: [Triggers.Cancel, Triggers.Submit] },
-            { target: States.Journal_SelectMood, trigger: Triggers.Secondary },
-        ],
-    },
-    [States.Journal_SelectMood]: {
-        view: MoodView,
-        enter: [
-            { trigger: GlobalTriggers.CreateStory },
-        ],
-        exit: [
-            {
-                target: VM.showLocation
-                    ? States.Journal_Location
-                    : States.Journal_SelectType,
-                trigger: Triggers.Primary
-            },
-            { target: States.Journal_Feelings, trigger: Triggers.Secondary },
-            CreateJournalCancelTransition,
-        ],
-    },
-    [States.Journal_Feelings]: {
-        view: FeelingsView,
-        exit: [
-            CreateJournalCancelTransition,
-            { target: States.Journal_SelectMood, trigger: Triggers.Back },
-            {
-                target: VM.showLocation
-                    ? States.Journal_Location
-                    : States.Journal_SelectType,
-                trigger: Triggers.Primary,
-            },
-        ],
-    },
-    [States.Journal_Location]: {
-        view: LocationView,
-        exit: [
-            CreateJournalCancelTransition,
-            { target: States.Journal_SelectMood, trigger: Triggers.Back },
-            { target: States.Journal_SelectType, trigger: Triggers.Primary },
-            { target: States.Journal_Feelings, trigger: Triggers.Secondary },
-        ],
-    },
-    [States.Journal_SelectType]: {
-        view: CheckInTypeView,
-        exit: [
-            CreateJournalCancelTransition,
-            {
-                target: VM.showLocation
-                    ? States.Journal_Location
-                    : States.Journal_SelectMood,
-                trigger: Triggers.Back,
-            },
-            { target: States.Journal_AudioRecord, trigger: Triggers.Primary },
-            { target: States.Journal_TextRecord, trigger: Triggers.Secondary },
-            { target: States.Journal_PictureRecord, trigger: Triggers.Submit },
-        ],
-    },
-    [States.Journal_TextRecord]: {
-        view: TextRecordView,
-        exit: [
-            CreateJournalCancelTransition,
-            { target: States.Journal_SelectType, trigger: Triggers.Back },
-            { target: States.Journal_AfterSubmitRouter, trigger: Triggers.Primary },
-        ],
-    },
-    [States.Journal_AudioRecord]: {
-        view: RecordView,
-        exit: [
-            CreateJournalCancelTransition,
-            { target: States.Journal_SelectType, trigger: Triggers.Back },
-            { target: States.Journal_AfterSubmitRouter, trigger: Triggers.Primary },
-        ],
-    },
-    [States.Journal_PictureRecord]: {
-        view: RecordPitureCheckinView,
-        exit: [
-            CreateJournalCancelTransition,
-            { target: States.Journal_SelectType, trigger: Triggers.Back },
-            { target: States.Journal_AfterSubmitRouter, trigger: Triggers.Primary },
-        ],
-    },
-    [States.Journal_AfterSubmitRouter]: {
-        view: EmptyView,
-        exit: [
-            { priority: 1, target: States.OnboardingExit, condition: VM.showOnboardingExit },
-            { priority: 2, target: States.NewRewardsView, condition: VM.showNewReward },
-            { priority: 10, target: States.Home, condition: () => true },
-        ],
-    },
+    // [States.OnboardingEnter]: {
+    //     view: OnboardingEnter,
+    //     exit: [
+    //         { target: States.Home, trigger: Triggers.Cancel },
+    //         { target: States.Journal_SelectMood, trigger: Triggers.Primary },
+    //     ],
+    // },
+    // [States.IntakeForm]: {
+    //     view: IntakeFormView,
+    //     exit: [
+    //         { target: States.Home, trigger: [Triggers.Cancel, Triggers.Submit] },
+    //         { target: States.Journal_SelectMood, trigger: Triggers.Secondary },
+    //     ],
+    // },
+    // [States.Journal_SelectMood]: {
+    //     view: MoodView,
+    //     enter: [
+    //         { trigger: GlobalTriggers.CreateStory },
+    //     ],
+    //     exit: [
+    //         {
+    //             target: VM.showLocation
+    //                 ? States.Journal_Location
+    //                 : States.Journal_SelectType,
+    //             trigger: Triggers.Primary
+    //         },
+    //         { target: States.Journal_Feelings, trigger: Triggers.Secondary },
+    //         CreateJournalCancelTransition,
+    //     ],
+    // },
+    // [States.Journal_Feelings]: {
+    //     view: FeelingsView,
+    //     exit: [
+    //         CreateJournalCancelTransition,
+    //         { target: States.Journal_SelectMood, trigger: Triggers.Back },
+    //         {
+    //             target: VM.showLocation
+    //                 ? States.Journal_Location
+    //                 : States.Journal_SelectType,
+    //             trigger: Triggers.Primary,
+    //         },
+    //     ],
+    // },
+    // [States.Journal_Location]: {
+    //     view: LocationView,
+    //     exit: [
+    //         CreateJournalCancelTransition,
+    //         { target: States.Journal_SelectMood, trigger: Triggers.Back },
+    //         { target: States.Journal_SelectType, trigger: Triggers.Primary },
+    //         { target: States.Journal_Feelings, trigger: Triggers.Secondary },
+    //     ],
+    // },
+    // [States.Journal_SelectType]: {
+    //     view: CheckInTypeView,
+    //     exit: [
+    //         CreateJournalCancelTransition,
+    //         {
+    //             target: VM.showLocation
+    //                 ? States.Journal_Location
+    //                 : States.Journal_SelectMood,
+    //             trigger: Triggers.Back,
+    //         },
+    //         { target: States.Journal_AudioRecord, trigger: Triggers.Primary },
+    //         { target: States.Journal_TextRecord, trigger: Triggers.Secondary },
+    //         { target: States.Journal_PictureRecord, trigger: Triggers.Submit },
+    //     ],
+    // },
+    // [States.Journal_TextRecord]: {
+    //     view: TextRecordView,
+    //     exit: [
+    //         CreateJournalCancelTransition,
+    //         { target: States.Journal_SelectType, trigger: Triggers.Back },
+    //         { target: States.Journal_AfterSubmitRouter, trigger: Triggers.Primary },
+    //     ],
+    // },
+    // [States.Journal_AudioRecord]: {
+    //     view: RecordView,
+    //     exit: [
+    //         CreateJournalCancelTransition,
+    //         { target: States.Journal_SelectType, trigger: Triggers.Back },
+    //         { target: States.Journal_AfterSubmitRouter, trigger: Triggers.Primary },
+    //     ],
+    // },
+    // [States.Journal_PictureRecord]: {
+    //     view: RecordPitureCheckinView,
+    //     exit: [
+    //         CreateJournalCancelTransition,
+    //         { target: States.Journal_SelectType, trigger: Triggers.Back },
+    //         { target: States.Journal_AfterSubmitRouter, trigger: Triggers.Primary },
+    //     ],
+    // },
+    // [States.Journal_AfterSubmitRouter]: {
+    //     view: EmptyView,
+    //     exit: [
+    //         { priority: 1, target: States.OnboardingExit, condition: VM.showOnboardingExit },
+    //         { priority: 2, target: States.NewRewardsView, condition: VM.showNewReward },
+    //         { priority: 10, target: States.Home, condition: () => true },
+    //     ],
+    // },
 
-    [States.NewRewardsView]: {
-        view: RewardsView,
-        exit: [
-            { target: States.Home, trigger: [Triggers.Back, Triggers.Cancel, Triggers.Submit] },
-        ],
-    },
+    // [States.NewRewardsView]: {
+    //     view: RewardsView,
+    //     exit: [
+    //         { target: States.Home, trigger: [Triggers.Back, Triggers.Cancel, Triggers.Submit] },
+    //     ],
+    // },
 
-    [States.OnboardingExit]: {
-        view: OnboardingExit,
-        exit: [
-            { target: States.Home, trigger: [Triggers.Back, Triggers.Cancel] },
-        ],
-    },
+    // [States.OnboardingExit]: {
+    //     view: OnboardingExit,
+    //     exit: [
+    //         { target: States.Home, trigger: [Triggers.Back, Triggers.Cancel] },
+    //     ],
+    // },
 
-    [States.Goals]: {
-        view: GoalsView,
-        enter: [
-            { trigger: GlobalTriggers.Goals },
-        ],
-    },
+    // [States.Goals]: {
+    //     view: GoalsView,
+    //     enter: [
+    //         { trigger: GlobalTriggers.Goals },
+    //     ],
+    // },
 
     [States.Profile]: {
         view: ProfileView,
@@ -503,10 +506,10 @@ export const MasloScenario: GlobalScenario<States> = {
     [States.Review_Strategies]: {
         view: ReviewStrategiesView,
         exit: [
-            { target: States.Home, trigger: [Triggers.Cancel] },
+            { target: States.Home, trigger: [Triggers.Cancel] }, // TODO: - dont allow cancel when in onboarding
             { target: States.Choose_Strategies, trigger: [Triggers.Back] },
             { target: States.Strategy_Details_after_Review_Strategies, trigger: [Triggers.Tertiary] },
-            { target: States.Home, trigger: [Triggers.Submit] },
+            { target: VM.isCurrentlyOnboarding ? States.HomeRouter : States.Home, trigger: [Triggers.Submit] },
         ]
     },
 
@@ -603,7 +606,7 @@ export const MasloScenario: GlobalScenario<States> = {
     [States.EndQol]: {
         view: QolEndView,
         exit: [
-            { target: States.Home, trigger: [Triggers.Cancel] },
+            { target: VM.isCurrentlyOnboarding ? States.HomeRouter : States.Home, trigger: [Triggers.Cancel] },
         ]
     },
 

@@ -41,6 +41,9 @@ export class ChooseDomainEndView extends ViewState {
         this.strategiesViewModel.updateAvailableStrategiesForSelectedDomains();
         const allSelectedDomains = (this.viewModel.selectedDomains.domains as (DomainName | SubdomainName)[]).concat(this.viewModel.selectedDomains.subdomains);
         AppViewModel.Instance.Settings.notifications.setAllDomains(allSelectedDomains);
+        if (AppController.Instance.User.localSettings.current?.onboarding.needsDomainOnboarding) {
+            this.viewModel.completeDomainOnboarding();
+        }
         AppController.Instance.User.localSettings.updateStrategiesConfirmed(false);
         this.trigger(ScenarioTriggers.Submit)
     }

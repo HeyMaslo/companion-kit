@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import ExpoConstants, { AppOwnership } from 'expo-constants';
 import { observable, toJS, transaction } from 'mobx';
-import { UserLocalSettings, NotificationsSettings, DeviceInfo, QolSettings, HealthPermissionsSettings } from 'common/models';
+import { UserLocalSettings, NotificationsSettings, DeviceInfo, QolSettings, HealthPermissionsSettings, OnboardingSettings } from 'common/models';
 import RepoFactory from 'common/controllers/RepoFactory';
 import { transferChangedFields } from 'common/utils/fields';
 import { ThrottleAction } from 'common/utils/throttle';
@@ -22,6 +22,7 @@ export interface ILocalSettingsController {
     readonly current: Readonly<UserLocalSettings>;
     readonly synced: IEvent;
 
+    updateOnboardingSettings(diff: Partial<OnboardingSettings>, changedField: keyof OnboardingSettings): void;
     updateNotifications(diff: Partial<NotificationsSettings>, changedField: keyof NotificationsSettings): void;
     updateQolSettings(diff: Partial<QolSettings>, changedField: keyof QolSettings): void;
     updateLastDailyCheckIn(diff: string): void;
@@ -32,9 +33,6 @@ export interface ILocalSettingsController {
 }
 
 export class LocalSettingsController implements ILocalSettingsController {
-
-    @observable
-    private _sameDevice: UserLocalSettings = null;
 
     @observable
     private _current: UserLocalSettings = null;
@@ -64,8 +62,14 @@ export class LocalSettingsController implements ILocalSettingsController {
                 deviceId: DeviceId,
                 deviceInfo: Info,
                 appVersion: AppVersion.FullVersion,
+                onboarding: {
+                    completed: false,
+                    needsQolOnboarding: true,
+                    needsDomainOnboarding: true,
+                    needsStrategyOnboarding: true,
+                    needsNotificationsOnboarding: true,
+                },
                 qol: {
-                    seenQolOnboarding: false,
                     pendingFullQol: true,
                     pendingShortQol: false,
                     lastShortQol: Date(),
@@ -96,17 +100,15 @@ export class LocalSettingsController implements ILocalSettingsController {
 
     private submitChanges = async () => {
         const diff: Partial<UserLocalSettings> = {
+            onboarding: toJS(this._current.onboarding),
+            qol: toJS(this._current.qol),
+            lastDailyCheckIn: toJS(this._current.lastDailyCheckIn),
             notifications: toJS(this._current.notifications),
-            lastDailyCheckIn: toJS(this._current.lastDailyCheckIn)
+            healthPermissions: toJS(this._current.healthPermissions),
         };
 
-        if (this._sameDevice && this._sameDevice.notifications) {
-            await RepoFactory.Instance.users.updateLocalSettings(
-                this._uid,
-                this._sameDevice.deviceId,
-                { notifications: { ...this._sameDevice.notifications } },
-            );
-        }
+        console.log('---- submitChanges --')
+        console.log('-diff: ', diff)
 
         await RepoFactory.Instance.users.updateLocalSettings(
             this._uid,
@@ -129,37 +131,29 @@ export class LocalSettingsController implements ILocalSettingsController {
         await this._synced.triggerAsync();
     }
 
-    private submitQolChanges = async () => {
-        const diff: Partial<UserLocalSettings> = {
-            qol: toJS(this._current.qol),
-
-        };
-
-        await RepoFactory.Instance.users.updateLocalSettings(
-            this._uid,
-            DeviceId,
-            diff,
-        );
-        await this._synced.triggerAsync();
-    }
-
     private update(diff: Partial<UserLocalSettings>) {
         if (!this._current) {
             throw new Error('LocalSettingsController.update: not initialized!');
         }
 
         Object.assign(this._current, diff);
-        if (this.current.healthPermissions !== undefined) {
-            this._syncThrottle.tryRun(this.submitChangesHealth);
-        } else if (diff.qol !== undefined) {
-            this._syncThrottle.tryRun(this.submitQolChanges);
-        } else {
-            this._syncThrottle.tryRun(this.submitChanges);
-        }
+        this._syncThrottle.tryRun(this.submitChanges);
     }
 
     public flushChanges() {
         return this._syncThrottle.forceRun();
+    }
+
+    updateOnboardingSettings(diff: Partial<OnboardingSettings>, changedField: keyof OnboardingSettings) {
+        const onboarding = this.current.onboarding;
+        if (!onboarding) return;
+        transaction(() => {
+            let changed = transferChangedFields(diff, onboarding, changedField);
+
+            if (changed) {
+                this.update({ onboarding });
+            }
+        });
     }
 
     updateNotifications(diff: Partial<NotificationsSettings>, changedField: keyof NotificationsSettings) {

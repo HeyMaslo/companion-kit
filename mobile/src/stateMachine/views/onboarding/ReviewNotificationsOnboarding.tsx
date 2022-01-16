@@ -11,18 +11,13 @@ import { DomainName } from 'src/constants/Domain';
 @observer
 export class ReviewNotificationsOnboardingView extends NotificationsOnboardingBaseView {
 
-  // MK-TODO: - remove after testing
-  constructor(props) {
-    super(props);
-    this.viewModel.domainsForNotifications = [DomainName.SLEEP, DomainName.PHYSICAL, DomainName.MONEY];
-  }
-  //
-
   onBack = () => {
     this.trigger(ScenarioTriggers.Back)
   }
 
   onNext = () => {
+    // End of the onboarding flow
+    this.viewModel.completeNotificationsOnboarding()
     this.trigger(ScenarioTriggers.Next)
   }
 

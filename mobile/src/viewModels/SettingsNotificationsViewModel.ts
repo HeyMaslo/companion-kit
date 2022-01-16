@@ -122,4 +122,8 @@ export class SettingsNotificationsViewModel {
             this._unsubscribe();
         }
     }
+
+    public completeNotificationsOnboarding() {
+        AppController.Instance.User.localSettings.updateOnboardingSettings({ needsDomainOnboarding: false }, 'needsDomainOnboarding');
+    }
 }
