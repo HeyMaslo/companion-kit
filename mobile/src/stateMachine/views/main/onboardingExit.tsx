@@ -77,6 +77,6 @@ export class OnboardingExit extends ViewState<State> {
             return null;
         }
 
-        return <Onboarding content={content} personaViewContext={this.persona} />;
+        return <Onboarding content={content} personaViewContext={this.persona} theme={this.theme} />;
     }
 }

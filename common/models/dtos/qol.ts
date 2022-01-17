@@ -9,10 +9,10 @@ export enum QoLActionTypes {
 }
 
 type CreateDomainArgs = {
-    scope:      string,
     name:       string,
     importance: string,
-    bullets:    string[],
+    importanceBullets: string[],
+    whatToKnowBullets: string[],
 };
 
 type GetDomainsArgs = {};

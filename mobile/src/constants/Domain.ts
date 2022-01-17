@@ -1,11 +1,3 @@
-import { Identify } from 'common/models';
-
-export enum DomainScope {
-  GENERAL = 'GENERAL',
-  WORK = 'WORK',
-  STUDENT = 'STUDENT',
-}
-
 export enum DomainName {
   MOOD            = 'Mood',
   PHYSICAL        = 'Physical',
@@ -21,11 +13,29 @@ export enum DomainName {
   RELATIONSHIPS   = 'Relationships',
 }
 
+export enum SubdomainName {
+  // Physical
+  EXERCISE        = 'Exercise',
+  DIETNUTRITION   = 'Diet & Nutrition',
+  SEXUALHEALTH    = 'Sexual Health',
+  SUBSTANCEUSE    = 'Substance Use',
+}
+
 export type Domain = {
-  scope:      DomainScope,
-  name:       DomainName,
-  importance: string,     // description of why the domain is important
-  bullets:    string[],   // the key points of domain importance
+  name:              DomainName,
+  importance:        string,     // description of why the domain is important
+  importanceBullets: string[],   // the key points of domain importance
+  whatToKnowBullets: string[],
+  subdomains?:       Subdomain[],
 };
 
-export type DomainIded = Identify<Domain>;
+export type Subdomain = {
+  name:       SubdomainName,
+  importance: string,
+  bullets:    string[],
+};
+
+export type FocusedDomains = {
+  domains: DomainName[],
+  subdomains: SubdomainName[],
+};

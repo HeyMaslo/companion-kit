@@ -16,6 +16,7 @@ import { QolSurveyResults } from 'src/constants/QoL';
 import { PersonaArmState } from 'dependencies/persona/lib';
 import { ILocalSettingsController } from 'src/controllers/LocalSettings';
 import { DomainName } from 'src/constants/Domain';
+import ResourceViewModel from './ResourceViewModel';
 
 const EmptyArr: any[] = [];
 
@@ -56,6 +57,17 @@ export default class HomeViewModel {
     get checkIns(): ReadonlyArray<CheckInViewModel> {
         return AppController.Instance.User.journal.entries
             .map(s => new CheckInViewModel().setCheckInId(s.id));
+    }
+
+    @computed
+    get resources(): ReadonlyArray<ResourceViewModel> {
+        // MK-TODO: - get real resources from firebase like checkIns function above
+        return [
+            new ResourceViewModel('testID1', '5 Ways to Boost Morning Energy', 'Article', '#0F6EB4', true),
+            new ResourceViewModel('testID2', 'A Guide to Mindful Meditation', 'Video', '#E58933', false),
+            new ResourceViewModel('testID3', 'Navigating Stress & Anxiety', 'Daily Tip', '#BC1B5F', true),
+            new ResourceViewModel('testID4', 'Improving Sleep Quality', 'Daily Tip', '#5495A4', true),
+        ];
     }
 
     get showAssessment() { return process.appFeatures.ASSESSMENTS_ENABLED && !!AppController.Instance.User.assessments?.nextFormTypeAvailable; }

@@ -1,17 +1,19 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import Colors from 'src/constants/colors';
 import CheckMark from 'src/assets/images/checkmark-white.svg';
+import { Theme } from 'src/constants/theme/PStheme';
 
 type Props = {
     checked: boolean;
     onChange: () => void;
+    theme: Theme;
 };
 
 export default function Checkbox(props: Props) {
-    const { checked, onChange } = props;
+    const { checked, onChange, theme } = props;
     return (
-        <TouchableOpacity style={[styles.wrap, checked && styles.checked]} activeOpacity={1} onPress={onChange}>
+        <TouchableOpacity style={[styles.wrap, checked && { borderWidth: 0, backgroundColor: theme.colors.highlight }]} activeOpacity={1} onPress={onChange}>
             {checked && <CheckMark />}
         </TouchableOpacity>
     );
@@ -29,9 +31,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'transparent',
-    },
-    checked: {
-        backgroundColor: Colors.checkboxChecked,
-        borderWidth: 0,
     },
 });

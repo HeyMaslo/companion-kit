@@ -10,7 +10,7 @@ import clientConfig from './mocks/client/config';
 
 import { createDomain, createQuestion, getDomains, getQuestions } from 'server/qol';
 import { QoLActionTypes } from 'common/models/dtos/qol';
-import { DomainName, DomainScope } from '../../../mobile/src/constants/Domain';
+import { DomainName } from '../../../mobile/src/constants/Domain';
 
 const {test, app} = firebase.init('qol-test');
 
@@ -30,22 +30,12 @@ describe('QoL', () => {
             it('Should allow a domain to be created', async () => {
                 const result = await createDomain({
                     type: QoLActionTypes.CreateDomain,
-                    scope: DomainScope.GENERAL,
                     name: 'Physical',
                     importance: 'SLEEP = Sleeeeepz Sleeeeepz Sleeeeepz Sleeeeepz incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
-                    bullets: [''],
+                    importanceBullets: [''],
+                    whatToKnowBullets: [''],
                 });
                 assert.isNull(result.error);
-            });
-            it('Should not allow a domain to be created if the scope is not valid', async () => {
-                const result = await createDomain({
-                    type: QoLActionTypes.CreateDomain,
-                    scope: 'NOT_A_VALID_SCOPE',
-                    name: 'Physical',
-                    importance: 'PHYSICAL = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
-                    bullets: [''],
-                });
-                assert.isNotNull(result.error);
             });
         });
         describe('Domain List', () => {
@@ -58,10 +48,10 @@ describe('QoL', () => {
             it('Should list domains that are added', async () => {
                 await createDomain({
                     type: QoLActionTypes.CreateDomain,
-                    scope: 'GENERAL',
                     name: 'Physical',
                     importance: '',
-                    bullets: [''],
+                    importanceBullets: [''],
+                    whatToKnowBullets: [''],
                 });
                 const result = await getDomains();
                 assert.isNull(result.error);
@@ -74,10 +64,10 @@ describe('QoL', () => {
         it('Should allow a question to be created referring to a domain', async () => {
             await createDomain({
                 type: QoLActionTypes.CreateDomain,
-                scope: 'GENERAL',
                 name: 'Physical',
                 importance: '',
-                bullets: [''],
+                importanceBullets: [''],
+                whatToKnowBullets: [''],
             });
             const createResult = await createQuestion({
                 type: QoLActionTypes.CreateQuestion,

@@ -1,13 +1,14 @@
 import { Strategy } from '../../../../../mobile/src/constants/Strategy';
 import { observer } from 'mobx-react';
 import React from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Container, MasloPage } from 'src/components';
 import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
-import { iconForDomain } from 'src/helpers/DomainHelper';
+import { formatTextContent, iconForDomain } from 'src/helpers/DomainHelper';
+import Layout from 'src/constants/Layout';
 
 @observer
 export class StrategyDetailsView extends ViewState {
@@ -39,22 +40,22 @@ export class StrategyDetailsView extends ViewState {
   }
 
   renderIconItem = ({ item }) => (
-    <View style={[styles.listItem, { flexDirection: "row", justifyContent: 'center' }]}>
-      {iconForDomain(item, { display: 'flex', marginRight: 20 })}
-      <Text style={[TextStyles.h2, styles.strategy, { display: 'flex' }]}>{this.capitalizeFirstLetter(item)}</Text>
+    <View style={[styles.listItem, { flexDirection: 'row', justifyContent: 'center' }]}>
+      {iconForDomain(item, { marginRight: 20 }, this.theme.colors.foreground)}
+      <Text style={[TextStyles.h2, styles.strategy, { marginBottom: 10 }]}>{this.capitalizeFirstLetter(item)}</Text>
     </View>
   );
 
   renderContent() {
     return (
-      <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()}>
+      <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()} theme={this.theme}>
         <Container style={[{ height: this._contentHeight, paddingTop: 10, paddingBottom: 10 }]}>
           {/* Title */}
           <View style={{ justifyContent: 'center', flexDirection: 'row', marginBottom: 20 }}>
             <Text style={[TextStyles.h2, styles.strategy]}>{this._learnMoreStrategy.title}</Text>
           </View>
           {/* Subtitle */}
-          <Text style={[TextStyles.p2, styles.strategy]}>{'This strategy targets personal improvement in these life domains:'}</Text>
+          <Text style={[TextStyles.p2, styles.strategy, { color: this.theme.colors.midground }]}>{'This strategy targets personal improvement in these life areas:'}</Text>
           {/* Icon Container */}
           <FlatList style={styles.list}
             data={this.viewModel.learnMoreStrategy.associatedDomainNames}
@@ -62,7 +63,11 @@ export class StrategyDetailsView extends ViewState {
             keyExtractor={item => item}
             scrollEnabled={false} />
           {/* Body */}
-          <Text style={[TextStyles.p1, styles.body]}>{this._learnMoreStrategy.details}</Text>
+          <ScrollView style={{ width: Layout.window.width, marginLeft: -20 }} contentContainerStyle={{ paddingHorizontal: 20 }}>
+            <Text style={[TextStyles.p1, styles.body]}>
+              {formatTextContent(this._learnMoreStrategy.details)}
+            </Text>
+          </ScrollView>
         </Container>
       </MasloPage>
     );
@@ -72,17 +77,16 @@ export class StrategyDetailsView extends ViewState {
 const styles = StyleSheet.create({
   list: {
     flexGrow: 0,
-    marginTop: 50,
+    marginTop: 30,
+    marginBottom: 15,
   },
   listItem: {
-    padding: 10,
-    marginBottom: 30,
+    //  paddingTop: 10,
   },
   strategy: {
     textAlign: 'center',
   },
   body: {
-    textAlign: 'center',
     marginTop: 20,
   },
 

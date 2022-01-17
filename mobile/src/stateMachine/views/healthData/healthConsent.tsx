@@ -18,6 +18,7 @@ export class HealthConsentView extends ViewState {
                 text: 'Skip',
                 action: this.skip,
             },
+            theme: this.theme,
         });
     }
 

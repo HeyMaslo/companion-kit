@@ -26,7 +26,7 @@ export class QolHistoryStrategiesView extends ReviewStrategiesView {
   renderContent() {
     const title = `Here are your past strategies for Week ${this.qolHistoryViewModel.selectedEntryWeekNumber}`;
     return (
-      <MasloPage style={this.baseStyles.page} onBack={this.onBack}>
+      <MasloPage style={this.baseStyles.page} onBack={this.onBack} theme={this.theme}>
         <Container style={[{ height: this._contentHeight, paddingTop: 10, paddingBottom: 10, alignItems: 'center', }]}>
           {super.renderInnerContent(title, false, this.strategyViewModel.temporaryDisplay)}
         </Container>

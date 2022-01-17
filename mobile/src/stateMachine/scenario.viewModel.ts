@@ -55,6 +55,6 @@ export class ScenarioViewModel {
     public readonly showAssessment = () => process.appFeatures.ASSESSMENTS_ENABLED === true && this.userWithAccount() && !!AppController.Instance.User.assessments.nextFormTypeAvailable;
     public readonly showQol = () => this.userWithAccount() && !AppController.Instance.User.localSettings?.current?.qol?.seenQolOnboarding;
     // Health data
-    public readonly hasHealthPermissions = () => AppController.Instance.User?.hasHealthDataPermissions.enabled;
+    public readonly needsHealthPromptAndroid = () => Platform.OS == 'android' && (typeof AppController.Instance.User?.localSettings.current.healthPermissions == 'undefined' || !AppController.Instance.User?.localSettings.current.healthPermissions.enabledAndroid);
     public readonly needsHealthPromptIOS = () => Platform.OS == 'ios' && (typeof AppController.Instance.User?.localSettings.current.healthPermissions == 'undefined' || !AppController.Instance.User?.localSettings.current.healthPermissions.seenPermissionPromptIOS);
 }
