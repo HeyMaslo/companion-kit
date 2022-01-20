@@ -33,6 +33,7 @@ export enum States {
     Home,
     JournalDetail,
 
+    OnboardingVideo,
     OnboardingEnter,
     NotificationsTimeOnboarding,
     CustomizeNotificationsOnboarding,

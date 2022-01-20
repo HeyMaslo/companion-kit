@@ -13,6 +13,7 @@ import { ConfirmAccountView } from './views/login/confirmAccount';
 import { MissingAccountView } from './views/login/missingAccount';
 import { NotificationsPermissionView } from './views/login/notificationsPermission';
 import { OnboardingEnter } from './views/main/onboardingEnter';
+import { VideoOnboardingView } from './views/onboarding/VideoOnboardingView';
 import { OnboardingExit } from './views/main/onboardingExit';
 import { MoodView, MoodViewParams } from './views/checkin/mood';
 import { LocationView } from './views/checkin/location';
@@ -219,7 +220,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { condition: VM.homeReady },
         ],
         exit: [
-            { priority: 0, target: States.Consent, condition: VM.showConsent },
+            { priority: 0, target: States.OnboardingVideo, condition: () => true },
             { priority: 1, target: States.OnboardingEnter, condition: VM.hasActiveOnboarding },
             { priority: 2, target: States.NotificationsTimeOnboarding, condition: () => true }, // VM.askNotifyPermissions },
             { priority: 3, target: States.HealthConsent, condition: Platform.OS == 'ios' ? VM.needsHealthPromptIOS : VM.hasHealthPermissions },
@@ -261,6 +262,14 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Focus_Domains, trigger: Triggers.Next },
             { target: States.Choose_Domain, trigger: Triggers.Quinary },
             { target: States.QolHistory, trigger: Triggers.TESTING },
+        ],
+    },
+
+    [States.OnboardingVideo]: {
+        view: VideoOnboardingView,
+        exit: [
+            { target: States.Home, trigger: Triggers.Cancel },
+            // { target: States.Journal_SelectMood, trigger: Triggers.Primary },
         ],
     },
 
