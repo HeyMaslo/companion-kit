@@ -37,7 +37,7 @@ let isFirstLaunch = true;
 export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQol: boolean }> {
 
     private _linkDocModalShown = true;
-    private get healthPermissionsEnabled() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabled; };
+    private get healthPermissionsEnabled() { return !!AppController.Instance.User?.healthPermissionsController.permissionsGranted; };
 
 
     private ordRadius = getPersonaRadius();

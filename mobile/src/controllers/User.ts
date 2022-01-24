@@ -63,7 +63,7 @@ export interface IUserController extends IUserControllerBase {
     readonly domain: DomainController;
     readonly strategy: StrategyController;
 
-    readonly hasHealthDataPermissions: HealthPermissionsController;
+    readonly healthPermissionsController: HealthPermissionsController;
 
     acceptConsent?(option: string): Promise<boolean>;
 }
@@ -141,7 +141,7 @@ export class UserController extends UserControllerBase implements IUserControlle
     });
 
     public readonly notifications: NotificationsController;
-    public readonly hasHealthDataPermissions: HealthPermissionsController;
+    public readonly healthPermissionsController: HealthPermissionsController;
 
     constructor(auth: IAuthController) {
         super(auth);
@@ -153,7 +153,7 @@ export class UserController extends UserControllerBase implements IUserControlle
         });
 
         //Added Logic for Health permissions
-        this.hasHealthDataPermissions = new HealthPermissionsController(this._localSettings);
+        this.healthPermissionsController = new HealthPermissionsController(this._localSettings);
 
         if (process.appFeatures.EDITABLE_PROMPTS_ENABLED === true) {
             this._prompts = new PromptsController(this._journal.entries);
@@ -272,7 +272,7 @@ export class UserController extends UserControllerBase implements IUserControlle
             }
 
             await this._localSettings.load(user.id);
-            await this.hasHealthDataPermissions.initAsync();
+            await this.healthPermissionsController.initAsync();
             this.notifications.setUser(user.id);
             await this.notifications.initAsync();
         }
@@ -349,6 +349,6 @@ export class UserController extends UserControllerBase implements IUserControlle
         this._prompts?.dispose();
         this._documents?.dispose();
         this.notifications.dispose();
-        this.hasHealthDataPermissions.dispose();
+        this.healthPermissionsController.dispose();
     }
 }

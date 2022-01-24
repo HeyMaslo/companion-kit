@@ -23,8 +23,6 @@ export class HealthPermissionsController implements IDisposable {
     constructor(private readonly settings: ILocalSettingsController) {
     }
 
-    public get enabled() { return this._enabledByUser; }
-
     public get enabledOG() { return this._enabledByUserOriginal; }
 
     public get permissionsGranted() { return this._enabledByUser; }

@@ -33,8 +33,12 @@ export enum States {
     Home,
     JournalDetail,
 
-    OnboardingVideo,
     OnboardingEnter,
+    HealthOnboardingVideo,
+    HealthDataExplainer,
+    HealthDataCollectionCheck,
+    AfterHealthPrompt,
+    QolOnboardingVideo,
     NotificationsTimeOnboarding,
     CustomizeNotificationsOnboarding,
     BDMentionNotifcationsOnboarding,

@@ -49,6 +49,6 @@ export class ScenarioViewModel {
     public readonly showAssessment = () => process.appFeatures.ASSESSMENTS_ENABLED === true && this.userWithAccount() && !!AppController.Instance.User.assessments.nextFormTypeAvailable;
 
     // Health data
-    public readonly hasHealthPermissions = () => AppController.Instance.User?.hasHealthDataPermissions.enabled;
+    public readonly hasHealthPermissions = () => AppController.Instance.User?.healthPermissionsController.permissionsGranted;
     public readonly needsHealthPromptIOS = () => Platform.OS == 'ios' && (typeof AppController.Instance.User?.localSettings.current.healthPermissions == 'undefined' || !AppController.Instance.User?.localSettings.current.healthPermissions.seenPermissionPromptIOS);
 }

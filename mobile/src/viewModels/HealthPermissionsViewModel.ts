@@ -29,8 +29,8 @@ export class HealthPermissionsViewModel {
     @observable
     private _isEnabledOG: boolean = this.originalIsEnabledOG;
 
-    private get originalIsEnabled() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabled; }
-    private get originalIsEnabledOG() { return AppController.Instance.User?.hasHealthDataPermissions.enabledOG; }
+    private get originalIsEnabled() { return !!AppController.Instance.User?.healthPermissionsController.permissionsGranted; }
+    private get originalIsEnabledOG() { return AppController.Instance.User?.healthPermissionsController.enabledOG; }
 
     get isEnabled() { return this._isEnabled; }
     get isEnabledOG() { return this._isEnabledOG; }
@@ -59,10 +59,10 @@ export class HealthPermissionsViewModel {
             this._isEnabledOG = !this._isEnabledOG;
             this._isEnabled = !this._isEnabled;
 
-            if (!AppController.Instance.User.hasHealthDataPermissions.enabled) {
-                await AppController.Instance.User.hasHealthDataPermissions.askPermission();
+            if (!AppController.Instance.User.healthPermissionsController.permissionsGranted) {
+                await AppController.Instance.User.healthPermissionsController.askPermission();
             } else {
-                await AppController.Instance.User.hasHealthDataPermissions.disableHealthPermissions();
+                await AppController.Instance.User.healthPermissionsController.disableHealthPermissions();
             }
 
         } finally {

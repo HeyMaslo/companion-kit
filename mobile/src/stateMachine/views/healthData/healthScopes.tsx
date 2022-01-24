@@ -24,9 +24,9 @@ export class HealthScopesView extends ViewState {
     }
 
     async start() {
-        if (!AppController.Instance.User.hasHealthDataPermissions.permissionsAsked) {
+        if (!AppController.Instance.User.healthPermissionsController.permissionsAsked) {
             this.runLongOperation(async () => {
-                if (await AppController.Instance.User.hasHealthDataPermissions.askPermission()) {
+                if (await AppController.Instance.User.healthPermissionsController.askPermission()) {
                     this.trigger(ScenarioTriggers.Cancel);
                 }
             })
