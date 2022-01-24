@@ -140,8 +140,6 @@ export default class App extends React.Component<IAppProps> {
     }
 
     private _loadResourcesAsync = async () => Promise.all([
-        // Asset.loadAsync([
-        // ]),
         Font.loadAsync({
             ...ProjectFonts,
         }),

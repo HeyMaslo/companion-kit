@@ -12,6 +12,7 @@ import { SetPasswordView } from './views/password/setPassword';
 import { ConfirmAccountView } from './views/login/confirmAccount';
 import { MissingAccountView } from './views/login/missingAccount';
 import { NotificationsPermissionView } from './views/login/notificationsPermission';
+// These are old maslo screens (not our onboarding)
 // import { OnboardingEnter } from './views/main/onboardingEnter';
 // import { OnboardingExit } from './views/main/onboardingExit';
 import { MoodView, MoodViewParams } from './views/checkin/mood';

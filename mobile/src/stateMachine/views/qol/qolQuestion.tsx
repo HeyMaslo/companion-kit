@@ -27,12 +27,7 @@ export class QolQuestion extends ViewState {
         return AppViewModel.Instance.QOL;
     }
 
-    async start() {
-        // Not yet implemented
-        console.log('------- qolQuestion')
-        console.log('this.persona.qolArmMagnitudes', this.persona.qolArmMagnitudes)
-        console.log('this.viewModel.domain', this.viewModel.domain)
-    }
+    async start() { }
 
     private cancel = () => {
         this.persona.qolArmMagnitudes = this.viewModel.originalArmMagnitudes;

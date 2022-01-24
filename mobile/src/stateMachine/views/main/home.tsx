@@ -68,18 +68,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         this.setState({ ...this.state, isUnfinishedQol: this.qolViewModel.isUnfinished });
         Animated.timing(this.state.opacity, {
             toValue: 1,
-            delay: isFirstLaunch ? 1000 : 50, // MK-TODO: - play with this delay and duration + see if instant render is possible
+            delay: isFirstLaunch ? 1000 : 50,
             duration: isFirstLaunch ? 500 : 450,
             useNativeDriver: true,
         }).start(this.checkNewLinkDoc);
         isFirstLaunch = false;
-        // MK-TODO is this the best place to do this? Good now for testing
-        // await AppViewModel.Instance.Domain.fetchPossibleDomains();
-        // await AppViewModel.Instance.Domain.fetchSelectedDomains();
-        // await AppViewModel.Instance.Strategy.fetchPossibleStrategies();
-        // await AppViewModel.Instance.Strategy.fetchSelectedStrategies();
-        // AppViewModel.Instance.Settings.notifications.setAllDomains(AppViewModel.Instance.Domain.selectedDomains);
-        //
         AppViewModel.Instance.Settings.notifications.setAllDomains([DomainName.SLEEP]);
     }
 
