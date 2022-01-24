@@ -51,7 +51,6 @@ export default class StrategyViewModel {
 
   public async fetchPossibleStrategies() {
     let possibleStrategies = await AppController.Instance.User.strategy.getPossibleStrategies();
-    console.log('fetchPossibleStrategies: ' + possibleStrategies)
     this.setAllStrategies(possibleStrategies);
   }
 
