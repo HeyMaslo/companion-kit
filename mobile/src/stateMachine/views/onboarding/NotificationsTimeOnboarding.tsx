@@ -63,6 +63,7 @@ export class NotificationsTimeOnboardingView extends NotificationsOnboardingBase
           onConfirm={this.setDate}
           onCancel={this.closeDatePicker}
           mode='time'
+          textColor={'black'}
           isDarkModeEnabled={false} // by defulat the picker will match the user's light/dark mode; our app is lightly themed so we'll only use the light version
         />
       </>

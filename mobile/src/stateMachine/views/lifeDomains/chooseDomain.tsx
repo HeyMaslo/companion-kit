@@ -41,6 +41,7 @@ export class ChooseDomainView extends ViewDomainsBase {
         }
         this.showBottomBanner = this.viewModel.selectedDomains.domains.length !== 0 && !this.showSubdomainPopUp;
         super.forceUpdate();
+        await AppViewModel.Instance.Strategy.fetchPossibleStrategies();
     }
 
     async end() {

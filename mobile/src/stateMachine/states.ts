@@ -39,6 +39,7 @@ export enum States {
     HealthDataCollectionCheck,
     AfterHealthPrompt,
     QolOnboardingVideo,
+    NotificationsPermission,
     NotificationsTimeOnboarding,
     CustomizeNotificationsOnboarding,
     BDMentionNotifcationsOnboarding,

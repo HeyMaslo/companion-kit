@@ -253,7 +253,14 @@ export const MasloScenario: GlobalScenario<States> = {
         view: ReviewNotificationsOnboardingView,
         exit: [
             { target: States.BDMentionNotifcationsOnboarding, trigger: Triggers.Back },
-            { target: States.Home, trigger: Triggers.Next },
+            { target: States.NotificationsPermission, trigger: Triggers.Next },
+        ],
+    },
+
+    [States.NotificationsPermission]: {
+        view: NotificationsPermissionView,
+        exit: [
+            { target: States.Home, trigger: Triggers.Submit },
         ],
     },
 
@@ -263,12 +270,13 @@ export const MasloScenario: GlobalScenario<States> = {
             { condition: VM.homeReady },
         ],
         exit: [
+            // old maslo screens
             // { priority: 0, target: States.Consent, condition: VM.showConsent },
             // { priority: 1, target: States.OnboardingEnter, condition: VM.hasActiveOnboarding },
 
             // Onboarding
-            { priority: 0, target: States.HealthOnboardingVideo, condition: () => true }, // MK-TODO: - this condition
-            // { priority: 2, target: States.HealthConsent, condition: Platform.OS == 'ios' ? VM.needsHealthPromptIOS : !VM.hasHealthPermissions },
+            { priority: 0, target: States.HealthOnboardingVideo, condition: Platform.OS == 'ios' ? VM.needsHealthPromptIOS : VM.needsHealthPermissions },
+            // { priority: 2, target: States.HealthConsent, condition: Platform.OS == 'ios' ? VM.needsHealthPromptIOS : VM.needsHealthPermissions },
             { priority: 3, target: States.QolOnboardingVideo, condition: VM.showOnboardingQol },
             { priority: 4, target: States.Choose_Domain, condition: VM.onboardingNeedsToChooseDomains },
             { priority: 5, target: States.Choose_Strategies, condition: VM.needsToChooseStrategies },
@@ -307,8 +315,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.QolQuestion, trigger: Triggers.Quaternary },
             { target: States.HealthScopes, trigger: Triggers.Quinary },
             { target: States.Focus_Domains, trigger: Triggers.Next },
-            { target: States.Choose_Domain, trigger: Triggers.Quinary },
-            { target: States.QolHistory, trigger: GlobalTriggers.QolHistory },
+            { target: States.Choose_Domain, trigger: Triggers.Senary },
         ],
     },
 
@@ -665,6 +672,7 @@ export const MasloScenario: GlobalScenario<States> = {
 
     [States.QolHistory]: {
         view: QolHistoryMainView,
+        enter: { trigger: GlobalTriggers.QolHistory },
         exit: [
             { target: States.Home, trigger: [Triggers.Back] },
             { target: States.QolHistoryTimline, trigger: [Triggers.Submit] },

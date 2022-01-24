@@ -1,7 +1,7 @@
 import { NotificationsOnboardingBaseView } from './NotificationsOnboardingBase';
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, View, ScrollView, Switch, Platform } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Switch, Platform, FlatList } from 'react-native';
 import { Card } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import TextStyles from 'src/styles/TextStyles';
@@ -60,33 +60,38 @@ export class CustomizeNotificationsOnboardingView extends NotificationsOnboardin
     this.trigger(ScenarioTriggers.Next)
   }
 
+  renderListItem = ({ item }) => (
+    <Card
+      key={item}
+      title={item + ' Life Area'}
+      description={this.stateForIndex(this.viewModel.posssibleDomains.indexOf(item)) ? 'On' : 'Off'}
+      style={{ marginBottom: 20 }}
+      isTransparent
+      ImageElement={iconForDomain(item, { width: 16, height: 16 }, this.theme.colors.highlight)}
+      theme={this.theme}
+    >
+      <Switch
+        value={this.stateForIndex(this.viewModel.posssibleDomains.indexOf(item))}
+        disabled={this.viewModel.isToggleInProgress}
+        onValueChange={(enabled) => {
+          this.setStateForIndex(this.viewModel.posssibleDomains.indexOf(item), enabled);
+        }}
+        thumbColor={Platform.OS == 'android' && this.theme.colors.highlight}
+        trackColor={Platform.OS == 'android' && { true: this.theme.colors.highlightSecondary }}
+      />
+    </Card>
+  );
+
   renderInnerContent(): JSX.Element {
     const titleText = 'Customize target life area notifications';
     return (
       <>
         <Text style={[TextStyles.h1, styles.title, { color: this.theme.colors.foreground }]}>{titleText}</Text>
-        {this.viewModel.posssibleDomains.map((dom, index) => {
-          return <Card
-            key={dom}
-            title={dom + ' Life Area'}
-            description={this.stateForIndex(index) ? 'On' : 'Off'}
-            style={{ marginBottom: 20 }}
-            isTransparent
-            ImageElement={iconForDomain(dom, { width: 16, height: 16 }, this.theme.colors.highlight)}
-            theme={this.theme}
-          >
-            <Switch
-              value={this.stateForIndex(index)}
-              disabled={this.viewModel.isToggleInProgress}
-              onValueChange={(enabled) => {
-                this.setStateForIndex(index, enabled);
-              }}
-              thumbColor={Platform.OS == 'android' && this.theme.colors.highlight}
-              trackColor={Platform.OS == 'android' && { true: this.theme.colors.highlightSecondary }}
-            />
-          </Card>
-        })}
-        <Text style={[TextStyles.p1, { color: this.theme.colors.foreground, textAlign: 'center' }]}>If you turn on notifications, PolarUs will send you encouragement and tips for that life area.</Text>
+        <FlatList style={[styles.list]}
+          data={this.viewModel.posssibleDomains}
+          renderItem={this.renderListItem}
+          keyExtractor={item => item} />
+        <Text style={[TextStyles.p1, { color: this.theme.colors.foreground, textAlign: 'center', marginVertical: 15 }]}>If you turn on notifications, PolarUs will send you encouragement and tips for that life area.</Text>
       </>
     );
   }
@@ -96,5 +101,9 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: 40,
     textAlign: 'center',
-  }
+  },
+  list: {
+    marginTop: 5,
+    width: '100%',
+  },
 });
