@@ -156,7 +156,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         this.trigger(ScenarioTriggers.Tertiary);
     }
 
-    // NOt used currently
+    // Not used currently
     private async onStartDomains() {
         AppViewModel.Instance.Domain.clearSelectedDomains();
         AppViewModel.Instance.Strategy.clearSelectedDomains();
