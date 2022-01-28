@@ -16,7 +16,7 @@ export type UserLocalSettings = {
 };
 
 export type OnboardingSettings = {
-    completed: boolean, // true when user has entirley finsushed the onboarding process
+    completed: boolean, // true when user has entirely finished the onboarding process
     needsQolOnboarding: boolean,
     needsDomainOnboarding: boolean,
     needsStrategyOnboarding: boolean,
