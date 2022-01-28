@@ -2,7 +2,7 @@ import { FeatureSettings } from './services/config';
 import * as functions from 'firebase-functions';
 import { SentimentAnalysis, SentimentValue } from '../../../common/models/Sentiment';
 import { EnergyValue, RecordData } from '../../../common/models/RecordData';
-import { FunctionBackendController } from '../src/services/backend';
+import FunctionBackendController from './services/FunctionBackendController';
 import {
     RemoteCallResult,
 } from '../../../common/abstractions/controlllers/IBackendController';
@@ -87,13 +87,13 @@ fns.measurement = FeatureSettings.ExportToDataServices
             const backend = new FunctionBackendController();
             const makeRequest = async (ex: RecordExport) =>
                 backend.logMeasurement(data.clientUid, 'maslo-measurement', ex.typeId, ex.value, data.date)
-                .then((res: RemoteCallResult) => {
-                    if (res.error) {
-                        return Promise.reject(res.error);
-                    } else {
-                        return Promise.resolve(null);
-                    }
-                });
+                    .then((res: RemoteCallResult) => {
+                        if (res.error) {
+                            return Promise.reject(res.error);
+                        } else {
+                            return Promise.resolve(null);
+                        }
+                    });
             // Q: should we mash into a single call?
             return Promise.all(Object.entries(extract).reduce((ps, [key, ext]) => {
                 const val = data[key];
@@ -106,14 +106,32 @@ fns.measurement = FeatureSettings.ExportToDataServices
                     return ps.concat([Promise.reject(`Key ${key} is not valid for record`)]);
                 }
             }, ([] as Promise<void>[])))
-            .then((res) => {
-                console.log('records all OK', res);
-                return { error: null };
-            })
-            .catch((e) => {
-                console.error('records all ERROR', e);
-                return { error: e };
-            });
+                .then((res) => {
+                    console.log('records all OK', res);
+                    return { error: null };
+                })
+                .catch((e) => {
+                    console.error('records all ERROR', e);
+                    return { error: e };
+                });
+        });
+
+type AffirmationDoc = {
+    domains: string[],
+    keywords: string[],
+    content: string,
+};
+
+fns.affirmation = FeatureSettings.ExportToDataServices
+    && functions.firestore.document('/affirmations/{id}')
+        .onCreate(async (snap, context): Promise<ExportResult> => {
+            const data: AffirmationDoc = snap.data() as AffirmationDoc;
+            const backend = new FunctionBackendController();
+            return backend.logAffirmation(snap.id, data.content, data.domains, data.keywords)
+                .then((res: RemoteCallResult) => {
+                    const { error } = res;
+                    return { error };
+                });
         });
 
 export const ExportFunctions = FeatureSettings.ExportToDataServices && fns;

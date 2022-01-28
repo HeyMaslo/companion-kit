@@ -132,6 +132,7 @@ export class HealthScopesView extends ViewState {
                                 <Button
                                     title='Grant Permission'
                                     onPress={this.onAndroidSettings}
+                                    theme={this.theme}
                                 />
                             </View>
                         )}

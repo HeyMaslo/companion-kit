@@ -20,7 +20,7 @@ import Env from 'src/constants/env';
 
 import AudioManager from 'src/services/Audio';
 import AppQueryService from 'src/services/AppQueryService';
-import AnalyticsExpo from 'src/services/AnalyticsService';
+// import AnalyticsExpo from 'src/services/AnalyticsService';
 import { InitAnalytics } from 'common/services/analytics/analytics';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -134,8 +134,9 @@ export default class App extends React.Component<IAppProps> {
 
         this.showDevAlert();
 
-        const AnalyticsService = new AnalyticsExpo();
-        InitAnalytics(AnalyticsService);
+        // MK-TODO: - this was causing an error, aren't we using firebase analytics anyways?
+        // const AnalyticsService = new AnalyticsExpo();
+        // InitAnalytics(AnalyticsService);
     }
 
     private _loadResourcesAsync = async () => Promise.all([

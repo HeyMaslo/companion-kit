@@ -1,11 +1,9 @@
-import { observable, computed, autorun, reaction } from 'mobx';
+import { observable, computed, reaction } from 'mobx';
 import AppController from 'src/controllers';
-import { NotificationTime, timeToString } from 'src/helpers/notifications';
-import { Alert, Linking } from 'react-native';
-import { createLogger } from 'common/logger';
+import { Alert, Linking, Platform } from 'react-native';
 import * as Links from 'src/constants/links';
-
-const logger = createLogger('[SettingsNotificationsViewModel]');
+import { HourAndMinute } from 'common/utils/dateHelpers';
+import { DomainName, SubdomainName } from 'src/constants/Domain';
 
 export class SettingsNotificationsViewModel {
 
@@ -17,38 +15,50 @@ export class SettingsNotificationsViewModel {
 
     private _unsubscribe: () => void = null;
 
-    private get originalIsEnabled() { return !!AppController.Instance.User?.notifications.enabled; }
+    private get originalIsEnabled() { return !!AppController.Instance.User?.notifications.notificationsEnabled; }
+
+    private _posssibleDomains: (DomainName | SubdomainName)[] = [];
+
+    get scheduledTime(): HourAndMinute { return AppController.Instance.User.localSettings.current.notifications.scheduledTime };
+    @observable
+    public domainsForNotifications: (DomainName | SubdomainName)[] = AppController.Instance.User.localSettings.current.notifications.domainsForNotifications;
+    @observable
+    public allowBDMention: Boolean = AppController.Instance.User.localSettings.current.notifications.allowBDMention;
+
+    get posssibleDomains() { return this._posssibleDomains; }
 
     get isEnabled() { return this._isEnabled; }
     get isToggleInProgress() { return this._toggleInProgress; }
 
-    get schedule() { return AppController.Instance.User.notifications.schedule; }
-
     get settingsSynced() { return AppController.Instance.User.localSettings.synced; }
 
+    // returns a string similar to 'Daily at 1:30 PM', varies slightly by locale
     @computed
-    get scheduleTimeString() {
-        const ntfTime = AppController.Instance.User.notifications.schedule;
-
-        if (!ntfTime) {
-            return 'Not specified';
+    get scheduleTimeString(): string {
+        if (this.scheduledTime == null) {
+            return 'On';
         }
+        const date = new Date();
+        date.setHours(this.scheduledTime.hour, this.scheduledTime.minute)
+        const localeString = date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 
-        const keys = Object.keys(ntfTime) as NotificationTime[];
-        const strings = keys.map(time => {
-            const val = time === NotificationTime.ExactTime
-                ? ntfTime[time] && ntfTime[time].active
-                : ntfTime[time];
+        if (Platform.OS == 'ios') {
+            return 'Daily at ' + localeString;
+        }
+        const splits = localeString.split(':'); // splits are done becuase the android date locale might include seconds
+        const androidTimeString = splits.length > 1 ? splits[0] + ':' + splits[1] : localeString;
+        return 'Daily at ' + androidTimeString;
+    }
 
-            const res = val ? timeToString(time) : '';
+    public setScheduledTime(time: HourAndMinute) {
+        AppController.Instance.User.localSettings.updateNotifications({ scheduledTime: time }, 'scheduledTime');
+    }
 
-            return res;
-        });
-
-        const filtered = strings.filter(v => !!v);
-        const result = filtered.join(', ');
-
-        return result && result.length !== 0 ? result : 'Not specified';
+    public setAllDomains(allDomains: (DomainName | SubdomainName)[]) {
+        if (allDomains) {
+            this._posssibleDomains = allDomains;
+            this.domainsForNotifications = allDomains;
+        }
     }
 
     updateEnabledState = () => {
@@ -67,7 +77,7 @@ export class SettingsNotificationsViewModel {
 
             this._isEnabled = !this._isEnabled;
 
-            if (!AppController.Instance.User.notifications.enabled) {
+            if (!AppController.Instance.User.notifications.notificationsEnabled) {
                 await AppController.Instance.User.notifications.enableNotifications();
             } else {
                 await AppController.Instance.User.notifications.disableNotifications();
@@ -97,17 +107,9 @@ export class SettingsNotificationsViewModel {
         }
     }
 
-    toggleTime = (time: NotificationTime, value?: number) => {
-        return time === NotificationTime.ExactTime
-            ? AppController.Instance.User.notifications.toggleTime(time, value)
-            : AppController.Instance.User.notifications.toggleTime(time);
-    }
-
     init() {
         this.updateEnabledState();
-        logger.log('init this.originalIsEnabled =', this.originalIsEnabled, 'this.isEnabled =', this.isEnabled);
         this._unsubscribe = reaction(() => this.originalIsEnabled, enabled => {
-            logger.log('originalIsEnabled CHANGED:', enabled, ', this.isEnabled =', this.isEnabled);
             if (this._toggleInProgress) {
                 return;
             }

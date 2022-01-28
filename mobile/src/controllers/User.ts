@@ -14,7 +14,7 @@ import { Users as UsersFunctions } from 'common/abstractions/functions';
 import MobileTracker from 'src/services/mobileTracker';
 import * as Events from 'src/services/mobileTracker.events';
 
-import { NotificationsController } from 'src/controllers/Notifications';
+import { NotificationsController } from 'src/controllers/NotificationsController';
 import { HealthPermissionsController } from 'src/controllers/HealthPermissions';
 import { AssessmentsController, IAssessmentsController } from 'src/controllers/Assessments';
 import { RecordsController } from 'common/controllers/RecordsController';
@@ -65,7 +65,7 @@ export interface IUserController extends IUserControllerBase {
 
     readonly hasSeenOnboarding: boolean;
     readonly hasHealthDataPermissions: HealthPermissionsController;
-    
+
     onboardingSeen(): void;
 
     acceptConsent?(option: string): Promise<boolean>;
@@ -287,6 +287,7 @@ export class UserController extends UserControllerBase implements IUserControlle
 
             await this._localSettings.load(user.id);
             await this.hasHealthDataPermissions.initAsync();
+            this.notifications.setUser(user.id);
             await this.notifications.initAsync();
         }
     }

@@ -5,7 +5,6 @@ import { Container, ButtonBlock, Button } from 'src/components';
 import TextStyles from 'src/styles/TextStyles';
 import Colors from 'src/constants/colors';
 import PromptModalViewModel from 'common/viewModels/PromptModalViewModel';
-import { notch } from 'src/styles/BaseStyles';
 import ModalImages from 'src/constants/ModalImages';
 import { Theme } from 'src/constants/theme/PStheme';
 
@@ -94,7 +93,7 @@ const styles = StyleSheet.create({
         height: '100%',
         backgroundColor: Colors.promptModalBg,
         justifyContent: 'flex-start',
-        paddingBottom: notch ? 34 : 20,
+        paddingBottom: 20,
     },
     container: {
         paddingLeft: 20,

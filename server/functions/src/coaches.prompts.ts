@@ -17,7 +17,7 @@ import * as PromptsDtos from 'common/models/dtos/prompts';
 import { Coaches as CoachesFunctions } from 'common/abstractions/functions';
 import { FunctionFactory } from 'server/utils/createFunction';
 import { Repo } from 'server/services/db';
-import { pushNotifications } from 'server/services/notifications';
+// import { pushNotifications } from 'server/services/notifications';
 import { FeatureSettings } from './services/config';
 import AppHttpError from './utils/AppHttpError';
 import { NotificationTypes } from 'common/models/Notifications';
@@ -489,16 +489,16 @@ class GoalsUpdater extends PromptsBaseUpdater<GoalType, 'goals', ClientGoalState
 
         if (this._newTypes.length > 0) {
             // 1 or more new goals has been added
-            await pushNotifications([{
-                uid: this.request.client.clientId,
-                data: {
-                    body: 'Your therapist has created a new goal for you. Check it out!',
-                    subtitle: 'New goals added',
-                    data: {
-                        type: NotificationTypes.NewGoals,
-                    },
-                },
-            }]);
+            // await pushNotifications([{
+            //     uid: this.request.client.clientId,
+            //     data: {
+            //         body: 'Your therapist has created a new goal for you. Check it out!',
+            //         subtitle: 'New goals added',
+            //         data: {
+            //             type: NotificationTypes.NewGoals,
+            //         },
+            //     },
+            // }]);
         }
     }
 }

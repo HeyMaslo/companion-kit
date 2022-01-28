@@ -2,7 +2,6 @@ import React from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StyleSheet } from 'react-native';
 import Colors from 'src/constants/colors';
-import { notch } from 'src/styles/BaseStyles';
 import Layout from 'src/constants/Layout';
 
 type Props = {
@@ -39,6 +38,6 @@ const baseStyles = StyleSheet.create({
         zIndex: 1,
         elevation: 1,
         width: Layout.window.width,
-        height: notch ? Layout.getViewHeight(22) : Layout.getViewHeight(28),
+        height: Layout.getViewHeight(28),
     },
 });

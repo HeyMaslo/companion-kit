@@ -33,8 +33,12 @@ export enum States {
     Home,
     JournalDetail,
 
+    OnboardingVideo,
     OnboardingEnter,
-    AskNotificationsPermissions,
+    NotificationsTimeOnboarding,
+    CustomizeNotificationsOnboarding,
+    BDMentionNotifcationsOnboarding,
+    ReviewNotifcationsOnboarding,
 
     // Create Journal Block
     Journal_SelectMood,
@@ -57,6 +61,7 @@ export enum States {
     EmailSettings,
     ChangePassword,
     NotificationsSettings,
+    NotificationsCustomize,
 
     // LIFE DOMAINS block
     Focus_Domains,
@@ -92,4 +97,6 @@ export enum States {
 
     QolHistory,
     QolHistoryTimline,
+
+    View_Affirmation,
 }

@@ -25,6 +25,13 @@ app.post('/client', (req, res) => {
     }
 });
 
+app.post('/affirmations/:affirmationId', (req, res) => {
+    res.status(201).send({
+        message: 'Created',
+        id: req.params.affirmationId
+    });
+});
+
 app.get('/client/:clientId', (req, res) => {
     res.status(200).send({
         id: req.params.clientId,

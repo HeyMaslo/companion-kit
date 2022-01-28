@@ -6,7 +6,7 @@ import { transferDefinedFields } from 'common/utils/fields';
 import { FeatureSettings } from './services/config';
 import { DocumentFileEntry, DocumentLinkShareStatuses, DocumentLinkShareState, UserRoles } from 'common/models';
 import AppHttpError from './utils/AppHttpError';
-import { pushNotifications } from './services/notifications';
+// import { pushNotifications } from './services/notifications';
 import { NotificationTypes } from 'common/models/Notifications';
 
 export const DocumentsEndpoint = FeatureSettings.DocumentsEnabled && new FunctionFactory(CoachesFunctions.DocumentsEndpoint)
@@ -92,18 +92,18 @@ async function changeDocShareStatus(data: DocumentsDtos.DocumentLinks.ChangeStat
     if (share.status === DocumentLinkShareStatuses.Sent) {
         const coachUser = await Repo.Users.getUserById(doc.coachUid);
 
-        await pushNotifications([{
-            uid: doc.clientUid,
-            data: {
-                body: `${coachUser.firstName} ${coachUser.lastName} sent you ${doc.name}.`,
-                subtitle: 'New Link',
-                data: {
-                    type: NotificationTypes.NewDocumentLinkShared,
-                    docId: doc.id,
-                },
-                displayInForeground: true,
-            },
-        }]);
+        // await pushNotifications([{
+        //     uid: doc.clientUid,
+        //     data: {
+        //         body: `${coachUser.firstName} ${coachUser.lastName} sent you ${doc.name}.`,
+        //         subtitle: 'New Link',
+        //         data: {
+        //             type: NotificationTypes.NewDocumentLinkShared,
+        //             docId: doc.id,
+        //         },
+        //         displayInForeground: true,
+        //     },
+        // }]);
     }
 
     const res = await Repo.ClientCards.updateDocument(doc.coachUid, doc.clientCardId, doc.id, { share });

@@ -32,7 +32,6 @@ export class NotificationsPermissionView extends ViewState {
         } else {
             await AppController.Instance.User.notifications.disableNotifications();
         }
-
         this.trigger(ScenarioTriggers.Submit);
     })
 

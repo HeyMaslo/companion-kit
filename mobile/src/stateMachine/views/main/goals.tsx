@@ -7,7 +7,6 @@ import Images from 'src/constants/images';
 import { ViewState } from '../base';
 import Layout from 'src/constants/Layout';
 import { PersonaScrollMask } from 'src/components/PersonaScollMask';
-import { notch } from 'src/styles/BaseStyles';
 import BottomBar from 'src/screens/components/BottomBar';
 import GoalCard from 'src/components/GoalCard';
 import AppViewModel from 'src/viewModels';
@@ -39,19 +38,20 @@ export class GoalsView extends ViewState {
 
     renderContent() {
 
-        const activeCount = this.model.activeGoals.length;
+        // const activeCount = this.model.activeGoals.length;
         const completedCount = this.model.achievedGoals.length;
-        const totalCount = activeCount + completedCount;
+        const totalCount = 0; // activeCount + completedCount;
 
         return (
             <MasloPage style={[this.baseStyles.page, styles.page]} theme={this.theme}>
                 <Container style={styles.topBar}>
-                    <PersonaScrollMask height={notch ? Layout.getViewHeight(22) : Layout.getViewHeight(25)} />
+                    {/* <PersonaScrollMask height={notch ? Layout.getViewHeight(22) : Layout.getViewHeight(25)} />*/}
+                    <PersonaScrollMask height={Layout.getViewHeight(25)} /> 
                 </Container>
                 {totalCount > 0 ? (
                     <ScrollView style={styles.scrollView}>
                         <Container style={[this.baseStyles.container, styles.container]}>
-                            <Text style={[this.textStyles.labelMedium, styles.overline]}><Text style={{ color: '#F0F1FF' }}>My goals</Text> {activeCount}</Text>
+                            <Text style={[this.textStyles.labelMedium, styles.overline]}><Text style={{ color: '#F0F1FF' }}>My goals</Text> {0}</Text>
                             {this.model.activeGoals.map((g, i) => (
                                 <GoalCard
                                     key={i}

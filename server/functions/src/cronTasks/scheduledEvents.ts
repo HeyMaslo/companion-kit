@@ -4,7 +4,7 @@ import db, { Repo } from 'server/services/db';
 import { DocumentSnapshot, getIdentify } from 'common/database/repositories/dbProvider';
 import logger from 'common/logger';
 import Identify from 'common/models/Identify';
-import { NotificationSendRequest, processStatuses, pushNotifications } from 'server/services/notifications';
+// import { NotificationSendRequest, processStatuses, pushNotifications } from 'server/services/notifications';
 import { NotificationStatus, NotificationTypes } from 'common/models/Notifications';
 import { PromptsLibrary, PromptType } from 'common/models/prompts';
 
@@ -59,7 +59,7 @@ export async function triggerEvents() {
 async function getEvents(now: number): Promise<EventIded[]> {
     try {
         const events = await db.value.collectionGroup('events')
-        // skip future events, but keep triggered
+            // skip future events, but keep triggered
             .where(nameof<EventIded>(e => e.timestamp), '<=', now)
             .get();
 
@@ -90,26 +90,10 @@ async function eventsProcess(type: EventTypes, events: EventIded[]) {
     return { type, response };
 }
 
-async function sendNotifications<T extends NotificationBasedEvent>(items: (NotificationSendRequest & { source: T})[]) {
-    const responses = await pushNotifications(items);
-    responses.forEach(r => {
-        const e = r.request.source;
-        const statuses = r.statuses?.filter(s => s.current === 'confirmed' || s.current === 'enqueued');
-        if (!statuses?.length) {
-            e.error = 'No target devices were available to send this message.';
-            return;
-        }
-
-        e.notificationDataSent = r.request.data.data;
-        e.notifications = nullifyArray(r.statuses);
-    });
-    return responses;
-}
-
 async function promptsEventsProcess(events: Identify<PromptEvent>[]) {
     try {
         const { prompts } = await getPromptContextData(events);
-        const notifications: (NotificationSendRequest & { source: Identify<PromptEvent> })[] = [];
+        // const notifications: (NotificationSendRequest & { source: Identify<PromptEvent> })[] = [];
 
         events.forEach(event => {
             const promptText = prompts[event.promptId]?.text || event.text;
@@ -117,22 +101,7 @@ async function promptsEventsProcess(events: Identify<PromptEvent>[]) {
                 event.error = 'No notification message';
                 return;
             }
-
-            notifications.push({
-                uid: event.clientUid,
-                data: {
-                    body: promptText,
-                    data: {
-                        type: NotificationTypes.CustomPrompt,
-                        promptId: event.promptId,
-                        originalText: promptText,
-                    },
-                },
-                source: event,
-            });
         });
-
-        await sendNotifications(notifications);
     } catch (e) {
         logger.warn(e);
         events.forEach(ev => {
@@ -147,30 +116,13 @@ async function assessmentEventsProcess(events: Identify<AssessmentEvent>[]): Pro
 
 async function triggerPhrasesEventsProcess(events: Identify<TriggerPhraseNotificationEvent>[]) {
     try {
-        const notifications: (NotificationSendRequest & { source: Identify<TriggerPhraseNotificationEvent> })[] = [];
-
         events.forEach(event => {
             if (!event.text || !event.phrase) {
                 event.error = 'No notification message';
                 return;
             }
 
-            notifications.push({
-                uid: event.clientUid,
-                data: {
-                    body: event.text,
-                    data: {
-                        type: NotificationTypes.TriggerPhrase,
-                        phrase: event.phrase,
-                        phrasePrompt: event.text,
-                    },
-                    displayInForeground: true,
-                },
-                source: event,
-            });
         });
-
-        await sendNotifications(notifications);
     } catch (e) {
         logger.warn(e);
         events.forEach(ev => {
@@ -181,8 +133,8 @@ async function triggerPhrasesEventsProcess(events: Identify<TriggerPhraseNotific
 
 async function getPromptContextData(events: PromptEvent[]) {
 
-    const libraries: Record<string, PromptsLibrary> = { };
-    const prompts: Record<string, PromptType> = { };
+    const libraries: Record<string, PromptsLibrary> = {};
+    const prompts: Record<string, PromptType> = {};
 
     const promises = events.map(async (e: PromptEvent) => {
         if (libraries[e.coachUid] !== undefined) {
@@ -228,8 +180,6 @@ async function processNotificationStatuses(events: AnyEvent[]) {
         }
         return arr;
     }, []);
-
-    await processStatuses(notificationStatuses);
 
     events.forEach(e => {
         if (!AnyEvent.isNotificationsBased(e) || !e.notifications) {

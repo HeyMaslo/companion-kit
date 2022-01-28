@@ -193,7 +193,7 @@ export default abstract class AuthControllerBase implements IAuthController {
         return this.hasUserRole(email);
     }
 
-    abstract async signInWithEmailLink(email: string, reason: MagicLinkRequestReasons): Promise<void>;
+    abstract signInWithEmailLink(email: string, reason: MagicLinkRequestReasons): Promise<void>;
 
     async validateCode(email: string, code: string): Promise<{ result: boolean }> {
         const data = await Firebase.Instance.getFunction(UsersFunctions.ValidateCode)
@@ -557,7 +557,7 @@ export default abstract class AuthControllerBase implements IAuthController {
         });
     }
 
-    protected abstract async googleSignOut(): Promise<void>;
+    protected abstract googleSignOut(): Promise<void>;
 
     protected async servicesSignOut() {
         await this.googleSignOut();

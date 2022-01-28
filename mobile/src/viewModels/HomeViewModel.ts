@@ -233,23 +233,6 @@ export default class HomeViewModel {
             && lastDailyCheckIn.getFullYear() === today.getFullYear()
     }
 
-    public getArmMagnitudes = async () => {
-        const lastSurveyScores: QolSurveyResults = await AppController.Instance.User.qol.getSurveyResults();
-        if (lastSurveyScores == null) {
-            return PersonaArmState.createEmptyArmState();
-        }
-        let currentArmMagnitudes = PersonaArmState.createEmptyArmState();
-        for (let domain of Object.values(DomainName)) {
-            let score: number = 0;
-            lastSurveyScores[domain].forEach((val) => {
-                score += val;
-            })
-            let mag: number = 0.4 + (score * 3 / 100);
-            currentArmMagnitudes[domain] = mag;
-        }
-        return currentArmMagnitudes;
-    }
-
     public markLinkDocumentAsSeen = (doc: Identify<DocumentLinkEntry>) => {
         const docid = this.newDocumentLink?.id;
         if (!docid) {

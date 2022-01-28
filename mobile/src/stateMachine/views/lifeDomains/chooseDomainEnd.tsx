@@ -3,7 +3,9 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, Container, MasloPage } from 'src/components';
+import { DomainName, SubdomainName } from 'src/constants/Domain';
 import Layout from 'src/constants/Layout';
+import AppController from 'src/controllers';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
@@ -34,9 +36,12 @@ export class ChooseDomainEndView extends ViewState {
         this.trigger(ScenarioTriggers.Back);
     }
 
-    async onChooseStrategies() {
+    async onChooseStrategiesPress() {
         this.viewModel.postFocusedDomains();
         this.strategiesViewModel.updateAvailableStrategiesForSelectedDomains();
+        const allSelectedDomains = (this.viewModel.selectedDomains.domains as (DomainName | SubdomainName)[]).concat(this.viewModel.selectedDomains.subdomains);
+        AppViewModel.Instance.Settings.notifications.setAllDomains(allSelectedDomains);
+        AppController.Instance.User.localSettings.updateStrategiesConfirmed(false);
         this.trigger(ScenarioTriggers.Submit)
     }
 
@@ -47,7 +52,7 @@ export class ChooseDomainEndView extends ViewState {
                     <Text style={[this.textStyles.h1, styles.title]}>Next, you'll choose strategies for your focus domains </Text>
                     <View style={{ width: '90%', flex: 0, alignItems: 'center', justifyContent: 'space-around', marginBottom: 15 }}>
                         <Text style={[this.textStyles.p3, styles.message]}>You can choose up to 4 strategies and update them weekly</Text>
-                        <Button title='View Strategies' style={styles.continueButton} onPress={() => this.onChooseStrategies()} theme={this.theme}/>
+                        <Button title='View Strategies' style={styles.continueButton} onPress={() => this.onChooseStrategiesPress()} theme={this.theme} />
                     </View>
                 </Container>
             </MasloPage>

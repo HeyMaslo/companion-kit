@@ -162,7 +162,7 @@ export class RecordView extends CheckInViewBase {
                 <Container style={[this.baseStyles.container, this.baseStyles.flexBetween, { height: this._contentHeight }]}>
                     {/* HEADER ==== */}
                     <View style={[this.baseStyles.textBlock, styles.textBlock]}>
-                        <Text style={[this.textStyles.h1, this.baseStyles.textCenter, { fontSize: this._questionFontSize(this.textStyles.h1.fontSize, this.layout.isSmallDevice ? 20 : 23), lineHeight: this._questionFontSize(this.textStyles.h1.lineHeight, 27) }]}>
+                        <Text style={[this.textStyles.h1, { textAlign: 'center', fontSize: this._questionFontSize(this.textStyles.h1.fontSize, this.layout.isSmallDevice ? 20 : 23), lineHeight: this._questionFontSize(this.textStyles.h1.lineHeight, 27) }]}>
                             {this.viewModel.question}
                         </Text>
                     </View>
@@ -174,7 +174,7 @@ export class RecordView extends CheckInViewBase {
                         {this.recorder.state === RecordingStates.countDown && (
                             <View style={styles.countDown}>
                                 <Text style={this.textStyles.h2}>Ready?</Text>
-                                <Text style={[{ ...this.textStyles.p2 }, this.baseStyles.textCenter, styles.desc]}>{!!this.recorder.counter && `${this.recorder.counter}...`} </Text>
+                                <Text style={[{ ...this.textStyles.p2, textAlign: 'center' }, styles.desc]}>{!!this.recorder.counter && `${this.recorder.counter}...`} </Text>
                             </View>
                         )}
 
@@ -182,7 +182,7 @@ export class RecordView extends CheckInViewBase {
                         {this.recorder.active && (
                             <View style={styles.recordWrap}>
                                 <Text style={this.textStyles.h2}>{formatted(this.recorder.diffSec, true)}</Text>
-                                <Text style={[this.textStyles.p2, this.baseStyles.textCenter, styles.desc]}>{`out of ${formatted(this.recorder.maxDuration)} min`}</Text>
+                                <Text style={[this.textStyles.p2, { textAlign: 'center' }, styles.desc]}>{`out of ${formatted(this.recorder.maxDuration)} min`}</Text>
                             </View>
                         )}
 

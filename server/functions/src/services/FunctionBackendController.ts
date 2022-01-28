@@ -1,9 +1,9 @@
 import Axios from 'axios';
 import { IBackendClient } from 'common/abstractions/controlllers/IBackendController';
 import BackendControllerBase from '../../../../common/controllers/BackendController';
-import { BackendSettings as config } from './config';
+import { BackendSettings as config } from './config/index';
 
-export class FunctionBackendController extends BackendControllerBase {
+export default class FunctionBackendController extends BackendControllerBase {
 
     private ax: any;
 

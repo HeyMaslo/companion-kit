@@ -1,5 +1,6 @@
+import { HourAndMinute } from '../utils/dateHelpers';
+import { DomainName } from '../../mobile/src/constants/Domain';
 import Identify from './Identify';
-import { ScheduleResult } from './Notifications';
 
 export type UserLocalSettings = {
     deviceId: string,
@@ -10,13 +11,14 @@ export type UserLocalSettings = {
     healthPermissions?: HealthPermissionsSettings;
     qol?: QolSettings;
     lastDailyCheckIn?: string;
+    strategiesConfirmed?: boolean;
 };
 
 export type NotificationsSettings = {
-    // currenty we use this only for locals
-    enabled?: boolean,
-    token?: string,
-    locals?: LocalNotificationsSchedule,
+    enabled: boolean,
+    scheduledTime: HourAndMinute,
+    allowBDMention: boolean,
+    domainsForNotifications: DomainName[],
 };
 
 export type HealthPermissionsSettings = {
@@ -30,13 +32,6 @@ export type QolSettings = {
     pendingFullQol: boolean,
     lastShortQol?: string,
     pendingShortQol: boolean,
-};
-
-export type LocalNotificationsSchedule = {
-    current: ScheduleResult,
-    schedule: {
-        [type: string]: null | boolean | { active: boolean, value: number },
-    },
 };
 
 export type DeviceInfo = {

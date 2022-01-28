@@ -143,7 +143,7 @@ export const PictureView = observer(function (this: void, props: PictureViewProp
 
 
     return (
-        <MasloPage style={BaseStyles.page} theme={props.theme}>
+        <MasloPage style={{ justifyContent: 'flex-end' }} theme={props.theme}>
             {renderCamera ? (
                 <>
                     <View style={[styles.activityIndicator, { opacity: model.capturing ? 1 : 0 }]} pointerEvents="none">

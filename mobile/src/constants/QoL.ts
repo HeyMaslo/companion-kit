@@ -1,4 +1,3 @@
-
 /*
     Types definitions for QoL (Quality of Life)
     survey data.
@@ -6,6 +5,14 @@
 
 import { Identify } from 'common/models';
 import { DomainName } from './Domain';
+
+// AFFIRMATIONS
+export type Affirmation = {
+    id: string,
+    content: string,
+    domainNames: DomainName[],
+    mentionsBD: boolean,
+};
 
 // QUESTION
 
