@@ -107,9 +107,6 @@ export class LocalSettingsController implements ILocalSettingsController {
             healthPermissions: toJS(this._current.healthPermissions),
         };
 
-        console.log('---- submitChanges --')
-        console.log('-diff: ', diff)
-
         await RepoFactory.Instance.users.updateLocalSettings(
             this._uid,
             DeviceId,
