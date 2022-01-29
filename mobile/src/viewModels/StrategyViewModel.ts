@@ -18,6 +18,7 @@ export default class StrategyViewModel {
   @observable
   public learnMoreStrategy: Strategy; // StrategyDetailsView uses this to display details (after pressing 'learn more' on a StrategyCard)
 
+  @observable
   public temporaryDisplay: DisplayStrategy[] = []; // used when showing a list of strategies regardless of selected doamins, selected strategies, etc.
 
   public get allStrategies(): DisplayStrategy[] {

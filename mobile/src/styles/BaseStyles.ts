@@ -16,7 +16,7 @@ const BaseStyles = StyleSheet.create({
         paddingBottom: 20,
     },
     page: {
-        // height: layout.window.height, MK-TODO: - this is gonna mess a lot of stuff up
+        height: layout.window.height,// MK-TODO: - this is gonna mess a lot of stuff up
         justifyContent: 'flex-end',
     },
     container: {

@@ -73,7 +73,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
             useNativeDriver: true,
         }).start(this.checkNewLinkDoc);
         isFirstLaunch = false;
-        AppViewModel.Instance.Settings.notifications.setAllDomains([DomainName.SLEEP]);
+        // MK-TODO is this the best place to do this? Good now for testing
+        await AppViewModel.Instance.Domain.fetchPossibleDomains();
+        AppViewModel.Instance.Domain.fetchSelectedDomains();
+        await AppViewModel.Instance.Strategy.fetchPossibleStrategies();
+        AppViewModel.Instance.Strategy.fetchSelectedStrategies();
     }
 
     private checkNewLinkDoc = () => {
@@ -150,7 +154,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     private onHealthSettings = () => {
         this.trigger(ScenarioTriggers.Quinary);
     }
-    
+
     private onShortQol = () => {
         this.qolViewModel.setQolSurveyType = QolSurveyType.Short;
         this.trigger(ScenarioTriggers.Tertiary);
@@ -164,13 +168,13 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     }
 
     // MK-TODO: - used for development only and will be removed
-    async onTESTINGButton() {
-        AppController.Instance.User.notifications.scheduleTime = { hour: 10, minute: 30 };
-        AppController.Instance.User.notifications.domainAndSubdomainNames = [DomainName.SLEEP, SubdomainName.DIETNUTRITION];
-        await AppController.Instance.User.notifications.scheduleTESTINGAffirmationNotification();
+    // async onTESTINGButton() {
+        // AppController.Instance.User.notifications.scheduleTime = { hour: 10, minute: 30 };
+        // AppController.Instance.User.notifications.domainAndSubdomainNames = [DomainName.SLEEP, SubdomainName.DIETNUTRITION];
+        // await AppController.Instance.User.notifications.scheduleTESTINGAffirmationNotification();
         // await AppViewModel.Instance.QoLHistory.init();
         // this.trigger(ScenarioTriggers.TESTING);
-    }
+    // }
 
     private openResourceDetails = (jid: string) => {
         this.trigger<CheckInDetailsParams>(ScenarioTriggers.Primary, { id: jid });
@@ -421,9 +425,9 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                         }
                     </Portal>
                     {/* MK-TODO below buttons used for development/testing only and will be removed */}
-                    <View style={{ flexDirection: 'row' }}>
-                        <Button title='Domains' style={styles.testingButton} onPress={() => this.onTESTINGButton()} theme={this.theme} />
-                    </View>
+                    {/* <View style={{ flexDirection: 'row' }}>
+                        <Button title='TESTING' style={styles.testingButton} onPress={() => this.onTESTINGButton()} theme={this.theme} />
+                    </View> */}
                     {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getCenterElement()}
                     {loading
                         ? <ActivityIndicator size='large' />

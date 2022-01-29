@@ -67,7 +67,7 @@ export class QolStartView extends ViewState {
     renderContent() {
 
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} theme={this.theme}>
+            <MasloPage style={this.baseStyles.page} onClose={AppController.Instance.User.localSettings.current?.onboarding.needsQolOnboarding ? null : () => this.onClose()} theme={this.theme}>
                 <Container style={[styles.container, { height: this._contentHeight }]}>
                     <Text style={[this.textStyles.h1, styles.title]}>Welcome{(this.viewModel.qolSurveyType === QolSurveyType.Full) ? " back" : ""}!</Text>
                     <Text style={[this.textStyles.p1, styles.message]}> {(this.viewModel.qolSurveyType === QolSurveyType.Full) ?

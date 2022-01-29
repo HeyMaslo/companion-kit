@@ -6,6 +6,7 @@ import { StyleSheet, Text, View, Dimensions, Animated } from 'react-native';
 import { MasloPage, Container, Button } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import TextStyles from '../../../../src/styles/TextStyles';
+import AppController from 'src/controllers';
 
 const minContentHeight = 560;
 
@@ -138,7 +139,7 @@ export class QolQuestion extends ViewState {
     renderContent() {
         const theme = this.theme;
         return (
-            <MasloPage style={this.baseStyles.page} onBack={this.viewModel.questionNum == 0 ? null : () => this.onBack()} onClose={() => this.onClose()} theme={this.theme}>
+            <MasloPage style={this.baseStyles.page} onBack={this.viewModel.questionNum == 0 ? null : () => this.onBack()} onClose={AppController.Instance.User.localSettings.current?.onboarding.needsQolOnboarding ? null : () => this.onClose()} theme={this.theme}>
                 <Container style={[ { height: this._contentHeight }]}>
                     <Animated.View style={{ opacity: this.labelState.opacity }}>
                         <Text style={styles.domainLabel}>{this.viewModel.domain.toUpperCase()}</Text>

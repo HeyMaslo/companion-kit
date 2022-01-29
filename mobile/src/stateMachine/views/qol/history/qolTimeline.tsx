@@ -184,7 +184,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
         item.surveyType == QolSurveyType.Full ? { borderWidth: styles.weekCircle.borderWidth * 2.2 } : { borderWidth: styles.weekCircle.borderWidth },
         index == this.selectedEntryIndex ? { backgroundColor: this.theme.colors.highlightSecondary } : { backgroundColor: 'white' },
         { top: this.topForWeekCircle(Math.round(score)), left: 0, marginHorizontal: ((Layout.window.width - 40) - 4 * weekCircleDiameter) / 8 }]}>
-          <Text style={[styles.weekCircleText, index == this.selectedEntryIndex ? { color: 'white' } : { color: this.theme.colors.highlightSecondary }]}>W{index + 1}</Text>
+          <Text style={[styles.weekCircleText, index == this.selectedEntryIndex ? { color: 'white' } : { color: this.theme.colors.highlightSecondary }]}>{index == 0 ? 'ST' : 'W' + index}</Text>
         </View>
       </Pressable>
     );
@@ -227,14 +227,14 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
               {this.historyEntries.map((entry, index) => this.renderListItem(entry, index))}
 
             </ScrollView>
-
+            {this.selectedEntryIndex !== 0 &&
             <Button
-              title={`View Week ${this.selectedEntryIndex + 1} Strategies`}
+              title={`View Week ${this.selectedEntryIndex} Strategies`}
               style={[styles.viewAllButton]}
               onPress={this.onViewStrategies}
               isTransparent={true}
               disabled={this.dropDownIsExtended}
-              theme={this.theme} />
+              theme={this.theme} />}
 
             {/* Dropdown list is here so it renders on top of everything */}
             {this.dropDownIsExtended &&
