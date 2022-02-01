@@ -75,6 +75,10 @@ export class LocalSettingsController implements ILocalSettingsController {
                     lastShortQol: Date(),
                 },
                 lastDailyCheckIn: Date(),
+                healthPermissions: {
+                    seenPermissionPromptIOS: null,
+                    enabledAndroid: null,
+                },
                 notifications: {
                     enabled: false,
                     scheduledTime: { hour: 0, minute: 0 },

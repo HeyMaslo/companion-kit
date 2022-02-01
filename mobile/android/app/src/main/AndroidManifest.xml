@@ -24,4 +24,8 @@
         </intent-filter>
       </activity>
     </application>
+
+<queries>
+    <package android:name="com.google.android.apps.fitness" />
+</queries>
 </manifest>
