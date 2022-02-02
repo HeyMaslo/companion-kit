@@ -1,3 +1,4 @@
+import { ScheduledAffirmationNotification } from '../models/userState';
 import {
     IBackendClient,
     IBackendController, RemoteCallResult,
@@ -62,4 +63,56 @@ export default abstract class BackendControllerBase implements IBackendControlle
             });
     }
 
+    public logNotification
+    (clientID: string, scheduled: ScheduledAffirmationNotification): Promise<RemoteCallResult>  {
+        return this.Client.post('/affirmation/notif', {
+            id: scheduled.notifId,
+            data: {
+                affirmationId: scheduled.affirmation.id,
+                userId: clientID,
+                date: scheduled.scheduledDate,
+            },
+        },
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': this.Authorization,
+            },
+        })
+        .then((res: any) => {
+            return { error: null } as RemoteCallResult;
+        })
+        .catch((err: any) => {
+            return {
+                msg: err?.message,
+                error: `Error calling service: ${err}`,
+            };
+        });
+    }
+
+    public logAffirmation(affirmationId: string, content: string, domains: string[], keywords: string[]): Promise<RemoteCallResult> {
+        return this.Client.post('/affirmations/:affirmationId', {
+            id: affirmationId,
+            data: {
+                domains,
+                keywords,
+                content,
+            },
+        },
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': this.Authorization,
+            },
+        })
+        .then((res: any) => {
+            return { error: null } as RemoteCallResult;
+        })
+        .catch((err: any) => {
+            return {
+                msg: err?.message,
+                error: `Error calling service: ${err}`,
+            };
+        });
+    }
 }

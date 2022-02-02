@@ -54,6 +54,8 @@ nvm install 10 && nvm use 10
 npm install --global yarn
 nvm install 12 && nvm use 12
 npm install --global yarn
+nvm install 14 && nvm use 14
+npm install --global yarn
 dir () {
 	echo "Changing to working directory: $1"
 	cd $1 || exit 1
@@ -93,15 +95,13 @@ if [ $dashboard == 1 ]; then
 fi
 if [ $mobile == 1 ]; then
     dir mobile/ios
-    nvm use 12
+    nvm use 14
     yarn
     if [ $pods == 1 ]; then
+        pod deintegrate
         pod install --repo-update
     fi
     cd ../..
-    echo "Copying patched gradle.groovy"
-    # This is used to fix lines 81 & 82, if 'react-native-unimodules' is updated, our fixed version must be updated as well
-    cp mobile/gradle.groovy mobile/node_modules/react-native-unimodules
     echo "Copying patched GoogleFitManager.java"
     # This is used to fix line 199 by replacing a class variable with a literal string, if 'react-native-google-fit' is updated, re-evaluate
     cp mobile/android/GoogleFitManager.java mobile/node_modules/react-native-google-fit/android/src/main/java/com/reactnative/googlefit/GoogleFitManager.java

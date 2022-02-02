@@ -95,7 +95,7 @@ export default function FormView(props: FormViewProps) {
             <AnimatedContainer style={[BaseStyles.container, BaseStyles.flexBetween, styles.finalContainer, { opacity: opacity, height: contentHeight }]}>
                 <View style={BaseStyles.textBlock}>
                     <Text style={[TextStyles.h1, styles.title]}>You're done!</Text>
-                    <Text style={[TextStyles.p1, BaseStyles.textCenter, { color: Colors.secondarySubtitle }]}>Please submit so that your therapist can review your results.</Text>
+                    <Text style={[TextStyles.p1, { textAlign: 'center', color: Colors.secondarySubtitle }]}>Please submit so that your therapist can review your results.</Text>
                 </View>
                 <ActivityButton
                     title={'Submit'}
@@ -110,7 +110,7 @@ export default function FormView(props: FormViewProps) {
             <Container style={[BaseStyles.container, BaseStyles.flexBetween, styles.finalContainer, { opacity: 1, height: contentHeight }]}>
                 <View style={BaseStyles.textBlock}>
                     <Text style={[TextStyles.h1, styles.title]}>{intermission.title}</Text>
-                    <Text style={[TextStyles.p1, BaseStyles.textCenter, { color: Colors.secondarySubtitle }]}>{intermission.text}</Text>
+                    <Text style={[TextStyles.p1, { textAlign: 'center', color: Colors.secondarySubtitle }]}>{intermission.text}</Text>
                 </View>
                 <View style={{ width: '100%' }}>
                     <Button
@@ -127,7 +127,7 @@ export default function FormView(props: FormViewProps) {
                 <Container style={[BaseStyles.container, BaseStyles.flexBetween, styles.scrollableContainer]}>
                     <View style={[BaseStyles.textBlock, styles.textBlock]}>
                         <Text style={[
-                            {...TextStyles.h2, fontSize: 22, lineHeight: 30 },
+                            { ...TextStyles.h2, fontSize: 22, lineHeight: 30 },
                             styles.questionTitle,
                         ]}>{text}</Text>
                     </View>
@@ -151,7 +151,7 @@ export default function FormView(props: FormViewProps) {
     }
 
     return (
-        <MasloPage onClose={onClose} onBack={previousStep} style={BaseStyles.page} theme={this.theme}>
+        <MasloPage onClose={onClose} onBack={previousStep} style={{ justifyContent: 'flex-end' }} theme={this.theme}>
             <PersonaScrollMask />
             {!!totalCount &&
                 <ProgressBarHaflCircle

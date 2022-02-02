@@ -20,3 +20,4 @@ common/models/ClientCard.ts
 gradle/
 .gradle
 gen
+mobile/ios/GoogleService-Info.plist

@@ -15,22 +15,22 @@ const FeelingsSelect = observer((props: { model: MultiselectViewModel }) => {
     const m = props.model;
     return (
         <>
-            {m.items.map((item, i) =>  (
+            {m.items.map((item, i) => (
                 <SelectItem
-                key={`${item.value}_${i}`}
-                title={item.label}
-                isActive={m.selectedValues.indexOf(item.value.toString()) > -1}
-                onPress={() => {
-                    Haptics.selection();
-                    const index = m.selectedValues.indexOf(item.value.toString());
+                    key={`${item.value}_${i}`}
+                    title={item.label}
+                    isActive={m.selectedValues.indexOf(item.value.toString()) > -1}
+                    onPress={() => {
+                        Haptics.selection();
+                        const index = m.selectedValues.indexOf(item.value.toString());
 
-                    if (index === -1) {
-                        m.selectedItems.push(item);
-                    } else {
-                        m.selectedItems.splice(index, 1);
-                    }
+                        if (index === -1) {
+                            m.selectedItems.push(item);
+                        } else {
+                            m.selectedItems.splice(index, 1);
+                        }
 
-                }}
+                    }}
                 />
             ))}
         </>
@@ -80,8 +80,8 @@ export class FeelingsView extends CheckInViewBase {
                 <ScrollView style={[{ zIndex: 0, elevation: 0 }]}>
                     <Container style={[this.baseStyles.container, styles.container]}>
                         <View style={[this.baseStyles.textBlock, styles.textBlock]}>
-                            <Text style={[this.textStyles.h1, this.baseStyles.textCenter]}>I'm sorry to hear that</Text>
-                            <Text style={[this.textStyles.p1, this.baseStyles.textCenter]}>Can you tell me more about how you feel?</Text>
+                            <Text style={[this.textStyles.h1, { textAlign: 'center' }]}>I'm sorry to hear that</Text>
+                            <Text style={[this.textStyles.p1, { textAlign: 'center' }]}>Can you tell me more about how you feel?</Text>
                         </View>
                         <View style={[styles.feelingsWrap]}>
                             <FeelingsSelect model={feelingsMultiSelect} />

@@ -4,7 +4,6 @@ import Layout from 'src/constants/Layout';
 import { MasloPage } from 'src/components';
 import { observer } from 'mobx-react';
 import { CheckInViewBase } from './checkInViewBase';
-import { notch } from 'src/styles/BaseStyles';
 
 import Colors from 'src/constants/colors';
 import { toJS } from 'mobx';
@@ -107,7 +106,7 @@ export class RecordPitureCheckinView extends CheckInViewBase {
 const styles = StyleSheet.create({
     submitBtn: {
         position: 'absolute',
-        bottom: notch ? 42 : 28,
+        bottom: 28,
         width: 56,
         height: 56,
         borderRadius: 28,

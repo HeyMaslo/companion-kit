@@ -33,7 +33,7 @@ interface ITextInputProps {
     returnKeyType?: TextInputProps['returnKeyType'];
     inputRef?: React.LegacyRef<TextInput>;
     autoFocus?: boolean;
-    autoCompleteType?: TextInputProps['autoCompleteType'];
+    autoCompleteType?: TextInputProps['autoComplete'];
     keyboardType?: TextInputProps['keyboardType'];
     autoCorrect?: TextInputProps['autoCorrect'];
     autoCapitalize?: TextInputProps['autoCapitalize'];
@@ -123,7 +123,7 @@ export default class Input extends React.Component<ITextInputProps> {
                     autoCapitalize={autoCapitalize}
                     multiline={multiline}
                     autoFocus={autoFocus}
-                    autoCompleteType={autoCompleteType}
+                    autoComplete={autoCompleteType}
                     keyboardType={keyboardType}
                     numberOfLines={numberOfLines}
                     placeholderTextColor={placeholderTextColor || Colors.inputPlaceholder}

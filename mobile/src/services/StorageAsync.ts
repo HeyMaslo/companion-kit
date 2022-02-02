@@ -1,5 +1,5 @@
 import IStorage from 'common/abstractions/services/storage';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const StorageAsync: IStorage = {
     getValue(key: string): Promise<string> {
@@ -11,7 +11,7 @@ const StorageAsync: IStorage = {
             throw new Error('[StorageAsync] key must be not empty! got:' + key);
         }
         if (!value) {
-            throw new Error('[StorageAsync] value must be not null! use \'remove\' instead. Got: ' + `${key} | ${value}` );
+            throw new Error('[StorageAsync] value must be not null! use \'remove\' instead. Got: ' + `${key} | ${value}`);
         }
 
         return AsyncStorage.setItem(key, value);

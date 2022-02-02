@@ -40,7 +40,7 @@ export default class QOLSurveyViewModel {
                 this._surveyResponses = partialQolState.scores;
                 this.startDate = partialQolState.startDate;
                 this.questionCompletionDates = partialQolState.questionCompletionDates;
-                this._armMagnitudes = this.getArmMagnitudes(partialQolState.scores);
+                // this._armMagnitudes = this.getArmMagnitudes(partialQolState.scores); // MK-FIXME MK-TODO
                 this.isUnfinished = true;
                 this.showInterlude = partialQolState.isFirstTimeQol;
                 this.qolSurveyType = partialQolState.surveyType;

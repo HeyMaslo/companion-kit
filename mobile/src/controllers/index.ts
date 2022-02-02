@@ -1,6 +1,5 @@
 import { Alert } from 'react-native';
 import { observable, transaction } from 'mobx';
-import * as ExpoUpdates from 'expo-updates';
 import Lazy from 'common/utils/lazy';
 import { IAuthController, AuthController } from './Auth';
 import { IUserController, UserController } from './User';
@@ -57,8 +56,6 @@ export default class AppController implements IAppController {
     get loading() { return this.auth.initializing || this.user.value.initializing; }
 
     private onSignOut = async () => {
-        logger.log('SIGN OUT: invalidating token...');
-        await this.User?.notifications.invalidateToken();
         await this.User?.localSettings?.flushChanges();
 
         logger.log('SIGN OUT: VIEW sign out...');
@@ -124,7 +121,6 @@ export default class AppController implements IAppController {
             Alert.alert('Unknown error', `Something went wrong. Please send the screenshot of this screen to ${Localization.Current.MobileProject.contactEmail}.\r\n`
                 + e,
                 // + Object.keys(e).map(k => `${k} => ${e[k]}`).join('\r\n')
-                [{ text: 'OK', onPress: ExpoUpdates.reloadAsync }],
             );
         }
     }

@@ -1,4 +1,3 @@
-import * as ExpoUpdates from 'expo-updates';
 import ExpoConstants, { AppOwnership } from 'expo-constants';
 import { observable } from 'mobx';
 import { createLogger } from 'common/logger';
@@ -45,25 +44,14 @@ export class AppVersion {
 
         logger.log('Checking for App updates...');
         let nextSoftUpdate: number = null;
-        const update = await ExpoUpdates.checkForUpdateAsync() as { isAvailable: boolean };
-        if (update && update.isAvailable) {
-            const app = await ExpoUpdates.fetchUpdateAsync() as { manifest: typeof ExpoConstants.manifest };
-            this._next = true;
-            logger.log('Got app version update:', app.manifest?.revisionId);
-            nextSoftUpdate = +(app.manifest?.extra?.softVersion) || null;
-        } else {
             this._next = null;
-        }
-
-        await this.tryForceUpdateApp(nextSoftUpdate);
+        
     }
 
     public update = async (): Promise<void>  => {
         if (!this._next) {
             return;
         }
-
-        await ExpoUpdates.reloadAsync();
     }
 
     private async tryForceUpdateApp(nextSoftUpdate: number = null) {

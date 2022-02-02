@@ -1,13 +1,12 @@
 import { Platform } from 'react-native';
 import ExpoConstants, { AppOwnership } from 'expo-constants';
 import { observable, toJS, transaction } from 'mobx';
-import { UserLocalSettings, NotificationsSettings, DeviceInfo, LocalNotificationsSchedule, QolSettings, HealthPermissionsSettings } from 'common/models';
+import { UserLocalSettings, NotificationsSettings, DeviceInfo, QolSettings, HealthPermissionsSettings } from 'common/models';
 import RepoFactory from 'common/controllers/RepoFactory';
 import { transferChangedFields } from 'common/utils/fields';
 import { ThrottleAction } from 'common/utils/throttle';
 import { IEvent, Event } from 'common/utils/event';
 import { AppVersion } from './AppVersion';
-import { QolSurveyType } from 'src/constants/QoL';
 
 const DeviceId = ExpoConstants.installationId;
 
@@ -23,10 +22,10 @@ export interface ILocalSettingsController {
     readonly current: Readonly<UserLocalSettings>;
     readonly synced: IEvent;
 
-    updateNotifications(diff: Partial<NotificationsSettings>): void;
+    updateNotifications(diff: Partial<NotificationsSettings>, changedField: keyof NotificationsSettings): void;
     updateQolSettings(diff: Partial<QolSettings>, changedField: keyof QolSettings): void;
     updateLastDailyCheckIn(diff: string): void;
-
+    updateStrategiesConfirmed(diff: boolean): void;
     updateHealthPermissions(diff: HealthPermissionsSettings): void;
 
     flushChanges(): Promise<void>;
@@ -60,6 +59,7 @@ export class LocalSettingsController implements ILocalSettingsController {
 
         let updateDiff: Partial<UserLocalSettings> = null;
         if (!this._current) {
+            // INITIAL STATE for UserLocalSettings after account is created
             this._current = {
                 deviceId: DeviceId,
                 deviceInfo: Info,
@@ -74,7 +74,14 @@ export class LocalSettingsController implements ILocalSettingsController {
                 healthPermissions: {
                     seenPermissionPromptIOS: null,
                     enabledAndroid: null,
-                }
+                },
+                notifications: {
+                    enabled: false,
+                    scheduledTime: { hour: 0, minute: 0 },
+                    allowBDMention: false,
+                    domainsForNotifications: [],
+                },
+                strategiesConfirmed: null,
             };
             updateDiff = this._current;
         } else if (this._current.appVersion !== AppVersion.FullVersion
@@ -101,7 +108,7 @@ export class LocalSettingsController implements ILocalSettingsController {
             await RepoFactory.Instance.users.updateLocalSettings(
                 this._uid,
                 this._sameDevice.deviceId,
-                { notifications: { ...this._sameDevice.notifications, token: null } },
+                { notifications: { ...this._sameDevice.notifications } },
             );
         }
 
@@ -159,15 +166,11 @@ export class LocalSettingsController implements ILocalSettingsController {
         return this._syncThrottle.forceRun();
     }
 
-    updateNotifications(diff: Partial<NotificationsSettings>) {
-        const notifications = this.current.notifications || {};
+    updateNotifications(diff: Partial<NotificationsSettings>, changedField: keyof NotificationsSettings) {
+        const notifications = this.current.notifications;
+        if (!notifications) return;
         transaction(() => {
-            let changed = transferChangedFields(diff, notifications, 'enabled', 'token');
-
-            if (diff.locals && getLocalsHash(diff.locals) !== getLocalsHash(notifications.locals)) {
-                notifications.locals = diff.locals;
-                changed = true;
-            }
+            let changed = transferChangedFields(diff, notifications, changedField);
 
             if (changed) {
                 this.update({ notifications });
@@ -211,39 +214,16 @@ export class LocalSettingsController implements ILocalSettingsController {
             }
         });
     }
-}
 
-function getLocalsHash(locals: LocalNotificationsSchedule): string {
-    if (!locals) {
-        return null;
-    }
+    updateStrategiesConfirmed(diff: boolean) {
+        let strategiesConfirmed = this.current.strategiesConfirmed;
+        transaction(() => {
+            let changed = diff !== strategiesConfirmed;
 
-    const prts: string[] = [];
-
-    if (locals.current) {
-        prts.push('[C]:');
-        Object.keys(locals.current).forEach(k => {
-            const v = locals.current[k];
-            const vv = v?.length
-                ? v.map(n => `${n.date}`).join('|')
-                : '';
-            prts.push(`${k}+${vv};`);
+            if (changed) {
+                strategiesConfirmed = diff;
+                this.update({ strategiesConfirmed });
+            }
         });
     }
-
-    if (locals.schedule) {
-        prts.push('[S]:');
-        Object.keys(locals.schedule).forEach(k => {
-            const v = locals.schedule[k];
-            const vv = !v
-                ? ''
-                : (v === true
-                    ? 'true' : `${v.active}_${v.value}`
-                );
-            prts.push(`${k}_${vv};`);
-        });
-    }
-
-    const res = prts.join('');
-    return res;
 }

@@ -4,10 +4,6 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 
-#import <UMCore/UMModuleRegistry.h>
-#import <UMReactNativeAdapter/UMNativeModulesProxy.h>
-#import <UMReactNativeAdapter/UMModuleRegistryAdapter.h>
-
 #import <Firebase.h>
 
 #ifdef FB_SONARKIT_ENABLED
@@ -31,7 +27,7 @@ static void InitializeFlipper(UIApplication *application) {
 
 @interface AppDelegate () <RCTBridgeDelegate>
  
-@property (nonatomic, strong) UMModuleRegistryAdapter *moduleRegistryAdapter;
+@property (nonatomic, strong) EXModuleRegistryAdapter *moduleRegistryAdapter;
  
 @end
 
@@ -46,13 +42,6 @@ static void InitializeFlipper(UIApplication *application) {
   InitializeFlipper(application);
 #endif
 
-  // Check if the app launched with any shortcuts
-  BOOL launchedFromShortcut = [launchOptions objectForKey:@"UIApplicationLaunchOptionsUserActivityDictionaryKey"] != nil;
-  // Add a boolean to the initialProperties to let the app know you got the initial shortcut
-  NSDictionary *initialProperties = @{ @"launchedFromShortcut":@(launchedFromShortcut) };
-
-  self.moduleRegistryAdapter = [[UMModuleRegistryAdapter alloc] initWithModuleRegistryProvider:[[UMModuleRegistryProvider alloc] init]];
-
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"CompanionKit"
@@ -65,6 +54,7 @@ static void InitializeFlipper(UIApplication *application) {
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  [super application:application didFinishLaunchingWithOptions:launchOptions];
   return YES;
 }
 

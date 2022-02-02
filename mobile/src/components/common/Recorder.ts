@@ -1,5 +1,4 @@
 import { Audio } from 'expo-av';
-import * as Permissions from 'expo-permissions';
 import { Platform } from 'react-native';
 import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake';
 import { observable } from 'mobx';
@@ -31,6 +30,7 @@ const RecordingOptions: Audio.RecordingOptions = {
         linearPCMIsBigEndian: false,
         linearPCMIsFloat: false,
     },
+    web: null,
 };
 
 const logger = createLogger('[RECORDER]');
@@ -48,7 +48,7 @@ export default class Recorder {
 
     private _status: Audio.RecordingStatus;
 
-    static askForPermissionAsync = () => Permissions.askAsync(Permissions.AUDIO_RECORDING);
+    static askForPermissionAsync = () => Audio.requestPermissionsAsync();
 
     private async updateStatus() {
         this._status = await this._recording.getStatusAsync();

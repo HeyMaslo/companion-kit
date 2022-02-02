@@ -141,7 +141,7 @@ export class QolQuestion extends ViewState {
         const theme = this.theme;
         return (
             <MasloPage style={this.baseStyles.page} onBack={this.viewModel.questionNum == 0 ? null : () => this.onBack()} onClose={() => this.onClose()} theme={this.theme}>
-                <Container style={[styles.container, { height: this._contentHeight }]}>
+                <Container style={[ { height: this._contentHeight }]}>
                     <Animated.View style={{ opacity: this.labelState.opacity }}>
                         <Text style={styles.domainLabel}>{this.viewModel.domain.toUpperCase()}</Text>
                     </Animated.View>
@@ -166,10 +166,6 @@ export class QolQuestion extends ViewState {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        paddingTop: 40,
-        paddingBottom: 15,
-    },
     domainLabel: {
         marginLeft: '70%',
         fontFamily: TextStyles.labelMedium.fontFamily,
@@ -192,7 +188,7 @@ const styles = StyleSheet.create({
         height: '60%',
         justifyContent: 'space-between',
         position: 'absolute',
-        bottom: 30,
+        bottom: 0,
     },
     question: {
         alignItems: 'center',

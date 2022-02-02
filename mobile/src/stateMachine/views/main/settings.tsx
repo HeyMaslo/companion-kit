@@ -23,8 +23,6 @@ export class SettingsView extends ViewState {
         this._contentHeight = this.persona.setupContainerHeightForceScroll();
     }
 
-    protected get unbreakable() { return false; }
-
     async start() {
         this.model.notifications.init();
     }
@@ -101,88 +99,66 @@ export class SettingsView extends ViewState {
             ? Images.googleIcon
             : Images.envelopeIcon;
 
-        const notificationsEnabled = this.model.notifications.isEnabled && !this.model.notifications.isToggleInProgress && this.model.notifications.schedule;
+        const notificationsEnabled = this.model.notifications.isEnabled && !this.model.notifications.isToggleInProgress;
 
         return (
-            <MasloPage style={this.baseStyles.page} theme={this.theme}>
-                <Container style={styles.topBarWrapWrap}>
-                    <PersonaScrollMask />
-                    {!process.appFeatures.GOALS_ENABLED &&
-                        <View style={styles.topBarWrap}>
-                            <Button style={styles.backBtn} underlayColor='transparent' onPress={() => this.trigger(ScenarioTriggers.Back)} theme={this.theme}>
-                                <Images.backIcon width={28} height={14} />
-                            </Button>
-                        </View>
-                    }
+            <MasloPage style={this.baseStyles.page} onBack={() => this.trigger(ScenarioTriggers.Back)} theme={this.theme}>
+                <Container style={[this.baseStyles.container, { flexDirection: 'column', flex: 1, }]}>
+                    <Text style={[this.textStyles.h1, this.baseStyles.flexCenterTop, styles.title]}>What do you need help with?</Text>
+                    {AppController.Instance.version.hasNext ? (
+                        <Button
+                            style={styles.updateButton}
+                            onPress={AppController.Instance.version.update}
+                            theme={this.theme}
+                        >
+                            <Images.darkRefreshIcon style={styles.refreshIcon} />
+                            <Text style={[this.textStyles.labelMedium, { letterSpacing: 1.6, color: 'red' }]}>Update Available</Text>
+                        </Button>
+                    ) : null}
+                    <View style={[this.baseStyles.flexCenterTop, { width: '100%' }]}>
+                        <Card
+                            title={'Email'}
+                            description={AppController.Instance.User?.user?.email}
+                            Image={authProviderIcon}
+                            onPress={this.onEmailChange}
+                            isTransparent
+                            theme={this.theme}
+                        >
+                            {/* <Images.arrowRight width={8} height={8} /> */}
+                        </Card>
+                        {this.model.disablePassword ? null : (
+                            <Card
+                                title={'Password'}
+                                description={this.model.needsCreatePassword ? 'Create password' : 'Change your password'}
+                                Image={Images.keyIcon}
+                                onPress={this.onPasswordChange}
+                                theme={this.theme}
+                            >
+                                <Images.arrowRight width={8} height={8} />
+                            </Card>
+                        )}
+                        <Card
+                            title={'Notifications'}
+                            description={notificationsEnabled ? 'On' : 'Off'}
+                            Image={Images.bellIcon}
+                            onPress={this.onNotificationsChange}
+                            theme={this.theme}
+                        >
+                            <Images.arrowRight width={8} height={8} />
+                        </Card>
+                    </View>
+                    <View style={[this.baseStyles.flexCenterBottom, styles.bottomBlock]}>
+                        <Button
+                            title='logout'
+                            withBorder
+                            isTransparent
+                            onPress={this.logout}
+                            theme={this.theme}
+                        />
+                        <AppVersionView />
+                        {this.renderLinksFooter()}
+                    </View>
                 </Container>
-                <ScrollView style={[{ zIndex: 0, elevation: 0 }]}>
-                    <Container style={[this.baseStyles.container, styles.container]}>
-                        <Text style={[this.textStyles.h1, styles.title]}>What do you need help with?</Text>
-                        {AppController.Instance.version.hasNext ? (
-                            <Button
-                                style={styles.updateButton}
-                                onPress={AppController.Instance.version.update}
-                                theme={this.theme}
-                            >
-                                <Images.darkRefreshIcon style={styles.refreshIcon} />
-                                <Text style={[this.textStyles.labelMedium, { letterSpacing: 1.6, color: 'red' }]}>Update Available</Text>
-                            </Button>
-                        ) : null}
-                        <View style={styles.cardsWrap}>
-                            <Card
-                                title={'Email'}
-                                description={AppController.Instance.User?.user?.email}
-                                Image={authProviderIcon}
-                                onPress={this.onEmailChange}
-                                isTransparent
-                                theme={this.theme}
-                            >
-                                {/* <Images.arrowRight width={8} height={8} /> */}
-                            </Card>
-                            {this.model.disablePassword ? null : (
-                                <Card
-                                    title={'Password'}
-                                    description={this.model.needsCreatePassword ? 'Create password' : 'Change your password'}
-                                    Image={Images.keyIcon}
-                                    onPress={this.onPasswordChange}
-                                    theme={this.theme}
-                                >
-                                    <Images.arrowRight width={8} height={8} />
-                                </Card>
-                            )}
-                            <Card
-                                title={'Notifications'}
-                                description={notificationsEnabled ? this.model.notifications.scheduleTimeString : 'Off'}
-                                Image={Images.bellIcon}
-                                onPress={this.onNotificationsChange}
-                                theme={this.theme}
-                            >
-                                <Images.arrowRight width={8} height={8} />
-                            </Card>
-                            <Card
-                                title={'Health Data'}
-                                description={'Learn more'}
-                                Image={Images.archiveIcon}
-                                onPress={this.onHealthPermissionsChange}
-                                theme={this.theme}
-                            >
-                                <Images.arrowRight width={8} height={8} />
-                            </Card>
-
-                        </View>
-                        <View style={[this.baseStyles.flexCenterBottom, styles.bottomBlock]}>
-                            <Button
-                                title='logout'
-                                withBorder
-                                isTransparent
-                                onPress={this.logout}
-                                theme={this.theme}
-                            />
-                            <AppVersionView />
-                            {this.renderLinksFooter()}
-                        </View>
-                    </Container>
-                </ScrollView>
             </MasloPage>
         );
     }
@@ -225,16 +201,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'transparent',
     },
-    container: {
-        minHeight: Layout.window.height,
-        paddingTop: Layout.getViewHeight(21),
-    },
     title: {
         textAlign: 'center',
-        marginBottom: 40,
-    },
-    cardsWrap: {
-        width: '100%',
         marginBottom: 40,
     },
     updateButton: {

@@ -16,4 +16,8 @@ export interface IBackendController {
     (clientID: string, coachID: string, type: string, value: number, date: number)
     : Promise<RemoteCallResult>;
 
+    logAffirmation
+    (affirmationId: string, content: string, domains: string[], keywords: string[])
+    : Promise<RemoteCallResult>;
+
 }

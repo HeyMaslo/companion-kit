@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import TextStyles from 'src/styles/TextStyles';
 import { Container, ActivityButton, MasloPage } from 'src/components';
-import BaseStyles, { notch } from 'src/styles/BaseStyles';
+import BaseStyles from 'src/styles/BaseStyles';
 import Colors from 'src/constants/colors';
 import Layout from 'src/constants/Layout';
 import { Theme } from 'src/constants/theme/PStheme';
@@ -60,7 +60,7 @@ function ModalView(props: ModalProps) {
     const heightStyle = { height: contentHeight ? contentHeight : BaseStyles.top43FixedHeight };
 
     return (
-        <MasloPage style={[BaseStyles.page, !contentHeight ? BaseStyles.top43 : null]} onClose={onClose} theme={theme}>
+        <MasloPage style={[{ justifyContent: 'flex-end' }, !contentHeight ? BaseStyles.top43 : null]} onClose={onClose} theme={theme}>
             <Container style={[BaseStyles.container, BaseStyles.flexBetween, heightStyle]}>
                 <View style={[BaseStyles.textBlock, styles.textBlock]}>
                     <Text style={[TextStyles.h1, styles.title]}>{title}</Text>

@@ -1,7 +1,6 @@
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImageManipulator from 'expo-image-manipulator';
-import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';
 import { Alert, Platform } from 'react-native';
 import { observable } from 'mobx';
@@ -135,9 +134,9 @@ export default class PictureViewViewModel {
     // }
 
     public askCameraRollPermissions = async () => {
-        const permission = await Permissions.getAsync(Permissions.CAMERA_ROLL);
+        const permission = await ImagePicker.getMediaLibraryPermissionsAsync()
         if (permission.status !== 'granted') {
-            const newPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+            const newPermission = await ImagePicker.requestMediaLibraryPermissionsAsync();
             this._cameraRollPermission = newPermission.status === 'granted';
         } else if (permission.status === 'granted') {
             this._cameraRollPermission = true;
@@ -145,10 +144,10 @@ export default class PictureViewViewModel {
     }
 
     public askCameraPermissions = async () => {
-        const permission = await Permissions.getAsync(Permissions.CAMERA);
+        const permission = await Camera.getCameraPermissionsAsync();
         let finalStatus = permission.status;
         if (finalStatus !== 'granted') {
-            const newPermission = await Permissions.askAsync(Permissions.CAMERA);
+            const newPermission = await Camera.requestCameraPermissionsAsync();
             finalStatus = newPermission.status;
         }
 
@@ -239,7 +238,7 @@ export default class PictureViewViewModel {
         }
 
         if (isAndroid) {
-            const totalCount = (await MediaLibrary.getAssetsAsync({mediaType: ['photo']})).totalCount;
+            const totalCount = (await MediaLibrary.getAssetsAsync({ mediaType: ['photo'] })).totalCount;
 
             const libRes = await MediaLibrary.getAssetsAsync({
                 mediaType: ['photo'],
@@ -279,10 +278,10 @@ export default class PictureViewViewModel {
                 (fromGallery && exifOrientation < 6)
             ) {
                 console.log('>>>>>>>exceptions<<<<<<<<');
-                return [ { resize: { width: newW, height: newH } }];
+                return [{ resize: { width: newW, height: newH } }];
             }
 
-            return [ { resize: { width: newH, height: newW } }];
+            return [{ resize: { width: newH, height: newW } }];
         };
 
         const resizedPic = await ImageManipulator.manipulateAsync(

@@ -37,7 +37,7 @@ export function setTimeoutFramesAsync(frames: number) {
 
         const cb = () => {
             if (--left <= 0) {
-                resolve();
+                resolve(0);
             } else {
                 requestAnimationFrame(cb);
             }

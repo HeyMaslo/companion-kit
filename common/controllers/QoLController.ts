@@ -5,7 +5,7 @@ import {
     QolSurveyType,
 } from '../../mobile/src/constants/QoL';
 import RepoFactory from 'common/controllers/RepoFactory';
-import { UserState } from 'common/models/userState';
+import { UserState, LastSeen } from 'common/models/userState';
 import { createLogger } from 'common/logger';
 import { SurveyResults } from 'database/repositories/SurveyResultsRepo';
 import { DomainName, FocusedDomains } from '../../mobile/src/constants/Domain';
@@ -81,20 +81,24 @@ export default class QoLControllerBase implements IQoLController {
     }
 
     public async setUserStateProperty(propertyName: keyof UserState, parameter: UserState[keyof UserState]): Promise<void> {
-        let st: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
-        if (st === null) {
-            st = {
-                [propertyName]: parameter,
+        let userState: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
+        if (userState === null) {
+            userState = {
                 surveyState: null,
                 focusedDomains: { domains: [], subdomains: [] },
                 chosenStrategies: [],
+                lastSeenAffirmations: {},
+                scheduledAffirmations: [],
             }
         } else if (propertyName == 'focusedDomains') {
-            st['focusedDomains'] = parameter as FocusedDomains;
+            userState['focusedDomains'] = parameter as FocusedDomains;
         } else if (propertyName == 'chosenStrategies') {
-            st['chosenStrategies'] = parameter as string[];
+            userState['chosenStrategies'] = parameter as string[];
         }
-        await RepoFactory.Instance.userState.setByUserId(this._userId, st);
+        //  else if (propertyName == 'lastSeenAffirmations' && (parameter as LastSeen) !== undefined) {
+        //     userState[propertyName] = (parameter as LastSeen);
+        // }
+        await RepoFactory.Instance.userState.setByUserId(this._userId, userState);
     }
 
 }
