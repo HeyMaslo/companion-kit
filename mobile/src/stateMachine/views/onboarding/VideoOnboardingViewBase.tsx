@@ -6,6 +6,7 @@ import { MasloPage, Container, Card, Button } from 'src/components';
 import TextStyles from 'src/styles/TextStyles';
 import { ViewState } from '../base';
 import Video from 'react-native-video';
+import { PersonaViewPresets } from 'src/stateMachine/persona';
 
 @observer
 export class VideoOnboardingViewBase extends ViewState {
@@ -14,6 +15,11 @@ export class VideoOnboardingViewBase extends ViewState {
   public titleText: string
 
   private player: Video
+
+  constructor(props) {
+    super(props);
+    this.persona.view = PersonaViewPresets.TopHalfOut;
+  }
 
   async start() { }
 
@@ -37,7 +43,7 @@ export class VideoOnboardingViewBase extends ViewState {
     const contentTextStyle = [TextStyles.p1, { color: this.theme.colors.foreground }];
     return (
       <MasloPage style={this.baseStyles.page} theme={this.theme}>
-        <Container style={[{ height: '100%', flexDirection: 'column', alignItems: 'center', paddingTop: 10 }]}>
+        <Container style={[{ height: '100%', flexDirection: 'column', alignItems: 'center', paddingTop: 60 }]}>
           <Text style={[TextStyles.h1, styles.title, { color: this.theme.colors.foreground }]}>{this.titleText}</Text>
           <Video source={{ uri: this.videoURL }}   // Can be a URL or a local file.
             ref={(ref) => {
@@ -53,7 +59,7 @@ export class VideoOnboardingViewBase extends ViewState {
             style={{ marginTop: 'auto' }}
             onPress={this.onNext}
             theme={this.theme}
-            // disabled={this.continueButtonDisabled}
+          // disabled={this.continueButtonDisabled}
           />
         </Container>
       </MasloPage>

@@ -48,7 +48,7 @@ export default class QOLSurveyViewModel {
                 this._domainNum = 0;
                 this._surveyResponses = QolSurveyResults.createEmptyResults();;
                 this.questionCompletionDates = [];
-                this._armMagnitudes = PersonaArmState.createEmptyArmState();
+                this._armMagnitudes = PersonaArmState.createZeroArmState();
                 this.isUnfinished = false;
                 this.qolSurveyType = QolSurveyType.Full;
                 return;
@@ -176,7 +176,7 @@ export default class QOLSurveyViewModel {
     }
 
     private getArmMagnitudes(scores: QolSurveyResults): PersonaArmState {
-        let currentArmMagnitudes: PersonaArmState = PersonaArmState.createEmptyArmState();
+        let currentArmMagnitudes: PersonaArmState = PersonaArmState.createZeroArmState();
         for (let domain of Object.values(DomainName)) {
             let score: number = 0;
             scores[domain].forEach((val) => {

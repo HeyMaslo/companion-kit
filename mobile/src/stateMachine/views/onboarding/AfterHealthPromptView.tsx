@@ -7,12 +7,18 @@ import { ScenarioTriggers } from '../../abstractions';
 import { Button, Container, MasloPage } from 'src/components';
 import TextStyles from 'src/styles/TextStyles';
 import { observable } from 'mobx';
+import { PersonaViewPresets } from 'src/stateMachine/persona';
 
 @observer
 export class AfterHealthPromptView extends ViewState {
 
   @observable
   private healthPromptWasSuccessful: boolean = AppController.Instance.User?.healthPermissionsController.permissionsGranted;
+
+  constructor(props) {
+    super(props);
+    this.persona.view = PersonaViewPresets.TopHalfOut;
+  }
 
   async start() {
     this.healthPromptWasSuccessful = AppController.Instance.User?.healthPermissionsController.permissionsGranted;
@@ -32,7 +38,7 @@ export class AfterHealthPromptView extends ViewState {
 
     return (
       <MasloPage style={this.baseStyles.page} theme={this.theme}>
-        <Container style={[{ height: '100%', flexDirection: 'column', alignItems: 'center', paddingTop: 10 }]}>
+        <Container style={[{ height: '100%', flexDirection: 'column', alignItems: 'center', paddingTop: 60 }]}>
           <Text style={[TextStyles.h1, styles.title, { color: this.theme.colors.foreground }]}>{this.healthPromptWasSuccessful ? successTitle : failureTitle}</Text>
           <Text style={[TextStyles.h2, styles.title, { color: this.theme.colors.foreground }]}>{this.healthPromptWasSuccessful ? successSubtitle : failureSubtitle}</Text>
           <Button

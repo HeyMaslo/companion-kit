@@ -38,7 +38,7 @@ export class QolStartView extends ViewState {
     }
 
     private saveProgress = async () => {
-        await this.viewModel.saveSurveyProgress(PersonaArmState.createEmptyArmState());
+        await this.viewModel.saveSurveyProgress(PersonaArmState.createZeroArmState());
         this.cancel();
     }
     private cancel = () => {
