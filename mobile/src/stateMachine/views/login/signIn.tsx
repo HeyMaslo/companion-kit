@@ -184,7 +184,7 @@ export class SignInView extends ViewState {
                             keyboardType="email-address"
                             textContentType="emailAddress"
                             autoCapitalize="none"
-                            styleWrap={{ marginBottom: isAndroid ? 100 : 40 }}
+                            styleWrap={{ marginBottom: 100 }}
                         />
                     </Container>
                 </MasloPage>

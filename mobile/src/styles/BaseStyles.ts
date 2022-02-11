@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import Layout from 'src/constants/Layout';
 import TextStylesBase from './TextStyles';
 
@@ -16,13 +16,12 @@ const BaseStyles = StyleSheet.create({
         paddingBottom: 20,
     },
     page: {
-        height: layout.window.height,// MK-TODO: - this is gonna mess a lot of stuff up
+        height: layout.window.height,
         justifyContent: 'flex-end',
     },
     container: {
         paddingTop: 20,
-        // paddingBottom: notch && !android ? 34 : 20,
-        // paddingBottom: 20,
+        paddingBottom: Platform.OS == 'ios' ? 34 : 20,
     },
     flexStart: {
         display: 'flex',

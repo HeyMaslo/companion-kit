@@ -150,7 +150,7 @@ export abstract class PasswordBase extends ViewState {
                             placeholder="Password"
                             autoCapitalize="none"
                             secureTextEntry
-                            styleWrap={{ marginBottom: inputMargin() }}
+                            styleWrap={{ marginBottom: 60 }}
                         />
                         {this.useOptions && (
                             <View style={[styles.buttons, { marginBottom: isAndroid ? 76 : 16 }]}>
@@ -165,9 +165,9 @@ export abstract class PasswordBase extends ViewState {
                                     )
                                 }
 
-                                { this.useOptions !== 'magicLink' ? (
+                                {this.useOptions !== 'magicLink' ? (
                                     <TouchableOpacity style={styles.linkWrap} onPress={this.forgotPassword}>
-                                        <Text style={[TextStyles.p4, styles.link]}>Forgot Password?</Text>
+                                        <Text style={[TextStyles.p4, styles.link, { marginBottom: 100 }]}>Forgot Password?</Text>
                                     </TouchableOpacity>
                                 ) : null}
                             </View>
