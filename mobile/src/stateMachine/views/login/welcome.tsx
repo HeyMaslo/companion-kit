@@ -14,7 +14,6 @@ import SignInViewModel from 'src/viewModels/SignInViewModel';
 import { ScenarioTriggers } from '../../abstractions';
 import * as Features from 'common/constants/features';
 import { PersonaArmState, PersonaViewState } from 'dependencies/persona/lib';
-import { PersonaViewPresets } from 'src/stateMachine/persona';
 
 const minContentHeight = 344;
 
@@ -24,7 +23,6 @@ export class WelcomeView extends ViewState {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: 405 });
         this.persona.qolArmMagnitudes = PersonaArmState.createZeroArmState();
-        this.persona.view = PersonaViewPresets.TopHalfOut;
     }
 
     state = {

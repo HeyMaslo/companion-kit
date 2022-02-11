@@ -21,7 +21,7 @@ import { QolSurveyType } from 'src/constants/QoL';
 import Images from 'src/constants/images';
 import AppController from 'src/controllers';
 import { checkAndroidAuth } from 'src/helpers/health'
-import { getPersonaRadius, PersonaScale } from 'src/stateMachine/persona';
+import { getPersonaRadius, PersonaScale, PersonaViewPresets } from 'src/stateMachine/persona';
 import { Portal } from 'react-native-paper';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { DomainName, SubdomainName } from 'src/constants/Domain';
@@ -53,6 +53,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         this.onTapOrb = this.onTapOrb.bind(this);
         const smallHeight = this.layout.window.height < 800;
         this.persona.state = PersonaStates.Idle;
+        this.persona.view = PersonaViewPresets.Default;
         this._contentHeight = smallHeight
             ? this.persona.setupContainerHeightForceScroll({ rotation: 120, transition: { duration: 1.5 } })
             : this.persona.setupContainerHeight(minContentHeight, { rotation: 120, transition: { duration: 1.5 } });
