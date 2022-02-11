@@ -167,7 +167,7 @@ export abstract class PasswordBase extends ViewState {
 
                                 {this.useOptions !== 'magicLink' ? (
                                     <TouchableOpacity style={styles.linkWrap} onPress={this.forgotPassword}>
-                                        <Text style={[TextStyles.p4, styles.link, { marginBottom: 100 }]}>Forgot Password?</Text>
+                                        <Text style={[TextStyles.p4, styles.link, { marginBottom: isAndroid ? 20 : 100 }]}>Forgot Password?</Text>
                                     </TouchableOpacity>
                                 ) : null}
                             </View>
