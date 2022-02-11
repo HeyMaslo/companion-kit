@@ -50,6 +50,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
     constructor(props, ctx) {
         super(props, ctx);
+        this.persona.armsHidden = false;
         this.onTapOrb = this.onTapOrb.bind(this);
         const smallHeight = this.layout.window.height < 800;
         this.persona.state = PersonaStates.Idle;
@@ -64,7 +65,6 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     get qolViewModel() { return AppViewModel.Instance.QOL; }
 
     async start() {
-        this.persona.armsHidden = false;
         await this.qolViewModel.init();
         this.persona.qolArmMagnitudes = this.qolViewModel.qolArmMagnitudes;
         this.setState({ ...this.state, isUnfinishedQol: this.qolViewModel.isUnfinished });

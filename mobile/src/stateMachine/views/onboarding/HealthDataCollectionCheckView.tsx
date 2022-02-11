@@ -6,9 +6,16 @@ import AppController from 'src/controllers';
 import { ScenarioTriggers } from '../../abstractions';
 import { Button, Container, MasloPage } from 'src/components';
 import TextStyles from 'src/styles/TextStyles';
+import { PersonaViewPresets } from 'src/stateMachine/persona';
 
 @observer
 export class HealthDataCollectionCheckView extends ViewState {
+
+  constructor(props) {
+    super(props);
+    this.persona.view = PersonaViewPresets.TopHalfOut;
+    this.persona.armsHidden = true;
+  }
 
   async start() { }
 

@@ -31,7 +31,7 @@ export abstract class PasswordBase extends ViewState {
 
     constructor(props, ctx) {
         super(props, ctx);
-
+        this.persona.armsHidden = true;
         this._contentHeight = this.persona.setupContainerHeightForceScroll();
 
         this.viewModel.password.reset();

@@ -18,6 +18,7 @@ export class AfterHealthPromptView extends ViewState {
   constructor(props) {
     super(props);
     this.persona.view = PersonaViewPresets.TopHalfOut;
+    this.persona.armsHidden = true;
   }
 
   async start() {
