@@ -39,7 +39,7 @@ export default class QOLSurveyViewModel {
                 this.questionCompletionDates = partialQolState.questionCompletionDates;
                 this._armMagnitudes = this.getArmMagnitudes(partialQolState.scores);
                 this.isUnfinished = true;
-                this.showInterlude = partialQolState.isFirstTimeQol;
+                this.showInterlude = this._settings.current.qol.isFirstEverQol;
                 this.qolSurveyType = partialQolState.surveyType;
                 return;
             } else {
@@ -50,6 +50,7 @@ export default class QOLSurveyViewModel {
                 this.questionCompletionDates = [];
                 this._armMagnitudes = PersonaArmState.createZeroArmState();
                 this.isUnfinished = false;
+                this.showInterlude = this._settings.current.qol.isFirstEverQol;
                 this.qolSurveyType = QolSurveyType.Full;
                 return;
             }
@@ -135,7 +136,6 @@ export default class QOLSurveyViewModel {
                 questionNum: this._questionNum + 1, // + 1 is required as this method is called before nextQuestion() which increments the questionNum counter
                 domainNum: this._domainNum,
                 scores: this._surveyResponses,
-                isFirstTimeQol: this.showInterlude,
                 startDate: this.startDate,
                 questionCompletionDates: this.questionCompletionDates,
                 surveyType: this.qolSurveyType,
@@ -160,7 +160,8 @@ export default class QOLSurveyViewModel {
     public completeQolOnboarding() {
         this._settings.updateOnboardingSettings({ needsQolOnboarding: false }, 'needsQolOnboarding')
         this._settings.updateQolSettings({ lastFullQol: Date() }, 'lastFullQol');
-        this.showInterlude = true;
+        this._settings.updateQolSettings({ isFirstEverQol: false }, 'isFirstEverQol');
+        this.showInterlude = false;
     }
 
     public updatePendingQol() {

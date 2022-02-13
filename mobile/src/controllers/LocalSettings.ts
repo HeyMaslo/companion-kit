@@ -72,6 +72,7 @@ export class LocalSettingsController implements ILocalSettingsController {
                 qol: {
                     pendingFullQol: true,
                     pendingShortQol: false,
+                    isFirstEverQol: true,
                     lastShortQol: Date(),
                 },
                 lastDailyCheckIn: Date(),
