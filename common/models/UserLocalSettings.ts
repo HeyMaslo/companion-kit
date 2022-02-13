@@ -40,6 +40,7 @@ export type QolSettings = {
     pendingFullQol: boolean,
     lastShortQol?: string,
     pendingShortQol: boolean,
+    isFirstEverQol: boolean
 };
 
 export type DeviceInfo = {

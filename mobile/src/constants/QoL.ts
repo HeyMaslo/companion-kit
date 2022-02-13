@@ -60,7 +60,6 @@ export type PartialQol = {
     questionNum: number,
     domainNum: number,
     scores: QolSurveyResults,
-    isFirstTimeQol: boolean,
     startDate: QoLSurveyTimestamp,
     questionCompletionDates: QoLSurveyTimestamp[],
     surveyType: QolSurveyType,
