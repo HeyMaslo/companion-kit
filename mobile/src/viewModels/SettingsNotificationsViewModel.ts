@@ -124,6 +124,7 @@ export class SettingsNotificationsViewModel {
     }
 
     public completeNotificationsOnboarding() {
-        AppController.Instance.User.localSettings.updateOnboardingSettings({ needsDomainOnboarding: false }, 'needsDomainOnboarding');
+        AppController.Instance.User.localSettings.updateNotifications({ domainsForNotifications: this.domainsForNotifications }, 'domainsForNotifications');
+        AppController.Instance.User.localSettings.updateOnboardingSettings({ needsNotificationsOnboarding: false }, 'needsDomainOnboarding');
     }
 }
