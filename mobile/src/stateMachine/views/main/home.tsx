@@ -23,7 +23,7 @@ import AppController from 'src/controllers';
 import { checkAndroidAuth } from 'src/helpers/health'
 import { getPersonaRadius, PersonaScale, PersonaViewPresets } from 'src/stateMachine/persona';
 import { Portal } from 'react-native-paper';
-import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import * as Haptics from 'src/services/haptics';
 import { DomainName, SubdomainName } from 'src/constants/Domain';
 import { formatDateDayMonthYear } from 'common/utils/dateHelpers';
 import { PersonaArmState } from 'dependencies/persona/lib';
@@ -171,11 +171,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
     // MK-TODO: - used for development only and will be removed
     // async onTESTINGButton() {
-        // AppController.Instance.User.notifications.scheduleTime = { hour: 10, minute: 30 };
-        // AppController.Instance.User.notifications.domainAndSubdomainNames = [DomainName.SLEEP, SubdomainName.DIETNUTRITION];
-        // await AppController.Instance.User.notifications.scheduleTESTINGAffirmationNotification();
-        // await AppViewModel.Instance.QoLHistory.init();
-        // this.trigger(ScenarioTriggers.TESTING);
+    // AppController.Instance.User.notifications.scheduleTime = { hour: 10, minute: 30 };
+    // AppController.Instance.User.notifications.domainAndSubdomainNames = [DomainName.SLEEP, SubdomainName.DIETNUTRITION];
+    // await AppController.Instance.User.notifications.scheduleTESTINGAffirmationNotification();
+    // await AppViewModel.Instance.QoLHistory.init();
+    // this.trigger(ScenarioTriggers.TESTING);
     // }
 
     private openResourceDetails = (jid: string) => {
@@ -397,7 +397,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                 const selectedDomains = AppViewModel.Instance.Domain.selectedDomains;
                 if (!(selectedDomains && selectedDomains.domains && selectedDomains.domains.length > 0)) return;
                 if (Platform.OS == 'ios') {
-                    ReactNativeHapticFeedback.trigger('impactLight');
+                    Haptics.impact(Haptics.ImpactFeedbackStyle.Light);
                 }
                 this.trigger(ScenarioTriggers.Next)
             }

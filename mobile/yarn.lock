@@ -8352,11 +8352,6 @@ react-native-google-fit@^0.16.2:
   dependencies:
     moment "2.20.1"
 
-react-native-haptic-feedback@^1.13.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/react-native-haptic-feedback/-/react-native-haptic-feedback-1.13.0.tgz#e4974fc465a38548be262748e73098dc9dd3a0fb"
-  integrity sha512-g8G5QURitDeC/zRlobDvUXLxKYfMlIM2HQNWJKbHPSu61qfs0djnK4s1NZuQzihkeAO0KJ4AS2XWvKBzUmlXtA==
-
 react-native-health@^1.8.0:
   version "1.12.0"
   resolved "https://registry.yarnpkg.com/react-native-health/-/react-native-health-1.12.0.tgz#d637be8ecebe4cd7ea05d74d1a3d07a13b5ceb91"
