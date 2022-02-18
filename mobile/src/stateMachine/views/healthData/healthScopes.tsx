@@ -38,7 +38,7 @@ export class HealthScopesView extends ViewState {
     onSettings = () => {
         AppController.Instance.PromptModal.openModal({
             typeModal: 'positive',
-            title: 'Allow CompanionKit to access your health data',
+            title: 'Allow PolarUs to access your health data',
             message: 'Please grant access from Settings.',
             confirmText: 'Go to settings',
             customView:
@@ -58,7 +58,7 @@ export class HealthScopesView extends ViewState {
                     </View>
                     <View style={styles.imageNextToText}>
                         <Image source={Images.iOS_CompanionKit} style={{ width: 26, height: 26 }} />
-                        <Text style={[TextStyles.p1, styles.instructionText]}>{'Select CompanionKit'}</Text>
+                        <Text style={[TextStyles.p1, styles.instructionText]}>{'Select PolarUs'}</Text>
                     </View>
                     <View style={styles.imageNextToText}>
                         <Image source={Images.iOS_Switch} style={{ width: 26, height: 26 }} />
@@ -70,7 +70,7 @@ export class HealthScopesView extends ViewState {
                 // Sub-optimal ways to open iOS settings
                 // const pathParts = ['HEALTH', '&path=', 'Privacy', ':', 'prefs', 'App-']; // Private API could get rejected (obscured here)
                 // const path = pathParts.reverse().join(''); 
-                const path = 'app-settings:'; // opens CompanionKit specific settings (not health) by using Public API
+                const path = 'app-settings:'; // opens PolarUs specific settings (not health) by using Public API
                 await Links.tryOpenLink(path);
             },
         });
@@ -80,7 +80,7 @@ export class HealthScopesView extends ViewState {
     onAndroidSettings = () => {
         AppController.Instance.PromptModal.openModal({
             typeModal: 'positive',
-            title: 'Allow CompanionKit to access your Google Fit data',
+            title: 'Allow PolarUs to access your Google Fit data',
             message: 'Please grant access to Companion Kit.',
             confirmText: 'Authorize Google Fit',
             customView:
