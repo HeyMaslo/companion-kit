@@ -12,7 +12,6 @@ import {
 } from 'dependencies/persona/expo';
 import { IPersonaViewContext } from './abstractions';
 import Layout from 'src/constants/Layout';
-import * as Haptics from 'src/services/haptics';
 
 // FIREBASE & EXPO-THREE COMPATIBILITY HOTFIX
 (global as any).Image = undefined;
@@ -72,12 +71,10 @@ export function PersonaView(this: void, props: Props) {
             }
 
             case PersonaStates.Init: {
-                Haptics.notification(Haptics.NotificationFeedbackType.Success);
                 break;
             }
 
             default: {
-                Haptics.impact(Haptics.ImpactFeedbackStyle.Light);
                 break;
             }
         }
