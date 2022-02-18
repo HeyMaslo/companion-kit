@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     message: {
         marginTop: 15,
         textAlign: 'center',
-        width: '80%',
+        width: '90%',
         marginBottom: '20%',
     },
     readyButton: {
