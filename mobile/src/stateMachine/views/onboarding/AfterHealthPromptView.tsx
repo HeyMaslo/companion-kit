@@ -38,7 +38,7 @@ export class AfterHealthPromptView extends ViewState {
     const failureSubtitle = 'Your device may not be capturing any health data. You may have to grant permissions in Apple Health to give access to your health data.'
 
     return (
-      <MasloPage style={this.baseStyles.page} theme={this.theme}>
+      <MasloPage style={[this.baseStyles.page, { paddingBottom: 40 }]} theme={this.theme}>
         <Container style={[{ height: '100%', flexDirection: 'column', alignItems: 'center', paddingTop: 60 }]}>
           <Text style={[TextStyles.h1, styles.title, { color: this.theme.colors.foreground }]}>{this.healthPromptWasSuccessful ? successTitle : failureTitle}</Text>
           <Text style={[TextStyles.h2, styles.title, { color: this.theme.colors.foreground }]}>{this.healthPromptWasSuccessful ? successSubtitle : failureSubtitle}</Text>

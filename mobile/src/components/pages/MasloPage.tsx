@@ -48,35 +48,57 @@ export default function MasloPageExtended(props: MasloPageExtendedProps) {
     const customTopInset = 10;
 
     return (
-        <SafeAreaInsetsContext.Consumer>
-            {(insets) =>
-                <PageBase style={[{ justifyContent: 'flex-end' }, style,
-                {
-                    backgroundColor: theme.colors.background,
-                    height: layout.window.height - (insets.bottom == 0 ? customBottomInset : insets.bottom) - (insets.top ? insets.top : customTopInset),
-                    marginTop: (insets.top ? insets.top : customTopInset),
-                    paddingTop: 20
-                }]}>
-                    {withDots ? <Dots length={dotLength || 0} active={activeDot || 0} /> : null}
-                    {_onBack ? (
-                        <TouchableOpacity style={[BaseStyles.back]} onPress={_onBack}>
-                            <Images.backIcon width={28} height={14} color={theme.colors.midground} />
-                        </TouchableOpacity>
-                    ) : null}
-                    {_onClose ? (
-                        <TouchableOpacity onPress={_onClose} style={BaseStyles.close}>
-                            <Images.closeIcon width={15} height={15} color={theme.colors.midground} />
-                        </TouchableOpacity>
-                    ) : null}
+        <PageBase style={[BaseStyles.page, style, { backgroundColor: theme.colors.background }]}>
+            {withDots ? <Dots length={dotLength || 0} active={activeDot || 0} /> : null}
+            {_onBack ? (
+                <TouchableOpacity style={[BaseStyles.back]} onPress={_onBack} hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}>
+                    <Images.backIcon width={28} height={14} />
+                </TouchableOpacity>
+            ) : null}
+            {_onClose ? (
+                <TouchableOpacity onPress={_onClose} style={BaseStyles.close} hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}>
+                    <Images.closeIcon width={15} height={15} />
+                </TouchableOpacity>
+            ) : null}
 
-                    {withContainer ? (
-                        <Container>
-                            {children}
-                        </Container>
-                    ) : children}
+            {withContainer ? (
+                <Container>
+                    {children}
+                </Container>
+            ) : children}
 
-                </PageBase>
-            }
-        </SafeAreaInsetsContext.Consumer>
+        </PageBase>
+
+        // <SafeAreaInsetsContext.Consumer>
+        //     {(insets) =>
+        //         <PageBase style={[BaseStyles.page, style,
+        //         {
+        //             backgroundColor: theme.colors.background,
+        //             // marginBottom: insets.bottom,
+        //             // height: layout.window.height - (insets.bottom == 0 ? customBottomInset : insets.bottom) - (insets.top ? insets.top : customTopInset),
+        //             // marginTop: (insets.top ? insets.top : customTopInset),
+        //             // paddingTop: 20
+        //         }]}>
+        //             {withDots ? <Dots length={dotLength || 0} active={activeDot || 0} /> : null}
+        //             {_onBack ? (
+        //                 <TouchableOpacity style={[BaseStyles.back]} onPress={_onBack} hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}>
+        //                     <Images.backIcon width={28} height={14} color={theme.colors.midground} />
+        //                 </TouchableOpacity>
+        //             ) : null}
+        //             {_onClose ? (
+        //                 <TouchableOpacity onPress={_onClose} hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}>
+        //                     <Images.closeIcon width={15} height={15} color={theme.colors.midground} />
+        //                 </TouchableOpacity>
+        //             ) : null}
+
+        //             {withContainer ? (
+        //                 <Container>
+        //                     {children}
+        //                 </Container>
+        //             ) : children}
+
+        //         </PageBase>
+        //     }
+        // </SafeAreaInsetsContext.Consumer>
     );
 }

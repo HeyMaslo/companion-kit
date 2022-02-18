@@ -34,8 +34,8 @@ export abstract class NotificationsOnboardingBaseView extends ViewState {
 
   renderContent() {
     return (
-      <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()} theme={this.theme}>
-        <Container style={[{ height: '100%', flexDirection: 'column', alignItems: 'center', paddingTop: 10 }]}>
+      <MasloPage style={[this.baseStyles.page, { paddingBottom: 40 }]} onBack={() => this.onBack()} theme={this.theme}>
+        <Container style={[this.baseStyles.container, {height: this._contentHeight, flexDirection: 'column', alignItems: 'center'}]}>
           {this.renderInnerContent()}
           <Button
             title='Continue'

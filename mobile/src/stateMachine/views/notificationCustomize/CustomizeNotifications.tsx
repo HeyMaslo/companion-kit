@@ -84,7 +84,7 @@ export class CustomizeNotificationsView extends ViewState {
         const titleText = 'Customize Notifications';
         return (
             <MasloPage style={this.baseStyles.page} onBack={this.onBack} theme={this.theme}>
-                <Container style={[this.baseStyles.container, { flexDirection: 'column', flex: 1, }]}>
+                <Container style={[this.baseStyles.container, { flexDirection: 'column', flex: 1, paddingTop: 60 }]}>
                     <Text style={[this.textStyles.h1, styles.title, { color: this.theme.colors.foreground }]}>{titleText}</Text>
                     {this.viewModel.posssibleDomains.map((dom, index) => {
                         return <Card

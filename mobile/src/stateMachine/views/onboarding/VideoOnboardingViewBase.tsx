@@ -42,7 +42,7 @@ export class VideoOnboardingViewBase extends ViewState {
   renderContent() {
     const contentTextStyle = [TextStyles.p1, { color: this.theme.colors.foreground }];
     return (
-      <MasloPage style={this.baseStyles.page} theme={this.theme}>
+      <MasloPage style={[this.baseStyles.page, { paddingBottom: 40 }]} theme={this.theme}>
         <Container style={[{ height: '100%', flexDirection: 'column', alignItems: 'center', paddingTop: 60 }]}>
           <Text style={[TextStyles.h1, styles.title, { color: this.theme.colors.foreground }]}>{this.titleText}</Text>
           <Video source={{ uri: this.videoURL }}   // Can be a URL or a local file.

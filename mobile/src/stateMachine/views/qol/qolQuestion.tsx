@@ -8,7 +8,7 @@ import { ScenarioTriggers } from '../../abstractions';
 import TextStyles from '../../../../src/styles/TextStyles';
 import AppController from 'src/controllers';
 
-const minContentHeight = 560;
+const minContentHeight = 40;
 
 @observer
 export class QolQuestion extends ViewState {
@@ -139,15 +139,15 @@ export class QolQuestion extends ViewState {
     renderContent() {
         const theme = this.theme;
         return (
-            <MasloPage style={this.baseStyles.page} onBack={this.viewModel.questionNum == 0 ? null : () => this.onBack()} onClose={AppController.Instance.User.localSettings.current?.onboarding.needsQolOnboarding ? null : () => this.onClose()} theme={this.theme}>
+            <MasloPage style={[this.baseStyles.page, { paddingBottom: 40 }]} onBack={this.viewModel.questionNum == 0 ? null : () => this.onBack()} onClose={AppController.Instance.User.localSettings.current?.onboarding.needsQolOnboarding ? null : () => this.onClose()} theme={this.theme}>
                 <Container style={[ { height: this._contentHeight }]}>
-                    <Animated.View style={{ opacity: this.labelState.opacity }}>
+                <Animated.View style={{ opacity: this.labelState.opacity }}>
                         <Text style={styles.domainLabel}>{this.viewModel.domain.toUpperCase()}</Text>
                     </Animated.View>
                     <View style={styles.subText1}>
                         <Text style={{...this.textStyles.labelMedium, color: theme.colors.highlight}}>{this.viewModel.questionNum + 1} of {this.viewModel.numQuestions}</Text>
                     </View>
-                    <Text style={{ ...this.textStyles.labelMedium, color: theme.colors.highlight, marginTop: '8%'}}>OVER THE LAST 7 DAYS I HAVE...</Text>
+                    <Text style={{ ...this.textStyles.labelMedium, color: theme.colors.highlight, marginTop: '6%'}}>OVER THE LAST 7 DAYS I HAVE...</Text>
                     <View style={styles.question}>
                         <Text style={[{...this.textStyles.h1, color: theme.colors.foreground}, styles.questionText]}>{this.viewModel.question}</Text>
                     </View>
@@ -166,16 +166,17 @@ export class QolQuestion extends ViewState {
 
 const styles = StyleSheet.create({
     domainLabel: {
-        marginLeft: '70%',
+        position: 'absolute',
+        // marginLeft: '70%',
+        right: '2.5%',
         fontFamily: TextStyles.labelMedium.fontFamily,
     },
     subText1: {
         alignItems: 'center',
         width: '100%',
-        marginTop: '4%',
+        marginTop: '8%',
     },
     questionText: {
-        marginVertical: '5%',
         textAlign: 'center',
     },
     title: {
@@ -190,6 +191,7 @@ const styles = StyleSheet.create({
         bottom: 0,
     },
     question: {
+        marginTop: '4%',
         alignItems: 'center',
         width: '100%',
     },

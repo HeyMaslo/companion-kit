@@ -103,7 +103,7 @@ export class SettingsView extends ViewState {
 
         return (
             <MasloPage style={this.baseStyles.page} onBack={() => this.trigger(ScenarioTriggers.Back)} theme={this.theme}>
-                <Container style={[this.baseStyles.container, { flexDirection: 'column', flex: 1, }]}>
+                <Container style={[this.baseStyles.container, { flexDirection: 'column', flex: 1, paddingTop: 60 }]}>
                     <Text style={[this.textStyles.h1, this.baseStyles.flexCenterTop, styles.title]}>What do you need help with?</Text>
                     {AppController.Instance.version.hasNext ? (
                         <Button

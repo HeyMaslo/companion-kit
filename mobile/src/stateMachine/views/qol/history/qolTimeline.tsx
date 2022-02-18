@@ -201,7 +201,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
               <Text style={[TextStyles.labelLarge]}>{this.selectedEntry.date && formatDateMonthYear(this.selectedEntry.date)}</Text>
               <View style={styles.header}>
 
-                <TouchableOpacity onPress={this.dropDown} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <TouchableOpacity onPress={this.dropDown} style={{ flexDirection: 'row', alignItems: 'center' }} hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}>
                   <Text style={[TextStyles.labelLarge, this.domainSort && { textDecorationLine: 'underline' }]}>{this.domainSort || `Quality of\nlife score`}</Text>
                   <Images.caretDown width={14} height={8} color={this.theme.colors.foreground} style={[{ marginLeft: 7 }, this.dropDownIsExtended && { transform: [{ rotate: '180deg' }] }]} />
                 </TouchableOpacity>

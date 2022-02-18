@@ -25,7 +25,7 @@ export class HealthDataExplanierView extends ViewState {
 
     renderContent() {
         return (
-            <MasloPage style={this.baseStyles.page} theme={this.theme}>
+            <MasloPage style={[this.baseStyles.page, { paddingBottom: 40 }]} theme={this.theme}>
                 <Container style={[{ height: '100%', flexDirection: 'column', alignItems: 'center', paddingTop: 60 }]}>
                     <Text style={[TextStyles.h1, styles.title, { color: this.theme.colors.foreground }]}>{'Why is your health data needed?'}</Text>
                     <Text style={[TextStyles.h2, styles.title, { color: this.theme.colors.foreground }]}>{'PolarUs is collecting your health data to get a better understanding your needs and support you in the best ways possible. Your personal privacy is very important to us— we only use your health data to develop helpful resources for you.'}</Text>

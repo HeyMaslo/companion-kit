@@ -25,7 +25,7 @@ export class HealthDataCollectionCheckView extends ViewState {
 
   renderContent() {
     return (
-      <MasloPage style={this.baseStyles.page} theme={this.theme}>
+      <MasloPage style={[this.baseStyles.page, { paddingBottom: 40 }]} theme={this.theme}>
         <Container style={[{ height: '100%', flexDirection: 'column', alignItems: 'center', paddingTop: 60 }]}>
           <Text style={[TextStyles.h1, styles.title, { color: this.theme.colors.foreground }]}>{'Is your device capturing all your health data?'}</Text>
           <Text style={[TextStyles.h2, styles.title, { color: this.theme.colors.foreground }]}>{`If you are using any other apps that track your mood, sleep, or other health information, make sure you have given those apps permission to record your health metrics in ${Platform.OS == 'ios' ? 'Apple Health' : 'Google Fit'}.`}</Text>
