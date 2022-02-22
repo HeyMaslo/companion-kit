@@ -78,6 +78,7 @@ export function formatTextContent(input: string, headingStyle?: any, boldStyle?:
   const baseItalicsStyleStyle: any = {
     fontFamily: mainFontMedium
   }
+  // MK-TODO: - Bulleted and numbered lists, italic font, bold/italic text within a line
   return input.split(/\\n/g).map((str) => {
     str += '\n';
     if (str.startsWith('/h1')) {
