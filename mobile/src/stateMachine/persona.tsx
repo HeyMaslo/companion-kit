@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
-import { reaction } from 'mobx';
 import {
     MasloPersonaExpo,
     PersonaViewState,
@@ -62,23 +61,6 @@ type Props = {
 };
 
 export function PersonaView(this: void, props: Props) {
-
-    React.useEffect(() => reaction(() => props.context.state, s => {
-        switch (s) {
-            case PersonaStates.Idle: {
-                // nothing
-                break;
-            }
-
-            case PersonaStates.Init: {
-                break;
-            }
-
-            default: {
-                break;
-            }
-        }
-    }, { fireImmediately: true }));
 
     return (
         <View style={styles.personaWrapper} pointerEvents={'none'}>
