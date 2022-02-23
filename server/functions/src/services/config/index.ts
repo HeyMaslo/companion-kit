@@ -59,10 +59,10 @@ export const BackendSettings = projectConfigs?.BackendSettings[env];
 export const ClientSettings = projectConfigs?.Client;
 export const PreActivatedAssessments = projectConfigs?.PreActivatedAssessments;
 export const AllowedForceLoginEmails = projectConfigs?.AllowedForceLoginEmails || [
-    'demo@maslo.ai',
+    'info@polarus.co',
 ];
 
-export const MobileStandaloneCoachEmail = 'maslo@zajno.com';
+export const MobileStandaloneCoachEmail = 'coach@polarus.co';
 
 process.appFeatures = {
     ASSESSMENTS_ENABLED: FeatureSettings.IntakeFormsEnabled,
