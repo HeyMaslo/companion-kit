@@ -342,12 +342,12 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         return (
             <>
                 <TouchableOpacity style={styles.healthView} onPress={this.onHealthSettings}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingTop: 15 }}>
-                        <Text style={this.textStyles.p1}>Polarus needs access to {"\n"}your health data.</Text>
-                        <Images.healthHeart height={this.textStyles.p1.fontSize * 2.5} />
+                    <View style={{ flexDirection: 'row', paddingLeft: 12, paddingTop: 15 }}>
+                        <Text style={[this.textStyles.p1, { flex: 1 }]}>Polarus needs access to your health data.</Text>
+                        <Images.healthHeart height={this.textStyles.p1.fontSize * 2.5} style={{ flex: 1, marginHorizontal: 16 }} />
                     </View>
-                    <View style={{ flexDirection: 'row', paddingTop: 10, paddingLeft: 20, paddingBottom: 10, alignItems: 'center' }}>
-                        <Images.settingsIcon style={{ margin: 10 }} />
+                    <View style={{ flexDirection: 'row', paddingTop: 10, paddingLeft: 12, paddingBottom: 10, alignItems: 'center' }}>
+                        <Images.settingsIcon style={{ marginVertical: 10, marginRight: 10 }} />
                         <Text style={[this.textStyles.p3, { color: 'red' }]}>Change Settings</Text>
                     </View>
                 </TouchableOpacity>
