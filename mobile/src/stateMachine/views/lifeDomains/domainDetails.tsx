@@ -1,12 +1,14 @@
 import { observer } from 'mobx-react';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import RenderHTML from 'react-native-render-html';
 import { Container, MasloPage, StrategyCard, Button } from 'src/components';
 import { containerStyles } from 'src/components/Container';
 import { DomainName } from 'src/constants/Domain';
 import Layout from 'src/constants/Layout';
 import { DisplayStrategy } from 'src/constants/Strategy';
-import { formatTextContent, iconForDomain } from 'src/helpers/DomainHelper';
+import { iconForDomain } from 'src/helpers/DomainHelper';
+import { mainFontLight, mainFontMedium } from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
@@ -89,12 +91,16 @@ export class DomainDetailsView extends ViewState {
         }
         const domainString = mainName == DomainName.PHYSICAL ? 'Physical health' : mainName;
 
+        const htmlSource = {
+            html: importance
+        };
+
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: this.theme.colors.highlightSecondary }]} onClose={this.cancel} theme={this.theme}>
                 <Container style={[styles.container, { height: this._contentHeight }]}>
                     {/* Title */}
                     <Text style={[this.textStyles.h1, styles.header]}>{domainString} and your quality of life</Text>
-                    <ScrollView style={{ width: Layout.window.width }} contentContainerStyle={{ alignItems: 'center' }}>
+                    <ScrollView style={{ width: Layout.window.width }} contentContainerStyle={{ alignItems: 'center', marginHorizontal: 20 }}>
                         {/* What to know */}
                         <View style={styles.content}>
                             <Text style={[this.textStyles.labelExtraLarge, { marginVertical: 10 }]}>What to know</Text>
@@ -112,11 +118,12 @@ export class DomainDetailsView extends ViewState {
                             })}
                         </View>
                         {/* Long description of importance */}
-                        <Text style={[this.textStyles.p2, { marginBottom: 20, paddingHorizontal: containerStyles.container.paddingLeft }]}>
-                            <Text style={this.textStyles.h3}>The Importance of {domainString}{'\n'}</Text>
-                            {'\n'}
-                            {formatTextContent(importance)}
-                        </Text>
+                        <RenderHTML
+                            source={htmlSource}
+                            baseStyle={{ fontFamily: mainFontLight }}
+                            systemFonts={[mainFontLight, mainFontMedium]}
+                            tagsStyles={{ h2: { fontFamily: mainFontMedium }, h3: { fontFamily: mainFontMedium } }}
+                        />
                         {/* Strategies List */}
                         <Text style={[this.textStyles.h2, styles.header, { paddingLeft: containerStyles.container.paddingLeft }]}>Strategies:</Text>
                         {this.strategiesForListInOrder(mainName).map((strat) => this.renderStratgeyCard(strat))}
@@ -131,7 +138,7 @@ export class DomainDetailsView extends ViewState {
 const styles = StyleSheet.create({
     header: {
         alignSelf: 'flex-start',
-        marginBottom: 20,
+        marginVertical: 20,
     },
     container: {
         paddingTop: 40,

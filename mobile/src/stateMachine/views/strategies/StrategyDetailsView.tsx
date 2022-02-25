@@ -7,7 +7,7 @@ import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
-import { formatTextContent, iconForDomain } from 'src/helpers/DomainHelper';
+import { iconForDomain } from 'src/helpers/DomainHelper';
 import Layout from 'src/constants/Layout';
 
 @observer
@@ -65,7 +65,7 @@ export class StrategyDetailsView extends ViewState {
           {/* Body */}
           <ScrollView style={{ width: Layout.window.width, marginLeft: -20 }} contentContainerStyle={{ paddingHorizontal: 20 }}>
             <Text style={[TextStyles.p1, styles.body]}>
-              {formatTextContent(this._learnMoreStrategy.details)}
+              {this._learnMoreStrategy.details}
             </Text>
           </ScrollView>
         </Container>
