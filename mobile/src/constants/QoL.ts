@@ -64,3 +64,10 @@ export type PartialQol = {
     questionCompletionDates: QoLSurveyTimestamp[],
     surveyType: QolSurveyType,
 };
+
+// DAILY CHECK IN
+
+export type DailyCheckIn = {
+    score: number,
+    date: number,
+}

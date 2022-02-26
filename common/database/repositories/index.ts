@@ -15,6 +15,7 @@ import SurveyResultsRepo from './SurveyResultsRepo';
 import UserStateRepo from './UserStateRepo';
 import StrategyRepo from './StrategyRepo';
 import AffirmationRepo from './AffirmationRepo';
+import DailyCheckInRepo from './DailyCheckInRepo';
 export {
     DBProvider,
     RepoError,
@@ -33,4 +34,5 @@ export {
     SurveyResultsRepo,
     UserStateRepo,
     AffirmationRepo,
+    DailyCheckInRepo
 };

@@ -101,4 +101,10 @@ export default class QoLControllerBase implements IQoLController {
         await RepoFactory.Instance.userState.setByUserId(this._userId, userState);
     }
 
+    // Submit new Daily Check In
+    public async sendDailyCheckIn(checkInScore: number): Promise<boolean> {
+        await RepoFactory.Instance.dailyCheckIns.addCheckIn(this._userId, checkInScore);
+        return true;
+    }
+
 }
