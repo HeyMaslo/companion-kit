@@ -15,12 +15,13 @@ import {
     UserStateRepo,
     AffirmationRepo,
     DailyCheckInRepo,
+    VersionRepo,
 } from 'common/database/repositories';
 
 const PROXIES_PREFIX = 'proxies';
 
 interface IRepoConstructor<T> {
-    new (provider: DBProvider): T;
+    new(provider: DBProvider): T;
 }
 
 type RepoType<T> = {
@@ -45,6 +46,7 @@ export default class RepoFactory {
     private readonly _userState = createLazy(() => new UserStateRepo(Firebase.Instance.database));
     private readonly _affirmations = createLazy(() => new AffirmationRepo(Firebase.Instance.database));
     private readonly _dailyCheckIns = createLazy(() => new DailyCheckInRepo(Firebase.Instance.database));
+    private readonly _version = createLazy(() => new VersionRepo(Firebase.Instance.database));
 
     constructor(
         private readonly useProxy: boolean,
@@ -63,6 +65,7 @@ export default class RepoFactory {
     get userState(): UserStateRepo { return this._userState.value };
     get affirmations(): AffirmationRepo { return this._affirmations.value };
     get dailyCheckIns(): DailyCheckInRepo { return this._dailyCheckIns.value };
+    get version(): VersionRepo { return this._version.value };
 
     // private createProxyRepo<T extends RepoType<T>>(prefix: string, Type: IRepoConstructor<T>) {
     //     const repo = new Type(Firebase.Instance.database);

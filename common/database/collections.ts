@@ -18,6 +18,7 @@ enum Collections {
     Strategies = 'strategies',
     Affirmations = 'affirmations',
     DailyCheckIns = 'dailyCheckIns',
+    Version = 'version'
 }
 
 namespace Collections {

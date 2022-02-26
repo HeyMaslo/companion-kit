@@ -1,4 +1,4 @@
-import Collections from 'database/collections';
+import Collections from '../collections';
 import { GenericUserRepo } from '.';
 import { DailyCheckIn } from '../../../mobile/src/constants/QoL';
 

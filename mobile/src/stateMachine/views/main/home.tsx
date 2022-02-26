@@ -27,6 +27,7 @@ import * as Haptics from 'src/services/haptics';
 import { DomainName, SubdomainName } from 'src/constants/Domain';
 import { formatDateDayMonthYear } from 'common/utils/dateHelpers';
 import { PersonaArmState } from 'dependencies/persona/lib';
+import { observable } from 'mobx';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -40,6 +41,8 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     private _linkDocModalShown = true;
     private get healthPermissionsEnabled() { return !!AppController.Instance.User?.healthPermissionsController.permissionsGranted; };
 
+    @observable
+    private userNeedsToUpdateApp: boolean = false;
 
     private ordRadius = getPersonaRadius();
     private orbTapContainerHeight = 0;
@@ -63,8 +66,12 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
     get viewModel() { return HomeViewModel.Instance; }
     get qolViewModel() { return AppViewModel.Instance.QOL; }
+    get versionViewModel() { return AppViewModel.Instance.Version; }
 
     async start() {
+        await this.versionViewModel.init();
+        this.userNeedsToUpdateApp = this.versionViewModel.isInvalidVersion;
+
         await this.qolViewModel.init();
         this.persona.qolArmMagnitudes = this.qolViewModel.qolArmMagnitudes;
         this.setState({ ...this.state, isUnfinishedQol: this.qolViewModel.isUnfinished });
@@ -179,7 +186,10 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     // }
 
     private openResourceDetails = (jid: string) => {
-        this.trigger<CheckInDetailsParams>(ScenarioTriggers.Primary, { id: jid });
+        // MK-TODO: - testing
+        this.trigger(ScenarioTriggers.Submit);
+        //
+        // this.trigger<CheckInDetailsParams>(ScenarioTriggers.Primary, { id: jid });
     }
 
     private favoriteResource = (jid: string) => {
@@ -408,33 +418,39 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         const { loading } = this.viewModel;
         return (
             <MasloPage style={this.baseStyles.page} theme={this.theme}>
-                <View style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
-                    <Text style={[this.textStyles.labelMedium, { textAlign: 'center', color: this.theme.colors.midground }]}>{formatDateDayMonthYear(new Date())}</Text>
-                </View>
-                <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
-                    {/* Portal component used to capture touch events on or above orb */}
-                    <Portal>
-                        {Platform.OS == 'ios' ?
-                            <Pressable onPress={this.onTapOrb} style={{ width: Layout.window.width, height: this.orbTapContainerHeight, zIndex: 9999 }}>
-                                <View style={{ width: '100%', height: this.orbTapContainerHeight }} />
-                            </Pressable>
-                            :
-                            <TouchableNativeFeedback onPress={this.onTapOrb} style={{ width: Layout.window.width, height: this.orbTapContainerHeight, zIndex: 9999 }}>
-                                <View style={{ width: '100%', height: this.orbTapContainerHeight }} />
-                            </TouchableNativeFeedback>
-                        }
-                    </Portal>
-                    {/* MK-TODO below buttons used for development/testing only and will be removed */}
-                    {/* <View style={{ flexDirection: 'row' }}>
-                        <Button title='TESTING' style={styles.testingButton} onPress={() => this.onTESTINGButton()} theme={this.theme} />
-                    </View> */}
-                    {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getCenterElement()}
-                    {loading
-                        ? <ActivityIndicator size='large' />
-                        : this.getResourcesList()
-                    }
-                    <BottomBar screen={'home'} theme={this.theme} />
-                </Animated.View>
+                {this.userNeedsToUpdateApp ?
+                    <Text style={[this.textStyles.labelExtraLarge, { textAlign: 'center', color: this.theme.colors.foreground, marginHorizontal: 40, marginBottom: 200 }]}>Please update the PolarUs App</Text>
+                    :
+                    <>
+                        <View style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
+                            <Text style={[this.textStyles.labelMedium, { textAlign: 'center', color: this.theme.colors.midground }]}>{formatDateDayMonthYear(new Date())}</Text>
+                        </View>
+                        <Animated.View style={[this.baseStyles.container, styles.container, { height: this._contentHeight, opacity: this.state.opacity }]}>
+                            {/* Portal component used to capture touch events on or above orb */}
+                            <Portal>
+                                {Platform.OS == 'ios' ?
+                                    <Pressable onPress={this.onTapOrb} style={{ width: Layout.window.width, height: this.orbTapContainerHeight, zIndex: 9999 }}>
+                                        <View style={{ width: '100%', height: this.orbTapContainerHeight }} />
+                                    </Pressable>
+                                    :
+                                    <TouchableNativeFeedback onPress={this.onTapOrb} style={{ width: Layout.window.width, height: this.orbTapContainerHeight, zIndex: 9999 }}>
+                                        <View style={{ width: '100%', height: this.orbTapContainerHeight }} />
+                                    </TouchableNativeFeedback>
+                                }
+                            </Portal>
+                            {/* MK-TODO below buttons used for development/testing only and will be removed */}
+                            {/* <View style={{ flexDirection: 'row' }}>
+                    <Button title='TESTING' style={styles.testingButton} onPress={() => this.onTESTINGButton()} theme={this.theme} />
+                </View> */}
+                            {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getCenterElement()}
+                            {loading
+                                ? <ActivityIndicator size='large' />
+                                : this.getResourcesList()
+                            }
+                            <BottomBar screen={'home'} theme={this.theme} />
+                        </Animated.View>
+                    </>
+                }
             </MasloPage>
         );
     }
