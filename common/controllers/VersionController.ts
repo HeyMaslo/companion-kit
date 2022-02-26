@@ -13,6 +13,7 @@ export default class VersionControllerBase implements IVersionController {
 
 export type VersionStub = {
   id: string;
+  date: Date;
   version: string;
 }
 

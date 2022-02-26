@@ -16,9 +16,10 @@ export default class VersionViewModel {
   }
 
   async init() {
-    await AppController.Instance.User.version.getDBVersion().then((versionStrs: VersionStub[]) => {
-      if (versionStrs.length > 0) {
-        this._DBVersion = versionStrs[0].version;
+    await AppController.Instance.User.version.getDBVersion().then((versionStubs: VersionStub[]) => {
+      // The version collection in firestore should only contain 1 object, we recieve an array (VersionStub[]) here but it's length should only ever be 1
+      if (versionStubs.length > 0) {
+        this._DBVersion = versionStubs[0].version;
       }
       return;
     });
