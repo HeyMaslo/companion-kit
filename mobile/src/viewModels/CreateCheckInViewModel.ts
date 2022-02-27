@@ -41,6 +41,10 @@ export enum StoryType {
     text,
 }
 
+//
+// NOT USED - leftover from Maslo
+//
+
 export type BeforeSubmitState = { onboardingIndex: number, rewardLevel: number };
 
 export default class CreateCheckInViewModel {
