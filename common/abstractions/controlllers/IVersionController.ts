@@ -1,4 +1,4 @@
-import { VersionStub } from 'controllers/VersionController';
+import { VersionStub } from '../../controllers/VersionController';
 
 export interface IVersionController {
 

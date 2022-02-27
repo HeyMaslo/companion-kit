@@ -1,4 +1,4 @@
-import { VersionStub } from 'common/controllers/VersionController';
+import { VersionStub } from '../../../common/controllers/VersionController';
 import AppController from 'src/controllers';
 
 const LOCAL_DB_VERSION = '1.0';
