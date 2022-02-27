@@ -186,10 +186,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     // }
 
     private openResourceDetails = (jid: string) => {
-        // MK-TODO: - testing
-        this.trigger(ScenarioTriggers.Submit);
-        //
-        // this.trigger<CheckInDetailsParams>(ScenarioTriggers.Primary, { id: jid });
+        this.trigger<CheckInDetailsParams>(ScenarioTriggers.Primary, { id: jid });
     }
 
     private favoriteResource = (jid: string) => {

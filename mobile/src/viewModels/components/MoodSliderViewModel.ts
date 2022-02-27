@@ -3,6 +3,9 @@ import Moods from 'common/models/Moods';
 import * as Mathx from 'common/utils/mathx';
 
 export default class MoodSliderViewModel {
+
+    public isSleep: boolean = false;
+
     @observable
     private _value: number = Moods.Default;
 

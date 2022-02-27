@@ -3,6 +3,7 @@ import {
     QolSurveyResults,
     PartialQol,
     QolSurveyType,
+    DailyCheckInScore,
 } from '../../mobile/src/constants/QoL';
 import RepoFactory from 'common/controllers/RepoFactory';
 import { UserState, LastSeen } from 'common/models/userState';
@@ -102,7 +103,7 @@ export default class QoLControllerBase implements IQoLController {
     }
 
     // Submit new Daily Check In
-    public async sendDailyCheckIn(checkInScore: number): Promise<boolean> {
+    public async sendDailyCheckIn(checkInScore: DailyCheckInScore): Promise<boolean> {
         await RepoFactory.Instance.dailyCheckIns.addCheckIn(this._userId, checkInScore);
         return true;
     }

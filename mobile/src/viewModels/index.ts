@@ -7,12 +7,14 @@ import DomainViewModel from './DomainViewModel'
 import StrategyViewModel from './StrategyViewModel'
 import QoLHistoryViewModel from './QoLHistoryViewModel';
 import VersionViewModel from './VersionViewModel';
+import DailyCheckInViewModel from './DailyCheckInViewModel';
 
 export interface IAppViewModel {
     Version: VersionViewModel;
     CreateCheckIn: CreateCheckInViewModel;
     Settings: SettingsViewModel;
     Goals?: GoalsViewModel;
+    DailyCheckIn: DailyCheckInViewModel;
     QOL: QOLSurveyViewModel;
     QoLHistory: QoLHistoryViewModel;
     Domain: DomainViewModel
@@ -25,12 +27,13 @@ export default class AppViewModel implements IAppViewModel {
     readonly Version = new VersionViewModel();
     readonly CreateCheckIn = new CreateCheckInViewModel();
     readonly Settings = new SettingsViewModel();
+    readonly DailyCheckIn = new DailyCheckInViewModel();
     readonly QOL = new QOLSurveyViewModel();
     readonly QoLHistory = new QoLHistoryViewModel();
     readonly Domain = new DomainViewModel();
     readonly Strategy = new StrategyViewModel();
     readonly Goals = process.appFeatures.GOALS_ENABLED === true ? new GoalsViewModel() : null;
-    
+
 
     static get Instance(): IAppViewModel { return instance.value; }
 

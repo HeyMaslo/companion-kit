@@ -1,27 +1,15 @@
 import { ViewState } from '../base';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
-import Localization from 'src/services/localization';
-import * as Features from 'common/constants/features';
-
-const AdditionalGoodJobMessage = '';
 
 export abstract class CheckInViewBase<CState = {}, CParams = any> extends ViewState<CState, CParams> {
 
     public get viewModel() {
-        return AppViewModel.Instance.CreateCheckIn;
-    }
-
-    start() {
-        this.viewModel.inProgress = true;
-    }
-
-    end() {
-        this.viewModel.inProgress = false;
+        return AppViewModel.Instance.DailyCheckIn;
     }
 
     cancel = () => {
-        this.viewModel.cancel();
+        this.viewModel.reset();
         this.trigger(ScenarioTriggers.Cancel);
     }
 
@@ -39,39 +27,4 @@ export abstract class CheckInViewBase<CState = {}, CParams = any> extends ViewSt
             theme: this.theme,
         });
     })
-
-    protected async finishEntrySubmit() {
-        if (!Features.Mobile.CheckIns.AskUserAboutPrivateness) {
-            this.showModal({
-                title: `Good Job!`,
-                message: `Thanks for sharing your thoughts with me. ${AdditionalGoodJobMessage}`,
-                primaryButton: {
-                    text: 'Continue',
-                    action: () => this.trigger(ScenarioTriggers.Primary),
-                },
-                secondaryButton: null,
-                theme: this.theme,
-            });
-            return;
-        }
-
-        this.showModal({
-            title: `Do you want your ${Localization.Current.MobileProject.dashboardEssence} ${this.viewModel.coachName} to see this?`,
-            primaryButton: {
-                text: 'keep private',
-                action: () => {
-                    this.viewModel.setLastEntryPrivateness(true);
-                    this.trigger(ScenarioTriggers.Primary);
-                },
-            },
-            secondaryButton: {
-                text: 'YES, share',
-                action: () => {
-                    this.viewModel.setLastEntryPrivateness(false);
-                    this.trigger(ScenarioTriggers.Primary);
-                },
-            },
-            theme: this.theme,
-        });
-    }
 }

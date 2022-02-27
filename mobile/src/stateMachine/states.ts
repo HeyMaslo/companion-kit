@@ -33,6 +33,12 @@ export enum States {
     Home,
     JournalDetail,
 
+    // Daily Check In
+    StartDailyCheckIn,
+    DailyCheckInSleep,
+    DailyCheckInMood,
+    EndDailyCheckIn,
+
     OnboardingEnter,
     HealthOnboardingVideo,
     HealthDataExplainer,

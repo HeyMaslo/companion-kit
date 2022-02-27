@@ -67,7 +67,11 @@ export type PartialQol = {
 
 // DAILY CHECK IN
 
-export type DailyCheckIn = {
-    score: number,
+export type DailyCheckInScore = {
+    sleepScore: number,
+    moodScore: number,
+};
+
+export type DailyCheckIn = DailyCheckInScore & {
     date: number,
 };

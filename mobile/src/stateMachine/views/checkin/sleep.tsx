@@ -9,16 +9,13 @@ import MoodSlider from 'src/screens/components/MoodSlider';
 
 const minContentHeight = 483;
 
-export type MoodViewParams = {
-    openedByNotification?: boolean,
-};
-
 @observer
-export class MoodView extends CheckInViewBase<{}, MoodViewParams> {
+export class SleepView extends CheckInViewBase {
 
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: 0, transition: { duration: 1.5 } });
+        this.viewModel.sleepChooser.isSleep = true;
     }
 
     start() {
@@ -36,12 +33,12 @@ export class MoodView extends CheckInViewBase<{}, MoodViewParams> {
         const theme = this.theme;
 
         return (
-            <MasloPage withDots dotLength={2} activeDot={2} onClose={this.cancel} style={this.baseStyles.page} theme={this.theme}>
+            <MasloPage withDots dotLength={2} activeDot={1} onClose={this.cancel} style={this.baseStyles.page} theme={this.theme}>
                 <Container style={[this.baseStyles.container, this.baseStyles.flexBetween, { height: this._contentHeight }]}>
                     <View style={[this.baseStyles.textBlock, styles.textBlock]}>
-                        <Text style={[this.textStyles.h1, styles.title]}>How are you feeling right now?</Text>
+                        <Text style={[this.textStyles.h1, styles.title]}>Did you wake up feeling refreshed today?</Text>
                     </View>
-                    <MoodSlider model={viewModel.moodChooser} style={styles.chooser} />
+                    <MoodSlider model={viewModel.sleepChooser} style={styles.chooser} />
                     <ButtonBlock
                         onOk={this.next}
                         onCancel={this.cancel}
