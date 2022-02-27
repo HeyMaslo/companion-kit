@@ -8,12 +8,10 @@ export default class VersionControllerBase implements IVersionController {
     return await RepoFactory.Instance.version.get();
   }
 
-
 }
 
 export type VersionStub = {
   id: string;
   date: Date;
   version: string;
-}
-
+};

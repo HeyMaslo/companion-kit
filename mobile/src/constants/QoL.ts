@@ -70,4 +70,4 @@ export type PartialQol = {
 export type DailyCheckIn = {
     score: number,
     date: number,
-}
+};
