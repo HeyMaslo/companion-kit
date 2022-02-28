@@ -23,5 +23,6 @@ _set_ server/.firebaserc-template                                   server/.fire
 _set_ common/models/ClientCard.ts.template                          common/models/ClientCard.ts
 _set_ server/firebase-template.json                          		server/firebase.json
 _set_ server/functions/__tests__/config/test-config-template.ts     server/functions/__tests__/config/test-config.ts
+_set_ mobile/src/viewModels/VersionViewModel.ts.template            mobile/src/viewModels/VersionViewModel.ts
 
 echo "Done."
