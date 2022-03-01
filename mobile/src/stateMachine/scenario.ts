@@ -551,7 +551,10 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { target: States.Home, trigger: [Triggers.Cancel] },
             { target: States.Choose_Domain, trigger: [Triggers.Back] },
-            { target: States.Review_Strategies, trigger: [Triggers.Submit] },
+            {
+                target: VM.isCurrentlyOnboarding ? States.Review_Strategies_Onboarding
+                : States.Review_Strategies, trigger: [Triggers.Submit]
+            },
             { target: States.Strategy_Details_after_Choose_Strategies, trigger: [Triggers.Tertiary] },
         ]
     },
@@ -559,10 +562,19 @@ export const MasloScenario: GlobalScenario<States> = {
     [States.Review_Strategies]: {
         view: ReviewStrategiesView,
         exit: [
-            { target: States.Home, trigger: [Triggers.Cancel] }, // TODO: - dont allow cancel when in onboarding
+            { target: States.Home, trigger: [Triggers.Cancel] },
             { target: States.Choose_Strategies, trigger: [Triggers.Back] },
             { target: States.Strategy_Details_after_Review_Strategies, trigger: [Triggers.Tertiary] },
-            { target: VM.isCurrentlyOnboarding ? States.HomeRouter : States.Home, trigger: [Triggers.Submit] },
+            { target: States.Home, trigger: [Triggers.Submit] },
+        ]
+    },
+
+    [States.Review_Strategies_Onboarding]: {
+        view: ReviewStrategiesView,
+        exit: [
+            { target: States.Choose_Strategies, trigger: [Triggers.Back] },
+            { target: States.Strategy_Details_after_Review_Strategies, trigger: [Triggers.Tertiary] },
+            { target: States.HomeRouter, trigger: [Triggers.Submit] },
         ]
     },
 
@@ -673,7 +685,7 @@ export const MasloScenario: GlobalScenario<States> = {
     [States.QolHistory]: {
         view: QolHistoryMainView,
         enter: [
-          { trigger: GlobalTriggers.QolHistory }
+            { trigger: GlobalTriggers.QolHistory }
         ],
         exit: [
             { target: States.Home, trigger: [Triggers.Back] },

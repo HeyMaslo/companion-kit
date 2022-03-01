@@ -6,7 +6,7 @@ import { ScenarioTriggers } from '../../abstractions';
 import Images from 'src/constants/images';
 import TextStyles from 'src/styles/TextStyles';
 import { iconForDomain } from 'src/helpers/DomainHelper';
-import { DomainName } from 'src/constants/Domain';
+import AppController from 'src/controllers';
 
 @observer
 export class ReviewNotificationsOnboardingView extends NotificationsOnboardingBaseView {
@@ -15,8 +15,9 @@ export class ReviewNotificationsOnboardingView extends NotificationsOnboardingBa
     this.trigger(ScenarioTriggers.Back)
   }
 
-  onNext = () => {
+  onNext = async () => {
     // End of the onboarding flow
+    await AppController.Instance.User.notifications.scheduleTwentySevenAffirmationNotifications();
     this.viewModel.completeNotificationsOnboarding()
     this.trigger(ScenarioTriggers.Next)
   }
