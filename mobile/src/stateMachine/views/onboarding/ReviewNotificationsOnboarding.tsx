@@ -15,7 +15,7 @@ export class ReviewNotificationsOnboardingView extends NotificationsOnboardingBa
     this.trigger(ScenarioTriggers.Back)
   }
 
-  onNext = async () => {
+  override async onNext() {
     // End of the onboarding flow
     await AppController.Instance.User.notifications.scheduleTwentySevenAffirmationNotifications();
     this.viewModel.completeNotificationsOnboarding()
@@ -43,7 +43,7 @@ export class ReviewNotificationsOnboardingView extends NotificationsOnboardingBa
         <Text style={[TextStyles.p1, { textAlign: 'center', color: this.theme.colors.midground, marginBottom: 20 }]}>You can change these at any time in settings.</Text>
         <View style={{ flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', height: '52%' }}>
           <View>
-            <Text style={[contentTextStyle, { marginBottom: 10 }]}>Allow notifications for</Text>
+            <Text style={[contentTextStyle, { marginBottom: 10 }]}>You will recieve notifications for</Text>
             <FlatList style={{ flexGrow: 0 }}
               data={this.viewModel.domainsForNotifications}
               renderItem={this.renderListItem}

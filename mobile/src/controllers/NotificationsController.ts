@@ -10,6 +10,7 @@ import { DomainName, SubdomainName } from 'src/constants/Domain';
 import { HourAndMinute } from 'common/utils/dateHelpers';
 import AppController from '.';
 import { shuffle } from 'common/utils/mathx';
+import { Platform } from 'react-native';
 
 export class NotificationsController implements IDisposable {
 
@@ -51,12 +52,16 @@ export class NotificationsController implements IDisposable {
     }
 
     public get permissionsGranted() {
-        return this._service.hasPermission === true;
+        return Platform.OS == 'android' || this._service.hasPermission === true;
     }
 
     // Should be OK to call multiple times
     async initAsync() {
         console.log('NotifController initAsync() called')
+        if (Platform.OS == 'android') {
+            this._notificationsEnabledByUser = true;
+            return;
+        }
         this._notificationsEnabledByUser = this.settings.current.notifications.enabled;
         if (!this._notificationsEnabledByUser) return;
         await this._service.checkNotificationsPermissions();
@@ -79,11 +84,13 @@ export class NotificationsController implements IDisposable {
 
     // Used only by above function
     private onFulfilled = (userState: UserState) => {
-        const filtered = userState.scheduledAffirmations.filter((sa) => sa.notifId != this.openedNotification.identifier);
-        if (filtered !== userState.scheduledAffirmations) {
-            userState.scheduledAffirmations = filtered;
-            RepoFactory.Instance.userState.setByUserId(this._userId, userState);
-            this._service.resetOpenedNotification();
+        if (userState.scheduledAffirmations) {
+            const filtered = userState.scheduledAffirmations.filter((sa) => sa.notifId != this.openedNotification.identifier);
+            if (filtered !== userState.scheduledAffirmations) {
+                userState.scheduledAffirmations = filtered;
+                RepoFactory.Instance.userState.setByUserId(this._userId, userState);
+                this._service.resetOpenedNotification();
+            }
         }
         return userState;
     }
@@ -161,6 +168,8 @@ export class NotificationsController implements IDisposable {
             });
             console.log('SCHEDULED: ', scheduled)
             RepoFactory.Instance.userState.setByUserId(this._userId, userState);
+        } else {
+            console.log('scheduleTwentySevenAffirmationNotifications(): NOTIFICATIONS not enabled')
         }
     }
 

@@ -73,6 +73,7 @@ import { HealthOnboardingVideoView } from './views/onboarding/HealthOnboardingVi
 import { HealthDataExplanierView } from './views/onboarding/HealthDataExplanierView';
 import { HealthDataCollectionCheckView } from './views/onboarding/HealthDataCollectionCheckView';
 import { AfterHealthPromptView } from './views/onboarding/AfterHealthPromptView';
+import { ReviewStrategiesViewOnboarding } from './views/strategies/ReviewStrategiesViewOnboarding';
 
 const CreateJournalCancelTransition: StateTransition<States> = {
     target: States.Home,
@@ -141,7 +142,7 @@ export const MasloScenario: GlobalScenario<States> = {
     [States.AfterHealthPrompt]: {
         view: AfterHealthPromptView,
         exit: [
-            { target: States.QolOnboardingVideo, trigger: Triggers.Next },
+            { target: States.HomeRouter, trigger: Triggers.Next },
         ],
     },
 
@@ -245,22 +246,21 @@ export const MasloScenario: GlobalScenario<States> = {
         view: BDMentionNotificationsOnboardingView,
         exit: [
             { target: States.CustomizeNotificationsOnboarding, trigger: Triggers.Back },
-            { target: States.ReviewNotifcationsOnboarding, trigger: Triggers.Next },
-        ],
-    },
-
-    [States.ReviewNotifcationsOnboarding]: {
-        view: ReviewNotificationsOnboardingView,
-        exit: [
-            { target: States.BDMentionNotifcationsOnboarding, trigger: Triggers.Back },
-            { target: States.NotificationsPermission, trigger: Triggers.Next },
+            { target: Platform.OS == 'ios' ? States.NotificationsPermission : States.ReviewNotifcationsOnboarding, trigger: Triggers.Next },
         ],
     },
 
     [States.NotificationsPermission]: {
         view: NotificationsPermissionView,
         exit: [
-            { target: States.Home, trigger: Triggers.Submit },
+            { target: States.ReviewNotifcationsOnboarding, trigger: Triggers.Submit },
+        ],
+    },
+
+    [States.ReviewNotifcationsOnboarding]: {
+        view: ReviewNotificationsOnboardingView,
+        exit: [
+            { target: States.Home, trigger: Triggers.Next },
         ],
     },
 
@@ -275,12 +275,12 @@ export const MasloScenario: GlobalScenario<States> = {
             // { priority: 1, target: States.OnboardingEnter, condition: VM.hasActiveOnboarding },
 
             // Onboarding
-            { priority: 0, target: States.HealthOnboardingVideo, condition: Platform.OS == 'ios' ? VM.needsHealthPromptIOS : VM.needsHealthPermissions },
+            { priority: 0, target: States.HealthOnboardingVideo, condition: Platform.OS == 'ios' ? VM.needsHealthPromptIOS : VM.needsHealthPromptAndroid },
             // { priority: 2, target: States.HealthConsent, condition: Platform.OS == 'ios' ? VM.needsHealthPromptIOS : VM.needsHealthPermissions },
             { priority: 3, target: States.QolOnboardingVideo, condition: VM.showOnboardingQol },
             { priority: 4, target: States.Choose_Domain, condition: VM.onboardingNeedsToChooseDomains },
             { priority: 5, target: States.Choose_Strategies, condition: VM.needsToChooseStrategies },
-            { priority: 6, target: States.NotificationsTimeOnboarding, condition: VM.askNotifyPermissions },
+            { priority: 6, target: States.NotificationsTimeOnboarding, condition: VM.onboardingNeedsToScheduleNotifs }, // VM.askNotifyPermissions
             // Normal usuage
             { priority: 10, target: States.Home, condition: () => true },
 
@@ -553,7 +553,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Choose_Domain, trigger: [Triggers.Back] },
             {
                 target: VM.isCurrentlyOnboarding ? States.Review_Strategies_Onboarding
-                : States.Review_Strategies, trigger: [Triggers.Submit]
+                    : States.Review_Strategies, trigger: [Triggers.Submit]
             },
             { target: States.Strategy_Details_after_Choose_Strategies, trigger: [Triggers.Tertiary] },
         ]
@@ -570,7 +570,7 @@ export const MasloScenario: GlobalScenario<States> = {
     },
 
     [States.Review_Strategies_Onboarding]: {
-        view: ReviewStrategiesView,
+        view: ReviewStrategiesViewOnboarding,
         exit: [
             { target: States.Choose_Strategies, trigger: [Triggers.Back] },
             { target: States.Strategy_Details_after_Review_Strategies, trigger: [Triggers.Tertiary] },

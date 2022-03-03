@@ -58,6 +58,7 @@ export class SettingsNotificationsViewModel {
         if (allDomains) {
             this._posssibleDomains = allDomains;
             this.domainsForNotifications = allDomains;
+            AppController.Instance.User.notifications.domainAndSubdomainNames = allDomains;
         }
     }
 
