@@ -24,7 +24,7 @@ export class NotificationsController implements IDisposable {
     private _userId: string;
 
     private get allowBDMention() {
-        return AppController.Instance.User.localSettings.current.notifications.allowBDMention || false;
+        return AppController.Instance.User.localSettings.current.notifications.allowBDMention;
     }
 
     constructor(private readonly settings: ILocalSettingsController, name: IUserNameProvider) {
@@ -172,28 +172,6 @@ export class NotificationsController implements IDisposable {
             console.log('scheduleTwentySevenAffirmationNotifications(): NOTIFICATIONS not enabled')
         }
     }
-
-    // MK-TODO: - testing only remove before merge
-    // public async scheduleTESTINGAffirmationNotification() {
-    //     if (!this._userId) throw new Error('no user id set');
-    //     if (this.notificationsEnabled) {
-    //         let userState: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
-
-    //         let possibleAffirmations: Affirmation[] = await RepoFactory.Instance.affirmations.getByDomains(this.domainAndSubdomainNames, true, userState.lastSeenAffirmations);
-    //         possibleAffirmations = shuffle(possibleAffirmations);
-
-    //         const now = new Date();
-
-    //         const scheduled = await this._service.scheduleAffirmationMessages(possibleAffirmations.slice(0, 1), now.getTime() + 10000, this.allowBDMention);
-    //         scheduled.forEach((result) => {
-    //             userState.lastSeenAffirmations[result.affirmation.id] = result.scheduledDate;
-    //             userState.scheduledAffirmations.push(result);
-    //         });
-    //         console.log('userState.lastSeenAffirmations', userState.lastSeenAffirmations);
-    //         console.log('userState.scheduledAffirmations', userState.scheduledAffirmations);
-    //         RepoFactory.Instance.userState.setByUserId(this._userId, userState);
-    //     }
-    // }
 
     // Cancels all upcoming notifcations
     public async cancelScheduledNotifications() {

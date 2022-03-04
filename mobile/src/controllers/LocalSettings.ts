@@ -73,6 +73,7 @@ export class LocalSettingsController implements ILocalSettingsController {
                     pendingFullQol: true,
                     pendingShortQol: false,
                     isFirstEverQol: true,
+                    lastFullQol: Date(),
                     lastShortQol: Date(),
                 },
                 lastDailyCheckIn: Date(),
@@ -171,7 +172,7 @@ export class LocalSettingsController implements ILocalSettingsController {
     }
 
     updateHealthPermissions(diff: Partial<HealthPermissionsSettings>) {
-        let health = this.current.healthPermissions || {};
+        let health = this.current.healthPermissions;
         health.seenPermissionPromptIOS = true;
         transaction(() => {
             let changed = transferChangedFields(diff, health, 'enabledAndroid', 'seenPermissionPromptIOS');
