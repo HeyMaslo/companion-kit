@@ -10,6 +10,7 @@ import { DomainName, SubdomainName } from 'src/constants/Domain';
 import { HourAndMinute } from 'common/utils/dateHelpers';
 import AppController from '.';
 import { shuffle } from 'common/utils/mathx';
+import { Platform } from 'react-native';
 
 export class NotificationsController implements IDisposable {
 
@@ -23,7 +24,7 @@ export class NotificationsController implements IDisposable {
     private _userId: string;
 
     private get allowBDMention() {
-        return AppController.Instance.User.localSettings.current.notifications.allowBDMention || false;
+        return AppController.Instance.User.localSettings.current.notifications.allowBDMention;
     }
 
     constructor(private readonly settings: ILocalSettingsController, name: IUserNameProvider) {
@@ -51,12 +52,16 @@ export class NotificationsController implements IDisposable {
     }
 
     public get permissionsGranted() {
-        return this._service.hasPermission === true;
+        return Platform.OS == 'android' || this._service.hasPermission === true;
     }
 
     // Should be OK to call multiple times
     async initAsync() {
         console.log('NotifController initAsync() called')
+        if (Platform.OS == 'android') {
+            this._notificationsEnabledByUser = true;
+            return;
+        }
         this._notificationsEnabledByUser = this.settings.current.notifications.enabled;
         if (!this._notificationsEnabledByUser) return;
         await this._service.checkNotificationsPermissions();
@@ -79,11 +84,13 @@ export class NotificationsController implements IDisposable {
 
     // Used only by above function
     private onFulfilled = (userState: UserState) => {
-        const filtered = userState.scheduledAffirmations.filter((sa) => sa.notifId != this.openedNotification.identifier);
-        if (filtered !== userState.scheduledAffirmations) {
-            userState.scheduledAffirmations = filtered;
-            RepoFactory.Instance.userState.setByUserId(this._userId, userState);
-            this._service.resetOpenedNotification();
+        if (userState.scheduledAffirmations) {
+            const filtered = userState.scheduledAffirmations.filter((sa) => sa.notifId != this.openedNotification.identifier);
+            if (filtered !== userState.scheduledAffirmations) {
+                userState.scheduledAffirmations = filtered;
+                RepoFactory.Instance.userState.setByUserId(this._userId, userState);
+                this._service.resetOpenedNotification();
+            }
         }
         return userState;
     }
@@ -159,30 +166,10 @@ export class NotificationsController implements IDisposable {
                 userState.lastSeenAffirmations[result.affirmation.id] = result.scheduledDate;
                 userState.scheduledAffirmations.push(result);
             });
-
+            console.log('SCHEDULED: ', scheduled)
             RepoFactory.Instance.userState.setByUserId(this._userId, userState);
-        }
-    }
-
-    // MK-TODO: - testing only remove before merge
-    public async scheduleTESTINGAffirmationNotification() {
-        if (!this._userId) throw new Error('no user id set');
-        if (this.notificationsEnabled) {
-            let userState: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
-
-            let possibleAffirmations: Affirmation[] = await RepoFactory.Instance.affirmations.getByDomains(this.domainAndSubdomainNames, true, userState.lastSeenAffirmations);
-            possibleAffirmations = shuffle(possibleAffirmations);
-
-            const now = new Date();
-
-            const scheduled = await this._service.scheduleAffirmationMessages(possibleAffirmations.slice(0, 1), now.getTime() + 10000, this.allowBDMention);
-            scheduled.forEach((result) => {
-                userState.lastSeenAffirmations[result.affirmation.id] = result.scheduledDate;
-                userState.scheduledAffirmations.push(result);
-            });
-            console.log('userState.lastSeenAffirmations', userState.lastSeenAffirmations);
-            console.log('userState.scheduledAffirmations', userState.scheduledAffirmations);
-            RepoFactory.Instance.userState.setByUserId(this._userId, userState);
+        } else {
+            console.log('scheduleTwentySevenAffirmationNotifications(): NOTIFICATIONS not enabled')
         }
     }
 

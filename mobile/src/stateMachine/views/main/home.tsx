@@ -176,15 +176,6 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         this.trigger(ScenarioTriggers.Senary);
     }
 
-    // MK-TODO: - used for development only and will be removed
-    // async onTESTINGButton() {
-    // AppController.Instance.User.notifications.scheduleTime = { hour: 10, minute: 30 };
-    // AppController.Instance.User.notifications.domainAndSubdomainNames = [DomainName.SLEEP, SubdomainName.DIETNUTRITION];
-    // await AppController.Instance.User.notifications.scheduleTESTINGAffirmationNotification();
-    // await AppViewModel.Instance.QoLHistory.init();
-    // this.trigger(ScenarioTriggers.TESTING);
-    // }
-
     private openResourceDetails = (jid: string) => {
         this.trigger<CheckInDetailsParams>(ScenarioTriggers.Primary, { id: jid });
     }

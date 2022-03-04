@@ -37,7 +37,8 @@ export class ScenarioViewModel {
     // Onboarding
     public readonly isCurrentlyOnboarding = () => !AppController.Instance.User.localSettings?.current?.onboarding.completed;
     public readonly showOnboardingQol = () => this.userWithAccount() && AppController.Instance.User.localSettings?.current?.onboarding.needsQolOnboarding;
-    public readonly onboardingNeedsToChooseDomains = () => AppController.Instance.User.localSettings.current.onboarding.needsDomainOnboarding
+    public readonly onboardingNeedsToChooseDomains = () => AppController.Instance.User.localSettings.current.onboarding.needsDomainOnboarding;
+    public readonly onboardingNeedsToScheduleNotifs = () => AppController.Instance.User.localSettings.current.onboarding.needsNotificationsOnboarding;
     
     public readonly needsToChooseStrategies = () => AppController.Instance.User?.localSettings.current.strategiesConfirmed === false;
 
@@ -49,6 +50,6 @@ export class ScenarioViewModel {
     public readonly showAssessment = () => process.appFeatures.ASSESSMENTS_ENABLED === true && this.userWithAccount() && !!AppController.Instance.User.assessments.nextFormTypeAvailable;
 
     // Health data
-    public readonly needsHealthPermissions = () => !AppController.Instance.User?.healthPermissionsController.permissionsGranted;
+    public readonly needsHealthPromptAndroid = () => typeof AppController.Instance.User?.localSettings.current.healthPermissions == 'undefined'  || AppController.Instance.User?.localSettings.current.healthPermissions.enabledAndroid == null;
     public readonly needsHealthPromptIOS = () => Platform.OS == 'ios' && (typeof AppController.Instance.User?.localSettings.current.healthPermissions == 'undefined' || !AppController.Instance.User?.localSettings.current.healthPermissions.seenPermissionPromptIOS);
 }

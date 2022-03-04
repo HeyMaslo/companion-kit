@@ -26,7 +26,7 @@ export class BDMentionNotificationsOnboardingView extends NotificationsOnboardin
     this.trigger(ScenarioTriggers.Back)
   }
 
-  onNext = () => {
+  override async onNext() {
     this.viewModel.allowBDMention = this.state.BDMentionEnabled;
     this.trigger(ScenarioTriggers.Next)
   }

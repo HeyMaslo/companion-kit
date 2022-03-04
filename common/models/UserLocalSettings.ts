@@ -7,12 +7,12 @@ export type UserLocalSettings = {
     appVersion: string,
     deviceInfo?: DeviceInfo;
 
-    onboarding?: OnboardingSettings;
-    notifications?: NotificationsSettings;
-    healthPermissions?: HealthPermissionsSettings;
-    qol?: QolSettings;
-    lastDailyCheckIn?: string;
-    strategiesConfirmed?: boolean;
+    onboarding: OnboardingSettings;
+    notifications: NotificationsSettings;
+    healthPermissions: HealthPermissionsSettings;
+    qol: QolSettings;
+    lastDailyCheckIn: string;
+    strategiesConfirmed: boolean;
 };
 
 export type OnboardingSettings = {
@@ -36,9 +36,9 @@ export type HealthPermissionsSettings = {
 };
 
 export type QolSettings = {
-    lastFullQol?: string,
+    lastFullQol: string,
     pendingFullQol: boolean,
-    lastShortQol?: string,
+    lastShortQol: string,
     pendingShortQol: boolean,
     isFirstEverQol: boolean,
 };

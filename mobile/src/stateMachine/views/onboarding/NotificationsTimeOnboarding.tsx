@@ -6,6 +6,7 @@ import { Button, Card } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import TextStyles from 'src/styles/TextStyles';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import AppController from 'src/controllers';
 
 @observer
 export class NotificationsTimeOnboardingView extends NotificationsOnboardingBaseView {
@@ -29,7 +30,10 @@ export class NotificationsTimeOnboardingView extends NotificationsOnboardingBase
 
     this.setState(
       { showDatePicker: false },
-      () => this.viewModel.setScheduledTime({ hour: date.getHours(), minute: date.getMinutes() }),
+      () => {
+        this.viewModel.setScheduledTime({ hour: date.getHours(), minute: date.getMinutes() });
+        AppController.Instance.User.notifications.scheduleTime = { hour: date.getHours(), minute: date.getMinutes() };
+      },
     );
     this.setState({ hasPickedDate: true });
     this.continueButtonDisabled = false;
@@ -43,7 +47,7 @@ export class NotificationsTimeOnboardingView extends NotificationsOnboardingBase
     this.trigger(ScenarioTriggers.Back)
   }
 
-  onNext = () => {
+  override async onNext() {
     this.trigger(ScenarioTriggers.Next)
   }
 

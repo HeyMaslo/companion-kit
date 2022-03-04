@@ -23,7 +23,7 @@ export class SettingsNotificationsViewModel {
     @observable
     public domainsForNotifications: (DomainName | SubdomainName)[] = AppController.Instance.User.localSettings.current.notifications.domainsForNotifications;
     @observable
-    public allowBDMention: Boolean = AppController.Instance.User.localSettings.current.notifications.allowBDMention;
+    public allowBDMention: boolean = AppController.Instance.User.localSettings.current.notifications.allowBDMention;
 
     get posssibleDomains() { return this._posssibleDomains; }
 
@@ -58,6 +58,7 @@ export class SettingsNotificationsViewModel {
         if (allDomains) {
             this._posssibleDomains = allDomains;
             this.domainsForNotifications = allDomains;
+            AppController.Instance.User.notifications.domainAndSubdomainNames = allDomains;
         }
     }
 
@@ -124,6 +125,7 @@ export class SettingsNotificationsViewModel {
     }
 
     public completeNotificationsOnboarding() {
+        AppController.Instance.User.localSettings.updateNotifications({ allowBDMention: this.allowBDMention }, 'allowBDMention');
         AppController.Instance.User.localSettings.updateNotifications({ domainsForNotifications: this.domainsForNotifications }, 'domainsForNotifications');
         AppController.Instance.User.localSettings.updateOnboardingSettings({ needsNotificationsOnboarding: false }, 'needsNotificationsOnboarding');
     }

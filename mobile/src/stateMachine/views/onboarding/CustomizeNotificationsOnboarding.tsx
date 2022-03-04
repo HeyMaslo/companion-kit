@@ -55,7 +55,7 @@ export class CustomizeNotificationsOnboardingView extends NotificationsOnboardin
     this.trigger(ScenarioTriggers.Back)
   }
 
-  onNext = () => {
+  override async onNext() {
     this.viewModel.domainsForNotifications = this.viewModel.posssibleDomains.filter((dom, index) => this.stateForIndex(index));
     this.trigger(ScenarioTriggers.Next)
   }

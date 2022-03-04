@@ -73,6 +73,7 @@ export class LocalSettingsController implements ILocalSettingsController {
                     pendingFullQol: true,
                     pendingShortQol: false,
                     isFirstEverQol: true,
+                    lastFullQol: Date(),
                     lastShortQol: Date(),
                 },
                 lastDailyCheckIn: Date(),
@@ -120,25 +121,18 @@ export class LocalSettingsController implements ILocalSettingsController {
         await this._synced.triggerAsync();
     }
 
-    private submitChangesHealth = async () => {
-        const diff: Partial<UserLocalSettings> = {
-            healthPermissions: toJS(this._current.healthPermissions),
-        };
-
-        await RepoFactory.Instance.users.updateLocalSettings(
-            this._uid,
-            DeviceId,
-            diff,
-        );
-        await this._synced.triggerAsync();
-    }
-
     private update(diff: Partial<UserLocalSettings>) {
         if (!this._current) {
             throw new Error('LocalSettingsController.update: not initialized!');
         }
 
         Object.assign(this._current, diff);
+
+        // If all the onboarding properties are false then onboarding has been finished
+        if (Object.values(this._current.onboarding).every((val) => val === false)) {
+            this._current.onboarding.completed = true;
+        }
+
         this._syncThrottle.tryRun(this.submitChanges);
     }
 
@@ -171,7 +165,7 @@ export class LocalSettingsController implements ILocalSettingsController {
     }
 
     updateHealthPermissions(diff: Partial<HealthPermissionsSettings>) {
-        let health = this.current.healthPermissions || {};
+        let health = this.current.healthPermissions;
         health.seenPermissionPromptIOS = true;
         transaction(() => {
             let changed = transferChangedFields(diff, health, 'enabledAndroid', 'seenPermissionPromptIOS');

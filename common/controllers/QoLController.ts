@@ -49,10 +49,13 @@ export default class QoLControllerBase implements IQoLController {
             if (st) {
                 st.surveyState = qol;
             } else {
+                // This is the inital setup of the user's UserState and it is set after the very first (onboarding) qol survey
                 st = {
                     surveyState: qol,
                     focusedDomains: { domains: [], subdomains: [] },
                     chosenStrategies: [],
+                    lastSeenAffirmations: {},
+                    scheduledAffirmations: [],
                 }
             }
             await RepoFactory.Instance.userState.setByUserId(this._userId, st);
@@ -95,10 +98,9 @@ export default class QoLControllerBase implements IQoLController {
             userState['focusedDomains'] = parameter as FocusedDomains;
         } else if (propertyName == 'chosenStrategies') {
             userState['chosenStrategies'] = parameter as string[];
+        } else if (propertyName == 'lastSeenAffirmations' && (parameter as LastSeen) !== undefined) {
+            userState[propertyName] = (parameter as LastSeen);
         }
-        //  else if (propertyName == 'lastSeenAffirmations' && (parameter as LastSeen) !== undefined) {
-        //     userState[propertyName] = (parameter as LastSeen);
-        // }
         await RepoFactory.Instance.userState.setByUserId(this._userId, userState);
     }
 

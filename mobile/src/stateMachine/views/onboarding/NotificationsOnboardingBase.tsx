@@ -27,7 +27,9 @@ export abstract class NotificationsOnboardingBaseView extends ViewState {
 
   abstract onBack: () => void;
 
-  abstract onNext: () => void;
+  async onNext() {
+
+  }
 
   abstract renderInnerContent(): JSX.Element;
 
@@ -40,7 +42,7 @@ export abstract class NotificationsOnboardingBaseView extends ViewState {
           <Button
             title='Continue'
             style={{ marginTop: 'auto' }}
-            onPress={this.onNext}
+            onPress={() => this.onNext()}
             theme={this.theme}
             disabled={this.continueButtonDisabled}
           />
