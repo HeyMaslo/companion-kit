@@ -128,7 +128,7 @@ export class LocalSettingsController implements ILocalSettingsController {
 
         Object.assign(this._current, diff);
 
-        // If all the onoarding properties are false then onboarding has been finished
+        // If all the onboarding properties are false then onboarding has been finished
         if (Object.values(this._current.onboarding).every((val) => val === false)) {
             this._current.onboarding.completed = true;
         }
