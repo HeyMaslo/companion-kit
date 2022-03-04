@@ -121,25 +121,18 @@ export class LocalSettingsController implements ILocalSettingsController {
         await this._synced.triggerAsync();
     }
 
-    private submitChangesHealth = async () => {
-        const diff: Partial<UserLocalSettings> = {
-            healthPermissions: toJS(this._current.healthPermissions),
-        };
-
-        await RepoFactory.Instance.users.updateLocalSettings(
-            this._uid,
-            DeviceId,
-            diff,
-        );
-        await this._synced.triggerAsync();
-    }
-
     private update(diff: Partial<UserLocalSettings>) {
         if (!this._current) {
             throw new Error('LocalSettingsController.update: not initialized!');
         }
 
         Object.assign(this._current, diff);
+
+        // If all the onoarding properties are false then onboarding has been finished
+        if (Object.values(this._current.onboarding).every((val) => val === false)) {
+            this._current.onboarding.completed = true;
+        }
+
         this._syncThrottle.tryRun(this.submitChanges);
     }
 
