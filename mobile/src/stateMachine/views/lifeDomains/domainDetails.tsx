@@ -120,9 +120,9 @@ export class DomainDetailsView extends ViewState {
                         {/* Long description of importance */}
                         <RenderHTML
                             source={htmlSource}
-                            baseStyle={{ fontFamily: mainFontLight }}
+                            baseStyle={{ fontFamily: mainFontLight, lineHeight: 30, fontSize: 15 }}
                             systemFonts={[mainFontLight, mainFontMedium]}
-                            tagsStyles={{ h2: { fontFamily: mainFontMedium }, h3: { fontFamily: mainFontMedium } }}
+                            tagsStyles={{ h2: { fontFamily: mainFontMedium }, h3: { fontFamily: mainFontMedium }, strong: { fontFamily: mainFontMedium } }}
                         />
                         {/* Strategies List */}
                         <Text style={[this.textStyles.h2, styles.header, { paddingLeft: containerStyles.container.paddingLeft }]}>Strategies:</Text>
