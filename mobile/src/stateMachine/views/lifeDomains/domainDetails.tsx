@@ -7,7 +7,7 @@ import { containerStyles } from 'src/components/Container';
 import { DomainName } from 'src/constants/Domain';
 import Layout from 'src/constants/Layout';
 import { DisplayStrategy } from 'src/constants/Strategy';
-import { iconForDomain } from 'src/helpers/DomainHelper';
+import { iconForDomain, replaceListTags } from 'src/helpers/DomainHelper';
 import { mainFontLight, mainFontMedium } from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
@@ -81,7 +81,7 @@ export class DomainDetailsView extends ViewState {
         const learnMoreSubdomain = this.viewModel.learnMoreSubdomain;
 
         let mainName = display.mainName;
-        let importance = display.mainImportance;
+        let importance = replaceListTags(display.mainImportance);
         let whatToKnowBullets = this.viewModel.getDomainByName(mainName as DomainName).whatToKnowBullets
 
         if (subdomains && subdomains.includes(learnMoreSubdomain)) {
@@ -122,7 +122,7 @@ export class DomainDetailsView extends ViewState {
                             source={htmlSource}
                             baseStyle={{ fontFamily: mainFontLight, lineHeight: 30, fontSize: 15 }}
                             systemFonts={[mainFontLight, mainFontMedium]}
-                            tagsStyles={{ h2: { fontFamily: mainFontMedium }, h3: { fontFamily: mainFontMedium }, strong: { fontFamily: mainFontMedium } }}
+                            tagsStyles={{ h2: { fontFamily: mainFontMedium }, h3: { fontFamily: mainFontMedium }, strong: { fontFamily: mainFontMedium }, em: { fontFamily: mainFontMedium } }}
                         />
                         {/* Strategies List */}
                         <Text style={[this.textStyles.h2, styles.header, { paddingLeft: containerStyles.container.paddingLeft }]}>Strategies:</Text>

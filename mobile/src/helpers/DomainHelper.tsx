@@ -1,8 +1,7 @@
 import Images from 'src/constants/images';
-import { StyleProp, Text, ViewStyle } from 'react-native';
+import { StyleProp, ViewStyle } from 'react-native';
 import React from 'react';
 import { DomainName, SubdomainName } from 'src/constants/Domain';
-import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
 
 export function iconForDomain(name: DomainName | SubdomainName, style?: StyleProp<ViewStyle>, color: string = 'black', width: number = 30, height: number = 30, fill?: string): JSX.Element {
   if (!name) { return <></>; }
@@ -69,4 +68,13 @@ export function sum(elements: number[]): number {
     total += elements[i];
   }
   return total;
+}
+
+export function replaceListTags(htmlString: string): string {
+  let newString = htmlString.replace(new RegExp('<ul>', 'g'), '<p>');
+  newString = newString.replace(new RegExp('<li>', 'g'), '• ');
+  newString = newString.replace(new RegExp('</li>', 'g'), '<br>');
+  newString = newString.replace(new RegExp('<br></ul>', 'g'), '</p>'); // remove the <br> after the last bullet point
+
+  return newString;
 }
