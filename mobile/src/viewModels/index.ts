@@ -1,4 +1,3 @@
-import CreateCheckInViewModel from './CreateCheckInViewModel';
 import Lazy from 'common/utils/lazy';
 import SettingsViewModel from './SettingsViewModel';
 import { GoalsViewModel } from './GoalsViewModel';
@@ -11,7 +10,6 @@ import DailyCheckInViewModel from './DailyCheckInViewModel';
 
 export interface IAppViewModel {
     Version: VersionViewModel;
-    CreateCheckIn: CreateCheckInViewModel;
     Settings: SettingsViewModel;
     Goals?: GoalsViewModel;
     DailyCheckIn: DailyCheckInViewModel;
@@ -25,7 +23,6 @@ const instance = new Lazy(() => new AppViewModel());
 
 export default class AppViewModel implements IAppViewModel {
     readonly Version = new VersionViewModel();
-    readonly CreateCheckIn = new CreateCheckInViewModel();
     readonly Settings = new SettingsViewModel();
     readonly DailyCheckIn = new DailyCheckInViewModel();
     readonly QOL = new QOLSurveyViewModel();

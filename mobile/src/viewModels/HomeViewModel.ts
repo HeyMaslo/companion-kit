@@ -123,7 +123,7 @@ export default class HomeViewModel {
                 <ICheckInTipItem>{
                     id: 'check-in',
                     type: 'check-in',
-                    title: AppViewModel.Instance.CreateCheckIn.question || 'Create a new check-in!',
+                    title: "It's time for your daily check-in",
                 }];
         }
 
@@ -159,7 +159,7 @@ export default class HomeViewModel {
             [<ICheckInTipItem>{
                 id: 'check-in',
                 type: 'check-in',
-                title: AppViewModel.Instance.CreateCheckIn.question || 'Create a new check-in!',
+                title: "It's time for your daily check-in",
             }]
             : result;
     }
