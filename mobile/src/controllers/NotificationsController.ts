@@ -121,11 +121,11 @@ export class NotificationsController implements IDisposable {
             let userState: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
             userState = await this.completeOpenedNotification(userState); // make sure nothing is leftover from old notifcations
 
-            let possibleAffirmations: Affirmation[] = await RepoFactory.Instance.affirmations.getByDomains(
+            let allPossibleAffirmations: Affirmation[] = await RepoFactory.Instance.affirmations.getByDomains(
                 this.domainAndSubdomainNames,
                 this.allowBDMention,
                 userState.lastSeenAffirmations);
-            possibleAffirmations = shuffle(possibleAffirmations);
+            allPossibleAffirmations = shuffle(allPossibleAffirmations);
 
             const firstDomain = this.domainAndSubdomainNames[0]; // there will always be at least domain
             const secondDomain = this.domainAndSubdomainNames.length > 1 ? this.domainAndSubdomainNames[1] : null;
@@ -136,11 +136,11 @@ export class NotificationsController implements IDisposable {
             let affirmationsToSchedule = [];
             switch (actualDomains.length) {
                 case 1:
-                    affirmationsToSchedule = possibleAffirmations.slice(0, 26);
+                    affirmationsToSchedule = allPossibleAffirmations.slice(0, 26);
                     break;
                 case 2:
-                    const firstDomainAffirmations = possibleAffirmations.filter((aff) => aff.domainNames[0] == firstDomain);
-                    const secondDomainAffirmations = possibleAffirmations.filter((aff) => aff.domainNames[0] == secondDomain);
+                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == firstDomain);
+                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == secondDomain);
                     for (let i = 0; i < 13; i++) { // (27 / 2 = 13.5) so we use 13 here and concat 1 more affirmation after the loop to get a total of 27
                         affirmationsToSchedule.concat(firstDomainAffirmations[i]);
                         affirmationsToSchedule.concat(secondDomainAffirmations[i]);
@@ -148,7 +148,7 @@ export class NotificationsController implements IDisposable {
                     affirmationsToSchedule.concat(firstDomainAffirmations[13]);
                     break;
                 case 3:
-                    const thirdDomainAffirmations = possibleAffirmations.filter((aff) => aff.domainNames[0] == thirdDomain);
+                    const thirdDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == thirdDomain);
                     for (let i = 0; i < 9; i++) {
                         affirmationsToSchedule.concat(firstDomainAffirmations[i]);
                         affirmationsToSchedule.concat(secondDomainAffirmations[i]);
