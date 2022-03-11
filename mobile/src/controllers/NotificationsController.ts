@@ -166,7 +166,7 @@ export class NotificationsController implements IDisposable {
                 userState.lastSeenAffirmations[result.affirmation.id] = result.scheduledDate;
                 userState.scheduledAffirmations.push(result);
             });
-            console.log('SCHEDULED: ', scheduled)
+
             RepoFactory.Instance.userState.setByUserId(this._userId, userState);
         } else {
             console.log('scheduleTwentySevenAffirmationNotifications(): NOTIFICATIONS not enabled')
