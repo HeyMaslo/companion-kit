@@ -426,10 +426,6 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                                     </TouchableNativeFeedback>
                                 }
                             </Portal>
-                            {/* MK-TODO below buttons used for development/testing only and will be removed */}
-                            {/* <View style={{ flexDirection: 'row' }}>
-                    <Button title='TESTING' style={styles.testingButton} onPress={() => this.onTESTINGButton()} theme={this.theme} />
-                </View> */}
                             {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getCenterElement()}
                             {loading
                                 ? <ActivityIndicator size='large' />
