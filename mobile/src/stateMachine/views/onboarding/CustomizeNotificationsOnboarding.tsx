@@ -72,7 +72,6 @@ export class CustomizeNotificationsOnboardingView extends NotificationsOnboardin
     >
       <Switch
         value={this.stateForIndex(this.viewModel.posssibleDomains.indexOf(item))}
-        disabled={this.viewModel.isToggleInProgress}
         onValueChange={(enabled) => {
           this.setStateForIndex(this.viewModel.posssibleDomains.indexOf(item), enabled);
         }}
