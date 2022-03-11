@@ -136,7 +136,7 @@ export class NotificationsController implements IDisposable {
             let affirmationsToSchedule = [];
             switch (actualDomains.length) {
                 case 1:
-                    affirmationsToSchedule = allPossibleAffirmations.slice(0, 26);
+                    affirmationsToSchedule = allPossibleAffirmations.slice(0, 27);
                     break;
                 case 2:
                     const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == firstDomain);
