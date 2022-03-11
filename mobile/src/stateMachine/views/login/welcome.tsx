@@ -13,7 +13,7 @@ import * as AppleAuthentication from 'expo-apple-authentication';
 import SignInViewModel from 'src/viewModels/SignInViewModel';
 import { ScenarioTriggers } from '../../abstractions';
 import * as Features from 'common/constants/features';
-import { PersonaArmState, PersonaViewState } from 'dependencies/persona/lib';
+import { PersonaArmState } from 'dependencies/persona/lib';
 
 const minContentHeight = 344;
 
