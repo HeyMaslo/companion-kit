@@ -56,9 +56,10 @@ export class SettingsNotificationsViewModel {
 
     public setAllDomains(allDomains: (DomainName | SubdomainName)[]) {
         if (allDomains) {
-            this._posssibleDomains = allDomains;
-            this.domainsForNotifications = allDomains;
-            AppController.Instance.User.notifications.domainAndSubdomainNames = allDomains;
+            const filtered = allDomains.filter((dom) => dom != DomainName.PHYSICAL)
+            this._posssibleDomains = filtered;
+            this.domainsForNotifications = filtered;
+            AppController.Instance.User.notifications.domainAndSubdomainNames = filtered;
         }
     }
 
