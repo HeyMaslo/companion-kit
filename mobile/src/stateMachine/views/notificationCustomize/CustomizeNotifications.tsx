@@ -98,7 +98,6 @@ export class CustomizeNotificationsView extends ViewState {
                         >
                             <Switch
                                 value={this.stateForIndex(index)}
-                                disabled={this.viewModel.isToggleInProgress}
                                 onValueChange={(enabled) => {
                                     this.setStateForIndex(index, enabled);
                                 }}
@@ -118,7 +117,6 @@ export class CustomizeNotificationsView extends ViewState {
                     >
                         <Switch
                             value={this.state.BDMentionEnabled}
-                            disabled={this.viewModel.isToggleInProgress}
                             onValueChange={(val) => this.setState({ BDMentionEnabled: val })}
                             thumbColor={Platform.OS == 'android' && this.theme.colors.highlight}
                             trackColor={Platform.OS == 'android' && { true: this.theme.colors.highlightSecondary }}
