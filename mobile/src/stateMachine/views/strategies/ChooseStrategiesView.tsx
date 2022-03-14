@@ -22,6 +22,8 @@ export class ChooseStrategiesView extends ViewState {
   private dropDownIsExtended = false;
   private selectedDomainNames: string[] = [];
   private currentFilter: DomainName = null;
+  @observable
+  private numberOfSelectedStrategies = 0
 
   constructor(props) {
     super(props);
@@ -77,7 +79,8 @@ export class ChooseStrategiesView extends ViewState {
   }
 
   onSelectStrategy = (id: string) => {
-    this.viewModel.selectStrategy(this.viewModel.getStrategyById(id))
+    this.viewModel.selectStrategy(this.viewModel.getStrategyById(id));
+    this.numberOfSelectedStrategies = this.viewModel.selectedStrategies.length;
   }
 
   changeFilterPressed = (strategyDomain: DomainName) => {
@@ -101,7 +104,7 @@ export class ChooseStrategiesView extends ViewState {
   );
 
   renderListItem = ({ item }) => (
-    <StrategyCard item={item} onSelectStrategy={this.onSelectStrategy} onLearnMorePress={this.onLearnMorePress} isSmallCard={true} theme={this.theme} />
+    <StrategyCard item={item} onSelectStrategy={this.onSelectStrategy} onLearnMorePress={this.onLearnMorePress} isSmallCard={true} hideCheckbox={this.numberOfSelectedStrategies > 3 && !item.isChecked} theme={this.theme} />
   );
 
   renderContent() {

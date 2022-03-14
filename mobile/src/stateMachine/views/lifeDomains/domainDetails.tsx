@@ -111,7 +111,7 @@ export class DomainDetailsView extends ViewState {
                             {subdomains && subdomains.map((subDom) => {
                                 return (
                                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginTop: 30, marginBottom: 10 }}>
-                                        {iconForDomain(subDom.name, { marginHorizontal: 15 }, this.theme.colors.foreground)}
+                                        {iconForDomain(subDom.name, { marginHorizontal: 15 }, this.theme.colors.highlight)}
                                         <Text style={this.textStyles.p2}>{subDom.name}</Text>
                                     </View>
                                 );
@@ -119,13 +119,14 @@ export class DomainDetailsView extends ViewState {
                         </View>
                         {/* Long description of importance */}
                         <RenderHTML
+                            contentWidth={this.layout.window.width - 40}
                             source={htmlSource}
                             baseStyle={{ fontFamily: mainFontLight, lineHeight: 30, fontSize: 15 }}
                             systemFonts={[mainFontLight, mainFontMedium]}
                             tagsStyles={{ h2: { fontFamily: mainFontMedium }, h3: { fontFamily: mainFontMedium }, strong: { fontFamily: mainFontMedium }, em: { fontFamily: mainFontMedium } }}
                         />
                         {/* Strategies List */}
-                        <Text style={[this.textStyles.h2, styles.header, { paddingLeft: containerStyles.container.paddingLeft }]}>Strategies:</Text>
+                        <Text style={[this.textStyles.h2, styles.header]}>Strategies:</Text>
                         {this.strategiesForListInOrder(mainName).map((strat) => this.renderStratgeyCard(strat))}
                         {this.numberOfRemainingStrategies > 0 && <Button title='Load more strategies' style={styles.button} withBorder={false} onPress={this.loadMoreStrategies} theme={this.theme} />}
                     </ScrollView>
@@ -147,9 +148,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     content: {
-        width: '90%',
+        width: '100%',
         backgroundColor: '#ffff',
-        padding: 10,
+        padding: 15,
         borderRadius: 5,
         marginBottom: 30,
     },

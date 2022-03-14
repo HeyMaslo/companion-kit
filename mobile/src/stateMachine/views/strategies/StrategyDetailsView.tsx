@@ -9,6 +9,7 @@ import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
 import { iconForDomain } from 'src/helpers/DomainHelper';
 import Layout from 'src/constants/Layout';
+import { DomainName } from 'src/constants/Domain';
 
 @observer
 export class StrategyDetailsView extends ViewState {
@@ -58,7 +59,7 @@ export class StrategyDetailsView extends ViewState {
           <Text style={[TextStyles.p2, styles.strategy, { color: this.theme.colors.midground }]}>{'This strategy targets personal improvement in these life areas:'}</Text>
           {/* Icon Container */}
           <FlatList style={styles.list}
-            data={this.viewModel.learnMoreStrategy.associatedDomainNames}
+            data={this.viewModel.learnMoreStrategy.associatedDomainNames.filter((dom) => dom != DomainName.PHYSICAL)}
             renderItem={this.renderIconItem}
             keyExtractor={item => item}
             scrollEnabled={false} />

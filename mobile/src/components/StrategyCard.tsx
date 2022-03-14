@@ -34,10 +34,10 @@ export default class StrategyCard extends React.Component<IStrategyCardProps, St
   render() {
     const theme = this.props.theme;
     return (
-      <Pressable onPress={() => this.props.onSelectStrategy(this.props.item.internalId)} disabled={!this.state.isPressable}>
+      <Pressable style={{ width: '100%' }} onPress={() => this.props.onSelectStrategy(this.props.item.internalId)} disabled={!this.state.isPressable}>
         <View style={[styles.listItem, { backgroundColor: this.props.theme.colors.background }, this.props.item.isChecked && { borderColor: theme.colors.highlight }]}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Text style={[TextStyles.labelLarge, { display: 'flex', width: width - checkboxSize - 70 }]}>{this.props.item.title}</Text>
+            <Text style={[TextStyles.labelLarge, { display: 'flex' }]}>{this.props.item.title}</Text>
             {!this.props.hideCheckbox &&
               <View style={[styles.checkbox, this.props.item.isChecked && { borderWidth: 0, backgroundColor: theme.colors.highlight, }, { display: 'flex' }]}>
                 {this.props.item.isChecked && <Images.radioChecked width={8} height={6} />}
@@ -66,6 +66,7 @@ const checkboxSize = 24;
 
 const styles = StyleSheet.create({
   listItem: {
+    width: '100%',
     borderWidth: 1,
     borderRadius: 7,
     borderColor: '#CBC8CD',
