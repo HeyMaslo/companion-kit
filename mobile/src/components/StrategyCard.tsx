@@ -8,8 +8,6 @@ import { iconForDomain } from 'src/helpers/DomainHelper';
 import { DomainName } from 'src/constants/Domain';
 import { Theme } from 'src/constants/theme/PStheme';
 
-const { width } = Dimensions.get('window');
-
 type IStrategyCardProps = {
   item: DisplayStrategy,
   onLearnMorePress: ((strategyId: string) => void),
