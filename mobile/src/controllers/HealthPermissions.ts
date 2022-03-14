@@ -28,7 +28,9 @@ export class HealthPermissionsController implements IDisposable {
 
     // Should be OK to call multiple times
     async initAsync() {
-        this._permissionsAsked = !!AppController.Instance.User?.localSettings.current.healthPermissions?.seenPermissionPromptIOS;
+        if (!this._permissionsAsked) {
+            this._permissionsAsked = !!AppController.Instance.User?.localSettings.current.healthPermissions?.seenPermissionPromptIOS;
+        }
         this._enabledByUser = Platform.OS == 'ios' ? (this.permissionsAsked && await this.checkForIOSHealthData()) : AppController.Instance.User?.localSettings.current.healthPermissions?.enabledAndroid;
     }
 
@@ -54,8 +56,6 @@ export class HealthPermissionsController implements IDisposable {
 
         this._enabledByUser = false;
         this._syncThrottle.tryRun(this.syncSettings);
-
-        return false;
     }
 
     private async checkForIOSHealthData(): Promise<boolean> {
@@ -63,6 +63,7 @@ export class HealthPermissionsController implements IDisposable {
     }
 
     private syncSettings = async () => {
+        this._permissionsAsked = true;
         const diff = Platform.OS == 'ios' ?
             { seenPermissionPromptIOS: true } :
             { enabledAndroid: this._enabledByUser };

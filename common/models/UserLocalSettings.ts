@@ -1,5 +1,5 @@
 import { HourAndMinute } from '../utils/dateHelpers';
-import { DomainName } from '../../mobile/src/constants/Domain';
+import { DomainName, Subdomain, SubdomainName } from '../../mobile/src/constants/Domain';
 import Identify from './Identify';
 
 export type UserLocalSettings = {
@@ -7,18 +7,27 @@ export type UserLocalSettings = {
     appVersion: string,
     deviceInfo?: DeviceInfo;
 
-    notifications?: NotificationsSettings;
-    healthPermissions?: HealthPermissionsSettings;
-    qol?: QolSettings;
-    lastDailyCheckIn?: string;
-    strategiesConfirmed?: boolean;
+    onboarding: OnboardingSettings;
+    notifications: NotificationsSettings;
+    healthPermissions: HealthPermissionsSettings;
+    qol: QolSettings;
+    lastDailyCheckIn: string;
+    strategiesConfirmed: boolean;
+};
+
+export type OnboardingSettings = {
+    completed: boolean, // true when user has entirely finished the onboarding process
+    needsQolOnboarding: boolean,
+    needsDomainOnboarding: boolean,
+    needsStrategyOnboarding: boolean,
+    needsNotificationsOnboarding: boolean,
 };
 
 export type NotificationsSettings = {
     enabled: boolean,
     scheduledTime: HourAndMinute,
     allowBDMention: boolean,
-    domainsForNotifications: DomainName[],
+    domainsForNotifications: (DomainName | SubdomainName)[],
 };
 
 export type HealthPermissionsSettings = {
@@ -27,11 +36,11 @@ export type HealthPermissionsSettings = {
 };
 
 export type QolSettings = {
-    seenQolOnboarding?: boolean,
-    lastFullQol?: string,
+    lastFullQol: string,
     pendingFullQol: boolean,
-    lastShortQol?: string,
+    lastShortQol: string,
     pendingShortQol: boolean,
+    isFirstEverQol: boolean,
 };
 
 export type DeviceInfo = {

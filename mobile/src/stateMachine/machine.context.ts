@@ -16,7 +16,7 @@ class PersonaViewContext implements IPersonaViewContext {
     public view: PersonaViewState = PersonaViewPresets.Default;
 
     @observable
-    public qolArmMagnitudes: PersonaArmState = PersonaArmState.createEmptyArmState();
+    public qolArmMagnitudes: PersonaArmState = PersonaArmState.createZeroArmState();
 
     @observable
     public armsHidden: boolean = false;

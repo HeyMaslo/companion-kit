@@ -49,13 +49,13 @@ export default function BottomBar(props: Props) {
 
     return (
         <View style={[BaseStyles.container, styles.container, { backgroundColor: backgroundColor }]}>
-            <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.QolHistory)}>
+            <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.QolHistory)} hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}>
                 {HistoryIcon}
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Home)}>
+            <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Home)} hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}>
                 {HomeIcon}
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Profile)}>
+            <TouchableOpacity style={styles.button} onPress={() => GlobalTrigger(GlobalTriggers.Profile)} hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}>
                 {ProfileIcon}
             </TouchableOpacity>
         </View>

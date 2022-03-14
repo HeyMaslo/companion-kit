@@ -59,7 +59,7 @@ export class NotificationsSettingsView extends ViewState {
 
         return (
             <MasloPage style={this.baseStyles.page} onBack={() => this.trigger(ScenarioTriggers.Back)} theme={this.theme}>
-                <Container style={[this.baseStyles.container, { flexDirection: 'column', flex: 1, }]}>
+                <Container style={[this.baseStyles.container, { flexDirection: 'column', flex: 1, paddingTop: 60 }]}>
                     <Text style={[this.textStyles.h1, styles.title]}>{titleText}</Text>
                     <Card
                         title='Notifications'

@@ -71,10 +71,14 @@ export function sum(elements: number[]): number {
   return total;
 }
 
-export function formatTextContent(input: string, headingStyle?: any, boldStyle?: any, italicStyle?: any): (string | JSX.Element)[] {
+export function formatTextContent(input: string, headingStyle?: any, boldStyle?: any, italicsStyle?: any): (string | JSX.Element)[] {
   const baseBoldStyle: any = {
     fontFamily: mainFontMedium
   }
+  const baseItalicsStyleStyle: any = {
+    fontFamily: mainFontMedium
+  }
+  // MK-TODO: - Bulleted and numbered lists, italic font, bold/italic text within a line
   return input.split(/\\n/g).map((str) => {
     str += '\n';
     if (str.startsWith('/h1')) {
@@ -84,6 +88,10 @@ export function formatTextContent(input: string, headingStyle?: any, boldStyle?:
     } else if (str.startsWith('/bbold')) {
       return <Text key={str} style={boldStyle ? boldStyle : baseBoldStyle}>
         {`\n${str.substring(6)}\n`}
+      </Text>;
+    } else if (str.startsWith('/iitalics')) {
+      return <Text key={str} style={italicsStyle ? italicsStyle : baseItalicsStyleStyle}>
+        {`\n${str.substring(9)}\n`}
       </Text>;
     }
     return str;

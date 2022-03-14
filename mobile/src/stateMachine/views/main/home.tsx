@@ -21,9 +21,9 @@ import { QolSurveyType } from 'src/constants/QoL';
 import Images from 'src/constants/images';
 import AppController from 'src/controllers';
 import { checkAndroidAuth } from 'src/helpers/health'
-import { getPersonaRadius, PersonaScale } from 'src/stateMachine/persona';
+import { getPersonaRadius, PersonaScale, PersonaViewPresets } from 'src/stateMachine/persona';
 import { Portal } from 'react-native-paper';
-import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import * as Haptics from 'src/services/haptics';
 import { DomainName, SubdomainName } from 'src/constants/Domain';
 import { formatDateDayMonthYear } from 'common/utils/dateHelpers';
 import { PersonaArmState } from 'dependencies/persona/lib';
@@ -38,7 +38,7 @@ let isFirstLaunch = true;
 export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQol: boolean }> {
 
     private _linkDocModalShown = true;
-    private get healthPermissionsEnabled() { return !!AppController.Instance.User?.hasHealthDataPermissions.enabled; };
+    private get healthPermissionsEnabled() { return !!AppController.Instance.User?.healthPermissionsController.permissionsGranted; };
 
 
     private ordRadius = getPersonaRadius();
@@ -50,9 +50,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
     constructor(props, ctx) {
         super(props, ctx);
+        this.persona.armsHidden = false;
         this.onTapOrb = this.onTapOrb.bind(this);
         const smallHeight = this.layout.window.height < 800;
         this.persona.state = PersonaStates.Idle;
+        this.persona.view = PersonaViewPresets.Default;
         this._contentHeight = smallHeight
             ? this.persona.setupContainerHeightForceScroll({ rotation: 120, transition: { duration: 1.5 } })
             : this.persona.setupContainerHeight(minContentHeight, { rotation: 120, transition: { duration: 1.5 } });
@@ -63,25 +65,21 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     get qolViewModel() { return AppViewModel.Instance.QOL; }
 
     async start() {
-        this.persona.armsHidden = false;
         await this.qolViewModel.init();
         this.persona.qolArmMagnitudes = this.qolViewModel.qolArmMagnitudes;
         this.setState({ ...this.state, isUnfinishedQol: this.qolViewModel.isUnfinished });
         Animated.timing(this.state.opacity, {
             toValue: 1,
-            delay: isFirstLaunch ? 1000 : 50, // MK-TODO: - play with this delay and duration + see if instant render is possible
+            delay: isFirstLaunch ? 1000 : 50,
             duration: isFirstLaunch ? 500 : 450,
             useNativeDriver: true,
         }).start(this.checkNewLinkDoc);
         isFirstLaunch = false;
         // MK-TODO is this the best place to do this? Good now for testing
-        // await AppViewModel.Instance.Domain.fetchPossibleDomains();
-        // await AppViewModel.Instance.Domain.fetchSelectedDomains();
-        // await AppViewModel.Instance.Strategy.fetchPossibleStrategies();
-        // await AppViewModel.Instance.Strategy.fetchSelectedStrategies();
-        // AppViewModel.Instance.Settings.notifications.setAllDomains(AppViewModel.Instance.Domain.selectedDomains);
-        //
-        AppViewModel.Instance.Settings.notifications.setAllDomains([DomainName.SLEEP]);
+        await AppViewModel.Instance.Domain.fetchPossibleDomains();
+        AppViewModel.Instance.Domain.fetchSelectedDomains();
+        await AppViewModel.Instance.Strategy.fetchPossibleStrategies();
+        AppViewModel.Instance.Strategy.fetchSelectedStrategies();
     }
 
     private checkNewLinkDoc = () => {
@@ -164,19 +162,11 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         this.trigger(ScenarioTriggers.Tertiary);
     }
 
+    // Not used currently
     private async onStartDomains() {
         AppViewModel.Instance.Domain.clearSelectedDomains();
         AppViewModel.Instance.Strategy.clearSelectedDomains();
-        this.trigger(ScenarioTriggers.Quinary);
-    }
-
-    // MK-TODO: - used for development only and will be removed
-    async onTESTINGButton() {
-        AppController.Instance.User.notifications.scheduleTime = { hour: 10, minute: 30 };
-        AppController.Instance.User.notifications.domainAndSubdomainNames = [DomainName.SLEEP, SubdomainName.DIETNUTRITION];
-        await AppController.Instance.User.notifications.scheduleTESTINGAffirmationNotification();
-        // await AppViewModel.Instance.QoLHistory.init();
-        // this.trigger(ScenarioTriggers.TESTING);
+        this.trigger(ScenarioTriggers.Senary);
     }
 
     private openResourceDetails = (jid: string) => {
@@ -343,12 +333,12 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         return (
             <>
                 <TouchableOpacity style={styles.healthView} onPress={this.onHealthSettings}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingTop: 15 }}>
-                        <Text style={this.textStyles.p1}>Polarus needs access to {"\n"}your health data.</Text>
-                        <Images.healthHeart height={this.textStyles.p1.fontSize * 2.5} />
+                    <View style={{ flexDirection: 'row', paddingLeft: 12, paddingTop: 15 }}>
+                        <Text style={[this.textStyles.p1, { flex: 1 }]}>Polarus needs access to your health data.</Text>
+                        <Images.healthHeart height={this.textStyles.p1.fontSize * 2.5} style={{ flex: 1, marginHorizontal: 16 }} />
                     </View>
-                    <View style={{ flexDirection: 'row', paddingTop: 10, paddingLeft: 20, paddingBottom: 10, alignItems: 'center' }}>
-                        <Images.settingsIcon style={{ margin: 10 }} />
+                    <View style={{ flexDirection: 'row', paddingTop: 10, paddingLeft: 12, paddingBottom: 10, alignItems: 'center' }}>
+                        <Images.settingsIcon style={{ marginVertical: 10, marginRight: 10 }} />
                         <Text style={[this.textStyles.p3, { color: 'red' }]}>Change Settings</Text>
                     </View>
                 </TouchableOpacity>
@@ -398,7 +388,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                 const selectedDomains = AppViewModel.Instance.Domain.selectedDomains;
                 if (!(selectedDomains && selectedDomains.domains && selectedDomains.domains.length > 0)) return;
                 if (Platform.OS == 'ios') {
-                    ReactNativeHapticFeedback.trigger('impactLight');
+                    Haptics.impact(Haptics.ImpactFeedbackStyle.Light);
                 }
                 this.trigger(ScenarioTriggers.Next)
             }
@@ -426,10 +416,10 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                         }
                     </Portal>
                     {/* MK-TODO below buttons used for development/testing only and will be removed */}
-                    <View style={{ flexDirection: 'row' }}>
-                        <Button title='Domains' style={styles.testingButton} onPress={() => this.onTESTINGButton()} theme={this.theme} />
-                    </View>
-                    {this.getCenterElement()}
+                    {/* <View style={{ flexDirection: 'row' }}>
+                        <Button title='TESTING' style={styles.testingButton} onPress={() => this.onTESTINGButton()} theme={this.theme} />
+                    </View> */}
+                    {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getCenterElement()}
                     {loading
                         ? <ActivityIndicator size='large' />
                         : this.getResourcesList()

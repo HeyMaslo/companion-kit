@@ -12,9 +12,9 @@ import { SetPasswordView } from './views/password/setPassword';
 import { ConfirmAccountView } from './views/login/confirmAccount';
 import { MissingAccountView } from './views/login/missingAccount';
 import { NotificationsPermissionView } from './views/login/notificationsPermission';
-import { OnboardingEnter } from './views/main/onboardingEnter';
-import { VideoOnboardingView } from './views/onboarding/VideoOnboardingView';
-import { OnboardingExit } from './views/main/onboardingExit';
+// These are old maslo screens (not our onboarding)
+// import { OnboardingEnter } from './views/main/onboardingEnter';
+// import { OnboardingExit } from './views/main/onboardingExit';
 import { MoodView, MoodViewParams } from './views/checkin/mood';
 import { LocationView } from './views/checkin/location';
 import { CheckInTypeView } from './views/checkin/selectCheckInType';
@@ -32,8 +32,8 @@ import { EmptyView } from './views/emptyView';
 import { CheckInDetailsView } from './views/main/checkInDetails';
 import { ConsentView } from './views/login/consent';
 import { FeelingsView } from './views/checkin/feelings';
-import { GoalsView } from './views/main/goals';
-import { RewardsView } from './views/rewardsView';
+// import { GoalsView } from './views/main/goals';
+// import { RewardsView } from './views/rewardsView';
 import { RecordPitureCheckinView } from './views/checkin/recordPictureCheckIn';
 import { NotificationsTimeOnboardingView } from './views/onboarding/NotificationsTimeOnboarding';
 import { CustomizeNotificationsOnboardingView } from './views/onboarding/CustomizeNotificationsOnboarding';
@@ -68,6 +68,12 @@ import { VerificationCodeView } from './views/login/verificationCode';
 import { NoInvitationView } from './views/login/noInvitation';
 import { ResetPasswordView } from './views/password/resetPassword';
 import { Platform } from 'react-native';
+import { QolOnboardingVideoView } from './views/onboarding/QolOnboardingVideoView';
+import { HealthOnboardingVideoView } from './views/onboarding/HealthOnboardingVideoView';
+import { HealthDataExplanierView } from './views/onboarding/HealthDataExplanierView';
+import { HealthDataCollectionCheckView } from './views/onboarding/HealthDataCollectionCheckView';
+import { AfterHealthPromptView } from './views/onboarding/AfterHealthPromptView';
+import { ReviewStrategiesViewOnboarding } from './views/strategies/ReviewStrategiesViewOnboarding';
 
 const CreateJournalCancelTransition: StateTransition<States> = {
     target: States.Home,
@@ -101,15 +107,45 @@ export const MasloScenario: GlobalScenario<States> = {
         view: WelcomeView,
         exit: [
             { target: States.SignInWithEmail, trigger: Triggers.Secondary },
-            { target: States.HealthConsent, trigger: Triggers.Primary },
+            { target: States.HomeRouter, trigger: Triggers.Primary },
         ],
     },
+
+    [States.HealthOnboardingVideo]: {
+        view: HealthOnboardingVideoView,
+        exit: [
+            { target: States.HealthDataExplainer, trigger: Triggers.Next },
+        ],
+    },
+
+    [States.HealthDataExplainer]: {
+        view: HealthDataExplanierView,
+        exit: [
+            { target: States.HealthDataCollectionCheck, trigger: Triggers.Next },
+        ],
+    },
+
+    [States.HealthDataCollectionCheck]: {
+        view: HealthDataCollectionCheckView,
+        exit: [
+            { target: States.HealthConsent, trigger: Triggers.Next },
+        ],
+    },
+
     [States.HealthConsent]: {
         view: HealthConsentView,
         exit: [
-            { target: States.Home, trigger: Triggers.Submit },
+            { target: States.AfterHealthPrompt, trigger: Triggers.Submit },
         ],
     },
+
+    [States.AfterHealthPrompt]: {
+        view: AfterHealthPromptView,
+        exit: [
+            { target: States.HomeRouter, trigger: Triggers.Next },
+        ],
+    },
+
     [States.HealthScopes]: {
         view: HealthScopesView,
         exit: [
@@ -117,6 +153,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Home, trigger: Triggers.Cancel },
         ],
     },
+
     [States.SignInWithEmail]: {
         view: SignInView,
         exit: [
@@ -127,6 +164,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.NoInvitationEmail, trigger: Triggers.Cancel },
         ],
     },
+
     [States.NoInvitationEmail]: {
         view: NoInvitationView,
         exit: [
@@ -134,6 +172,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Welcome, trigger: Triggers.Back },
         ],
     },
+
     [States.EnterVerificationCode]: {
         view: VerificationCodeView,
         exit: [
@@ -143,6 +182,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Welcome, trigger: Triggers.Back },
         ],
     },
+
     [States.SignInPassword]: {
         view: PasswordSignInView,
         exit: [
@@ -150,6 +190,7 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.EnterVerificationCode, trigger: Triggers.Secondary },
         ],
     },
+
     [States.SetPassword]: {
         view: SetPasswordView,
         enter: { condition: VM.shouldCreatePassword },
@@ -157,12 +198,14 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.SignInWithEmail, trigger: Triggers.Cancel },
         ],
     },
+
     [States.ResetPassword]: {
         view: ResetPasswordView,
         exit: [
             { target: States.SignInWithEmail, trigger: Triggers.Cancel },
         ],
     },
+
     [States.ConfirmAccount]: {
         view: ConfirmAccountView,
         enter: { condition: VM.confirmAccount },
@@ -170,6 +213,7 @@ export const MasloScenario: GlobalScenario<States> = {
             BackTransition,
         ],
     },
+
     [States.MissingAccount]: {
         view: MissingAccountView,
         enter: { condition: VM.missingAccount },
@@ -183,7 +227,7 @@ export const MasloScenario: GlobalScenario<States> = {
     },
 
     [States.NotificationsTimeOnboarding]: {
-        view: NotificationsTimeOnboardingView, // NotificationsPermissionView,
+        view: NotificationsTimeOnboardingView,
         exit: [
             { target: States.CustomizeNotificationsOnboarding, trigger: Triggers.Next },
             { target: States.Home, trigger: Triggers.Back },
@@ -191,7 +235,7 @@ export const MasloScenario: GlobalScenario<States> = {
     },
 
     [States.CustomizeNotificationsOnboarding]: {
-        view: CustomizeNotificationsOnboardingView, // NotificationsPermissionView,
+        view: CustomizeNotificationsOnboardingView,
         exit: [
             { target: States.BDMentionNotifcationsOnboarding, trigger: Triggers.Next },
             { target: States.NotificationsTimeOnboarding, trigger: Triggers.Back },
@@ -202,15 +246,21 @@ export const MasloScenario: GlobalScenario<States> = {
         view: BDMentionNotificationsOnboardingView,
         exit: [
             { target: States.CustomizeNotificationsOnboarding, trigger: Triggers.Back },
-            { target: States.ReviewNotifcationsOnboarding, trigger: Triggers.Next },
+            { target: Platform.OS == 'ios' ? States.NotificationsPermission : States.ReviewNotifcationsOnboarding, trigger: Triggers.Next },
+        ],
+    },
+
+    [States.NotificationsPermission]: {
+        view: NotificationsPermissionView,
+        exit: [
+            { target: States.ReviewNotifcationsOnboarding, trigger: Triggers.Submit },
         ],
     },
 
     [States.ReviewNotifcationsOnboarding]: {
         view: ReviewNotificationsOnboardingView,
         exit: [
-            { target: States.BDMentionNotifcationsOnboarding, trigger: Triggers.Back },
-            { target: States.HomeRouter, trigger: Triggers.Next },
+            { target: States.Home, trigger: Triggers.Next },
         ],
     },
 
@@ -220,13 +270,18 @@ export const MasloScenario: GlobalScenario<States> = {
             { condition: VM.homeReady },
         ],
         exit: [
-            { priority: 0, target: States.OnboardingVideo, condition: () => true },
-            { priority: 1, target: States.OnboardingEnter, condition: VM.hasActiveOnboarding },
-            { priority: 2, target: States.NotificationsTimeOnboarding, condition: () => true }, // VM.askNotifyPermissions },
-            { priority: 3, target: States.HealthConsent, condition: Platform.OS == 'ios' ? VM.needsHealthPromptIOS : VM.needsHealthPromptAndroid },
-            { priority: 4, target: States.Choose_Strategies, condition: VM.needsToChooseStrategies },
-            { priority: 5, target: States.IntakeForm, condition: VM.showAssessment },
-            { priority: 7, target: States.StartQol, condition: VM.showQol },
+            // old maslo screens
+            // { priority: 0, target: States.Consent, condition: VM.showConsent },
+            // { priority: 1, target: States.OnboardingEnter, condition: VM.hasActiveOnboarding },
+
+            // Onboarding
+            { priority: 0, target: States.HealthOnboardingVideo, condition: Platform.OS == 'ios' ? VM.needsHealthPromptIOS : VM.needsHealthPromptAndroid },
+            // { priority: 2, target: States.HealthConsent, condition: Platform.OS == 'ios' ? VM.needsHealthPromptIOS : VM.needsHealthPermissions },
+            { priority: 3, target: States.QolOnboardingVideo, condition: VM.showOnboardingQol },
+            { priority: 4, target: States.Choose_Domain, condition: VM.onboardingNeedsToChooseDomains },
+            { priority: 5, target: States.Choose_Strategies, condition: VM.needsToChooseStrategies },
+            { priority: 6, target: States.NotificationsTimeOnboarding, condition: VM.onboardingNeedsToScheduleNotifs }, // VM.askNotifyPermissions
+            // Normal usuage
             { priority: 10, target: States.Home, condition: () => true },
 
         ],
@@ -260,26 +315,18 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.QolQuestion, trigger: Triggers.Quaternary },
             { target: States.HealthScopes, trigger: Triggers.Quinary },
             { target: States.Focus_Domains, trigger: Triggers.Next },
-            { target: States.Choose_Domain, trigger: Triggers.Quinary },
-            { target: States.QolHistory, trigger: Triggers.TESTING },
+            { target: States.Choose_Domain, trigger: Triggers.Senary },
         ],
     },
 
-    [States.OnboardingVideo]: {
-        view: VideoOnboardingView,
-        exit: [
-            { target: States.Home, trigger: Triggers.Cancel },
-            // { target: States.Journal_SelectMood, trigger: Triggers.Primary },
-        ],
-    },
+    // [States.OnboardingEnter]: {
+    //     view: OnboardingEnter,
+    //     exit: [
+    //         { target: States.Home, trigger: Triggers.Cancel },
+    //         { target: States.Journal_SelectMood, trigger: Triggers.Primary },
+    //     ],
+    // },
 
-    [States.OnboardingEnter]: {
-        view: OnboardingEnter,
-        exit: [
-            { target: States.Home, trigger: Triggers.Cancel },
-            { target: States.Journal_SelectMood, trigger: Triggers.Primary },
-        ],
-    },
     [States.IntakeForm]: {
         view: IntakeFormView,
         exit: [
@@ -367,32 +414,32 @@ export const MasloScenario: GlobalScenario<States> = {
     [States.Journal_AfterSubmitRouter]: {
         view: EmptyView,
         exit: [
-            { priority: 1, target: States.OnboardingExit, condition: VM.showOnboardingExit },
-            { priority: 2, target: States.NewRewardsView, condition: VM.showNewReward },
+            // { priority: 1, target: States.OnboardingExit, condition: VM.showOnboardingExit },
+            // { priority: 2, target: States.NewRewardsView, condition: VM.showNewReward },
             { priority: 10, target: States.Home, condition: () => true },
         ],
     },
 
-    [States.NewRewardsView]: {
-        view: RewardsView,
-        exit: [
-            { target: States.Home, trigger: [Triggers.Back, Triggers.Cancel, Triggers.Submit] },
-        ],
-    },
+    // [States.NewRewardsView]: {
+    //     view: RewardsView,
+    //     exit: [
+    //         { target: States.Home, trigger: [Triggers.Back, Triggers.Cancel, Triggers.Submit] },
+    //     ],
+    // },
 
-    [States.OnboardingExit]: {
-        view: OnboardingExit,
-        exit: [
-            { target: States.Home, trigger: [Triggers.Back, Triggers.Cancel] },
-        ],
-    },
+    // [States.OnboardingExit]: {
+    //     view: OnboardingExit,
+    //     exit: [
+    //         { target: States.Home, trigger: [Triggers.Back, Triggers.Cancel] },
+    //     ],
+    // },
 
-    [States.Goals]: {
-        view: GoalsView,
-        enter: [
-            { trigger: GlobalTriggers.Goals },
-        ],
-    },
+    // [States.Goals]: {
+    //     view: GoalsView,
+    //     enter: [
+    //         { trigger: GlobalTriggers.Goals },
+    //     ],
+    // },
 
     [States.Profile]: {
         view: ProfileView,
@@ -504,7 +551,10 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { target: States.Home, trigger: [Triggers.Cancel] },
             { target: States.Choose_Domain, trigger: [Triggers.Back] },
-            { target: States.Review_Strategies, trigger: [Triggers.Submit] },
+            {
+                target: VM.isCurrentlyOnboarding ? States.Review_Strategies_Onboarding
+                    : States.Review_Strategies, trigger: [Triggers.Submit]
+            },
             { target: States.Strategy_Details_after_Choose_Strategies, trigger: [Triggers.Tertiary] },
         ]
     },
@@ -516,6 +566,15 @@ export const MasloScenario: GlobalScenario<States> = {
             { target: States.Choose_Strategies, trigger: [Triggers.Back] },
             { target: States.Strategy_Details_after_Review_Strategies, trigger: [Triggers.Tertiary] },
             { target: States.Home, trigger: [Triggers.Submit] },
+        ]
+    },
+
+    [States.Review_Strategies_Onboarding]: {
+        view: ReviewStrategiesViewOnboarding,
+        exit: [
+            { target: States.Choose_Strategies, trigger: [Triggers.Back] },
+            { target: States.Strategy_Details_after_Review_Strategies, trigger: [Triggers.Tertiary] },
+            { target: States.HomeRouter, trigger: [Triggers.Submit] },
         ]
     },
 
@@ -593,6 +652,13 @@ export const MasloScenario: GlobalScenario<States> = {
         ]
     },
 
+    [States.QolOnboardingVideo]: {
+        view: QolOnboardingVideoView,
+        exit: [
+            { target: States.StartQol, trigger: Triggers.Next },
+        ],
+    },
+
     [States.StartQol]: {
         view: QolStartView,
         exit: [
@@ -612,13 +678,15 @@ export const MasloScenario: GlobalScenario<States> = {
     [States.EndQol]: {
         view: QolEndView,
         exit: [
-            { target: States.Home, trigger: [Triggers.Cancel] },
+            { target: VM.isCurrentlyOnboarding ? States.HomeRouter : States.Home, trigger: [Triggers.Cancel] },
         ]
     },
 
     [States.QolHistory]: {
         view: QolHistoryMainView,
-        enter: [{ trigger: GlobalTriggers.QolHistory }],
+        enter: [
+            { trigger: GlobalTriggers.QolHistory }
+        ],
         exit: [
             { target: States.Home, trigger: [Triggers.Back] },
             { target: States.QolHistoryTimline, trigger: [Triggers.Submit] },

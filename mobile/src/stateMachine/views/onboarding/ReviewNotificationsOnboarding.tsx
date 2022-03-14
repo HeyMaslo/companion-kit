@@ -6,23 +6,19 @@ import { ScenarioTriggers } from '../../abstractions';
 import Images from 'src/constants/images';
 import TextStyles from 'src/styles/TextStyles';
 import { iconForDomain } from 'src/helpers/DomainHelper';
-import { DomainName } from 'src/constants/Domain';
+import AppController from 'src/controllers';
 
 @observer
 export class ReviewNotificationsOnboardingView extends NotificationsOnboardingBaseView {
-
-  // MK-TODO: - remove after testing
-  constructor(props) {
-    super(props);
-    this.viewModel.domainsForNotifications = [DomainName.SLEEP, DomainName.PHYSICAL, DomainName.MONEY];
-  }
-  //
 
   onBack = () => {
     this.trigger(ScenarioTriggers.Back)
   }
 
-  onNext = () => {
+  override async onNext() {
+    // End of the onboarding flow
+    await AppController.Instance.User.notifications.scheduleTwentySevenAffirmationNotifications();
+    this.viewModel.completeNotificationsOnboarding()
     this.trigger(ScenarioTriggers.Next)
   }
 
@@ -47,7 +43,7 @@ export class ReviewNotificationsOnboardingView extends NotificationsOnboardingBa
         <Text style={[TextStyles.p1, { textAlign: 'center', color: this.theme.colors.midground, marginBottom: 20 }]}>You can change these at any time in settings.</Text>
         <View style={{ flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', height: '52%' }}>
           <View>
-            <Text style={[contentTextStyle, { marginBottom: 10 }]}>Allow notifications for</Text>
+            <Text style={[contentTextStyle, { marginBottom: 10 }]}>You will recieve notifications for</Text>
             <FlatList style={{ flexGrow: 0 }}
               data={this.viewModel.domainsForNotifications}
               renderItem={this.renderListItem}

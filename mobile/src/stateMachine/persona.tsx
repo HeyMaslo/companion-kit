@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
-import { reaction } from 'mobx';
 import {
     MasloPersonaExpo,
     PersonaViewState,
@@ -12,7 +11,6 @@ import {
 } from 'dependencies/persona/expo';
 import { IPersonaViewContext } from './abstractions';
 import Layout from 'src/constants/Layout';
-import * as Haptics from 'src/services/haptics';
 
 // FIREBASE & EXPO-THREE COMPATIBILITY HOTFIX
 (global as any).Image = undefined;
@@ -63,25 +61,6 @@ type Props = {
 };
 
 export function PersonaView(this: void, props: Props) {
-
-    React.useEffect(() => reaction(() => props.context.state, s => {
-        switch (s) {
-            case PersonaStates.Idle: {
-                // nothing
-                break;
-            }
-
-            case PersonaStates.Init: {
-                Haptics.notification(Haptics.NotificationFeedbackType.Success);
-                break;
-            }
-
-            default: {
-                Haptics.impact(Haptics.ImpactFeedbackStyle.Light);
-                break;
-            }
-        }
-    }, { fireImmediately: true }));
 
     return (
         <View style={styles.personaWrapper} pointerEvents={'none'}>

@@ -27,20 +27,22 @@ export abstract class NotificationsOnboardingBaseView extends ViewState {
 
   abstract onBack: () => void;
 
-  abstract onNext: () => void;
+  async onNext() {
+
+  }
 
   abstract renderInnerContent(): JSX.Element;
 
 
   renderContent() {
     return (
-      <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()} theme={this.theme}>
-        <Container style={[{ height: '100%', flexDirection: 'column', alignItems: 'center', paddingTop: 10 }]}>
+      <MasloPage style={[this.baseStyles.page, { paddingBottom: 40 }]} onBack={() => this.onBack()} theme={this.theme}>
+        <Container style={[this.baseStyles.container, {height: this._contentHeight, flexDirection: 'column', alignItems: 'center'}]}>
           {this.renderInnerContent()}
           <Button
             title='Continue'
             style={{ marginTop: 'auto' }}
-            onPress={this.onNext}
+            onPress={() => this.onNext()}
             theme={this.theme}
             disabled={this.continueButtonDisabled}
           />

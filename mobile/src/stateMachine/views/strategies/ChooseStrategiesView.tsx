@@ -10,9 +10,13 @@ import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
 import { AlertExitWithoutSave } from 'src/constants/alerts';
 import { DomainName } from 'src/constants/Domain';
+import { DisplayStrategy } from 'src/constants/Strategy';
 
 @observer
 export class ChooseStrategiesView extends ViewState {
+
+  @observable
+  private availableStrategies: DisplayStrategy[] = [];
 
   @observable
   private dropDownIsExtended = false;
@@ -32,7 +36,9 @@ export class ChooseStrategiesView extends ViewState {
     return AppViewModel.Instance.Strategy;
   }
 
-  async start() { }
+  async start() {
+    this.availableStrategies = this.viewModel.availableStrategies
+  }
 
   onBack = () => {
     this.viewModel.selectedStrategies = [];
@@ -135,7 +141,7 @@ export class ChooseStrategiesView extends ViewState {
 
           {/* List of Strategies */}
           < FlatList style={styles.list}
-            data={this.viewModel.availableStrategies}
+            data={this.availableStrategies}
             renderItem={this.renderListItem}
             keyExtractor={item => item.internalId} />
           <Button title={'SELECT ' + (this.viewModel.selectedStrategies.length < 1 ? 'STRATEGIES' : (this.viewModel.selectedStrategies.length == 1 ? 'THIS STRATEGY' : 'THESE STRATEGIES'))} style={styles.selectButton} onPress={this.onSubmit} disabled={this.viewModel.selectedStrategies.length < 1} theme={this.theme} />

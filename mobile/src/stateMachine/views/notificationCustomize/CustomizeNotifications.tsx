@@ -19,6 +19,9 @@ export class CustomizeNotificationsView extends ViewState {
         firstDomainEnabled: false,
         secondDomainEnabled: false,
         thirdDomainEnabled: false,
+        fourthDomainEnabled: false,
+        fifthDomainEnabled: false,
+        sixthDomainEnabled: false,
         BDMentionEnabled: false
     }
 
@@ -42,29 +45,41 @@ export class CustomizeNotificationsView extends ViewState {
 
     private stateForIndex(index: number): boolean {
         switch (index) {
-            case 0:
-                return this.state.firstDomainEnabled;
-            case 1:
-                return this.state.secondDomainEnabled;
-            case 2:
-                return this.state.thirdDomainEnabled;
-            default:
-                return false;
+          case 0:
+            return this.state.firstDomainEnabled;
+          case 1:
+            return this.state.secondDomainEnabled;
+          case 2:
+            return this.state.thirdDomainEnabled;
+          case 3:
+            return this.state.fourthDomainEnabled;
+          case 4:
+            return this.state.fifthDomainEnabled;
+          case 5:
+            return this.state.sixthDomainEnabled;
+          default:
+            return false;
         }
-    }
-
-    private setStateForIndex(index: number, value: boolean) {
+      }
+    
+      private setStateForIndex(index: number, value: boolean) {
         switch (index) {
-            case 0:
-                return this.setState({ firstDomainEnabled: value });
-            case 1:
-                return this.setState({ secondDomainEnabled: value });
-            case 2:
-                return this.setState({ thirdDomainEnabled: value });
-            default:
-                return;
+          case 0:
+            return this.setState({ firstDomainEnabled: value });
+          case 1:
+            return this.setState({ secondDomainEnabled: value });
+          case 2:
+            return this.setState({ thirdDomainEnabled: value });
+          case 3:
+            return this.setState({ fourthDomainEnabled: value });
+          case 4:
+            return this.setState({ fifthDomainEnabled: value });
+          case 5:
+            return this.setState({ sixthDomainEnabled: value });
+          default:
+            return;
         }
-    }
+      }
 
     componentWillUnmount() {
         this.viewModel.settingsSynced.off(this.onScheduleSynced);
@@ -84,7 +99,7 @@ export class CustomizeNotificationsView extends ViewState {
         const titleText = 'Customize Notifications';
         return (
             <MasloPage style={this.baseStyles.page} onBack={this.onBack} theme={this.theme}>
-                <Container style={[this.baseStyles.container, { flexDirection: 'column', flex: 1, }]}>
+                <Container style={[this.baseStyles.container, { flexDirection: 'column', flex: 1, paddingTop: 60 }]}>
                     <Text style={[this.textStyles.h1, styles.title, { color: this.theme.colors.foreground }]}>{titleText}</Text>
                     {this.viewModel.posssibleDomains.map((dom, index) => {
                         return <Card
@@ -98,7 +113,6 @@ export class CustomizeNotificationsView extends ViewState {
                         >
                             <Switch
                                 value={this.stateForIndex(index)}
-                                disabled={this.viewModel.isToggleInProgress}
                                 onValueChange={(enabled) => {
                                     this.setStateForIndex(index, enabled);
                                 }}
@@ -118,7 +132,6 @@ export class CustomizeNotificationsView extends ViewState {
                     >
                         <Switch
                             value={this.state.BDMentionEnabled}
-                            disabled={this.viewModel.isToggleInProgress}
                             onValueChange={(val) => this.setState({ BDMentionEnabled: val })}
                             thumbColor={Platform.OS == 'android' && this.theme.colors.highlight}
                             trackColor={Platform.OS == 'android' && { true: this.theme.colors.highlightSecondary }}

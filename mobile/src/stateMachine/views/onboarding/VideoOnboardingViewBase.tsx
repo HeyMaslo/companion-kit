@@ -3,15 +3,23 @@ import { observer } from 'mobx-react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { ScenarioTriggers } from '../../abstractions';
 import { MasloPage, Container, Card, Button } from 'src/components';
-import Images from 'src/constants/images';
 import TextStyles from 'src/styles/TextStyles';
 import { ViewState } from '../base';
 import Video from 'react-native-video';
+import { PersonaViewPresets } from 'src/stateMachine/persona';
 
 @observer
-export class VideoOnboardingView extends ViewState {
+export class VideoOnboardingViewBase extends ViewState {
+
+  public videoURL: string
+  public titleText: string
 
   private player: Video
+
+  constructor(props) {
+    super(props);
+    this.persona.view = PersonaViewPresets.TopHalfOut;
+  }
 
   async start() { }
 
@@ -24,22 +32,20 @@ export class VideoOnboardingView extends ViewState {
   }
 
   onBuffer = () => {
-    this.trigger(ScenarioTriggers.Next)
+
   }
 
   videoError = () => {
-    this.trigger(ScenarioTriggers.Next)
+
   }
 
   renderContent() {
-    const titleText = 'This is the title';
     const contentTextStyle = [TextStyles.p1, { color: this.theme.colors.foreground }];
     return (
-      <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()} theme={this.theme}>
-        <Container style={[{ height: '100%', flexDirection: 'column', alignItems: 'center', paddingTop: 10 }]}>
-          <Text style={[TextStyles.h1, styles.title, { color: this.theme.colors.foreground }]}>{titleText}</Text>
-          <Text style={[TextStyles.p1, { textAlign: 'center', color: this.theme.colors.midground, marginBottom: 20 }]}>Subtitle goes here</Text>
-          <Video source={{ uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4' }}   // Can be a URL or a local file.
+      <MasloPage style={[this.baseStyles.page, { paddingBottom: 40 }]} theme={this.theme}>
+        <Container style={[{ height: '100%', flexDirection: 'column', alignItems: 'center', paddingTop: 60 }]}>
+          <Text style={[TextStyles.h1, styles.title, { color: this.theme.colors.foreground }]}>{this.titleText}</Text>
+          <Video source={{ uri: this.videoURL }}   // Can be a URL or a local file.
             ref={(ref) => {
               this.player = ref
             }}                                      // Store reference
@@ -48,13 +54,19 @@ export class VideoOnboardingView extends ViewState {
             paused={true}
             controls={true}
             style={styles.video} />
+          <Button
+            title='Continue'
+            style={{ marginTop: 'auto' }}
+            onPress={this.onNext}
+            theme={this.theme}
+          // disabled={this.continueButtonDisabled}
+          />
         </Container>
       </MasloPage>
     );
   }
 }
 
-const checkboxSize = 24;
 const styles = StyleSheet.create({
   title: {
     marginBottom: 40,

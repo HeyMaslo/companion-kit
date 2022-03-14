@@ -160,7 +160,10 @@ export const checkForStepsData = async (): Promise<boolean> => {
 // returns true if there is sleep data
 export const checkForSleepData = async (): Promise<boolean> => {
   return new Promise((resolve, reject) => {
-    AppleHealthKit.getSleepSamples(null, (err, results) => {
+    let options = {
+      startDate: (new Date(2016, 10, 1)).toISOString(), // using this date because thats what the example used and `startDate` is required
+    }
+    AppleHealthKit.getSleepSamples(options, (err, results) => {
       if (err) {
         console.log('appleHealthKit.getSleepSamples error:', err);
         resolve(false);

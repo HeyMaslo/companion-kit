@@ -26,7 +26,7 @@ export class BDMentionNotificationsOnboardingView extends NotificationsOnboardin
     this.trigger(ScenarioTriggers.Back)
   }
 
-  onNext = () => {
+  override async onNext() {
     this.viewModel.allowBDMention = this.state.BDMentionEnabled;
     this.trigger(ScenarioTriggers.Next)
   }
@@ -47,7 +47,6 @@ export class BDMentionNotificationsOnboardingView extends NotificationsOnboardin
         >
           <Switch
             value={this.state.BDMentionEnabled}
-            disabled={this.viewModel.isToggleInProgress}
             onValueChange={(val) => this.setState({ BDMentionEnabled: val })}
             thumbColor={Platform.OS == 'android' && this.theme.colors.highlight}
             trackColor={Platform.OS == 'android' && { true: this.theme.colors.highlightSecondary }}

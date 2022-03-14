@@ -16,9 +16,6 @@ export class QolStartView extends ViewState {
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: -15, transition: { duration: 1.5 } });
-        if (!AppController.Instance.User.localSettings?.current?.qol?.seenQolOnboarding) {
-            this.viewModel.updateQolOnboarding();
-        }
     }
 
     async start() {
@@ -41,7 +38,7 @@ export class QolStartView extends ViewState {
     }
 
     private saveProgress = async () => {
-        await this.viewModel.saveSurveyProgress(PersonaArmState.createEmptyArmState());
+        await this.viewModel.saveSurveyProgress(PersonaArmState.createZeroArmState());
         this.cancel();
     }
     private cancel = () => {
@@ -70,7 +67,7 @@ export class QolStartView extends ViewState {
     renderContent() {
 
         return (
-            <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} theme={this.theme}>
+            <MasloPage style={this.baseStyles.page} onClose={AppController.Instance.User.localSettings.current?.onboarding.needsQolOnboarding ? null : () => this.onClose()} theme={this.theme}>
                 <Container style={[styles.container, { height: this._contentHeight }]}>
                     <Text style={[this.textStyles.h1, styles.title]}>Welcome{(this.viewModel.qolSurveyType === QolSurveyType.Full) ? " back" : ""}!</Text>
                     <Text style={[this.textStyles.p1, styles.message]}> {(this.viewModel.qolSurveyType === QolSurveyType.Full) ?
@@ -97,7 +94,7 @@ const styles = StyleSheet.create({
     message: {
         marginTop: 15,
         textAlign: 'center',
-        width: '80%',
+        width: '90%',
         marginBottom: '20%',
     },
     readyButton: {

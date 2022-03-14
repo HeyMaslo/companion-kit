@@ -23,7 +23,7 @@ export class ReviewStrategiesView extends ViewState {
     this.onLearnMorePress = this.onLearnMorePress.bind(this);
   }
 
-  private get viewModel() {
+  protected get viewModel() {
     return AppViewModel.Instance.Strategy;
   }
 
@@ -59,11 +59,11 @@ export class ReviewStrategiesView extends ViewState {
     this.trigger(ScenarioTriggers.Back);
   }
 
-  async onCompleteDomainAndStraegyFlow() {
-    AppController.Instance.User.localSettings.updateStrategiesConfirmed(true);
+  async onNext() {
     // Wait until the final confirmation button is pressed to schedule affirmation notifications
     // Anywhere else in the flow the user can go back and change selected domains 
-    await AppController.Instance.User.notifications.scheduleTwentySevenAffirmationNotifications();   
+    await AppController.Instance.User.notifications.scheduleTwentySevenAffirmationNotifications();
+    AppController.Instance.User.localSettings.updateStrategiesConfirmed(true);
     this.trigger(ScenarioTriggers.Submit);
   }
 
@@ -93,7 +93,7 @@ export class ReviewStrategiesView extends ViewState {
       <MasloPage style={this.baseStyles.page} onBack={this.onBack} theme={this.theme}>
         <Container style={[{ height: this._contentHeight, paddingTop: 10 }]}>
           {this.renderInnerContent('Here are your focus strategies.', true)}
-          {this.showButton && <Button title='CONTINUE' style={styles.selectButton} onPress={() => this.onCompleteDomainAndStraegyFlow()} theme={this.theme} />}
+          {this.showButton && <Button title='CONTINUE' style={styles.selectButton} onPress={() => this.onNext()} theme={this.theme} />}
         </Container>
       </MasloPage>
     );

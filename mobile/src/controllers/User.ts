@@ -63,10 +63,7 @@ export interface IUserController extends IUserControllerBase {
     readonly domain: DomainController;
     readonly strategy: StrategyController;
 
-    readonly hasSeenOnboarding: boolean;
-    readonly hasHealthDataPermissions: HealthPermissionsController;
-
-    onboardingSeen(): void;
+    readonly healthPermissionsController: HealthPermissionsController;
 
     acceptConsent?(option: string): Promise<boolean>;
 }
@@ -88,9 +85,6 @@ export class UserController extends UserControllerBase implements IUserControlle
             () => this.user?.client?.journalsHistory,
             () => this.activeAccount?.id,
         ) : null;
-
-    @observable
-    private _onboardingSeen = false;
 
     @observable.ref
     private _staticTips: StaticTipItemIded[] = null;
@@ -147,7 +141,7 @@ export class UserController extends UserControllerBase implements IUserControlle
     });
 
     public readonly notifications: NotificationsController;
-    public readonly hasHealthDataPermissions: HealthPermissionsController;
+    public readonly healthPermissionsController: HealthPermissionsController;
 
     constructor(auth: IAuthController) {
         super(auth);
@@ -159,7 +153,7 @@ export class UserController extends UserControllerBase implements IUserControlle
         });
 
         //Added Logic for Health permissions
-        this.hasHealthDataPermissions = new HealthPermissionsController();
+        this.healthPermissionsController = new HealthPermissionsController();
 
         if (process.appFeatures.EDITABLE_PROMPTS_ENABLED === true) {
             this._prompts = new PromptsController(this._journal.entries);
@@ -220,12 +214,6 @@ export class UserController extends UserControllerBase implements IUserControlle
         return this.user?.client && this.activeAccount && getDayIndex(this.user.client.journalsHistory);
     }
 
-    get hasSeenOnboarding(): boolean { return this._onboardingSeen; }
-
-    onboardingSeen(): void {
-        this._onboardingSeen = true;
-    }
-
     private async onPreProcessAuthUser(authUser: AuthUser) {
         if (authUser) {
             const savedUserId = await StorageAsync.getValue(SavedUserIdKey);
@@ -272,8 +260,6 @@ export class UserController extends UserControllerBase implements IUserControlle
             this._recordsLastWeek.weakValue?.setLoggerName(`${this.user.displayName || '??'}:week`);
             this._qol.weakValue?.setUser(this.user.id);
 
-            this._onboardingSeen = false;
-
             if (user) {
                 await StorageAsync.setValue(SavedUserIdKey, user.id);
             }
@@ -286,7 +272,7 @@ export class UserController extends UserControllerBase implements IUserControlle
             }
 
             await this._localSettings.load(user.id);
-            await this.hasHealthDataPermissions.initAsync();
+            await this.healthPermissionsController.initAsync();
             this.notifications.setUser(user.id);
             await this.notifications.initAsync();
         }
@@ -363,6 +349,6 @@ export class UserController extends UserControllerBase implements IUserControlle
         this._prompts?.dispose();
         this._documents?.dispose();
         this.notifications.dispose();
-        this.hasHealthDataPermissions.dispose();
+        this.healthPermissionsController.dispose();
     }
 }

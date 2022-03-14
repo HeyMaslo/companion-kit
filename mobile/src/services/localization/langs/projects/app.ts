@@ -4,16 +4,16 @@ import { ProjectSpecificLocalization } from './shape';
 const Texts: ProjectSpecificLocalization = {
     ...Strings,
     MobileProject: {
-        personaName: 'Companion kit',
+        personaName: 'PolarUs',
         dashboardEssence: 'therapist',
-        projectName: 'Companion kit',
+        projectName: 'PolarUs',
 
         contactEmail: '<your email>',
         contactUsLink: 'mailto:<your email>',
 
-        missingAccountTitle: 'Companion kit is invitation only by your therapist.',
+        missingAccountTitle: 'PolarUs is currently invitation only',
         missingAccountDescription: 'We cannot find an account for this email.',
-        disabledClientAccount: 'Your account has been disabled by therapist',
+        disabledClientAccount: 'Your account has been disabled',
 
         links: {
             privacy: process.env.APP_ENV === 'production'

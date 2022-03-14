@@ -184,7 +184,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
         item.surveyType == QolSurveyType.Full ? { borderWidth: styles.weekCircle.borderWidth * 2.2 } : { borderWidth: styles.weekCircle.borderWidth },
         index == this.selectedEntryIndex ? { backgroundColor: this.theme.colors.highlightSecondary } : { backgroundColor: 'white' },
         { top: this.topForWeekCircle(Math.round(score)), left: 0, marginHorizontal: ((Layout.window.width - 40) - 4 * weekCircleDiameter) / 8 }]}>
-          <Text style={[styles.weekCircleText, index == this.selectedEntryIndex ? { color: 'white' } : { color: this.theme.colors.highlightSecondary }]}>W{index + 1}</Text>
+          <Text style={[styles.weekCircleText, index == this.selectedEntryIndex ? { color: 'white' } : { color: this.theme.colors.highlightSecondary }]}>{index == 0 ? 'ST' : 'W' + index}</Text>
         </View>
       </Pressable>
     );
@@ -201,7 +201,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
               <Text style={[TextStyles.labelLarge]}>{this.selectedEntry.date && formatDateMonthYear(this.selectedEntry.date)}</Text>
               <View style={styles.header}>
 
-                <TouchableOpacity onPress={this.dropDown} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <TouchableOpacity onPress={this.dropDown} style={{ flexDirection: 'row', alignItems: 'center' }} hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}>
                   <Text style={[TextStyles.labelLarge, this.domainSort && { textDecorationLine: 'underline' }]}>{this.domainSort || `Quality of\nlife score`}</Text>
                   <Images.caretDown width={14} height={8} color={this.theme.colors.foreground} style={[{ marginLeft: 7 }, this.dropDownIsExtended && { transform: [{ rotate: '180deg' }] }]} />
                 </TouchableOpacity>
@@ -227,14 +227,14 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
               {this.historyEntries.map((entry, index) => this.renderListItem(entry, index))}
 
             </ScrollView>
-
+            {this.selectedEntryIndex !== 0 &&
             <Button
-              title={`View Week ${this.selectedEntryIndex + 1} Strategies`}
+              title={`View Week ${this.selectedEntryIndex} Strategies`}
               style={[styles.viewAllButton]}
               onPress={this.onViewStrategies}
               isTransparent={true}
               disabled={this.dropDownIsExtended}
-              theme={this.theme} />
+              theme={this.theme} />}
 
             {/* Dropdown list is here so it renders on top of everything */}
             {this.dropDownIsExtended &&

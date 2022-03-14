@@ -19,6 +19,7 @@ export class SignInView extends ViewState {
 
     constructor(props, ctx) {
         super(props, ctx);
+        this.persona.armsHidden = true;
         this._contentHeight = this.persona.setupContainerHeightForceScroll({ rotation: 45 });
 
         this.fadeInContent(500, 420);
@@ -184,7 +185,7 @@ export class SignInView extends ViewState {
                             keyboardType="email-address"
                             textContentType="emailAddress"
                             autoCapitalize="none"
-                            styleWrap={{ marginBottom: isAndroid ? 100 : 40 }}
+                            styleWrap={{ marginBottom: 100 }}
                         />
                     </Container>
                 </MasloPage>

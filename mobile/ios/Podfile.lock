@@ -427,8 +427,6 @@ PODS:
   - RNFBApp (13.1.0):
     - Firebase/CoreOnly (= 8.10.0)
     - React-Core
-  - RNReactNativeHapticFeedback (1.13.0):
-    - React-Core
   - RNSVG (12.1.1):
     - React
   - RNVectorIcons (8.1.0):
@@ -520,7 +518,6 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
-  - RNReactNativeHapticFeedback (from `../node_modules/react-native-haptic-feedback`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - UMTaskManagerInterface (from `../node_modules/unimodules-task-manager-interface/ios`)
@@ -669,8 +666,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
-  RNReactNativeHapticFeedback:
-    :path: "../node_modules/react-native-haptic-feedback"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
@@ -761,7 +756,6 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: ea6b5c280997b2b32a587793163b1f10e580c4f7
   RNDateTimePicker: 7658208086d86d09e1627b5c34ba0cf237c60140
   RNFBApp: 1d553b3f201e9aaeba03d777b1dea51eaacc24cc
-  RNReactNativeHapticFeedback: b83bfb4b537bdd78eb4f6ffe63c6884f7b049ead
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
   UMTaskManagerInterface: 5654c50e68af11b19b9d05452bacf23d19b3f30f

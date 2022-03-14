@@ -16,6 +16,7 @@ export enum ScenarioTriggers {
     Tertiary,
     Quaternary,
     Quinary,
+    Senary,
     Next,
     TESTING // used for development only and should be removed when testing button on home screen is removed
 }

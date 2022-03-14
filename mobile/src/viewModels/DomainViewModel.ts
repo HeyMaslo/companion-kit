@@ -46,8 +46,10 @@ export default class DomainViewModel {
     }
 
     public async fetchPossibleDomains() {
-        this._allDomains = await AppController.Instance.User.domain.getPossibleDomains();
-        this.domainCount = this._allDomains.length;
+        return await AppController.Instance.User.domain.getPossibleDomains().then((fetchedDoms) => {
+            this._allDomains = fetchedDoms;
+            this.domainCount = this._allDomains.length;
+        })
     }
 
     public async fetchSelectedDomains() {
@@ -99,7 +101,7 @@ export default class DomainViewModel {
     // adds selected domains by user to the selected domains array, use this array to persist to backend by calling postFocusedDomains
     // returns false if domain has already been selected
     // Use callback to set selected domains in StrategiesViewModel
-    public selectDomain(domain: Domain, callback: () => void): Boolean {
+    public selectDomain(domain: Domain, callback: () => void): boolean {
         if (this._selectedDomains.domains.includes(domain.name)) {
             return false;
         }
@@ -142,6 +144,10 @@ export default class DomainViewModel {
             }
         }
         return null;
+    }
+
+    public completeDomainOnboarding() {
+        AppController.Instance.User.localSettings.updateOnboardingSettings({ needsDomainOnboarding: false }, 'needsDomainOnboarding');
     }
 
 }

@@ -8,14 +8,14 @@ export class HealthConsentView extends ViewState {
 
     async start() {
         this.showModal({
-            title: 'We need your health data to build a better personalized experience for you.',
-            message: 'Would you like to grant permission?',
+            title: 'May I have your permission to access your health data?',
+            message: 'Your health data is used to build a personalized experience.',
             primaryButton: {
-                text: 'Continue',
+                text: 'Yes, Grant Permission',
                 action: this.askHealthPermissions,
             },
             secondaryButton: {
-                text: 'Skip',
+                text: 'NO, skip for now',
                 action: this.skip,
             },
             theme: this.theme,
@@ -23,11 +23,12 @@ export class HealthConsentView extends ViewState {
     }
 
     askHealthPermissions = () => this.runLongOperation(async () => {
-        await AppController.Instance.User.hasHealthDataPermissions.askPermission();
+        await AppController.Instance.User.healthPermissionsController.askPermission();
         this.trigger(ScenarioTriggers.Submit);
     })
 
     skip = () => {
+        AppController.Instance.User.healthPermissionsController.disableHealthPermissions();
         this.trigger(ScenarioTriggers.Submit);
     }
 
