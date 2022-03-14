@@ -66,9 +66,9 @@ export class DomainDetailsView extends ViewState {
         <StrategyCard key={strategy.internalId} item={strategy} onLearnMorePress={this.onLearnMorePress} hideCheckbox={!strategy.isChecked} theme={this.theme} />
     );
 
-    renderBulletPoint(str: string) {
+    renderBulletPoint(str: string, key: string) {
         return (
-            <View key={str} style={{ flexDirection: 'row', marginVertical: 10 }}>
+            <View key={key} style={{ flexDirection: 'row', marginVertical: 10 }}>
                 <Text style={this.textStyles.p2}>{'\u2022'}</Text>
                 <Text style={[this.textStyles.p2, { flex: 1, paddingLeft: 5 }]}>{str}</Text>
             </View>
@@ -105,7 +105,7 @@ export class DomainDetailsView extends ViewState {
                         <View style={styles.content}>
                             <Text style={[this.textStyles.labelExtraLarge, { marginVertical: 10 }]}>What to know</Text>
                             <View style={{ marginBottom: 0 }}>
-                                {whatToKnowBullets.map((b) => this.renderBulletPoint(b))}
+                                {whatToKnowBullets.map((b, index) => this.renderBulletPoint(b, 'importance' + index))}
                             </View>
                             {/* List of subdomains (if applicable) */}
                             {subdomains && subdomains.map((subDom) => {
