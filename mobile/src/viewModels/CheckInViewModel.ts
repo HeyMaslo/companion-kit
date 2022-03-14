@@ -24,6 +24,9 @@ function formatDate(d: Date): string {
     return d.toLocaleDateString('default', { month: 'short', day: 'numeric', year: 'numeric' }).toLowerCase();
 }
 
+//
+// NOT USED - leftover from Maslo
+//
 export default class CheckInViewModel {
 
     @observable

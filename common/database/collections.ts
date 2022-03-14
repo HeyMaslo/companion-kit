@@ -17,6 +17,8 @@ enum Collections {
     UserState = 'userState',
     Strategies = 'strategies',
     Affirmations = 'affirmations',
+    DailyCheckIns = 'dailyCheckIns',
+    Version = 'version',
 }
 
 namespace Collections {
@@ -42,6 +44,7 @@ namespace Collections {
 
     export const userLocalSettings = (uid: string, deviceId?: string) => `${Collections.Users}/${uid}/${Collections.LocalSettings}` + (deviceId ? `/${deviceId}` : '');
     export const affirmations = (id: string) => `${Collections.Affirmations}/${id}`;
+    export const dailyCheckIns = (id: string) => `${Collections.DailyCheckIns}/${id}`;
 }
 
 export default Collections;

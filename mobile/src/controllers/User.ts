@@ -30,6 +30,7 @@ import { IDocumentsController, DocumentsController } from './Documents';
 import QoLController from 'common/controllers/QoLController';
 import DomainController from 'common/controllers/DomainController';
 import StrategyController from 'common/controllers/StrategyController';
+import VersionController from 'common/controllers/VersionController';
 
 type ClientUser = Identify<UserProfile> & { client?: ClientProfileFull };
 
@@ -39,6 +40,8 @@ type ClientAccountExtended = ClientAccountIded & {
 export interface IUserController extends IUserControllerBase {
     readonly user: ClientUser;
     readonly displayName: string;
+
+    readonly version: VersionController;
 
     readonly assessments: IAssessmentsController;
     readonly journal: IJournalController;
@@ -88,6 +91,8 @@ export class UserController extends UserControllerBase implements IUserControlle
 
     @observable.ref
     private _staticTips: StaticTipItemIded[] = null;
+
+    private readonly _version = new VersionController();
 
     private readonly _prompts: PromptsController;
     private readonly _localSettings = new LocalSettingsController();
@@ -176,6 +181,7 @@ export class UserController extends UserControllerBase implements IUserControlle
 
     get clientAccountMissing() { return this._activeAccount === false; }
 
+    get version() { return this._version }
     get prompts() { return this._prompts; }
     get targetRole(): UserRoles { return UserRoles.Client; }
     get activeAccount() { return this._activeAccount || null; }
