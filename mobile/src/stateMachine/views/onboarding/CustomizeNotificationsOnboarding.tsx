@@ -5,16 +5,20 @@ import { StyleSheet, Text, View, ScrollView, Switch, Platform, FlatList } from '
 import { Card } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import TextStyles from 'src/styles/TextStyles';
-import { DomainName } from 'src/constants/Domain';
 import { iconForDomain } from 'src/helpers/DomainHelper';
 
 @observer
 export class CustomizeNotificationsOnboardingView extends NotificationsOnboardingBaseView {
 
+  // A maximum of 6 domains can be selected at once: 2 domains (not including 'Physical') + 4 physical subdomains
+  // There are no notifications for the general 'Physical' domain, only the 4 subdomains
   state = {
     firstDomainEnabled: false,
     secondDomainEnabled: false,
     thirdDomainEnabled: false,
+    fourthDomainEnabled: false,
+    fifthDomainEnabled: false,
+    sixthDomainEnabled: false
   }
 
   async start() {
@@ -32,6 +36,12 @@ export class CustomizeNotificationsOnboardingView extends NotificationsOnboardin
         return this.state.secondDomainEnabled;
       case 2:
         return this.state.thirdDomainEnabled;
+      case 3:
+        return this.state.fourthDomainEnabled;
+      case 4:
+        return this.state.fifthDomainEnabled;
+      case 5:
+        return this.state.sixthDomainEnabled;
       default:
         return false;
     }
@@ -45,6 +55,12 @@ export class CustomizeNotificationsOnboardingView extends NotificationsOnboardin
         return this.setState({ secondDomainEnabled: value });
       case 2:
         return this.setState({ thirdDomainEnabled: value });
+      case 3:
+        return this.setState({ fourthDomainEnabled: value });
+      case 4:
+        return this.setState({ fifthDomainEnabled: value });
+      case 5:
+        return this.setState({ sixthDomainEnabled: value });
       default:
         return;
     }
@@ -55,7 +71,7 @@ export class CustomizeNotificationsOnboardingView extends NotificationsOnboardin
     this.trigger(ScenarioTriggers.Back)
   }
 
-  onNext = () => {
+  override async onNext() {
     this.viewModel.domainsForNotifications = this.viewModel.posssibleDomains.filter((dom, index) => this.stateForIndex(index));
     this.trigger(ScenarioTriggers.Next)
   }
@@ -72,7 +88,6 @@ export class CustomizeNotificationsOnboardingView extends NotificationsOnboardin
     >
       <Switch
         value={this.stateForIndex(this.viewModel.posssibleDomains.indexOf(item))}
-        disabled={this.viewModel.isToggleInProgress}
         onValueChange={(enabled) => {
           this.setStateForIndex(this.viewModel.posssibleDomains.indexOf(item), enabled);
         }}

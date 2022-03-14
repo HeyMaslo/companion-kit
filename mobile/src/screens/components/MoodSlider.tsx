@@ -33,7 +33,7 @@ export default class MoodSlider extends React.Component<MoodSliderProps> {
         const isIos = Platform.OS === 'ios';
 
         const mood = this.model.currentMood;
-        const title = Moods.getTitle(mood) || 'Select your mood';
+        const title = Moods.getTitle(mood, this.model.isSleep) || 'Select your mood';
 
         const CurrentIcon = mood ? MoodImages[mood] : MoodImages[Moods.Positive];
 
@@ -67,8 +67,8 @@ export default class MoodSlider extends React.Component<MoodSliderProps> {
                     value={sliderValue}
                 />
                 <View style={styles.sliderScale}>
-                    <Text style={[TextStyles.p2, { textTransform: 'capitalize' }]}>{Moods.getTitle(Moods.Min)}</Text>
-                    <Text style={[TextStyles.p2, { textTransform: 'capitalize' }]}>{Moods.getTitle(Moods.Max)}</Text>
+                    <Text style={[TextStyles.p2, { textTransform: 'capitalize' }]}>{Moods.getTitle(Moods.Min, this.model.isSleep)}</Text>
+                    <Text style={[TextStyles.p2, { textTransform: 'capitalize' }]}>{Moods.getTitle(Moods.Max, this.model.isSleep)}</Text>
                 </View>
             </View>
         );

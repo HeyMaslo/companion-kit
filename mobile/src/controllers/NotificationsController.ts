@@ -10,6 +10,7 @@ import { DomainName, SubdomainName } from 'src/constants/Domain';
 import { HourAndMinute } from 'common/utils/dateHelpers';
 import AppController from '.';
 import { shuffle } from 'common/utils/mathx';
+import { Platform } from 'react-native';
 
 export class NotificationsController implements IDisposable {
 
@@ -23,7 +24,7 @@ export class NotificationsController implements IDisposable {
     private _userId: string;
 
     private get allowBDMention() {
-        return AppController.Instance.User.localSettings.current.notifications.allowBDMention || false;
+        return AppController.Instance.User.localSettings.current.notifications.allowBDMention;
     }
 
     constructor(private readonly settings: ILocalSettingsController, name: IUserNameProvider) {
@@ -51,12 +52,16 @@ export class NotificationsController implements IDisposable {
     }
 
     public get permissionsGranted() {
-        return this._service.hasPermission === true;
+        return Platform.OS == 'android' || this._service.hasPermission === true;
     }
 
     // Should be OK to call multiple times
     async initAsync() {
         console.log('NotifController initAsync() called')
+        if (Platform.OS == 'android') {
+            this._notificationsEnabledByUser = true;
+            return;
+        }
         this._notificationsEnabledByUser = this.settings.current.notifications.enabled;
         if (!this._notificationsEnabledByUser) return;
         await this._service.checkNotificationsPermissions();
@@ -79,11 +84,13 @@ export class NotificationsController implements IDisposable {
 
     // Used only by above function
     private onFulfilled = (userState: UserState) => {
-        const filtered = userState.scheduledAffirmations.filter((sa) => sa.notifId != this.openedNotification.identifier);
-        if (filtered !== userState.scheduledAffirmations) {
-            userState.scheduledAffirmations = filtered;
-            RepoFactory.Instance.userState.setByUserId(this._userId, userState);
-            this._service.resetOpenedNotification();
+        if (userState.scheduledAffirmations) {
+            const filtered = userState.scheduledAffirmations.filter((sa) => sa.notifId != this.openedNotification.identifier);
+            if (filtered !== userState.scheduledAffirmations) {
+                userState.scheduledAffirmations = filtered;
+                RepoFactory.Instance.userState.setByUserId(this._userId, userState);
+                this._service.resetOpenedNotification();
+            }
         }
         return userState;
     }
@@ -114,11 +121,11 @@ export class NotificationsController implements IDisposable {
             let userState: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
             userState = await this.completeOpenedNotification(userState); // make sure nothing is leftover from old notifcations
 
-            let possibleAffirmations: Affirmation[] = await RepoFactory.Instance.affirmations.getByDomains(
+            let allPossibleAffirmations: Affirmation[] = await RepoFactory.Instance.affirmations.getByDomains(
                 this.domainAndSubdomainNames,
                 this.allowBDMention,
                 userState.lastSeenAffirmations);
-            possibleAffirmations = shuffle(possibleAffirmations);
+            allPossibleAffirmations = shuffle(allPossibleAffirmations);
 
             const firstDomain = this.domainAndSubdomainNames[0]; // there will always be at least domain
             const secondDomain = this.domainAndSubdomainNames.length > 1 ? this.domainAndSubdomainNames[1] : null;
@@ -129,11 +136,11 @@ export class NotificationsController implements IDisposable {
             let affirmationsToSchedule = [];
             switch (actualDomains.length) {
                 case 1:
-                    affirmationsToSchedule = possibleAffirmations.slice(0, 26);
+                    affirmationsToSchedule = allPossibleAffirmations.slice(0, 27);
                     break;
                 case 2:
-                    const firstDomainAffirmations = possibleAffirmations.filter((aff) => aff.domainNames[0] == firstDomain);
-                    const secondDomainAffirmations = possibleAffirmations.filter((aff) => aff.domainNames[0] == secondDomain);
+                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == firstDomain);
+                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == secondDomain);
                     for (let i = 0; i < 13; i++) { // (27 / 2 = 13.5) so we use 13 here and concat 1 more affirmation after the loop to get a total of 27
                         affirmationsToSchedule.concat(firstDomainAffirmations[i]);
                         affirmationsToSchedule.concat(secondDomainAffirmations[i]);
@@ -141,7 +148,7 @@ export class NotificationsController implements IDisposable {
                     affirmationsToSchedule.concat(firstDomainAffirmations[13]);
                     break;
                 case 3:
-                    const thirdDomainAffirmations = possibleAffirmations.filter((aff) => aff.domainNames[0] == thirdDomain);
+                    const thirdDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == thirdDomain);
                     for (let i = 0; i < 9; i++) {
                         affirmationsToSchedule.concat(firstDomainAffirmations[i]);
                         affirmationsToSchedule.concat(secondDomainAffirmations[i]);
@@ -161,28 +168,8 @@ export class NotificationsController implements IDisposable {
             });
 
             RepoFactory.Instance.userState.setByUserId(this._userId, userState);
-        }
-    }
-
-    // MK-TODO: - testing only remove before merge
-    public async scheduleTESTINGAffirmationNotification() {
-        if (!this._userId) throw new Error('no user id set');
-        if (this.notificationsEnabled) {
-            let userState: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
-
-            let possibleAffirmations: Affirmation[] = await RepoFactory.Instance.affirmations.getByDomains(this.domainAndSubdomainNames, true, userState.lastSeenAffirmations);
-            possibleAffirmations = shuffle(possibleAffirmations);
-
-            const now = new Date();
-
-            const scheduled = await this._service.scheduleAffirmationMessages(possibleAffirmations.slice(0, 1), now.getTime() + 10000, this.allowBDMention);
-            scheduled.forEach((result) => {
-                userState.lastSeenAffirmations[result.affirmation.id] = result.scheduledDate;
-                userState.scheduledAffirmations.push(result);
-            });
-            console.log('userState.lastSeenAffirmations', userState.lastSeenAffirmations);
-            console.log('userState.scheduledAffirmations', userState.scheduledAffirmations);
-            RepoFactory.Instance.userState.setByUserId(this._userId, userState);
+        } else {
+            console.log('scheduleTwentySevenAffirmationNotifications(): NOTIFICATIONS not enabled')
         }
     }
 

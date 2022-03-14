@@ -29,8 +29,25 @@ export namespace Moods {
 
     export const Step = 10;
 
-    export function getTitle(mood: Moods) {
-        return Helper.value.valueToString(findNearest(mood));
+    export function getTitle(mood: Moods, isSleep: boolean = false) {
+        const str = Helper.value.valueToString(findNearest(mood));
+        if (isSleep) {
+            switch (str) {
+                case 'very bad':
+                    return 'not at all';
+                case 'bad':
+                    return 'not really';
+                case 'ok':
+                    return 'mostly';
+                case 'good':
+                    return 'pretty good';
+                case 'very good':
+                    return 'yes';
+                default:
+                    return 'error';
+            }
+        }
+        return str;
     }
 
     export function findNearest(value: number): Moods {

@@ -33,6 +33,12 @@ export enum States {
     Home,
     JournalDetail,
 
+    // Daily Check In
+    StartDailyCheckIn,
+    DailyCheckInSleep,
+    DailyCheckInMood,
+    EndDailyCheckIn,
+
     OnboardingEnter,
     HealthOnboardingVideo,
     HealthDataExplainer,
@@ -80,6 +86,7 @@ export enum States {
     // Strategies block
     Choose_Strategies,
     Review_Strategies,
+    Review_Strategies_Onboarding,
     Strategy_Details_after_Choose_Strategies,
     Strategy_Details_after_Review_Strategies,
     Strategy_Details_after_Focus_Domains,

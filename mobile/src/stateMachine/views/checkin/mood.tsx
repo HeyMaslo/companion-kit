@@ -15,46 +15,37 @@ export type MoodViewParams = {
 
 @observer
 export class MoodView extends CheckInViewBase<{}, MoodViewParams> {
+
     constructor(props) {
         super(props);
         this._contentHeight = this.persona.setupContainerHeight(minContentHeight, { rotation: 0, transition: { duration: 1.5 } });
-
-        // if (this.params?.openedByNotification) {
-        //     this.viewModel.tryUseQuestionFromNotification();
-        // }
     }
 
     start() {
-        super.start();
         if (this.persona.state === PersonaStates.Idle) {
             this.persona.state = PersonaStates.Joy;
         }
     }
 
     next = () => {
-        if (this.viewModel.showFeelingsScreen) {
-            this.trigger(ScenarioTriggers.Secondary);
-        } else {
-            this.trigger(ScenarioTriggers.Primary);
-        }
+        this.trigger(ScenarioTriggers.Primary);
     }
 
     renderContent() {
-        const { viewModel } = this;
+        const viewModel = this.viewModel;
         const theme = this.theme;
 
         return (
-            <MasloPage withDots dotLength={3} activeDot={0} onClose={this.cancel} style={this.baseStyles.page} theme={this.theme}>
+            <MasloPage withDots dotLength={2} activeDot={2} onClose={this.cancel} style={this.baseStyles.page} theme={this.theme}>
                 <Container style={[this.baseStyles.container, this.baseStyles.flexBetween, { height: this._contentHeight }]}>
                     <View style={[this.baseStyles.textBlock, styles.textBlock]}>
-                        <Text style={[this.textStyles.h1, styles.title]}>{viewModel.firstName}, slide the scale to show me how your day is going</Text>
+                        <Text style={[this.textStyles.h1, styles.title]}>How are you feeling right now?</Text>
                     </View>
-                    <MoodSlider model={viewModel.moodChooser} style={styles.moodChooser} />
+                    <MoodSlider model={viewModel.moodChooser} style={styles.chooser} />
                     <ButtonBlock
                         onOk={this.next}
                         onCancel={this.cancel}
                         theme={theme}
-                        // nextDisabled={viewModel.moodChooser.currentMood === null}
                     />
                 </Container>
             </MasloPage>
@@ -66,7 +57,7 @@ const styles = StyleSheet.create({
     textBlock: {
         marginBottom: 39,
     },
-    moodChooser: {
+    chooser: {
         width: '100%',
         height: 'auto',
         justifyContent: 'flex-start',

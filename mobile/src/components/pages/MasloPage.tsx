@@ -7,7 +7,7 @@ import Images from 'src/constants/images';
 import PageBase, { PageProps } from '../common/Page';
 import Container from '../Container';
 import { Theme } from 'src/constants/theme/PStheme';
-import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
+// import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 
 export type MasloPageExtendedProps = PageProps & {
     withDots?: boolean;
@@ -43,9 +43,10 @@ export default function MasloPageExtended(props: MasloPageExtendedProps) {
     const _onClose = onClose && wrapWithKeyboardDismiss(onClose);
     const _onBack = onBack && wrapWithKeyboardDismiss(onBack);
 
-    // These will be used if the corresponding safeAreaInset == 0 (example: iPhone 8 safeAreaInsets are {"bottom": 0, "left": 0, "right": 0, "top": 0})
-    const customBottomInset = 15;
-    const customTopInset = 10;
+    // Used for Safe Area inset calculations
+    // // These will be used if the corresponding safeAreaInset == 0 (example: iPhone 8 safeAreaInsets are {"bottom": 0, "left": 0, "right": 0, "top": 0})
+    // const customBottomInset = 15;
+    // const customTopInset = 10;
 
     return (
         <PageBase style={[BaseStyles.page, style, { backgroundColor: theme.colors.background }]}>
@@ -69,6 +70,8 @@ export default function MasloPageExtended(props: MasloPageExtendedProps) {
 
         </PageBase>
 
+        // If we need to access the safe area uncomment below and remove above
+        
         // <SafeAreaInsetsContext.Consumer>
         //     {(insets) =>
         //         <PageBase style={[BaseStyles.page, style,

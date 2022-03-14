@@ -179,13 +179,6 @@ export class ChooseDomainView extends ViewDomainsBase {
 
 
     public getBottomBannerElement(): JSX.Element {
-        // MK-TODO: - animated slide up from bottom?
-        // this.state.popUpFadeOpacity != fadeEnd && Animated.timing(this.state.popUpFadeOpacity, {
-        //     toValue: 1,
-        //     delay: 50,
-        //     duration: 350,
-        //     useNativeDriver: true
-        // }).start();
         let selectionInformation = '';
         switch (this.viewModel.selectedDomains.domains.length) {
             case 1:

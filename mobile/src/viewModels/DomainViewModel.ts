@@ -101,7 +101,7 @@ export default class DomainViewModel {
     // adds selected domains by user to the selected domains array, use this array to persist to backend by calling postFocusedDomains
     // returns false if domain has already been selected
     // Use callback to set selected domains in StrategiesViewModel
-    public selectDomain(domain: Domain, callback: () => void): Boolean {
+    public selectDomain(domain: Domain, callback: () => void): boolean {
         if (this._selectedDomains.domains.includes(domain.name)) {
             return false;
         }

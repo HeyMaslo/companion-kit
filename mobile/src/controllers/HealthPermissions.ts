@@ -56,8 +56,6 @@ export class HealthPermissionsController implements IDisposable {
 
         this._enabledByUser = false;
         this._syncThrottle.tryRun(this.syncSettings);
-
-        return false;
     }
 
     private async checkForIOSHealthData(): Promise<boolean> {
