@@ -1,7 +1,7 @@
 import { VersionStub } from '../../../common/controllers/VersionController';
 import AppController from 'src/controllers';
 
-const SUPPORTED_DB_VERSION = '1.0.1';
+const SUPPORTED_DB_VERSION = '1.0.0';
 
 export default class VersionViewModel {
 
