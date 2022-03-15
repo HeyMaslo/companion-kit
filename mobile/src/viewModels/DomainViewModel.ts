@@ -19,7 +19,7 @@ export default class DomainViewModel {
 
     public domainCount: number;
 
-    public learnMoreSubdomain: Subdomain;
+    public learnMoreSubdomain: Subdomain = null;
     public checkedSubdomains: SubdomainName[] = []; // used to persist subdomain checkboxes when moving to and from subdomain 'Learn More' View 
 
     constructor() {
