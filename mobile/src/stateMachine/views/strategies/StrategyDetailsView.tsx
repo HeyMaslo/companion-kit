@@ -7,8 +7,8 @@ import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
-import { iconForDomain } from 'src/helpers/DomainHelper';
-import Layout from 'src/constants/Layout';
+import { HTMLStyles, iconForDomain, replaceListTags } from 'src/helpers/DomainHelper';
+import RenderHTML from 'react-native-render-html';
 import { DomainName } from 'src/constants/Domain';
 
 @observer
@@ -48,6 +48,10 @@ export class StrategyDetailsView extends ViewState {
   );
 
   renderContent() {
+    const htmlSource = {
+      html: replaceListTags(this._learnMoreStrategy.details)
+    };
+
     return (
       <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()} theme={this.theme}>
         <Container style={[{ height: this._contentHeight, paddingTop: 10, paddingBottom: 10 }]}>
@@ -64,11 +68,15 @@ export class StrategyDetailsView extends ViewState {
             keyExtractor={item => item}
             scrollEnabled={false} />
           {/* Body */}
-          <ScrollView style={{ width: Layout.window.width, marginLeft: -20 }} contentContainerStyle={{ paddingHorizontal: 20 }}>
-            <Text style={[TextStyles.p1, styles.body]}>
-              {this._learnMoreStrategy.details}
-            </Text>
-          </ScrollView>
+          <RenderHTML
+            contentWidth={this.layout.window.width - 40}
+            source={htmlSource}
+            baseStyle={HTMLStyles.baseStyle}
+            systemFonts={HTMLStyles.systemFonts}
+            tagsStyles={HTMLStyles.tagsStyles}
+          />
+          {/* <ScrollView style={{ width: Layout.window.width, marginLeft: -20 }} contentContainerStyle={{ paddingHorizontal: 20 }}>
+          </ScrollView> */}
         </Container>
       </MasloPage>
     );
