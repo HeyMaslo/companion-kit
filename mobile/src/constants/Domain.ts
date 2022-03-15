@@ -1,3 +1,26 @@
+// Slug used in backend only
+export enum DomainSlug {
+  MOOD            = 'Mood',
+  PHYSICAL        = 'Physical',
+  SLEEP           = 'Sleep',
+  THINKING        = 'Thinking',
+  IDENTITY        = 'Identity',
+  LEISURE         = 'Leisure',
+  INDEPENDENCE    = 'Independence',
+  SELFESTEEM      = 'Self-Esteem',
+  HOME            = 'Home',
+  MONEY           = 'Money',
+  SPIRITUALITY    = 'Spirituality',
+  RELATIONSHIPS   = 'Relationships',
+  WORK            = 'Work',
+  STUDY           = 'Study',
+  EXERCISE        = 'Exercise',
+  DIETNUTRITION   = 'Diet & Nutrition',
+  SEXUALHEALTH    = 'Sexual Health',
+  SUBSTANCEUSE    = 'Substance Use',
+}
+
+// DomainName used in the frontent 
 export enum DomainName {
   MOOD            = 'Mood',
   PHYSICAL        = 'Physical',
@@ -11,10 +34,11 @@ export enum DomainName {
   MONEY           = 'Money',
   SPIRITUALITY    = 'Spirituality',
   RELATIONSHIPS   = 'Relationships',
-  // WORK            = 'Work',
-  // STUDY           = 'Study',
+  WORK            = 'Work',
+  STUDY           = 'Study',
 }
 
+// SubdomainName used in the frontent 
 export enum SubdomainName {
   // Physical
   EXERCISE        = 'Exercise',

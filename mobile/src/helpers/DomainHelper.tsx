@@ -1,8 +1,90 @@
 import Images from 'src/constants/images';
 import { StyleProp, ViewStyle } from 'react-native';
 import React from 'react';
-import { DomainName, SubdomainName } from 'src/constants/Domain';
+import { DomainName, DomainSlug, SubdomainName } from 'src/constants/Domain';
 import { mainFontLight, mainFontMedium } from 'src/styles/TextStyles';
+
+export function convertToDomainSlug(name: DomainName | SubdomainName): DomainSlug {
+  switch (name) {
+    case DomainName.MOOD:
+      return DomainSlug.MOOD;
+    case DomainName.PHYSICAL:
+      return DomainSlug.PHYSICAL;
+    case DomainName.SLEEP:
+      return DomainSlug.SLEEP;
+    case DomainName.THINKING:
+      return DomainSlug.THINKING;
+    case DomainName.IDENTITY:
+      return DomainSlug.IDENTITY;
+    case DomainName.LEISURE:
+      return DomainSlug.LEISURE;
+    case DomainName.INDEPENDENCE:
+      return DomainSlug.INDEPENDENCE;
+    case DomainName.SELFESTEEM:
+      return DomainSlug.SELFESTEEM;
+    case DomainName.HOME:
+      return DomainSlug.HOME;
+    case DomainName.MONEY:
+      return DomainSlug.MONEY;
+    case DomainName.SPIRITUALITY:
+      return DomainSlug.SPIRITUALITY;
+    case DomainName.RELATIONSHIPS:
+      return DomainSlug.RELATIONSHIPS;
+    case DomainName.WORK:
+      return DomainSlug.WORK;
+    case DomainName.STUDY:
+      return DomainSlug.STUDY;
+    case SubdomainName.EXERCISE:
+      return DomainSlug.EXERCISE;
+    case SubdomainName.DIETNUTRITION:
+      return DomainSlug.DIETNUTRITION;
+    case SubdomainName.SEXUALHEALTH:
+      return DomainSlug.SEXUALHEALTH;
+    case SubdomainName.SUBSTANCEUSE:
+      return DomainSlug.SUBSTANCEUSE;
+  }
+}
+
+export function convertFromDomainSlug(slug: DomainSlug): DomainName | SubdomainName {
+  switch (slug) {
+    case DomainSlug.MOOD:
+      return DomainName.MOOD;
+    case DomainSlug.PHYSICAL:
+      return DomainName.PHYSICAL;
+    case DomainSlug.SLEEP:
+      return DomainName.SLEEP;
+    case DomainSlug.THINKING:
+      return DomainName.THINKING;
+    case DomainSlug.IDENTITY:
+      return DomainName.IDENTITY;
+    case DomainSlug.LEISURE:
+      return DomainName.LEISURE;
+    case DomainSlug.INDEPENDENCE:
+      return DomainName.INDEPENDENCE;
+    case DomainSlug.SELFESTEEM:
+      return DomainName.SELFESTEEM;
+    case DomainSlug.HOME:
+      return DomainName.HOME;
+    case DomainSlug.MONEY:
+      return DomainName.MONEY;
+    case DomainSlug.SPIRITUALITY:
+      return DomainName.SPIRITUALITY;
+    case DomainSlug.RELATIONSHIPS:
+      return DomainName.RELATIONSHIPS;
+    case DomainSlug.WORK:
+      return DomainName.WORK;
+    case DomainSlug.STUDY:
+      return DomainName.STUDY;
+    case DomainSlug.EXERCISE:
+      return SubdomainName.EXERCISE;
+    case DomainSlug.DIETNUTRITION:
+      return SubdomainName.DIETNUTRITION;
+    case DomainSlug.SEXUALHEALTH:
+      return SubdomainName.SEXUALHEALTH;
+    case DomainSlug.SUBSTANCEUSE:
+      return SubdomainName.SUBSTANCEUSE;
+  }
+}
 
 export function iconForDomain(name: DomainName | SubdomainName, style?: StyleProp<ViewStyle>, color: string = 'black', width: number = 30, height: number = 30, fill?: string): JSX.Element {
   if (!name) { return <></>; }
