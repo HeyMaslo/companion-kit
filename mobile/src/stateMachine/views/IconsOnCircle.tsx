@@ -111,7 +111,7 @@ export default class IconsOnCircle extends React.Component<IconsOnCircleProps, C
         return { x: this.state.x8 + offsetX, y: this.state.y8 + iconOffsetY + offsetY + 15, iconCenterX: this.state.x8 + iconOffsetX, iconCenterY: this.state.y8 + symbolRadius };
       case DomainName.MONEY:
         return { x: this.state.x9 + offsetX, y: this.state.y9 + iconOffsetY + offsetY + 15, iconCenterX: this.state.x9 + iconOffsetX, iconCenterY: this.state.y9 + symbolRadius };
-      case DomainName.SPIRITUAL:
+      case DomainName.SPIRITUALITY:
         return { x: this.state.x10 + offsetX, y: this.state.y10 + iconOffsetY + offsetY + 15, iconCenterX: this.state.x10 + iconOffsetX, iconCenterY: this.state.y10 + symbolRadius };
       case DomainName.RELATIONSHIPS:
         return { x: this.state.x11 + offsetX - 10, y: this.state.y11 + iconOffsetY - offsetY, iconCenterX: this.state.x11 + iconOffsetX, iconCenterY: this.state.y11 + symbolRadius };
@@ -151,7 +151,7 @@ export default class IconsOnCircle extends React.Component<IconsOnCircleProps, C
 
           <View style={[styles.iconWrapper, { marginTop: this.state.y10 - (this.symbolSize + this.state.y9) }]}>
             <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.HOME)} style={{ marginLeft: this.state.x4 }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.HOME, {}, this.getIconColor(DomainName.HOME), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
-            <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.SPIRITUAL)} style={{ marginLeft: this.state.x2 - this.state.x4 - this.symbolSize }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.SPIRITUAL, {}, this.getIconColor(DomainName.SPIRITUAL), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
+            <TouchableOpacity hitSlop={styles.iconTouchInsets} onPress={this.onIconTap(DomainName.SPIRITUALITY)} style={{ marginLeft: this.state.x2 - this.state.x4 - this.symbolSize }}><View style={[{ width: this.symbolSize, height: this.symbolSize }]}>{iconForDomain(DomainName.SPIRITUALITY, {}, this.getIconColor(DomainName.SPIRITUALITY), this.symbolSize, this.symbolSize)}</View></TouchableOpacity>
           </View>
 
           <View style={[styles.iconWrapper, { marginTop: this.state.y11 - (this.symbolSize + this.state.y10) }]}>
@@ -182,7 +182,7 @@ export default class IconsOnCircle extends React.Component<IconsOnCircleProps, C
                 <View key='callout' pointerEvents={'none'} style={[styles.callout, { left: this.state.calloutLeft, top: this.state.calloutTop }]}>
                   <Text style={[styles.calloutText]}>{this.state.currentCallout}</Text>
                 </View>
-                {this.state.currentCallout == DomainName.HOME || this.state.currentCallout == DomainName.SPIRITUAL || this.state.currentCallout == DomainName.MONEY ?
+                {this.state.currentCallout == DomainName.HOME || this.state.currentCallout == DomainName.SPIRITUALITY || this.state.currentCallout == DomainName.MONEY ?
                   <View style={[styles.triangle, styles.arrowUp, { left: this.state.iconCenterX + 10, top: this.state.calloutTop - 10 }]} /> :
                   <View style={[styles.triangle, styles.arrowDown, { left: this.state.iconCenterX + 10, top: this.state.calloutTop + (styles.calloutText.lineHeight + styles.callout.padding * 2) }]} />}
               </Animated.View>
