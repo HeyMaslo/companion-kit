@@ -6,11 +6,13 @@ export enum DomainName {
   IDENTITY        = 'Identity',
   LEISURE         = 'Leisure',
   INDEPENDENCE    = 'Independence',
-  SELFESTEEM      = 'Self-esteem',
+  SELFESTEEM      = 'Self-Esteem',
   HOME            = 'Home',
   MONEY           = 'Money',
-  SPIRITUAL       = 'Spiritual',
+  SPIRITUALITY    = 'Spirituality',
   RELATIONSHIPS   = 'Relationships',
+  // WORK            = 'Work',
+  // STUDY           = 'Study',
 }
 
 export enum SubdomainName {
