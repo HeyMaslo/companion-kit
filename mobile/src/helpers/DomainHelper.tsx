@@ -41,8 +41,8 @@ export function iconForDomain(name: DomainName | SubdomainName, style?: StylePro
     case DomainName.MONEY:
       return <Images.moneyIcon pointerEvents={'none'} key={DomainName.MONEY} color={color} fill={fill} width={width} height={height} style={style} />;
 
-    case DomainName.SPIRITUAL:
-      return <Images.spirtualIcon pointerEvents={'none'} key={DomainName.SPIRITUAL} color={color} fill={fill} width={width} height={height} style={style} />;
+    case DomainName.SPIRITUALITY:
+      return <Images.spirtualIcon pointerEvents={'none'} key={DomainName.SPIRITUALITY} color={color} fill={fill} width={width} height={height} style={style} />;
 
     case DomainName.RELATIONSHIPS:
       return <Images.relationshipsIcon pointerEvents={'none'} key={DomainName.RELATIONSHIPS} color={color} fill={fill} width={width} height={height} style={style} />;
