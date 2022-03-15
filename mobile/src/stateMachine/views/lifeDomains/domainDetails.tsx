@@ -3,7 +3,6 @@ import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import RenderHTML from 'react-native-render-html';
 import { Container, MasloPage, StrategyCard, Button } from 'src/components';
-import { containerStyles } from 'src/components/Container';
 import { DomainName } from 'src/constants/Domain';
 import Layout from 'src/constants/Layout';
 import { DisplayStrategy } from 'src/constants/Strategy';
@@ -77,19 +76,20 @@ export class DomainDetailsView extends ViewState {
 
     renderContent() {
         const display = this.viewModel.getDomainDisplay();
-        const subdomains = display.subdomains;
+        let subdomains = display.subdomains;
         const learnMoreSubdomain = this.viewModel.learnMoreSubdomain;
 
         let mainName = display.mainName;
         let importance = replaceListTags(display.mainImportance);
         let whatToKnowBullets = this.viewModel.getDomainByName(mainName as DomainName).whatToKnowBullets
 
-        if (subdomains && subdomains.includes(learnMoreSubdomain)) {
+        if (learnMoreSubdomain) {
+            subdomains = null;
             mainName = learnMoreSubdomain.name
-            importance = learnMoreSubdomain.importance
+            importance = replaceListTags(learnMoreSubdomain.importance);
             whatToKnowBullets = learnMoreSubdomain.bullets
         }
-        const domainString = mainName == DomainName.PHYSICAL ? 'Physical health' : mainName;
+        const domainString = (mainName == DomainName.PHYSICAL) ? 'Physical health' : mainName;
 
         const htmlSource = {
             html: importance
