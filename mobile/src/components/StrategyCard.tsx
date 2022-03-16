@@ -10,8 +10,8 @@ import { Theme } from 'src/constants/theme/PStheme';
 
 type IStrategyCardProps = {
   item: DisplayStrategy,
-  onLearnMorePress: ((strategyId: string) => void),
-  onSelectStrategy?: ((strategyId: string) => void),
+  onLearnMorePress: ((slug: string) => void),
+  onSelectStrategy?: ((slug: string) => void),
   hideCheckbox?: boolean,
   isSmallCard?: boolean,
   theme: Theme,
@@ -32,7 +32,7 @@ export default class StrategyCard extends React.Component<IStrategyCardProps, St
   render() {
     const theme = this.props.theme;
     return (
-      <Pressable style={{ width: '100%' }} onPress={() => this.props.onSelectStrategy(this.props.item.internalId)} disabled={!this.state.isPressable}>
+      <Pressable style={{ width: '100%' }} onPress={() => this.props.onSelectStrategy(this.props.item.slug)} disabled={!this.state.isPressable}>
         <View style={[styles.listItem, { backgroundColor: this.props.theme.colors.background }, this.props.item.isChecked && { borderColor: theme.colors.highlight }]}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={[TextStyles.labelLarge, { display: 'flex' }]}>{this.props.item.title}</Text>
@@ -44,11 +44,11 @@ export default class StrategyCard extends React.Component<IStrategyCardProps, St
           {this.props.isSmallCard && <Text style={[TextStyles.p2, { paddingLeft: 7, paddingTop: 7 }]}>{this.props.item.shortDescription}</Text>}
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
-              {this.props.item.associatedDomainNames.filter((dom) => dom !== DomainName.PHYSICAL).map((name) => {
+              {this.props.item.domains.filter((dom) => dom !== DomainName.PHYSICAL).map((name) => {
                 return iconForDomain(name as DomainName, null, theme.colors.highlight, 22, 22);
               })}
             </View>
-            <TouchableOpacity onPress={() => this.props.onLearnMorePress(this.props.item.internalId)} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
+            <TouchableOpacity onPress={() => this.props.onLearnMorePress(this.props.item.slug)} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
               <Text style={[TextStyles.labelMedium, { color: theme.colors.highlight, display: 'flex', paddingRight: 7 }]}>{'Learn More >'}</Text>
             </TouchableOpacity>
           </View>

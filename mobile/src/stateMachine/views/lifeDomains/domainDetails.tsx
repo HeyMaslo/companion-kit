@@ -56,7 +56,7 @@ export class DomainDetailsView extends ViewState {
     }
 
     onLearnMorePress(id: string) {
-        this.strategiesViewModel.learnMoreStrategy = this.strategiesViewModel.getStrategyById(id);
+        this.strategiesViewModel.learnMoreStrategy = this.strategiesViewModel.getStrategyBySlug(id);
         this.trigger(ScenarioTriggers.Tertiary);
     }
 

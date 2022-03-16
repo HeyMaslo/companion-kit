@@ -40,11 +40,7 @@ export default class StrategyViewModel {
     if (strats) {
       this._allStrategies = strats.map((s) => {
         return {
-          internalId: s.internalId,
-          title: s.title,
-          shortDescription: s.shortDescription,
-          details: s.details,
-          associatedDomainNames: s.associatedDomainNames,
+          ...s,
           isChecked: false,
         } as DisplayStrategy
       });
@@ -54,27 +50,27 @@ export default class StrategyViewModel {
   public async fetchPossibleStrategies() {
     let possibleStrategies = await AppController.Instance.User.strategy.getPossibleStrategies();
     possibleStrategies.forEach((strat) => {
-      strat.associatedDomainNames = strat.associatedDomainNames.map((ad) => convertFromDomainSlug(ad as DomainSlug));
+      strat.domains = strat.domains.map((domSlug) => convertFromDomainSlug(domSlug as DomainSlug));
     })
     this.setAllStrategies(possibleStrategies);
   }
 
   // must be called after fetchPossibleStrategies
   public async fetchSelectedStrategies() {
-    let chosenStrategiesIds = await AppController.Instance.User.strategy.getChosenStrategiesIds();
-    if (chosenStrategiesIds) {
-      this.selectedStrategies = this.allStrategies.filter((strat) => chosenStrategiesIds.includes(strat.internalId));
+    let chosenStrategiesSlugs = await AppController.Instance.User.strategy.getChosenStrategiesSlugs();
+    if (chosenStrategiesSlugs) {
+      this.selectedStrategies = this.allStrategies.filter((strat) => chosenStrategiesSlugs.includes(strat.slug));
     }
   }
 
   public postSelectedStrategies(): Promise<void> {
-    return AppController.Instance.User.qol.setUserStateProperty('chosenStrategies', this.selectedStrategies.map(strat => strat.internalId));
+    return AppController.Instance.User.qol.setUserStateProperty('chosenStrategies', this.selectedStrategies.map(strat => strat.slug));
   }
 
   // Only include strategies from the selectedDomains and selectedSubdomains.
   public updateAvailableStrategiesForSelectedDomains() {
     const selectedDomainsAndSubdomain: string[] = (this._selectedDomains.domains.filter((dom) => dom !== DomainName.PHYSICAL) as string[]).concat(this._selectedDomains.subdomains);
-    this.availableStrategies = this._allStrategies.filter((s) => s.associatedDomainNames.some(r => {
+    this.availableStrategies = this._allStrategies.filter((s) => s.domains.some(r => {
       return selectedDomainsAndSubdomain.includes(r);
     }))
     this._availableStrategies = this.availableStrategies;
@@ -84,28 +80,28 @@ export default class StrategyViewModel {
     if (strategyDomain == null) {
       this.availableStrategies = this._availableStrategies;
     } else {
-      this.availableStrategies = this._availableStrategies.filter((s) => s.associatedDomainNames.includes(strategyDomain))
+      this.availableStrategies = this._availableStrategies.filter((s) => s.domains.includes(strategyDomain))
     }
   }
 
   // adds strategies selected by user to the selected strategies array, use this array to persist to backend
   public selectStrategy(strategy: Strategy): Boolean {
-    if (this.selectedStrategies.map(s => s.internalId).includes(strategy.internalId)) {
-      this.selectedStrategies = this.selectedStrategies.filter(s => s.internalId != strategy.internalId)
-      this.availableStrategies.find(s => s.internalId == strategy.internalId).isChecked = false;
+    if (this.selectedStrategies.map(s => s.slug).includes(strategy.slug)) {
+      this.selectedStrategies = this.selectedStrategies.filter(s => s.slug != strategy.slug)
+      this.availableStrategies.find(s => s.slug == strategy.slug).isChecked = false;
       return false;
     } else if (this.selectedStrategies.length >= 4) {
       return false
     }
     this.selectedStrategies.push(strategy);
-    this.availableStrategies.find(s => s.internalId == strategy.internalId).isChecked = true;
+    this.availableStrategies.find(s => s.slug == strategy.slug).isChecked = true;
     return true;
   }
 
-  public getStrategyById(id: string): Strategy {
+  public getStrategyBySlug(slug: string): Strategy {
     for (let i = 0; i < this._allStrategies.length; i++) {
       let strat = this._allStrategies[i];
-      if (strat.internalId === id) {
+      if (strat.slug === slug) {
         return strat;
       }
     }

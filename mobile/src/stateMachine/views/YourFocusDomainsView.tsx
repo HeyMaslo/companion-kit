@@ -49,7 +49,7 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
   }
 
   onLearnMorePress(id: string) {
-    const found = this.strategiesViewModel.getStrategyById(id);
+    const found = this.strategiesViewModel.getStrategyBySlug(id);
     if (found) {
       this.strategiesViewModel.learnMoreStrategy = found;
       this.trigger(ScenarioTriggers.Tertiary);

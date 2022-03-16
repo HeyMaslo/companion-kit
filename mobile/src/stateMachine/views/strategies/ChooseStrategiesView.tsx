@@ -71,7 +71,7 @@ export class ChooseStrategiesView extends ViewState {
   }
 
   onLearnMorePress(id: string) {
-    const found = this.viewModel.getStrategyById(id);
+    const found = this.viewModel.getStrategyBySlug(id);
     if (found) {
       this.viewModel.learnMoreStrategy = found;
       this.trigger(ScenarioTriggers.Tertiary);
@@ -79,7 +79,7 @@ export class ChooseStrategiesView extends ViewState {
   }
 
   onSelectStrategy = (id: string) => {
-    this.viewModel.selectStrategy(this.viewModel.getStrategyById(id));
+    this.viewModel.selectStrategy(this.viewModel.getStrategyBySlug(id));
     this.numberOfSelectedStrategies = this.viewModel.selectedStrategies.length;
   }
 

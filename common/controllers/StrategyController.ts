@@ -15,7 +15,7 @@ export default class StrategyControllerBase implements IStrategyController {
     return await RepoFactory.Instance.strategies.get();
   }
 
-  public async getChosenStrategiesIds(): Promise<string[]> {
+  public async getChosenStrategiesSlugs(): Promise<string[]> {
     return (await RepoFactory.Instance.userState.getByUserId(this._userId)).chosenStrategies;
   }
 

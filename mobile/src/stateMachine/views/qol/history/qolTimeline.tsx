@@ -94,7 +94,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   }
 
   onViewStrategies = () => {
-    AppViewModel.Instance.Strategy.temporaryDisplay = AppViewModel.Instance.Strategy.allStrategies.filter((strat) => this.selectedEntry.strategyIds.includes(strat.internalId));
+    AppViewModel.Instance.Strategy.temporaryDisplay = AppViewModel.Instance.Strategy.allStrategies.filter((strat) => this.selectedEntry.strategySlugs.includes(strat.slug));
     this.viewModel.setSelectedEntry(this.selectedEntry, this.selectedEntryIndex + 1);
     this.trigger(ScenarioTriggers.Secondary)
   }
