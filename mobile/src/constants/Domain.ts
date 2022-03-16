@@ -14,6 +14,7 @@ export enum DomainSlug {
   RELATIONSHIPS   = 'Relationships',
   WORK            = 'Work',
   STUDY           = 'Study',
+  // Physical subdomains
   EXERCISE        = 'Exercise',
   DIETNUTRITION   = 'Diet & Nutrition',
   SEXUALHEALTH    = 'Sexual Health',
