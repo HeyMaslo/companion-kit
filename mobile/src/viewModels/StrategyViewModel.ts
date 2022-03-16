@@ -1,7 +1,8 @@
 import { observable } from 'mobx';
 import { Strategy, DisplayStrategy } from '../constants/Strategy';
-import { Domain, DomainName, FocusedDomains, SubdomainName } from '../constants/Domain';
+import { Domain, DomainName, DomainSlug, FocusedDomains, SubdomainName } from '../constants/Domain';
 import AppController from 'src/controllers';
+import { convertFromDomainSlug } from 'src/helpers/DomainHelper';
 
 export default class StrategyViewModel {
 
@@ -52,6 +53,9 @@ export default class StrategyViewModel {
 
   public async fetchPossibleStrategies() {
     let possibleStrategies = await AppController.Instance.User.strategy.getPossibleStrategies();
+    possibleStrategies.forEach((strat) => {
+      strat.associatedDomainNames = strat.associatedDomainNames.map((ad) => convertFromDomainSlug(ad as DomainSlug));
+    })
     this.setAllStrategies(possibleStrategies);
   }
 

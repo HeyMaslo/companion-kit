@@ -6,8 +6,7 @@ import { Container, MasloPage, StrategyCard, Button } from 'src/components';
 import { DomainName } from 'src/constants/Domain';
 import Layout from 'src/constants/Layout';
 import { DisplayStrategy } from 'src/constants/Strategy';
-import { iconForDomain, replaceListTags } from 'src/helpers/DomainHelper';
-import { mainFontLight, mainFontMedium } from 'src/styles/TextStyles';
+import { HTMLStyles, iconForDomain, replaceListTags } from 'src/helpers/DomainHelper';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
@@ -121,9 +120,9 @@ export class DomainDetailsView extends ViewState {
                         <RenderHTML
                             contentWidth={this.layout.window.width - 40}
                             source={htmlSource}
-                            baseStyle={{ fontFamily: mainFontLight, lineHeight: 30, fontSize: 15 }}
-                            systemFonts={[mainFontLight, mainFontMedium]}
-                            tagsStyles={{ h2: { fontFamily: mainFontMedium }, h3: { fontFamily: mainFontMedium }, strong: { fontFamily: mainFontMedium }, em: { fontFamily: mainFontMedium } }}
+                            baseStyle={HTMLStyles.baseStyle}
+                            systemFonts={HTMLStyles.systemFonts}
+                            tagsStyles={HTMLStyles.tagsStyles}
                         />
                         {/* Strategies List */}
                         <Text style={[this.textStyles.h2, styles.header]}>Strategies:</Text>
