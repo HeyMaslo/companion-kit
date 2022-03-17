@@ -5,7 +5,7 @@ import { StyleSheet, Text, View, ScrollView, Switch, Platform } from 'react-nati
 import { Card } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import TextStyles from 'src/styles/TextStyles';
-import { DomainName, DomainSlug } from 'src/constants/Domain';
+import { DomainSlug } from 'src/constants/Domain';
 import { iconForDomain } from 'src/helpers/DomainHelper';
 
 

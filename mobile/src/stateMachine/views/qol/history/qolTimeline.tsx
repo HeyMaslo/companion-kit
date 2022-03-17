@@ -11,7 +11,7 @@ import { formatDateMonthYear } from 'common/utils/dateHelpers';
 import Layout from 'src/constants/Layout';
 import { getPersonaRadius } from '../../../persona';
 import IconsOnCircle from '../../IconsOnCircle';
-import { DomainName, DomainSlug } from 'src/constants/Domain';
+import { DomainSlug } from 'src/constants/Domain';
 import { SurveyResults } from 'common/database/repositories/SurveyResultsRepo';
 import SplineThroughPoints, { CartesianCoordinate } from '../../SplineThroughPoints';
 import { QolSurveyType } from 'src/constants/QoL';

@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewDomainsBase } from './viewDomainsBase';
 import AppViewModel from 'src/viewModels';
-import { DomainName, DomainSlug, Subdomain } from 'src/constants/Domain';
+import { DomainSlug, Subdomain } from 'src/constants/Domain';
 
 @observer
 export class ViewDomainsView extends ViewDomainsBase {

@@ -1,5 +1,5 @@
 import { HourAndMinute } from '../utils/dateHelpers';
-import { DomainName, DomainSlug, Subdomain, SubdomainName } from '../../mobile/src/constants/Domain';
+import { DomainSlug } from '../../mobile/src/constants/Domain';
 import Identify from './Identify';
 
 export type UserLocalSettings = {

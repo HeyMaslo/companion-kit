@@ -9,7 +9,7 @@ import Colors from '../../../constants/colors/Colors';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
 import { AlertExitWithoutSave } from 'src/constants/alerts';
-import { DomainName, DomainSlug } from 'src/constants/Domain';
+import { DomainSlug } from 'src/constants/Domain';
 import { DisplayStrategy } from 'src/constants/Strategy';
 
 @observer

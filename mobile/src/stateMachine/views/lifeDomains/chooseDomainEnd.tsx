@@ -3,7 +3,6 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, Container, MasloPage } from 'src/components';
-import { DomainName, SubdomainName } from 'src/constants/Domain';
 import Layout from 'src/constants/Layout';
 import AppController from 'src/controllers';
 import AppViewModel from 'src/viewModels';

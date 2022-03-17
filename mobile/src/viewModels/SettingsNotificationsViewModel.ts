@@ -3,7 +3,7 @@ import AppController from 'src/controllers';
 import { Alert, Linking, Platform } from 'react-native';
 import * as Links from 'src/constants/links';
 import { HourAndMinute } from 'common/utils/dateHelpers';
-import { DomainName, DomainSlug, SubdomainName } from 'src/constants/Domain';
+import { DomainSlug } from 'src/constants/Domain';
 
 export class SettingsNotificationsViewModel {
 

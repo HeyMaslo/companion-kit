@@ -1,4 +1,4 @@
-import { DomainName, DomainSlug, SubdomainName } from './Domain';
+import { DomainSlug } from './Domain';
 
 export type Strategy = {
   title:                    string,

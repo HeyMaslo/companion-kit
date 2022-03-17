@@ -10,7 +10,7 @@ import { PersonaViewPresets } from 'src/stateMachine/persona';
 import Images from 'src/constants/images';
 import AppViewModel from 'src/viewModels';
 import { iconForDomain } from 'src/helpers/DomainHelper';
-import { DomainName, DomainSlug } from 'src/constants/Domain';
+import { DomainSlug } from 'src/constants/Domain';
 
 @observer
 export class CustomizeNotificationsView extends ViewState {

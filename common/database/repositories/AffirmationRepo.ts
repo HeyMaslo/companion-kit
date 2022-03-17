@@ -3,7 +3,7 @@ import { DocumentSnapshot, Query } from './dbProvider';
 import { GenericRepo } from '.';
 import { Affirmation } from '../../../mobile/src/constants/QoL';
 import { LastSeen } from '../../models/userState';
-import { DomainName, DomainSlug, SubdomainName } from '../../../mobile/src/constants/Domain';
+import { DomainSlug } from '../../../mobile/src/constants/Domain';
 
 export default class AffirmationRepo extends GenericRepo<Affirmation> {
 

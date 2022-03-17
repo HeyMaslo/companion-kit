@@ -6,7 +6,7 @@ import { IDisposable } from 'common/utils/unsubscriber';
 import RepoFactory from 'common/controllers/RepoFactory';
 import { Affirmation } from 'src/constants/QoL';
 import { UserState } from 'common/models/userState';
-import { DomainName, DomainSlug, SubdomainName } from 'src/constants/Domain';
+import { DomainSlug } from 'src/constants/Domain';
 import { HourAndMinute } from 'common/utils/dateHelpers';
 import AppController from '.';
 import { shuffle } from 'common/utils/mathx';

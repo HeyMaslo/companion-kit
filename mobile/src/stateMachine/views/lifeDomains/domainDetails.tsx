@@ -3,7 +3,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import RenderHTML from 'react-native-render-html';
 import { Container, MasloPage, StrategyCard, Button } from 'src/components';
-import { DomainName, DomainSlug, SubdomainName } from 'src/constants/Domain';
+import { DomainName, DomainSlug } from 'src/constants/Domain';
 import Layout from 'src/constants/Layout';
 import { DisplayStrategy } from 'src/constants/Strategy';
 import { HTMLStyles, iconForDomain, replaceListTags } from 'src/helpers/DomainHelper';

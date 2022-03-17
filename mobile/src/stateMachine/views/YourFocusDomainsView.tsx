@@ -10,7 +10,7 @@ import { ViewState } from './base';
 import Layout from 'src/constants/Layout';
 import { getPersonaRadius } from '../persona';
 import IconsOnCircle from './IconsOnCircle';
-import { DomainName, FocusedDomains } from 'src/constants/Domain';
+import { FocusedDomains } from 'src/constants/Domain';
 import { Strategy } from 'src/constants/Strategy';
 
 const containerMarginTop = Layout.isSmallDevice ? 25 : 75;

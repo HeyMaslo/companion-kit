@@ -24,7 +24,6 @@ import { checkAndroidAuth } from 'src/helpers/health'
 import { getPersonaRadius, PersonaScale, PersonaViewPresets } from 'src/stateMachine/persona';
 import { Portal } from 'react-native-paper';
 import * as Haptics from 'src/services/haptics';
-import { DomainName, SubdomainName } from 'src/constants/Domain';
 import { formatDateDayMonthYear } from 'common/utils/dateHelpers';
 import { PersonaArmState } from 'dependencies/persona/lib';
 import { observable } from 'mobx';

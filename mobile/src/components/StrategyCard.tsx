@@ -5,7 +5,7 @@ import Images from 'src/constants/images';
 import TextStyles from 'src/styles/TextStyles';
 import Colors from '../constants/colors/Colors';
 import { iconForDomain } from 'src/helpers/DomainHelper';
-import { DomainName, DomainSlug } from 'src/constants/Domain';
+import { DomainSlug } from 'src/constants/Domain';
 import { Theme } from 'src/constants/theme/PStheme';
 
 type IStrategyCardProps = {

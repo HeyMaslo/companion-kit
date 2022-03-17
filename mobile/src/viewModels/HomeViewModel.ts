@@ -15,7 +15,6 @@ import { UserProfileViewModel } from './UserProfileViewModel';
 import { QolSurveyResults } from 'src/constants/QoL';
 import { PersonaArmState } from 'dependencies/persona/lib';
 import { ILocalSettingsController } from 'src/controllers/LocalSettings';
-import { DomainName } from 'src/constants/Domain';
 import ResourceViewModel from './ResourceViewModel';
 
 const EmptyArr: any[] = [];

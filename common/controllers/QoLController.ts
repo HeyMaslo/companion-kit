@@ -9,7 +9,7 @@ import RepoFactory from 'common/controllers/RepoFactory';
 import { UserState, LastSeen } from 'common/models/userState';
 import { createLogger } from 'common/logger';
 import { SurveyResults } from 'database/repositories/SurveyResultsRepo';
-import { DomainName, FocusedDomains } from '../../mobile/src/constants/Domain';
+import { FocusedDomains } from '../../mobile/src/constants/Domain';
 
 const logger = createLogger('[QoLController]');
 

@@ -8,7 +8,7 @@ import Colors from '../../../../constants/colors/Colors';
 import { ScenarioTriggers } from '../../../abstractions';
 import { ViewState } from '../../base';
 import { iconForDomain } from 'src/helpers/DomainHelper';
-import { DomainName, DomainSlug } from 'src/constants/Domain';
+import { DomainSlug } from 'src/constants/Domain';
 import { SurveyResults } from 'common/database/repositories/SurveyResultsRepo';
 import { formatDateMonthYear } from 'common/utils/dateHelpers';
 import { observable } from 'mobx';

@@ -9,7 +9,7 @@ import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
 import { HTMLStyles, iconForDomain, replaceListTags } from 'src/helpers/DomainHelper';
 import RenderHTML from 'react-native-render-html';
-import { DomainName, DomainSlug } from 'src/constants/Domain';
+import { DomainSlug } from 'src/constants/Domain';
 
 @observer
 export class StrategyDetailsView extends ViewState {
