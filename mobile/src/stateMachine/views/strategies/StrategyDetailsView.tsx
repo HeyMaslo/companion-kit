@@ -1,7 +1,7 @@
 import { Strategy } from '../../../../../mobile/src/constants/Strategy';
 import { observer } from 'mobx-react';
 import React from 'react';
-import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Container, MasloPage } from 'src/components';
 import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
