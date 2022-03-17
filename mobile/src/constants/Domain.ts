@@ -21,7 +21,7 @@ export enum DomainSlug {
   SUBSTANCEUSE    = 'SubstanceUse',
 }
 
-// DomainName used in the frontent 
+// DomainName used in the frontent
 export enum DomainName {
   MOOD            = 'Mood',
   PHYSICAL        = 'Physical',
@@ -39,7 +39,7 @@ export enum DomainName {
   STUDY           = 'Study',
 }
 
-// SubdomainName used in the frontent 
+// SubdomainName used in the frontent
 export enum SubdomainName {
   // Physical
   EXERCISE        = 'Exercise',
