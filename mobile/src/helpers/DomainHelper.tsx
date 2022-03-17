@@ -45,7 +45,11 @@ export function convertToDomainSlug(name: DomainName | SubdomainName): DomainSlu
   }
 }
 
-export function convertFromDomainSlug(slug: DomainSlug): DomainName | SubdomainName {
+export function convertToDomainSlugs(names: (DomainName | SubdomainName)[]): DomainSlug[] {
+  return names.map((name) => convertToDomainSlug(name));
+}
+
+export function convertFromDomainSlug(slug: DomainSlug): (DomainName | SubdomainName) {
   switch (slug) {
     case DomainSlug.MOOD:
       return DomainName.MOOD;
@@ -84,6 +88,10 @@ export function convertFromDomainSlug(slug: DomainSlug): DomainName | SubdomainN
     case DomainSlug.SUBSTANCEUSE:
       return SubdomainName.SUBSTANCEUSE;
   }
+}
+
+export function convertFromDomainSlugs(slugs: DomainSlug[]): (DomainName | SubdomainName)[] {
+  return slugs.map((slug) => convertFromDomainSlug(slug));
 }
 
 export function iconForDomain(name: DomainName | SubdomainName, style?: StyleProp<ViewStyle>, color: string = 'black', width: number = 30, height: number = 30, fill?: string): JSX.Element {

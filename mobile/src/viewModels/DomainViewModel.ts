@@ -1,7 +1,8 @@
 import { observable } from 'mobx';
 import { createLogger } from 'common/logger';
-import { Domain, DomainName, FocusedDomains, Subdomain, SubdomainName } from '../constants/Domain';
+import { Domain, DomainName, FocusedDomains, FocusedDomainSlugs, Subdomain, SubdomainName } from '../constants/Domain';
 import AppController from 'src/controllers';
+import { convertToDomainSlugs } from 'src/helpers/DomainHelper';
 
 const logger = createLogger('[DomainViewModel]');
 
@@ -60,7 +61,11 @@ export default class DomainViewModel {
     }
 
     public postFocusedDomains(): Promise<void> {
-        return AppController.Instance.User.qol.setUserStateProperty('focusedDomains', this.selectedDomains);
+        let focusedDomainSlugs: FocusedDomainSlugs = {
+            domains: convertToDomainSlugs(this.selectedDomains.domains),
+            subdomains: convertToDomainSlugs(this.selectedDomains.subdomains)
+        }
+        return AppController.Instance.User.qol.setUserStateProperty('focusedDomains', focusedDomainSlugs);
     }
 
     //  Returns the three domain names displayed on the choose domain screen (main is center domain), along with the importance string of the main domain

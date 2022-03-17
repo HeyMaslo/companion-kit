@@ -49,7 +49,7 @@ export enum SubdomainName {
 }
 
 export type Domain = {
-  name:              DomainName,
+  name:              string,
   importance:        string,     // description of why the domain is important
   importanceBullets: string[],   // the key points of domain importance
   whatToKnowBullets: string[],
@@ -61,6 +61,12 @@ export type Subdomain = {
   importance: string,
   bullets:    string[],
 };
+
+export type FocusedDomainSlugs = {
+  domains: DomainSlug[],
+  subdomains: DomainSlug[],
+};
+
 
 export type FocusedDomains = {
   domains: DomainName[],

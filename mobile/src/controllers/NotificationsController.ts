@@ -35,7 +35,7 @@ export class NotificationsController implements IDisposable {
         this._userId = userId;
     }
 
-    public domainAndSubdomainNames: (DomainName | SubdomainName)[]; // only affirmations containing these domains will be scheduled
+    public domainAndSubdomains: (DomainName | SubdomainName)[]; // only affirmations containing these domains will be scheduled
 
     public scheduleTime: HourAndMinute; // the time of day the user wants to recieve a notification in miliseconds
 
@@ -122,18 +122,18 @@ export class NotificationsController implements IDisposable {
             userState = await this.completeOpenedNotification(userState); // make sure nothing is leftover from old notifcations
 
             let allPossibleAffirmations: Affirmation[] = await RepoFactory.Instance.affirmations.getByDomains(
-                this.domainAndSubdomainNames,
+                this.domainAndSubdomains,
                 this.allowBDMention,
                 userState.lastSeenAffirmations);
             allPossibleAffirmations = shuffle(allPossibleAffirmations);
 
-            this.domainAndSubdomainNames.filter((d) => d != DomainName.PHYSICAL);
-            const firstDomain = this.domainAndSubdomainNames[0]; // there will always be at least domain
-            const secondDomain = this.domainAndSubdomainNames.length > 1 ? this.domainAndSubdomainNames[1] : null;
-            const thirdDomain = this.domainAndSubdomainNames.length > 2 ? this.domainAndSubdomainNames[2] : null;
-            const fourthDomain = this.domainAndSubdomainNames.length > 3 ? this.domainAndSubdomainNames[3] : null;
-            const fifthDomain = this.domainAndSubdomainNames.length > 4 ? this.domainAndSubdomainNames[4] : null;
-            const sixthDomain = this.domainAndSubdomainNames.length > 5 ? this.domainAndSubdomainNames[5] : null; // possible to have 6 domains in total: 2 domains plus 4 of the physical subdomains
+            this.domainAndSubdomains.filter((d) => d != DomainName.PHYSICAL);
+            const firstDomain = this.domainAndSubdomains[0]; // there will always be at least domain
+            const secondDomain = this.domainAndSubdomains.length > 1 ? this.domainAndSubdomains[1] : null;
+            const thirdDomain = this.domainAndSubdomains.length > 2 ? this.domainAndSubdomains[2] : null;
+            const fourthDomain = this.domainAndSubdomains.length > 3 ? this.domainAndSubdomains[3] : null;
+            const fifthDomain = this.domainAndSubdomains.length > 4 ? this.domainAndSubdomains[4] : null;
+            const sixthDomain = this.domainAndSubdomains.length > 5 ? this.domainAndSubdomains[5] : null; // possible to have 6 domains in total: 2 domains plus 4 of the physical subdomains
 
             const actualDomains = [firstDomain, secondDomain, thirdDomain, fourthDomain, fifthDomain].filter((d) => d);
 
@@ -144,8 +144,8 @@ export class NotificationsController implements IDisposable {
                     affirmationsToSchedule = allPossibleAffirmations.slice(0, 27);
                     break;
                 case 2: {
-                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == firstDomain); // Note: affirmations only have 1 domain in 'domainNames' array
-                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == secondDomain);
+                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == firstDomain); // Note: affirmations only have 1 domain in 'domains' array
+                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == secondDomain);
                     for (let i = 0; i < 13; i++) { // (27 / 2 = 13.5) so we use 13 here and concat 1 more affirmation after the loop to get a total of 27
                         affirmationsToSchedule.concat(firstDomainAffirmations[i]);
                         affirmationsToSchedule.concat(secondDomainAffirmations[i]);
@@ -154,9 +154,9 @@ export class NotificationsController implements IDisposable {
                     break;
                 }
                 case 3: {
-                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == firstDomain);
-                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == secondDomain);
-                    const thirdDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == thirdDomain);
+                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == firstDomain);
+                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == secondDomain);
+                    const thirdDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == thirdDomain);
                     for (let i = 0; i < 9; i++) {
                         affirmationsToSchedule.concat(firstDomainAffirmations[i]);
                         affirmationsToSchedule.concat(secondDomainAffirmations[i]);
@@ -165,10 +165,10 @@ export class NotificationsController implements IDisposable {
                     break;
                 }
                 case 4: {
-                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == firstDomain);
-                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == secondDomain);
-                    const thirdDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == thirdDomain);
-                    const fourthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == fourthDomain);
+                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == firstDomain);
+                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == secondDomain);
+                    const thirdDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == thirdDomain);
+                    const fourthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == fourthDomain);
                     for (let i = 0; i < 7; i++) {
                         affirmationsToSchedule.concat(firstDomainAffirmations[i]);
                         affirmationsToSchedule.concat(secondDomainAffirmations[i]);
@@ -180,11 +180,11 @@ export class NotificationsController implements IDisposable {
                     break;
                 }
                 case 5: {
-                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == firstDomain);
-                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == secondDomain);
-                    const thirdDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == thirdDomain);
-                    const fourthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == fourthDomain);
-                    const fifthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == fifthDomain);
+                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == firstDomain);
+                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == secondDomain);
+                    const thirdDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == thirdDomain);
+                    const fourthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == fourthDomain);
+                    const fifthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == fifthDomain);
                     for (let i = 0; i < 6; i++) {
                         affirmationsToSchedule.concat(firstDomainAffirmations[i]);
                         affirmationsToSchedule.concat(secondDomainAffirmations[i]);
@@ -197,12 +197,12 @@ export class NotificationsController implements IDisposable {
                     break;
                 }
                 case 6: {
-                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == firstDomain);
-                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == secondDomain);
-                    const thirdDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == thirdDomain);
-                    const fourthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == fourthDomain);
-                    const fifthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == fifthDomain);
-                    const sixthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domainNames[0] == sixthDomain);
+                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == firstDomain);
+                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == secondDomain);
+                    const thirdDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == thirdDomain);
+                    const fourthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == fourthDomain);
+                    const fifthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == fifthDomain);
+                    const sixthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == sixthDomain);
                     for (let i = 0; i < 5; i++) {
                         affirmationsToSchedule.concat(firstDomainAffirmations[i]);
                         affirmationsToSchedule.concat(secondDomainAffirmations[i]);

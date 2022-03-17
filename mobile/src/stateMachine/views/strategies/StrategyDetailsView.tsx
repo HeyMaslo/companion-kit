@@ -64,7 +64,7 @@ export class StrategyDetailsView extends ViewState {
             <Text style={[TextStyles.p2, styles.strategy, { color: this.theme.colors.midground }]}>{'This strategy targets personal improvement in these life areas:'}</Text>
             {/* Icon Container */}
             <FlatList style={styles.list}
-              data={this.viewModel.learnMoreStrategy.associatedDomainNames.filter((dom) => dom != DomainName.PHYSICAL)}
+              data={this.viewModel.learnMoreStrategy.domains.filter((dom) => dom != DomainName.PHYSICAL)}
               renderItem={this.renderIconItem}
               keyExtractor={item => item}
               scrollEnabled={false} />

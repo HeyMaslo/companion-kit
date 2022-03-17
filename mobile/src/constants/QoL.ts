@@ -4,13 +4,19 @@
 */
 
 import { Identify } from 'common/models';
-import { DomainName } from './Domain';
+import { DomainName, DomainSlug, SubdomainName } from './Domain';
 
 // AFFIRMATIONS
+export type BackendAffirmation = {
+    domains: DomainSlug[],
+    content: string,
+    mentionsBD: boolean,
+};
+
 export type Affirmation = {
     id: string,
+    domains: (DomainName | SubdomainName)[],
     content: string,
-    domainNames: DomainName[],
     mentionsBD: boolean,
 };
 
@@ -27,7 +33,20 @@ export type QuestionIded = Identify<Question>;
 // SURVEY STATE DATA
 
 export type QolSurveyResults = {
-    [key in DomainName]: number[]
+    Mood: number[],
+    Physical: number[],
+    Sleep: number[],
+    Thinking: number[],
+    Identity: number[],
+    Leisure: number[],
+    Independence: number[],
+    'Self-Esteem': number[],
+    Home: number[],
+    Money: number[],
+    Spirituality: number[],
+    Relationships: number[],
+    Work?: number[],
+    School?: number[],
 };
 
 export namespace QolSurveyResults {

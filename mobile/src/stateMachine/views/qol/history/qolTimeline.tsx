@@ -18,7 +18,7 @@ import { QolSurveyType } from 'src/constants/QoL';
 import Colors from '../../../../constants/colors/Colors';
 import Images from 'src/constants/images';
 import { containerStyles } from 'src/components/Container';
-import { sum } from 'src/helpers/DomainHelper';
+import { convertFromDomainSlugs, sum } from 'src/helpers/DomainHelper';
 
 const containerMarginBottom = Layout.isSmallDevice ? 0 : 25;
 const containerMarginTop = Layout.isSmallDevice ? 25 : 75;
@@ -78,7 +78,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
     this.historyEntries = this.viewModel.historyEntries;
     this.selectedEntry = this.viewModel.selectedEntry;
     this.selectedEntryIndex = this.viewModel.selectedEntryWeekNumber - 1;
-    this.selectedDomains = this.selectedEntry.focusDomains.domains || [];
+    this.selectedDomains = convertFromDomainSlugs(this.selectedEntry.focusDomains.domains || []) as DomainName[];
     this.scrollViewContentOffset = { x: this.selectedEntryIndex * (weekCircleDiameter + weekCircleMarginLeft * 2), y: 0 };
 
     this.allDomains = AppViewModel.Instance.Domain.allDomains.map((d) => d.name);
@@ -130,7 +130,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   changeFilterPressed = (selection: string) => {
     if (selection == 'Show All') {
       this.domainSort = null;
-      this.selectedDomains = this.selectedEntry.focusDomains.domains;
+      this.selectedDomains = convertFromDomainSlugs(this.selectedEntry.focusDomains.domains || []) as DomainName[];
     } else {
       this.domainSort = selection as DomainName;
       this.selectedDomains = [this.domainSort];
@@ -177,7 +177,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
         this.selectedEntry = item
         this.selectedEntryIndex = index
         if (this.domainSort == null) {
-          this.selectedDomains = this.selectedEntry.focusDomains.domains || [];
+          this.selectedDomains = convertFromDomainSlugs(this.selectedEntry.focusDomains.domains || []) as DomainName[];
         }
       }}>
         <View style={[styles.weekCircle,
@@ -228,13 +228,13 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
 
             </ScrollView>
             {this.selectedEntryIndex !== 0 &&
-            <Button
-              title={`View Week ${this.selectedEntryIndex} Strategies`}
-              style={[styles.viewAllButton]}
-              onPress={this.onViewStrategies}
-              isTransparent={true}
-              disabled={this.dropDownIsExtended}
-              theme={this.theme} />}
+              <Button
+                title={`View Week ${this.selectedEntryIndex} Strategies`}
+                style={[styles.viewAllButton]}
+                onPress={this.onViewStrategies}
+                isTransparent={true}
+                disabled={this.dropDownIsExtended}
+                theme={this.theme} />}
 
             {/* Dropdown list is here so it renders on top of everything */}
             {this.dropDownIsExtended &&

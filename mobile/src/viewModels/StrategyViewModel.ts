@@ -49,9 +49,6 @@ export default class StrategyViewModel {
 
   public async fetchPossibleStrategies() {
     let possibleStrategies = await AppController.Instance.User.strategy.getPossibleStrategies();
-    possibleStrategies.forEach((strat) => {
-      strat.domains = strat.domains.map((domSlug) => convertFromDomainSlug(domSlug as DomainSlug));
-    })
     this.setAllStrategies(possibleStrategies);
   }
 

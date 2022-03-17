@@ -3,7 +3,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import RenderHTML from 'react-native-render-html';
 import { Container, MasloPage, StrategyCard, Button } from 'src/components';
-import { DomainName } from 'src/constants/Domain';
+import { DomainName, SubdomainName } from 'src/constants/Domain';
 import Layout from 'src/constants/Layout';
 import { DisplayStrategy } from 'src/constants/Strategy';
 import { HTMLStyles, iconForDomain, replaceListTags } from 'src/helpers/DomainHelper';
@@ -42,12 +42,12 @@ export class DomainDetailsView extends ViewState {
     }
 
     // selected strategies will be at the front of the list
-    private strategiesForListInOrder(domain: string, lengthOfListToShow = 5): DisplayStrategy[] {
-        const selected: DisplayStrategy[] = this.strategiesViewModel.selectedStrategies.filter((s) => s.associatedDomainNames.includes(domain)).map((strat) => {
+    private strategiesForListInOrder(domain: DomainName | SubdomainName, lengthOfListToShow = 5): DisplayStrategy[] {
+        const selected: DisplayStrategy[] = this.strategiesViewModel.selectedStrategies.filter((s) => s.domains.includes(domain)).map((strat) => {
             return { ...strat, isChecked: true };
         });
-        const selectedIds = selected.map((x) => x.internalId);
-        const remianing: DisplayStrategy[] = this.strategiesViewModel.allStrategies.filter((s) => s.associatedDomainNames.includes(domain) && !selectedIds.includes(s.internalId));
+        const selectedSlugs = selected.map((x) => x.slug);
+        const remianing: DisplayStrategy[] = this.strategiesViewModel.allStrategies.filter((s) => s.domains.includes(domain) && !selectedSlugs.includes(s.slug));
 
         const difference = Math.max(0, lengthOfListToShow - selected.length);
         this.numberOfRemainingStrategies = remianing.length - difference;
@@ -61,7 +61,7 @@ export class DomainDetailsView extends ViewState {
     }
 
     renderStratgeyCard = (strategy: DisplayStrategy) => (
-        <StrategyCard key={strategy.internalId} item={strategy} onLearnMorePress={this.onLearnMorePress} hideCheckbox={!strategy.isChecked} theme={this.theme} />
+        <StrategyCard key={strategy.slug} item={strategy} onLearnMorePress={this.onLearnMorePress} hideCheckbox={!strategy.isChecked} theme={this.theme} />
     );
 
     renderBulletPoint(str: string, key: string) {
@@ -126,7 +126,7 @@ export class DomainDetailsView extends ViewState {
                         />
                         {/* Strategies List */}
                         <Text style={[this.textStyles.h2, styles.header]}>Strategies:</Text>
-                        {this.strategiesForListInOrder(mainName).map((strat) => this.renderStratgeyCard(strat))}
+                        {this.strategiesForListInOrder(mainName as (DomainName | SubdomainName)).map((strat) => this.renderStratgeyCard(strat))}
                         {this.numberOfRemainingStrategies > 0 && <Button title='Load more strategies' style={styles.button} withBorder={false} onPress={this.loadMoreStrategies} theme={this.theme} />}
                     </ScrollView>
                 </Container>

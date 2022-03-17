@@ -27,7 +27,7 @@ export default class GenericRepo<T> {
         this._coll = coll;
      }
 
-    public      get collection() { return this.db.collection(this.collectionName); }
+    public get collection() { return this.db.collection(this.collectionName); }
 
     async create(question: T): Promise<Identify<T>> {
         const collection = this.collection;
