@@ -79,6 +79,8 @@ import SubstanceUseIConSVG from 'src/assets/images/app/domain/substance.svg';
 import PlusIconSVG from 'src/assets/images/app/plus.svg';
 import MinusIconSVG from 'src/assets/images/app/minus.svg';
 import ThreeArrowsSVG from 'src/assets/images/app/threeArrows.svg';
+// Strategy Illustration Images
+import StrategyTestIllustrationSVG from 'src/assets/images/app/strategy-illustrations/Strategy-test-illustration.svg';
 
 export default {
     signInWithGoogle: GoogleIconPNG,
@@ -170,4 +172,6 @@ export default {
     plusIcon: PlusIconSVG,
     minusIcon: MinusIconSVG,
     threeArrowsIcon: ThreeArrowsSVG,
+    // Strategy Illustrations
+    StrategyTestIllustration: StrategyTestIllustrationSVG,
 };

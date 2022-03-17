@@ -87,6 +87,9 @@ export enum States {
     Choose_Strategies,
     Review_Strategies,
     Review_Strategies_Onboarding,
+
+    Strategy_Preview_after_Domain_Details,
+
     Strategy_Details_after_Choose_Strategies,
     Strategy_Details_after_Review_Strategies,
     Strategy_Details_after_Focus_Domains,

@@ -4,8 +4,7 @@ import { View, StyleSheet, Animated } from 'react-native';
 export const containerStyles = StyleSheet.create({
     container: {
         width: '100%',
-        paddingLeft: 20,
-        paddingRight: 20,
+        paddingHorizontal: 20,
         paddingVertical: 0,
     },
 });

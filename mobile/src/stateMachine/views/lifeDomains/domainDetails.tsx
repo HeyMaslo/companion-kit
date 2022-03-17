@@ -61,7 +61,7 @@ export class DomainDetailsView extends ViewState {
     }
 
     renderStratgeyCard = (strategy: DisplayStrategy) => (
-        <StrategyCard key={strategy.slug} item={strategy} onLearnMorePress={this.onLearnMorePress} hideCheckbox={!strategy.isChecked} theme={this.theme} />
+        <StrategyCard key={strategy.slug} item={strategy} onSelectStrategy={this.onLearnMorePress} onLearnMorePress={this.onLearnMorePress} hideCheckbox={!strategy.isChecked} theme={this.theme} />
     );
 
     renderBulletPoint(str: string, key: string) {

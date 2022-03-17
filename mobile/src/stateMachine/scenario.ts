@@ -77,6 +77,7 @@ import { SleepView } from './views/checkin/sleep';
 import { DailyCheckInStartView } from './views/checkin/startDailyCheckIn';
 import { DailyCheckInEndView } from './views/checkin/endDailyCheckIn';
 import { ReviewStrategiesViewOnboarding } from './views/strategies/ReviewStrategiesViewOnboarding';
+import { StrategyPreviewView } from './views/strategies/StrategyPreviewView';
 
 const CreateJournalCancelTransition: StateTransition<States> = {
     target: States.Home,
@@ -541,7 +542,8 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
             { target: States.All_Strategies, trigger: [Triggers.Next] },
-            { target: States.Strategy_Details_after_Domain_Details, trigger: [Triggers.Tertiary] },
+            // { target: States.Strategy_Details_after_Domain_Details, trigger: [Triggers.Tertiary] },
+            { target: States.Strategy_Preview_after_Domain_Details, trigger: [Triggers.Tertiary] },
         ]
     },
 
@@ -601,6 +603,14 @@ export const MasloScenario: GlobalScenario<States> = {
         ]
     },
 
+    [States.Strategy_Preview_after_Domain_Details]: {
+        view: StrategyPreviewView,
+        exit: [
+            { target: States.Domain_Details, trigger: [Triggers.Back] },
+            { target: States.Strategy_Details_after_Domain_Details, trigger: [Triggers.Next] },
+        ]
+    },
+
     [States.Strategy_Details_after_Choose_Strategies]: {
         view: StrategyDetailsView,
         exit: [
@@ -625,7 +635,7 @@ export const MasloScenario: GlobalScenario<States> = {
     [States.Strategy_Details_after_Domain_Details]: {
         view: StrategyDetailsView,
         exit: [
-            { target: States.Domain_Details, trigger: [Triggers.Back] },
+            { target: States.Strategy_Preview_after_Domain_Details, trigger: [Triggers.Back] },
         ]
     },
 
