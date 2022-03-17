@@ -10,6 +10,7 @@ import { ViewState } from '../base';
 import { HTMLStyles, iconForDomain, replaceListTags } from 'src/helpers/DomainHelper';
 import RenderHTML from 'react-native-render-html';
 import { DomainSlug } from 'src/constants/Domain';
+import Layout from 'src/constants/Layout';
 
 @observer
 export class StrategyDetailsView extends ViewState {
@@ -41,9 +42,9 @@ export class StrategyDetailsView extends ViewState {
   }
 
   renderIconItem = ({ item }) => (
-    <View style={[styles.listItem, { flexDirection: 'row', justifyContent: 'center' }]} key={item}>
+    <View style={[{ flexDirection: 'row', justifyContent: 'center' }]} key={item}>
       {iconForDomain(item, { marginRight: 20 }, this.theme.colors.foreground)}
-      <Text style={[TextStyles.h2, styles.strategy, { marginBottom: 10 }]}>{this.capitalizeFirstLetter(item)}</Text>
+      <Text style={[TextStyles.h2, styles.strategy, { marginBottom: 30 }]}>{this.capitalizeFirstLetter(item)}</Text>
     </View>
   );
 
@@ -54,14 +55,14 @@ export class StrategyDetailsView extends ViewState {
 
     return (
       <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()} theme={this.theme}>
-        <Container style={[{ height: this._contentHeight, paddingTop: 10, paddingBottom: 10 }]}>
-          <ScrollView style={{ width: this.layout.window.width }} contentContainerStyle={{ alignItems: 'center', marginHorizontal: 20 }}>
+        <Container style={[styles.container, { height: this._contentHeight }]}>
+          <ScrollView style={{ width: Layout.window.width }} contentContainerStyle={{ alignItems: 'center', marginHorizontal: 20 }}>
             {/* Title */}
             <View style={{ justifyContent: 'center', flexDirection: 'row', marginBottom: 20 }}>
               <Text style={[TextStyles.h2, styles.strategy]}>{this._learnMoreStrategy.title}</Text>
             </View>
             {/* Subtitle */}
-            <Text style={[TextStyles.p2, styles.strategy, { color: this.theme.colors.midground }]}>{'This strategy targets personal improvement in these life areas:'}</Text>
+            <Text style={[TextStyles.p2, styles.strategy, { marginBottom: 20, color: this.theme.colors.midground }]}>{'This strategy targets personal improvement in these life areas:'}</Text>
             {/* Icon Container */}
             {this.viewModel.learnMoreStrategy.domains.filter((dom) => dom != DomainSlug.PHYSICAL).map((slug) => {
               return this.renderIconItem({ item: slug });
@@ -82,13 +83,15 @@ export class StrategyDetailsView extends ViewState {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    paddingTop: 40,
+    paddingBottom: 15,
+    alignItems: 'center',
+  },
   list: {
     flexGrow: 0,
     marginTop: 30,
     marginBottom: 15,
-  },
-  listItem: {
-    //  paddingTop: 10,
   },
   strategy: {
     textAlign: 'center',
