@@ -45,7 +45,7 @@ export type QolSurveyResults = {
 
 export namespace QolSurveyResults {
     export function createEmptyResults(work: boolean = false, school: boolean = false): QolSurveyResults {
-        let base = {
+        const base = {
             Mood: [],
             Physical: [],
             Sleep: [],
@@ -58,11 +58,13 @@ export namespace QolSurveyResults {
             Money: [],
             Spirituality: [],
             Relationships: [],
+            Work: null,
+            School: null
         };
         if (work) {
-            base['Work'] = [];
+            base.Work = [];
         } else if (school) {
-            base['School'] = [];
+            base.School = [];
         }
         return base;
     }
