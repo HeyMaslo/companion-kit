@@ -30,6 +30,7 @@ describe('QoL', () => {
             it('Should allow a domain to be created', async () => {
                 const result = await createDomain({
                     type: QoLActionTypes.CreateDomain,
+                    slug: 'Physical',
                     name: 'Physical',
                     importance: 'SLEEP = Sleeeeepz Sleeeeepz Sleeeeepz Sleeeeepz incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
                     importanceBullets: [''],
@@ -48,6 +49,7 @@ describe('QoL', () => {
             it('Should list domains that are added', async () => {
                 await createDomain({
                     type: QoLActionTypes.CreateDomain,
+                    slug: 'Physical',
                     name: 'Physical',
                     importance: '',
                     importanceBullets: [''],
@@ -64,6 +66,7 @@ describe('QoL', () => {
         it('Should allow a question to be created referring to a domain', async () => {
             await createDomain({
                 type: QoLActionTypes.CreateDomain,
+                slug: 'Physical',
                 name: 'Physical',
                 importance: '',
                 importanceBullets: [''],

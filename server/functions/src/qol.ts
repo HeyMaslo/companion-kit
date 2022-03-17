@@ -1,4 +1,4 @@
-import { Domain, DomainName } from '../../../mobile/src/constants/Domain';
+import { Domain, DomainName, DomainSlug } from '../../../mobile/src/constants/Domain';
 import { Repo } from './services/db';
 import { Identify } from 'common/models';
 import { QoL as QoLFunctions } from 'common/abstractions/functions';
@@ -37,6 +37,7 @@ export async function createDomain(args: CreateDomainRequest)
 
     await Repo.Domains.create({
         name: args.name as DomainName,
+        slug: args.slug as DomainSlug,
         importance: args.importance,
         importanceBullets: args.importanceBullets,
         whatToKnowBullets: args.whatToKnowBullets,

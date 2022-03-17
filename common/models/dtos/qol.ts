@@ -10,6 +10,7 @@ export enum QoLActionTypes {
 
 type CreateDomainArgs = {
     name:       string,
+    slug:       string,
     importance: string,
     importanceBullets: string[],
     whatToKnowBullets: string[],
