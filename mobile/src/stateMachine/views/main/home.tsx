@@ -176,7 +176,9 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     }
 
     private openResourceDetails = (jid: string) => {
-        this.trigger<CheckInDetailsParams>(ScenarioTriggers.Primary, { id: jid });
+        // this.trigger(ScenarioTriggers.Next)
+        this.onStartDomains()
+        // this.trigger<CheckInDetailsParams>(ScenarioTriggers.Primary, { id: jid });
     }
 
     private favoriteResource = (jid: string) => {

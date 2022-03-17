@@ -119,7 +119,7 @@ export class ChooseDomainView extends ViewDomainsBase {
                                 data={mainDomain.subdomains}
                                 extraData={this.refresh}
                                 renderItem={this.renderListItem}
-                                keyExtractor={item => item.name} />
+                                keyExtractor={item => item.slug} />
                             <Text style={[this.textStyles.p1, styles.descriptionText]}>Select any specific aspects of the {mainDomain.name} life area you’d like to focus on.</Text>
                         </View>
                         <ButtonBlock containerStyles={{ marginTop: 30 }} okTitle={'DONE'} cancelTitle={'BACK'} onCancel={() => this.onCancelSubdomains()} onOk={() => this.onDoneChoosingSubdomains(mainDomain)} nextDisabled={this.checkedSubdomains.length == 0} theme={this.theme} />
@@ -129,18 +129,19 @@ export class ChooseDomainView extends ViewDomainsBase {
         );
     }
 
+    // Render subdomain list item
     renderListItem = ({ item }) => (
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 15 }}>
-            <TouchableOpacity onPress={() => this.toggleSubdomainCheckbox(item.name)}>
+            <TouchableOpacity onPress={() => this.toggleSubdomainCheckbox(item.slug)}>
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                    <View style={[styles.checkbox, { borderColor: this.theme.colors.highlight }, this.checkedSubdomains.includes(item.name) && { ...styles.checkboxChecked, backgroundColor: this.theme.colors.highlight, }, { display: 'flex' }]}>
-                        {this.checkedSubdomains.includes(item.name) && <Images.radioChecked width={8} height={6} fill={this.theme.colors.highlight} />}
+                    <View style={[styles.checkbox, { borderColor: this.theme.colors.highlight }, this.checkedSubdomains.includes(item.slug) && { ...styles.checkboxChecked, backgroundColor: this.theme.colors.highlight, }, { display: 'flex' }]}>
+                        {this.checkedSubdomains.includes(item.slug) && <Images.radioChecked width={8} height={6} fill={this.theme.colors.highlight} />}
                     </View>
-                    {iconForDomain(item.name, { marginHorizontal: 15 }, this.theme.colors.highlight)}
+                    {iconForDomain(item.slug, { marginHorizontal: 15 }, this.theme.colors.highlight)}
                     <Text style={this.textStyles.p2}>{item.name}</Text>
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.onSubdomainLearnMorePress(item.name)} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
+            <TouchableOpacity onPress={() => this.onSubdomainLearnMorePress(item.slug)} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
                 <Text style={[TextStyles.labelMedium, { textAlign: 'center', color: this.theme.colors.highlight, paddingRight: 7 }]}>{'Learn\nMore'}</Text>
             </TouchableOpacity>
         </View>
