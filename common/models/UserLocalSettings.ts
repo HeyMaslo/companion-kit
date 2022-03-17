@@ -1,5 +1,5 @@
 import { HourAndMinute } from '../utils/dateHelpers';
-import { DomainName, Subdomain, SubdomainName } from '../../mobile/src/constants/Domain';
+import { DomainName, DomainSlug, Subdomain, SubdomainName } from '../../mobile/src/constants/Domain';
 import Identify from './Identify';
 
 export type UserLocalSettings = {
@@ -27,7 +27,7 @@ export type NotificationsSettings = {
     enabled: boolean,
     scheduledTime: HourAndMinute,
     allowBDMention: boolean,
-    domainsForNotifications: (DomainName | SubdomainName)[],
+    domainsForNotifications: DomainSlug[],
 };
 
 export type HealthPermissionsSettings = {

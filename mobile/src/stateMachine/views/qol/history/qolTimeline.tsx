@@ -11,14 +11,14 @@ import { formatDateMonthYear } from 'common/utils/dateHelpers';
 import Layout from 'src/constants/Layout';
 import { getPersonaRadius } from '../../../persona';
 import IconsOnCircle from '../../IconsOnCircle';
-import { DomainName } from 'src/constants/Domain';
+import { DomainName, DomainSlug } from 'src/constants/Domain';
 import { SurveyResults } from 'common/database/repositories/SurveyResultsRepo';
 import SplineThroughPoints, { CartesianCoordinate } from '../../SplineThroughPoints';
 import { QolSurveyType } from 'src/constants/QoL';
 import Colors from '../../../../constants/colors/Colors';
 import Images from 'src/constants/images';
 import { containerStyles } from 'src/components/Container';
-import { convertFromDomainSlugs, sum } from 'src/helpers/DomainHelper';
+import { sum } from 'src/helpers/DomainHelper';
 
 const containerMarginBottom = Layout.isSmallDevice ? 0 : 25;
 const containerMarginTop = Layout.isSmallDevice ? 25 : 75;
@@ -36,7 +36,7 @@ type QolTimelineViewState = {
 export class QolTimelineView extends ViewState<QolTimelineViewState> {
 
   private allDomains: string[] = [];
-  private domainSort: DomainName = null;
+  private domainSort: DomainSlug = null;
   @observable
   private dropDownIsExtended = false;
   @observable
@@ -49,7 +49,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   private selectedEntry: SurveyResults;
   private selectedEntryIndex = 0
   @observable
-  private selectedDomains: DomainName[] = [];
+  private selectedDomains: DomainSlug[] = [];
   private ordRadius = getPersonaRadius();
   private scrollViewContentOffset: PointPropType = { x: 0, y: 0 };
 
@@ -78,7 +78,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
     this.historyEntries = this.viewModel.historyEntries;
     this.selectedEntry = this.viewModel.selectedEntry;
     this.selectedEntryIndex = this.viewModel.selectedEntryWeekNumber - 1;
-    this.selectedDomains = convertFromDomainSlugs(this.selectedEntry.focusDomains.domains || []) as DomainName[];
+    this.selectedDomains = this.selectedEntry.focusDomains.domains || [];
     this.scrollViewContentOffset = { x: this.selectedEntryIndex * (weekCircleDiameter + weekCircleMarginLeft * 2), y: 0 };
 
     this.allDomains = AppViewModel.Instance.Domain.allDomains.map((d) => d.name);
@@ -130,9 +130,9 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   changeFilterPressed = (selection: string) => {
     if (selection == 'Show All') {
       this.domainSort = null;
-      this.selectedDomains = convertFromDomainSlugs(this.selectedEntry.focusDomains.domains || []) as DomainName[];
+      this.selectedDomains = this.selectedEntry.focusDomains.domains || [];
     } else {
-      this.domainSort = selection as DomainName;
+      this.domainSort = selection as DomainSlug;
       this.selectedDomains = [this.domainSort];
     }
     this.generateEntryCoordinates();
@@ -143,7 +143,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
     this.dropDownIsExtended = !this.dropDownIsExtended;
   }
 
-  private scoreToDisplay(sort: DomainName): number {
+  private scoreToDisplay(sort: DomainSlug): number {
     if (sort == null) {
       return Math.round(this.selectedEntry.aggregateScore);
     }
@@ -177,7 +177,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
         this.selectedEntry = item
         this.selectedEntryIndex = index
         if (this.domainSort == null) {
-          this.selectedDomains = convertFromDomainSlugs(this.selectedEntry.focusDomains.domains || []) as DomainName[];
+          this.selectedDomains = this.selectedEntry.focusDomains.domains || [];
         }
       }}>
         <View style={[styles.weekCircle,

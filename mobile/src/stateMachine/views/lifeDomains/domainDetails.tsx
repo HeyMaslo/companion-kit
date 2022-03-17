@@ -3,7 +3,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import RenderHTML from 'react-native-render-html';
 import { Container, MasloPage, StrategyCard, Button } from 'src/components';
-import { DomainName, SubdomainName } from 'src/constants/Domain';
+import { DomainName, DomainSlug, SubdomainName } from 'src/constants/Domain';
 import Layout from 'src/constants/Layout';
 import { DisplayStrategy } from 'src/constants/Strategy';
 import { HTMLStyles, iconForDomain, replaceListTags } from 'src/helpers/DomainHelper';
@@ -42,7 +42,7 @@ export class DomainDetailsView extends ViewState {
     }
 
     // selected strategies will be at the front of the list
-    private strategiesForListInOrder(domain: DomainName | SubdomainName, lengthOfListToShow = 5): DisplayStrategy[] {
+    private strategiesForListInOrder(domain: DomainSlug, lengthOfListToShow = 5): DisplayStrategy[] {
         const selected: DisplayStrategy[] = this.strategiesViewModel.selectedStrategies.filter((s) => s.domains.includes(domain)).map((strat) => {
             return { ...strat, isChecked: true };
         });
@@ -79,8 +79,9 @@ export class DomainDetailsView extends ViewState {
         const learnMoreSubdomain = this.viewModel.learnMoreSubdomain;
 
         let mainName = display.mainName;
+        let mainSlug = display.mainSlug;
         let importance = replaceListTags(display.mainImportance);
-        let whatToKnowBullets = this.viewModel.getDomainByName(mainName as DomainName).whatToKnowBullets
+        let whatToKnowBullets = this.viewModel.getDomainBySlug(display.mainSlug).whatToKnowBullets
 
         if (learnMoreSubdomain) {
             subdomains = null;
@@ -110,7 +111,7 @@ export class DomainDetailsView extends ViewState {
                             {subdomains && subdomains.map((subDom) => {
                                 return (
                                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginTop: 30, marginBottom: 10 }}>
-                                        {iconForDomain(subDom.name, { marginHorizontal: 15 }, this.theme.colors.highlight)}
+                                        {iconForDomain(subDom.slug, { marginHorizontal: 15 }, this.theme.colors.highlight)}
                                         <Text style={this.textStyles.p2}>{subDom.name}</Text>
                                     </View>
                                 );
@@ -126,7 +127,7 @@ export class DomainDetailsView extends ViewState {
                         />
                         {/* Strategies List */}
                         <Text style={[this.textStyles.h2, styles.header]}>Strategies:</Text>
-                        {this.strategiesForListInOrder(mainName as (DomainName | SubdomainName)).map((strat) => this.renderStratgeyCard(strat))}
+                        {this.strategiesForListInOrder(mainSlug).map((strat) => this.renderStratgeyCard(strat))}
                         {this.numberOfRemainingStrategies > 0 && <Button title='Load more strategies' style={styles.button} withBorder={false} onPress={this.loadMoreStrategies} theme={this.theme} />}
                     </ScrollView>
                 </Container>

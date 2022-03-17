@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, Alert, StyleSheet, Animated } from 'react-native';
 import { Button, ButtonBlock, Container, MasloPage } from 'src/components'
-import { Domain, DomainName, Subdomain, SubdomainName } from 'src/constants/Domain';
+import { Domain, DomainName, DomainSlug, Subdomain, SubdomainName } from 'src/constants/Domain';
 import Images from 'src/constants/images';
 import Layout from 'src/constants/Layout';
 import { iconForDomain } from 'src/helpers/DomainHelper';
@@ -18,7 +18,7 @@ const fadeEnd = new Animated.Value(1.0);
 @observer
 export class ChooseDomainView extends ViewDomainsBase {
 
-    private checkedSubdomains: SubdomainName[] = [];
+    private checkedSubdomains: DomainSlug[] = [];
     @observable
     private refresh = false
 
@@ -48,14 +48,14 @@ export class ChooseDomainView extends ViewDomainsBase {
         this.checkedSubdomains = [];
     }
 
-    getDomainDisplay = (): { leftName: string, mainName: string, rightName: string, mainImportance: string, subdomains: Subdomain[] } => {
+    getDomainDisplay = (): { leftName: string, mainName: string, mainSlug: DomainSlug, rightName: string, mainImportance: string, subdomains: Subdomain[] } => {
         return this.viewModel.getDomainDisplay();
     }
 
     getDomainImportanceBullets = (): string[] => {
-        const domain = this.getDomainDisplay().mainName;
+        const domain = this.getDomainDisplay().mainSlug;
         if (domain) {
-            return this.viewModel.getDomainByName(domain as DomainName).importanceBullets;
+            return this.viewModel.getDomainBySlug(domain).importanceBullets;
         }
         return [];
     }
@@ -80,15 +80,16 @@ export class ChooseDomainView extends ViewDomainsBase {
     }
 
     public getCenterElement(): JSX.Element {
-        const domainName = this.getDomainDisplay().mainName as DomainName;
-        const alreadySelected = this.viewModel.selectedDomains.domains.includes(domainName);
+        const display = this.getDomainDisplay()
+        const domainName = display.mainName as DomainName;
+        const alreadySelected = this.viewModel.selectedDomains.domains.includes(display.mainSlug);
         const hasThreeSelected = this.viewModel.selectedDomains.domains.length == 3;
         return (
             <Button
                 title={alreadySelected ? 'Remove' : 'Select'}
                 style={styles.domain}
                 withBorder
-                onPress={() => this.onSelectButtonPressed(domainName)}
+                onPress={() => this.onSelectButtonPressed(display.mainSlug)}
                 isTransparent={alreadySelected}
                 disabled={hasThreeSelected && !alreadySelected}
                 icon={alreadySelected ? Images.minusIcon : Images.plusIcon}
@@ -110,7 +111,7 @@ export class ChooseDomainView extends ViewDomainsBase {
                 <MasloPage style={[this.baseStyles.page, { paddingBottom: 30 }]} theme={this.theme}>
                     <Container style={[{ height: this._contentHeight, alignItems: 'center' }]}>
                         <View style={[styles.centerFlexColumn, { height: Layout.window.height * 0.25 }]}>
-                            {iconForDomain(mainDomain.name, { flex: 1 }, this.theme.colors.highlight, 60, 60, this.theme.colors.highlight)}
+                            {iconForDomain(mainDomain.slug, { flex: 1 }, this.theme.colors.highlight, 60, 60, this.theme.colors.highlight)}
                             <Text style={[TextStyles.p1, styles.subdomainTitle, { fontSize: centerDomainFontSize, lineHeight: centerDomainFontSize }]}>{mainDomain.name}</Text>
                         </View>
                         <View style={[styles.centerFlexColumn, { width: '100%', flexGrow: 1 }]}>
@@ -145,18 +146,18 @@ export class ChooseDomainView extends ViewDomainsBase {
         </View>
     );
 
-    private toggleSubdomainCheckbox(name: SubdomainName) {
-        const index = this.checkedSubdomains.indexOf(name, 0);
+    private toggleSubdomainCheckbox(slug: DomainSlug) {
+        const index = this.checkedSubdomains.indexOf(slug, 0);
         if (index > -1) {
             this.checkedSubdomains.splice(index, 1);
         } else {
-            this.checkedSubdomains.push(name);
+            this.checkedSubdomains.push(slug);
         }
         this.refresh = !this.refresh;
     }
 
-    private onSubdomainLearnMorePress(name: SubdomainName) {
-        this.viewModel.learnMoreSubdomain = this.viewModel.getDomainByName(DomainName.PHYSICAL).subdomains.find((s) => s.name == name);
+    private onSubdomainLearnMorePress(slug: DomainSlug) {
+        this.viewModel.learnMoreSubdomain = this.viewModel.getDomainBySlug(DomainSlug.PHYSICAL).subdomains.find((s) => s.slug == slug);
         this.viewModel.checkedSubdomains = this.checkedSubdomains;
         this.trigger(ScenarioTriggers.Quaternary);
     }
@@ -203,9 +204,9 @@ export class ChooseDomainView extends ViewDomainsBase {
         );
     }
 
-    private onSelectButtonPressed(name: DomainName) {
-        const domain = this.viewModel.getDomainByName(name);
-        if (domain.name == DomainName.PHYSICAL && !this.viewModel.selectedDomains.domains.includes(DomainName.PHYSICAL)) { // If more categories of subdomains (besides Physical) are added this will need to be changed
+    private onSelectButtonPressed(slug: DomainSlug) {
+        const domain = this.viewModel.getDomainBySlug(slug);
+        if (domain.name == DomainName.PHYSICAL && !this.viewModel.selectedDomains.domains.includes(DomainSlug.PHYSICAL)) { // If more categories of subdomains (besides Physical) are added this will need to be changed
             this.showSubdomainPopUp = true;
         } else {
             this.selectDomain(domain);

@@ -9,7 +9,7 @@ import Colors from '../../../constants/colors/Colors';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
 import { AlertExitWithoutSave } from 'src/constants/alerts';
-import { DomainName } from 'src/constants/Domain';
+import { DomainName, DomainSlug } from 'src/constants/Domain';
 import { DisplayStrategy } from 'src/constants/Strategy';
 
 @observer
@@ -20,8 +20,8 @@ export class ChooseStrategiesView extends ViewState {
 
   @observable
   private dropDownIsExtended = false;
-  private selectedDomainNames: string[] = [];
-  private currentFilter: DomainName = null;
+  private selectedDomainSlugs: DomainSlug[] = [];
+  private currentFilter: DomainSlug = null;
   @observable
   private numberOfSelectedStrategies = 0
 
@@ -29,7 +29,7 @@ export class ChooseStrategiesView extends ViewState {
     super(props);
     this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0 } });
     this.hidePersona();
-    this.selectedDomainNames = (AppViewModel.Instance.Domain.selectedDomains.domains as string[]).concat(AppViewModel.Instance.Domain.selectedDomains.subdomains);
+    this.selectedDomainSlugs = (AppViewModel.Instance.Domain.selectedDomains.domains).concat(AppViewModel.Instance.Domain.selectedDomains.subdomains);
     this.onLearnMorePress = this.onLearnMorePress.bind(this);
     this.onSelectStrategy = this.onSelectStrategy.bind(this);
   }
@@ -83,7 +83,7 @@ export class ChooseStrategiesView extends ViewState {
     this.numberOfSelectedStrategies = this.viewModel.selectedStrategies.length;
   }
 
-  changeFilterPressed = (strategyDomain: DomainName) => {
+  changeFilterPressed = (strategyDomain: DomainSlug) => {
     this.currentFilter = strategyDomain;
     this.viewModel.filterAvailableStrategies(strategyDomain)
   }
@@ -119,12 +119,12 @@ export class ChooseStrategiesView extends ViewState {
 
           <View>
             {
-              this.selectedDomainNames.length < 3 ?
+              this.selectedDomainSlugs.length < 3 ?
                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
                   {/* Sort Row of Three Buttons */}
                   <TouchableOpacity onPress={() => this.changeFilterPressed(null)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == null ? { textDecorationLine: 'underline' } : null]}>{'Show All'}</Text></TouchableOpacity>
-                  <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainNames[0] as DomainName)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainNames[0] ? { textDecorationLine: 'underline' } : null]}>{this.selectedDomainNames[0]}</Text></TouchableOpacity>
-                  <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainNames[1] as DomainName)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainNames[1] ? { textDecorationLine: 'underline' } : null]}>{this.selectedDomainNames[1]}</Text></TouchableOpacity>
+                  <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainSlugs[0] as DomainSlug)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainSlugs[0] ? { textDecorationLine: 'underline' } : null]}>{this.selectedDomainSlugs[0]}</Text></TouchableOpacity>
+                  <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainSlugs[1] as DomainSlug)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainSlugs[1] ? { textDecorationLine: 'underline' } : null]}>{this.selectedDomainSlugs[1]}</Text></TouchableOpacity>
                 </View>
                 :
                 <View>
@@ -133,7 +133,7 @@ export class ChooseStrategiesView extends ViewState {
                   {
                     this.dropDownIsExtended &&
                     <FlatList style={styles.dropDownlist}
-                      data={this.selectedDomainNames}
+                      data={this.selectedDomainSlugs}
                       renderItem={this.renderDropDownListItem}
                       keyExtractor={item => item}
                       scrollEnabled={false} />

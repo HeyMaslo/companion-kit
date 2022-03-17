@@ -10,7 +10,6 @@ import { UserState, LastSeen } from 'common/models/userState';
 import { createLogger } from 'common/logger';
 import { SurveyResults } from 'database/repositories/SurveyResultsRepo';
 import { DomainName, FocusedDomains } from '../../mobile/src/constants/Domain';
-import { convertToDomainSlugs } from '../../mobile/src/helpers/DomainHelper';
 
 const logger = createLogger('[QoLController]');
 
@@ -96,10 +95,7 @@ export default class QoLControllerBase implements IQoLController {
                 scheduledAffirmations: [],
             }
         } else if (propertyName == 'focusedDomains') {
-            userState['focusedDomains'] = {
-                domains: convertToDomainSlugs((parameter as FocusedDomains).domains),
-                subdomains: convertToDomainSlugs((parameter as FocusedDomains).subdomains),
-            };
+            userState['focusedDomains'] = (parameter as FocusedDomains)
         } else if (propertyName == 'chosenStrategies') {
             userState['chosenStrategies'] = parameter as string[];
         } else if (propertyName == 'lastSeenAffirmations' && (parameter as LastSeen) !== undefined) {

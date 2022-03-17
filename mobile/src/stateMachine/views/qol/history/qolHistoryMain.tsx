@@ -8,7 +8,7 @@ import Colors from '../../../../constants/colors/Colors';
 import { ScenarioTriggers } from '../../../abstractions';
 import { ViewState } from '../../base';
 import { iconForDomain } from 'src/helpers/DomainHelper';
-import { DomainName } from 'src/constants/Domain';
+import { DomainName, DomainSlug } from 'src/constants/Domain';
 import { SurveyResults } from 'common/database/repositories/SurveyResultsRepo';
 import { formatDateMonthYear } from 'common/utils/dateHelpers';
 import { observable } from 'mobx';
@@ -48,7 +48,7 @@ export class QolHistoryMainView extends ViewState {
       <View style={styles.listItem}>
         <Text style={{ display: 'flex' }}>{formatDateMonthYear(item.date)}</Text>
         <View style={{ display: 'flex', flexDirection: 'row' }}>
-          {item.focusedDomains && item.focusedDomains.map((domName: DomainName, index) => iconForDomain(domName, { display: 'flex', marginRight: index == item.focusedDomains.length - 1 ? 0 : 20 }))}
+          {item.focusedDomains && item.focusedDomains.map((slug: DomainSlug, index) => iconForDomain(slug, { display: 'flex', marginRight: index == item.focusedDomains.length - 1 ? 0 : 20 }))}
         </View>
         <View style={styles.smallCircle}>
           <Text style={styles.smallCircleText}>{Math.round(item.aggregateScore)}</Text>

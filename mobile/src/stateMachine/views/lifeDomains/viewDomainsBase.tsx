@@ -6,7 +6,7 @@ import TextStyles, { mainFontMedium } from 'src/styles/TextStyles';
 import { ViewState } from '../base';
 import Layout from 'src/constants/Layout';
 import { iconForDomain } from 'src/helpers/DomainHelper';
-import { DomainName, Subdomain } from 'src/constants/Domain';
+import { DomainName, DomainSlug, Subdomain } from 'src/constants/Domain';
 import { Portal } from 'react-native-paper';
 import { observable } from 'mobx';
 
@@ -80,7 +80,7 @@ export abstract class ViewDomainsBase extends ViewState {
 
     public abstract onDetails: () => void
 
-    public abstract getDomainDisplay(): { leftName: string, mainName: string, rightName: string, mainImportance: string, subdomains: Subdomain[] }
+    public abstract getDomainDisplay(): { leftName: string, mainName: string, mainSlug: DomainSlug, rightName: string, mainImportance: string, subdomains: Subdomain[] }
 
     public abstract getDomainImportanceBullets(): string[]
 
@@ -113,6 +113,7 @@ export abstract class ViewDomainsBase extends ViewState {
         let { xTabOne, xTabTwo, active, translateX, translateXTabTwo, translateXTabOne, translateY, xDomain } = this.state
         const display = this.getDomainDisplay();
         const centerDomainName = display.mainName as DomainName;
+        const centerDomainSlug = display.mainSlug;
         const colors = this.theme.colors;
 
         return (
@@ -196,7 +197,7 @@ export abstract class ViewDomainsBase extends ViewState {
                     </View>
                     <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', height: Layout.window.height * 0.25, marginBottom: 10, marginTop: this.state.reRenderButton ? 0 : null }}>
                         {this.getCenterElement()}
-                        {iconForDomain(centerDomainName, { flex: 1 }, colors.highlight, 60, 60)}
+                        {iconForDomain(centerDomainSlug, { flex: 1 }, colors.highlight, 60, 60)}
                     </View>
                     <View
                         style={{

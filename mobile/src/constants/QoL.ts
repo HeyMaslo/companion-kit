@@ -4,18 +4,12 @@
 */
 
 import { Identify } from 'common/models';
-import { DomainName, DomainSlug, SubdomainName } from './Domain';
+import { DomainSlug } from './Domain';
 
 // AFFIRMATIONS
-export type BackendAffirmation = {
-    domains: DomainSlug[],
-    content: string,
-    mentionsBD: boolean,
-};
-
 export type Affirmation = {
     id: string,
-    domains: (DomainName | SubdomainName)[],
+    domains: DomainSlug[],
     content: string,
     mentionsBD: boolean,
 };

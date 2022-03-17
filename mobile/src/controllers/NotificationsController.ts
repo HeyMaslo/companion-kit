@@ -6,7 +6,7 @@ import { IDisposable } from 'common/utils/unsubscriber';
 import RepoFactory from 'common/controllers/RepoFactory';
 import { Affirmation } from 'src/constants/QoL';
 import { UserState } from 'common/models/userState';
-import { DomainName, SubdomainName } from 'src/constants/Domain';
+import { DomainName, DomainSlug, SubdomainName } from 'src/constants/Domain';
 import { HourAndMinute } from 'common/utils/dateHelpers';
 import AppController from '.';
 import { shuffle } from 'common/utils/mathx';
@@ -35,7 +35,7 @@ export class NotificationsController implements IDisposable {
         this._userId = userId;
     }
 
-    public domainAndSubdomains: (DomainName | SubdomainName)[]; // only affirmations containing these domains will be scheduled
+    public domainAndSubdomains: DomainSlug[]; // only affirmations containing these domains will be scheduled
 
     public scheduleTime: HourAndMinute; // the time of day the user wants to recieve a notification in miliseconds
 
@@ -127,7 +127,7 @@ export class NotificationsController implements IDisposable {
                 userState.lastSeenAffirmations);
             allPossibleAffirmations = shuffle(allPossibleAffirmations);
 
-            this.domainAndSubdomains.filter((d) => d != DomainName.PHYSICAL);
+            this.domainAndSubdomains.filter((d) => d != DomainSlug.PHYSICAL);
             const firstDomain = this.domainAndSubdomains[0]; // there will always be at least domain
             const secondDomain = this.domainAndSubdomains.length > 1 ? this.domainAndSubdomains[1] : null;
             const thirdDomain = this.domainAndSubdomains.length > 2 ? this.domainAndSubdomains[2] : null;

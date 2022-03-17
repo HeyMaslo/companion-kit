@@ -2,7 +2,6 @@ import { observable } from 'mobx';
 import { Strategy, DisplayStrategy } from '../constants/Strategy';
 import { Domain, DomainName, DomainSlug, FocusedDomains, SubdomainName } from '../constants/Domain';
 import AppController from 'src/controllers';
-import { convertFromDomainSlug } from 'src/helpers/DomainHelper';
 
 export default class StrategyViewModel {
 
@@ -66,14 +65,14 @@ export default class StrategyViewModel {
 
   // Only include strategies from the selectedDomains and selectedSubdomains.
   public updateAvailableStrategiesForSelectedDomains() {
-    const selectedDomainsAndSubdomain: string[] = (this._selectedDomains.domains.filter((dom) => dom !== DomainName.PHYSICAL) as string[]).concat(this._selectedDomains.subdomains);
+    const selectedDomainsAndSubdomain: string[] = (this._selectedDomains.domains.filter((dom) => dom !== DomainSlug.PHYSICAL) as string[]).concat(this._selectedDomains.subdomains);
     this.availableStrategies = this._allStrategies.filter((s) => s.domains.some(r => {
       return selectedDomainsAndSubdomain.includes(r);
     }))
     this._availableStrategies = this.availableStrategies;
   }
 
-  public filterAvailableStrategies(strategyDomain: DomainName) {
+  public filterAvailableStrategies(strategyDomain: DomainSlug) {
     if (strategyDomain == null) {
       this.availableStrategies = this._availableStrategies;
     } else {

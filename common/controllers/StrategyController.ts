@@ -1,8 +1,7 @@
 
 import { IStrategyController } from 'common/abstractions/controlllers/IStrategyController';
-import { BackendStrategy, Strategy } from '../../mobile/src/constants/Strategy';
+import { Strategy } from '../../mobile/src/constants/Strategy';
 import RepoFactory from 'common/controllers/RepoFactory';
-import { convertFromDomainSlug } from '../../mobile/src/helpers/DomainHelper';
 
 export default class StrategyControllerBase implements IStrategyController {
 
@@ -13,10 +12,7 @@ export default class StrategyControllerBase implements IStrategyController {
   }
 
   public async getPossibleStrategies(): Promise<Strategy[]> {
-    let backendStrategies: BackendStrategy[] = await RepoFactory.Instance.strategies.get();
-    return backendStrategies.map((bs) => {
-      return { ...bs, domains: bs.domains.map((domSlug) => convertFromDomainSlug(domSlug)) }
-    });
+    return await RepoFactory.Instance.strategies.get();
   }
 
   public async getChosenStrategiesSlugs(): Promise<string[]> {

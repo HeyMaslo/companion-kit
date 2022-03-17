@@ -5,7 +5,7 @@ import Images from 'src/constants/images';
 import TextStyles from 'src/styles/TextStyles';
 import Colors from '../constants/colors/Colors';
 import { iconForDomain } from 'src/helpers/DomainHelper';
-import { DomainName } from 'src/constants/Domain';
+import { DomainName, DomainSlug } from 'src/constants/Domain';
 import { Theme } from 'src/constants/theme/PStheme';
 
 type IStrategyCardProps = {
@@ -44,8 +44,8 @@ export default class StrategyCard extends React.Component<IStrategyCardProps, St
           {this.props.isSmallCard && <Text style={[TextStyles.p2, { paddingLeft: 7, paddingTop: 7 }]}>{this.props.item.shortDescription}</Text>}
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
-              {this.props.item.domains.filter((dom) => dom !== DomainName.PHYSICAL).map((name) => {
-                return iconForDomain(name as DomainName, null, theme.colors.highlight, 22, 22);
+              {this.props.item.domains.filter((dom) => dom !== DomainSlug.PHYSICAL).map((slug) => {
+                return iconForDomain(slug, null, theme.colors.highlight, 22, 22);
               })}
             </View>
             <TouchableOpacity onPress={() => this.props.onLearnMorePress(this.props.item.slug)} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
