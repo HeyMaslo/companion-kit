@@ -146,7 +146,7 @@ export class ChooseStrategiesView extends ViewState {
           < FlatList style={styles.list}
             data={this.availableStrategies}
             renderItem={this.renderListItem}
-            keyExtractor={item => item.internalId} />
+            keyExtractor={(item: DisplayStrategy) => item.slug} />
           <Button title={'SELECT ' + (this.viewModel.selectedStrategies.length < 1 ? 'STRATEGIES' : (this.viewModel.selectedStrategies.length == 1 ? 'THIS STRATEGY' : 'THESE STRATEGIES'))} style={styles.selectButton} onPress={this.onSubmit} disabled={this.viewModel.selectedStrategies.length < 1} theme={this.theme} />
         </Container >
       </MasloPage >

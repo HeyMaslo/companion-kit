@@ -9,6 +9,7 @@ import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
 import { AlertExitWithoutSave } from 'src/constants/alerts';
 import AppController from 'src/controllers';
+import { Strategy } from 'src/constants/Strategy';
 
 @observer
 export class ReviewStrategiesView extends ViewState {
@@ -83,7 +84,7 @@ export class ReviewStrategiesView extends ViewState {
         <FlatList style={styles.list}
           data={listData || this.viewModel.selectedStrategies}
           renderItem={this.renderListItem}
-          keyExtractor={item => item.internalId} />
+          keyExtractor={(item: Strategy) => item.slug} />
       </>
     );
   }
