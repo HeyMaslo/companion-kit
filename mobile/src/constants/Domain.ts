@@ -16,9 +16,9 @@ export enum DomainSlug {
   STUDY           = 'Study',
   // Physical subdomains
   EXERCISE        = 'Exercise',
-  DIETNUTRITION   = 'Diet & Nutrition',
-  SEXUALHEALTH    = 'Sexual Health',
-  SUBSTANCEUSE    = 'Substance Use',
+  DIETNUTRITION   = 'DietNutrition',
+  SEXUALHEALTH    = 'SexualHealth',
+  SUBSTANCEUSE    = 'SubstanceUse',
 }
 
 // DomainName used in the frontent 
