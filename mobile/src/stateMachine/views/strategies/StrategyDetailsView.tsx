@@ -41,7 +41,7 @@ export class StrategyDetailsView extends ViewState {
   }
 
   renderIconItem = ({ item }) => (
-    <View style={[styles.listItem, { flexDirection: 'row', justifyContent: 'center' }]}>
+    <View style={[styles.listItem, { flexDirection: 'row', justifyContent: 'center' }]} key={item}>
       {iconForDomain(item, { marginRight: 20 }, this.theme.colors.foreground)}
       <Text style={[TextStyles.h2, styles.strategy, { marginBottom: 10 }]}>{this.capitalizeFirstLetter(item)}</Text>
     </View>
@@ -55,7 +55,7 @@ export class StrategyDetailsView extends ViewState {
     return (
       <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()} theme={this.theme}>
         <Container style={[{ height: this._contentHeight, paddingTop: 10, paddingBottom: 10 }]}>
-        <ScrollView style={{ width: this.layout.window.width }} contentContainerStyle={{ alignItems: 'center', marginHorizontal: 20 }}>
+          <ScrollView style={{ width: this.layout.window.width }} contentContainerStyle={{ alignItems: 'center', marginHorizontal: 20 }}>
             {/* Title */}
             <View style={{ justifyContent: 'center', flexDirection: 'row', marginBottom: 20 }}>
               <Text style={[TextStyles.h2, styles.strategy]}>{this._learnMoreStrategy.title}</Text>
@@ -63,12 +63,10 @@ export class StrategyDetailsView extends ViewState {
             {/* Subtitle */}
             <Text style={[TextStyles.p2, styles.strategy, { color: this.theme.colors.midground }]}>{'This strategy targets personal improvement in these life areas:'}</Text>
             {/* Icon Container */}
-            <FlatList style={styles.list}
-              data={this.viewModel.learnMoreStrategy.domains.filter((dom) => dom != DomainSlug.PHYSICAL)}
-              renderItem={this.renderIconItem}
-              keyExtractor={item => item}
-              scrollEnabled={false} />
-            {/* Body */}
+            {this.viewModel.learnMoreStrategy.domains.filter((dom) => dom != DomainSlug.PHYSICAL).map((slug) => {
+              return this.renderIconItem({ item: slug });
+            })}
+            {/* HTML body */}
             <RenderHTML
               contentWidth={this.layout.window.width - 40}
               source={htmlSource}
