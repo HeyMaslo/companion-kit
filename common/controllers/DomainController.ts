@@ -12,7 +12,11 @@ export default class DomainControllerBase implements IDomainController {
   }
 
   public async getPossibleDomains(): Promise<Domain[]> {
-    return await RepoFactory.Instance.domains.get();
+    let backendDomains = await RepoFactory.Instance.domains.get();
+    backendDomains.forEach((dom) => {
+      dom.name = convertFromDomainSlug(dom.name)
+    });
+    return backendDomains;
   }
 
   public async getFocusedDomains(): Promise<FocusedDomains> {
