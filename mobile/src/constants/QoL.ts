@@ -34,7 +34,7 @@ export type QolSurveyResults = {
     Identity: number[],
     Leisure: number[],
     Independence: number[],
-    'Self-Esteem': number[],
+    SelfEsteem: number[],
     Home: number[],
     Money: number[],
     Spirituality: number[],
@@ -44,8 +44,8 @@ export type QolSurveyResults = {
 };
 
 export namespace QolSurveyResults {
-    export function createEmptyResults(): QolSurveyResults {
-        return {
+    export function createEmptyResults(work: boolean = false, school: boolean = false): QolSurveyResults {
+        let base = {
             Mood: [],
             Physical: [],
             Sleep: [],
@@ -53,12 +53,18 @@ export namespace QolSurveyResults {
             Identity: [],
             Leisure: [],
             Independence: [],
-            'Self-Esteem': [],
+            SelfEsteem: [],
             Home: [],
             Money: [],
             Spirituality: [],
             Relationships: [],
         };
+        if (work) {
+            base['Work'] = [];
+        } else if (school) {
+            base['School'] = [];
+        }
+        return base;
     }
 }
 

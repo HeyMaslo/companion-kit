@@ -1,4 +1,4 @@
-// Slug used in backend only
+
 export enum DomainSlug {
   MOOD            = 'Mood',
   PHYSICAL        = 'Physical',
@@ -7,7 +7,7 @@ export enum DomainSlug {
   IDENTITY        = 'Identity',
   LEISURE         = 'Leisure',
   INDEPENDENCE    = 'Independence',
-  SELFESTEEM      = 'Self-Esteem',
+  SELFESTEEM      = 'SelfEsteem',
   HOME            = 'Home',
   MONEY           = 'Money',
   SPIRITUALITY    = 'Spirituality',
@@ -21,7 +21,7 @@ export enum DomainSlug {
   SUBSTANCEUSE    = 'SubstanceUse',
 }
 
-// DomainName used in the frontent
+// DomainName displayed in the UI
 export enum DomainName {
   MOOD            = 'Mood',
   PHYSICAL        = 'Physical',
@@ -39,7 +39,7 @@ export enum DomainName {
   STUDY           = 'Study',
 }
 
-// SubdomainName used in the frontent
+// SubdomainName displayed in the UI
 export enum SubdomainName {
   // Physical
   EXERCISE        = 'Exercise',
