@@ -107,5 +107,8 @@ export function domainNameForSlug(slug: DomainSlug): (DomainName | SubdomainName
       return SubdomainName.SEXUALHEALTH;
     case DomainSlug.SUBSTANCEUSE:
       return SubdomainName.SUBSTANCEUSE;
+
+      default:
+        return DomainName.MOOD;
   }
 }
