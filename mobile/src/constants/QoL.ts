@@ -40,11 +40,13 @@ export type QolSurveyResults = {
     Spirituality: number[],
     Relationships: number[],
     Work?: number[],
-    School?: number[],
+    Study?: number[],
 };
 
-export namespace QolSurveyResults {
-    export function createEmptyResults(work: boolean = false, school: boolean = false): QolSurveyResults {
+// Used for indexing QolSurveyResults and PersonaArmState
+export enum QolSurveyKeys { Mood = '', Physical = '', Sleep = '', Thinking = '', Identity = '', Leisure = '', Independence = '', SelfEsteem = '', Home = '', Money = '', Spirituality = '', Relationships = '', Work = '', Study = '' }
+export namespace QolSurveyResultsHelper {
+    export function createEmptyResults(work: boolean = false, study: boolean = false): QolSurveyResults {
         const base = {
             Mood: [],
             Physical: [],
@@ -59,12 +61,12 @@ export namespace QolSurveyResults {
             Spirituality: [],
             Relationships: [],
             Work: null,
-            School: null,
+            Study: null,
         };
         if (work) {
             base.Work = [];
-        } else if (school) {
-            base.School = [];
+        } else if (study) {
+            base.Study = [];
         }
         return base;
     }
