@@ -59,7 +59,7 @@ export namespace QolSurveyResults {
             Spirituality: [],
             Relationships: [],
             Work: null,
-            School: null
+            School: null,
         };
         if (work) {
             base.Work = [];
