@@ -7,6 +7,7 @@ import Images from 'src/constants/images';
 import TextStyles from 'src/styles/TextStyles';
 import { iconForDomain } from 'src/helpers/DomainHelper';
 import AppController from 'src/controllers';
+import { domainNameForSlug } from 'src/constants/Domain';
 
 @observer
 export class ReviewNotificationsOnboardingView extends NotificationsOnboardingBaseView {
@@ -26,7 +27,7 @@ export class ReviewNotificationsOnboardingView extends NotificationsOnboardingBa
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 15 }}>
       <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', width: '85%' }}>
         {iconForDomain(item, { marginHorizontal: 20 }, this.theme.colors.highlight)}
-        <Text style={this.textStyles.p2}>{item}</Text>
+        <Text style={this.textStyles.p2}>{domainNameForSlug(item)}</Text>
         <View style={[styles.checkbox, { borderColor: this.theme.colors.highlight, ...styles.checkboxChecked, backgroundColor: this.theme.colors.highlight, display: 'flex', marginLeft: 'auto' }]}>
           {<Images.radioChecked width={8} height={6} fill={this.theme.colors.highlight} />}
         </View>

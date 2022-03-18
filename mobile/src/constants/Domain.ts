@@ -68,3 +68,44 @@ export type FocusedDomains = {
   domains: DomainSlug[],
   subdomains: DomainSlug[],
 };
+
+export function domainNameForSlug(slug: DomainSlug): (DomainName | SubdomainName) {
+  switch (slug) {
+    case DomainSlug.MOOD:
+      return DomainName.MOOD;
+    case DomainSlug.PHYSICAL:
+      return DomainName.PHYSICAL;
+    case DomainSlug.SLEEP:
+      return DomainName.SLEEP;
+    case DomainSlug.THINKING:
+      return DomainName.THINKING;
+    case DomainSlug.IDENTITY:
+      return DomainName.IDENTITY;
+    case DomainSlug.LEISURE:
+      return DomainName.LEISURE;
+    case DomainSlug.INDEPENDENCE:
+      return DomainName.INDEPENDENCE;
+    case DomainSlug.SELFESTEEM:
+      return DomainName.SELFESTEEM;
+    case DomainSlug.HOME:
+      return DomainName.HOME;
+    case DomainSlug.MONEY:
+      return DomainName.MONEY;
+    case DomainSlug.SPIRITUALITY:
+      return DomainName.SPIRITUALITY;
+    case DomainSlug.RELATIONSHIPS:
+      return DomainName.RELATIONSHIPS;
+    case DomainSlug.WORK:
+      return DomainName.WORK;
+    case DomainSlug.STUDY:
+      return DomainName.STUDY;
+    case DomainSlug.EXERCISE:
+      return SubdomainName.EXERCISE;
+    case DomainSlug.DIETNUTRITION:
+      return SubdomainName.DIETNUTRITION;
+    case DomainSlug.SEXUALHEALTH:
+      return SubdomainName.SEXUALHEALTH;
+    case DomainSlug.SUBSTANCEUSE:
+      return SubdomainName.SUBSTANCEUSE;
+  }
+}

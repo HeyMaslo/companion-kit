@@ -144,8 +144,8 @@ export class NotificationsController implements IDisposable {
                     affirmationsToSchedule = allPossibleAffirmations.slice(0, 27);
                     break;
                 case 2: {
-                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == firstDomain); // Note: affirmations only have 1 domain in 'domains' array
-                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == secondDomain);
+                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains.find((slug) => slug != DomainSlug.PHYSICAL) == firstDomain); // Note: affirmations only have 1 domain in 'domains' array
+                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains.find((slug) => slug != DomainSlug.PHYSICAL) == secondDomain);
                     for (let i = 0; i < 13; i++) { // (27 / 2 = 13.5) so we use 13 here and concat 1 more affirmation after the loop to get a total of 27
                         affirmationsToSchedule.concat(firstDomainAffirmations[i]);
                         affirmationsToSchedule.concat(secondDomainAffirmations[i]);
@@ -154,9 +154,9 @@ export class NotificationsController implements IDisposable {
                     break;
                 }
                 case 3: {
-                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == firstDomain);
-                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == secondDomain);
-                    const thirdDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == thirdDomain);
+                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains.find((slug) => slug != DomainSlug.PHYSICAL) == firstDomain);
+                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains.find((slug) => slug != DomainSlug.PHYSICAL) == secondDomain);
+                    const thirdDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains.find((slug) => slug != DomainSlug.PHYSICAL) == thirdDomain);
                     for (let i = 0; i < 9; i++) {
                         affirmationsToSchedule.concat(firstDomainAffirmations[i]);
                         affirmationsToSchedule.concat(secondDomainAffirmations[i]);
@@ -165,10 +165,10 @@ export class NotificationsController implements IDisposable {
                     break;
                 }
                 case 4: {
-                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == firstDomain);
-                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == secondDomain);
-                    const thirdDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == thirdDomain);
-                    const fourthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == fourthDomain);
+                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains.find((slug) => slug != DomainSlug.PHYSICAL) == firstDomain);
+                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains.find((slug) => slug != DomainSlug.PHYSICAL) == secondDomain);
+                    const thirdDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains.find((slug) => slug != DomainSlug.PHYSICAL) == thirdDomain);
+                    const fourthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains.find((slug) => slug != DomainSlug.PHYSICAL) == fourthDomain);
                     for (let i = 0; i < 7; i++) {
                         affirmationsToSchedule.concat(firstDomainAffirmations[i]);
                         affirmationsToSchedule.concat(secondDomainAffirmations[i]);
@@ -180,11 +180,11 @@ export class NotificationsController implements IDisposable {
                     break;
                 }
                 case 5: {
-                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == firstDomain);
-                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == secondDomain);
-                    const thirdDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == thirdDomain);
-                    const fourthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == fourthDomain);
-                    const fifthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == fifthDomain);
+                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains.find((slug) => slug != DomainSlug.PHYSICAL) == firstDomain);
+                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains.find((slug) => slug != DomainSlug.PHYSICAL) == secondDomain);
+                    const thirdDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains.find((slug) => slug != DomainSlug.PHYSICAL) == thirdDomain);
+                    const fourthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains.find((slug) => slug != DomainSlug.PHYSICAL) == fourthDomain);
+                    const fifthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains.find((slug) => slug != DomainSlug.PHYSICAL) == fifthDomain);
                     for (let i = 0; i < 6; i++) {
                         affirmationsToSchedule.concat(firstDomainAffirmations[i]);
                         affirmationsToSchedule.concat(secondDomainAffirmations[i]);
@@ -197,12 +197,12 @@ export class NotificationsController implements IDisposable {
                     break;
                 }
                 case 6: {
-                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == firstDomain);
-                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == secondDomain);
-                    const thirdDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == thirdDomain);
-                    const fourthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == fourthDomain);
-                    const fifthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == fifthDomain);
-                    const sixthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains[0] == sixthDomain);
+                    const firstDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains.find((slug) => slug != DomainSlug.PHYSICAL) == firstDomain);
+                    const secondDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains.find((slug) => slug != DomainSlug.PHYSICAL) == secondDomain);
+                    const thirdDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains.find((slug) => slug != DomainSlug.PHYSICAL) == thirdDomain);
+                    const fourthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains.find((slug) => slug != DomainSlug.PHYSICAL) == fourthDomain);
+                    const fifthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains.find((slug) => slug != DomainSlug.PHYSICAL) == fifthDomain);
+                    const sixthDomainAffirmations = allPossibleAffirmations.filter((aff) => aff.domains.find((slug) => slug != DomainSlug.PHYSICAL) == sixthDomain);
                     for (let i = 0; i < 5; i++) {
                         affirmationsToSchedule.concat(firstDomainAffirmations[i]);
                         affirmationsToSchedule.concat(secondDomainAffirmations[i]);

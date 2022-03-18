@@ -79,7 +79,7 @@ export class CustomizeNotificationsOnboardingView extends NotificationsOnboardin
   renderListItem = ({ item }) => (
     <Card
       key={item}
-      title={item + ' Life Area'}
+      title={item.name + ' Life Area'}
       description={this.stateForIndex(this.viewModel.posssibleDomains.indexOf(item)) ? 'On' : 'Off'}
       style={{ marginBottom: 20 }}
       isTransparent
