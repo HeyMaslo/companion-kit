@@ -9,7 +9,6 @@ import Localization from 'src/services/localization';
 import { Affirmation } from 'src/constants/QoL';
 import { PermissionStatus } from 'expo-modules-core';
 import { DateTriggerInput } from 'expo-notifications';
-import { DomainName } from 'src/constants/Domain';
 import { GlobalTrigger, GlobalTriggers } from 'src/stateMachine/globalTriggers';
 
 const logger = createLogger('[NotificationsController]');
@@ -46,7 +45,6 @@ export class NotificationsService {
         );
     }
 
-    public domainNames: DomainName[];
     public affirmations: Affirmation[];
 
     public get openedNotification() {

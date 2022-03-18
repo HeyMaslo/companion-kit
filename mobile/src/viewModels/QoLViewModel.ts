@@ -3,10 +3,9 @@ import { SurveyQuestions, QUESTIONS_COUNT, DOMAIN_QUESTION_COUNT, ShortSurveyQue
 import { createLogger } from 'common/logger';
 import AppController from 'src/controllers';
 import { ILocalSettingsController } from 'src/controllers/LocalSettings';
-import { PartialQol, QolSurveyResults, QolSurveyType } from 'src/constants/QoL';
+import { PartialQol, QolSurveyResults, QolSurveyResultsHelper, QolSurveyKeys, QolSurveyType } from 'src/constants/QoL';
 import { PersonaArmState } from 'dependencies/persona/lib';
 import { sum } from 'src/helpers/DomainHelper';
-import { DomainSlug } from 'src/constants/Domain';
 
 export const logger = createLogger('[QOLModel]');
 
@@ -46,7 +45,7 @@ export default class QOLSurveyViewModel {
                 this.startDate = new Date().getTime();
                 this._questionNum = 0;
                 this._domainNum = 0;
-                this._surveyResponses = QolSurveyResults.createEmptyResults();;
+                this._surveyResponses = QolSurveyResultsHelper.createEmptyResults();;
                 this.questionCompletionDates = [];
                 this._armMagnitudes = PersonaArmState.createZeroArmState();
                 this.isUnfinished = false;
@@ -78,8 +77,8 @@ export default class QOLSurveyViewModel {
     }
 
     @computed
-    get domain(): string { 
-        return Object.values(DomainSlug)[this._domainNum]; 
+    get domain(): string {
+        return Object.keys(QolSurveyKeys)[this._domainNum];
     }
 
     get numQuestions(): number {
@@ -115,6 +114,8 @@ export default class QOLSurveyViewModel {
 
     public savePrevResponse(prevResponse: number): void {
         const currDomain: string = this.domain;
+        console.log('currDomain', currDomain)
+        console.log('_surveyResponses', this._surveyResponses)
         this._surveyResponses[currDomain][this.questionNum % DOMAIN_QUESTION_COUNT] = prevResponse;
         this.saveSurveyProgress(this.qolArmMagnitudes);
     }
@@ -180,10 +181,12 @@ export default class QOLSurveyViewModel {
 
     private getArmMagnitudes(scores: QolSurveyResults): PersonaArmState {
         let currentArmMagnitudes: PersonaArmState = PersonaArmState.createZeroArmState();
-        for (let domain of Object.values(DomainSlug)) {
+        for (let domain of Object.keys(QolSurveyKeys)) {
             let score: number = 0;
             scores[domain].forEach((val) => {
-                score += val;
+                if (val) {
+                    score += val;
+                }
             })
             let mag: number;
             if (score === 0) { mag = 0.2; }
