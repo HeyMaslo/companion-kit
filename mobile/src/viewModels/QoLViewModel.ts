@@ -6,7 +6,7 @@ import { ILocalSettingsController } from 'src/controllers/LocalSettings';
 import { PartialQol, QolSurveyResults, QolSurveyType } from 'src/constants/QoL';
 import { PersonaArmState } from 'dependencies/persona/lib';
 import { sum } from 'src/helpers/DomainHelper';
-import { DomainName } from 'src/constants/Domain';
+import { DomainSlug } from 'src/constants/Domain';
 
 export const logger = createLogger('[QOLModel]');
 
@@ -78,7 +78,9 @@ export default class QOLSurveyViewModel {
     }
 
     @computed
-    get domain(): string { return Object.values(DomainName)[this._domainNum]; }
+    get domain(): string { 
+        return Object.values(DomainSlug)[this._domainNum]; 
+    }
 
     get numQuestions(): number {
         switch (this.qolSurveyType) {
@@ -178,7 +180,7 @@ export default class QOLSurveyViewModel {
 
     private getArmMagnitudes(scores: QolSurveyResults): PersonaArmState {
         let currentArmMagnitudes: PersonaArmState = PersonaArmState.createZeroArmState();
-        for (let domain of Object.values(DomainName)) {
+        for (let domain of Object.values(DomainSlug)) {
             let score: number = 0;
             scores[domain].forEach((val) => {
                 score += val;
