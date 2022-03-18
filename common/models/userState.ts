@@ -15,7 +15,7 @@ export type ScheduledAffirmationNotification = {
 export type UserState = {
     surveyState: PartialQol;
     focusedDomains: FocusedDomains;
-    chosenStrategies: string[]; // array of Strategy slugs (which are also firestore document ids) to reference strategies in the strategies collection
+    chosenStrategies: string[]; // array of Strategy slugs
     lastSeenAffirmations: LastSeen, // keeps track of affirmations that have been seen/scheduled at which date
     scheduledAffirmations: ScheduledAffirmationNotification[], // only contains upcoming affirmation notifications
 };
