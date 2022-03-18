@@ -81,6 +81,15 @@ import MinusIconSVG from 'src/assets/images/app/minus.svg';
 import ThreeArrowsSVG from 'src/assets/images/app/threeArrows.svg';
 // Strategy Illustration Images
 import StrategyTestIllustrationSVG from 'src/assets/images/app/strategy-illustrations/Strategy-test-illustration.svg';
+// Resource Icons
+import AppSVG from 'src/assets/images/app/resources/App.svg';
+import ArcticleSVG from 'src/assets/images/app/resources/Article.svg';
+import BlogSVG from 'src/assets/images/app/resources/Blog.svg';
+import OtherSVG from 'src/assets/images/app/resources/Other.svg';
+import VideoSVG from 'src/assets/images/app/resources/Video.svg';
+import WebinarSVG from 'src/assets/images/app/resources/Webinar.svg';
+import WorksheetSVG from 'src/assets/images/app/resources/Worksheet.svg';
+import YoutubeChannelSVG from 'src/assets/images/app/resources/YoutubeChannel.svg';
 
 export default {
     signInWithGoogle: GoogleIconPNG,
@@ -174,4 +183,13 @@ export default {
     threeArrowsIcon: ThreeArrowsSVG,
     // Strategy Illustrations
     StrategyTestIllustration: StrategyTestIllustrationSVG,
+    // Resource Icons
+    App: AppSVG,
+    Arcticle: ArcticleSVG,
+    Blog: BlogSVG,
+    Other: OtherSVG,
+    Video: VideoSVG,
+    Webinar: WebinarSVG,
+    Worksheet: WorksheetSVG,
+    YoutubeChannel: YoutubeChannelSVG,
 };
