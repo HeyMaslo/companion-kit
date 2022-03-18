@@ -12,9 +12,7 @@ import { domainNameForSlug } from 'src/constants/Domain';
 @observer
 export class ReviewNotificationsOnboardingView extends NotificationsOnboardingBaseView {
 
-  onBack = () => {
-    this.trigger(ScenarioTriggers.Back)
-  }
+  onBack = null
 
   override async onNext() {
     // End of the onboarding flow

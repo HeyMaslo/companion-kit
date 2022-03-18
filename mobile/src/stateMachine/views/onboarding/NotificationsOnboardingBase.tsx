@@ -25,7 +25,7 @@ export abstract class NotificationsOnboardingBaseView extends ViewState {
     
   }
 
-  abstract onBack: () => void;
+  abstract onBack?: () => void;
 
   async onNext() {
 
