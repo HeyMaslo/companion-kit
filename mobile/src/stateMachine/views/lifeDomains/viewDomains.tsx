@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewDomainsBase } from './viewDomainsBase';
 import AppViewModel from 'src/viewModels';
-import { DomainName, Subdomain } from 'src/constants/Domain';
+import { DomainSlug, Subdomain } from 'src/constants/Domain';
 
 @observer
 export class ViewDomainsView extends ViewDomainsBase {
@@ -27,14 +27,14 @@ export class ViewDomainsView extends ViewDomainsBase {
     this.trigger(ScenarioTriggers.Tertiary);
   }
 
-  getDomainDisplay = (): { leftName: string, mainName: string, rightName: string, mainImportance: string, subdomains: Subdomain[] } => {
+  getDomainDisplay = (): { leftName: string, mainName: string, mainSlug: DomainSlug, rightName: string, mainImportance: string, subdomains: Subdomain[] } => {
     return this.viewModel.getDomainDisplay();
   }
 
   getDomainImportanceBullets = (): string[] => {
-    const domain = this.viewModel.getDomainDisplay().mainName
+    const domain = this.viewModel.getDomainDisplay().mainSlug
     if (domain) {
-      return this.viewModel.getDomainByName(domain as DomainName).importanceBullets;
+      return this.viewModel.getDomainBySlug(domain).importanceBullets;
     }
     return [];
   }

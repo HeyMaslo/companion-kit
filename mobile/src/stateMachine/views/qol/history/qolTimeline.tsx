@@ -11,7 +11,7 @@ import { formatDateMonthYear } from 'common/utils/dateHelpers';
 import Layout from 'src/constants/Layout';
 import { getPersonaRadius } from '../../../persona';
 import IconsOnCircle from '../../IconsOnCircle';
-import { DomainName } from 'src/constants/Domain';
+import { DomainSlug } from 'src/constants/Domain';
 import { SurveyResults } from 'common/database/repositories/SurveyResultsRepo';
 import SplineThroughPoints, { CartesianCoordinate } from '../../SplineThroughPoints';
 import { QolSurveyType } from 'src/constants/QoL';
@@ -36,7 +36,7 @@ type QolTimelineViewState = {
 export class QolTimelineView extends ViewState<QolTimelineViewState> {
 
   private allDomains: string[] = [];
-  private domainSort: DomainName = null;
+  private domainSort: DomainSlug = null;
   @observable
   private dropDownIsExtended = false;
   @observable
@@ -49,7 +49,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   private selectedEntry: SurveyResults;
   private selectedEntryIndex = 0
   @observable
-  private selectedDomains: DomainName[] = [];
+  private selectedDomains: DomainSlug[] = [];
   private ordRadius = getPersonaRadius();
   private scrollViewContentOffset: PointPropType = { x: 0, y: 0 };
 
@@ -94,7 +94,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   }
 
   onViewStrategies = () => {
-    AppViewModel.Instance.Strategy.temporaryDisplay = AppViewModel.Instance.Strategy.allStrategies.filter((strat) => this.selectedEntry.strategyIds.includes(strat.internalId));
+    AppViewModel.Instance.Strategy.temporaryDisplay = AppViewModel.Instance.Strategy.allStrategies.filter((strat) => this.selectedEntry.strategySlugs.includes(strat.slug));
     this.viewModel.setSelectedEntry(this.selectedEntry, this.selectedEntryIndex + 1);
     this.trigger(ScenarioTriggers.Secondary)
   }
@@ -130,9 +130,9 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
   changeFilterPressed = (selection: string) => {
     if (selection == 'Show All') {
       this.domainSort = null;
-      this.selectedDomains = this.selectedEntry.focusDomains.domains;
+      this.selectedDomains = this.selectedEntry.focusDomains.domains || [];
     } else {
-      this.domainSort = selection as DomainName;
+      this.domainSort = selection as DomainSlug;
       this.selectedDomains = [this.domainSort];
     }
     this.generateEntryCoordinates();
@@ -143,7 +143,7 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
     this.dropDownIsExtended = !this.dropDownIsExtended;
   }
 
-  private scoreToDisplay(sort: DomainName): number {
+  private scoreToDisplay(sort: DomainSlug): number {
     if (sort == null) {
       return Math.round(this.selectedEntry.aggregateScore);
     }
@@ -228,13 +228,13 @@ export class QolTimelineView extends ViewState<QolTimelineViewState> {
 
             </ScrollView>
             {this.selectedEntryIndex !== 0 &&
-            <Button
-              title={`View Week ${this.selectedEntryIndex} Strategies`}
-              style={[styles.viewAllButton]}
-              onPress={this.onViewStrategies}
-              isTransparent={true}
-              disabled={this.dropDownIsExtended}
-              theme={this.theme} />}
+              <Button
+                title={`View Week ${this.selectedEntryIndex} Strategies`}
+                style={[styles.viewAllButton]}
+                onPress={this.onViewStrategies}
+                isTransparent={true}
+                disabled={this.dropDownIsExtended}
+                theme={this.theme} />}
 
             {/* Dropdown list is here so it renders on top of everything */}
             {this.dropDownIsExtended &&

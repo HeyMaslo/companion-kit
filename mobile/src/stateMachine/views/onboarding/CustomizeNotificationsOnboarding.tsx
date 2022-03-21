@@ -6,6 +6,7 @@ import { Card } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import TextStyles from 'src/styles/TextStyles';
 import { iconForDomain } from 'src/helpers/DomainHelper';
+import { domainNameForSlug } from 'src/constants/Domain';
 
 @observer
 export class CustomizeNotificationsOnboardingView extends NotificationsOnboardingBaseView {
@@ -79,7 +80,7 @@ export class CustomizeNotificationsOnboardingView extends NotificationsOnboardin
   renderListItem = ({ item }) => (
     <Card
       key={item}
-      title={item + ' Life Area'}
+      title={domainNameForSlug(item) + ' Life Area'}
       description={this.stateForIndex(this.viewModel.posssibleDomains.indexOf(item)) ? 'On' : 'Off'}
       style={{ marginBottom: 20 }}
       isTransparent

@@ -4,13 +4,13 @@
 */
 
 import { Identify } from 'common/models';
-import { DomainName } from './Domain';
+import { DomainSlug } from './Domain';
 
 // AFFIRMATIONS
 export type Affirmation = {
     id: string,
+    domains: DomainSlug[],
     content: string,
-    domainNames: DomainName[],
     mentionsBD: boolean,
 };
 
@@ -27,12 +27,27 @@ export type QuestionIded = Identify<Question>;
 // SURVEY STATE DATA
 
 export type QolSurveyResults = {
-    [key in DomainName]: number[]
+    Mood: number[],
+    Physical: number[],
+    Sleep: number[],
+    Thinking: number[],
+    Identity: number[],
+    Leisure: number[],
+    Independence: number[],
+    SelfEsteem: number[],
+    Home: number[],
+    Money: number[],
+    Spirituality: number[],
+    Relationships: number[],
+    Work?: number[],
+    Study?: number[],
 };
 
-export namespace QolSurveyResults {
-    export function createEmptyResults(): QolSurveyResults {
-        return {
+// Used for indexing QolSurveyResults and PersonaArmState
+export enum QolSurveyKeys { Mood = '', Physical = '', Sleep = '', Thinking = '', Identity = '', Leisure = '', Independence = '', SelfEsteem = '', Home = '', Money = '', Spirituality = '', Relationships = ''} // , Work = '', Study = '' }
+export namespace QolSurveyResultsHelper {
+    export function createEmptyResults(work: boolean = false, study: boolean = false): QolSurveyResults {
+        const base = {
             Mood: [],
             Physical: [],
             Sleep: [],
@@ -40,12 +55,20 @@ export namespace QolSurveyResults {
             Identity: [],
             Leisure: [],
             Independence: [],
-            'Self-esteem': [],
+            SelfEsteem: [],
             Home: [],
             Money: [],
-            Spiritual: [],
+            Spirituality: [],
             Relationships: [],
+            Work: null,
+            Study: null,
         };
+        if (work) {
+            base.Work = [];
+        } else if (study) {
+            base.Study = [];
+        }
+        return base;
     }
 }
 

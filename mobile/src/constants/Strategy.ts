@@ -1,11 +1,15 @@
-import { DomainName, SubdomainName } from './Domain';
+import { DomainSlug } from './Domain';
 
 export type Strategy = {
-  internalId:               string, // this will be the same as the strategy's document id in firestore
   title:                    string,
+  slug:                     string, // this will be the same as the strategy's document id in firestore
+  domains:                  DomainSlug[],
+  illustrationFilename:     string,
+  color:                    string, // e.g. #2A327A
   shortDescription:         string,
-  details:                  string,
-  associatedDomainNames:    string[],
+  whatToKnowBullets:        string[],
+  details:                  string, // HTML String
+  friendlyTitle:            string,
 };
 
 export type DisplayStrategy = Strategy & {

@@ -24,7 +24,6 @@ import { checkAndroidAuth } from 'src/helpers/health'
 import { getPersonaRadius, PersonaScale, PersonaViewPresets } from 'src/stateMachine/persona';
 import { Portal } from 'react-native-paper';
 import * as Haptics from 'src/services/haptics';
-import { DomainName, SubdomainName } from 'src/constants/Domain';
 import { formatDateDayMonthYear } from 'common/utils/dateHelpers';
 import { PersonaArmState } from 'dependencies/persona/lib';
 import { observable } from 'mobx';
@@ -177,7 +176,9 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     }
 
     private openResourceDetails = (jid: string) => {
-        this.trigger<CheckInDetailsParams>(ScenarioTriggers.Primary, { id: jid });
+        // this.trigger(ScenarioTriggers.Next)
+        this.onStartDomains()
+        // this.trigger<CheckInDetailsParams>(ScenarioTriggers.Primary, { id: jid });
     }
 
     private favoriteResource = (jid: string) => {

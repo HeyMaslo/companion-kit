@@ -1,5 +1,5 @@
 import { IDomainController } from 'common/abstractions/controlllers/IDomainController';
-import { Domain, FocusedDomains } from '../../mobile/src/constants/Domain';
+import { Domain, DomainName, FocusedDomains, SubdomainName } from '../../mobile/src/constants/Domain';
 import RepoFactory from 'common/controllers/RepoFactory';
 
 export default class DomainControllerBase implements IDomainController {

@@ -10,7 +10,7 @@ import { PersonaViewPresets } from 'src/stateMachine/persona';
 import Images from 'src/constants/images';
 import AppViewModel from 'src/viewModels';
 import { iconForDomain } from 'src/helpers/DomainHelper';
-import { DomainName } from 'src/constants/Domain';
+import { DomainSlug } from 'src/constants/Domain';
 
 @observer
 export class CustomizeNotificationsView extends ViewState {
@@ -127,7 +127,7 @@ export class CustomizeNotificationsView extends ViewState {
                         style={{ marginBottom: 20, height: 100 }}
                         titleStyle={{ marginBottom: 12, color: this.theme.colors.foreground }}
                         isTransparent
-                        ImageElement={iconForDomain(DomainName.MOOD, { width: 16, height: 16 }, this.theme.colors.highlight)}
+                        ImageElement={iconForDomain(DomainSlug.MOOD, { width: 16, height: 16 }, this.theme.colors.highlight)}
                         theme={this.theme}
                     >
                         <Switch

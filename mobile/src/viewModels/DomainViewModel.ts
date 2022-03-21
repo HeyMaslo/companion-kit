@@ -1,6 +1,6 @@
 import { observable } from 'mobx';
 import { createLogger } from 'common/logger';
-import { Domain, DomainName, FocusedDomains, Subdomain, SubdomainName } from '../constants/Domain';
+import { Domain, DomainName, DomainSlug, FocusedDomains, Subdomain, SubdomainName } from '../constants/Domain';
 import AppController from 'src/controllers';
 
 const logger = createLogger('[DomainViewModel]');
@@ -19,8 +19,8 @@ export default class DomainViewModel {
 
     public domainCount: number;
 
-    public learnMoreSubdomain: Subdomain;
-    public checkedSubdomains: SubdomainName[] = []; // used to persist subdomain checkboxes when moving to and from subdomain 'Learn More' View 
+    public learnMoreSubdomain: Subdomain = null;
+    public checkedSubdomains: DomainSlug[] = []; // used to persist subdomain checkboxes when moving to and from subdomain 'Learn More' View 
 
     constructor() {
 
@@ -60,23 +60,28 @@ export default class DomainViewModel {
     }
 
     public postFocusedDomains(): Promise<void> {
-        return AppController.Instance.User.qol.setUserStateProperty('focusedDomains', this.selectedDomains);
+        let focusedDomains: FocusedDomains = {
+            domains: this.selectedDomains.domains,
+            subdomains: this.selectedDomains.subdomains,
+        }
+        return AppController.Instance.User.qol.setUserStateProperty('focusedDomains', focusedDomains);
     }
 
     //  Returns the three domain names displayed on the choose domain screen (main is center domain), along with the importance string of the main domain
-    public getDomainDisplay(): { leftName: string, mainName: string, rightName: string, mainImportance: string, subdomains: Subdomain[] } {
+    public getDomainDisplay(): { leftName: string, mainName: string, mainSlug: DomainSlug, rightName: string, mainImportance: string, subdomains: Subdomain[] } {
         if (this.domainCount < 3) {
             logger.log("Warning: not enough domains available!");
-            return { leftName: null, mainName: null, rightName: null, mainImportance: null, subdomains: null };
+            return { leftName: null, mainName: null, mainSlug: null, rightName: null, mainImportance: null, subdomains: null };
         }
 
         const leftName = this._leftDomain > -1 ? this._allDomains[this._leftDomain].name : '';
         const rightName = this._rightDomain < this.domainCount ? this._allDomains[this._rightDomain].name : '';
         const mainName = this._allDomains[this._mainDomain].name;
+        const mainSlug = this._allDomains[this._mainDomain].slug;
         const mainImportance = this._allDomains[this._mainDomain].importance;
         const subdomains = this._allDomains[this._mainDomain].subdomains;
 
-        return { leftName: leftName, mainName: mainName, rightName: rightName, mainImportance: mainImportance, subdomains: subdomains };
+        return { leftName: leftName, mainName: mainName, mainSlug: mainSlug, rightName: rightName, mainImportance: mainImportance, subdomains: subdomains };
     }
 
     //  Iterates through the domains as user clicks the next or back button, (-1) going back, (1) going forward through the list of domains
@@ -102,10 +107,10 @@ export default class DomainViewModel {
     // returns false if domain has already been selected
     // Use callback to set selected domains in StrategiesViewModel
     public selectDomain(domain: Domain, callback: () => void): boolean {
-        if (this._selectedDomains.domains.includes(domain.name)) {
+        if (this._selectedDomains.domains.includes(domain.slug)) {
             return false;
         }
-        this._selectedDomains.domains.push(domain.name);
+        this._selectedDomains.domains.push(domain.slug);
         callback();
         return true;
     }
@@ -118,14 +123,14 @@ export default class DomainViewModel {
             this._selectedDomains.subdomains = [];
         }
         const oldLength = this._selectedDomains.domains.length;
-        this._selectedDomains.domains = this._selectedDomains.domains.filter((dom) => dom !== domain.name)
+        this._selectedDomains.domains = this._selectedDomains.domains.filter((slug) => slug !== domain.slug)
         if (this._selectedDomains.domains.length != oldLength) {
             callback();
         }
     }
 
     // Use callback to set selected domains in StrategiesViewModel
-    public selectSubdomains(subdomains: SubdomainName[], callback: () => void) {
+    public selectSubdomains(subdomains: DomainSlug[], callback: () => void) {
         this._selectedDomains.subdomains = subdomains; // If more categories of subdomains (besides Physical) are added this will need to be changed
         callback();
         return true;
@@ -136,10 +141,10 @@ export default class DomainViewModel {
         this._selectedDomains = { domains: [], subdomains: [] };
     }
 
-    public getDomainByName(name: DomainName): Domain {
+    public getDomainBySlug(slug: DomainSlug): Domain {
         for (let i = 0; i < this._allDomains.length; i++) {
             let domain = this._allDomains[i];
-            if (domain.name === name) {
+            if (domain.slug === slug) {
                 return domain;
             }
         }

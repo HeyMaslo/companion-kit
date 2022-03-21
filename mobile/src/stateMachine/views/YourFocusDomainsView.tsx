@@ -10,7 +10,8 @@ import { ViewState } from './base';
 import Layout from 'src/constants/Layout';
 import { getPersonaRadius } from '../persona';
 import IconsOnCircle from './IconsOnCircle';
-import { DomainName, FocusedDomains } from 'src/constants/Domain';
+import { FocusedDomains } from 'src/constants/Domain';
+import { Strategy } from 'src/constants/Strategy';
 
 const containerMarginTop = Layout.isSmallDevice ? 25 : 75;
 const containerMarginBottom = Layout.isSmallDevice ? 0 : 25;
@@ -49,7 +50,7 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
   }
 
   onLearnMorePress(id: string) {
-    const found = this.strategiesViewModel.getStrategyById(id);
+    const found = this.strategiesViewModel.getStrategyBySlug(id);
     if (found) {
       this.strategiesViewModel.learnMoreStrategy = found;
       this.trigger(ScenarioTriggers.Tertiary);
@@ -92,7 +93,7 @@ export class YourFocusDomainsView extends ViewState<YourFocusDomainsViewState> {
             <FlatList style={[styles.list]}
               data={this.strategiesViewModel.selectedStrategies}
               renderItem={this.renderListItem}
-              keyExtractor={item => item.internalId} />
+              keyExtractor={(item: Strategy) => item.slug} />
           </View>
         </Container>
       </MasloPage>

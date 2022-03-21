@@ -5,7 +5,7 @@ import { StyleSheet, Text, View, ScrollView, Switch, Platform } from 'react-nati
 import { Card } from 'src/components';
 import { ScenarioTriggers } from '../../abstractions';
 import TextStyles from 'src/styles/TextStyles';
-import { DomainName } from 'src/constants/Domain';
+import { DomainSlug } from 'src/constants/Domain';
 import { iconForDomain } from 'src/helpers/DomainHelper';
 
 
@@ -42,7 +42,7 @@ export class BDMentionNotificationsOnboardingView extends NotificationsOnboardin
           style={{ marginBottom: 20, height: 100 }}
           titleStyle={{ marginBottom: 12, color: this.theme.colors.foreground }}
           isTransparent
-          ImageElement={iconForDomain(DomainName.MOOD, { width: 16, height: 16 }, this.theme.colors.highlight)}
+          ImageElement={iconForDomain(DomainSlug.MOOD, { width: 16, height: 16 }, this.theme.colors.highlight)}
           theme={this.theme}
         >
           <Switch

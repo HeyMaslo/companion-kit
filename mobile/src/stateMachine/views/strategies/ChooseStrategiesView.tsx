@@ -9,7 +9,7 @@ import Colors from '../../../constants/colors/Colors';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
 import { AlertExitWithoutSave } from 'src/constants/alerts';
-import { DomainName } from 'src/constants/Domain';
+import { DomainSlug } from 'src/constants/Domain';
 import { DisplayStrategy } from 'src/constants/Strategy';
 
 @observer
@@ -20,14 +20,16 @@ export class ChooseStrategiesView extends ViewState {
 
   @observable
   private dropDownIsExtended = false;
-  private selectedDomainNames: string[] = [];
-  private currentFilter: DomainName = null;
+  private selectedDomainSlugs: DomainSlug[] = [];
+  private currentFilter: DomainSlug = null;
+  @observable
+  private numberOfSelectedStrategies = 0
 
   constructor(props) {
     super(props);
     this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0 } });
     this.hidePersona();
-    this.selectedDomainNames = (AppViewModel.Instance.Domain.selectedDomains.domains as string[]).concat(AppViewModel.Instance.Domain.selectedDomains.subdomains);
+    this.selectedDomainSlugs = (AppViewModel.Instance.Domain.selectedDomains.domains).concat(AppViewModel.Instance.Domain.selectedDomains.subdomains);
     this.onLearnMorePress = this.onLearnMorePress.bind(this);
     this.onSelectStrategy = this.onSelectStrategy.bind(this);
   }
@@ -69,7 +71,7 @@ export class ChooseStrategiesView extends ViewState {
   }
 
   onLearnMorePress(id: string) {
-    const found = this.viewModel.getStrategyById(id);
+    const found = this.viewModel.getStrategyBySlug(id);
     if (found) {
       this.viewModel.learnMoreStrategy = found;
       this.trigger(ScenarioTriggers.Tertiary);
@@ -77,10 +79,11 @@ export class ChooseStrategiesView extends ViewState {
   }
 
   onSelectStrategy = (id: string) => {
-    this.viewModel.selectStrategy(this.viewModel.getStrategyById(id))
+    this.viewModel.selectStrategy(this.viewModel.getStrategyBySlug(id));
+    this.numberOfSelectedStrategies = this.viewModel.selectedStrategies.length;
   }
 
-  changeFilterPressed = (strategyDomain: DomainName) => {
+  changeFilterPressed = (strategyDomain: DomainSlug) => {
     this.currentFilter = strategyDomain;
     this.viewModel.filterAvailableStrategies(strategyDomain)
   }
@@ -101,7 +104,7 @@ export class ChooseStrategiesView extends ViewState {
   );
 
   renderListItem = ({ item }) => (
-    <StrategyCard item={item} onSelectStrategy={this.onSelectStrategy} onLearnMorePress={this.onLearnMorePress} isSmallCard={true} theme={this.theme} />
+    <StrategyCard item={item} onSelectStrategy={this.onSelectStrategy} onLearnMorePress={this.onLearnMorePress} isSmallCard={true} hideCheckbox={this.numberOfSelectedStrategies > 3 && !item.isChecked} theme={this.theme} />
   );
 
   renderContent() {
@@ -116,12 +119,12 @@ export class ChooseStrategiesView extends ViewState {
 
           <View>
             {
-              this.selectedDomainNames.length < 3 ?
+              this.selectedDomainSlugs.length < 3 ?
                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
                   {/* Sort Row of Three Buttons */}
                   <TouchableOpacity onPress={() => this.changeFilterPressed(null)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == null ? { textDecorationLine: 'underline' } : null]}>{'Show All'}</Text></TouchableOpacity>
-                  <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainNames[0] as DomainName)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainNames[0] ? { textDecorationLine: 'underline' } : null]}>{this.selectedDomainNames[0]}</Text></TouchableOpacity>
-                  <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainNames[1] as DomainName)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainNames[1] ? { textDecorationLine: 'underline' } : null]}>{this.selectedDomainNames[1]}</Text></TouchableOpacity>
+                  <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainSlugs[0] as DomainSlug)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainSlugs[0] ? { textDecorationLine: 'underline' } : null]}>{this.selectedDomainSlugs[0]}</Text></TouchableOpacity>
+                  <TouchableOpacity onPress={() => this.changeFilterPressed(this.selectedDomainSlugs[1] as DomainSlug)}><Text style={[TextStyles.btnTitle, styles.rowButton, this.currentFilter == this.selectedDomainSlugs[1] ? { textDecorationLine: 'underline' } : null]}>{this.selectedDomainSlugs[1]}</Text></TouchableOpacity>
                 </View>
                 :
                 <View>
@@ -130,7 +133,7 @@ export class ChooseStrategiesView extends ViewState {
                   {
                     this.dropDownIsExtended &&
                     <FlatList style={styles.dropDownlist}
-                      data={this.selectedDomainNames}
+                      data={this.selectedDomainSlugs}
                       renderItem={this.renderDropDownListItem}
                       keyExtractor={item => item}
                       scrollEnabled={false} />
@@ -143,7 +146,7 @@ export class ChooseStrategiesView extends ViewState {
           < FlatList style={styles.list}
             data={this.availableStrategies}
             renderItem={this.renderListItem}
-            keyExtractor={item => item.internalId} />
+            keyExtractor={(item: DisplayStrategy) => item.slug} />
           <Button title={'SELECT ' + (this.viewModel.selectedStrategies.length < 1 ? 'STRATEGIES' : (this.viewModel.selectedStrategies.length == 1 ? 'THIS STRATEGY' : 'THESE STRATEGIES'))} style={styles.selectButton} onPress={this.onSubmit} disabled={this.viewModel.selectedStrategies.length < 1} theme={this.theme} />
         </Container >
       </MasloPage >

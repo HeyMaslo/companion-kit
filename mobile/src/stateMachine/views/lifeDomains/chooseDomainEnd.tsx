@@ -3,7 +3,6 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, Container, MasloPage } from 'src/components';
-import { DomainName, SubdomainName } from 'src/constants/Domain';
 import Layout from 'src/constants/Layout';
 import AppController from 'src/controllers';
 import AppViewModel from 'src/viewModels';
@@ -39,7 +38,7 @@ export class ChooseDomainEndView extends ViewState {
     async onChooseStrategiesPress() {
         this.viewModel.postFocusedDomains();
         this.strategiesViewModel.updateAvailableStrategiesForSelectedDomains();
-        const allSelectedDomains = (this.viewModel.selectedDomains.domains as (DomainName | SubdomainName)[]).concat(this.viewModel.selectedDomains.subdomains);
+        const allSelectedDomains = (this.viewModel.selectedDomains.domains).concat(this.viewModel.selectedDomains.subdomains);
         AppViewModel.Instance.Settings.notifications.setAllDomains(allSelectedDomains);
         if (AppController.Instance.User.localSettings.current?.onboarding.needsDomainOnboarding) {
             this.viewModel.completeDomainOnboarding();

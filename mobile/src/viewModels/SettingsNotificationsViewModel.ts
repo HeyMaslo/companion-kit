@@ -3,7 +3,7 @@ import AppController from 'src/controllers';
 import { Alert, Linking, Platform } from 'react-native';
 import * as Links from 'src/constants/links';
 import { HourAndMinute } from 'common/utils/dateHelpers';
-import { DomainName, SubdomainName } from 'src/constants/Domain';
+import { DomainSlug } from 'src/constants/Domain';
 
 export class SettingsNotificationsViewModel {
 
@@ -17,11 +17,11 @@ export class SettingsNotificationsViewModel {
 
     private get originalIsEnabled() { return !!AppController.Instance.User?.notifications.notificationsEnabled; }
 
-    private _posssibleDomains: (DomainName | SubdomainName)[] = [];
+    private _posssibleDomains: DomainSlug[] = [];
 
     get scheduledTime(): HourAndMinute { return AppController.Instance.User.localSettings.current.notifications.scheduledTime };
     @observable
-    public domainsForNotifications: (DomainName | SubdomainName)[] = AppController.Instance.User.localSettings.current.notifications.domainsForNotifications;
+    public domainsForNotifications: DomainSlug[] = AppController.Instance.User.localSettings.current.notifications.domainsForNotifications;
     @observable
     public allowBDMention: boolean = AppController.Instance.User.localSettings.current.notifications.allowBDMention;
 
@@ -54,12 +54,12 @@ export class SettingsNotificationsViewModel {
         AppController.Instance.User.localSettings.updateNotifications({ scheduledTime: time }, 'scheduledTime');
     }
 
-    public setAllDomains(allDomains: (DomainName | SubdomainName)[]) {
+    public setAllDomains(allDomains: DomainSlug[]) {
         if (allDomains) {
-            const filtered = allDomains.filter((dom) => dom != DomainName.PHYSICAL)
+            const filtered = allDomains.filter((dom) => dom != DomainSlug.PHYSICAL)
             this._posssibleDomains = filtered;
             this.domainsForNotifications = filtered;
-            AppController.Instance.User.notifications.domainAndSubdomainNames = filtered;
+            AppController.Instance.User.notifications.domainAndSubdomains = filtered;
         }
     }
 
