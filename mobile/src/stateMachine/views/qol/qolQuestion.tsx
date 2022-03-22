@@ -32,6 +32,7 @@ export class QolQuestion extends ViewState {
 
     private cancel = () => {
         this.persona.qolArmMagnitudes = this.viewModel.originalArmMagnitudes;
+        this.viewModel.willExitSurvey();
         this.trigger(ScenarioTriggers.Cancel);
     }
 

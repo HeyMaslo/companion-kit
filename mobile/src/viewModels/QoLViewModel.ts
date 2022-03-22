@@ -116,7 +116,7 @@ export default class QOLSurveyViewModel {
         }
     }
 
-    private submissionTimer = null;
+    private submissionTimer: Timer = null;
 
     private timerFired(self: QOLSurveyViewModel) {
         const responses = this.surveyResponses;
@@ -124,6 +124,13 @@ export default class QOLSurveyViewModel {
             self.sentResponses = responses;
             self.saveSurveyProgress()
         }
+    }
+
+    // Call this when exiting the qol survey part way through
+    public willExitSurvey() {
+        this.submissionTimer.stop();
+        this.submissionTimer = null;
+        this.timerFired(this);
     }
 
     public async savePrevResponse(prevResponse: number) {

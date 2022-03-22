@@ -40,9 +40,6 @@ export class QolStartView extends ViewState {
     private exitSurvey = async () => {
         await this.viewModel.saveSurveyProgress(true);
         this.viewModel.qolArmMagnitudes = PersonaArmState.createZeroArmState();
-        this.cancel();
-    }
-    private cancel = () => {
         this.trigger(ScenarioTriggers.Cancel);
     }
 
