@@ -29,7 +29,8 @@ export default class QOLSurveyViewModel {
     private readonly _settings: ILocalSettingsController = AppController.Instance.User.localSettings;
 
     constructor() {
-        this.timer.on('tick', () => this.timerFired(this))
+        this.submissionTimer.on('tick', () => this.timerFired(this));
+
         this.initModel = AppController.Instance.User.qol.getPartialQol().then((partialQolState: PartialQol) => {
             if (partialQolState !== null && typeof (partialQolState) !== 'undefined') {
                 this._questionNum = partialQolState.questionNum;
@@ -92,7 +93,7 @@ export default class QOLSurveyViewModel {
     }
 
     get surveyResponses(): any { return this._surveyResponses; }
-    private sent: any = null;
+    private sentResponses: any = null;
 
     get qolArmMagnitudes(): any { return this._armMagnitudes; }
     set qolArmMagnitudes(newValue: any) { this._armMagnitudes = newValue; }
@@ -115,16 +116,13 @@ export default class QOLSurveyViewModel {
         }
     }
 
-    private timer = null;
+    private submissionTimer = null;
 
-    private timerFired(self: any) {
+    private timerFired(self: QOLSurveyViewModel) {
         const responses = this.surveyResponses;
-        if (responses !== self.sent) {
-            console.log("SAVING")
-            self.sent = responses;
-            self.saveSurveyProgress().then(() => {
-                console.log("DONE")
-            });
+        if (responses !== self.sentResponses) {
+            self.sentResponses = responses;
+            self.saveSurveyProgress()
         }
     }
 
@@ -138,15 +136,15 @@ export default class QOLSurveyViewModel {
         } else {
             this.questionCompletionDates.push(now);
         }
-        this.sent = null;
+        this.sentResponses = null;
 
         if (this.questionNum === (this.numQuestions - 1)) {
-            this.timer.stop();
-            this.timer = null;
+            this.submissionTimer.stop();
+            this.submissionTimer = null;
             await this.saveSurveyProgress();
-        } else if (this.timer == null || this.timer.status != 'running') {
-            this.timer = new Timer({ interval: 5000 });
-            this.timer.start(60000 * 1000); // max out at 1000 min
+        } else if (this.submissionTimer == null || this.submissionTimer.status != 'running') {
+            this.submissionTimer = new Timer({ interval: 5000 });
+            this.submissionTimer.start(60000 * 1000); // max out at 1000 min
         }
     }
 
@@ -158,7 +156,7 @@ export default class QOLSurveyViewModel {
             this.isUnfinished = false;
         } else {
             let partialQol: PartialQol = {
-                questionNum: this._questionNum, //+ 1, // + 1 is required as this method is called before nextQuestion() which increments the questionNum counter
+                questionNum: this._questionNum,
                 domainNum: this._domainNum,
                 scores: this._surveyResponses,
                 startDate: this.startDate,
