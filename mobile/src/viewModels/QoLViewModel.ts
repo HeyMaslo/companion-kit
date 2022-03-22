@@ -6,7 +6,7 @@ import { ILocalSettingsController } from 'src/controllers/LocalSettings';
 import { PartialQol, QolSurveyResults, QolSurveyResultsHelper, QolSurveyKeys, QolSurveyType } from 'src/constants/QoL';
 import { PersonaArmState } from 'dependencies/persona/lib';
 import { sum } from 'src/helpers/DomainHelper';
-
+import Timer from 'tiny-timer'
 export const logger = createLogger('[QOLModel]');
 
 export default class QOLSurveyViewModel {
@@ -29,6 +29,7 @@ export default class QOLSurveyViewModel {
     private readonly _settings: ILocalSettingsController = AppController.Instance.User.localSettings;
 
     constructor() {
+        this.timer.on('tick', () => this.timerFired(this))
         this.initModel = AppController.Instance.User.qol.getPartialQol().then((partialQolState: PartialQol) => {
             if (partialQolState !== null && typeof (partialQolState) !== 'undefined') {
                 this._questionNum = partialQolState.questionNum;
@@ -91,8 +92,10 @@ export default class QOLSurveyViewModel {
     }
 
     get surveyResponses(): any { return this._surveyResponses; }
+    private sent: any = null;
 
     get qolArmMagnitudes(): any { return this._armMagnitudes; }
+    set qolArmMagnitudes(newValue: any) { this._armMagnitudes = newValue; }
 
     set setQolSurveyType(type: QolSurveyType) { this.qolSurveyType = type; }
 
@@ -112,31 +115,50 @@ export default class QOLSurveyViewModel {
         }
     }
 
-    public savePrevResponse(prevResponse: number): void {
-        const currDomain: string = this.domain;
-        console.log('currDomain', currDomain)
-        console.log('_surveyResponses', this._surveyResponses)
-        this._surveyResponses[currDomain][this.questionNum % DOMAIN_QUESTION_COUNT] = prevResponse;
-        this.saveSurveyProgress(this.qolArmMagnitudes);
+    private timer = null;
+
+    private timerFired(self: any) {
+        const responses = this.surveyResponses;
+        if (responses !== self.sent) {
+            console.log("SAVING")
+            self.sent = responses;
+            self.saveSurveyProgress().then(() => {
+                console.log("DONE")
+            });
+        }
     }
 
-    public saveSurveyProgress = async (qolArmMagnitudes: PersonaArmState) => {
-        this._armMagnitudes = qolArmMagnitudes;
+    public async savePrevResponse(prevResponse: number) {
+        const currDomain: string = this.domain;
+        this._surveyResponses[currDomain][this.questionNum % DOMAIN_QUESTION_COUNT] = prevResponse;
+        const now = new Date().getTime();
+        this.questionCompletionDates = this.questionCompletionDates || [];
+        if (this.questionCompletionDates.length > this.questionNum) {
+            this.questionCompletionDates[this.questionNum] = now;
+        } else {
+            this.questionCompletionDates.push(now);
+        }
+        this.sent = null;
+
+        if (this.questionNum === (this.numQuestions - 1)) {
+            this.timer.stop();
+            this.timer = null;
+            await this.saveSurveyProgress();
+        } else if (this.timer == null || this.timer.status != 'running') {
+            this.timer = new Timer({ interval: 5000 });
+            this.timer.start(60000 * 1000); // max out at 1000 min
+        }
+    }
+
+    // Update the user's userState with the current (partial) qol survey progress 
+    public saveSurveyProgress = async (reset: boolean = false) => {
         let res: boolean;
-        if (qolArmMagnitudes === null) {
+        if (reset) {
             res = await AppController.Instance.User.qol.sendPartialQol(null);
             this.isUnfinished = false;
         } else {
-            const now = new Date().getTime();
-            this.questionCompletionDates = this.questionCompletionDates || [];
-            if (this.questionCompletionDates.length - 1 >= this.questionNum) {
-                this.questionCompletionDates[this.questionNum] = now;
-            } else {
-                this.questionCompletionDates.push(now);
-            }
-
             let partialQol: PartialQol = {
-                questionNum: this._questionNum + 1, // + 1 is required as this method is called before nextQuestion() which increments the questionNum counter
+                questionNum: this._questionNum, //+ 1, // + 1 is required as this method is called before nextQuestion() which increments the questionNum counter
                 domainNum: this._domainNum,
                 scores: this._surveyResponses,
                 startDate: this.startDate,
@@ -149,25 +171,19 @@ export default class QOLSurveyViewModel {
         return res;
     }
 
+    // Calculate the user's aggregateScore and save the survey to firestore/surveyResults
     public sendSurveyResults = async () => {
         let aggregateScore = 0;
-        const entries = Object.entries(this._surveyResponses)
-        for (const [key, value] of entries) {
-            aggregateScore += sum(value);
+        const keys = Object.keys(QolSurveyKeys) //(this._surveyResponses)
+        for (const surveyKey of keys) {
+            aggregateScore += sum(this._surveyResponses[surveyKey]);
         }
-        aggregateScore /= entries.length
+        aggregateScore /= keys.length;
         const res: boolean = await AppController.Instance.User.qol.sendSurveyResults(this._surveyResponses, aggregateScore, this.qolSurveyType, this.startDate, this.questionCompletionDates);
         return res;
     }
 
-    public completeQolOnboarding() {
-        this._settings.updateOnboardingSettings({ needsQolOnboarding: false }, 'needsQolOnboarding')
-        this._settings.updateQolSettings({ lastFullQol: Date() }, 'lastFullQol');
-        this._settings.updateQolSettings({ isFirstEverQol: false }, 'isFirstEverQol');
-        this.showInterlude = false;
-    }
-
-    public updatePendingQol() {
+    public resolvePendingQol() {
         switch (this.qolSurveyType) {
             case QolSurveyType.Full:
                 this._settings.updateQolSettings({ pendingFullQol: false }, 'pendingFullQol');
@@ -194,6 +210,13 @@ export default class QOLSurveyViewModel {
             currentArmMagnitudes[domain] = mag;
         }
         return currentArmMagnitudes;
+    }
+
+    public completeQolOnboarding() {
+        this._settings.updateOnboardingSettings({ needsQolOnboarding: false }, 'needsQolOnboarding')
+        this._settings.updateQolSettings({ lastFullQol: Date() }, 'lastFullQol');
+        this._settings.updateQolSettings({ isFirstEverQol: false }, 'isFirstEverQol');
+        this.showInterlude = false;
     }
 
 }

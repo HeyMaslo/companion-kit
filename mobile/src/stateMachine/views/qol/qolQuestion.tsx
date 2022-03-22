@@ -37,13 +37,13 @@ export class QolQuestion extends ViewState {
 
     // Called when survey is completed
     private finish = async () => {
-        this.trigger(ScenarioTriggers.Submit);
         await this.viewModel.sendSurveyResults();
 
         if (this.viewModel.isUnfinished) {
-            await this.viewModel.saveSurveyProgress(null);
+            await this.viewModel.saveSurveyProgress(true);
         }
-        this.viewModel.updatePendingQol();
+        this.viewModel.resolvePendingQol();
+        this.trigger(ScenarioTriggers.Submit);
     }
 
     private isNextDomain = (currQuestion: number) => {
@@ -69,8 +69,8 @@ export class QolQuestion extends ViewState {
         });
     }
 
-    private nextQuestion = (prevResponse: number) => {
-        this.viewModel.savePrevResponse(prevResponse);
+    private nextQuestion = async (prevResponse: number) => {
+        await this.viewModel.savePrevResponse(prevResponse);
         const newDomainMag: number = this.calculateNewDomainMag(prevResponse);
         this.persona.qolArmMagnitudes = { ...this.persona.qolArmMagnitudes, [this.viewModel.domain]: newDomainMag };
 

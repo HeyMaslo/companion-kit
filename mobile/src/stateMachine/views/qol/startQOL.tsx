@@ -27,7 +27,7 @@ export class QolStartView extends ViewState {
             await this.viewModel.sendSurveyResults();
 
             if (this.viewModel.isUnfinished) {
-                await this.viewModel.saveSurveyProgress(null);
+                await this.viewModel.saveSurveyProgress(true);
             }
             this.viewModel.qolSurveyType = QolSurveyType.Full;
         }
@@ -37,8 +37,9 @@ export class QolStartView extends ViewState {
         return AppViewModel.Instance.QOL;
     }
 
-    private saveProgress = async () => {
-        await this.viewModel.saveSurveyProgress(PersonaArmState.createZeroArmState());
+    private exitSurvey = async () => {
+        await this.viewModel.saveSurveyProgress(true);
+        this.viewModel.qolArmMagnitudes = PersonaArmState.createZeroArmState();
         this.cancel();
     }
     private cancel = () => {
@@ -54,7 +55,7 @@ export class QolStartView extends ViewState {
             title: `Are you sure you want to pause the survey?`,
             primaryButton: {
                 text: 'yes',
-                action: this.saveProgress,
+                action: this.exitSurvey,
             },
             secondaryButton: {
                 text: 'no, go back',
