@@ -98,9 +98,9 @@ export class DomainDetailsView extends ViewState {
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: this.theme.colors.highlightSecondary }]} onClose={this.cancel} theme={this.theme}>
                 <Container style={[styles.container, { height: this._contentHeight }]}>
-                    {/* Title */}
-                    <Text style={[this.textStyles.h1, styles.header]}>{domainString} and your quality of life</Text>
-                    <ScrollView style={{ width: Layout.window.width }} contentContainerStyle={{ alignItems: 'center', marginHorizontal: 20 }}>
+                    <ScrollView style={{ width: Layout.window.width, marginTop: 5 }} contentContainerStyle={{ alignItems: 'center', marginHorizontal: 20 }}>
+                        {/* Title */}
+                        <Text style={[this.textStyles.h1, styles.header]}>{domainString} and your quality of life</Text>
                         {/* What to know */}
                         <View style={styles.content}>
                             <Text style={[this.textStyles.labelExtraLarge, { marginVertical: 10 }]}>What to know</Text>

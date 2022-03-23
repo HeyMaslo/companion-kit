@@ -2,7 +2,7 @@ import { Strategy } from '../../../../../mobile/src/constants/Strategy';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Container, MasloPage } from 'src/components';
+import { Button, Container, MasloPage } from 'src/components';
 import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
@@ -38,6 +38,10 @@ export class StrategyDetailsView extends ViewState {
     this.trigger(ScenarioTriggers.Back);
   }
 
+  onNext = () => {
+    // this.trigger(ScenarioTriggers.Back);
+  }
+
   renderIconItem = ({ item }) => (
     <View style={[{ flexDirection: 'row', justifyContent: 'center' }]} key={item}>
       {iconForDomain(item, { marginRight: 20 }, this.theme.colors.foreground)}
@@ -66,6 +70,10 @@ export class StrategyDetailsView extends ViewState {
               systemFonts={HTMLStyles.systemFonts}
               tagsStyles={HTMLStyles.tagsStyles}
             />
+            <View style={{ marginTop: 40 }}>
+              <Button title={'VIEW RESOURCES'} style={{  marginBottom: 10 }} onPress={this.onNext} theme={this.theme} />
+              <Button title={'GO BACK TO STRATEGIES'} isTransparent withBorder onPress={this.onBack} theme={this.theme} />
+            </View>
           </ScrollView>
         </Container>
       </MasloPage>

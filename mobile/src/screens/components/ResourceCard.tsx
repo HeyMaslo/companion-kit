@@ -1,10 +1,10 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button, StyleProp, ViewStyle } from 'react-native';
 import Layout from '../../constants/Layout';
 import TextStyles from '../../styles/TextStyles';
 import Images from '../../constants/images';
-import ResourceViewModel from '../../viewModels/ResourceViewModel';
+import ResourceViewModel, { ResourceType } from '../../viewModels/ResourceViewModel';
 import { Theme } from '../../constants/theme/PStheme'
 
 type Props = {
@@ -29,24 +29,53 @@ const ResourceCard = (props: Props) => {
           <Text style={[styles.categoryText, TextStyles.labelMedium, { color: theme.colors.background }]}>
             {category}
           </Text>
-          <View>
-            <View style={styles.iconGroup}>
-              <TouchableOpacity onPress={onHeart}>
-                <Images.heartIcon width={23} height={20} fill={isFavorite ? 'white' : 'none'} color={'white'} opacity={0.7} style={{ marginRight: 20 }} />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={onClose}>
-                <Images.closeIcon width={20} height={20} color={'white'} opacity={0.7} />
-              </TouchableOpacity>
-            </View>
+
+          {/* Heart and X Icon */}
+          <View style={styles.iconGroup}>
+            <TouchableOpacity onPress={onHeart}>
+              <Images.heartIcon width={23} height={20} fill={isFavorite ? 'white' : 'none'} color={'white'} opacity={0.7} style={{ marginRight: 20 }} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onClose}>
+              <Images.closeIcon width={20} height={20} color={'white'} opacity={0.7} />
+            </TouchableOpacity>
           </View>
         </View>
-        <Text style={[styles.titleText, Layout.isSmallDevice ? TextStyles.p3 : TextStyles.p1, { color: theme.colors.background }]}>
-          {title}
-        </Text>
+
+        {/* Icon and title */}
+        <View style={styles.iconGroup}>
+          {iconForResourceType(category)}
+          <Text style={[styles.titleText, Layout.isSmallDevice ? TextStyles.p3 : TextStyles.p1, { color: theme.colors.background }]}>
+            {title}
+          </Text>
+        </View>
+
       </View>
     </TouchableOpacity>
   );
 };
+
+function iconForResourceType(type: ResourceType, style?: StyleProp<ViewStyle>, color: string = 'black'): JSX.Element {
+
+  switch (type) {
+
+    case ResourceType.APP:
+      return <Images.App pointerEvents={'none'} color={color} style={style} />;
+    case ResourceType.ARTICLE:
+      return <Images.Arcticle pointerEvents={'none'} color={color} style={style} />;
+    case ResourceType.BLOG:
+      return <Images.Blog pointerEvents={'none'} color={color} style={style} />;
+    case ResourceType.OTHER:
+      return <Images.Other pointerEvents={'none'} color={color} style={style} />;
+    case ResourceType.VIDEO:
+      return <Images.Video pointerEvents={'none'} color={color} style={style} />;
+    case ResourceType.WEBINAR:
+      return <Images.Webinar pointerEvents={'none'} color={color} style={style} />;
+    case ResourceType.WORKSHEET:
+      return <Images.Webinar pointerEvents={'none'} color={color} style={style} />;
+    case ResourceType.YOUTUBECHANNEL:
+      return <Images.YoutubeChannel pointerEvents={'none'} color={color} style={style} />;
+  }
+}
 
 const styles = StyleSheet.create({
   card: {

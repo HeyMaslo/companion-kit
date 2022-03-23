@@ -79,6 +79,23 @@ import SubstanceUseIConSVG from 'src/assets/images/app/domain/substance.svg';
 import PlusIconSVG from 'src/assets/images/app/plus.svg';
 import MinusIconSVG from 'src/assets/images/app/minus.svg';
 import ThreeArrowsSVG from 'src/assets/images/app/threeArrows.svg';
+//Domain Tags
+import LeisureIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Leisure.svg';
+import SleepIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Sleep.svg';
+import MoneyIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Money.svg';
+import PhysicalIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Physical.svg';
+import SelfEsteemIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Self-Esteem.svg';
+import HomeDomainIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Home.svg';
+import MoodIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Mood.svg';
+import ThinkingIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Cognition.svg';
+import IdentityIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Identity.svg';
+import IndependenceIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Independence.svg';
+import SpirtualIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Spiritual.svg';
+import RelationshipsIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Relationships.svg';
+import DietIconTagSVG from 'src/assets/images/app/domain-tags/Tag_DietNutrition.svg';
+import SexualHealthIconTagSVG from 'src/assets/images/app/domain-tags/Tag_SexualHealth.svg';
+import SubstanceUseIconTagSVG from 'src/assets/images/app/domain-tags/Tag_SubstanceUse.svg';
+import ExerciseIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Exercise.svg';
 // Strategy Illustration Images
 import StrategyTestIllustrationSVG from 'src/assets/images/app/strategy-illustrations/Strategy-test-illustration.svg';
 // Resource Icons
@@ -173,6 +190,23 @@ export default {
     moneyIcon: MoneyIconSVG,
     spirtualIcon: SpirtualIconSVG,
     relationshipsIcon: RelationshipsIconSVG,
+    // Domain Tag
+    moodIconTag: MoodIconTagSVG,
+    physicalIconTag: PhysicalIconTagSVG,
+    sleepIconTag: SleepIconTagSVG,
+    thinkingIconTag: ThinkingIconTagSVG,
+    identityIconTag: IdentityIconTagSVG,
+    leisureIconTag: LeisureIconTagSVG,
+    independenceIconTag: IndependenceIconTagSVG,
+    selfEsteemIconTag: SelfEsteemIconTagSVG,
+    homeDomainIconTag: HomeDomainIconTagSVG,
+    moneyIconTag: MoneyIconTagSVG,
+    spirtualIconTag: SpirtualIconTagSVG,
+    relationshipsIconTag: RelationshipsIconTagSVG,
+    dietIconTag: DietIconTagSVG,
+    sexualHealthIconTag: SexualHealthIconTagSVG,
+    substanceUseIconTag: SubstanceUseIconTagSVG,
+    exerciseIconTag: ExerciseIconTagSVG,
     // Subdomain
     dietIcon: DietIconSVG,
     sexualHealthIcon: SexualHealthIconSVG,

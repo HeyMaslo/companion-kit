@@ -1,10 +1,5 @@
 import { transaction, observable, computed } from 'mobx';
 import { ClientJournalEntryIded } from 'common/models/ClientEntries';
-import { StorageReferenceViewModel } from 'common/viewModels/StorageReferenceViewModel';
-import Firebase from 'common/services/firebase';
-import * as Functions from 'common/abstractions/functions';
-import LocationsStrings from 'common/localization/LocationStrings';
-import { getTimeSafe, months } from 'common/utils/dateHelpers';
 import { safeCall } from 'common/utils/functions';
 import AppController from 'src/controllers';
 
@@ -17,7 +12,10 @@ export default class ResourceViewModel {
   private _title: string;
 
   @observable
-  private _category: string;
+  private _iconName: string;
+
+  @observable
+  private _category: ResourceType;
 
   @observable
   private _backgroundColor: string;
@@ -42,7 +40,7 @@ export default class ResourceViewModel {
 
   get toggleInProgress() { return this._toggleInProgress; }
 
-  constructor(resourceId: string, title: string, category: string, backgroundColor: string, isFavorite: boolean) {
+  constructor(resourceId: string, title: string, category: ResourceType, backgroundColor: string, isFavorite: boolean) {
     this._resourceId = resourceId;
     this._title = title;
     this._category = category;
@@ -64,4 +62,16 @@ export default class ResourceViewModel {
   public dispose = () => {
     safeCall(this._urlObserver);
   }
+}
+
+
+export enum ResourceType {
+  ARTICLE = 'Article',
+  VIDEO = 'Video',
+  WEBINAR = 'article',
+  APP = 'App',
+  BLOG = 'Blog',
+  OTHER = 'Other',
+  WORKSHEET = 'Worksheet',
+  YOUTUBECHANNEL = 'Youtube Channel'
 }

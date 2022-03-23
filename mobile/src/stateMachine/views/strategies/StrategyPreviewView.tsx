@@ -7,7 +7,7 @@ import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
-import { iconForDomain } from 'src/helpers/DomainHelper';
+import { domainTag, iconForDomain } from 'src/helpers/DomainHelper';
 import { domainNameForSlug, DomainSlug } from 'src/constants/Domain';
 import Layout from 'src/constants/Layout';
 import Images from 'src/constants/images';
@@ -71,12 +71,14 @@ export class StrategyPreviewView extends ViewState {
           {/* Bottom Card */}
           <View style={styles.card}>
             {/* Domain tag (icon + name) */}
-            {/* <View>
-
-            </View> */}
-
-            <Text style={[this.textStyles.labelExtraLarge, { marginVertical: 10 }]}>What to know</Text>
-            <View style={{ marginBottom: 0, flexGrow: 1 }}>
+            <View>
+              {domainTag(this._learnMoreStrategy.domains[0], null, null, 45)}
+            </View>
+            <Text style={[this.textStyles.labelExtraLarge, { marginVertical: 10 }]}>
+              What to know
+            </Text>
+            {/* What To Know Bullets */}
+            <View style={{ marginBottom: 10, flexGrow: 1 }}>
               {this._learnMoreStrategy.whatToKnowBullets.map((b, index) => this.renderBulletPoint(b, 'wtk' + index))}
             </View>
             <View style={{ marginBottom: 20 }}>
