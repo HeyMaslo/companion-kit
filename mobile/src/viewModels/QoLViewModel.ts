@@ -29,8 +29,6 @@ export default class QOLSurveyViewModel {
     private readonly _settings: ILocalSettingsController = AppController.Instance.User.localSettings;
 
     constructor() {
-        this.submissionTimer.on('tick', () => this.timerFired(this));
-
         this.initModel = AppController.Instance.User.qol.getPartialQol().then((partialQolState: PartialQol) => {
             if (partialQolState !== null && typeof (partialQolState) !== 'undefined') {
                 this._questionNum = partialQolState.questionNum;
@@ -151,6 +149,7 @@ export default class QOLSurveyViewModel {
             await this.saveSurveyProgress();
         } else if (this.submissionTimer == null || this.submissionTimer.status != 'running') {
             this.submissionTimer = new Timer({ interval: 5000 });
+            this.submissionTimer.on('tick', () => this.timerFired(this));
             this.submissionTimer.start(60000 * 1000); // max out at 1000 min
         }
     }
