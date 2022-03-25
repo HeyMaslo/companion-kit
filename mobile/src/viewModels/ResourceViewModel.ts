@@ -2,6 +2,7 @@ import { transaction, observable, computed } from 'mobx';
 import { ClientJournalEntryIded } from 'common/models/ClientEntries';
 import { safeCall } from 'common/utils/functions';
 import AppController from 'src/controllers';
+import { ResourceType } from 'src/constants/Resource';
 
 export default class ResourceViewModel {
 
@@ -62,16 +63,4 @@ export default class ResourceViewModel {
   public dispose = () => {
     safeCall(this._urlObserver);
   }
-}
-
-
-export enum ResourceType {
-  ARTICLE = 'Article',
-  VIDEO = 'Video',
-  WEBINAR = 'article',
-  APP = 'App',
-  BLOG = 'Blog',
-  OTHER = 'Other',
-  WORKSHEET = 'Worksheet',
-  YOUTUBECHANNEL = 'Youtube Channel'
 }
