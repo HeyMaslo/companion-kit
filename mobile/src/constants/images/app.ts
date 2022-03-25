@@ -98,6 +98,22 @@ import SubstanceUseIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Substa
 import ExerciseIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Exercise.svg';
 // Strategy Illustration Images
 import StrategyTestIllustrationSVG from 'src/assets/images/app/strategy-illustrations/Strategy-test-illustration.svg';
+
+import BalanceSVG from 'src/assets/images/app/strategy-illustrations/Balance_2A327A.svg';
+import MitigateRiskOrHarmSVG from 'src/assets/images/app/strategy-illustrations/MitigateRiskOrHarm_FAC25E.svg';
+import BehaviouralActivationSVG from 'src/assets/images/app/strategy-illustrations/BehaviouralActivation_FAC25E.svg';
+import MonitoringSVG from 'src/assets/images/app/strategy-illustrations/Monitoring_A2C9DF.svg';
+import CalendarSVG from 'src/assets/images/app/strategy-illustrations/Calendar_2A327A.svg';
+import SelfCompassionSVG from 'src/assets/images/app/strategy-illustrations/SelfCompassion_2A327A.svg';
+import ChallengeNegativeThinkingSVG from 'src/assets/images/app/strategy-illustrations/ChallengeNegativeThinking_2A327A.svg';
+import SetBoundariesSVG from 'src/assets/images/app/strategy-illustrations/SetBoundaries_A2C9DF.svg';
+import GetOrganizedSVG from 'src/assets/images/app/strategy-illustrations/GetOrganized_EE7C69.svg';
+import SettingGoalsSVG from 'src/assets/images/app/strategy-illustrations/SettingGoals_FAC25E.svg';
+import JoinASocialLeisureActivitySVG from 'src/assets/images/app/strategy-illustrations/JoinASocialLeisureActivity_EE7C69.svg';
+import SlowDownSVG from 'src/assets/images/app/strategy-illustrations/SlowDown_2A327A.svg';
+import MindfulnessSVG from 'src/assets/images/app/strategy-illustrations/Mindfulness_EE7C69.svg';
+
+
 // Resource Icons
 import AppSVG from 'src/assets/images/app/resources/App.svg';
 import ArcticleSVG from 'src/assets/images/app/resources/Article.svg';
@@ -217,6 +233,21 @@ export default {
     threeArrowsIcon: ThreeArrowsSVG,
     // Strategy Illustrations
     StrategyTestIllustration: StrategyTestIllustrationSVG,
+
+    StrategyBalance: BalanceSVG,
+    StrategyMitigateRiskOrHarm: MitigateRiskOrHarmSVG,
+    StrategyBehaviouralActivation: BehaviouralActivationSVG,
+    StrategyMonitoring: MonitoringSVG,
+    StrategyCalendar: CalendarSVG,
+    StrategySelfCompassion: SelfCompassionSVG,
+    StrategyChallengeNegativeThinking: ChallengeNegativeThinkingSVG,
+    StrategySetBoundaries: SetBoundariesSVG,
+    StrategyGetOrganized: GetOrganizedSVG,
+    StrategySettingGoals: SettingGoalsSVG,
+    StrategyJoinASocialLeisureActivity: JoinASocialLeisureActivitySVG,
+    StrategySlowDown: SlowDownSVG,
+    StrategyMindfulness: MindfulnessSVG,    
+
     // Resource Icons
     App: AppSVG,
     Arcticle: ArcticleSVG,

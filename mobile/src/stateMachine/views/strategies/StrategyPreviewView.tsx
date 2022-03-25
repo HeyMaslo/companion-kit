@@ -11,6 +11,7 @@ import { domainTag, iconForDomain } from 'src/helpers/DomainHelper';
 import { domainNameForSlug, DomainSlug } from 'src/constants/Domain';
 import Layout from 'src/constants/Layout';
 import Images from 'src/constants/images';
+import { strategyIllustrationForSlug } from 'src/components/StrategyCard';
 
 @observer
 export class StrategyPreviewView extends ViewState {
@@ -30,6 +31,7 @@ export class StrategyPreviewView extends ViewState {
 
   async start() {
     this._learnMoreStrategy = this.viewModel.learnMoreStrategy;
+    console.log('_learnMoreStrategy LSUG', this._learnMoreStrategy.slug)
     this.forceUpdate();
   }
 
@@ -64,8 +66,7 @@ export class StrategyPreviewView extends ViewState {
           {/* Title */}
           <View style={{ alignItems: 'center', flexDirection: 'column', marginBottom: 20, paddingHorizontal: 20 }}>
             <Text style={[TextStyles.h2, { textAlign: 'center', marginBottom: 20 }]}>{this._learnMoreStrategy.title}</Text>
-            <Images.StrategyTestIllustration height={this.layout.window.height * 0.32} pointerEvents={'none'} />
-            {/*  height={height}  */}
+            {strategyIllustrationForSlug(this._learnMoreStrategy.slug, this.layout.window.height * 0.32, '100%')}
           </View>
 
           {/* Bottom Card */}
