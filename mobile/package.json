@@ -60,7 +60,8 @@
     "react-native-vector-icons": "^8.1.0",
     "react-native-video": "^5.2.0",
     "simplex-noise": "3.0.0",
-    "three": "^0.125.0"
+    "three": "^0.125.0",
+    "tiny-timer": "^1.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
