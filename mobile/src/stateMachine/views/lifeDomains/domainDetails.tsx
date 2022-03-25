@@ -42,7 +42,7 @@ export class DomainDetailsView extends ViewState {
     }
 
     // selected strategies will be at the front of the list
-    private strategiesForListInOrder(domain: DomainSlug, lengthOfListToShow = 5): DisplayStrategy[] {
+    private strategiesForListInOrder(domain: DomainSlug, lengthOfListToShow = 3): DisplayStrategy[] {
         const selected: DisplayStrategy[] = this.strategiesViewModel.selectedStrategies.filter((s) => s.domains.includes(domain)).map((strat) => {
             return { ...strat, isChecked: true };
         });
