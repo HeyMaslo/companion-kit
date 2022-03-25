@@ -17,6 +17,7 @@ import StrategyRepo from './StrategyRepo';
 import AffirmationRepo from './AffirmationRepo';
 import DailyCheckInRepo from './DailyCheckInRepo';
 import VersionRepo from './VersionRepo';
+import ResourceRepo from './ResourceRepo';
 export {
     DBProvider,
     RepoError,
@@ -37,4 +38,5 @@ export {
     AffirmationRepo,
     DailyCheckInRepo,
     VersionRepo,
+    ResourceRepo,
 };

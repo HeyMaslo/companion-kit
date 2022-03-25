@@ -26,11 +26,12 @@ const ResourceCard = (props: Props) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={[styles.card, { backgroundColor: backgroundColor }]}>
+        {/* Top Group */}
         <View style={styles.topGroup}>
+          {/* Type Label */}
           <Text style={[styles.categoryText, TextStyles.labelMedium, { color: theme.colors.background }]}>
             {item.type}
           </Text>
-
           {/* Heart and X Icon */}
           <View style={styles.iconGroup}>
             <TouchableOpacity onPress={onHeart}>
@@ -44,8 +45,8 @@ const ResourceCard = (props: Props) => {
 
         {/* Icon and title */}
         <View style={styles.iconGroup}>
-          {iconForResourceType(item.type)}
-          <Text style={[styles.titleText, Layout.isSmallDevice ? TextStyles.p3 : TextStyles.p1, { color: theme.colors.background }]}>
+          {iconForResourceType(item.type, { alignSelf: 'center' })}
+          <Text style={[Layout.isSmallDevice ? TextStyles.p3 : TextStyles.p1, { paddingLeft: 10, flexWrap: 'wrap', flex: 1, color: theme.colors.background }]}>
             {item.title}
           </Text>
         </View>
@@ -80,12 +81,12 @@ function iconForResourceType(type: ResourceType, style?: StyleProp<ViewStyle>, c
 
 const styles = StyleSheet.create({
   card: {
-    position: 'relative',
     borderRadius: 5,
-    paddingHorizontal: 24,
-    paddingVertical: 20,
-    width: Layout.window.width - 60,
-    height: CardHeight,
+    paddingHorizontal: 22,
+    paddingVertical: 18,
+    marginBottom: 15,
+    width: '100%',
+    // height: CardHeight,
     marginRight: 10,
   },
   topGroup: {
@@ -93,14 +94,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginBottom: 10,
   },
   iconGroup: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
-  },
-  titleText: {
-    marginTop: 20,
+    // alignItems: 'center',
   },
   categoryText: {
     display: 'flex',

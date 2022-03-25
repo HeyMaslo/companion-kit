@@ -31,6 +31,7 @@ export class StrategyDetailsView extends ViewState {
 
   async start() {
     this._learnMoreStrategy = this.viewModel.learnMoreStrategy;
+    AppViewModel.Instance.Resource.fetchResourcesForSelectedStrategy(this._learnMoreStrategy.slug);
     this.forceUpdate();
   }
 
@@ -39,7 +40,7 @@ export class StrategyDetailsView extends ViewState {
   }
 
   onNext = () => {
-    // this.trigger(ScenarioTriggers.Back);
+    this.trigger(ScenarioTriggers.Next);
   }
 
   renderIconItem = ({ item }) => (
@@ -71,7 +72,7 @@ export class StrategyDetailsView extends ViewState {
               tagsStyles={HTMLStyles.tagsStyles}
             />
             <View style={{ marginTop: 40 }}>
-              <Button title={'VIEW RESOURCES'} style={{  marginBottom: 10 }} onPress={this.onNext} theme={this.theme} />
+              <Button title={'VIEW RESOURCES'} style={{ marginBottom: 10 }} onPress={this.onNext} theme={this.theme} />
               <Button title={'GO BACK TO STRATEGIES'} isTransparent withBorder onPress={this.onBack} theme={this.theme} />
             </View>
           </ScrollView>

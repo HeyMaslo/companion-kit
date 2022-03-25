@@ -16,8 +16,8 @@ import {
     AffirmationRepo,
     DailyCheckInRepo,
     VersionRepo,
+    ResourceRepo,
 } from 'common/database/repositories';
-import ResourceRepo from 'database/repositories/ResourceRepo';
 
 const PROXIES_PREFIX = 'proxies';
 

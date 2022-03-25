@@ -31,28 +31,16 @@ export class ResourcesView extends ViewState {
 
   async start() {
     this.resources = this.viewModel.availableResources;
+    console.log('this.viewModel.availableResources', this.resources)
   }
 
   onBack = () => {
     this.trigger(ScenarioTriggers.Back);
   }
 
-  onClose = (): void | Promise<void> => this.runLongOperation(async () => {
-    this.showModal({
-      title: AlertExitWithoutSave,
-      primaryButton: {
-        text: 'yes, stop',
-        action: () => {
-          this.trigger(ScenarioTriggers.Cancel);
-        },
-      },
-      secondaryButton: {
-        text: 'no, go back',
-        action: this.hideModal,
-      },
-      theme: this.theme,
-    });
-  })
+  onClose = () => {
+    this.trigger(ScenarioTriggers.Cancel);
+  }
 
   onLearnMorePress(id: string) {
     // const found = this.viewModel.getStrategyBySlug(id);
@@ -68,7 +56,7 @@ export class ResourcesView extends ViewState {
   }
 
   renderListItem = ({ item }) => (
-    <ResourceCard item={item} backgroundColor={''} isFavorite={false} onPress={null} onHeart={null} onClose={null} theme={this.theme} />
+    <ResourceCard item={item} backgroundColor={'#8CB8D1'} isFavorite={false} onPress={null} onHeart={null} onClose={null} theme={this.theme} />
   );
 
   renderContent() {
@@ -97,12 +85,5 @@ const styles = StyleSheet.create({
   list: {
     marginTop: 30,
     marginBottom: 25,
-  },
-  listItem: {
-    borderWidth: 1,
-    borderRadius: 7,
-    borderColor: '#CBC8CD',
-    padding: 10,
-    marginBottom: 30,
   }
 });

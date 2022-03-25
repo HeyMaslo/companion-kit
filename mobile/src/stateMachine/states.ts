@@ -100,6 +100,8 @@ export enum States {
     All_Strategies_after_ViewDomains,
     QolHistory_Strategies,
 
+    Resources,
+
     // QoL Block
     qol_Question,
     End_Qol,

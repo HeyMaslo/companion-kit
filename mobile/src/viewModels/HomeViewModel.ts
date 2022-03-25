@@ -15,7 +15,7 @@ import { UserProfileViewModel } from './UserProfileViewModel';
 import { QolSurveyResults } from 'src/constants/QoL';
 import { PersonaArmState } from 'dependencies/persona/lib';
 import { ILocalSettingsController } from 'src/controllers/LocalSettings';
-import ResourceViewModel, { ResourceType } from './ResourceViewModel';
+import ResourceViewModel from './ResourceViewModel';
 
 const EmptyArr: any[] = [];
 
@@ -62,10 +62,10 @@ export default class HomeViewModel {
     get resources(): ReadonlyArray<ResourceViewModel> {
         // MK-TODO: - get real resources from firebase like checkIns function above
         return [
-            new ResourceViewModel('testID1', '5 Ways to Boost Morning Energy', ResourceType.ARTICLE, '#0F6EB4', true),
-            new ResourceViewModel('testID2', 'A Guide to Mindful Meditation', ResourceType.VIDEO, '#E58933', false),
-            new ResourceViewModel('testID3', 'Navigating Stress & Anxiety', ResourceType.APP, '#BC1B5F', true),
-            new ResourceViewModel('testID4', 'Improving Sleep Quality', ResourceType.WEBINAR, '#5495A4', true),
+            // new ResourceViewModel('testID1', '5 Ways to Boost Morning Energy', ResourceType.ARTICLE, '#0F6EB4', true),
+            // new ResourceViewModel('testID2', 'A Guide to Mindful Meditation', ResourceType.VIDEO, '#E58933', false),
+            // new ResourceViewModel('testID3', 'Navigating Stress & Anxiety', ResourceType.APP, '#BC1B5F', true),
+            // new ResourceViewModel('testID4', 'Improving Sleep Quality', ResourceType.WEBINAR, '#5495A4', true),
         ];
     }
 
