@@ -97,7 +97,6 @@ import SexualHealthIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Sexual
 import SubstanceUseIconTagSVG from 'src/assets/images/app/domain-tags/Tag_SubstanceUse.svg';
 import ExerciseIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Exercise.svg';
 // Strategy Illustration Images
-import StrategyTestIllustrationSVG from 'src/assets/images/app/strategy-illustrations/Strategy-test-illustration.svg';
 
 import BalanceSVG from 'src/assets/images/app/strategy-illustrations/Balance_2A327A.svg';
 import MitigateRiskOrHarmSVG from 'src/assets/images/app/strategy-illustrations/MitigateRiskOrHarm_FAC25E.svg';
@@ -232,7 +231,6 @@ export default {
     minusIcon: MinusIconSVG,
     threeArrowsIcon: ThreeArrowsSVG,
     // Strategy Illustrations
-    StrategyTestIllustration: StrategyTestIllustrationSVG,
 
     StrategyBalance: BalanceSVG,
     StrategyMitigateRiskOrHarm: MitigateRiskOrHarmSVG,

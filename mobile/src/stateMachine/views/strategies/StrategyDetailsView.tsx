@@ -12,6 +12,7 @@ import RenderHTML from 'react-native-render-html';
 import { domainNameForSlug, DomainSlug } from 'src/constants/Domain';
 import Layout from 'src/constants/Layout';
 import Images from 'src/constants/images';
+import { strategyIllustrationForSlug } from 'src/components/StrategyCard';
 
 @observer
 export class StrategyDetailsView extends ViewState {
@@ -61,7 +62,7 @@ export class StrategyDetailsView extends ViewState {
           <ScrollView style={{ width: Layout.window.width }} contentContainerStyle={{ alignItems: 'center', marginHorizontal: 20, paddingBottom: 20 }}>
             <View style={{ alignItems: 'center', flexDirection: 'column', marginBottom: 20, paddingHorizontal: 20 }}>
               <Text style={[TextStyles.h2, { textAlign: 'center', marginBottom: 20 }]}>{this._learnMoreStrategy.friendlyTitle}</Text>
-              <Images.StrategyTestIllustration height={this.layout.window.height * 0.32} pointerEvents={'none'} />
+              {strategyIllustrationForSlug(this._learnMoreStrategy.slug, this.layout.window.height * 0.32, '100%')}
             </View>
             {/* HTML body */}
             <RenderHTML
