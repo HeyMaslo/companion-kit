@@ -16,6 +16,7 @@ enum Collections {
     Questions = 'questions',
     UserState = 'userState',
     Strategies = 'strategies',
+    Resources = 'resources',
     Affirmations = 'affirmations',
     DailyCheckIns = 'dailyCheckIns',
     Version = 'version',

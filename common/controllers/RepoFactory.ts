@@ -17,6 +17,7 @@ import {
     DailyCheckInRepo,
     VersionRepo,
 } from 'common/database/repositories';
+import ResourceRepo from 'database/repositories/ResourceRepo';
 
 const PROXIES_PREFIX = 'proxies';
 
@@ -43,6 +44,7 @@ export default class RepoFactory {
     private readonly _qolSurveyResults = createLazy(() => new SurveyResultsRepo(Firebase.Instance.database));
     private readonly _domains = createLazy(() => new DomainRepo(Firebase.Instance.database));
     private readonly _strategies = createLazy(() => new StrategyRepo(Firebase.Instance.database));
+    private readonly _resources = createLazy(() => new ResourceRepo(Firebase.Instance.database));
     private readonly _userState = createLazy(() => new UserStateRepo(Firebase.Instance.database));
     private readonly _affirmations = createLazy(() => new AffirmationRepo(Firebase.Instance.database));
     private readonly _dailyCheckIns = createLazy(() => new DailyCheckInRepo(Firebase.Instance.database));
@@ -62,6 +64,7 @@ export default class RepoFactory {
     get surveyResults(): SurveyResultsRepo { return this._qolSurveyResults.value; }
     get domains(): DomainRepo { return this._domains.value; }
     get strategies(): StrategyRepo { return this._strategies.value; }
+    get resources(): ResourceRepo { return this._resources.value; }
     get userState(): UserStateRepo { return this._userState.value; }
     get affirmations(): AffirmationRepo { return this._affirmations.value; }
     get dailyCheckIns(): DailyCheckInRepo { return this._dailyCheckIns.value; }

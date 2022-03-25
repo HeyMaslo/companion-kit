@@ -4,12 +4,14 @@ import { View, Text, StyleSheet, TouchableOpacity, Button, StyleProp, ViewStyle 
 import Layout from '../../constants/Layout';
 import TextStyles from '../../styles/TextStyles';
 import Images from '../../constants/images';
-import ResourceViewModel, { ResourceType } from '../../viewModels/ResourceViewModel';
+import ResourceViewModel from '../../viewModels/ResourceViewModel';
 import { Theme } from '../../constants/theme/PStheme'
+import { Resource, ResourceType } from 'src/constants/Resource';
 
 type Props = {
-  model: ResourceViewModel,
-  active: boolean,
+  item: Resource,
+  backgroundColor: string,
+  isFavorite: boolean,
   onPress: () => void,
   onHeart: () => void,
   onClose: () => void,
@@ -19,15 +21,14 @@ type Props = {
 const CardHeight = Layout.isSmallDevice ? 174 * 0.9 : 208 * 0.9; // 174 and 208 are constants set by Maslo and used in home.tsx and placeholder.tsx
 
 const ResourceCard = (props: Props) => {
-  const { theme, onPress, onHeart, onClose } = props;
-  const { title, category, backgroundColor, isFavorite } = props.model;
+  const { item, backgroundColor, isFavorite, onPress, onHeart, onClose, theme } = props;
 
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={[styles.card, { backgroundColor: backgroundColor }]}>
         <View style={styles.topGroup}>
           <Text style={[styles.categoryText, TextStyles.labelMedium, { color: theme.colors.background }]}>
-            {category}
+            {item.type}
           </Text>
 
           {/* Heart and X Icon */}
@@ -43,9 +44,9 @@ const ResourceCard = (props: Props) => {
 
         {/* Icon and title */}
         <View style={styles.iconGroup}>
-          {iconForResourceType(category)}
+          {iconForResourceType(item.type)}
           <Text style={[styles.titleText, Layout.isSmallDevice ? TextStyles.p3 : TextStyles.p1, { color: theme.colors.background }]}>
-            {title}
+            {item.title}
           </Text>
         </View>
 

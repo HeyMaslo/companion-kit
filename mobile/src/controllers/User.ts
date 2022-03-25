@@ -30,6 +30,7 @@ import { IDocumentsController, DocumentsController } from './Documents';
 import QoLController from 'common/controllers/QoLController';
 import DomainController from 'common/controllers/DomainController';
 import StrategyController from 'common/controllers/StrategyController';
+import ResourceController from 'common/controllers/ResourceController';
 import VersionController from 'common/controllers/VersionController';
 
 type ClientUser = Identify<UserProfile> & { client?: ClientProfileFull };
@@ -65,6 +66,7 @@ export interface IUserController extends IUserControllerBase {
     readonly qol: QoLController;
     readonly domain: DomainController;
     readonly strategy: StrategyController;
+    readonly resource: ResourceController;
 
     readonly healthPermissionsController: HealthPermissionsController;
 
@@ -145,6 +147,10 @@ export class UserController extends UserControllerBase implements IUserControlle
         return sc;
     });
 
+    private readonly _resource = new Lazy(() => {
+        return new ResourceController();
+    });
+
     public readonly notifications: NotificationsController;
     public readonly healthPermissionsController: HealthPermissionsController;
 
@@ -204,6 +210,7 @@ export class UserController extends UserControllerBase implements IUserControlle
     get qol() { return this._qol.value; };
     get domain() { return this._domain.value; };
     get strategy() { return this._strategy.value; };
+    get resource() { return this._resource.value; };
 
     get firstName() { return this.user?.firstName; }
     get lastName() { return this.user?.lastName; }

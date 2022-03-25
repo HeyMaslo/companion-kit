@@ -3,11 +3,11 @@ export type Resource = {
   title:          string,
   strategySlug:   string,
   type:           ResourceType,
-  warningText:    string,
+  warningText:    string, // will be empty string is there is no warning
   summary:        string,
   link:           string,
-  androidLink:    string,
-  iosLink:        string,
+  androidLink:    string, // will be empty string is there is no androidLink
+  iosLink:        string, // will be empty string is there is no iosLink
 };
 
 export enum ResourceType {
