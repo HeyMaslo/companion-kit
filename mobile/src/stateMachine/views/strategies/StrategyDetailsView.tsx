@@ -32,7 +32,7 @@ export class StrategyDetailsView extends ViewState {
 
   async start() {
     this._learnMoreStrategy = this.viewModel.learnMoreStrategy;
-    AppViewModel.Instance.Resource.fetchResourcesForSelectedStrategy(this._learnMoreStrategy.slug);
+    AppViewModel.Instance.Resource.fetchResourcesForSelectedStrategy(this._learnMoreStrategy.slug, this._learnMoreStrategy.color);
     this.forceUpdate();
   }
 
@@ -60,7 +60,7 @@ export class StrategyDetailsView extends ViewState {
       <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()} theme={this.theme}>
         <Container style={[styles.container, { height: this._contentHeight }]}>
           <ScrollView style={{ width: Layout.window.width }} contentContainerStyle={{ alignItems: 'center', marginHorizontal: 20, paddingBottom: 20 }}>
-            <View style={{ alignItems: 'center', flexDirection: 'column', marginBottom: 20, paddingHorizontal: 20 }}>
+            <View style={{ alignItems: 'center', flexDirection: 'column', marginBottom: 20, paddingHorizontal: 20, width: '100%' }}>
               <Text style={[TextStyles.h2, { textAlign: 'center', marginBottom: 20 }]}>{this._learnMoreStrategy.friendlyTitle}</Text>
               {strategyIllustrationForSlug(this._learnMoreStrategy.slug, this.layout.window.height * 0.32, '100%')}
             </View>

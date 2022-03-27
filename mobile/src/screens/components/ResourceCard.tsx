@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react';
-import { View, Text, StyleSheet, TouchableOpacity, Button, StyleProp, ViewStyle } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, StyleProp, ViewStyle, Linking, Platform } from 'react-native';
 import Layout from '../../constants/Layout';
 import TextStyles from '../../styles/TextStyles';
 import Images from '../../constants/images';
-import ResourceViewModel from '../../viewModels/ResourceViewModel';
 import { Theme } from '../../constants/theme/PStheme'
 import { Resource, ResourceType } from 'src/constants/Resource';
+import { Button } from 'src/components';
+import { shade } from 'src/helpers/ColorHelper';
 
 type Props = {
   item: Resource,
@@ -21,11 +22,16 @@ type Props = {
 const CardHeight = Layout.isSmallDevice ? 174 * 0.9 : 208 * 0.9; // 174 and 208 are constants set by Maslo and used in home.tsx and placeholder.tsx
 
 const ResourceCard = (props: Props) => {
+
+  const [isExpaneded, setIsExpaneded] = useState(false);
+
   const { item, backgroundColor, isFavorite, onPress, onHeart, onClose, theme } = props;
 
+  const url = !item.link ? (Platform.OS == 'ios' ? item.iosLink : item.androidLink) : item.link;
+
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={[styles.card, { backgroundColor: backgroundColor }]}>
+    <TouchableOpacity style={[styles.card, { backgroundColor: backgroundColor }]} onPress={() => setIsExpaneded(!isExpaneded)}>
+      <View style={[styles.inner]}>
         {/* Top Group */}
         <View style={styles.topGroup}>
           {/* Type Label */}
@@ -52,6 +58,25 @@ const ResourceCard = (props: Props) => {
         </View>
 
       </View>
+
+      {/* Expanded */}
+      {isExpaneded &&
+        <View style={{ backgroundColor: 'white' }}>
+          <View style={[styles.inner, styles.expanded, { backgroundColor: backgroundColor + '4D', borderColor: backgroundColor, }]}>
+            {/* Content Warning */}
+            {item.warningText != '' &&
+              <View style={{ width: '100%', padding: 5, borderColor: theme.colors.foreground, borderRadius: 5, borderWidth: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', flex: 1, marginBottom: 15 }}>
+                <Images.WarningTriangle style={{ flex: 0.1 }} />
+                <Text style={{ ...TextStyles.labelMedium, color: theme.colors.foreground, flex: 0.82 }}>THIS RESOURCE MAY CONTAIN A CONTENT WARNING OF CONTENT</Text>
+              </View>
+            }
+            {/* Summary */}
+            <Text style={{ width: '100%', marginBottom: 15 }}>{item.summary}</Text>
+            {/* View Resource Button */}
+            <Button title={'View this resource'} onPress={() => Linking.openURL(url)} underlayColor={shade(backgroundColor, 20)} style={{ backgroundColor: backgroundColor, width: '75%', height: 40, }} titleStyles={{ color: 'white' }} theme={theme} />
+          </View>
+        </View>
+      }
     </TouchableOpacity>
   );
 };
@@ -82,12 +107,14 @@ function iconForResourceType(type: ResourceType, style?: StyleProp<ViewStyle>, c
 const styles = StyleSheet.create({
   card: {
     borderRadius: 5,
-    paddingHorizontal: 22,
-    paddingVertical: 18,
     marginBottom: 15,
     width: '100%',
     // height: CardHeight,
     marginRight: 10,
+  },
+  inner: {
+    paddingHorizontal: 22,
+    paddingVertical: 18
   },
   topGroup: {
     display: 'flex',
@@ -104,6 +131,13 @@ const styles = StyleSheet.create({
   categoryText: {
     display: 'flex',
   },
+  expanded: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+    borderWidth: 1
+  }
 });
 
 export default observer(ResourceCard);

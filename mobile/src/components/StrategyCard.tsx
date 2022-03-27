@@ -52,7 +52,7 @@ export default class StrategyCard extends React.Component<IStrategyCardProps, St
           <View style={{ flex: 1, flexDirection: 'row', }}>
             {/* Strategy Image */}
             <View style={{ flex: 1, aspectRatio: 1, paddingRight: 15, paddingTop: 15 }}>
-              {strategyIllustrationForSlug(slug, '100%')}
+              {strategyIllustrationForSlug(slug, '100%', '100%')}
             </View>
             <View style={{ flex: 2.5, flexDirection: 'column' }}>
               {/* Short Description */}

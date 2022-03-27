@@ -16,13 +16,13 @@ export class ResourcesView extends ViewState {
 
   @observable
   private resources: Resource[] = [];
+  @observable
+  private strategyColor: string = ''
 
   constructor(props) {
     super(props);
     this._contentHeight = this.persona.setupContainerHeightForceScrollDown({ transition: { duration: 0 } });
     this.hidePersona();
-    this.onLearnMorePress = this.onLearnMorePress.bind(this);
-    this.onSelectStrategy = this.onSelectStrategy.bind(this);
   }
 
   private get viewModel() {
@@ -31,6 +31,7 @@ export class ResourcesView extends ViewState {
 
   async start() {
     this.resources = this.viewModel.availableResources;
+    this.strategyColor = this.viewModel.strategyColor;
     console.log('this.viewModel.availableResources', this.resources)
   }
 
@@ -38,30 +39,17 @@ export class ResourcesView extends ViewState {
     this.trigger(ScenarioTriggers.Back);
   }
 
-  onClose = () => {
-    this.trigger(ScenarioTriggers.Cancel);
-  }
-
-  onLearnMorePress(id: string) {
-    // const found = this.viewModel.getStrategyBySlug(id);
-    // if (found) {
-    //   this.viewModel.learnMoreStrategy = found;
-    //   this.trigger(ScenarioTriggers.Tertiary);
-    // }
-  }
-
-  onSelectStrategy = (id: string) => {
-    // this.viewModel.selectStrategy(this.viewModel.getStrategyBySlug(id));
-    // this.numberOfSelectedStrategies = this.viewModel.selectedStrategies.length;
-  }
+  // onClose = () => {
+  //   this.trigger(ScenarioTriggers.Cancel);
+  // }
 
   renderListItem = ({ item }) => (
-    <ResourceCard item={item} backgroundColor={'#8CB8D1'} isFavorite={false} onPress={null} onHeart={null} onClose={null} theme={this.theme} />
+    <ResourceCard item={item} backgroundColor={this.strategyColor} isFavorite={false} onPress={null} onHeart={null} onClose={null} theme={this.theme} />
   );
 
   renderContent() {
     return (
-      <MasloPage style={this.baseStyles.page} onClose={() => this.onClose()} onBack={() => this.onBack()} theme={this.theme}>
+      <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()} theme={this.theme}>
         <Container style={[{ height: this._contentHeight, paddingTop: 10 }]}>
 
           {/* Title */}
@@ -74,7 +62,7 @@ export class ResourcesView extends ViewState {
             data={this.resources}
             renderItem={this.renderListItem}
             keyExtractor={(item: Resource) => item.title} />
-          <Button title={'GO BACK TO STRATEGIES'} style={{ marginBottom: 20 }} onPress={this.onBack} isTransparent theme={this.theme} />
+          <Button title={'GO BACK TO STRATEGIES'} style={{ marginBottom: 25 }} onPress={this.onBack} isTransparent withBorder={true} theme={this.theme} />
         </Container >
       </MasloPage >
     );
@@ -84,6 +72,6 @@ export class ResourcesView extends ViewState {
 const styles = StyleSheet.create({
   list: {
     marginTop: 30,
-    marginBottom: 25,
+    marginBottom: 15,
   }
 });

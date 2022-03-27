@@ -123,6 +123,8 @@ import WebinarSVG from 'src/assets/images/app/resources/Webinar.svg';
 import WorksheetSVG from 'src/assets/images/app/resources/Worksheet.svg';
 import YoutubeChannelSVG from 'src/assets/images/app/resources/YoutubeChannel.svg';
 
+import WarningTriangleSVG from 'src/assets/images/app/warning.svg';
+
 export default {
     signInWithGoogle: GoogleIconPNG,
     audioThumb: AudioThumbPNG,
@@ -255,4 +257,6 @@ export default {
     Webinar: WebinarSVG,
     Worksheet: WorksheetSVG,
     YoutubeChannel: YoutubeChannelSVG,
+
+    WarningTriangle: WarningTriangleSVG,
 };
