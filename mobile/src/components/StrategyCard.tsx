@@ -4,9 +4,8 @@ import { Dimensions, Pressable, StyleProp, StyleSheet, Text, TouchableOpacity, V
 import Images from 'src/constants/images';
 import TextStyles from 'src/styles/TextStyles';
 import Colors from '../constants/colors/Colors';
-import { iconForDomain } from 'src/helpers/DomainHelper';
-import { DomainSlug } from 'src/constants/Domain';
 import { Theme } from 'src/constants/theme/PStheme';
+import { strategyIllustrationForSlug } from 'src/helpers/StrategyHelper';
 
 type IStrategyCardProps = {
   item: DisplayStrategy,
@@ -116,51 +115,3 @@ const styles = StyleSheet.create({
   },
 
 });
-
-
-export function strategyIllustrationForSlug(slug: string, height: number | string = 30, width: number | string = 30, style?: StyleProp<ViewStyle>, fill?: string): JSX.Element {
-  if (!slug) { return <></>; }
-
-  switch (slug) {
-    case 'Balance':
-      return <Images.StrategyBalance pointerEvents={'none'} key={'Balance'} height={height} width={width} style={style} />;
-
-    case 'MitigateRiskOrHarm':
-      return <Images.StrategyMitigateRiskOrHarm pointerEvents={'none'} key={'MitigateRiskOrHarm'} height={height} width={width} style={style} />;
-
-    case 'BehaviouralActivation':
-      return <Images.StrategyBehaviouralActivation pointerEvents={'none'} key={'BehaviouralActivation'} height={height} width={width} style={style} />;
-
-    case 'Monitoring':
-      return <Images.StrategyMonitoring pointerEvents={'none'} key={'Monitoring'} height={height} width={width} style={style} />;
-
-    case 'Calendar':
-      return <Images.StrategyCalendar pointerEvents={'none'} key={'Calendar'} height={height} width={width} style={style} />;
-
-    case 'SelfCompassion':
-      return <Images.StrategySelfCompassion pointerEvents={'none'} key={'SelfCompassion'} height={height} width={width} style={style} />;
-
-    case 'ChallengeNegativeThinking':
-      return <Images.StrategyChallengeNegativeThinking pointerEvents={'none'} key={'ChallengeNegativeThinking'} height={height} width={width} style={style} />;
-
-    case 'SetBoundaries':
-      return <Images.StrategySetBoundaries pointerEvents={'none'} key={'SetBoundaries'} height={height} width={width} style={style} />;
-
-    case 'GetOrganized':
-      return <Images.StrategyGetOrganized pointerEvents={'none'} key={'GetOrganized'} height={height} width={width} style={style} />;
-
-    case 'SettingGoals':
-      return <Images.StrategySettingGoals pointerEvents={'none'} key={'SettingGoals'} height={height} width={width} style={style} />;
-
-    case 'JoinASocialLeisureActivity':
-      return <Images.StrategyJoinASocialLeisureActivity pointerEvents={'none'} key={'JoinASocialLeisureActivity'} height={height} width={width} style={style} />;
-
-    case 'SlowDown':
-      return <Images.StrategySlowDown pointerEvents={'none'} key={'SlowDown'} height={height} width={width} style={style} />;
-
-    case 'Mindfulness':
-      return <Images.StrategyMindfulness pointerEvents={'none'} key={'Mindfulness'} height={height} width={width} style={style} />;
-
-
-  }
-}

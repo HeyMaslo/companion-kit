@@ -2,16 +2,14 @@ import { Strategy } from '../../../constants/Strategy';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { ActivityButton, ButtonBlock, Button, Container, MasloPage } from 'src/components';
+import { Button, Container, MasloPage } from 'src/components';
 import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
 import { domainTag, iconForDomain } from 'src/helpers/DomainHelper';
-import { domainNameForSlug, DomainSlug } from 'src/constants/Domain';
-import Layout from 'src/constants/Layout';
-import Images from 'src/constants/images';
-import { strategyIllustrationForSlug } from 'src/components/StrategyCard';
+import { domainNameForSlug } from 'src/constants/Domain';
+import { strategyIllustrationForSlug } from 'src/helpers/StrategyHelper';
 
 @observer
 export class StrategyPreviewView extends ViewState {

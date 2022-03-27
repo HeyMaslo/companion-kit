@@ -11,8 +11,7 @@ import { HTMLStyles, iconForDomain, replaceListTags } from 'src/helpers/DomainHe
 import RenderHTML from 'react-native-render-html';
 import { domainNameForSlug, DomainSlug } from 'src/constants/Domain';
 import Layout from 'src/constants/Layout';
-import Images from 'src/constants/images';
-import { strategyIllustrationForSlug } from 'src/components/StrategyCard';
+import { strategyIllustrationForSlug } from 'src/helpers/StrategyHelper';
 
 @observer
 export class StrategyDetailsView extends ViewState {
