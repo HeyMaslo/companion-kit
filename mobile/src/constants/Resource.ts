@@ -18,5 +18,5 @@ export enum ResourceType {
   BLOG = 'Blog',
   OTHER = 'Other',
   WORKSHEET = 'Worksheet',
-  YOUTUBECHANNEL = 'Youtube Channel'
+  YOUTUBECHANNEL = 'Youtube Channel',
 }

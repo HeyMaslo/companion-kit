@@ -19,9 +19,8 @@ export default class ResourceRepo extends GenericRepo<Resource> {
       const resources = docs.map((snapshot) => {
         return snapshot.data() as Resource;
       });
-      return resources
+      return resources;
     }
   }
-
 
 }
