@@ -78,6 +78,7 @@ import { DailyCheckInStartView } from './views/checkin/startDailyCheckIn';
 import { DailyCheckInEndView } from './views/checkin/endDailyCheckIn';
 import { ReviewStrategiesViewOnboarding } from './views/strategies/ReviewStrategiesViewOnboarding';
 import { StrategyPreviewView } from './views/strategies/StrategyPreviewView';
+import { ResourcesView } from './views/ResourcesView';
 
 const CreateJournalCancelTransition: StateTransition<States> = {
     target: States.Home,
@@ -552,7 +553,7 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { target: States.View_Domains, trigger: [Triggers.Cancel] },
             { target: States.All_Strategies_after_ViewDomains, trigger: [Triggers.Next] },
-            { target: States.Strategy_Details_after_Domain_Details_after_ViewDomains, trigger: [Triggers.Tertiary] },
+            { target: States.Strategy_Preview_after_Domain_Details, trigger: [Triggers.Tertiary] },
         ]
     },
 
@@ -603,6 +604,32 @@ export const MasloScenario: GlobalScenario<States> = {
         ]
     },
 
+    // Strategy PREVIEW
+
+    [States.Strategy_Preview_after_Choose_Strategies]: {
+        view: StrategyPreviewView,
+        exit: [
+            { target: States.Choose_Strategies, trigger: [Triggers.Back] },
+            { target: States.Strategy_Details_after_Choose_Strategies, trigger: [Triggers.Next] },
+        ]
+    },
+
+    [States.Strategy_Preview_after_Review_Strategies]: {
+        view: StrategyPreviewView,
+        exit: [
+            { target: States.Review_Strategies, trigger: [Triggers.Back] },
+            { target: States.Strategy_Preview_after_Review_Strategies, trigger: [Triggers.Next] },
+        ]
+    },
+
+    [States.Strategy_Preview_after_Focus_Domains]: {
+        view: StrategyPreviewView,
+        exit: [
+            { target: States.Focus_Domains, trigger: [Triggers.Back] },
+            { target: States.Strategy_Details_after_Focus_Domains, trigger: [Triggers.Next] },
+        ]
+    },
+
     [States.Strategy_Preview_after_Domain_Details]: {
         view: StrategyPreviewView,
         exit: [
@@ -611,10 +638,31 @@ export const MasloScenario: GlobalScenario<States> = {
         ]
     },
 
+    [States.Strategy_Preview_after_Domain_Details_after_ViewDomains]: {
+        view: StrategyPreviewView,
+        exit: [
+            { target: States.Domain_Details_after_ViewDomains, trigger: [Triggers.Back] },
+            { target: States.Strategy_Details_after_Domain_Details_after_ViewDomains, trigger: [Triggers.Next] },
+        ]
+    },
+
+    [States.Strategy_Preview_after_QolHistory_Strategies]: {
+        view: StrategyPreviewView,
+        exit: [
+            { target: States.QolHistory_Strategies, trigger: [Triggers.Back] },
+            { target: States.Strategy_Details_after_QolHistory_Strategies, trigger: [Triggers.Next] },
+        ]
+    },
+
+    //end Strategy PREVIEW
+
+    // Strategy DETAILS
+
     [States.Strategy_Details_after_Choose_Strategies]: {
         view: StrategyDetailsView,
         exit: [
             { target: States.Choose_Strategies, trigger: [Triggers.Back] },
+            { target: States.Resources_after_Choose_Strategies, trigger: [Triggers.Next] },
         ]
     },
 
@@ -622,6 +670,7 @@ export const MasloScenario: GlobalScenario<States> = {
         view: StrategyDetailsView,
         exit: [
             { target: States.Review_Strategies, trigger: [Triggers.Back] },
+            { target: States.Resources_after_Review_Strategies, trigger: [Triggers.Next] },
         ]
     },
 
@@ -629,13 +678,15 @@ export const MasloScenario: GlobalScenario<States> = {
         view: StrategyDetailsView,
         exit: [
             { target: States.Focus_Domains, trigger: [Triggers.Back] },
+            { target: States.Resources_after_Focus_Domains, trigger: [Triggers.Next] },
         ]
     },
 
     [States.Strategy_Details_after_Domain_Details]: {
         view: StrategyDetailsView,
         exit: [
-            { target: States.Strategy_Preview_after_Domain_Details, trigger: [Triggers.Back] },
+            { target: States.Domain_Details, trigger: [Triggers.Back] },
+            { target: States.Resources_after_Domain_Details, trigger: [Triggers.Next] },
         ]
     },
 
@@ -643,6 +694,7 @@ export const MasloScenario: GlobalScenario<States> = {
         view: StrategyDetailsView,
         exit: [
             { target: States.Domain_Details_after_ViewDomains, trigger: [Triggers.Back] },
+            { target: States.Resources_after_Domain_Details_after_ViewDomains, trigger: [Triggers.Next] },
         ]
     },
 
@@ -650,8 +702,57 @@ export const MasloScenario: GlobalScenario<States> = {
         view: StrategyDetailsView,
         exit: [
             { target: States.QolHistory_Strategies, trigger: [Triggers.Back] },
+            { target: States.Resources_after_QolHistory_Strategies, trigger: [Triggers.Next] },
         ]
     },
+
+    // end Startegy DETAILS
+
+    // Strategy RESOURCES
+
+    [States.Resources_after_Choose_Strategies]: {
+        view: ResourcesView,
+        exit: [
+            { target: States.Strategy_Details_after_Choose_Strategies, trigger: [Triggers.Back] },
+        ]
+    },
+
+    [States.Resources_after_Review_Strategies]: {
+        view: ResourcesView,
+        exit: [
+            { target: States.Strategy_Details_after_Review_Strategies, trigger: [Triggers.Back] },
+        ]
+    },
+
+    [States.Resources_after_Focus_Domains]: {
+        view: ResourcesView,
+        exit: [
+            { target: States.Strategy_Details_after_Focus_Domains, trigger: [Triggers.Back] },
+        ]
+    },
+
+    [States.Resources_after_Domain_Details]: {
+        view: ResourcesView,
+        exit: [
+            { target: States.Strategy_Details_after_Domain_Details, trigger: [Triggers.Back] },
+        ]
+    },
+
+    [States.Resources_after_Domain_Details_after_ViewDomains]: {
+        view: ResourcesView,
+        exit: [
+            { target: States.Strategy_Details_after_Domain_Details_after_ViewDomains, trigger: [Triggers.Back] },
+        ]
+    },
+
+    [States.Resources_after_QolHistory_Strategies]: {
+        view: ResourcesView,
+        exit: [
+            { target: States.Strategy_Details_after_QolHistory_Strategies, trigger: [Triggers.Back] },
+        ]
+    },
+
+    // end RESOURCES
 
     [States.All_Strategies]: {
         view: AllStrategiesView,

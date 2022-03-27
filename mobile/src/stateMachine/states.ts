@@ -88,7 +88,12 @@ export enum States {
     Review_Strategies,
     Review_Strategies_Onboarding,
 
+    Strategy_Preview_after_Choose_Strategies,
+    Strategy_Preview_after_Review_Strategies,
+    Strategy_Preview_after_Focus_Domains,
     Strategy_Preview_after_Domain_Details,
+    Strategy_Preview_after_Domain_Details_after_ViewDomains,
+    Strategy_Preview_after_QolHistory_Strategies,
 
     Strategy_Details_after_Choose_Strategies,
     Strategy_Details_after_Review_Strategies,
@@ -96,11 +101,17 @@ export enum States {
     Strategy_Details_after_Domain_Details,
     Strategy_Details_after_Domain_Details_after_ViewDomains,
     Strategy_Details_after_QolHistory_Strategies,
+
+    Resources_after_Choose_Strategies,
+    Resources_after_Review_Strategies,
+    Resources_after_Focus_Domains,
+    Resources_after_Domain_Details,
+    Resources_after_Domain_Details_after_ViewDomains,
+    Resources_after_QolHistory_Strategies,
+
     All_Strategies,
     All_Strategies_after_ViewDomains,
     QolHistory_Strategies,
-
-    Resources,
 
     // QoL Block
     qol_Question,
