@@ -65,17 +65,21 @@ import SleepIconSVG from 'src/assets/images/app/domain/sleep.svg';
 import MoneyIconSVG from 'src/assets/images/app/domain/money.svg';
 import PhysicalIconSVG from 'src/assets/images/app/domain/physical.svg';
 import PhysicalIconFilledSVG from 'src/assets/images/app/domain/physical-filled.svg';
-import SelfEsteemIconSVG from 'src/assets/images/app/domain/self-esteem.svg';
-import HomeDomainIconSVG from 'src/assets/images/app/domain/sleep.svg';
-import MoodIconSVG from 'src/assets/images/app/domain/mood.svg';
-import ThinkingIconSVG from 'src/assets/images/app/domain/thinking.svg';
-import IdentityIconSVG from 'src/assets/images/app/domain/sleep.svg';
-import IndependenceIconSVG from 'src/assets/images/app/domain/independence.svg';
-import SpirtualIconSVG from 'src/assets/images/app/domain/spiritual.svg';
-import RelationshipsIconSVG from 'src/assets/images/app/domain/relationships.svg';
+import ExerciseIconSVG from 'src/assets/images/app/domain/exercise.svg';
 import DietIconSVG from 'src/assets/images/app/domain/diet.svg';
 import SexualHealthIconSVG from 'src/assets/images/app/domain/sexual.svg';
 import SubstanceUseIConSVG from 'src/assets/images/app/domain/substance.svg';
+import SelfEsteemIconSVG from 'src/assets/images/app/domain/self-esteem.svg';
+import HomeDomainIconSVG from 'src/assets/images/app/domain/home.svg';
+import MoodIconSVG from 'src/assets/images/app/domain/mood.svg';
+import ThinkingIconSVG from 'src/assets/images/app/domain/thinking.svg';
+import IdentityIconSVG from 'src/assets/images/app/domain/identity.svg';
+import IndependenceIconSVG from 'src/assets/images/app/domain/independence.svg';
+import SpirtualIconSVG from 'src/assets/images/app/domain/spiritual.svg';
+import RelationshipsIconSVG from 'src/assets/images/app/domain/relationships.svg';
+import WorkIconSVG from 'src/assets/images/app/domain/work.svg';
+import StudyIconSVG from 'src/assets/images/app/domain/study.svg';
+
 import PlusIconSVG from 'src/assets/images/app/plus.svg';
 import MinusIconSVG from 'src/assets/images/app/minus.svg';
 import ThreeArrowsSVG from 'src/assets/images/app/threeArrows.svg';
@@ -207,6 +211,8 @@ export default {
     moneyIcon: MoneyIconSVG,
     spirtualIcon: SpirtualIconSVG,
     relationshipsIcon: RelationshipsIconSVG,
+    workIcon: WorkIconSVG,
+    studyIcon: StudyIconSVG,
     // Domain Tag
     moodIconTag: MoodIconTagSVG,
     physicalIconTag: PhysicalIconTagSVG,
@@ -225,6 +231,7 @@ export default {
     substanceUseIconTag: SubstanceUseIconTagSVG,
     exerciseIconTag: ExerciseIconTagSVG,
     // Subdomain
+    exerciseIcon: ExerciseIconSVG,
     dietIcon: DietIconSVG,
     sexualHealthIcon: SexualHealthIconSVG,
     substanceUseIcon: SubstanceUseIConSVG,
@@ -246,7 +253,7 @@ export default {
     StrategySettingGoals: SettingGoalsSVG,
     StrategyJoinASocialLeisureActivity: JoinASocialLeisureActivitySVG,
     StrategySlowDown: SlowDownSVG,
-    StrategyMindfulness: MindfulnessSVG,    
+    StrategyMindfulness: MindfulnessSVG,
 
     // Resource Icons
     App: AppSVG,
