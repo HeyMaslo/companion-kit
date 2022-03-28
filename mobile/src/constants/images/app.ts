@@ -101,7 +101,7 @@ import SexualHealthIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Sexual
 import SubstanceUseIconTagSVG from 'src/assets/images/app/domain-tags/Tag_SubstanceUse.svg';
 import ExerciseIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Exercise.svg';
 // Strategy Illustration Images
-
+// The code for importing and exporting these Illustration files was generated using a scipt
 import BalanceSVG from 'src/assets/images/app/strategy-illustrations/Balance_2A327A.svg';
 import MitigateRiskOrHarmSVG from 'src/assets/images/app/strategy-illustrations/MitigateRiskOrHarm_FAC25E.svg';
 import BehaviouralActivationSVG from 'src/assets/images/app/strategy-illustrations/BehaviouralActivation_FAC25E.svg';

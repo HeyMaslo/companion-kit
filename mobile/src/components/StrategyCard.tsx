@@ -65,18 +65,6 @@ export default class StrategyCard extends React.Component<IStrategyCardProps, St
             </View>
           </View>
 
-          {/* {this.props.isSmallCard && <Text style={[TextStyles.p2, { paddingLeft: 7, paddingTop: 7 }]}>{this.props.item.shortDescription}</Text>}
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
-            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
-              {this.props.item.domains.filter((dom) => dom !== DomainSlug.PHYSICAL).map((slug) => {
-                return iconForDomain(slug, null, theme.colors.highlight, 22, 22);
-              })}
-            </View> */}
-          {/* <TouchableOpacity onPress={() => this.props.onLearnMorePress(slug)} hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
-              <Text style={[TextStyles.labelMedium, { color: theme.colors.highlight, display: 'flex', paddingRight: 7 }]}>{'Learn More >'}</Text>
-            </TouchableOpacity>
-          </View> */}
-
         </View>
       </Pressable>
     );

@@ -5,6 +5,7 @@ import Images from 'src/constants/images';
 export function strategyIllustrationForSlug(slug: string, height: number | string = 30, width: number | string = 30, style?: StyleProp<ViewStyle>, fill?: string): JSX.Element {
   if (!slug) { return <></> }
 
+  // These switch cases were generate using the same script to generate the illustration file import code
   switch (slug) {
     case 'Balance':
       return <Images.StrategyBalance pointerEvents={'none'} key={'Balance'} height={height} width={width} style={style} />;
