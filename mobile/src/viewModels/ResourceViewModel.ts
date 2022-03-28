@@ -2,12 +2,14 @@ import AppController from 'src/controllers';
 import { Resource } from 'src/constants/Resource';
 import AppViewModel from '.';
 import { UserState } from 'common/models/userState';
+import { computed, observable } from 'mobx';
 
 export default class ResourceViewModel {
 
   private _availableResources: Resource[] = [];
   private _strategyColor: string = '';
 
+  @observable
   private _resourcesForSelectedStrategies: Resource[] = [];
 
   public favoriteResourceSlugs: string[] = [];
@@ -21,6 +23,7 @@ export default class ResourceViewModel {
     return this._strategyColor;
   }
 
+  @computed
   public get resourcesForSelectedStrategies() {
     return this._resourcesForSelectedStrategies;
   }

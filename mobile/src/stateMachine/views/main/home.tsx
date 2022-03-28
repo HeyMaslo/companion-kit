@@ -26,7 +26,7 @@ import { Portal } from 'react-native-paper';
 import * as Haptics from 'src/services/haptics';
 import { formatDateDayMonthYear } from 'common/utils/dateHelpers';
 import { PersonaArmState } from 'dependencies/persona/lib';
-import { observable } from 'mobx';
+import { computed, observable } from 'mobx';
 
 const minContentHeight = 535;
 const MaxHeight = Layout.isSmallDevice ? 174 : 208;
@@ -356,7 +356,9 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         );
     };
 
-    private getResourcesList() {
+    @computed
+    private get resourcesList() {
+        console.log("get resourcesList()")
         const resources = AppViewModel.Instance.Resource.resourcesForSelectedStrategies;
         // const favorites = AppViewModel.Instance.Resource.favoriteResources;
 
@@ -372,6 +374,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                 >
                     {resources.map((resource, i) => (
                         <ResourceCard
+                            key={resource.slug}
                             item={resource}
                             backgroundColor={''}
                             isFavorite={false} // todo
@@ -432,7 +435,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                             {this.state.isUnfinishedQol === null ? <Text>Loading..</Text> : this.getCenterElement()}
                             {loading
                                 ? <ActivityIndicator size='large' />
-                                : this.getResourcesList()
+                                : this.resourcesList
                             }
                             <BottomBar screen={'home'} theme={this.theme} />
                         </Animated.View>

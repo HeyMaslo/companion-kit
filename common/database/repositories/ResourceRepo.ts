@@ -25,7 +25,7 @@ export default class ResourceRepo extends GenericRepo<Resource> {
 
   // returns all Resources where 'slugs' contains 'strategySlug' 
   async getByStrategySlugs(slugs: string[]): Promise<Resource[]> {
-    const query: Query = this.collection.where(nameof<Resource>(r => r.strategySlug), 'array-contains-any', slugs);
+    const query: Query = this.collection.where(nameof<Resource>(r => r.strategySlug), 'in', slugs);
     const docs: DocumentSnapshot[] = (await query.get()).docs;
     if (docs.length < 1) {
       return null;
@@ -33,6 +33,7 @@ export default class ResourceRepo extends GenericRepo<Resource> {
       const resources = docs.map((snapshot) => {
         return snapshot.data() as Resource;
       });
+      console.log('QUERY returnd resources: ', resources.length)
       return resources;
     }
   }
