@@ -32,7 +32,7 @@ export default class QoLControllerBase implements IQoLController {
         return await RepoFactory.Instance.surveyResults.getAllResults(this._userId);
     }
 
-    // Submit new survey results
+    // Submit new survey results (after survey is finished)
     public async sendSurveyResults(results: QolSurveyResults, aggregateScore: number, surveyType: QolSurveyType, startDate: number, questionCompletionDates: number[]): Promise<boolean> {
         logger.log(`add qol results: userId = ${this._userId}`);
         let userState: UserState = await RepoFactory.Instance.userState.getByUserId(this._userId);
@@ -40,8 +40,7 @@ export default class QoLControllerBase implements IQoLController {
         return true;
     }
 
-    // Store partial survey state
-    // Any subsequent calls to get will return this state
+    // Send state of survey while it is in progress (partialy finsished)
     public async sendPartialQol(qol: PartialQol): Promise<boolean> {
 
         logger.log(`set partial qol: userId = ${this._userId}`);
@@ -53,7 +52,7 @@ export default class QoLControllerBase implements IQoLController {
             if (st) {
                 st.surveyState = qol;
             } else {
-                // This is the inital setup of the user's UserState and it is set after the very first (onboarding) qol survey
+                // This is the inital setup of the user's UserState and it is set after the first question of the onboarding qol survey
                 st = {
                     surveyState: qol,
                     focusedDomains: { domains: [], subdomains: [] },
