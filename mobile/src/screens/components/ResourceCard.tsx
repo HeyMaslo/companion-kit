@@ -13,9 +13,8 @@ type Props = {
   item: Resource,
   backgroundColor: string,
   isFavorite: boolean,
-  onPress: () => void,
-  onHeart: () => void,
-  onClose: () => void,
+  onHeart: (slug: string) => void,
+  onX: (slug: string) => void,
   theme: Theme,
 };
 
@@ -25,7 +24,7 @@ const ResourceCard = (props: Props) => {
 
   const [isExpaneded, setIsExpaneded] = useState(false);
 
-  const { item, backgroundColor, isFavorite, onPress, onHeart, onClose, theme } = props;
+  const { item, backgroundColor, isFavorite, onHeart, onX, theme } = props;
 
   const url = !item.link ? (Platform.OS == 'ios' ? item.iosLink : item.androidLink) : item.link;
 
@@ -40,10 +39,10 @@ const ResourceCard = (props: Props) => {
           </Text>
           {/* Heart and X Icon */}
           <View style={styles.iconGroup}>
-            <TouchableOpacity onPress={onHeart}>
+            <TouchableOpacity onPress={() => onHeart(item.slug)}>
               <Images.heartIcon width={23} height={20} fill={isFavorite ? 'white' : 'none'} color={'white'} opacity={0.7} style={{ marginRight: 20 }} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={onClose}>
+            <TouchableOpacity onPress={() => onX(item.slug)}>
               <Images.closeIcon width={20} height={20} color={'white'} opacity={0.7} />
             </TouchableOpacity>
           </View>

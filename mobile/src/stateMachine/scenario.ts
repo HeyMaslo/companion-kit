@@ -543,7 +543,6 @@ export const MasloScenario: GlobalScenario<States> = {
         exit: [
             { target: States.Choose_Domain, trigger: [Triggers.Cancel] },
             { target: States.All_Strategies, trigger: [Triggers.Next] },
-            // { target: States.Strategy_Details_after_Domain_Details, trigger: [Triggers.Tertiary] },
             { target: States.Strategy_Preview_after_Domain_Details, trigger: [Triggers.Tertiary] },
         ]
     },

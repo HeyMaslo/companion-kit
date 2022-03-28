@@ -1,3 +1,4 @@
+import React from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
 import Images from 'src/constants/images';
 

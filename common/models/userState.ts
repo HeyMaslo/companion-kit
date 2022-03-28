@@ -18,4 +18,6 @@ export type UserState = {
     chosenStrategies: string[]; // array of Strategy slugs (which are also firestore document ids) to reference strategies in the strategies collection
     lastSeenAffirmations: LastSeen, // keeps track of affirmations that have been seen/scheduled at which date
     scheduledAffirmations: ScheduledAffirmationNotification[], // only contains upcoming affirmation notifications
+    favoriteResources: string[], // resource slugs
+    hiddenResources: string[], // resource slugs
 };

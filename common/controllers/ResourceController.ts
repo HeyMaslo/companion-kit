@@ -7,6 +7,9 @@ export default class ResourceControllerBase {
     return await RepoFactory.Instance.resources.getByStrategySlug(strategySlug);
   }
 
+  public async getMultipleResources(strategySlugs: string[]): Promise<Resource[]> {
+    return await RepoFactory.Instance.resources.getByStrategySlugs(strategySlugs);
+  }
 
 }
 

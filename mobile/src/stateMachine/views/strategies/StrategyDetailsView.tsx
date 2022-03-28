@@ -31,7 +31,7 @@ export class StrategyDetailsView extends ViewState {
 
   async start() {
     this._learnMoreStrategy = this.viewModel.learnMoreStrategy;
-    AppViewModel.Instance.Resource.fetchResourcesForSelectedStrategy(this._learnMoreStrategy.slug, this._learnMoreStrategy.color);
+    AppViewModel.Instance.Resource.fetchResourcesForStrategy(this._learnMoreStrategy.slug, this._learnMoreStrategy.color);
     this.forceUpdate();
   }
 

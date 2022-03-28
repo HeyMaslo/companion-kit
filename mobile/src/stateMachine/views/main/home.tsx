@@ -85,7 +85,9 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
         await AppViewModel.Instance.Domain.fetchPossibleDomains();
         AppViewModel.Instance.Domain.fetchSelectedDomains();
         await AppViewModel.Instance.Strategy.fetchPossibleStrategies();
-        AppViewModel.Instance.Strategy.fetchSelectedStrategies();
+        await AppViewModel.Instance.Strategy.fetchSelectedStrategies();
+        await AppViewModel.Instance.Resource.fetchResourcesForSelectedStrategies();
+        await AppViewModel.Instance.Resource.fetchUsersResources();
     }
 
     private checkNewLinkDoc = () => {
@@ -308,18 +310,18 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
             return this.getHealthPermissionCard();
         }
 
-        const { today, tips } = this.viewModel;
+        const { today, generalTips } = this.viewModel;
 
         return (
             <>
-                {tips?.length && (
+                {generalTips?.length && (
                     <ScrollView
                         showsHorizontalScrollIndicator={false}
                         horizontal
                         style={{ maxHeight: Layout.isSmallDevice ? 112 : 132, marginBottom: 16 }}
                         contentContainerStyle={styles.tipsList}
                     >
-                        {tips.map(s => (
+                        {generalTips.map(s => (
                             <TipItemCard
                                 key={s.id}
                                 item={s}
@@ -355,7 +357,8 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
     };
 
     private getResourcesList() {
-        const { resources } = this.viewModel;
+        const resources = AppViewModel.Instance.Resource.resourcesForSelectedStrategies;
+        // const favorites = AppViewModel.Instance.Resource.favoriteResources;
 
         return (
             resources.length === 0 ? (
@@ -367,14 +370,13 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
                     horizontal
                     contentContainerStyle={styles.list}
                 >
-                    {resources.map((s, i) => (
+                    {resources.map((resource, i) => (
                         <ResourceCard
-                            key={s.id}
-                            model={s}
-                            active={i === 0}
-                            onPress={() => this.openResourceDetails(s.id)}
-                            onHeart={() => this.favoriteResource(s.id)}
-                            onClose={() => this.removeResource(s.id)}
+                            item={resource}
+                            backgroundColor={''}
+                            isFavorite={false} // todo
+                            onHeart={() => this.favoriteResource(resource.title)}
+                            onX={() => this.removeResource(resource.title)}
                             theme={this.theme}
                         />
                     ))}

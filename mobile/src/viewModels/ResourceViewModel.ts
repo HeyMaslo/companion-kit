@@ -1,10 +1,17 @@
 import AppController from 'src/controllers';
 import { Resource } from 'src/constants/Resource';
+import AppViewModel from '.';
+import { UserState } from 'common/models/userState';
 
 export default class ResourceViewModel {
 
   private _availableResources: Resource[] = [];
   private _strategyColor: string = '';
+
+  private _resourcesForSelectedStrategies: Resource[] = [];
+
+  public favoriteResourceSlugs: string[] = [];
+  public hiddenResourceSlugs: string[] = [];
 
   public get availableResources() {
     return this._availableResources;
@@ -14,11 +21,33 @@ export default class ResourceViewModel {
     return this._strategyColor;
   }
 
-  public async fetchResourcesForSelectedStrategy(slug: string, strategyColor: string) {
+  public get resourcesForSelectedStrategies() {
+    return this._resourcesForSelectedStrategies;
+  }
+
+  public async fetchResourcesForStrategy(slug: string, strategyColor: string) {
     this._strategyColor = strategyColor;
     if (slug) {
       this._availableResources = await AppController.Instance.User.resource.getResources(slug);
     }
+  }
+
+  public async fetchResourcesForSelectedStrategies() {
+    const selectedSlugs = AppViewModel.Instance.Strategy.selectedStrategies.map((s) => s.slug);
+    if (selectedSlugs && selectedSlugs.length > 0) {
+      this._resourcesForSelectedStrategies = await AppController.Instance.User.resource.getMultipleResources(selectedSlugs);
+    }
+  }
+
+  public async fetchUsersResources(): Promise<void> {
+    const userState: UserState = await AppController.Instance.User.qol.getUserState();
+    this.favoriteResourceSlugs = userState.favoriteResources;
+    this.hiddenResourceSlugs = userState.hiddenResources;
+  }
+
+  public async postUsersResources(): Promise<void> {
+    await AppController.Instance.User.qol.setUserStateProperty('favoriteResources', this.favoriteResourceSlugs);
+    await AppController.Instance.User.qol.setUserStateProperty('hiddenResources', this.hiddenResourceSlugs);
   }
 
 }
