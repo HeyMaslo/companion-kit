@@ -19,7 +19,7 @@ export default class ResourceRepo extends GenericRepo<Resource> {
       const resources = docs.map((snapshot) => {
         return snapshot.data() as Resource;
       });
-      return resources;
+      return resources || [];
     }
   }
 
@@ -33,8 +33,7 @@ export default class ResourceRepo extends GenericRepo<Resource> {
       const resources = docs.map((snapshot) => {
         return snapshot.data() as Resource;
       });
-      console.log('QUERY returnd resources: ', resources.length)
-      return resources;
+      return resources || [];
     }
   }
 

@@ -358,7 +358,6 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
     @computed
     private get resourcesList() {
-        console.log("get resourcesList()")
         const resources = AppViewModel.Instance.Resource.resourcesForSelectedStrategies;
         // const favorites = AppViewModel.Instance.Resource.favoriteResources;
 
