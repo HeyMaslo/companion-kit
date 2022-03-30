@@ -90,6 +90,7 @@ function iconForResourceType(type: ResourceType, style?: StyleProp<ViewStyle>, c
       return <Images.Arcticle pointerEvents={'none'} color={color} style={style} />;
     case ResourceType.BLOG:
       return <Images.Blog pointerEvents={'none'} color={color} style={style} />;
+    default:
     case ResourceType.OTHER:
       return <Images.Other pointerEvents={'none'} color={color} style={style} />;
     case ResourceType.VIDEO:
