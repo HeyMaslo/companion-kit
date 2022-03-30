@@ -73,7 +73,7 @@ export class StrategyDetailsView extends ViewState {
             />
             <View style={{ marginTop: 40 }}>
               <Button title={'VIEW RESOURCES'} style={{ marginBottom: 10 }} onPress={this.onNext} theme={this.theme} />
-              <Button title={'GO BACK TO STRATEGIES'} isTransparent withBorder onPress={this.onBack} theme={this.theme} />
+              <Button title={'GO BACK'} isTransparent withBorder onPress={this.onBack} theme={this.theme} />
             </View>
           </ScrollView>
         </Container>

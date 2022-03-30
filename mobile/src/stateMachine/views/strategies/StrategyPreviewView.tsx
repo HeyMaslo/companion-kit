@@ -82,7 +82,7 @@ export class StrategyPreviewView extends ViewState {
             </View>
             <View style={{ marginBottom: 20 }}>
               <Button title={'READ MORE'} style={{ width: '100%', marginBottom: 10 }} onPress={this.onNext} theme={this.theme} />
-              <Button title={'GO BACK TO STRATEGIES'} style={{ width: '100%' }} isTransparent withBorder onPress={this.onBack} theme={this.theme} />
+              <Button title={'GO BACK'} style={{ width: '100%' }} isTransparent withBorder onPress={this.onBack} theme={this.theme} />
             </View>
           </View>
 

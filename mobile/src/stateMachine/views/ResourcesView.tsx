@@ -10,8 +10,12 @@ import { ViewState } from './base';
 import { Resource } from 'src/constants/Resource';
 import ResourceCard from 'src/screens/components/ResourceCard';
 
+export type ResourcesViewParams = {
+  backButtonText?: string,
+};
+
 @observer
-export class ResourcesView extends ViewState {
+export class ResourcesView extends ViewState<{}, ResourcesViewParams> {
 
   @observable
   private _resources: Resource[] = [];
@@ -89,7 +93,7 @@ export class ResourcesView extends ViewState {
             renderItem={this.renderListItem}
             keyExtractor={(item: Resource) => item.title}
             extraData={this.favoritedResourceSlugs.length} />
-          <Button title={'GO BACK TO STRATEGIES'} style={{ marginBottom: 25 }} onPress={this.onBack} isTransparent withBorder={true} theme={this.theme} />
+          <Button title={this.props?.params?.backButtonText || 'GO BACK TO STRATEGIES'} style={{ marginBottom: 25 }} onPress={this.onBack} isTransparent withBorder={true} theme={this.theme} />
         </Container >
       </MasloPage >
     );
