@@ -65,20 +65,69 @@ import SleepIconSVG from 'src/assets/images/app/domain/sleep.svg';
 import MoneyIconSVG from 'src/assets/images/app/domain/money.svg';
 import PhysicalIconSVG from 'src/assets/images/app/domain/physical.svg';
 import PhysicalIconFilledSVG from 'src/assets/images/app/domain/physical-filled.svg';
-import SelfEsteemIconSVG from 'src/assets/images/app/domain/self-esteem.svg';
-import HomeDomainIconSVG from 'src/assets/images/app/domain/sleep.svg';
-import MoodIconSVG from 'src/assets/images/app/domain/mood.svg';
-import ThinkingIconSVG from 'src/assets/images/app/domain/thinking.svg';
-import IdentityIconSVG from 'src/assets/images/app/domain/sleep.svg';
-import IndependenceIconSVG from 'src/assets/images/app/domain/independence.svg';
-import SpirtualIconSVG from 'src/assets/images/app/domain/spiritual.svg';
-import RelationshipsIconSVG from 'src/assets/images/app/domain/relationships.svg';
+import ExerciseIconSVG from 'src/assets/images/app/domain/exercise.svg';
 import DietIconSVG from 'src/assets/images/app/domain/diet.svg';
 import SexualHealthIconSVG from 'src/assets/images/app/domain/sexual.svg';
 import SubstanceUseIConSVG from 'src/assets/images/app/domain/substance.svg';
+import SelfEsteemIconSVG from 'src/assets/images/app/domain/self-esteem.svg';
+import HomeDomainIconSVG from 'src/assets/images/app/domain/home.svg';
+import MoodIconSVG from 'src/assets/images/app/domain/mood.svg';
+import ThinkingIconSVG from 'src/assets/images/app/domain/thinking.svg';
+import IdentityIconSVG from 'src/assets/images/app/domain/identity.svg';
+import IndependenceIconSVG from 'src/assets/images/app/domain/independence.svg';
+import SpirtualIconSVG from 'src/assets/images/app/domain/spiritual.svg';
+import RelationshipsIconSVG from 'src/assets/images/app/domain/relationships.svg';
+import WorkIconSVG from 'src/assets/images/app/domain/work.svg';
+import StudyIconSVG from 'src/assets/images/app/domain/study.svg';
+
 import PlusIconSVG from 'src/assets/images/app/plus.svg';
 import MinusIconSVG from 'src/assets/images/app/minus.svg';
 import ThreeArrowsSVG from 'src/assets/images/app/threeArrows.svg';
+//Domain Tags
+import LeisureIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Leisure.svg';
+import SleepIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Sleep.svg';
+import MoneyIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Money.svg';
+import PhysicalIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Physical.svg';
+import SelfEsteemIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Self-Esteem.svg';
+import HomeDomainIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Home.svg';
+import MoodIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Mood.svg';
+import ThinkingIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Cognition.svg';
+import IdentityIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Identity.svg';
+import IndependenceIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Independence.svg';
+import SpirtualIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Spiritual.svg';
+import RelationshipsIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Relationships.svg';
+import DietIconTagSVG from 'src/assets/images/app/domain-tags/Tag_DietNutrition.svg';
+import SexualHealthIconTagSVG from 'src/assets/images/app/domain-tags/Tag_SexualHealth.svg';
+import SubstanceUseIconTagSVG from 'src/assets/images/app/domain-tags/Tag_SubstanceUse.svg';
+import ExerciseIconTagSVG from 'src/assets/images/app/domain-tags/Tag_Exercise.svg';
+// Strategy Illustration Images
+// The code for importing and exporting these Illustration files was generated using a scipt
+import BalanceSVG from 'src/assets/images/app/strategy-illustrations/Balance_2A327A.svg';
+import MitigateRiskOrHarmSVG from 'src/assets/images/app/strategy-illustrations/MitigateRiskOrHarm_FAC25E.svg';
+import BehaviouralActivationSVG from 'src/assets/images/app/strategy-illustrations/BehaviouralActivation_FAC25E.svg';
+import MonitoringSVG from 'src/assets/images/app/strategy-illustrations/Monitoring_A2C9DF.svg';
+import CalendarSVG from 'src/assets/images/app/strategy-illustrations/Calendar_2A327A.svg';
+import SelfCompassionSVG from 'src/assets/images/app/strategy-illustrations/SelfCompassion_2A327A.svg';
+import ChallengeNegativeThinkingSVG from 'src/assets/images/app/strategy-illustrations/ChallengeNegativeThinking_2A327A.svg';
+import SetBoundariesSVG from 'src/assets/images/app/strategy-illustrations/SetBoundaries_A2C9DF.svg';
+import GetOrganizedSVG from 'src/assets/images/app/strategy-illustrations/GetOrganized_EE7C69.svg';
+import SettingGoalsSVG from 'src/assets/images/app/strategy-illustrations/SettingGoals_FAC25E.svg';
+import JoinASocialLeisureActivitySVG from 'src/assets/images/app/strategy-illustrations/JoinASocialLeisureActivity_EE7C69.svg';
+import SlowDownSVG from 'src/assets/images/app/strategy-illustrations/SlowDown_2A327A.svg';
+import MindfulnessSVG from 'src/assets/images/app/strategy-illustrations/Mindfulness_EE7C69.svg';
+
+
+// Resource Icons
+import AppSVG from 'src/assets/images/app/resources/App.svg';
+import ArcticleSVG from 'src/assets/images/app/resources/Article.svg';
+import BlogSVG from 'src/assets/images/app/resources/Blog.svg';
+import OtherSVG from 'src/assets/images/app/resources/Other.svg';
+import VideoSVG from 'src/assets/images/app/resources/Video.svg';
+import WebinarSVG from 'src/assets/images/app/resources/Webinar.svg';
+import WorksheetSVG from 'src/assets/images/app/resources/Worksheet.svg';
+import YoutubeChannelSVG from 'src/assets/images/app/resources/YoutubeChannel.svg';
+
+import WarningTriangleSVG from 'src/assets/images/app/warning.svg';
 
 export default {
     signInWithGoogle: GoogleIconPNG,
@@ -162,7 +211,27 @@ export default {
     moneyIcon: MoneyIconSVG,
     spirtualIcon: SpirtualIconSVG,
     relationshipsIcon: RelationshipsIconSVG,
+    workIcon: WorkIconSVG,
+    studyIcon: StudyIconSVG,
+    // Domain Tag
+    moodIconTag: MoodIconTagSVG,
+    physicalIconTag: PhysicalIconTagSVG,
+    sleepIconTag: SleepIconTagSVG,
+    thinkingIconTag: ThinkingIconTagSVG,
+    identityIconTag: IdentityIconTagSVG,
+    leisureIconTag: LeisureIconTagSVG,
+    independenceIconTag: IndependenceIconTagSVG,
+    selfEsteemIconTag: SelfEsteemIconTagSVG,
+    homeDomainIconTag: HomeDomainIconTagSVG,
+    moneyIconTag: MoneyIconTagSVG,
+    spirtualIconTag: SpirtualIconTagSVG,
+    relationshipsIconTag: RelationshipsIconTagSVG,
+    dietIconTag: DietIconTagSVG,
+    sexualHealthIconTag: SexualHealthIconTagSVG,
+    substanceUseIconTag: SubstanceUseIconTagSVG,
+    exerciseIconTag: ExerciseIconTagSVG,
     // Subdomain
+    exerciseIcon: ExerciseIconSVG,
     dietIcon: DietIconSVG,
     sexualHealthIcon: SexualHealthIconSVG,
     substanceUseIcon: SubstanceUseIConSVG,
@@ -170,4 +239,31 @@ export default {
     plusIcon: PlusIconSVG,
     minusIcon: MinusIconSVG,
     threeArrowsIcon: ThreeArrowsSVG,
+    // Strategy Illustrations
+
+    StrategyBalance: BalanceSVG,
+    StrategyMitigateRiskOrHarm: MitigateRiskOrHarmSVG,
+    StrategyBehaviouralActivation: BehaviouralActivationSVG,
+    StrategyMonitoring: MonitoringSVG,
+    StrategyCalendar: CalendarSVG,
+    StrategySelfCompassion: SelfCompassionSVG,
+    StrategyChallengeNegativeThinking: ChallengeNegativeThinkingSVG,
+    StrategySetBoundaries: SetBoundariesSVG,
+    StrategyGetOrganized: GetOrganizedSVG,
+    StrategySettingGoals: SettingGoalsSVG,
+    StrategyJoinASocialLeisureActivity: JoinASocialLeisureActivitySVG,
+    StrategySlowDown: SlowDownSVG,
+    StrategyMindfulness: MindfulnessSVG,
+
+    // Resource Icons
+    App: AppSVG,
+    Arcticle: ArcticleSVG,
+    Blog: BlogSVG,
+    Other: OtherSVG,
+    Video: VideoSVG,
+    Webinar: WebinarSVG,
+    Worksheet: WorksheetSVG,
+    YoutubeChannel: YoutubeChannelSVG,
+
+    WarningTriangle: WarningTriangleSVG,
 };

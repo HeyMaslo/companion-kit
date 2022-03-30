@@ -1,67 +1,56 @@
-import { transaction, observable, computed } from 'mobx';
-import { ClientJournalEntryIded } from 'common/models/ClientEntries';
-import { StorageReferenceViewModel } from 'common/viewModels/StorageReferenceViewModel';
-import Firebase from 'common/services/firebase';
-import * as Functions from 'common/abstractions/functions';
-import LocationsStrings from 'common/localization/LocationStrings';
-import { getTimeSafe, months } from 'common/utils/dateHelpers';
-import { safeCall } from 'common/utils/functions';
 import AppController from 'src/controllers';
+import { Resource } from 'src/constants/Resource';
+import AppViewModel from '.';
+import { UserState } from 'common/models/userState';
+import { computed, observable } from 'mobx';
 
 export default class ResourceViewModel {
 
-  @observable
-  private _resourceId: string;
+  private _availableResources: Resource[] = [];
+  private _strategyColor: string = '';
 
   @observable
-  private _title: string;
+  private _resourcesForSelectedStrategies: Resource[] = [];
 
-  @observable
-  private _category: string;
+  public favoriteResourceSlugs: string[] = [];
+  public hiddenResourceSlugs: string[] = [];
 
-  @observable
-  private _backgroundColor: string;
+  public get availableResources() {
+    return this._availableResources;
+  }
 
-  @observable _isFavorite: boolean;
-
-  @observable
-  private _toggleInProgress = false;
-
-  private _urlObserver: () => any;
+  public get strategyColor() {
+    return this._strategyColor;
+  }
 
   @computed
-  get checkIn(): ClientJournalEntryIded {
-    return this._resourceId == null ? null : AppController.Instance.User.journal.entries.find(e => e.id === this._resourceId);
+  public get resourcesForSelectedStrategies() {
+    return this._resourcesForSelectedStrategies;
   }
 
-  get title() { return this._title; }
-  get category() { return this._category; }
-  get backgroundColor() { return this._backgroundColor; }
-  get id() { return this._resourceId; }
-  get isFavorite() { return this._isFavorite; }
-
-  get toggleInProgress() { return this._toggleInProgress; }
-
-  constructor(resourceId: string, title: string, category: string, backgroundColor: string, isFavorite: boolean) {
-    this._resourceId = resourceId;
-    this._title = title;
-    this._category = category;
-    this._backgroundColor = backgroundColor;
-    this._isFavorite = isFavorite;
+  public async fetchResourcesForStrategy(slug: string, strategyColor: string) {
+    this._strategyColor = strategyColor;
+    if (slug) {
+      this._availableResources = await AppController.Instance.User.resource.getResources(slug);
+    }
   }
 
-  public setCheckInId(id: string) {
-    transaction(() => {
-      this._resourceId = id;
-    });
-    return this;
+  public async fetchResourcesForSelectedStrategies() {
+    const selectedSlugs = AppViewModel.Instance.Strategy.selectedStrategies.map((s) => s.slug);
+    if (selectedSlugs && selectedSlugs.length > 0) {
+      this._resourcesForSelectedStrategies = await AppController.Instance.User.resource.getMultipleResources(selectedSlugs);
+    }
   }
 
-  public clearModel = () => {
-    this._resourceId = null;
+  public async fetchUsersResources(): Promise<void> {
+    const userState: UserState = await AppController.Instance.User.qol.getUserState();
+    this.favoriteResourceSlugs = userState.favoriteResources;
+    this.hiddenResourceSlugs = userState.hiddenResources;
   }
 
-  public dispose = () => {
-    safeCall(this._urlObserver);
+  public async postUsersResources(): Promise<void> {
+    await AppController.Instance.User.qol.setUserStateProperty('favoriteResources', this.favoriteResourceSlugs);
+    await AppController.Instance.User.qol.setUserStateProperty('hiddenResources', this.hiddenResourceSlugs);
   }
+
 }

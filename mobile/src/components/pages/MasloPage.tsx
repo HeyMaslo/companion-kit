@@ -49,7 +49,7 @@ export default function MasloPageExtended(props: MasloPageExtendedProps) {
     // const customTopInset = 10;
 
     return (
-        <PageBase style={[BaseStyles.page, style, { backgroundColor: theme.colors.background }]}>
+        <PageBase style={[BaseStyles.page, { backgroundColor: theme.colors.background }, style ]}>
             {withDots ? <Dots length={dotLength || 0} active={activeDot || 0} /> : null}
             {_onBack ? (
                 <TouchableOpacity style={[BaseStyles.back]} onPress={_onBack} hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}>

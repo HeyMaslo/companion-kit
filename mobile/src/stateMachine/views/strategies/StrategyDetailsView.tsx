@@ -2,15 +2,16 @@ import { Strategy } from '../../../../../mobile/src/constants/Strategy';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Container, MasloPage } from 'src/components';
+import { Button, Container, MasloPage } from 'src/components';
 import TextStyles from 'src/styles/TextStyles';
 import AppViewModel from 'src/viewModels';
 import { ScenarioTriggers } from '../../abstractions';
 import { ViewState } from '../base';
 import { HTMLStyles, iconForDomain, replaceListTags } from 'src/helpers/DomainHelper';
 import RenderHTML from 'react-native-render-html';
-import { DomainSlug } from 'src/constants/Domain';
+import { domainNameForSlug, DomainSlug } from 'src/constants/Domain';
 import Layout from 'src/constants/Layout';
+import { strategyIllustrationForSlug } from 'src/helpers/StrategyHelper';
 
 @observer
 export class StrategyDetailsView extends ViewState {
@@ -30,6 +31,7 @@ export class StrategyDetailsView extends ViewState {
 
   async start() {
     this._learnMoreStrategy = this.viewModel.learnMoreStrategy;
+    AppViewModel.Instance.Resource.fetchResourcesForStrategy(this._learnMoreStrategy.slug, this._learnMoreStrategy.color);
     this.forceUpdate();
   }
 
@@ -37,14 +39,14 @@ export class StrategyDetailsView extends ViewState {
     this.trigger(ScenarioTriggers.Back);
   }
 
-  private capitalizeFirstLetter(str: string) {
-    return str.charAt(0).toLocaleUpperCase() + str.slice(1).toLocaleLowerCase();
+  onNext = () => {
+    this.trigger(ScenarioTriggers.Next);
   }
 
   renderIconItem = ({ item }) => (
     <View style={[{ flexDirection: 'row', justifyContent: 'center' }]} key={item}>
       {iconForDomain(item, { marginRight: 20 }, this.theme.colors.foreground)}
-      <Text style={[TextStyles.h2, styles.strategy, { marginBottom: 30 }]}>{this.capitalizeFirstLetter(item)}</Text>
+      <Text style={[TextStyles.h2, styles.strategy, { marginBottom: 30 }]}>{domainNameForSlug(item)}</Text>
     </View>
   );
 
@@ -56,17 +58,11 @@ export class StrategyDetailsView extends ViewState {
     return (
       <MasloPage style={this.baseStyles.page} onBack={() => this.onBack()} theme={this.theme}>
         <Container style={[styles.container, { height: this._contentHeight }]}>
-          <ScrollView style={{ width: Layout.window.width }} contentContainerStyle={{ alignItems: 'center', marginHorizontal: 20 }}>
-            {/* Title */}
-            <View style={{ justifyContent: 'center', flexDirection: 'row', marginBottom: 20 }}>
-              <Text style={[TextStyles.h2, styles.strategy]}>{this._learnMoreStrategy.title}</Text>
+          <ScrollView style={{ width: Layout.window.width }} contentContainerStyle={{ alignItems: 'center', marginHorizontal: 20, paddingBottom: 20 }}>
+            <View style={{ alignItems: 'center', flexDirection: 'column', marginBottom: 20, paddingHorizontal: 20, width: '100%' }}>
+              <Text style={[TextStyles.h2, { textAlign: 'center', marginBottom: 20 }]}>{this._learnMoreStrategy.friendlyTitle}</Text>
+              {strategyIllustrationForSlug(this._learnMoreStrategy.slug, this.layout.window.height * 0.32, '100%')}
             </View>
-            {/* Subtitle */}
-            <Text style={[TextStyles.p2, styles.strategy, { marginBottom: 20, color: this.theme.colors.midground }]}>{'This strategy targets personal improvement in these life areas:'}</Text>
-            {/* Icon Container */}
-            {this.viewModel.learnMoreStrategy.domains.filter((dom) => dom != DomainSlug.PHYSICAL).map((slug) => {
-              return this.renderIconItem({ item: slug });
-            })}
             {/* HTML body */}
             <RenderHTML
               contentWidth={this.layout.window.width - 40}
@@ -75,6 +71,10 @@ export class StrategyDetailsView extends ViewState {
               systemFonts={HTMLStyles.systemFonts}
               tagsStyles={HTMLStyles.tagsStyles}
             />
+            <View style={{ marginTop: 40 }}>
+              <Button title={'VIEW RESOURCES'} style={{ marginBottom: 10 }} onPress={this.onNext} theme={this.theme} />
+              <Button title={'GO BACK'} isTransparent withBorder onPress={this.onBack} theme={this.theme} />
+            </View>
           </ScrollView>
         </Container>
       </MasloPage>
@@ -84,7 +84,7 @@ export class StrategyDetailsView extends ViewState {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 40,
+    paddingTop: 15,
     paddingBottom: 15,
     alignItems: 'center',
   },

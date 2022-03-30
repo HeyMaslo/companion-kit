@@ -4,10 +4,10 @@ import React from 'react';
 import { DomainSlug } from 'src/constants/Domain';
 import { mainFontLight, mainFontMedium } from 'src/styles/TextStyles';
 
-export function iconForDomain(name: DomainSlug, style?: StyleProp<ViewStyle>, color: string = 'black', width: number = 30, height: number = 30, fill?: string): JSX.Element {
-  if (!name) { return <></>; }
+export function iconForDomain(slug: DomainSlug, style?: StyleProp<ViewStyle>, color: string = 'black', width: number = 30, height: number = 30, fill?: string): JSX.Element {
+  if (!slug) { return <></>; }
 
-  switch (name) {
+  switch (slug) {
     // Domains
     case DomainSlug.MOOD:
       return <Images.moodIcon pointerEvents={'none'} key={DomainSlug.MOOD} color={color} fill={fill} width={width} height={height} style={style} />;
@@ -60,6 +60,68 @@ export function iconForDomain(name: DomainSlug, style?: StyleProp<ViewStyle>, co
 
     case DomainSlug.SUBSTANCEUSE:
       return <Images.substanceUseIcon pointerEvents={'none'} key={DomainSlug.SUBSTANCEUSE} color={color} fill={fill} width={width} height={height} style={style} />;
+
+    default:
+      return <></>;
+  }
+}
+
+export function domainTag(slug: DomainSlug, style?: StyleProp<ViewStyle>, color: string = 'black', height: number = 40, fill?: string): JSX.Element {
+  if (!slug) { return <></>; }
+
+  switch (slug) {
+    // Domains
+    case DomainSlug.MOOD:
+      return <Images.moodIconTag pointerEvents={'none'} key={DomainSlug.MOOD} color={color} fill={fill} height={height} style={style} />;
+
+    case DomainSlug.PHYSICAL:
+      return <Images.physicalIconFilled pointerEvents={'none'} key={DomainSlug.PHYSICAL} color={color} fill={fill} height={height} style={style} />;
+
+    case DomainSlug.SLEEP:
+      return <Images.sleepIconTag pointerEvents={'none'} key={DomainSlug.SLEEP} color={color} fill={fill} height={height} style={style} />;
+
+    case DomainSlug.THINKING:
+      return <Images.thinkingIconTag pointerEvents={'none'} key={DomainSlug.THINKING} color={color} fill={fill} height={height} style={style} />;
+
+    case DomainSlug.IDENTITY:
+      return <Images.identityIconTag pointerEvents={'none'} key={DomainSlug.IDENTITY} color={color} fill={fill} height={height} style={style} />;
+
+    case DomainSlug.LEISURE:
+      return <Images.leisureIconTag pointerEvents={'none'} key={DomainSlug.LEISURE} color={color} fill={fill} height={height} style={style} />;
+
+    case DomainSlug.INDEPENDENCE:
+      return <Images.independenceIconTag pointerEvents={'none'} key={DomainSlug.INDEPENDENCE} color={color} fill={fill} height={height} style={style} />;
+
+    case DomainSlug.SELFESTEEM:
+      return <Images.selfEsteemIconTag pointerEvents={'none'} key={DomainSlug.SELFESTEEM} color={color} fill={fill} height={height} style={style} />;
+
+    case DomainSlug.HOME:
+      return <Images.homeDomainIconTag pointerEvents={'none'} key={DomainSlug.HOME} color={color} fill={fill} height={height} style={style} />;
+
+    case DomainSlug.MONEY:
+      return <Images.moneyIconTag pointerEvents={'none'} key={DomainSlug.MONEY} color={color} fill={fill} height={height} style={style} />;
+
+    case DomainSlug.SPIRITUALITY:
+      return <Images.spirtualIconTag pointerEvents={'none'} key={DomainSlug.SPIRITUALITY} color={color} fill={fill} height={height} style={style} />;
+
+    case DomainSlug.RELATIONSHIPS:
+      return <Images.relationshipsIconTag pointerEvents={'none'} key={DomainSlug.RELATIONSHIPS} color={color} fill={fill} height={height} style={style} />;
+
+    // Physical Subdomain
+    case DomainSlug.EXERCISE:
+      return <Images.physicalIconTag pointerEvents={'none'} key={DomainSlug.EXERCISE} color={color} fill={fill} height={height} style={style} />;
+
+    case DomainSlug.DIETNUTRITION:
+      return <Images.dietIconTag pointerEvents={'none'} key={DomainSlug.DIETNUTRITION} color={color} fill={fill} height={height} style={style} />;
+
+    case DomainSlug.SEXUALHEALTH:
+      return <Images.sexualHealthIconTag pointerEvents={'none'} key={DomainSlug.SEXUALHEALTH} color={color} fill={fill} height={height} style={style} />;
+
+    case DomainSlug.SUBSTANCEUSE:
+      return <Images.substanceUseIconTag pointerEvents={'none'} key={DomainSlug.SUBSTANCEUSE} color={color} fill={fill} height={height} style={style} />;
+
+    default:
+      return <></>;
   }
 }
 

@@ -126,9 +126,11 @@ export default class QOLSurveyViewModel {
 
     // Call this when exiting the qol survey part way through
     public willExitSurvey() {
-        this.submissionTimer.stop();
-        this.submissionTimer = null;
-        this.timerFired(this);
+        if (this.submissionTimer) {
+            this.submissionTimer.stop();
+            this.submissionTimer = null;
+            this.timerFired(this);
+        }
     }
 
     public async savePrevResponse(prevResponse: number) {
@@ -144,8 +146,10 @@ export default class QOLSurveyViewModel {
         this.sentResponses = null;
 
         if (this.questionNum === (this.numQuestions - 1)) {
-            this.submissionTimer.stop();
-            this.submissionTimer = null;
+            if (this.submissionTimer) {
+                this.submissionTimer.stop();
+                this.submissionTimer = null;
+            }
             await this.saveSurveyProgress();
         } else if (this.submissionTimer == null || this.submissionTimer.status != 'running') {
             this.submissionTimer = new Timer({ interval: 5000 });

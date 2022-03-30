@@ -127,28 +127,10 @@ export abstract class ViewDomainsBase extends ViewState {
                             position: 'relative',
                             borderRadius: 4,
                         }}>
-                            <TouchableOpacity
-                                style={[styles.tabs, {
-                                    borderRightWidth: 0,
-                                    borderTopRightRadius: 0,
-                                    borderBottomRightRadius: 0
-                                }]}
-                                onLayout={event => this.setState({ xTabOne: event.nativeEvent.layout.x })}
-                                onPress={() => this.setState({ active: 0 }, () => this.handleSlide(xTabOne))}
-                            >
+                            <View style={[styles.tabs, { borderRightWidth: 0, borderTopRightRadius: 0, borderBottomRightRadius: 0 }]}
+                                onLayout={event => this.setState({ xTabOne: event.nativeEvent.layout.x })}>
                                 <Text style={[this.textStyles.labelMedium, { fontWeight: active === 0 ? 'bold' : 'normal', textDecorationLine: active === 0 ? 'underline' : 'none', color: active === 0 ? colors.foreground : colors.midground }]}>Importance</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={[styles.tabs, {
-                                    borderLeftWidth: 0,
-                                    borderTopLeftRadius: 0,
-                                    borderBottomLeftRadius: 0
-                                }]}
-                                onLayout={event => this.setState({ xTabTwo: event.nativeEvent.layout.x })}
-                                onPress={() => this.setState({ active: 1 }, () => this.handleSlide(xTabTwo))}
-                            >
-                                <Text style={[this.textStyles.labelMedium, { fontWeight: active === 1 ? 'bold' : 'normal', textDecorationLine: active === 1 ? 'underline' : 'none', color: active === 0 ? colors.midground : colors.foreground }]}>Timeline</Text>
-                            </TouchableOpacity>
+                            </View>
                         </View>
                         <ScrollView>
                             <Animated.View style={{
@@ -185,10 +167,10 @@ export abstract class ViewDomainsBase extends ViewState {
                             paddingBottom: 10,
                         }]}>
                             <Button
-                                title={active === 0 ? 'Learn More' : 'Calendar'}
+                                title={'Learn More'}
                                 style={styles.buttonDetails}
                                 titleStyles={styles.halfPillButtonTitle}
-                                onPress={active === 0 ? () => this.onDetails() : null}
+                                onPress={() => this.onDetails()}
                                 isTransparent
                                 theme={this.theme}
                             />
@@ -266,8 +248,11 @@ const styles = StyleSheet.create({
         marginHorizontal: 'auto',
     },
     buttonDetails: {
-        borderTopLeftRadius: 25,
+        marginRight: -1,
+        borderTopLeftRadius: 20,
         borderBottomLeftRadius: 20,
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
         borderWidth: 1,
         height: 40,
         width: '45%',

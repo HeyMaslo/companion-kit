@@ -17,6 +17,10 @@ export default class QoLControllerBase implements IQoLController {
 
     private _userId: string = null;
 
+    public async getUserState(): Promise<UserState> {
+        return await RepoFactory.Instance.userState.getByUserId(this._userId);
+    }
+
     // Fetch the user's latest survey results (i.e. scores)
     public async getSurveyResults(): Promise<QolSurveyResults> {
         logger.log(`get qol results: userId = ${this._userId}`);
@@ -55,6 +59,8 @@ export default class QoLControllerBase implements IQoLController {
                     chosenStrategies: [],
                     lastSeenAffirmations: {},
                     scheduledAffirmations: [],
+                    favoriteResources: [],
+                    hiddenResources: [],
                 }
             }
             await RepoFactory.Instance.userState.setByUserId(this._userId, st);
@@ -92,6 +98,8 @@ export default class QoLControllerBase implements IQoLController {
                 chosenStrategies: [],
                 lastSeenAffirmations: {},
                 scheduledAffirmations: [],
+                favoriteResources: [],
+                hiddenResources: [],
             }
         } else if (propertyName == 'focusedDomains') {
             userState['focusedDomains'] = (parameter as FocusedDomains)
@@ -99,6 +107,10 @@ export default class QoLControllerBase implements IQoLController {
             userState['chosenStrategies'] = parameter as string[];
         } else if (propertyName == 'lastSeenAffirmations' && (parameter as LastSeen) !== undefined) {
             userState[propertyName] = (parameter as LastSeen);
+        } else if (propertyName == 'favoriteResources') {
+            userState[propertyName] = parameter as string[];
+        } else if (propertyName == 'hiddenResources') {
+            userState[propertyName] = parameter as string[];
         }
         await RepoFactory.Instance.userState.setByUserId(this._userId, userState);
     }

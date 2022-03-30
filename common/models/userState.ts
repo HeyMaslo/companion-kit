@@ -18,4 +18,6 @@ export type UserState = {
     chosenStrategies: string[], // array of Strategy slugs
     lastSeenAffirmations: LastSeen, // keeps track of affirmations that have been seen/scheduled at which date
     scheduledAffirmations: ScheduledAffirmationNotification[], // only contains upcoming affirmation notifications
+    favoriteResources: string[], // resource slugs
+    hiddenResources: string[], // resource slugs
 };

@@ -7,6 +7,7 @@ import StrategyViewModel from './StrategyViewModel'
 import QoLHistoryViewModel from './QoLHistoryViewModel';
 import VersionViewModel from './VersionViewModel';
 import DailyCheckInViewModel from './DailyCheckInViewModel';
+import ResourceViewModel from './ResourceViewModel';
 
 export interface IAppViewModel {
     Version: VersionViewModel;
@@ -17,6 +18,7 @@ export interface IAppViewModel {
     QoLHistory: QoLHistoryViewModel;
     Domain: DomainViewModel
     Strategy: StrategyViewModel;
+    Resource: ResourceViewModel;
 }
 
 const instance = new Lazy(() => new AppViewModel());
@@ -29,6 +31,7 @@ export default class AppViewModel implements IAppViewModel {
     readonly QoLHistory = new QoLHistoryViewModel();
     readonly Domain = new DomainViewModel();
     readonly Strategy = new StrategyViewModel();
+    readonly Resource = new ResourceViewModel();
     readonly Goals = process.appFeatures.GOALS_ENABLED === true ? new GoalsViewModel() : null;
 
 

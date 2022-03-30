@@ -42,7 +42,7 @@ export class DomainDetailsView extends ViewState {
     }
 
     // selected strategies will be at the front of the list
-    private strategiesForListInOrder(domain: DomainSlug, lengthOfListToShow = 5): DisplayStrategy[] {
+    private strategiesForListInOrder(domain: DomainSlug, lengthOfListToShow = 3): DisplayStrategy[] {
         const selected: DisplayStrategy[] = this.strategiesViewModel.selectedStrategies.filter((s) => s.domains.includes(domain)).map((strat) => {
             return { ...strat, isChecked: true };
         });
@@ -61,7 +61,7 @@ export class DomainDetailsView extends ViewState {
     }
 
     renderStratgeyCard = (strategy: DisplayStrategy) => (
-        <StrategyCard key={strategy.slug} item={strategy} onLearnMorePress={this.onLearnMorePress} hideCheckbox={!strategy.isChecked} theme={this.theme} />
+        <StrategyCard key={strategy.slug} item={strategy} onSelectStrategy={this.onLearnMorePress} onLearnMorePress={this.onLearnMorePress} hideCheckbox={!strategy.isChecked} theme={this.theme} />
     );
 
     renderBulletPoint(str: string, key: string) {
@@ -98,9 +98,9 @@ export class DomainDetailsView extends ViewState {
         return (
             <MasloPage style={[this.baseStyles.page, { backgroundColor: this.theme.colors.highlightSecondary }]} onClose={this.cancel} theme={this.theme}>
                 <Container style={[styles.container, { height: this._contentHeight }]}>
-                    {/* Title */}
-                    <Text style={[this.textStyles.h1, styles.header]}>{domainString} and your quality of life</Text>
-                    <ScrollView style={{ width: Layout.window.width }} contentContainerStyle={{ alignItems: 'center', marginHorizontal: 20 }}>
+                    <ScrollView style={{ width: Layout.window.width, marginTop: 5 }} contentContainerStyle={{ alignItems: 'center', marginHorizontal: 20 }}>
+                        {/* Title */}
+                        <Text style={[this.textStyles.h1, styles.header]}>{domainString} and your quality of life</Text>
                         {/* What to know */}
                         <View style={styles.content}>
                             <Text style={[this.textStyles.labelExtraLarge, { marginVertical: 10 }]}>What to know</Text>

@@ -16,6 +16,7 @@ import { QolSurveyResults } from 'src/constants/QoL';
 import { PersonaArmState } from 'dependencies/persona/lib';
 import { ILocalSettingsController } from 'src/controllers/LocalSettings';
 import ResourceViewModel from './ResourceViewModel';
+import { Resource } from 'src/constants/Resource';
 
 const EmptyArr: any[] = [];
 
@@ -58,17 +59,6 @@ export default class HomeViewModel {
             .map(s => new CheckInViewModel().setCheckInId(s.id));
     }
 
-    @computed
-    get resources(): ReadonlyArray<ResourceViewModel> {
-        // MK-TODO: - get real resources from firebase like checkIns function above
-        return [
-            new ResourceViewModel('testID1', '5 Ways to Boost Morning Energy', 'Article', '#0F6EB4', true),
-            new ResourceViewModel('testID2', 'A Guide to Mindful Meditation', 'Video', '#E58933', false),
-            new ResourceViewModel('testID3', 'Navigating Stress & Anxiety', 'Daily Tip', '#BC1B5F', true),
-            new ResourceViewModel('testID4', 'Improving Sleep Quality', 'Daily Tip', '#5495A4', true),
-        ];
-    }
-
     get showAssessment() { return process.appFeatures.ASSESSMENTS_ENABLED && !!AppController.Instance.User.assessments?.nextFormTypeAvailable; }
 
     get newDocumentLink() {
@@ -76,42 +66,8 @@ export default class HomeViewModel {
     }
 
     @computed
-    private get generalTips(): ITipItem[] {
+    get qolAndCheckInCards(): ITipItem[] {
         let result: ITipItem[] = [];
-
-        if (process.appFeatures.INTERVENTIONS_ENABLED && this.interventionTips?.tips?.length) {
-            result.push(
-                ...this.interventionTips.tips.map(tip => ({
-                    id: tip.id,
-                    type: 'interventionTip' as 'interventionTip',
-                    title: tip.title,
-                    status: tip.status,
-                    actions: tip.actions,
-                })),
-            );
-        }
-
-        if (this.showAssessment) {
-            result.push(<IAssessmentTipItem>{
-                id: 'assessment',
-                type: 'assessment',
-                title: Localization.Current.MobileProject.assessmentTipText || 'New Assessment',
-            });
-        }
-
-        if (result.length > 0) {
-            return result;
-        }
-
-        if (process.appFeatures?.MOBILE_STATIC_TIPS_ENABLED) {
-            return AppController.Instance.User.staticTips?.map(st => (<IStaticTipItem>{
-                type: 'staticTip',
-                id: st.id,
-                title: st.title,
-                url: st.url,
-                staticTipType: st.type,
-            })) || EmptyArr;
-        }
 
         this.submitPendingShortIfTimeForFull()
         const needsDailyCheckIn = !this.hasCompletedDailyCheckInToday();
@@ -161,32 +117,6 @@ export default class HomeViewModel {
                 title: "It's time for your daily check-in",
             }]
             : result;
-    }
-
-    @computed
-    get tips(): ReadonlyArray<ITipItem> {
-        return this.addDocLinkTips(this.generalTips);
-    }
-
-    private addDocLinkTips(tips: ITipItem[]) {
-        const [newLinks, openedLinks] = arraySplit(
-            AppController.Instance.User.documents.activeLinks,
-            d => !d.share || d.share.status === DocumentLinkShareStatuses.Sent,
-        );
-
-        const docLinkToTip = (d: Identify<DocumentLinkEntry>) => (<IDocumentLinkTip>{
-            type: 'docLinkTip',
-            id: d.id,
-            title: `${this.coachName} sent you ${d.name}`,
-            url: d.link,
-            open: () => this.openDocumentLink(d),
-        });
-
-        return [
-            ...newLinks.map(docLinkToTip),
-            ...tips,
-            ...openedLinks.map(docLinkToTip),
-        ];
     }
 
     private submitPendingShortIfTimeForFull() {
