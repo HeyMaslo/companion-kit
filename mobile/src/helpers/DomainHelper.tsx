@@ -60,6 +60,9 @@ export function iconForDomain(slug: DomainSlug, style?: StyleProp<ViewStyle>, co
 
     case DomainSlug.SUBSTANCEUSE:
       return <Images.substanceUseIcon pointerEvents={'none'} key={DomainSlug.SUBSTANCEUSE} color={color} fill={fill} width={width} height={height} style={style} />;
+
+    default:
+      return <></>;
   }
 }
 
