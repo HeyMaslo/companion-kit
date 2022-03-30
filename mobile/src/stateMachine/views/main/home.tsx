@@ -310,18 +310,18 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
             return this.getHealthPermissionCard();
         }
 
-        const { today, generalTips } = this.viewModel;
+        const { today, qolAndCheckInCards } = this.viewModel;
 
         return (
             <>
-                {generalTips?.length && (
+                {qolAndCheckInCards?.length && (
                     <ScrollView
                         showsHorizontalScrollIndicator={false}
                         horizontal
                         style={{ maxHeight: Layout.isSmallDevice ? 112 : 132, marginBottom: 16 }}
                         contentContainerStyle={styles.tipsList}
                     >
-                        {generalTips.map(s => (
+                        {qolAndCheckInCards.map(s => (
                             <TipItemCard
                                 key={s.id}
                                 item={s}
@@ -358,6 +358,7 @@ export class HomeView extends ViewState<{ opacity: Animated.Value, isUnfinishedQ
 
     @computed
     private get resourcesList() {
+        return <Placeholder message={'Resources will appear here (coming soon)'} />;
         const resources = AppViewModel.Instance.Resource.resourcesForSelectedStrategies;
         // const favorites = AppViewModel.Instance.Resource.favoriteResources;
 

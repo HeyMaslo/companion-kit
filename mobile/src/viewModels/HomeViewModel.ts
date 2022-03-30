@@ -66,7 +66,7 @@ export default class HomeViewModel {
     }
 
     @computed
-    get generalTips(): ITipItem[] {
+    get qolAndCheckInCards(): ITipItem[] {
         let result: ITipItem[] = [];
 
         this.submitPendingShortIfTimeForFull()

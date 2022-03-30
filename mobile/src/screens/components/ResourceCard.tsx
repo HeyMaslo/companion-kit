@@ -38,11 +38,11 @@ const ResourceCard = (props: Props) => {
             {item.type}
           </Text>
           {/* Heart and X Icon */}
-          <View style={styles.iconGroup}>
-            <TouchableOpacity onPress={() => onHeart(item.slug)}>
-              <Images.heartIcon width={23} height={20} fill={isFavorite ? 'white' : 'none'} color={'white'} opacity={0.7} style={{ marginRight: 20 }} />
+          <View style={[styles.iconGroup, { width: 85 }]}>
+            <TouchableOpacity style={styles.iconButton} onPress={() => onHeart(item.slug)}>
+              <Images.heartIcon width={24} height={20} fill={isFavorite ? 'white' : 'none'} color={'white'} opacity={0.7} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => onX(item.slug)}>
+            <TouchableOpacity style={styles.iconButton} onPress={() => onX(item.slug)}>
               <Images.closeIcon width={20} height={20} color={'white'} opacity={0.7} />
             </TouchableOpacity>
           </View>
@@ -126,7 +126,15 @@ const styles = StyleSheet.create({
   iconGroup: {
     display: 'flex',
     flexDirection: 'row',
+    justifyContent: 'space-between',
     // alignItems: 'center',
+  },
+  iconButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   categoryText: {
     display: 'flex',
