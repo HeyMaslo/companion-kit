@@ -119,6 +119,9 @@ export function domainTag(slug: DomainSlug, style?: StyleProp<ViewStyle>, color:
 
     case DomainSlug.SUBSTANCEUSE:
       return <Images.substanceUseIconTag pointerEvents={'none'} key={DomainSlug.SUBSTANCEUSE} color={color} fill={fill} height={height} style={style} />;
+
+    default:
+      return <></>;
   }
 }
 
