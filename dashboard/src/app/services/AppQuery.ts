@@ -5,12 +5,12 @@ export type AppQuery = {
     email?: string,
     plan?: string,
     period?: string,
-    appAction?: string,
+    appAction?: any,
 };
 
 const logger = createLogger('[AppQuery]');
 
-const getSearchPath = (url: string) => {
+const getSearchPath = (url: any) => {
     const i = url ? url.indexOf('?') : -1;
     return i >= 0 ? url.substring(i + 1) : '';
 };

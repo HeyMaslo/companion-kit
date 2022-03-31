@@ -24,7 +24,7 @@ export default function MarkdownView(props: Props) {
 
     return (
         <Markdown
-            children={content}
+            children={content as string}
             options={options}
         />
     );

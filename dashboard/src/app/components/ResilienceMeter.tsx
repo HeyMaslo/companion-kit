@@ -17,7 +17,7 @@ interface ResilienceMeterProps {
 }
 
 interface LottieInterface extends  AnimationItem {
-    loop?: boolean
+    loop: boolean | number
 }
 
 const GAP = 10;

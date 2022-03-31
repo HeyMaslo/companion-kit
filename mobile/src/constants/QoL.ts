@@ -47,7 +47,7 @@ export type QolSurveyResults = {
 export enum QolSurveyKeys { Mood = '', Physical = '', Sleep = '', Thinking = '', Identity = '', Leisure = '', Independence = '', SelfEsteem = '', Home = '', Money = '', Spirituality = '', Relationships = ''} // , Work = '', Study = '' }
 export namespace QolSurveyResultsHelper {
     export function createEmptyResults(work: boolean = false, study: boolean = false): QolSurveyResults {
-        const base = {
+        const base: any = {
             Mood: [],
             Physical: [],
             Sleep: [],

@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactCrop from 'react-image-crop';
-import 'react-image-crop/dist/ReactCrop.css';
 import { validateImageExtension } from 'app/helpers/files';
 import Image from './Image';
 import View from './View';
@@ -158,6 +157,7 @@ export default class UploadAvatar extends React.Component<Props, State> {
                         <View>
                             <ReactCrop
                                 src={this.state.original}
+                                // @ts-ignore
                                 crop={this.state.crop}
                                 onImageLoaded={this.onImageLoaded}
                                 onComplete={this.onCropComplete}
